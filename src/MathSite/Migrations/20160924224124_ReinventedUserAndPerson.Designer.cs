@@ -8,9 +8,10 @@ using MathSite.Db;
 namespace MathSite.Migrations
 {
     [DbContext(typeof(MathSiteDbContext))]
-    partial class MathSiteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20160924224124_ReinventedUserAndPerson")]
+    partial class ReinventedUserAndPerson
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("Npgsql:PostgresExtension:.uuid-ossp", "'uuid-ossp', '', ''")
@@ -23,11 +24,9 @@ namespace MathSite.Migrations
 
                     b.Property<string>("MiddleName");
 
-                    b.Property<string>("Name")
-                        .IsRequired();
+                    b.Property<string>("Name");
 
-                    b.Property<string>("Surname")
-                        .IsRequired();
+                    b.Property<string>("Surname");
 
                     b.Property<Guid?>("UserId");
 
@@ -44,11 +43,9 @@ namespace MathSite.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Login")
-                        .IsRequired();
+                    b.Property<string>("Login");
 
-                    b.Property<string>("PasswordHash")
-                        .IsRequired();
+                    b.Property<string>("PasswordHash");
 
                     b.HasKey("Id");
 

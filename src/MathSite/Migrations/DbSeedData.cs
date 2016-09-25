@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using Math.Common.Crypto;
+using MathSite.Common.Crypto;
 using MathSite.Db;
 using MathSite.Models;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,16 +30,15 @@ namespace MathSite.Migrations
 				user.Person = person;
 
 
-				if (!context.Persons.Any())
+				if (!context.Persons.Any() && !context.Users.Any())
 				{
 					context.Persons.Add(person);
+					context.Persons.Add(new Person {Id = Guid.NewGuid(), Name = "Test1", Surname = "Test2", MiddleName = "Test3"});
+					context.Users.Add(user);
+
 					context.SaveChanges();
 				}
-
-				if (!context.Users.Any())
-				{
-					context.Users.Add(user);
-				}
+					
 			}
 		}
 	}

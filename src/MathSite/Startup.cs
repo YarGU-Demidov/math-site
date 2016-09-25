@@ -1,9 +1,10 @@
-﻿using Math.Common;
+﻿using MathSite.Common.Logs;
+using ILogger = MathSite.Common.Logs.ILogger;
 using MathSite.Db;
+using MathSite.Middlewares;
 using MathSite.Migrations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,7 +12,6 @@ using Microsoft.Extensions.Logging;
 
 namespace MathSite
 {
-	// ReSharper disable once ClassNeverInstantiated.Global
 	public class Startup
 	{
 		public Startup(IHostingEnvironment env)
@@ -23,30 +23,32 @@ namespace MathSite
 				.AddEnvironmentVariables();
 			Configuration = builder.Build();
 		}
-
-		// ReSharper disable once MemberCanBePrivate.Global
+		
 		public IConfigurationRoot Configuration { get; }
 
-		// This method gets called by the runtime. Use this method to add services to the container.
+		
 		public void ConfigureServices(IServiceCollection services)
 		{
-			// Add framework services.
 			services.AddMvc();
 
 			services.AddEntityFramework()
 				.AddEntityFrameworkNpgsql()
 				.AddDbContext<MathSiteDbContext>(ServiceLifetime.Scoped);
 
+			services.AddTransient<ILogger, ConsoleLogger>();
+
 			services.AddRouting(options => { options.LowercaseUrls = true; });
 		}
 
-		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IServiceScopeFactory service)
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory,
+			IServiceScopeFactory service)
 		{
 			loggerFactory.AddConsole(Configuration.GetSection("Logging"));
 			loggerFactory.AddDebug();
 
 			service.SeedData();
+
+			app.UseAutorizeHandler();
 
 			if (env.IsDevelopment())
 			{

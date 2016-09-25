@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace Math.Common.Logs
+namespace MathSite.Common.Logs
 {
 	public class ConsoleLogger : ILogger
 	{

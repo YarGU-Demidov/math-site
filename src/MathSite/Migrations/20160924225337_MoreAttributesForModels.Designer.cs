@@ -8,9 +8,10 @@ using MathSite.Db;
 namespace MathSite.Migrations
 {
     [DbContext(typeof(MathSiteDbContext))]
-    partial class MathSiteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20160924225337_MoreAttributesForModels")]
+    partial class MoreAttributesForModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("Npgsql:PostgresExtension:.uuid-ossp", "'uuid-ossp', '', ''")

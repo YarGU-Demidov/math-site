@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Math.Common.Logs
+namespace MathSite.Common.Logs
 {
 	public class CompositeLogger : ILogger
 	{

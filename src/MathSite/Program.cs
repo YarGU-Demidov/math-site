@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using Math.Common.Logs;
+using MathSite.Common.Logs;
 using Microsoft.AspNetCore.Hosting;
 
 namespace MathSite

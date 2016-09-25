@@ -16,7 +16,7 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MathSite.Db", "src\MathSite
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MathSite.Models", "src\MathSite.Models\MathSite.Models.xproj", "{61F6E6C3-8264-46E0-A64C-F8B8FA243D1E}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Math.Common", "src\Math.Common\Math.Common.xproj", "{A6F1ED77-50FC-4D0E-8135-39BAB8A8333E}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MathSite.Common", "src\MathSite.Common\MathSite.Common.xproj", "{A6F1ED77-50FC-4D0E-8135-39BAB8A8333E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -3,7 +3,7 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 
-namespace Math.Common.Logs
+namespace MathSite.Common.Logs
 {
 	public class FileLogger : ILogger
 	{

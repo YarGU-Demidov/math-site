@@ -1,4 +1,4 @@
-﻿namespace Math.Common.Logs
+﻿namespace MathSite.Common.Logs
 {
 	public interface ILogger
 	{

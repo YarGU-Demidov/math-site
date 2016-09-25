@@ -1,4 +1,4 @@
-﻿namespace Math.Common.Crypto
+﻿namespace MathSite.Common.Crypto
 {
 	public static class Passwords
 	{

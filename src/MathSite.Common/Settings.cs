@@ -2,7 +2,7 @@
 using System.Text;
 using Newtonsoft.Json;
 
-namespace Math.Common
+namespace MathSite.Common
 {
 	public class Settings
 	{
@@ -41,7 +41,7 @@ namespace Math.Common
 
 		public void Save()
 		{
-			var obj = JsonConvert.SerializeObject(this);
+			var obj = JsonConvert.SerializeObject(this, Formatting.Indented);
 			File.WriteAllText(PathToSettings, obj, Encoding.UTF8);
 		}
 	}
