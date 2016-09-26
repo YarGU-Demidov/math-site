@@ -10,7 +10,7 @@ namespace MathSite.Common
 		private static Settings _settingsInstance;
 
 		[JsonIgnore]
-		private static string PathToSettings { get; } = Path.Combine(Directory.GetCurrentDirectory(), "settings.json");
+		private static string PathToSettings { get; } = Path.Combine(Directory.GetCurrentDirectory(), "MathSiteSettings.json");
 
 		[JsonConstructor]
 		private Settings()
@@ -37,7 +37,7 @@ namespace MathSite.Common
 		}
 
 		[JsonProperty("ConnectionString")]
-		public string ConnectionString { get; set; } = "Server=127.0.0.1;Port=5432;Database=myDataBase;User Id=myUsername;Password=myPassword;";
+		public string ConnectionString { get; set; } = "Server=127.0.0.1;Port=5432;Database=math;User Id=postgres;Password=0;";
 
 		public void Save()
 		{
