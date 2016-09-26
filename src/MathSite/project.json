@@ -1,4 +1,6 @@
 {
+    "title": "Math Faculty Site",
+    "copyright": "mokeev1995",
 	"dependencies": {
 		"Microsoft.NETCore.App": {
 			"version": "1.0.1",

@@ -1,7 +1,6 @@
 ﻿using MathSite.Common.Logs;
 using ILogger = MathSite.Common.Logs.ILogger;
 using MathSite.Db;
-using MathSite.Middlewares;
 using MathSite.Migrations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -36,6 +35,7 @@ namespace MathSite
 				.AddDbContext<MathSiteDbContext>(ServiceLifetime.Scoped);
 
 			services.AddTransient<ILogger, ConsoleLogger>();
+			services.AddSingleton<IMathSiteDbContext, MathSiteDbContext>();
 
 			services.AddRouting(options => { options.LowercaseUrls = true; });
 		}
@@ -44,12 +44,10 @@ namespace MathSite
 			IServiceScopeFactory service)
 		{
 			loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-			loggerFactory.AddDebug();
+			loggerFactory.AddDebug(LogLevel.Debug);
 
 			service.SeedData();
-
-			app.UseAutorizeHandler();
-
+			
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
