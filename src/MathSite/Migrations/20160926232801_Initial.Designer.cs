@@ -8,8 +8,8 @@ using MathSite.Db;
 namespace MathSite.Migrations
 {
     [DbContext(typeof(MathSiteDbContext))]
-    [Migration("20160925213814_AddAliasForGroups")]
-    partial class AddAliasForGroups
+    [Migration("20160926232801_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -22,7 +22,8 @@ namespace MathSite.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Alias");
+                    b.Property<string>("Alias")
+                        .IsRequired();
 
                     b.Property<string>("Description");
 

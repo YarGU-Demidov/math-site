@@ -1,13 +1,14 @@
 ﻿using MathSite.Common.Logs;
-using ILogger = MathSite.Common.Logs.ILogger;
 using MathSite.Db;
 using MathSite.Migrations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using ILogger = MathSite.Common.Logs.ILogger;
 
 namespace MathSite
 {
@@ -22,10 +23,10 @@ namespace MathSite
 				.AddEnvironmentVariables();
 			Configuration = builder.Build();
 		}
-		
+
 		public IConfigurationRoot Configuration { get; }
 
-		
+
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddMvc();
@@ -47,7 +48,18 @@ namespace MathSite
 			loggerFactory.AddDebug(LogLevel.Debug);
 
 			service.SeedData();
-			
+
+			app.UseCookieAuthentication(new CookieAuthenticationOptions
+			{
+				LoginPath = new PathString("/login/"),
+				AccessDeniedPath = new PathString("/account/forbidden/"),
+				AutomaticAuthenticate = true,
+				AutomaticChallenge = true,
+				CookieHttpOnly = true,
+				LogoutPath = new PathString("/logout/"),
+				ReturnUrlParameter = "return_url"
+			});
+
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
@@ -62,6 +74,8 @@ namespace MathSite
 
 			app.UseMvc(routes =>
 			{
+				routes.MapRoute("areaRoute",
+					"{area:exists}/{controller=Home}/{action=Index}");
 				routes.MapRoute(
 					"default",
 					"{controller=Home}/{action=Index}/{id?}");

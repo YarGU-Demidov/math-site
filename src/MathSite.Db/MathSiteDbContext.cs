@@ -93,9 +93,16 @@ namespace MathSite.Db
 		private static void SetGroupsRightsModel(ModelBuilder modelBuilder)
 		{
 			modelBuilder.Entity<GroupsRights>()
+				.HasKey(gr => gr.Id);
+			modelBuilder.Entity<GroupsRights>()
+				.Property(gr => gr.Value)
+				.IsRequired();
+
+			modelBuilder.Entity<GroupsRights>()
 				.HasOne(groupsRights => groupsRights.Group)
 				.WithMany(group => group.GroupsRights)
 				.HasForeignKey(groupsRights => groupsRights.GroupId);
+
 			modelBuilder.Entity<GroupsRights>()
 				.HasOne(groupsRights => groupsRights.Right)
 				.WithMany(right => right.GroupsRights)
@@ -104,6 +111,12 @@ namespace MathSite.Db
 
 		private static void SetUserRightsModel(ModelBuilder modelBuilder)
 		{
+			modelBuilder.Entity<UsersRights>()
+				.HasKey(gr => gr.Id);
+			modelBuilder.Entity<UsersRights>()
+				.Property(gr => gr.Value)
+				.IsRequired();
+
 			modelBuilder.Entity<UsersRights>()
 				.HasOne(usersRights => usersRights.User)
 				.WithMany(user => user.UsersRights)
