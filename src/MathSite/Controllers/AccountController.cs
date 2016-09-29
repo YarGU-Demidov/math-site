@@ -28,10 +28,11 @@ namespace MathSite.Controllers
 		}
 
 		[Authorize("Logout")]
-		public IActionResult Logout()
+		public async Task Logout()
 		{
-			throw new NotImplementedException();
+			await HttpContext.Authentication.SignOutAsync("MyCookieMiddlewareInstance");
 		}
+
 		[AllowAnonymous]
 		public IActionResult Forbidden()
 		{

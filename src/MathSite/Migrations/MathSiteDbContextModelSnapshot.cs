@@ -39,6 +39,8 @@ namespace MathSite.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<bool>("Allowed");
+
                     b.Property<Guid>("GroupId");
 
                     b.Property<Guid>("RightId");
@@ -113,6 +115,8 @@ namespace MathSite.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("Allowed");
 
                     b.Property<Guid>("RightId");
 

@@ -12,6 +12,8 @@ namespace MathSite.Db
 		DbSet<Person> Persons { get; set; }
 		DbSet<Right> Rights { get; set; }
 		DbSet<User> Users { get; set; }
+		DbSet<GroupsRights> GroupsRights { get; set; }
+		DbSet<UsersRights> UsersRights { get; set; }
 
 		int SaveChanges();
 		Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken));

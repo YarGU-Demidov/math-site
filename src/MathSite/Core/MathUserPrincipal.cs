@@ -1,17 +1,26 @@
-﻿using System.Security.Claims;
-using System.Security.Principal;
+﻿using System.Linq;
+using System.Security.Claims;
+using MathSite.Db;
+using MathSite.Models;
 
 namespace MathSite.Core
 {
-	public class MathUser : IIdentity
+	public sealed class MathUser : ClaimsIdentity
 	{
-		public string AuthenticationType { get; }
-		public bool IsAuthenticated { get; }
-		public string Name { get; }
+		public MathUser(User user)
+		{
+			AddClaims(new ClaimsGenerator().GetUserClaims(user));
+		}
 	}
 
-	public class MathUserPrincipal : ClaimsPrincipal
+	public sealed class MathUserPrincipal : ClaimsPrincipal
 	{
-		
+		private readonly IMathSiteDbContext _dbContext;
+
+		public MathUserPrincipal(IMathSiteDbContext dbContext, User user)
+		{
+			_dbContext = dbContext;
+			AddIdentity(new MathUser(user));
+		}
 	}
 }

@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using MathSite.Common.Crypto;
-using MathSite.Db;
 using MathSite.Models;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace MathSite.Migrations
+namespace MathSite.Db
 {
 	public static class DbSeedData
 	{
@@ -44,7 +43,8 @@ namespace MathSite.Migrations
 					Group = administratorsGroup,
 					GroupId = administratorsGroup.Id,
 					Right = adminAccessRight,
-					RightId = adminAccessRight.Id
+					RightId = adminAccessRight.Id,
+					Allowed = true
 				};
 
 				var groupsRights = new List<GroupsRights> {adminGroupRight};

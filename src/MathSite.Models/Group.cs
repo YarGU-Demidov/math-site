@@ -10,7 +10,7 @@ namespace MathSite.Models
 		public string Name { get; set; }
 		public string Description { get; set; }
 
-		public virtual List<GroupsRights> GroupsRights { get; set; }
-		public virtual List<User> Users { get; set; }
+		public List<GroupsRights> GroupsRights { get; set; }
+		public List<User> Users { get; set; }
 	}
 }

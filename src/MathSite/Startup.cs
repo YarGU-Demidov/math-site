@@ -1,6 +1,5 @@
 ﻿using MathSite.Common.Logs;
 using MathSite.Db;
-using MathSite.Migrations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -51,6 +50,7 @@ namespace MathSite
 
 			app.UseCookieAuthentication(new CookieAuthenticationOptions
 			{
+				AuthenticationScheme = "Auth",
 				LoginPath = new PathString("/login/"),
 				AccessDeniedPath = new PathString("/account/forbidden/"),
 				AutomaticAuthenticate = true,

@@ -11,8 +11,8 @@ namespace MathSite.Models
 
 		public Guid GroupId { get; set; }
 
-		public virtual Person Person { get; set; }
-		public virtual Group Group { get; set; }
-		public virtual List<UsersRights> UsersRights { get; set; }
+		public Person Person { get; set; }
+		public Group Group { get; set; }
+		public List<UsersRights> UsersRights { get; set; }
 	}
 }

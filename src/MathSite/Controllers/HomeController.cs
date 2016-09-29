@@ -23,6 +23,8 @@ namespace MathSite.Controllers
 							$"User {user.Person.Surname} {user.Person.Name} {user.Person.MiddleName} is in {user.Group.Name}({user.Group.Description}) group with alias \"{user.Group.Alias}\"")
 				.ToArray();
 			ViewBag.UsersData = data;
+
+			var users = _dbContext.Users.FirstOrDefault(u => u.Login == "mokeev1995");
 			return View();
 		}
 

@@ -10,6 +10,6 @@ namespace MathSite.Models
 		public string MiddleName { get; set; }
 		
 		public Guid? UserId { get; set; }
-		public virtual User User { get; set; }
+		public User User { get; set; }
 	}
 }

@@ -13,6 +13,8 @@ namespace MathSite.Db
 		public DbSet<User> Users { get; set; }
 		public DbSet<Group> Groups { get; set; }
 		public DbSet<Right> Rights { get; set; }
+		public DbSet<GroupsRights> GroupsRights { get; set; }
+		public DbSet<UsersRights> UsersRights { get; set; }
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
@@ -53,9 +55,16 @@ namespace MathSite.Db
 			modelBuilder.Entity<User>()
 				.Property(u => u.PasswordHash)
 				.IsRequired();
+
 			modelBuilder.Entity<User>()
-				.Property(user => user.GroupId)
-				.IsRequired();
+				.HasOne(u => u.Group)
+				.WithMany(group => group.Users)
+				.HasForeignKey(user => user.GroupId);
+
+			modelBuilder.Entity<User>()
+				.HasMany(u => u.UsersRights)
+				.WithOne(gr => gr.User)
+				.HasForeignKey(rights => rights.UserId);
 		}
 
 		private static void SetPersonModel(ModelBuilder modelBuilder)
@@ -93,9 +102,12 @@ namespace MathSite.Db
 		private static void SetGroupsRightsModel(ModelBuilder modelBuilder)
 		{
 			modelBuilder.Entity<GroupsRights>()
+				.ToTable(nameof(GroupsRights));
+
+			modelBuilder.Entity<GroupsRights>()
 				.HasKey(gr => gr.Id);
 			modelBuilder.Entity<GroupsRights>()
-				.Property(gr => gr.Value)
+				.Property(gr => gr.Allowed)
 				.IsRequired();
 
 			modelBuilder.Entity<GroupsRights>()
@@ -112,9 +124,12 @@ namespace MathSite.Db
 		private static void SetUserRightsModel(ModelBuilder modelBuilder)
 		{
 			modelBuilder.Entity<UsersRights>()
+				.ToTable(nameof(UsersRights));
+
+			modelBuilder.Entity<UsersRights>()
 				.HasKey(gr => gr.Id);
 			modelBuilder.Entity<UsersRights>()
-				.Property(gr => gr.Value)
+				.Property(gr => gr.Allowed)
 				.IsRequired();
 
 			modelBuilder.Entity<UsersRights>()

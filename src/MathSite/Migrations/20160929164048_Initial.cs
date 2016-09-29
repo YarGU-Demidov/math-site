@@ -66,6 +66,7 @@ namespace MathSite.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false)
                         .Annotation("Npgsql:ValueGeneratedOnAdd", true),
+                    Allowed = table.Column<bool>(nullable: false),
                     GroupId = table.Column<Guid>(nullable: false),
                     RightId = table.Column<Guid>(nullable: false)
                 },
@@ -114,6 +115,7 @@ namespace MathSite.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false)
                         .Annotation("Npgsql:ValueGeneratedOnAdd", true),
+                    Allowed = table.Column<bool>(nullable: false),
                     RightId = table.Column<Guid>(nullable: false),
                     UserId = table.Column<Guid>(nullable: false)
                 },

@@ -8,7 +8,7 @@ using MathSite.Db;
 namespace MathSite.Migrations
 {
     [DbContext(typeof(MathSiteDbContext))]
-    [Migration("20160926232801_Initial")]
+    [Migration("20160929164048_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,6 +39,8 @@ namespace MathSite.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("Allowed");
 
                     b.Property<Guid>("GroupId");
 
@@ -114,6 +116,8 @@ namespace MathSite.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("Allowed");
 
                     b.Property<Guid>("RightId");
 
