@@ -13,10 +13,10 @@ namespace MathSite.Controllers
 		[HttpGet("/account/login")]
 		[HttpGet("/account/auth")]
 		[AllowAnonymous]
-		public async Task<IActionResult> Login()
+		public IActionResult Login()
 		{
 			/*var a = new ClaimsPrincipal();
-			await HttpContext.Authentication.SignInAsync("MyCookieMiddlewareInstance", principal);*/
+			await HttpContext.Authentication.SignInAsync("Auth", principal);*/
 
 			return View();
 		}
@@ -30,7 +30,7 @@ namespace MathSite.Controllers
 		[Authorize("Logout")]
 		public async Task Logout()
 		{
-			await HttpContext.Authentication.SignOutAsync("MyCookieMiddlewareInstance");
+			await HttpContext.Authentication.SignOutAsync("Auth");
 		}
 
 		[AllowAnonymous]

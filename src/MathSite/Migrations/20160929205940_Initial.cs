@@ -26,13 +26,28 @@ namespace MathSite.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Persons",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false)
+                        .Annotation("Npgsql:ValueGeneratedOnAdd", true),
+                    MiddleName = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
+                    Surname = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Persons", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Rights",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false)
                         .Annotation("Npgsql:ValueGeneratedOnAdd", true),
                     Description = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -47,7 +62,8 @@ namespace MathSite.Migrations
                         .Annotation("Npgsql:ValueGeneratedOnAdd", true),
                     GroupId = table.Column<Guid>(nullable: false),
                     Login = table.Column<string>(nullable: false),
-                    PasswordHash = table.Column<string>(nullable: false)
+                    PasswordHash = table.Column<string>(nullable: false),
+                    PersonId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -56,6 +72,12 @@ namespace MathSite.Migrations
                         name: "FK_Users_Groups_GroupId",
                         column: x => x.GroupId,
                         principalTable: "Groups",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Users_Persons_PersonId",
+                        column: x => x.PersonId,
+                        principalTable: "Persons",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -83,28 +105,6 @@ namespace MathSite.Migrations
                         name: "FK_GroupsRights_Rights_RightId",
                         column: x => x.RightId,
                         principalTable: "Rights",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Persons",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false)
-                        .Annotation("Npgsql:ValueGeneratedOnAdd", true),
-                    MiddleName = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: false),
-                    Surname = table.Column<string>(nullable: false),
-                    UserId = table.Column<Guid>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Persons", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Persons_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -147,15 +147,15 @@ namespace MathSite.Migrations
                 column: "RightId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Persons_UserId",
-                table: "Persons",
-                column: "UserId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Users_GroupId",
                 table: "Users",
                 column: "GroupId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_PersonId",
+                table: "Users",
+                column: "PersonId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_UsersRights_RightId",
@@ -174,9 +174,6 @@ namespace MathSite.Migrations
                 name: "GroupsRights");
 
             migrationBuilder.DropTable(
-                name: "Persons");
-
-            migrationBuilder.DropTable(
                 name: "UsersRights");
 
             migrationBuilder.DropTable(
@@ -187,6 +184,9 @@ namespace MathSite.Migrations
 
             migrationBuilder.DropTable(
                 name: "Groups");
+
+            migrationBuilder.DropTable(
+                name: "Persons");
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using MathSite.Common.Logs;
+﻿using System;
+using MathSite.Common.Logs;
 using MathSite.Db;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -48,6 +49,19 @@ namespace MathSite
 
 			service.SeedData();
 
+			var cookieHttpOnly = true;
+
+			if (env.IsDevelopment())
+			{
+				app.UseDeveloperExceptionPage();
+				app.UseBrowserLink();
+				cookieHttpOnly = false;
+			}
+			else
+			{
+				app.UseExceptionHandler("/Home/Error");
+			}
+
 			app.UseCookieAuthentication(new CookieAuthenticationOptions
 			{
 				AuthenticationScheme = "Auth",
@@ -55,20 +69,11 @@ namespace MathSite
 				AccessDeniedPath = new PathString("/account/forbidden/"),
 				AutomaticAuthenticate = true,
 				AutomaticChallenge = true,
-				CookieHttpOnly = true,
+				CookieHttpOnly = cookieHttpOnly,
 				LogoutPath = new PathString("/logout/"),
-				ReturnUrlParameter = "return_url"
+				ReturnUrlParameter = "return_url",
+				ExpireTimeSpan = TimeSpan.FromDays(365)
 			});
-
-			if (env.IsDevelopment())
-			{
-				app.UseDeveloperExceptionPage();
-				app.UseBrowserLink();
-			}
-			else
-			{
-				app.UseExceptionHandler("/Home/Error");
-			}
 
 			app.UseStaticFiles();
 

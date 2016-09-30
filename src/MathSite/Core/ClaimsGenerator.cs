@@ -10,6 +10,7 @@ namespace MathSite.Core
 		public IEnumerable<Claim> GetUserClaims(User user)
 		{
 			var userRights = user.UsersRights;
+
 			var groupRights = user.Group.GroupsRights.Where(gr => !userRights.Any(rights => rights.Right.Equals(gr.Right)));
 
 			var claims = new Dictionary<Right, Claim>();
@@ -29,6 +30,7 @@ namespace MathSite.Core
 				else
 					claims.Add(userRight.Right, claim);
 			}
+
 
 			return claims.Select(pair => pair.Value);
 		}
