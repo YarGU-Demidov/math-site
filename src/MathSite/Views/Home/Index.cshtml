@@ -1,11 +1,21 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+	ViewData["Title"] = "Home Page";
 	var userData = (string[]) ViewBag.UsersData;
 }
 
 <h1>Admin Users</h1>
 
-@foreach (string str in userData)
+@foreach (var str in userData)
 {
-	@str <br />
+	@str
+	<br/>
 }
+
+<ul>
+	<li>
+		<a asp-controller="Home" asp-action="Test">home/test</a>
+	</li>
+	<li>
+		<a asp-controller="Account" asp-action="Login">account/auth</a>
+	</li>
+</ul>

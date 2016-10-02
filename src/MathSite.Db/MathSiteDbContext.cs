@@ -25,7 +25,6 @@ namespace MathSite.Db
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			SetUserModel(modelBuilder);
-			SetPersonUserRelation(modelBuilder);
 			SetPersonModel(modelBuilder);
 			SetGroupModel(modelBuilder);
 			SetGroupsRightsModel(modelBuilder);
@@ -35,14 +34,23 @@ namespace MathSite.Db
 			base.OnModelCreating(modelBuilder);
 		}
 
-		private static void SetPersonUserRelation(ModelBuilder modelBuilder)
+		private static void SetPersonModel(ModelBuilder modelBuilder)
 		{
-			modelBuilder.Entity<User>()
-				.HasOne(u => u.Person)
-				.WithOne(p => p.User)
-				.HasForeignKey<Person>(u => u.UserId)
-				.IsRequired(false)
-				.OnDelete(DeleteBehavior.Cascade);
+			modelBuilder.Entity<Person>()
+				.HasKey(p => p.Id);
+			modelBuilder.Entity<Person>()
+				.Property(p => p.Name)
+				.IsRequired();
+
+			modelBuilder.Entity<Person>()
+				.HasOne(p => p.User)
+				.WithOne(user => user.Person)
+				.HasForeignKey<User>(user => user.PersonId)
+				.IsRequired();
+
+			modelBuilder.Entity<Person>()
+				.Property(p => p.Surname)
+				.IsRequired();
 		}
 
 		private static void SetUserModel(ModelBuilder modelBuilder)
@@ -57,6 +65,13 @@ namespace MathSite.Db
 				.IsRequired();
 
 			modelBuilder.Entity<User>()
+				.HasOne(u => u.Person)
+				.WithOne(p => p.User)
+				.HasForeignKey<User>(u => u.PersonId)
+				.IsRequired()
+				.OnDelete(DeleteBehavior.Cascade);
+
+			modelBuilder.Entity<User>()
 				.HasOne(u => u.Group)
 				.WithMany(group => group.Users)
 				.HasForeignKey(user => user.GroupId);
@@ -65,18 +80,6 @@ namespace MathSite.Db
 				.HasMany(u => u.UsersRights)
 				.WithOne(gr => gr.User)
 				.HasForeignKey(rights => rights.UserId);
-		}
-
-		private static void SetPersonModel(ModelBuilder modelBuilder)
-		{
-			modelBuilder.Entity<Person>()
-				.HasKey(p => p.Id);
-			modelBuilder.Entity<Person>()
-				.Property(p => p.Name)
-				.IsRequired();
-			modelBuilder.Entity<Person>()
-				.Property(p => p.Surname)
-				.IsRequired();
 		}
 
 		private static void SetGroupModel(ModelBuilder modelBuilder)

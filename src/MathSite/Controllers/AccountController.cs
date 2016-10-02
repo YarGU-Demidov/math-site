@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,10 +12,13 @@ namespace MathSite.Controllers
 		[HttpGet("/account/login")]
 		[HttpGet("/account/auth")]
 		[AllowAnonymous]
-		public IActionResult Login()
+		public IActionResult Login(string returnUrl)
 		{
-			/*var a = new ClaimsPrincipal();
-			await HttpContext.Authentication.SignInAsync("Auth", principal);*/
+			if (string.IsNullOrWhiteSpace(returnUrl))
+				returnUrl = "/";
+
+			if (HttpContext.User.Identity.IsAuthenticated)
+				Redirect(returnUrl);
 
 			return View();
 		}
@@ -27,16 +29,19 @@ namespace MathSite.Controllers
 			throw new NotImplementedException();
 		}
 
-		[Authorize("Logout")]
+		[Authorize("logout")]
 		public async Task Logout()
 		{
 			await HttpContext.Authentication.SignOutAsync("Auth");
 		}
 
 		[AllowAnonymous]
-		public IActionResult Forbidden()
+		[Route("/forbidden")]
+		[Route("/account/forbidden")]
+		public IActionResult Forbidden(string returnUrl)
 		{
-			throw new NotImplementedException();
+			ViewBag.ReturnUrl = returnUrl;
+			return View();
 		}
 	}
 }

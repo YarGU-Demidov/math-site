@@ -2,7 +2,6 @@
 using MathSite.Db;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace MathSite.Controllers
 {
@@ -28,7 +27,7 @@ namespace MathSite.Controllers
 			return View();
 		}
 
-		[Authorize]
+		[Authorize("admin")]
 		public IActionResult Test()
 		{
 			return View();

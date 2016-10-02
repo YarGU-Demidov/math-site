@@ -1,5 +1,6 @@
 ﻿using System;
 using MathSite.Common.Logs;
+using MathSite.Core.Auth.Requirements;
 using MathSite.Db;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -12,7 +13,7 @@ using ILogger = MathSite.Common.Logs.ILogger;
 
 namespace MathSite
 {
-	public class Startup
+	public partial class Startup
 	{
 		public Startup(IHostingEnvironment env)
 		{
@@ -25,66 +26,5 @@ namespace MathSite
 		}
 
 		public IConfigurationRoot Configuration { get; }
-
-
-		public void ConfigureServices(IServiceCollection services)
-		{
-			services.AddMvc();
-
-			services.AddEntityFramework()
-				.AddEntityFrameworkNpgsql()
-				.AddDbContext<MathSiteDbContext>(ServiceLifetime.Scoped);
-
-			services.AddTransient<ILogger, ConsoleLogger>();
-			services.AddSingleton<IMathSiteDbContext, MathSiteDbContext>();
-
-			services.AddRouting(options => { options.LowercaseUrls = true; });
-		}
-
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory,
-			IServiceScopeFactory service)
-		{
-			loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-			loggerFactory.AddDebug(LogLevel.Debug);
-
-			service.SeedData();
-
-			var cookieHttpOnly = true;
-
-			if (env.IsDevelopment())
-			{
-				app.UseDeveloperExceptionPage();
-				app.UseBrowserLink();
-				cookieHttpOnly = false;
-			}
-			else
-			{
-				app.UseExceptionHandler("/Home/Error");
-			}
-
-			app.UseCookieAuthentication(new CookieAuthenticationOptions
-			{
-				AuthenticationScheme = "Auth",
-				LoginPath = new PathString("/login/"),
-				AccessDeniedPath = new PathString("/account/forbidden/"),
-				AutomaticAuthenticate = true,
-				AutomaticChallenge = true,
-				CookieHttpOnly = cookieHttpOnly,
-				LogoutPath = new PathString("/logout/"),
-				ReturnUrlParameter = "return_url",
-				ExpireTimeSpan = TimeSpan.FromDays(365)
-			});
-
-			app.UseStaticFiles();
-
-			app.UseMvc(routes =>
-			{
-				routes.MapRoute("areaRoute",
-					"{area:exists}/{controller=Home}/{action=Index}");
-				routes.MapRoute(
-					"default",
-					"{controller=Home}/{action=Index}/{id?}");
-			});
-		}
 	}
 }
