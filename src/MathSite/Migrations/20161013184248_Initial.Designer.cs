@@ -8,7 +8,7 @@ using MathSite.Db;
 namespace MathSite.Migrations
 {
     [DbContext(typeof(MathSiteDbContext))]
-    [Migration("20161001110735_Initial")]
+    [Migration("20161013184248_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -68,7 +68,12 @@ namespace MathSite.Migrations
                     b.Property<string>("Surname")
                         .IsRequired();
 
+                    b.Property<Guid?>("UserId");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Persons");
                 });
@@ -100,14 +105,9 @@ namespace MathSite.Migrations
                     b.Property<string>("PasswordHash")
                         .IsRequired();
 
-                    b.Property<Guid>("PersonId");
-
                     b.HasKey("Id");
 
                     b.HasIndex("GroupId");
-
-                    b.HasIndex("PersonId")
-                        .IsUnique();
 
                     b.ToTable("Users");
                 });
@@ -145,16 +145,19 @@ namespace MathSite.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("MathSite.Models.Person", b =>
+                {
+                    b.HasOne("MathSite.Models.User", "User")
+                        .WithOne("Person")
+                        .HasForeignKey("MathSite.Models.Person", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("MathSite.Models.User", b =>
                 {
                     b.HasOne("MathSite.Models.Group", "Group")
                         .WithMany("Users")
                         .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("MathSite.Models.Person", "Person")
-                        .WithOne("User")
-                        .HasForeignKey("MathSite.Models.User", "PersonId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

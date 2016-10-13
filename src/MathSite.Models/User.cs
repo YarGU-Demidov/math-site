@@ -10,7 +10,6 @@ namespace MathSite.Models
 		public string PasswordHash { get; set; }
 
 		public Guid GroupId { get; set; }
-		public Guid PersonId { get; set; }
 
 		public Person Person { get; set; }
 		public Group Group { get; set; }

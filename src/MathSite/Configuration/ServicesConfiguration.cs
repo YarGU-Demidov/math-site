@@ -36,6 +36,7 @@ namespace MathSite
 			services.AddAuthorization(options =>
 			{
 				options.AddPolicy("admin", builder => builder.Requirements.Add(new SiteSectionAccess("Admin Access")));
+				options.AddPolicy("logout", builder => builder.Requirements.Add(new SiteSectionAccess("Logout Access")));
 			});
 
 			services.AddSingleton<IAuthorizationHandler, SiteSectionAccessHandler>();
