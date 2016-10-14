@@ -26,12 +26,32 @@ namespace MathSite.Db
 		{
 			SetUserModel(modelBuilder);
 			SetPersonModel(modelBuilder);
+			SetRightsModel(modelBuilder);
 			SetGroupModel(modelBuilder);
 			SetGroupsRightsModel(modelBuilder);
 			SetUserRightsModel(modelBuilder);
 
 			modelBuilder.HasPostgresExtension("uuid-ossp");
 			base.OnModelCreating(modelBuilder);
+		}
+
+		private static void SetRightsModel(ModelBuilder modelBuilder)
+		{
+			modelBuilder.Entity<Right>()
+				.HasKey(right => right.Id);
+
+			modelBuilder.Entity<Right>()
+				.HasAlternateKey(right => right.Alias);
+
+			modelBuilder.Entity<Right>()
+				.Property(right => right.Alias)
+				.IsRequired();
+			modelBuilder.Entity<Right>()
+				.Property(right => right.Description)
+				.IsRequired(false);
+			modelBuilder.Entity<Right>()
+				.Property(right => right.Name)
+				.IsRequired();
 		}
 
 		private static void SetPersonModel(ModelBuilder modelBuilder)
@@ -98,6 +118,9 @@ namespace MathSite.Db
 			modelBuilder.Entity<Group>()
 				.Property(group => group.Alias)
 				.IsRequired();
+
+			modelBuilder.Entity<Group>()
+				.HasAlternateKey(group => group.Alias);
 
 			modelBuilder.Entity<Group>()
 				.HasMany(group => group.Users)

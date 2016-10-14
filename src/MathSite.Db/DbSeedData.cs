@@ -61,7 +61,6 @@ namespace MathSite.Db
 		{
 			var mokeevAndreyPerson = new Person
 			{
-				Id = Guid.NewGuid(),
 				Name = "Andrey",
 				Surname = "Mokeev",
 				MiddleName = "Aleksandrovich"
@@ -69,7 +68,6 @@ namespace MathSite.Db
 
 			var testPerson = new Person
 			{
-				Id = Guid.NewGuid(),
 				Name = "Test1",
 				Surname = "Person",
 				MiddleName = "Test3"
@@ -93,7 +91,6 @@ namespace MathSite.Db
 
 			var mokeev1995 = new User
 			{
-				Id = Guid.NewGuid(),
 				Login = "mokeev1995",
 				PasswordHash = Passwords.GetHash("test"),
 				Person =
@@ -104,7 +101,6 @@ namespace MathSite.Db
 
 			var testUser = new User
 			{
-				Id = Guid.NewGuid(),
 				Login = "test",
 				PasswordHash = Passwords.GetHash("test"),
 				Person =
@@ -128,7 +124,6 @@ namespace MathSite.Db
 		{
 			var administratorsGroup = new Group
 			{
-				Id = Guid.NewGuid(),
 				Name = "Administrators",
 				Description = "System Administrators",
 				Alias = "admin",
@@ -137,7 +132,6 @@ namespace MathSite.Db
 
 			var usersGroup = new Group
 			{
-				Id = Guid.NewGuid(),
 				Name = "Site user",
 				Description = "Simple site user",
 				Alias = "user",
@@ -157,24 +151,33 @@ namespace MathSite.Db
 		{
 			var adminAccessRight = new Right
 			{
-				Id = Guid.NewGuid(),
 				Name = "Admin Access",
 				Description = "Allowing access to admin panel.",
+				Alias = "admin",
 				GroupsRights = new List<GroupsRights>()
 			};
 
 			var logoutRight = new Right
 			{
-				Id = Guid.NewGuid(),
 				Name = "Logout Access",
 				Description = "Allowing to logout",
+				Alias = "logout",
+				GroupsRights = new List<GroupsRights>()
+			};
+
+			var panelAccessRight = new Right
+			{
+				Name = "Panel Access",
+				Description = "Allowing to access user panel",
+				Alias = "panel",
 				GroupsRights = new List<GroupsRights>()
 			};
 
 			var rights = new[]
 			{
 				adminAccessRight,
-				logoutRight
+				logoutRight,
+				panelAccessRight
 			};
 
 			_dbContext.Rights.AddRange(rights);
@@ -186,19 +189,22 @@ namespace MathSite.Db
 			var adminGroup = _dbContext.Groups.First(group => group.Alias == "admin");
 			var usersGroup = _dbContext.Groups.First(group => group.Alias == "user");
 
-			var adminAccessRight = _dbContext.Rights.First(right => right.Name == "Admin Access");
-			var logoutAccess = _dbContext.Rights.First(right => right.Name == "Logout Access");
+			var adminAccessRight = _dbContext.Rights.First(right => right.Alias == "admin");
+			var logoutAccess = _dbContext.Rights.First(right => right.Alias == "logout");
+			var panelAccess = _dbContext.Rights.First(right => right.Alias == "panel");
 
 			var adminRights = new[]
 			{
 				new GroupsRights {Allowed = true, Group = adminGroup, Right = adminAccessRight},
-				new GroupsRights {Allowed = true, Group = adminGroup, Right = logoutAccess}
+				new GroupsRights {Allowed = true, Group = adminGroup, Right = logoutAccess},
+				new GroupsRights {Allowed = true, Group = adminGroup, Right = panelAccess}
 			};
 
 			var usersRights = new[]
 			{
 				new GroupsRights {Allowed = false, Group = usersGroup, Right = adminAccessRight},
-				new GroupsRights {Allowed = true, Group = usersGroup, Right = logoutAccess}
+				new GroupsRights {Allowed = true, Group = usersGroup, Right = logoutAccess},
+				new GroupsRights {Allowed = true, Group = usersGroup, Right = panelAccess}
 			};
 
 			_dbContext.GroupsRights.AddRange(usersRights);

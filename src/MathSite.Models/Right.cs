@@ -8,6 +8,7 @@ namespace MathSite.Models
 		public Guid Id { get; set; }
 		public string Name { get; set; }
 		public string Description { get; set; }
+		public string Alias { get; set; }
 
 		public List<GroupsRights> GroupsRights { get; set; }
 		public List<UsersRights> UsersRights { get; set; }

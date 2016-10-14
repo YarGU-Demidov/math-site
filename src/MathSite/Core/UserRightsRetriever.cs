@@ -19,15 +19,15 @@ namespace MathSite.Core
 
 			var rights = groupRights
 				.ToDictionary(
-					groupRight => groupRight.Right.Name,
+					groupRight => groupRight.Right.Alias,
 					groupRight => groupRight.Allowed
 				);
 
 			foreach (var userRight in userRights)
-				if (rights.ContainsKey(userRight.Right.Name))
-					rights[userRight.Right.Name] = userRight.Allowed;
+				if (rights.ContainsKey(userRight.Right.Alias))
+					rights[userRight.Right.Alias] = userRight.Allowed;
 				else
-					rights.Add(userRight.Right.Name, userRight.Allowed);
+					rights.Add(userRight.Right.Alias, userRight.Allowed);
 
 			return rights;
 		}
