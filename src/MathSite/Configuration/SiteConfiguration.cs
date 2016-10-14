@@ -31,6 +31,8 @@ namespace MathSite
 				app.UseExceptionHandler("/Home/Error");
 			}
 
+			app.UseStatusCodePagesWithRedirects("~/errors/{0}");
+
 			ConfigureAuthentication(app, cookieHttpOnly);
 			ConfigureRoutes(app);
 		}
