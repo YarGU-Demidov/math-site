@@ -1,6 +1,6 @@
 ﻿using System.Linq;
+using MathSite.Common;
 using MathSite.Db;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MathSite.Controllers
@@ -13,26 +13,16 @@ namespace MathSite.Controllers
 
 		public IActionResult Index()
 		{
-			var data = DbContext.Groups.Where(group => group.Alias == "admin")
+			var data = DbContext.Groups.Where(group => group.Alias == GroupsAliases.Admin)
 				.SelectMany(group => group.Users)
 				.Select(
 					user =>
 							$"User {user.Person.Surname} {user.Person.Name} {user.Person.MiddleName} is in {user.Group.Name}({user.Group.Description}) group with alias \"{user.Group.Alias}\"")
 				.ToArray();
 			ViewBag.UsersData = data;
-			
+
 			return View();
 		}
 
-		[Authorize("admin")]
-		public IActionResult Test()
-		{
-			return View();
-		}
-
-		public IActionResult Error()
-		{
-			return View();
-		}
 	}
 }

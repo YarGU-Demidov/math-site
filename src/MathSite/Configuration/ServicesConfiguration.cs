@@ -47,7 +47,7 @@ namespace MathSite
 		private static void ConfigureDependencyInjection(IServiceCollection services)
 		{
 			services.AddTransient<ILogger, ConsoleLogger>();
-			services.AddSingleton<IMathSiteDbContext, MathSiteDbContext>();
+			services.AddTransient<IMathSiteDbContext, MathSiteDbContext>();
 		}
 
 		private static void ConfigureEntityFramework(IServiceCollection services)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MathSite.Common;
 using MathSite.Common.Crypto;
 using MathSite.Models;
 using Microsoft.Extensions.DependencyInjection;
@@ -126,7 +127,7 @@ namespace MathSite.Db
 			{
 				Name = "Administrators",
 				Description = "System Administrators",
-				Alias = "admin",
+				Alias = GroupsAliases.Admin,
 				GroupsRights = new List<GroupsRights>()
 			};
 
@@ -134,7 +135,7 @@ namespace MathSite.Db
 			{
 				Name = "Site user",
 				Description = "Simple site user",
-				Alias = "user",
+				Alias = GroupsAliases.User,
 				GroupsRights = new List<GroupsRights>()
 			};
 

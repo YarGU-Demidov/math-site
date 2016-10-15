@@ -5,8 +5,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using MathSite.Areas.Api.Heplers.Auth;
 using MathSite.Common.Crypto;
+using MathSite.Controllers;
 using MathSite.Db;
-using MathSite.Models;
 using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,13 +14,10 @@ using Microsoft.EntityFrameworkCore;
 namespace MathSite.Areas.Api.Controllers
 {
 	[Area("Api")]
-	public class AuthController : Controller
+	public class AuthController : BaseController
 	{
-		private readonly IMathSiteDbContext _dbContext;
-
-		public AuthController(IMathSiteDbContext dbContext)
+		public AuthController(IMathSiteDbContext dbContext) : base(dbContext)
 		{
-			_dbContext = dbContext;
 		}
 
 		//[HttpPost]
@@ -29,7 +26,7 @@ namespace MathSite.Areas.Api.Controllers
 			if (HttpContext.User.Identity.IsAuthenticated)
 				return new LoginResult(LoginStatus.AlreadySignedIn);
 
-			User ourUser = _dbContext.Users
+			var ourUser = DbContext.Users
 				.Include(user => user.UsersRights)
 				.Include(user => user.Group)
 				.ThenInclude(group => group.GroupsRights)
@@ -77,7 +74,6 @@ namespace MathSite.Areas.Api.Controllers
 			{
 				return new LogoutResult(LogoutStatus.Error);
 			}
-			
 		}
 	}
 }

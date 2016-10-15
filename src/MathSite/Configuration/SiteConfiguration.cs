@@ -14,8 +14,7 @@ namespace MathSite
 			IServiceScopeFactory service)
 		{
 			ConfigureLoggers(loggerFactory);
-
-
+			
 			service.SeedData();
 
 			var cookieHttpOnly = true;
