@@ -1,4 +1,5 @@
 ﻿using System;
+using MathSite.Controllers;
 using MathSite.Db;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
