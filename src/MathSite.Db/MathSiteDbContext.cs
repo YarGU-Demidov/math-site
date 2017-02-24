@@ -25,8 +25,8 @@ namespace MathSite.Db
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			SetUserModel(modelBuilder);
-			SetPersonUserRelation(modelBuilder);
 			SetPersonModel(modelBuilder);
+			SetRightsModel(modelBuilder);
 			SetGroupModel(modelBuilder);
 			SetGroupsRightsModel(modelBuilder);
 			SetUserRightsModel(modelBuilder);
@@ -35,14 +35,43 @@ namespace MathSite.Db
 			base.OnModelCreating(modelBuilder);
 		}
 
-		private static void SetPersonUserRelation(ModelBuilder modelBuilder)
+		private static void SetRightsModel(ModelBuilder modelBuilder)
 		{
-			modelBuilder.Entity<User>()
-				.HasOne(u => u.Person)
-				.WithOne(p => p.User)
-				.HasForeignKey<Person>(u => u.UserId)
+			modelBuilder.Entity<Right>()
+				.HasKey(right => right.Id);
+
+			modelBuilder.Entity<Right>()
+				.HasAlternateKey(right => right.Alias);
+
+			modelBuilder.Entity<Right>()
+				.Property(right => right.Alias)
+				.IsRequired();
+			modelBuilder.Entity<Right>()
+				.Property(right => right.Description)
+				.IsRequired(false);
+			modelBuilder.Entity<Right>()
+				.Property(right => right.Name)
+				.IsRequired();
+		}
+
+		private static void SetPersonModel(ModelBuilder modelBuilder)
+		{
+			modelBuilder.Entity<Person>()
+				.HasKey(p => p.Id);
+			modelBuilder.Entity<Person>()
+				.Property(p => p.Name)
+				.IsRequired();
+
+			modelBuilder.Entity<Person>()
+				.HasOne(p => p.User)
+				.WithOne(user => user.Person)
+				.HasForeignKey<Person>(person => person.UserId)
 				.IsRequired(false)
 				.OnDelete(DeleteBehavior.Cascade);
+
+			modelBuilder.Entity<Person>()
+				.Property(p => p.Surname)
+				.IsRequired();
 		}
 
 		private static void SetUserModel(ModelBuilder modelBuilder)
@@ -57,32 +86,29 @@ namespace MathSite.Db
 				.IsRequired();
 
 			modelBuilder.Entity<User>()
-				.HasOne(u => u.Group)
-				.WithMany(group => group.Users)
-				.HasForeignKey(user => user.GroupId);
+				.HasOne(user => user.Person)
+				.WithOne(person => person.User)
+				.HasForeignKey<Person>(person => person.UserId)
+				.IsRequired(false)
+				.OnDelete(DeleteBehavior.Cascade);
 
 			modelBuilder.Entity<User>()
-				.HasMany(u => u.UsersRights)
-				.WithOne(gr => gr.User)
-				.HasForeignKey(rights => rights.UserId);
-		}
+				.HasOne(user => user.Group)
+				.WithMany(group => group.Users)
+				.HasForeignKey(user => user.GroupId)
+				.OnDelete(DeleteBehavior.Cascade);
 
-		private static void SetPersonModel(ModelBuilder modelBuilder)
-		{
-			modelBuilder.Entity<Person>()
-				.HasKey(p => p.Id);
-			modelBuilder.Entity<Person>()
-				.Property(p => p.Name)
-				.IsRequired();
-			modelBuilder.Entity<Person>()
-				.Property(p => p.Surname)
-				.IsRequired();
+			modelBuilder.Entity<User>()
+				.HasMany(user => user.UsersRights)
+				.WithOne(usersRights => usersRights.User)
+				.HasForeignKey(usersRights => usersRights.UserId)
+				.OnDelete(DeleteBehavior.Cascade);
 		}
 
 		private static void SetGroupModel(ModelBuilder modelBuilder)
 		{
 			modelBuilder.Entity<Group>()
-				.HasKey(g => g.Id);
+				.HasKey(group => group.Id);
 			modelBuilder.Entity<Group>()
 				.Property(group => group.Name)
 				.IsRequired();
@@ -94,9 +120,13 @@ namespace MathSite.Db
 				.IsRequired();
 
 			modelBuilder.Entity<Group>()
+				.HasAlternateKey(group => group.Alias);
+
+			modelBuilder.Entity<Group>()
 				.HasMany(group => group.Users)
 				.WithOne(user => user.Group)
-				.HasForeignKey(user => user.GroupId);
+				.HasForeignKey(user => user.GroupId)
+				.OnDelete(DeleteBehavior.Cascade);
 		}
 
 		private static void SetGroupsRightsModel(ModelBuilder modelBuilder)
@@ -105,20 +135,22 @@ namespace MathSite.Db
 				.ToTable(nameof(GroupsRights));
 
 			modelBuilder.Entity<GroupsRights>()
-				.HasKey(gr => gr.Id);
+				.HasKey(groupsRights => groupsRights.Id);
 			modelBuilder.Entity<GroupsRights>()
-				.Property(gr => gr.Allowed)
+				.Property(groupsRights => groupsRights.Allowed)
 				.IsRequired();
 
 			modelBuilder.Entity<GroupsRights>()
 				.HasOne(groupsRights => groupsRights.Group)
 				.WithMany(group => group.GroupsRights)
-				.HasForeignKey(groupsRights => groupsRights.GroupId);
+				.HasForeignKey(groupsRights => groupsRights.GroupId)
+				.OnDelete(DeleteBehavior.Cascade);
 
 			modelBuilder.Entity<GroupsRights>()
 				.HasOne(groupsRights => groupsRights.Right)
 				.WithMany(right => right.GroupsRights)
-				.HasForeignKey(groupsRights => groupsRights.RightId);
+				.HasForeignKey(groupsRights => groupsRights.RightId)
+				.OnDelete(DeleteBehavior.Cascade);
 		}
 
 		private static void SetUserRightsModel(ModelBuilder modelBuilder)
@@ -135,11 +167,13 @@ namespace MathSite.Db
 			modelBuilder.Entity<UsersRights>()
 				.HasOne(usersRights => usersRights.User)
 				.WithMany(user => user.UsersRights)
-				.HasForeignKey(usersRights => usersRights.UserId);
+				.HasForeignKey(usersRights => usersRights.UserId)
+				.OnDelete(DeleteBehavior.Cascade);
 			modelBuilder.Entity<UsersRights>()
 				.HasOne(usersRights => usersRights.Right)
 				.WithMany(right => right.UsersRights)
-				.HasForeignKey(usersRights => usersRights.RightId);
+				.HasForeignKey(usersRights => usersRights.RightId)
+				.OnDelete(DeleteBehavior.Cascade);
 		}
 	}
 }

@@ -1,60 +1,79 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using MathSite.Areas.Api.Heplers.Auth;
 using MathSite.Common.Crypto;
-using MathSite.Core;
+using MathSite.Controllers;
 using MathSite.Db;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
+using Microsoft.EntityFrameworkCore;
 
 namespace MathSite.Areas.Api.Controllers
 {
-	public enum AuthStatus
-	{
-		Success, WrongPassword, UserDoesntExists
-	}
-
-	public class AuthResult
-	{
-		public AuthResult(AuthStatus authStatus)
-		{
-			AuthStatus = authStatus;
-		}
-
-		public AuthStatus AuthStatus { get; }
-	}
-
 	[Area("Api")]
-	public class AuthController : Controller
+	public class AuthController : BaseController
 	{
-		private readonly IMathSiteDbContext _dbContext;
-
-		public AuthController(IMathSiteDbContext dbContext)
+		public AuthController(IMathSiteDbContext dbContext) : base(dbContext)
 		{
-			_dbContext = dbContext;
 		}
 
-		[HttpPost]
-		public async Task<AuthResult> Login(string login, string password)
+		//[HttpPost]
+		public async Task<LoginResult> Login(string login, string password)
 		{
-			var users = _dbContext.Users.Where(u => u.Login == login);
-			var ourUser = users.FirstOrDefault();
+			if (HttpContext.User.Identity.IsAuthenticated)
+				return new LoginResult(LoginStatus.AlreadySignedIn);
+
+			var ourUser = DbContext.Users
+				.Include(user => user.UsersRights)
+				.Include(user => user.Group)
+				.ThenInclude(group => group.GroupsRights)
+				.ThenInclude(rights => rights.Right)
+				.FirstOrDefault(u => u.Login == login);
 
 			if (ourUser == null)
-				return new AuthResult(AuthStatus.UserDoesntExists);
+				return new LoginResult(LoginStatus.UserDoesntExists);
 
 			if (Passwords.GetHash(password) != ourUser.PasswordHash)
-				return new AuthResult(AuthStatus.WrongPassword);
+				return new LoginResult(LoginStatus.WrongPassword);
 
-			await HttpContext.Authentication.SignInAsync("Auth", new MathUserPrincipal(_dbContext, ourUser));
-			return new AuthResult(AuthStatus.Success);
+			await HttpContext.Authentication.SignInAsync(
+				"Auth",
+				new ClaimsPrincipal(
+					new ClaimsIdentity(
+						new List<Claim>
+						{
+							new Claim("UserId", ourUser.Id.ToString()),
+							new Claim("Login", ourUser.Login),
+							new Claim("GroupAlias", ourUser.Group.Alias)
+						},
+						"Auth"
+					)
+				),
+				new AuthenticationProperties
+				{
+					ExpiresUtc = DateTime.UtcNow.AddMonths(12)
+				}
+			);
+
+			return new LoginResult(LoginStatus.Success);
 		}
 
-		[Authorize]
-		public string Test()
+		public async Task<LogoutResult> Logout()
 		{
-			return "test";
+			if (!HttpContext.User.Identity.IsAuthenticated)
+				return new LogoutResult(LogoutStatus.NotLoggedIn);
+			try
+			{
+				await HttpContext.Authentication.SignOutAsync("Auth");
+				return new LogoutResult(LogoutStatus.Success);
+			}
+			catch (Exception)
+			{
+				return new LogoutResult(LogoutStatus.Error);
+			}
 		}
 	}
 }

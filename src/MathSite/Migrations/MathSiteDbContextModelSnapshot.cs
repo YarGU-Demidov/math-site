@@ -31,6 +31,8 @@ namespace MathSite.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasAlternateKey("Alias");
+
                     b.ToTable("Groups");
                 });
 
@@ -82,11 +84,17 @@ namespace MathSite.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("Alias")
+                        .IsRequired();
+
                     b.Property<string>("Description");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired();
 
                     b.HasKey("Id");
+
+                    b.HasAlternateKey("Alias");
 
                     b.ToTable("Rights");
                 });

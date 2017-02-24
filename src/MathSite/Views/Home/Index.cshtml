@@ -1,11 +1,12 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+	ViewData["Title"] = "Home Page";
 	var userData = (string[]) ViewBag.UsersData;
 }
 
 <h1>Admin Users</h1>
 
-@foreach (string str in userData)
+@foreach (var str in userData)
 {
-	@str <br />
+	@str
+	<br/>
 }

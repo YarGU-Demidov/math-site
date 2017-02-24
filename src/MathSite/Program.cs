@@ -6,17 +6,12 @@ namespace MathSite
 {
 	public class Program
 	{
-		public static readonly ILogger Logger;
-
 		static Program()
 		{
-			Logger = new CompositeLogger(new ConsoleLogger());
 		}
 
 		public static void Main(string[] args)
 		{
-			Logger.WriteInfo("Started!");
-
 			var host = new WebHostBuilder()
 				.UseKestrel()
 				.UseContentRoot(Directory.GetCurrentDirectory())
@@ -25,8 +20,6 @@ namespace MathSite
 				.Build();
 
 			host.Run();
-
-			Logger.WriteInfo("Exit...");
 		}
 	}
 }

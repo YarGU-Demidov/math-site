@@ -23,6 +23,7 @@ namespace MathSite.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Groups", x => x.Id);
+                    table.UniqueConstraint("AK_Groups_Alias", x => x.Alias);
                 });
 
             migrationBuilder.CreateTable(
@@ -31,12 +32,14 @@ namespace MathSite.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false)
                         .Annotation("Npgsql:ValueGeneratedOnAdd", true),
+                    Alias = table.Column<string>(nullable: false),
                     Description = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Rights", x => x.Id);
+                    table.UniqueConstraint("AK_Rights_Alias", x => x.Alias);
                 });
 
             migrationBuilder.CreateTable(

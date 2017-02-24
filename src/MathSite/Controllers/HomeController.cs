@@ -1,22 +1,19 @@
 ﻿using System.Linq;
+using MathSite.Common;
 using MathSite.Db;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MathSite.Controllers
 {
-	public class HomeController : Controller
+	public class HomeController : BaseController
 	{
-		private readonly IMathSiteDbContext _dbContext;
-
-		public HomeController(IMathSiteDbContext dbContext)
+		public HomeController(IMathSiteDbContext dbContext) : base(dbContext)
 		{
-			_dbContext = dbContext;
 		}
 
 		public IActionResult Index()
 		{
-			var data = _dbContext.Groups.Where(group => group.Alias == "admin")
+			var data = DbContext.Groups.Where(group => group.Alias == GroupsAliases.Admin)
 				.SelectMany(group => group.Users)
 				.Select(
 					user =>
@@ -24,19 +21,8 @@ namespace MathSite.Controllers
 				.ToArray();
 			ViewBag.UsersData = data;
 
-			var users = _dbContext.Users.FirstOrDefault(u => u.Login == "mokeev1995");
 			return View();
 		}
 
-		[Authorize]
-		public IActionResult Test()
-		{
-			return View();
-		}
-
-		public IActionResult Error()
-		{
-			return View();
-		}
 	}
 }
