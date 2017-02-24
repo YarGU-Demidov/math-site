@@ -3,7 +3,7 @@
     "copyright": "mokeev1995",
 	"dependencies": {
 		"Microsoft.NETCore.App": {
-			"version": "1.0.1",
+			"version": "1.1.0",
 			"type": "platform"
 		},
 		"Microsoft.AspNetCore.Diagnostics": "1.0.0",
@@ -43,7 +43,7 @@
 	},
 
 	"frameworks": {
-		"netcoreapp1.0": {
+		"netcoreapp1.1": {
 			"imports": [
 				"dotnet5.6",
 				"portable-net45+win8"
