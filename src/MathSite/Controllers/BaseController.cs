@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using MathSite.Db;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +19,7 @@ namespace MathSite.Controllers
 
 		private void TrySetUser(ActionContext context)
 		{
-			if(!context.HttpContext.User.Identity.IsAuthenticated)
+			if (!context.HttpContext.User.Identity.IsAuthenticated)
 				return;
 
 			var userId = context.HttpContext.User?.Claims?.FirstOrDefault(claim => claim.Type == "UserId")?.Value;

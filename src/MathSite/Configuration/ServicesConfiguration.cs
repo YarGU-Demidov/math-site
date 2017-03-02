@@ -53,8 +53,8 @@ namespace MathSite
 		private static void ConfigureEntityFramework(IServiceCollection services)
 		{
 			services.AddEntityFramework()
-							.AddEntityFrameworkNpgsql()
-							.AddDbContext<MathSiteDbContext>(ServiceLifetime.Scoped);
+				.AddEntityFrameworkNpgsql()
+				.AddDbContext<MathSiteDbContext>(ServiceLifetime.Scoped);
 		}
 	}
 }
