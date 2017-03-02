@@ -14,7 +14,7 @@ namespace MathSite.Core
 				user.Group.GroupsRights
 					.Where(
 						gr =>
-								!userRights.Any(usersRights => usersRights.Right.Equals(gr.Right))
+							!userRights.Any(usersRights => usersRights.Right.Equals(gr.Right))
 					);
 
 			var rights = groupRights

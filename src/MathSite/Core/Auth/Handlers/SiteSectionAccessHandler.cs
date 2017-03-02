@@ -38,10 +38,10 @@ namespace MathSite.Core.Auth.Handlers
 			var userId = Guid.Parse(userIdGuidString);
 			var user = _dbContext.Users.Where(u => u.Id == userId)
 				.Include(u => u.Group)
-					.ThenInclude(group => group.GroupsRights)
-						.ThenInclude(group => group.Right)
+				.ThenInclude(group => group.GroupsRights)
+				.ThenInclude(group => group.Right)
 				.Include(u => u.UsersRights)
-					.ThenInclude(usersRights => usersRights.Right)
+				.ThenInclude(usersRights => usersRights.Right)
 				.FirstOrDefault();
 
 			if (user == null)

@@ -38,7 +38,7 @@ namespace MathSite.Db
 
 		public void SeedModelsData()
 		{
-			if(!_dbContext.Persons.Any())
+			if (!_dbContext.Persons.Any())
 				AddPersons();
 
 			if (!_dbContext.Groups.Any())
@@ -96,7 +96,7 @@ namespace MathSite.Db
 				PasswordHash = Passwords.GetHash("test"),
 				Person =
 					_dbContext.Persons.First(
-						person => (person.Name == "Andrey") && (person.Surname == "Mokeev") && (person.MiddleName == "Aleksandrovich")),
+						person => person.Name == "Andrey" && person.Surname == "Mokeev" && person.MiddleName == "Aleksandrovich"),
 				Group = adminGroup
 			};
 
@@ -106,7 +106,7 @@ namespace MathSite.Db
 				PasswordHash = Passwords.GetHash("test"),
 				Person =
 					_dbContext.Persons.First(
-						person => (person.Name == "Test1") && (person.Surname == "Person") && (person.MiddleName == "Test3")),
+						person => person.Name == "Test1" && person.Surname == "Person" && person.MiddleName == "Test3"),
 				Group = userGroup
 			};
 
