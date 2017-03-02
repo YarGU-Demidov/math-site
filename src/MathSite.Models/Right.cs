@@ -22,7 +22,7 @@ namespace MathSite.Models
 		{
 			if (ReferenceEquals(null, obj)) return false;
 			if (ReferenceEquals(this, obj)) return true;
-			if (obj.GetType() != this.GetType()) return false;
+			if (obj.GetType() != GetType()) return false;
 			return Equals((Right) obj);
 		}
 
@@ -31,8 +31,8 @@ namespace MathSite.Models
 			unchecked
 			{
 				var hashCode = Id.GetHashCode();
-				hashCode = (hashCode*397) ^ (Name?.GetHashCode() ?? 0);
-				hashCode = (hashCode*397) ^ (Description?.GetHashCode() ?? 0);
+				hashCode = (hashCode * 397) ^ (Name?.GetHashCode() ?? 0);
+				hashCode = (hashCode * 397) ^ (Description?.GetHashCode() ?? 0);
 				return hashCode;
 			}
 		}

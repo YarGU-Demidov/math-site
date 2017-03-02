@@ -49,9 +49,7 @@ namespace MathSite.Common.Logs
 		private void WriteToAll(Action<ILogger> log)
 		{
 			foreach (var logger in _loggers)
-			{
 				log(logger);
-			}
 		}
 	}
 }

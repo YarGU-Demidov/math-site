@@ -17,6 +17,8 @@ namespace MathSite.Db
 
 		int SaveChanges();
 		Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken));
-		Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default(CancellationToken));
+
+		Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess,
+			CancellationToken cancellationToken = default(CancellationToken));
 	}
 }

@@ -37,11 +37,10 @@ namespace MathSite.Controllers
 		[HttpPost("/login")]
 		public async Task<IActionResult> Login(LoginFormViewModel model)
 		{
-
 			var ourUser = DbContext.Users.Include(user1 => user1.Group)
 				.ThenInclude(group => group.GroupsRights)
 				.FirstOrDefault(
-					user => (user.Login == model.Login) && (user.PasswordHash == Passwords.GetHash(model.Password))
+					user => user.Login == model.Login && user.PasswordHash == Passwords.GetHash(model.Password)
 				);
 
 			if (ourUser == null)
@@ -83,7 +82,7 @@ namespace MathSite.Controllers
 			return
 				await
 					DbContext.Users.FirstOrDefaultAsync(
-						user => (user.Login == login) && (user.PasswordHash == Passwords.GetHash(password))) != null
+						user => user.Login == login && user.PasswordHash == Passwords.GetHash(password)) != null
 					? Json(true)
 					: Json("Пароль неверен");
 		}

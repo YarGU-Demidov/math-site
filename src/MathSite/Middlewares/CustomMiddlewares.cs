@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-
-namespace MathSite.Middlewares
+﻿namespace MathSite.Middlewares
 {
 	public static class CustomMiddlewares
 	{

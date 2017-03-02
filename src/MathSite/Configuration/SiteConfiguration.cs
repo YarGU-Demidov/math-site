@@ -1,5 +1,4 @@
 ﻿using System;
-using MathSite.Controllers;
 using MathSite.Db;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -15,7 +14,7 @@ namespace MathSite
 			IServiceScopeFactory service)
 		{
 			ConfigureLoggers(loggerFactory);
-			
+
 			service.SeedData();
 
 			var cookieHttpOnly = true;
@@ -55,7 +54,7 @@ namespace MathSite
 				CookieHttpOnly = cookieHttpOnly,
 				LogoutPath = new PathString("/logout/"),
 				ReturnUrlParameter = "returnUrl",
-				ExpireTimeSpan = TimeSpan.FromDays(365), 
+				ExpireTimeSpan = TimeSpan.FromDays(365)
 			});
 		}
 
