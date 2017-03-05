@@ -24,6 +24,12 @@ namespace MathSite
 				app.UseDeveloperExceptionPage();
 				app.UseBrowserLink();
 				cookieHttpOnly = false;
+
+
+				app.UseCors(builder =>
+				{
+					builder.AllowAnyOrigin();
+				});
 			}
 			else
 			{
