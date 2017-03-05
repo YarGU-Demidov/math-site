@@ -29,6 +29,9 @@ namespace MathSite
 				app.UseCors(builder =>
 				{
 					builder.AllowAnyOrigin();
+					builder.AllowAnyHeader();
+					builder.AllowAnyMethod();
+					builder.AllowCredentials();
 				});
 			}
 			else

@@ -1,4 +1,6 @@
-﻿using MathSite.Controllers;
+﻿using System.Collections.Generic;
+using MathSite.Controllers;
+using MathSite.Core;
 using MathSite.Db;
 using MathSite.ViewModels.Api.MenuItems;
 using Microsoft.AspNetCore.Mvc;
@@ -6,15 +8,14 @@ using Microsoft.AspNetCore.Mvc;
 namespace MathSite.Areas.Api.Controllers
 {
 	[Area("Api")]
-	[Route("/api/menu-items")]
-	public class MenuItems : BaseController
+	public class MenuItems : BaseController, IApiCompatible<MenuItemData>
 	{
 		public MenuItems(IMathSiteDbContext dbContext) : base(dbContext)
 		{
 		}
 
 		[HttpGet]
-		public MenuItemData[] Index()
+		public IEnumerable<MenuItemData> Index()
 		{
 			return new[]
 			{
@@ -43,6 +44,16 @@ namespace MathSite.Areas.Api.Controllers
 				new MenuItemData("event", "Calendar", "#"),
 				new MenuItemData("art_track", "Content", "#"),
 			};
+		}
+
+		public IEnumerable<MenuItemData> GetAll()
+		{
+			return Index();
+		}
+
+		public IActionResult SaveAll(IEnumerable<MenuItemData> items)
+		{
+			return BadRequest("Not allowed");
 		}
 	}
 }
