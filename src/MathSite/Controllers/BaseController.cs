@@ -12,7 +12,7 @@ namespace MathSite.Controllers
 	public class BaseController : Controller
 	{
 		protected readonly IMathSiteDbContext DbContext;
-		protected User CurrentUser { get; set; }
+		protected User CurrentUser { get; private set; }
 
 		public BaseController(IMathSiteDbContext dbContext)
 		{
@@ -33,8 +33,6 @@ namespace MathSite.Controllers
 			var currentUser = DbContext.Users
 				.Include(user => user.Person)
 				.Include(user => user.Group)
-					.ThenInclude(group => group.GroupsRights)
-					.ThenInclude(rights => rights.Right)
 				.FirstOrDefault(user => user.Id == userIdGuid);
 
 			CurrentUser = currentUser;
