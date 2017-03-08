@@ -1,6 +1,82 @@
-﻿@{
-	ViewBag.Title = "Personal Page";
-	Layout = "_PersonalPageLayout";
-}
+﻿<!doctype html>
+<html lang="ru">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<h2>Personal Page</h2>
+		<title>Математический факультет ЯрГУ</title>
+
+		<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&amp;subset=cyrillic"
+		      rel="stylesheet">
+
+		<!-- icons -->
+		<environment names="Development">
+			<script src="~/lib/jquery/dist/jquery.js"></script>
+			<script src="~/lib/jquery-mousewheel/jquery.mousewheel.js"></script>
+			<script src="~/lib/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.js"></script>
+			<link href="~/lib/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css" rel="stylesheet">
+			<style>
+				@@font-face {
+					font-family: 'Material Icons';
+					font-style: normal;
+					font-weight: 400;
+					src: url(/lib/material-design-icons/iconfont/MaterialIcons-Regular.eot); /* For IE6-8 */
+					src: local('Material Icons'),
+					     local('MaterialIcons-Regular'),
+					     url(/lib/material-design-icons/iconfont/MaterialIcons-Regular.woff2) format('woff2'),
+					     url(/lib/material-design-icons/iconfont//MaterialIcons-Regular.woff) format('woff'),
+					     url(/lib/material-design-icons/iconfont/MaterialIcons-Regular.ttf) format('truetype');
+				}
+
+				.material-icons {
+					font-family: 'Material Icons';
+					font-weight: normal;
+					font-style: normal;
+					font-size: 24px; /* Preferred icon size */
+					display: inline-block;
+					line-height: 1;
+					text-transform: none;
+					letter-spacing: normal;
+					word-wrap: normal;
+					white-space: nowrap;
+					direction: ltr;
+					/* Support for all WebKit browsers. */
+					-webkit-font-smoothing: antialiased;
+					/* Support for Safari and Chrome. */
+					text-rendering: optimizeLegibility;
+					/* Support for Firefox. */
+					-moz-osx-font-smoothing: grayscale;
+					/* Support for IE. */
+					font-feature-settings: 'liga';
+				}
+			</style>
+		</environment>
+		<environment names="Staging,Production">
+			<script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.1.1.min.js"
+			        asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+			        asp-fallback-test="window.jQuery"></script>
+			<script src="~/lib/jquery-mousewheel/jquery.mousewheel.min.js"></script>
+			<script src="~/lib/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.js"></script>
+			<link href="~/lib/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet">
+			<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		</environment>
+		<!-- icons -->
+
+		<base href="/personal-page">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="icon" type="image/x-icon" href="favicon.ico">
+	</head>
+	<body>
+		<app-root></app-root>
+		<div id="loading-splash-screen">
+			Выполняется загрузка страницы...
+		</div>
+		<script type="text/javascript" src="~/js/inline.bundle.js"></script>
+		<script type="text/javascript" src="~/js/polyfills.bundle.js"></script>
+		<script type="text/javascript" src="~/js/styles.bundle.js"></script>
+		<script type="text/javascript" src="~/js/vendor.bundle.js"></script>
+		<script type="text/javascript" src="~/js/main.bundle.js"></script>
+	</body>
+</html>
