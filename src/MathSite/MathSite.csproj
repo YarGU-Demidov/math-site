@@ -10,6 +10,7 @@
     <PackageId>MathSite</PackageId>
     <RuntimeFrameworkVersion>1.1.1</RuntimeFrameworkVersion>
     <PackageTargetFallback>$(PackageTargetFallback);netcoreapp1.1;net451;dotnet5.6;netcoreapp1.1;portable-net45+win8+wp8+wpa81;dnxcore50</PackageTargetFallback>
+    <Description>Package Descriptionw</Description>
   </PropertyGroup>
 
   <ItemGroup>
@@ -56,6 +57,10 @@
 
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\PersonalPage\Views\Shared\" />
   </ItemGroup>
 
 </Project>

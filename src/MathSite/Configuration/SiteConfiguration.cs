@@ -78,6 +78,12 @@ namespace MathSite
 				routes.MapRoute(
 					"default",
 					"{controller=Home}/{action=Index}/{id?}");
+				routes.MapAreaRoute(
+					"PersonalPageRoutes",
+					"personal-page",
+					"personal-page/{*pageAdress}",
+					new { controller = "Home", action = "Index" }
+				);
 			});
 		}
 	}
