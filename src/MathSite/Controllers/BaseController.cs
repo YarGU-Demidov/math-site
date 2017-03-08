@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using MathSite.Db;
+using MathSite.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ namespace MathSite.Controllers
 	public class BaseController : Controller
 	{
 		protected readonly IMathSiteDbContext DbContext;
+		protected User CurrentUser { get; private set; }
 
 		public BaseController(IMathSiteDbContext dbContext)
 		{
@@ -29,9 +31,12 @@ namespace MathSite.Controllers
 
 			var userIdGuid = Guid.Parse(userId);
 			var currentUser = DbContext.Users
+				.Where(u => u.Id == userIdGuid)
 				.Include(user => user.Person)
-				.FirstOrDefault(user => user.Id == userIdGuid);
+				.Include(user => user.Group)
+				.FirstOrDefault();
 
+			CurrentUser = currentUser;
 			ViewBag.User = currentUser;
 		}
 
