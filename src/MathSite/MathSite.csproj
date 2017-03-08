@@ -14,6 +14,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\PersonalPage\Views\Shared\**" />
+    <Compile Remove="wwwroot\js\Новая папка\**" />
+    <Content Remove="Areas\PersonalPage\Views\Shared\**" />
+    <Content Remove="wwwroot\js\Новая папка\**" />
+    <EmbeddedResource Remove="Areas\PersonalPage\Views\Shared\**" />
+    <EmbeddedResource Remove="wwwroot\js\Новая папка\**" />
+    <None Remove="Areas\PersonalPage\Views\Shared\**" />
+    <None Remove="wwwroot\js\Новая папка\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="wwwroot\**\*">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>
@@ -57,10 +68,6 @@
 
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Areas\PersonalPage\Views\Shared\" />
   </ItemGroup>
 
 </Project>
