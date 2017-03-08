@@ -1,16 +1,11 @@
-﻿using MathSite.Models;
+﻿using System;
+using MathSite.Models;
 
 namespace MathSite.ViewModels.Api.UsersInfo
 {
 	public class UserInfo
 	{
-		public string Name { get; }
-		public string Surname { get; }
-		public string MiddleName { get; }
-		public string Nick { get; }
-		public Group Group { get; }
-
-		public UserInfo(string name, string surname, string middleName, string nick, Group group)
+		public UserInfo(string name, string surname, string middleName, string nick, GroupInfo group)
 		{
 			Name = name;
 			Surname = surname;
@@ -18,5 +13,25 @@ namespace MathSite.ViewModels.Api.UsersInfo
 			Nick = nick;
 			Group = group;
 		}
+
+		public UserInfo(User user)
+		{
+			Id = user.Id;
+			Name = user.Person.Name;
+			Surname = user.Person.Surname;
+			MiddleName = user.Person.MiddleName;
+
+			Nick = user.Login;
+
+			if (user.Group != null)
+				Group = new GroupInfo(user.GroupId, user.Group.Alias, user.Group.Name, user.Group.Description);
+		}
+
+		public Guid Id { get; }
+		public string Name { get; }
+		public string Surname { get; }
+		public string MiddleName { get; }
+		public string Nick { get; }
+		public GroupInfo Group { get; }
 	}
 }

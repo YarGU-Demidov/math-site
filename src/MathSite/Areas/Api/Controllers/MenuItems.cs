@@ -46,7 +46,7 @@ namespace MathSite.Areas.Api.Controllers
 			};
 		}
 
-		public IEnumerable<MenuItemData> GetAll()
+		public IEnumerable<MenuItemData> GetAll(int offset = 0, int count = 50)
 		{
 			return Index();
 		}

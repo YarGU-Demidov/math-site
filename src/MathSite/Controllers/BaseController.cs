@@ -31,9 +31,10 @@ namespace MathSite.Controllers
 
 			var userIdGuid = Guid.Parse(userId);
 			var currentUser = DbContext.Users
+				.Where(u => u.Id == userIdGuid)
 				.Include(user => user.Person)
 				.Include(user => user.Group)
-				.FirstOrDefault(user => user.Id == userIdGuid);
+				.FirstOrDefault();
 
 			CurrentUser = currentUser;
 			ViewBag.User = currentUser;

@@ -19,11 +19,9 @@ namespace MathSite.Areas.Api.Controllers
 
 		public UserInfo GetCurrentUserInfo()
 		{
-			if (CurrentUser == null)
-				return new UserInfo("Guest", "", "", "Guest", null);
-
-			var person = CurrentUser.Person;
-			return new UserInfo(person.Name, person.Surname, person.MiddleName, CurrentUser.Login, CurrentUser.Group);
+			return CurrentUser == null 
+				? new UserInfo("Guest", "Guest", "Guest", "Guest", null) 
+				: new UserInfo(CurrentUser);
 		}
 
 		public IActionResult GetUserInfo(string id)
@@ -36,24 +34,26 @@ namespace MathSite.Areas.Api.Controllers
 			}
 
 			var user = DbContext.Users
+				.Where(u => u.Id == uId)
 				.Include(u => u.Person)
 				.Include(u => u.Group)
-					.ThenInclude(g => g.GroupsRights)
-						.ThenInclude(gr => gr.Right)
-				.FirstOrDefault(u => u.Id == uId);
+				.FirstOrDefault();
 
 			if (user == null)
 			{
 				return NotFound();
 			}
-
-			var person = user.Person;
-			return Json(new UserInfo(person.Name, person.Surname, person.MiddleName, user.Login, user.Group));
+			
+			return Json(new UserInfo(user));
 		}
 
-		public IEnumerable<UserInfo> GetAll()
+		public IEnumerable<UserInfo> GetAll(int offset = 0, int count = 50)
 		{
-			throw new NotImplementedException();
+			var users = DbContext.Users.Skip(offset).Take(count).Include(u => u.Group).Include(u => u.Person).ToArray();
+
+			return users.Length > 0 
+				? users.Select(u => new UserInfo(u)).ToArray()
+				: new UserInfo[0];
 		}
 
 		public IActionResult SaveAll(IEnumerable<UserInfo> items)

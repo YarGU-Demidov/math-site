@@ -5,7 +5,7 @@ namespace MathSite.Core
 {
 	public interface IApiCompatible<T>
 	{
-		IEnumerable<T> GetAll();
+		IEnumerable<T> GetAll(int offset = 0, int count = 50);
 		IActionResult SaveAll(IEnumerable<T> items);
 	}
 }
