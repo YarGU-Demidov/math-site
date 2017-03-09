@@ -15,7 +15,7 @@ namespace MathSite
 		{
 			ConfigureLoggers(loggerFactory);
 
-			service.SeedData();
+			service.SeedData(loggerFactory.CreateLogger("Seeding Logger"));
 
 			var cookieHttpOnly = true;
 

@@ -11,9 +11,9 @@ using Microsoft.EntityFrameworkCore;
 namespace MathSite.Areas.Api.Controllers
 {
 	[Area("Api")]
-	public class UsersInfo : BaseController, IApiCompatible<UserInfo>
+	public class UsersInfoController : BaseController, IApiCompatible<UserInfo>
 	{
-		public UsersInfo(IMathSiteDbContext dbContext) : base(dbContext)
+		public UsersInfoController(IMathSiteDbContext dbContext) : base(dbContext)
 		{
 		}
 

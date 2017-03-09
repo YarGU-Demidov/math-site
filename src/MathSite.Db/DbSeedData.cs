@@ -5,19 +5,22 @@ using MathSite.Common;
 using MathSite.Common.Crypto;
 using MathSite.Models;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace MathSite.Db
 {
 	public static class DbSeedData
 	{
-		public static void SeedData(this IServiceScopeFactory scopeFactory)
+		public static void SeedData(this IServiceScopeFactory scopeFactory, ILogger logger)
 		{
 			using (var serviceScope = scopeFactory.CreateScope())
 			{
-				using (var seeder = new DataSeeder(serviceScope.ServiceProvider.GetService<MathSiteDbContext>()))
+				logger.LogInformation($"Trying to seed data.");
+				using (var seeder = new DataSeeder(serviceScope.ServiceProvider.GetService<MathSiteDbContext>(), logger))
 				{
 					seeder.SeedModelsData();
 				}
+				logger.LogInformation("Seeding complete!");
 			}
 		}
 	}
@@ -25,10 +28,12 @@ namespace MathSite.Db
 	internal class DataSeeder : IDisposable
 	{
 		private readonly MathSiteDbContext _dbContext;
+		private readonly ILogger _logger;
 
-		public DataSeeder(MathSiteDbContext dbContext)
+		public DataSeeder(MathSiteDbContext dbContext, ILogger logger)
 		{
 			_dbContext = dbContext;
+			_logger = logger;
 		}
 
 		public void Dispose()
@@ -38,22 +43,41 @@ namespace MathSite.Db
 
 		public void SeedModelsData()
 		{
+			_logger.LogInformation("Trying seed Persons");
 			if (!_dbContext.Persons.Any())
+			{
+				_logger.LogInformation("Seeding Persons");
 				AddPersons();
+			}
 
+			_logger.LogInformation("Trying seed Groups");
 			if (!_dbContext.Groups.Any())
+			{
+				_logger.LogInformation("Seeding Groups");
 				AddGroups();
+			}
 
+			_logger.LogInformation("Trying seed Rights");
 			if (!_dbContext.Rights.Any())
+			{
+				_logger.LogInformation("Seeding Rights");
 				AddRights();
+			}
 
+			_logger.LogInformation("Trying seed GroupsRights");
 			if (!_dbContext.GroupsRights.Any())
+			{
+				_logger.LogInformation("Seeding GroupsRights");
 				AddGroupsRightsRelations();
+			}
 
+			_logger.LogInformation("Trying seed Users");
 			if (!_dbContext.Users.Any())
 			{
+				_logger.LogInformation("Seeding Users");
 				AddUsers();
 
+				_logger.LogInformation("Setting Users To Groups");
 				SetUsersToGroups();
 			}
 		}

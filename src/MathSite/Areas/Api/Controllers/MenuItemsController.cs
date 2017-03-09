@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace MathSite.Areas.Api.Controllers
 {
 	[Area("Api")]
-	public class MenuItems : BaseController, IApiCompatible<MenuItemData>
+	public class MenuItemsController : BaseController, IApiCompatible<MenuItemData>
 	{
-		public MenuItems(IMathSiteDbContext dbContext) : base(dbContext)
+		public MenuItemsController(IMathSiteDbContext dbContext) : base(dbContext)
 		{
 		}
 
