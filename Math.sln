@@ -1,22 +1,17 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26114.2
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1B5AA2C7-A40E-46C8-9FA1-10615BE120BF}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{71CDDC6F-ECFA-4635-A68A-0712844351BC}"
-	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathSite", "src\MathSite\MathSite.csproj", "{9D2BE8FF-D348-46F8-A1F6-714A2643F0E4}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MathSite", "src\MathSite\MathSite.xproj", "{9D2BE8FF-D348-46F8-A1F6-714A2643F0E4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathSite.Db", "src\MathSite.Db\MathSite.Db.csproj", "{1EDC5F07-5B9F-4823-B631-A7C4A7731368}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MathSite.Db", "src\MathSite.Db\MathSite.Db.xproj", "{1EDC5F07-5B9F-4823-B631-A7C4A7731368}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathSite.Models", "src\MathSite.Models\MathSite.Models.csproj", "{61F6E6C3-8264-46E0-A64C-F8B8FA243D1E}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MathSite.Models", "src\MathSite.Models\MathSite.Models.xproj", "{61F6E6C3-8264-46E0-A64C-F8B8FA243D1E}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Math.Common", "src\Math.Common\Math.Common.xproj", "{A6F1ED77-50FC-4D0E-8135-39BAB8A8333E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathSite.Common", "src\MathSite.Common\MathSite.Common.csproj", "{A6F1ED77-50FC-4D0E-8135-39BAB8A8333E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

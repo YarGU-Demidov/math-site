@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace MathSite.Models
 {
@@ -8,6 +9,10 @@ namespace MathSite.Models
 		public string Login { get; set; }
 		public string PasswordHash { get; set; }
 
-		public virtual Person Person { get; set; }
+		public Guid GroupId { get; set; }
+
+		public Person Person { get; set; }
+		public Group Group { get; set; }
+		public List<UsersRights> UsersRights { get; set; }
 	}
 }

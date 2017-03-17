@@ -1,0 +1,12 @@
+﻿@{
+	ViewBag.Title = "Forbidden";
+	Layout = "_Layout";
+}
+
+<h2>Forbidden</h2>
+<p>Sorry... Access denied!</p>
+@if (ViewBag.ReturnUrl != null)
+{
+	<text>You cannot access page </text>
+	@ViewBag.ReturnUrl
+}
