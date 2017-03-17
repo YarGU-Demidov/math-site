@@ -25,52 +25,42 @@
 		</environment>
 	</head>
 	<body>
-		<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="navbar navbar-toggleable-md navbar-inverse bg-inverse fixed-top">
 			<div class="container">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-						<span class="sr-only">Toggle navigation</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					<a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">MathSite</a>
-				</div>
-				<div class="navbar-collapse collapse">
-					<ul class="nav navbar-nav">
-						<li>
-							<a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-						</li>
-					</ul>
+				<button class="navbar-toggler navbar-toggler-right collapsed" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
 
-					<ul class="nav navbar-nav navbar-right">
-						@if (userExists)
-						{
-							<li class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-									@user.Login <span class="caret"></span>
+				<a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">MathSite</a>
+
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active">
+						<a asp-area="" class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
+					</li>
+				</ul>
+
+				<ul class="navbar-nav">
+					@if (userExists)
+					{
+						<li class="dropdown nav-item">
+							<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+								@user.Login
+							</a>
+							<div class="dropdown-menu">
+								<a class="dropdown-item" asp-area="personal-page" asp-controller="Home" asp-action="Index">
+									@user.Person.Surname @user.Person.Name @user.Person.MiddleName
 								</a>
-								<ul class="dropdown-menu">
-									<li>
-										<a asp-area="personal-page" asp-controller="Home" asp-action="Index">
-											@user.Person.Surname @user.Person.Name @user.Person.MiddleName
-										</a>
-									</li>
-									<li role="separator" class="divider"></li>
-									<li>
-										<a asp-controller="Account" asp-action="Logout">Logout</a>
-									</li>
-								</ul>
-							</li>
-						}
-						else
-						{
-							<li>
-								<a asp-controller="Account" asp-action="Login">Login</a>
-							</li>
-						}
-					</ul>
-				</div>
+								<a class="dropdown-item" asp-controller="Account" asp-action="Logout">Logout</a>
+							</div>
+						</li>
+					}
+					else
+					{
+						<li class="nav-item">
+							<a  class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
+						</li>
+					}
+				</ul>
 			</div>
 		</div>
 		<div class="container body-content">
@@ -83,10 +73,12 @@
 
 		<environment names="Development">
 			<script src="~/lib/jquery/dist/jquery.js"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" 
+			        integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" 
+					crossorigin="anonymous"></script>
 			<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
 			<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
 			<script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-			<script src="~/js/site.js" asp-append-version="true"></script>
 		</environment>
 		<environment names="Staging,Production">
 			<script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
