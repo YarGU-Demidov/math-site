@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Collections.Generic;
 using MathSite.Controllers;
-using MathSite.Core;
 using MathSite.Db;
 using MathSite.ViewModels.Api.UsersInfo;
 using Microsoft.AspNetCore.Mvc;
@@ -11,9 +10,9 @@ using Microsoft.EntityFrameworkCore;
 namespace MathSite.Areas.Api.Controllers
 {
 	[Area("Api")]
-	public class UsersInfo : BaseController, IApiCompatible<UserInfo>
+	public class UsersInfoController : BaseController
 	{
-		public UsersInfo(IMathSiteDbContext dbContext) : base(dbContext)
+		public UsersInfoController(IMathSiteDbContext dbContext) : base(dbContext)
 		{
 		}
 

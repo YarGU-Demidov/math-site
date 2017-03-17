@@ -20,7 +20,7 @@ namespace MathSite.Areas.Api.Controllers
 		{
 		}
 
-		//[HttpPost]
+		[HttpPost]
 		public async Task<LoginResult> Login(string login, string password)
 		{
 			if (HttpContext.User.Identity.IsAuthenticated)
