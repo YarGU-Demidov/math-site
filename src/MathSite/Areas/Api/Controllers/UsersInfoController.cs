@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using MathSite.Controllers;
 using MathSite.Db;
 using MathSite.ViewModels.Api.UsersInfo;
+using MathSite.ViewModels.Api.UsersInfo.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,9 +26,8 @@ namespace MathSite.Areas.Api.Controllers
 
 		public IActionResult GetUserInfo(string id)
 		{
-			Guid uId;
 
-			if (!Guid.TryParse(id, out uId))
+			if (!Guid.TryParse(id, out Guid uId))
 			{
 				return NotFound(id);
 			}
@@ -46,13 +46,41 @@ namespace MathSite.Areas.Api.Controllers
 			return Json(new UserInfo(user));
 		}
 
-		public IEnumerable<UserInfo> GetAll(int offset = 0, int count = 50)
+		[HttpGet]
+		public GetUsersCountResponse GetUsersCount()
 		{
-			var users = DbContext.Users.Skip(offset).Take(count).Include(u => u.Group).Include(u => u.Person).ToArray();
+			try
+			{
+				return new GetUsersCountResponse("success", null, DbContext.Users.Count());
+			}
+			catch (Exception exception)
+			{
+				return new GetUsersCountResponse("error", exception.Message);
+			}
+		}
 
-			return users.Length > 0 
-				? users.Select(u => new UserInfo(u)).ToArray()
-				: new UserInfo[0];
+		[HttpGet]
+		public GetAllResponse GetAll(int offset = 0, int count = 50)
+		{
+			try
+			{
+				var users = DbContext.Users
+				.Skip(offset)
+				.Take(count)
+				.Include(u => u.Group)
+				.Include(u => u.Person)
+				.ToArray();
+
+				var data = users.Length > 0
+					? users.Select(u => new UserInfo(u)).ToArray()
+					: new UserInfo[0];
+
+				return new GetAllResponse("success", data);
+			}
+			catch (Exception exception)
+			{
+				return new GetAllResponse("error", null, exception.Message);
+			}
 		}
 
 		public IActionResult SaveAll(IEnumerable<UserInfo> items)

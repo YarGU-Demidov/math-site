@@ -16,16 +16,18 @@ namespace MathSite.Areas.Api.Controllers
 		[HttpGet]
 		public IEnumerable<MenuItemData> GetAll()
 		{
+			var home = new MenuItemData("Главная", "/", "home");
 			var usersManagement = new MenuItemData("Пользователи", "/users", "face", new[]
 			{
-				new MenuItemData("Группы", "/users/groups/"),
-				new MenuItemData("Права", "/users/groups-rights")
+				new MenuItemData("Группы", "/groups"),
+				new MenuItemData("Права", "/groups-rights")
 			});
 
 			var siteSettingsManagement = new MenuItemData("Настройки", "/site-settings", "settings");
 
 			return new[]
 			{
+				home,
 				usersManagement,
 				siteSettingsManagement
 			};

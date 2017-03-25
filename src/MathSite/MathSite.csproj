@@ -15,13 +15,9 @@
 
   <ItemGroup>
     <Compile Remove="Areas\PersonalPage\Views\Shared\**" />
-    <Compile Remove="wwwroot\js\Новая папка\**" />
     <Content Remove="Areas\PersonalPage\Views\Shared\**" />
-    <Content Remove="wwwroot\js\Новая папка\**" />
     <EmbeddedResource Remove="Areas\PersonalPage\Views\Shared\**" />
-    <EmbeddedResource Remove="wwwroot\js\Новая папка\**" />
     <None Remove="Areas\PersonalPage\Views\Shared\**" />
-    <None Remove="wwwroot\js\Новая папка\**" />
   </ItemGroup>
 
   <ItemGroup>

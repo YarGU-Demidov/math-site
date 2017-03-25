@@ -12,10 +12,6 @@
 
 		<!-- icons -->
 		<environment names="Development">
-			<script src="~/lib/jquery/dist/jquery.js"></script>
-			<script src="~/lib/jquery-mousewheel/jquery.mousewheel.js"></script>
-			<script src="~/lib/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.js"></script>
-			<link href="~/lib/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css" rel="stylesheet">
 			<style>
 				@@font-face {
 					font-family: 'Material Icons';
@@ -53,12 +49,6 @@
 			</style>
 		</environment>
 		<environment names="Staging,Production">
-			<script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.1.1.min.js"
-			        asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-			        asp-fallback-test="window.jQuery"></script>
-			<script src="~/lib/jquery-mousewheel/jquery.mousewheel.min.js"></script>
-			<script src="~/lib/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.js"></script>
-			<link href="~/lib/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet">
 			<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		</environment>
 		<!-- icons -->
@@ -76,6 +66,7 @@
 		</div>
 		<script type="text/javascript" src="~/js/panel/inline.bundle.js"></script>
 		<script type="text/javascript" src="~/js/panel/polyfills.bundle.js"></script>
+		<script type="text/javascript" src="~/js/panel/scripts.bundle.js"></script>
 		<script type="text/javascript" src="~/js/panel/vendor.bundle.js"></script>
 		<script type="text/javascript" src="~/js/panel/main.bundle.js"></script>
 	</body>
