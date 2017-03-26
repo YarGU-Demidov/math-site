@@ -42,14 +42,14 @@ namespace MathSite.Db
 			_logger.LogInformation("Trying seed Persons");
 			if (!_dbContext.Persons.Any())
 			{
-				_logger.LogInformation("Seeding Persons");
+				_logger.LogWarning("Seeding Persons");
 				AddPersons();
 			}
 
 			_logger.LogInformation("Trying seed Groups");
 			if (!_dbContext.Groups.Any())
 			{
-				_logger.LogInformation("Seeding Groups");
+				_logger.LogWarning("Seeding Groups");
 				AddGroups();
 			}
 
@@ -63,17 +63,17 @@ namespace MathSite.Db
 			_logger.LogInformation("Trying seed GroupsRights");
 			if (!_dbContext.GroupsRights.Any())
 			{
-				_logger.LogInformation("Seeding GroupsRights");
+				_logger.LogWarning("Seeding GroupsRights");
 				AddGroupsRightsRelations();
 			}
 
 			_logger.LogInformation("Trying seed Users");
 			if (!_dbContext.Users.Any())
 			{
-				_logger.LogInformation("Seeding Users");
+				_logger.LogWarning("Seeding Users");
 				AddUsers();
 
-				_logger.LogInformation("Setting Users To Groups");
+				_logger.LogWarning("Setting Users To Groups");
 				SetUsersToGroups();
 			}
 		}
