@@ -1,5 +1,4 @@
-﻿using MathSite.Common;
-using MathSite.Models;
+﻿using MathSite.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
@@ -16,10 +15,8 @@ namespace MathSite.Db
 		public DbSet<GroupsRights> GroupsRights { get; set; }
 		public DbSet<UsersRights> UsersRights { get; set; }
 
-		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+		public MathSiteDbContext(DbContextOptions options) : base(options)
 		{
-			base.OnConfiguring(optionsBuilder);
-			optionsBuilder.UseNpgsql(Settings.Instance.ConnectionString, builder => builder.MigrationsAssembly("MathSite"));
 		}
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)

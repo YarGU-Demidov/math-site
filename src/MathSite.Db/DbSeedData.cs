@@ -4,24 +4,20 @@ using System.Linq;
 using MathSite.Common;
 using MathSite.Common.Crypto;
 using MathSite.Models;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace MathSite.Db
 {
 	public static class DbSeedData
 	{
-		public static void SeedData(this IServiceScopeFactory scopeFactory, ILogger logger)
+		public static void SeedData(ILogger logger, MathSiteDbContext context)
 		{
-			using (var serviceScope = scopeFactory.CreateScope())
+			logger.LogInformation($"Trying to seed data.");
+			using (var seeder = new DataSeeder(context, logger))
 			{
-				logger.LogInformation($"Trying to seed data.");
-				using (var seeder = new DataSeeder(serviceScope.ServiceProvider.GetService<MathSiteDbContext>(), logger))
-				{
-					seeder.SeedModelsData();
-				}
-				logger.LogInformation("Seeding complete!");
+				seeder.SeedModelsData();
 			}
+			logger.LogInformation("Seeding complete!");
 		}
 	}
 
