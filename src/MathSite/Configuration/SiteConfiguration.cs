@@ -3,19 +3,17 @@ using MathSite.Db;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace MathSite
 {
 	public partial class Startup
 	{
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory,
-			IServiceScopeFactory service)
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, MathSiteDbContext context)
 		{
 			ConfigureLoggers(loggerFactory);
 
-			service.SeedData(loggerFactory.CreateLogger("Seeding Logger"));
+			DbSeedData.SeedData(loggerFactory.CreateLogger("Seeding Logger"), context);
 
 			var cookieHttpOnly = true;
 

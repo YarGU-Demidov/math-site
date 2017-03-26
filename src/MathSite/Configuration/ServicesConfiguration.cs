@@ -4,7 +4,9 @@ using MathSite.Core.Auth.Requirements;
 using MathSite.Db;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 
@@ -52,11 +54,14 @@ namespace MathSite
 			services.AddTransient<IMathSiteDbContext, MathSiteDbContext>();
 		}
 
-		private static void ConfigureEntityFramework(IServiceCollection services)
+		private void ConfigureEntityFramework(IServiceCollection services)
 		{
 			services.AddEntityFramework()
 				.AddEntityFrameworkNpgsql()
-				.AddDbContext<MathSiteDbContext>(ServiceLifetime.Scoped);
+				.AddDbContext<MathSiteDbContext>(options =>
+				{
+					options.UseNpgsql(Configuration.GetConnectionString("Math"));
+				}, ServiceLifetime.Singleton);
 		}
 	}
 }
