@@ -6,7 +6,7 @@ namespace MathSite.Controllers
 {
 	public class ErrorsController : BaseController
 	{
-		public ErrorsController(IMathSiteDbContext dbContext) : base(dbContext)
+		public ErrorsController(MathSiteDbContext dbContext) : base(dbContext)
 		{
 		}
 

@@ -16,7 +16,7 @@ namespace MathSite.Areas.Api.Controllers
 	[Area("Api")]
 	public class AuthController : BaseController
 	{
-		public AuthController(IMathSiteDbContext dbContext) : base(dbContext)
+		public AuthController(MathSiteDbContext dbContext) : base(dbContext)
 		{
 		}
 

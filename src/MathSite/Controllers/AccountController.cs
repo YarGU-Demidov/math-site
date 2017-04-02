@@ -15,7 +15,7 @@ namespace MathSite.Controllers
 {
 	public class AccountController : BaseController
 	{
-		public AccountController(IMathSiteDbContext dbContext) : base(dbContext)
+		public AccountController(MathSiteDbContext dbContext) : base(dbContext)
 		{
 		}
 
