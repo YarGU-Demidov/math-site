@@ -9,7 +9,7 @@ namespace MathSite.Areas.PersonalPage.Controllers
 	[Authorize("peronal-page")]
 	public class HomeController : BaseController
 	{
-		public HomeController(IMathSiteDbContext dbContext) : base(dbContext)
+		public HomeController(MathSiteDbContext dbContext) : base(dbContext)
 		{
 		}
 

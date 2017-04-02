@@ -9,7 +9,7 @@ namespace MathSite.Areas.Api.Controllers
 	[Area("Api")]
 	public class MenuItemsController : BaseController
 	{
-		public MenuItemsController(IMathSiteDbContext dbContext) : base(dbContext)
+		public MenuItemsController(MathSiteDbContext dbContext) : base(dbContext)
 		{
 		}
 

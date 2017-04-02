@@ -11,10 +11,10 @@ namespace MathSite.Controllers
 {
 	public class BaseController : Controller
 	{
-		protected readonly IMathSiteDbContext DbContext;
+		protected readonly MathSiteDbContext DbContext;
 		protected User CurrentUser { get; private set; }
 
-		public BaseController(IMathSiteDbContext dbContext)
+		public BaseController(MathSiteDbContext dbContext)
 		{
 			DbContext = dbContext;
 		}

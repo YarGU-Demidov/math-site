@@ -3,30 +3,31 @@ using System.Linq;
 using System.Collections.Generic;
 using MathSite.Controllers;
 using MathSite.Db;
+using MathSite.Models;
 using MathSite.ViewModels.Api.UsersInfo;
 using MathSite.ViewModels.Api.UsersInfo.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace MathSite.Areas.Api.Controllers
 {
 	[Area("Api")]
 	public class UsersInfoController : BaseController
 	{
-		public UsersInfoController(IMathSiteDbContext dbContext) : base(dbContext)
+		public UsersInfoController(MathSiteDbContext dbContext) : base(dbContext)
 		{
 		}
 
 		public UserInfo GetCurrentUserInfo()
 		{
-			return CurrentUser == null 
-				? new UserInfo("Guest", "Guest", "Guest", "Guest", null) 
+			return CurrentUser == null
+				? new UserInfo("Guest", "Guest", "Guest", "Guest", null)
 				: new UserInfo(CurrentUser);
 		}
 
 		public IActionResult GetUserInfo(string id)
 		{
-
 			if (!Guid.TryParse(id, out Guid uId))
 			{
 				return NotFound(id);
@@ -42,7 +43,7 @@ namespace MathSite.Areas.Api.Controllers
 			{
 				return NotFound();
 			}
-			
+
 			return Json(new UserInfo(user));
 		}
 
@@ -64,12 +65,16 @@ namespace MathSite.Areas.Api.Controllers
 		{
 			try
 			{
+				// TODO: избавиться от костыля, EF7 делает не корректный запрос с Include,
+				// а делать подзапросы отдельно не хочется.
+				// Утверждается, что ко 2й версии может появится возможность делать запросы вручную.
 				var users = DbContext.Users
-				.Skip(offset)
-				.Take(count)
-				.Include(u => u.Group)
-				.Include(u => u.Person)
-				.ToArray();
+					.Include(u => u.Person)
+					.Include(u => u.Group)
+					.Skip(offset)
+					.ToArray()
+					.Take(count)
+					.ToArray();
 
 				var data = users.Length > 0
 					? users.Select(u => new UserInfo(u)).ToArray()
