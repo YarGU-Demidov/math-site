@@ -51,7 +51,6 @@ namespace MathSite
 		private static void ConfigureDependencyInjection(IServiceCollection services)
 		{
 			services.AddTransient<ILogger, ConsoleLogger>();
-			services.AddTransient<IMathSiteDbContext, MathSiteDbContext>();
 		}
 
 		private void ConfigureEntityFramework(IServiceCollection services)
@@ -61,7 +60,7 @@ namespace MathSite
 				.AddDbContext<MathSiteDbContext>(options =>
 				{
 					options.UseNpgsql(Configuration.GetConnectionString("Math"));
-				}, ServiceLifetime.Singleton);
+				}, ServiceLifetime.Scoped);
 		}
 	}
 }

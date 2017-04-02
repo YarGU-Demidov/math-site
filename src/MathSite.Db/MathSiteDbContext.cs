@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL;
 namespace MathSite.Db
 {
 	// ReSharper disable once ClassNeverInstantiated.Global
-	public class MathSiteDbContext : DbContext, IMathSiteDbContext
+	public class MathSiteDbContext : DbContext
 	{
 		public DbSet<Person> Persons { get; set; }
 		public DbSet<User> Users { get; set; }

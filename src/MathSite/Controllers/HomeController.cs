@@ -7,7 +7,7 @@ namespace MathSite.Controllers
 {
 	public class HomeController : BaseController
 	{
-		public HomeController(IMathSiteDbContext dbContext) : base(dbContext)
+		public HomeController(MathSiteDbContext dbContext) : base(dbContext)
 		{
 		}
 

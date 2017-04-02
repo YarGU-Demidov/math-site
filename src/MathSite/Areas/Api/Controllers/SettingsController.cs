@@ -7,7 +7,7 @@ namespace MathSite.Areas.Api.Controllers
 	[Area("Api")]
 	public class SettingsController : BaseController
 	{
-		public SettingsController(IMathSiteDbContext dbContext) : base(dbContext)
+		public SettingsController(MathSiteDbContext dbContext) : base(dbContext)
 		{
 		}
 	}
