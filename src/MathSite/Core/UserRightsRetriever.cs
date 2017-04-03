@@ -8,7 +8,7 @@ namespace MathSite.Core
 	{
 		public IDictionary<string, bool> GetUserRights(User user)
 		{
-			var userRights = user.UsersRights;
+			var userRights = user.UserRights;
 
 			var groupRights =
 				user.Group.GroupsRights

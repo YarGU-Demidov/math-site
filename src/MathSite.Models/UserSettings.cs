@@ -3,38 +3,38 @@
 namespace MathSite.Models
 {
     /// <summary>
-    /// 
+    /// Настройки пользователя.
     /// </summary>
-	public class UsersRights
-	{
+    public class UserSettings
+    {
         /// <summary>
         /// 
         /// </summary>
-		public Guid Id { get; set; }
+        public Guid Id { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-		public bool Allowed { get; set; }
+        public string Namespace { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-		public Guid UserId { get; set; }
+        public string Key { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-		public User User { get; set; }
+        public string Value { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public Guid RightId { get; set; }
+        public Guid UserId { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-		public Right Right { get; set; }
-	}
+        public User User { get; set; }
+    }
 }

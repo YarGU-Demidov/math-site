@@ -27,7 +27,7 @@ namespace MathSite.Areas.Api.Controllers
 				return new LoginResult(LoginStatus.AlreadySignedIn);
 
 			var ourUser = DbContext.Users
-				.Include(user => user.UsersRights)
+				.Include(user => user.UserRights)
 				.Include(user => user.Group)
 				.ThenInclude(group => group.GroupsRights)
 				.ThenInclude(rights => rights.Right)
