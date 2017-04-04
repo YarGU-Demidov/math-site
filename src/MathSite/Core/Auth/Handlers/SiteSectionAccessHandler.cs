@@ -40,7 +40,7 @@ namespace MathSite.Core.Auth.Handlers
 				.Include(u => u.Group)
 				.ThenInclude(group => group.GroupsRights)
 				.ThenInclude(group => group.Right)
-				.Include(u => u.UsersRights)
+				.Include(u => u.UserRights)
 				.ThenInclude(usersRights => usersRights.Right)
 				.FirstOrDefault();
 

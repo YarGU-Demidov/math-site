@@ -96,7 +96,7 @@ namespace MathSite.Db
 				.OnDelete(DeleteBehavior.Cascade);
 
 			modelBuilder.Entity<User>()
-				.HasMany(user => user.UsersRights)
+				.HasMany(user => user.UserRights)
 				.WithOne(usersRights => usersRights.User)
 				.HasForeignKey(usersRights => usersRights.UserId)
 				.OnDelete(DeleteBehavior.Cascade);
@@ -163,7 +163,7 @@ namespace MathSite.Db
 
 			modelBuilder.Entity<UsersRights>()
 				.HasOne(usersRights => usersRights.User)
-				.WithMany(user => user.UsersRights)
+				.WithMany(user => user.UserRights)
 				.HasForeignKey(usersRights => usersRights.UserId)
 				.OnDelete(DeleteBehavior.Cascade);
 			modelBuilder.Entity<UsersRights>()
