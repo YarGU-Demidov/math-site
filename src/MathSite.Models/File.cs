@@ -6,61 +6,52 @@ namespace MathSite.Models
     /// <summary>
     /// 
     /// </summary>
-	public class Group
-	{
+    public class File
+    {
         /// <summary>
         /// 
         /// </summary>
-		public Guid Id { get; set; }
+        public Guid Id { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-		public string Alias { get; set; }
+        public string FileName { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-		public string Name { get; set; }
+        public string FilePath { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-		public string Description { get; set; }
+        public string Extension { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public Guid ParentGroupId { get; set; }
+        public DateTime DateAdded { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public Group ParentGroup { get; set; }
+        public Guid PersonId { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public Guid GroupTypeId { get; set; }
+        public Person Person { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public GroupType GroupType { get; set; }
+        public List<PostSettings> PostSettings { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public List<GroupsRights> GroupsRights { get; set; }
+        public List<PostAttachment> PostAttachments { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-		public List<User> Users { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public List<PostGroupsAllowed> AllowedPosts { get; set; }
     }
 }

@@ -1,40 +1,36 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace MathSite.Models
 {
     /// <summary>
     /// 
     /// </summary>
-	public class UsersRights
-	{
+    public class Category
+    {
         /// <summary>
         /// 
         /// </summary>
-		public Guid Id { get; set; }
+        public Guid Id { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-		public bool Allowed { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-		public Guid UserId { get; set; }
+        public string Description { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-		public User User { get; set; }
+        public string Alias { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public Guid RightId { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-		public Right Right { get; set; }
-	}
+        public List<PostCategory> PostCategories { get; set; }
+    }
 }
