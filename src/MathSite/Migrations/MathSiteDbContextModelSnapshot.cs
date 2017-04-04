@@ -1,20 +1,21 @@
 ﻿using System;
-using MathSite.Db;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
+using MathSite.Db;
 
 namespace MathSite.Migrations
 {
 	[DbContext(typeof(MathSiteDbContext))]
-	internal class MathSiteDbContextModelSnapshot : ModelSnapshot
+	partial class MathSiteDbContextModelSnapshot : ModelSnapshot
 	{
 		protected override void BuildModel(ModelBuilder modelBuilder)
 		{
 			modelBuilder
 				.HasAnnotation("Npgsql:PostgresExtension:uuid-ossp", "'uuid-ossp', '', ''")
 				.HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-				.HasAnnotation("ProductVersion", "1.1.0-rtm-22752");
+				.HasAnnotation("ProductVersion", "1.1.1");
 
 			modelBuilder.Entity("MathSite.Models.Group", b =>
 			{
@@ -61,10 +62,18 @@ namespace MathSite.Migrations
 				b.Property<Guid>("Id")
 					.ValueGeneratedOnAdd();
 
+				b.Property<string>("AdditionalPhone");
+
+				b.Property<DateTime>("Birthday");
+
 				b.Property<string>("MiddleName");
 
 				b.Property<string>("Name")
 					.IsRequired();
+
+				b.Property<string>("Phone");
+
+				b.Property<Guid>("PhotoId");
 
 				b.Property<string>("Surname")
 					.IsRequired();
@@ -72,9 +81,6 @@ namespace MathSite.Migrations
 				b.Property<Guid?>("UserId");
 
 				b.HasKey("Id");
-
-				b.HasIndex("UserId")
-					.IsUnique();
 
 				b.ToTable("Persons");
 			});
@@ -112,9 +118,14 @@ namespace MathSite.Migrations
 				b.Property<string>("PasswordHash")
 					.IsRequired();
 
+				b.Property<Guid>("PersonId");
+
 				b.HasKey("Id");
 
 				b.HasIndex("GroupId");
+
+				b.HasIndex("PersonId")
+					.IsUnique();
 
 				b.ToTable("Users");
 			});
@@ -152,19 +163,16 @@ namespace MathSite.Migrations
 					.OnDelete(DeleteBehavior.Cascade);
 			});
 
-			modelBuilder.Entity("MathSite.Models.Person", b =>
-			{
-				b.HasOne("MathSite.Models.User", "User")
-					.WithOne("Person")
-					.HasForeignKey("MathSite.Models.Person", "UserId")
-					.OnDelete(DeleteBehavior.Cascade);
-			});
-
 			modelBuilder.Entity("MathSite.Models.User", b =>
 			{
 				b.HasOne("MathSite.Models.Group", "Group")
 					.WithMany("Users")
 					.HasForeignKey("GroupId")
+					.OnDelete(DeleteBehavior.Cascade);
+
+				b.HasOne("MathSite.Models.Person", "Person")
+					.WithOne("User")
+					.HasForeignKey("MathSite.Models.User", "PersonId")
 					.OnDelete(DeleteBehavior.Cascade);
 			});
 
@@ -176,7 +184,7 @@ namespace MathSite.Migrations
 					.OnDelete(DeleteBehavior.Cascade);
 
 				b.HasOne("MathSite.Models.User", "User")
-					.WithMany("UsersRights")
+					.WithMany("UserRights")
 					.HasForeignKey("UserId")
 					.OnDelete(DeleteBehavior.Cascade);
 			});

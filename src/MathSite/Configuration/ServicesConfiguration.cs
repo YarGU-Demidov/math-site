@@ -72,7 +72,13 @@ namespace MathSite
 		{
 			services.AddEntityFramework()
 				.AddEntityFrameworkNpgsql()
-				.AddDbContext<MathSiteDbContext>(options => { options.UseNpgsql(Configuration.GetConnectionString("Math")); });
+				.AddDbContext<MathSiteDbContext>(options =>
+				{
+					options.UseNpgsql(
+						Configuration.GetConnectionString("Math"), 
+						builder => builder.MigrationsAssembly("MathSite")
+					);
+				});
 		}
 	}
 }
