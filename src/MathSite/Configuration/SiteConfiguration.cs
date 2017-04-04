@@ -1,5 +1,5 @@
 ﻿using System;
-using MathSite.Db;
+using MathSite.Db.DataSeeding;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -9,11 +9,11 @@ namespace MathSite
 {
 	public partial class Startup
 	{
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, MathSiteDbContext context)
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IDataSeeder seeder)
 		{
 			ConfigureLoggers(loggerFactory);
 
-			DbSeedData.SeedData(loggerFactory.CreateLogger("Seeding Logger"), context);
+			seeder.Seed();
 
 			var cookieHttpOnly = true;
 

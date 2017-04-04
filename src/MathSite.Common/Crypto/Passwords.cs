@@ -1,8 +1,8 @@
 ﻿namespace MathSite.Common.Crypto
 {
-	public static class Passwords
+	public class Passwords: IPasswordHasher
 	{
-		public static string GetHash(string password)
+		public string GetHash(string password)
 		{
 			return password;
 		}

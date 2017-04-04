@@ -1,7 +1,10 @@
-﻿using MathSite.Common.Logs;
+﻿using MathSite.Common.Crypto;
 using MathSite.Core.Auth.Handlers;
 using MathSite.Core.Auth.Requirements;
 using MathSite.Db;
+using MathSite.Db.DataSeeding;
+using MathSite.Db.DataSeeding.StaticData;
+using MathSite.Db.EntityConfiguration;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
@@ -12,8 +15,16 @@ using Newtonsoft.Json;
 
 namespace MathSite
 {
+	// ReSharper disable once ClassNeverInstantiated.Global
+	/// <summary>
+	///		Класс загрузчик
+	/// </summary>
 	public partial class Startup
 	{
+		/// <summary>
+		///		Конфигурация сервисов
+		/// </summary>
+		/// <param name="services"></param>
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddMvc()
@@ -39,10 +50,10 @@ namespace MathSite
 		{
 			services.AddAuthorization(options =>
 			{
-				options.AddPolicy("admin", builder => builder.Requirements.Add(new SiteSectionAccess("admin")));
-				options.AddPolicy("peronal-page", builder => builder.Requirements.Add(new SiteSectionAccess("panel")));
+				options.AddPolicy("admin", builder => builder.Requirements.Add(new SiteSectionAccess(RightsAliases.AdminAccess)));
+				options.AddPolicy("peronal-page", builder => builder.Requirements.Add(new SiteSectionAccess(RightsAliases.PanelAccess)));
 
-				options.AddPolicy("logout", builder => builder.Requirements.Add(new SiteSectionAccess("logout")));
+				options.AddPolicy("logout", builder => builder.Requirements.Add(new SiteSectionAccess(RightsAliases.LogoutAccess)));
 			});
 
 			services.AddSingleton<IAuthorizationHandler, SiteSectionAccessHandler>();
@@ -50,17 +61,18 @@ namespace MathSite
 
 		private static void ConfigureDependencyInjection(IServiceCollection services)
 		{
-			services.AddTransient<ILogger, ConsoleLogger>();
+			services.AddLogging();
+
+			services.AddScoped<IDataSeeder, DataSeeder>();
+			services.AddScoped<IPasswordHasher, Passwords>();
+			services.AddScoped<IEntitiesConfigurator, EntitiesConfigurator>();
 		}
 
 		private void ConfigureEntityFramework(IServiceCollection services)
 		{
 			services.AddEntityFramework()
 				.AddEntityFrameworkNpgsql()
-				.AddDbContext<MathSiteDbContext>(options =>
-				{
-					options.UseNpgsql(Configuration.GetConnectionString("Math"));
-				}, ServiceLifetime.Scoped);
+				.AddDbContext<MathSiteDbContext>(options => { options.UseNpgsql(Configuration.GetConnectionString("Math")); });
 		}
 	}
 }

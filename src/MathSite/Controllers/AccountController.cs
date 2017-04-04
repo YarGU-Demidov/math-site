@@ -15,8 +15,11 @@ namespace MathSite.Controllers
 {
 	public class AccountController : BaseController
 	{
-		public AccountController(MathSiteDbContext dbContext) : base(dbContext)
+		private readonly IPasswordHasher _passwordHasher;
+
+		public AccountController(MathSiteDbContext dbContext, IPasswordHasher passwordHasher) : base(dbContext)
 		{
+			_passwordHasher = passwordHasher;
 		}
 
 		[HttpGet("/login")]
@@ -40,7 +43,7 @@ namespace MathSite.Controllers
 			var ourUser = DbContext.Users.Include(user1 => user1.Group)
 				.ThenInclude(group => group.GroupsRights)
 				.FirstOrDefault(
-					user => user.Login == model.Login && user.PasswordHash == Passwords.GetHash(model.Password)
+					user => user.Login == model.Login && user.PasswordHash == _passwordHasher.GetHash(model.Password)
 				);
 
 			if (ourUser == null)
@@ -82,7 +85,7 @@ namespace MathSite.Controllers
 			return
 				await
 					DbContext.Users.FirstOrDefaultAsync(
-						user => user.Login == login && user.PasswordHash == Passwords.GetHash(password)) != null
+						user => user.Login == login && user.PasswordHash == _passwordHasher.GetHash(password)) != null
 					? Json(true)
 					: Json("Пароль неверен");
 		}

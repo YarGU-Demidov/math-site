@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MathSite.Models
 {
-	public class Right
+	public class Right: IEquatable<Right>
 	{
 		public Guid Id { get; set; }
 		public string Name { get; set; }
@@ -13,11 +13,13 @@ namespace MathSite.Models
 		public List<GroupsRights> GroupsRights { get; set; }
 		public List<UsersRights> UsersRights { get; set; }
 
-		protected bool Equals(Right other)
+		/// <inheritdoc />
+		public bool Equals(Right other)
 		{
 			return Id.Equals(other.Id) && string.Equals(Name, other.Name) && string.Equals(Description, other.Description);
 		}
 
+		/// <inheritdoc />
 		public override bool Equals(object obj)
 		{
 			if (ReferenceEquals(null, obj)) return false;
@@ -26,6 +28,7 @@ namespace MathSite.Models
 			return Equals((Right)obj);
 		}
 
+		/// <inheritdoc />
 		public override int GetHashCode()
 		{
 			unchecked

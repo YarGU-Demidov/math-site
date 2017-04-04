@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using MathSite.Common;
 using MathSite.Db;
+using MathSite.Db.DataSeeding;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MathSite.Controllers

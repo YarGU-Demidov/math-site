@@ -12,8 +12,9 @@ namespace MathSite.Models
 		public string AdditionalPhone { get; set; }
 		public DateTime Birthday { get; set; }
 		public Guid PhotoId { get; set; }
-		public File Photo { get; set; }
-		public Guid UserId { get; set; }
+		/*public File Photo { get; set; }*/
+
+		public Guid? UserId { get; set; }
 		public User User { get; set; }
 	}
 }

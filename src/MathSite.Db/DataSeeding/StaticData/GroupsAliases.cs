@@ -1,4 +1,4 @@
-﻿namespace MathSite.Common
+﻿namespace MathSite.Db.DataSeeding
 {
 	public static class GroupsAliases
 	{

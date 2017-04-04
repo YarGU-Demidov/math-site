@@ -42,7 +42,7 @@ namespace MathSite.Models
 		///     Группа, к которой относится пользователь.
 		/// </summary>
 		public Group Group { get; set; }
-
+		/*
 		/// <summary>
 		/// </summary>
 		public List<PostOwner> PostsOwner { get; set; }
@@ -62,7 +62,7 @@ namespace MathSite.Models
 		/// <summary>
 		/// </summary>
 		public List<UserSettings> Settings { get; set; }
-
+		*/
 		/// <summary>
 		///     Права пользователя.
 		/// </summary>
