@@ -8,6 +8,10 @@ namespace MathSite.Db
 	// ReSharper disable once ClassNeverInstantiated.Global
 	public class MathSiteDbContext : DbContext
 	{
+		public MathSiteDbContext(DbContextOptions options) : base(options)
+		{
+		}
+
 		public DbSet<Person> Persons { get; set; }
 		public DbSet<User> Users { get; set; }
 		public DbSet<Group> Groups { get; set; }
@@ -15,10 +19,13 @@ namespace MathSite.Db
 		public DbSet<GroupsRights> GroupsRights { get; set; }
 		public DbSet<UsersRights> UsersRights { get; set; }
 
-		public MathSiteDbContext(DbContextOptions options) : base(options)
-		{
-		}
-
+		/// <summary>
+		///     Настраиваем сущности:
+		///     устанавливаем все ключи (первичные, внешние), связи между сущностями
+		/// </summary>
+		/// <param name="modelBuilder">
+		///     <inheritdoc cref="DbContext.OnModelCreating" />
+		/// </param>
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			SetUserModel(modelBuilder);
