@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using MathSite.Common;
 using MathSite.Controllers;
 using MathSite.Db;
-using MathSite.Models;
 using MathSite.ViewModels.Api.UsersInfo;
 using MathSite.ViewModels.Api.UsersInfo.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace MathSite.Areas.Api.Controllers
 {
@@ -60,17 +59,29 @@ namespace MathSite.Areas.Api.Controllers
 			}
 		}
 
-		[HttpGet]
-		public GetAllResponse GetAll(int offset = 0, int count = 50)
+		[HttpPost]
+		public GetAllResponse GetAll(int offset = 0, int count = 50, [FromBody] FilterAndSortData filterAndSortData = null)
 		{
 			try
 			{
+				var usersDbRequest = DbContext.Users
+					.Include(u => u.Person)
+					.Include(u => u.Group);
+
+				if (filterAndSortData?.SortData != null)
+				{
+					if (filterAndSortData.SortData.GroupSort != SortDirection.Default)
+					{
+						var isAscending = filterAndSortData.SortData.GroupSort == SortDirection.Ascending;
+						usersDbRequest = usersDbRequest.OrderBy(user => user.Group.Name, isAscending)
+							.Include(user => user.Group);
+					}
+				}
+
 				// TODO: избавиться от костыля, EF7 делает не корректный запрос с Include,
 				// а делать подзапросы отдельно не хочется.
 				// Утверждается, что ко 2й версии может появится возможность делать запросы вручную.
-				var users = DbContext.Users
-					.Include(u => u.Person)
-					.Include(u => u.Group)
+				var users = usersDbRequest
 					.Skip(offset)
 					.ToArray()
 					.Take(count)
