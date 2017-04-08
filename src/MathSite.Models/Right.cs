@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MathSite.Models
 {
-	public class Right: IEquatable<Right>
+	public class Right : IEquatable<Right>
 	{
 		public Guid Id { get; set; }
 		public string Name { get; set; }
@@ -25,7 +25,7 @@ namespace MathSite.Models
 			if (ReferenceEquals(null, obj)) return false;
 			if (ReferenceEquals(this, obj)) return true;
 			if (obj.GetType() != GetType()) return false;
-			return Equals((Right)obj);
+			return Equals((Right) obj);
 		}
 
 		/// <inheritdoc />

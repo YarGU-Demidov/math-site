@@ -22,7 +22,7 @@ namespace MathSite.Models
 		/// <summary>
 		/// </summary>
 		public string Description { get; set; }
-		
+
 		/// <summary>
 		/// </summary>
 		public Guid? ParentGroupId { get; set; }
@@ -38,7 +38,7 @@ namespace MathSite.Models
 		/// <summary>
 		/// </summary>
 		public GroupType GroupType { get; set; }
-		
+
 		/// <summary>
 		/// </summary>
 		public List<GroupsRights> GroupsRights { get; set; }
@@ -46,7 +46,7 @@ namespace MathSite.Models
 		/// <summary>
 		/// </summary>
 		public List<User> Users { get; set; }
-		
+
 		/// <summary>
 		/// </summary>
 		public List<PostGroupsAllowed> PostGroupsAllowed { get; set; }

@@ -23,10 +23,10 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 			modelBuilder.Entity<User>()
 				.Property(u => u.PasswordHash)
 				.IsRequired();
-		    modelBuilder.Entity<User>()
-		        .Property(u => u.CreationDate)
-		        .IsRequired();
-        }
+			modelBuilder.Entity<User>()
+				.Property(u => u.CreationDate)
+				.IsRequired();
+		}
 
 		/// <inheritdoc />
 		protected override void SetRelationships(ModelBuilder modelBuilder)
@@ -50,36 +50,36 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 				.HasForeignKey(usersRights => usersRights.UserId)
 				.OnDelete(DeleteBehavior.Cascade);
 
-		    modelBuilder.Entity<User>()
-		        .HasMany(user => user.Settings)
-		        .WithOne(settings => settings.User)
-		        .HasForeignKey(settings => settings.UserId)
-		        .OnDelete(DeleteBehavior.Cascade);
+			modelBuilder.Entity<User>()
+				.HasMany(user => user.Settings)
+				.WithOne(settings => settings.User)
+				.HasForeignKey(settings => settings.UserId)
+				.OnDelete(DeleteBehavior.Cascade);
 
-		    modelBuilder.Entity<User>()
-		        .HasMany(user => user.PostsOwner)
-		        .WithOne(postsOwner => postsOwner.User)
-		        .HasForeignKey(postsOwner => postsOwner.UserId)
-		        .OnDelete(DeleteBehavior.Cascade);
+			modelBuilder.Entity<User>()
+				.HasMany(user => user.PostsOwner)
+				.WithOne(postsOwner => postsOwner.User)
+				.HasForeignKey(postsOwner => postsOwner.UserId)
+				.OnDelete(DeleteBehavior.Cascade);
 
-		    modelBuilder.Entity<User>()
-		        .HasMany(user => user.AllowedPosts)
-		        .WithOne(allowedPosts => allowedPosts.User)
-		        .HasForeignKey(allowedPosts => allowedPosts.UserId)
-		        .OnDelete(DeleteBehavior.Cascade);
+			modelBuilder.Entity<User>()
+				.HasMany(user => user.AllowedPosts)
+				.WithOne(allowedPosts => allowedPosts.User)
+				.HasForeignKey(allowedPosts => allowedPosts.UserId)
+				.OnDelete(DeleteBehavior.Cascade);
 
-		    modelBuilder.Entity<User>()
-		        .HasMany(user => user.PostsRatings)
-		        .WithOne(postsRatings => postsRatings.User)
-		        .HasForeignKey(postsRatings => postsRatings.UserId)
-		        .OnDelete(DeleteBehavior.Cascade);
+			modelBuilder.Entity<User>()
+				.HasMany(user => user.PostsRatings)
+				.WithOne(postsRatings => postsRatings.User)
+				.HasForeignKey(postsRatings => postsRatings.UserId)
+				.OnDelete(DeleteBehavior.Cascade);
 
-		    modelBuilder.Entity<User>()
-		        .HasMany(user => user.Comments)
-		        .WithOne(comments => comments.User)
-		        .HasForeignKey(comments => comments.UserId)
-		        .OnDelete(DeleteBehavior.Cascade);
-        }
+			modelBuilder.Entity<User>()
+				.HasMany(user => user.Comments)
+				.WithOne(comments => comments.User)
+				.HasForeignKey(comments => comments.UserId)
+				.OnDelete(DeleteBehavior.Cascade);
+		}
 
 		/// <inheritdoc />
 		public override string ConfigurationName { get; } = "User";

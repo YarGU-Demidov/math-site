@@ -42,30 +42,30 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 				.HasForeignKey(user => user.GroupId)
 				.OnDelete(DeleteBehavior.Cascade);
 
-		    modelBuilder.Entity<Group>()
-		        .HasMany(group => group.GroupsRights)
-		        .WithOne(groupRights => groupRights.Group)
-		        .HasForeignKey(groupRights => groupRights.GroupId)
-		        .OnDelete(DeleteBehavior.Cascade);
+			modelBuilder.Entity<Group>()
+				.HasMany(group => group.GroupsRights)
+				.WithOne(groupRights => groupRights.Group)
+				.HasForeignKey(groupRights => groupRights.GroupId)
+				.OnDelete(DeleteBehavior.Cascade);
 
-		    modelBuilder.Entity<Group>()
-		        .HasOne(group => group.GroupType)
-		        .WithMany(groupType => groupType.Groups)
-		        .HasForeignKey(groupType => groupType.GroupTypeId)
-		        .OnDelete(DeleteBehavior.Cascade);
+			modelBuilder.Entity<Group>()
+				.HasOne(group => group.GroupType)
+				.WithMany(groupType => groupType.Groups)
+				.HasForeignKey(groupType => groupType.GroupTypeId)
+				.OnDelete(DeleteBehavior.Cascade);
 
-		    modelBuilder.Entity<Group>()
-		        .HasOne(group => group.ParentGroup)
-		        .WithOne(parentGroup => parentGroup.ParentGroup)
-		        .HasForeignKey<Group>(parentGroup => parentGroup.Id)
-		        .OnDelete(DeleteBehavior.Cascade);
+			modelBuilder.Entity<Group>()
+				.HasOne(group => group.ParentGroup)
+				.WithOne(parentGroup => parentGroup.ParentGroup)
+				.HasForeignKey<Group>(parentGroup => parentGroup.Id)
+				.OnDelete(DeleteBehavior.Cascade);
 
-		    modelBuilder.Entity<Group>()
-		        .HasMany(group => group.PostGroupsAllowed)
-		        .WithOne(postGroupsAllowed => postGroupsAllowed.Group)
-		        .HasForeignKey(postGroupsAllowed => postGroupsAllowed.GroupId)
-		        .OnDelete(DeleteBehavior.Cascade);
-        }
+			modelBuilder.Entity<Group>()
+				.HasMany(group => group.PostGroupsAllowed)
+				.WithOne(postGroupsAllowed => postGroupsAllowed.Group)
+				.HasForeignKey(postGroupsAllowed => postGroupsAllowed.GroupId)
+				.OnDelete(DeleteBehavior.Cascade);
+		}
 
 		/// <inheritdoc />
 		public override string ConfigurationName { get; } = "Groups";

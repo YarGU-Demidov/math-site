@@ -25,27 +25,27 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 				.Property(p => p.Surname)
 				.IsRequired();
 
-		    modelBuilder.Entity<Person>()
-		        .Property(p => p.MiddleName)
-		        .IsRequired(false);
+			modelBuilder.Entity<Person>()
+				.Property(p => p.MiddleName)
+				.IsRequired(false);
 
-		    modelBuilder.Entity<Person>()
-		        .Property(p => p.Birthday)
-		        .IsRequired();
+			modelBuilder.Entity<Person>()
+				.Property(p => p.Birthday)
+				.IsRequired();
 
-		    modelBuilder.Entity<Person>()
-		        .Property(p => p.Phone)
-		        .IsRequired(false);
+			modelBuilder.Entity<Person>()
+				.Property(p => p.Phone)
+				.IsRequired(false);
 
-		    modelBuilder.Entity<Person>()
-		        .Property(p => p.AdditionalPhone)
-		        .IsRequired(false);
+			modelBuilder.Entity<Person>()
+				.Property(p => p.AdditionalPhone)
+				.IsRequired(false);
 
-		    modelBuilder.Entity<Person>()
-		        .Property(p => p.CreationDate)
-		        .IsRequired();
+			modelBuilder.Entity<Person>()
+				.Property(p => p.CreationDate)
+				.IsRequired();
 
-        }
+		}
 
 		/// <inheritdoc />
 		protected override void SetRelationships(ModelBuilder modelBuilder)
@@ -57,13 +57,13 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);
 
-		    modelBuilder.Entity<Person>()
-		        .HasOne(person => person.Photo)
-		        .WithOne(user => user.Person)
-		        .HasForeignKey<File>(person => person.PersonId)
-		        .IsRequired()
-		        .OnDelete(DeleteBehavior.Cascade);
-        }
+			modelBuilder.Entity<Person>()
+				.HasOne(person => person.Photo)
+				.WithOne(user => user.Person)
+				.HasForeignKey<File>(person => person.PersonId)
+				.IsRequired()
+				.OnDelete(DeleteBehavior.Cascade);
+		}
 
 		/// <inheritdoc />
 		public override string ConfigurationName { get; } = "Person";

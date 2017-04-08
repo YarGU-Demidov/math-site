@@ -4,16 +4,16 @@ using System.Collections.Generic;
 namespace MathSite.Models
 {
 
-    /// <summary>
-    ///     Пользователь.
-    /// </summary>
-    public class User
+	/// <summary>
+	///     Пользователь.
+	/// </summary>
+	public class User
 	{
 
-        /// <summary>
-        ///     Идентификатор.
-        /// </summary>
-        public Guid Id { get; set; }
+		/// <summary>
+		///     Идентификатор.
+		/// </summary>
+		public Guid Id { get; set; }
 
 		/// <summary>
 		///     Логин.
@@ -45,11 +45,11 @@ namespace MathSite.Models
 		/// </summary>
 		public Group Group { get; set; }
 
-        /// <summary>
-        ///     Дата создания пользователя.
-        /// </summary>
-        public DateTime CreationDate { get; set; }
-		
+		/// <summary>
+		///     Дата создания пользователя.
+		/// </summary>
+		public DateTime CreationDate { get; set; }
+
 		/// <summary>
 		/// </summary>
 		public List<PostOwner> PostsOwner { get; set; }
@@ -69,7 +69,7 @@ namespace MathSite.Models
 		/// <summary>
 		/// </summary>
 		public List<UserSettings> Settings { get; set; }
-		
+
 		/// <summary>
 		///     Права пользователя.
 		/// </summary>
