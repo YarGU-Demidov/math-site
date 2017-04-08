@@ -36,7 +36,7 @@ namespace MathSite.Models
 		/// <summary>
 		/// 
 		/// </summary>
-		public Guid PersonId { get; set; }
+		public Guid? PersonId { get; set; }
 
 		/// <summary>
 		/// 
