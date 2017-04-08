@@ -3,11 +3,13 @@ using System.Collections.Generic;
 
 namespace MathSite.Models
 {
+
 	/// <summary>
 	///     Пользователь.
 	/// </summary>
 	public class User
 	{
+
 		/// <summary>
 		///     Идентификатор.
 		/// </summary>
@@ -26,7 +28,7 @@ namespace MathSite.Models
 		/// <summary>
 		///     Идентификатор личности.
 		/// </summary>
-		public Guid PersonId { get; set; }
+		public Guid? PersonId { get; set; }
 
 		/// <summary>
 		///     Личность.
@@ -42,7 +44,12 @@ namespace MathSite.Models
 		///     Группа, к которой относится пользователь.
 		/// </summary>
 		public Group Group { get; set; }
-		/*
+
+		/// <summary>
+		///     Дата создания пользователя.
+		/// </summary>
+		public DateTime CreationDate { get; set; }
+
 		/// <summary>
 		/// </summary>
 		public List<PostOwner> PostsOwner { get; set; }
@@ -62,7 +69,7 @@ namespace MathSite.Models
 		/// <summary>
 		/// </summary>
 		public List<UserSettings> Settings { get; set; }
-		*/
+
 		/// <summary>
 		///     Права пользователя.
 		/// </summary>

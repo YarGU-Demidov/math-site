@@ -25,11 +25,28 @@ namespace MathSite.Db
 			_configurator = configurator;
 		}
 
-		public DbSet<Person> Persons { get; set; }
-		public DbSet<User> Users { get; set; }
+		public DbSet<Category> Categories { get; set; }
+		public DbSet<Comment> Comments { get; set; }
+		public DbSet<File> Files { get; set; }
 		public DbSet<Group> Groups { get; set; }
-		public DbSet<Right> Rights { get; set; }
 		public DbSet<GroupsRights> GroupsRights { get; set; }
+		public DbSet<GroupType> GroupTypes { get; set; }
+		public DbSet<Keywords> Keywords { get; set; }
+		public DbSet<Person> Persons { get; set; }
+		public DbSet<Post> Posts { get; set; }
+		public DbSet<PostAttachment> PostAttachments { get; set; }
+		public DbSet<PostCategory> PostCategories { get; set; }
+		public DbSet<PostGroupsAllowed> PostGroupsAlloweds { get; set; }
+		public DbSet<PostKeywords> PostKeywords { get; set; }
+		public DbSet<PostOwner> PostOwners { get; set; }
+		public DbSet<PostRating> PostRatings { get; set; }
+		public DbSet<PostSeoSettings> PostSeoSettings { get; set; }
+		public DbSet<PostSettings> PostSettings { get; set; }
+		public DbSet<PostType> PostTypes { get; set; }
+		public DbSet<PostUserAllowed> PostUserAlloweds { get; set; }
+		public DbSet<Right> Rights { get; set; }
+		public DbSet<User> Users { get; set; }
+		public DbSet<UserSettings> UserSettingses { get; set; }
 		public DbSet<UsersRights> UsersRights { get; set; }
 
 		/// <summary>
@@ -39,13 +56,29 @@ namespace MathSite.Db
 		/// <param name="modelBuilder"><inheritdoc /></param>
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			_configurator.AddConfiguration(new UsersConfiguration());
-			_configurator.AddConfiguration(new PersonsConfiguration());
-			_configurator.AddConfiguration(new RightsConfiguration());
-			_configurator.AddConfiguration(new GroupsConfiguration());
+			_configurator.AddConfiguration(new CategoryConfiguration());
+			_configurator.AddConfiguration(new CommentConfiguration());
+			_configurator.AddConfiguration(new FilesConfiguration());
 			_configurator.AddConfiguration(new GroupRightsConfiguration());
+			_configurator.AddConfiguration(new GroupTypesConfiguration());
+			_configurator.AddConfiguration(new KeywordsConfiguration());
+			_configurator.AddConfiguration(new PersonsConfiguration());
+			_configurator.AddConfiguration(new PostAttachmentConfiguration());
+			_configurator.AddConfiguration(new PostCategoryConfiguration());
+			_configurator.AddConfiguration(new PostConfiguration());
+			_configurator.AddConfiguration(new PostGroupsAllowedConfiguration());
+			_configurator.AddConfiguration(new PostKeywordsConfiguration());
+			_configurator.AddConfiguration(new PostOwnerConfiguration());
+			_configurator.AddConfiguration(new PostRatingConfiguration());
+			_configurator.AddConfiguration(new PostSeoSettingsConfiguration());
+			_configurator.AddConfiguration(new PostSettingsConfiguration());
+			_configurator.AddConfiguration(new PostTypeConfiguration());
+			_configurator.AddConfiguration(new PostUsersAllowedConfiguration());
+			_configurator.AddConfiguration(new RightsConfiguration());
 			_configurator.AddConfiguration(new UserRightsConfiguration());
-			
+			_configurator.AddConfiguration(new UsersConfiguration());
+			_configurator.AddConfiguration(new UserSettingsConfiguration());
+
 			_configurator.Configure(modelBuilder);
 
 			modelBuilder.HasPostgresExtension("uuid-ossp");

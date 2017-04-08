@@ -14,9 +14,9 @@ namespace MathSite.Models
 		public string Excerpt { get; set; }
 		public string Content { get; set; }
 		public bool Published { get; set; }
-		public bool Deleted { get; set; }
+		public bool? Deleted { get; set; }
 		public DateTime PublishDate { get; set; }
-		public Guid PostTypeId { get; set; }
+		public Guid? PostTypeId { get; set; }
 		public PostType PostType { get; set; }
 		public List<PostCategory> PostCategories { get; set; }
 		public List<PostOwner> PostOwners { get; set; }
