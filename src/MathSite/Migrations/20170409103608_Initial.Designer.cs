@@ -8,8 +8,8 @@ using MathSite.Db;
 namespace MathSite.Migrations
 {
     [DbContext(typeof(MathSiteDbContext))]
-    [Migration("20170408204841_MainEntities")]
-    partial class MainEntities
+    [Migration("20170409103608_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -79,8 +79,7 @@ namespace MathSite.Migrations
                     b.Property<string>("FilePath")
                         .IsRequired();
 
-                    b.Property<Guid?>("PersonId")
-                        .IsRequired();
+                    b.Property<Guid?>("PersonId");
 
                     b.HasKey("Id");
 
@@ -149,7 +148,7 @@ namespace MathSite.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("GroupType");
+                    b.ToTable("GroupTypes");
                 });
 
             modelBuilder.Entity("MathSite.Models.Keywords", b =>
@@ -179,7 +178,9 @@ namespace MathSite.Migrations
 
                     b.Property<DateTime>("Birthday");
 
-                    b.Property<DateTime>("CreationDate");
+                    b.Property<DateTime?>("CreationDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<string>("MiddleName");
 
@@ -188,8 +189,7 @@ namespace MathSite.Migrations
 
                     b.Property<string>("Phone");
 
-                    b.Property<Guid?>("PhotoId")
-                        .IsRequired();
+                    b.Property<Guid?>("PhotoId");
 
                     b.Property<string>("Surname")
                         .IsRequired();
@@ -468,7 +468,9 @@ namespace MathSite.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreationDate");
+                    b.Property<DateTime?>("CreationDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<Guid>("GroupId");
 
@@ -478,8 +480,7 @@ namespace MathSite.Migrations
                     b.Property<string>("PasswordHash")
                         .IsRequired();
 
-                    b.Property<Guid?>("PersonId")
-                        .IsRequired();
+                    b.Property<Guid>("PersonId");
 
                     b.HasKey("Id");
 

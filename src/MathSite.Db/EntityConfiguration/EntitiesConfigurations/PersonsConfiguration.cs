@@ -42,8 +42,13 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 				.IsRequired(false);
 
 			modelBuilder.Entity<Person>()
+				.Property(p => p.PhotoId)
+				.IsRequired(false);
+
+			modelBuilder.Entity<Person>()
 				.Property(p => p.CreationDate)
-				.IsRequired();
+				.HasDefaultValueSql("NOW()")
+				.IsRequired(false);
 
 		}
 
@@ -60,8 +65,8 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 			modelBuilder.Entity<Person>()
 				.HasOne(person => person.Photo)
 				.WithOne(user => user.Person)
-				.HasForeignKey<File>(person => person.PersonId)
-				.IsRequired()
+				.HasForeignKey<File>(file => file.PersonId)
+				.IsRequired(false)
 				.OnDelete(DeleteBehavior.Cascade);
 		}
 

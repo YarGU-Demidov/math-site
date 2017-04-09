@@ -38,7 +38,7 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 				.HasOne(file => file.Person)
 				.WithOne(person => person.Photo)
 				.HasForeignKey<Person>(person => person.PhotoId)
-				.IsRequired()
+				.IsRequired(false)
 				.OnDelete(DeleteBehavior.Cascade);
 
 			modelBuilder.Entity<File>()
