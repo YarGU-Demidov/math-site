@@ -9,12 +9,12 @@ namespace MathSite.Db.DataSeeding.Seeders
 	public class UsersSeeder : AbstractSeeder
 	{
 		/// <inheritdoc />
-		public UsersSeeder(ILogger logger, MathSiteDbContext context, IPasswordHasher passwordHasher) : base(logger, context)
+		public UsersSeeder(ILogger logger, MathSiteDbContext context, IPasswordsManager passwordsManager) : base(logger, context)
 		{
-			PasswordHasher = passwordHasher;
+			PasswordManager = passwordsManager;
 		}
 
-		private IPasswordHasher PasswordHasher { get; }
+		private IPasswordsManager PasswordManager { get; }
 
 		/// <inheritdoc />
 		public override string SeedingObjectName { get; } = "Users";
@@ -70,7 +70,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 
 		private string GetPasswordHash(string password)
 		{
-			return PasswordHasher.GetHash(password);
+			return PasswordManager.CreatePasswordString(password);
 		}
 
 		private Person GetPersonByNames(string name, string surname, string middlename)

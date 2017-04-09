@@ -1,10 +1,15 @@
 ﻿namespace MathSite.Common.Crypto
 {
-	public class Passwords: IPasswordHasher
+	public class Passwords : IPasswordsManager
 	{
-		public string GetHash(string password)
+		public string CreatePasswordString(string password)
 		{
 			return password;
+		}
+
+		public bool PasswordsAreEqual(string firstPassword, string secondPassword)
+		{
+			return firstPassword == secondPassword;
 		}
 	}
 }

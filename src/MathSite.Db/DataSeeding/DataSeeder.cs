@@ -10,7 +10,7 @@ namespace MathSite.Db.DataSeeding
 	{
 		private readonly MathSiteDbContext _context;
 		private readonly ILogger _logger;
-		private readonly IPasswordHasher _passwordHasher;
+		private readonly IPasswordsManager _passwordHasher;
 
 		///  <summary>
 		/// 		Создается Data Seeder
@@ -18,7 +18,7 @@ namespace MathSite.Db.DataSeeding
 		///  <param name="context">Контекст базы сайта</param>
 		///  <param name="logger">Логгер</param>
 		/// <param name="passwordHasher">Парольный хэшировщик</param>
-		public DataSeeder(MathSiteDbContext context, ILogger<DataSeeder> logger, IPasswordHasher passwordHasher)
+		public DataSeeder(MathSiteDbContext context, ILogger<DataSeeder> logger, IPasswordsManager passwordHasher)
 		{
 			_context = context;
 			_logger = logger;
