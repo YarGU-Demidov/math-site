@@ -11,7 +11,7 @@ namespace MathSite.Models
 		public string Phone { get; set; }
 		public string AdditionalPhone { get; set; }
 		public DateTime Birthday { get; set; }
-		public DateTime CreationDate { get; set; }
+		public DateTime? CreationDate { get; set; }
 		public Guid? PhotoId { get; set; }
 		public File Photo { get; set; }
 

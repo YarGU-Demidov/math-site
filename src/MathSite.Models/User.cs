@@ -28,7 +28,7 @@ namespace MathSite.Models
 		/// <summary>
 		///     Идентификатор личности.
 		/// </summary>
-		public Guid? PersonId { get; set; }
+		public Guid PersonId { get; set; }
 
 		/// <summary>
 		///     Личность.
@@ -48,7 +48,7 @@ namespace MathSite.Models
 		/// <summary>
 		///     Дата создания пользователя.
 		/// </summary>
-		public DateTime CreationDate { get; set; }
+		public DateTime? CreationDate { get; set; }
 
 		/// <summary>
 		/// </summary>

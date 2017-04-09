@@ -25,7 +25,8 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 				.IsRequired();
 			modelBuilder.Entity<User>()
 				.Property(u => u.CreationDate)
-				.IsRequired();
+				.HasDefaultValueSql("NOW()")
+				.IsRequired(false);
 		}
 
 		/// <inheritdoc />
