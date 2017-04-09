@@ -64,7 +64,7 @@ namespace MathSite
 			services.AddLogging();
 
 			services.AddScoped<IDataSeeder, DataSeeder>();
-			services.AddScoped<IPasswordHasher, Passwords>();
+			services.AddScoped<IPasswordsManager, Passwords>();
 			services.AddScoped<IEntitiesConfigurator, EntitiesConfigurator>();
 		}
 

@@ -16,9 +16,9 @@ namespace MathSite.Areas.Api.Controllers
 	[Area("Api")]
 	public class AuthController : BaseController
 	{
-		private readonly IPasswordHasher _passwordHasher;
+		private readonly IPasswordsManager _passwordHasher;
 
-		public AuthController(MathSiteDbContext dbContext, IPasswordHasher passwordHasher) : base(dbContext)
+		public AuthController(MathSiteDbContext dbContext, IPasswordsManager passwordHasher) : base(dbContext)
 		{
 			_passwordHasher = passwordHasher;
 		}
@@ -39,7 +39,7 @@ namespace MathSite.Areas.Api.Controllers
 			if (ourUser == null)
 				return new LoginResult(LoginStatus.UserDoesntExists);
 
-			if (_passwordHasher.GetHash(password) != ourUser.PasswordHash)
+			if (_passwordHasher.PasswordsAreEqual(password, ourUser.PasswordHash))
 				return new LoginResult(LoginStatus.WrongPassword);
 
 			await HttpContext.Authentication.SignInAsync(
