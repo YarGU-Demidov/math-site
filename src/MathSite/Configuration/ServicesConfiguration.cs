@@ -50,10 +50,10 @@ namespace MathSite
 		{
 			services.AddAuthorization(options =>
 			{
-				options.AddPolicy("admin", builder => builder.Requirements.Add(new SiteSectionAccess(RightsAliases.AdminAccess)));
-				options.AddPolicy("peronal-page", builder => builder.Requirements.Add(new SiteSectionAccess(RightsAliases.PanelAccess)));
+				options.AddPolicy("admin", builder => builder.Requirements.Add(new SiteSectionAccess(RightAliases.AdminAccess)));
+				options.AddPolicy("peronal-page", builder => builder.Requirements.Add(new SiteSectionAccess(RightAliases.PanelAccess)));
 
-				options.AddPolicy("logout", builder => builder.Requirements.Add(new SiteSectionAccess(RightsAliases.LogoutAccess)));
+				options.AddPolicy("logout", builder => builder.Requirements.Add(new SiteSectionAccess(RightAliases.LogoutAccess)));
 			});
 
 			services.AddSingleton<IAuthorizationHandler, SiteSectionAccessHandler>();

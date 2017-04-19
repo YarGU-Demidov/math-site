@@ -8,7 +8,7 @@ using MathSite.Db;
 namespace MathSite.Migrations
 {
     [DbContext(typeof(MathSiteDbContext))]
-    [Migration("20170409103608_Initial")]
+    [Migration("20170418211109_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,13 +47,12 @@ namespace MathSite.Migrations
 
                     b.Property<DateTime>("Date");
 
-                    b.Property<Guid?>("PostId")
-                        .IsRequired();
+                    b.Property<Guid>("PostId");
 
                     b.Property<string>("Text")
                         .IsRequired();
 
-                    b.Property<Guid?>("UserId");
+                    b.Property<Guid>("UserId");
 
                     b.HasKey("Id");
 
@@ -98,7 +97,7 @@ namespace MathSite.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<Guid?>("GroupTypeId");
+                    b.Property<Guid>("GroupTypeId");
 
                     b.Property<string>("Name");
 
@@ -120,10 +119,9 @@ namespace MathSite.Migrations
 
                     b.Property<bool>("Allowed");
 
-                    b.Property<Guid?>("GroupId");
+                    b.Property<Guid>("GroupId");
 
-                    b.Property<Guid?>("RightId")
-                        .IsRequired();
+                    b.Property<Guid>("RightId");
 
                     b.HasKey("Id");
 
@@ -217,8 +215,11 @@ namespace MathSite.Migrations
                     b.Property<string>("Excerpt")
                         .IsRequired();
 
-                    b.Property<Guid?>("PostTypeId")
-                        .IsRequired();
+                    b.Property<Guid?>("PostSeoSettingsId");
+
+                    b.Property<Guid?>("PostSettingsId");
+
+                    b.Property<Guid?>("PostTypeId");
 
                     b.Property<DateTime>("PublishDate");
 
@@ -228,6 +229,12 @@ namespace MathSite.Migrations
                         .IsRequired();
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PostSeoSettingsId")
+                        .IsUnique();
+
+                    b.HasIndex("PostSettingsId")
+                        .IsUnique();
 
                     b.HasIndex("PostTypeId");
 
@@ -241,11 +248,9 @@ namespace MathSite.Migrations
 
                     b.Property<bool>("Allowed");
 
-                    b.Property<Guid?>("FileId")
-                        .IsRequired();
+                    b.Property<Guid>("FileId");
 
-                    b.Property<Guid?>("PostId")
-                        .IsRequired();
+                    b.Property<Guid>("PostId");
 
                     b.HasKey("Id");
 
@@ -261,11 +266,9 @@ namespace MathSite.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid?>("CategoryId")
-                        .IsRequired();
+                    b.Property<Guid>("CategoryId");
 
-                    b.Property<Guid?>("PostId")
-                        .IsRequired();
+                    b.Property<Guid>("PostId");
 
                     b.HasKey("Id");
 
@@ -285,8 +288,7 @@ namespace MathSite.Migrations
 
                     b.Property<Guid?>("GroupId");
 
-                    b.Property<Guid?>("PostId")
-                        .IsRequired();
+                    b.Property<Guid?>("PostId");
 
                     b.HasKey("Id");
 
@@ -302,11 +304,9 @@ namespace MathSite.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid?>("KeywordId")
-                        .IsRequired();
+                    b.Property<Guid>("KeywordId");
 
-                    b.Property<Guid?>("PostSeoSettingsId")
-                        .IsRequired();
+                    b.Property<Guid>("PostSeoSettingsId");
 
                     b.HasKey("Id");
 
@@ -322,10 +322,9 @@ namespace MathSite.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid?>("PostId")
-                        .IsRequired();
+                    b.Property<Guid>("PostId");
 
-                    b.Property<Guid?>("UserId");
+                    b.Property<Guid>("UserId");
 
                     b.HasKey("Id");
 
@@ -343,10 +342,9 @@ namespace MathSite.Migrations
 
                     b.Property<bool>("Allowed");
 
-                    b.Property<Guid?>("PostId")
-                        .IsRequired();
+                    b.Property<Guid>("PostId");
 
-                    b.Property<Guid?>("UserId");
+                    b.Property<Guid>("UserId");
 
                     b.Property<bool?>("Value")
                         .IsRequired();
@@ -367,16 +365,13 @@ namespace MathSite.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<Guid?>("PostId")
-                        .IsRequired();
+                    b.Property<Guid>("PostId");
 
                     b.Property<string>("Title");
 
                     b.Property<string>("Url");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PostId");
 
                     b.ToTable("PostSeoSettings");
                 });
@@ -390,7 +385,8 @@ namespace MathSite.Migrations
 
                     b.Property<bool?>("IsCommentsAllowed");
 
-                    b.Property<Guid?>("PostId");
+                    b.Property<Guid?>("PostId")
+                        .IsRequired();
 
                     b.Property<bool?>("PostOnStartPage");
 
@@ -400,9 +396,8 @@ namespace MathSite.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PostId");
-
-                    b.HasIndex("PostTypeId");
+                    b.HasIndex("PostTypeId")
+                        .IsUnique();
 
                     b.HasIndex("PreviewImageId");
 
@@ -413,6 +408,8 @@ namespace MathSite.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<Guid?>("DefaultPostsSettingsId");
 
                     b.Property<string>("TypeName")
                         .IsRequired();
@@ -429,10 +426,9 @@ namespace MathSite.Migrations
 
                     b.Property<bool>("Allowed");
 
-                    b.Property<Guid?>("PostId")
-                        .IsRequired();
+                    b.Property<Guid>("PostId");
 
-                    b.Property<Guid?>("UserId");
+                    b.Property<Guid>("UserId");
 
                     b.HasKey("Id");
 
@@ -500,7 +496,7 @@ namespace MathSite.Migrations
                     b.Property<string>("Namespace")
                         .IsRequired();
 
-                    b.Property<Guid?>("UserId");
+                    b.Property<Guid>("UserId");
 
                     b.Property<string>("Value")
                         .IsRequired();
@@ -519,10 +515,9 @@ namespace MathSite.Migrations
 
                     b.Property<bool>("Allowed");
 
-                    b.Property<Guid?>("RightId")
-                        .IsRequired();
+                    b.Property<Guid>("RightId");
 
-                    b.Property<Guid?>("UserId");
+                    b.Property<Guid>("UserId");
 
                     b.HasKey("Id");
 
@@ -589,6 +584,16 @@ namespace MathSite.Migrations
 
             modelBuilder.Entity("MathSite.Models.Post", b =>
                 {
+                    b.HasOne("MathSite.Models.PostSeoSettings", "PostSeoSettings")
+                        .WithOne("Post")
+                        .HasForeignKey("MathSite.Models.Post", "PostSeoSettingsId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MathSite.Models.PostSettings", "PostSettings")
+                        .WithOne("Post")
+                        .HasForeignKey("MathSite.Models.Post", "PostSettingsId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("MathSite.Models.PostType", "PostType")
                         .WithMany("Posts")
                         .HasForeignKey("PostTypeId")
@@ -673,24 +678,11 @@ namespace MathSite.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("MathSite.Models.PostSeoSettings", b =>
-                {
-                    b.HasOne("MathSite.Models.Post", "Post")
-                        .WithMany("PostSeoSettings")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("MathSite.Models.PostSettings", b =>
                 {
-                    b.HasOne("MathSite.Models.Post", "Post")
-                        .WithMany("PostSettings")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("MathSite.Models.PostType", "PostType")
-                        .WithMany("DefaultPostsSettings")
-                        .HasForeignKey("PostTypeId")
+                        .WithOne("DefaultPostsSettings")
+                        .HasForeignKey("MathSite.Models.PostSettings", "PostTypeId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("MathSite.Models.File", "PreviewImage")

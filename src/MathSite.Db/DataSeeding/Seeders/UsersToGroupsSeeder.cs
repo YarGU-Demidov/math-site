@@ -4,8 +4,10 @@ using Microsoft.Extensions.Logging;
 
 namespace MathSite.Db.DataSeeding.Seeders
 {
+	using StaticData;
+
 	/// <inheritdoc />
-	public class UsersToGroupsSeeder: AbstractSeeder
+	public class UsersToGroupsSeeder : AbstractSeeder
 	{
 		/// <inheritdoc />
 		public UsersToGroupsSeeder(ILogger logger, MathSiteDbContext context) : base(logger, context)
@@ -13,7 +15,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 		}
 
 		/// <inheritdoc />
-		public override string SeedingObjectName { get; } = "Users to Groups";
+		public override string SeedingObjectName { get; } = "UsersToGroups";
 
 		/// <inheritdoc />
 		protected override bool DbContainsEntities()
@@ -30,14 +32,14 @@ namespace MathSite.Db.DataSeeding.Seeders
 		/// <inheritdoc />
 		protected override void SeedData()
 		{
-			var adminGroup = GetGroupByAlias(GroupsAliases.Admin);
-			var usersGroup = GetGroupByAlias(GroupsAliases.User);
+			var adminGroup = GetGroupByAlias(GroupAliases.Admin);
+			var usersGroup = GetGroupByAlias(GroupAliases.User);
 
-			var mokeev1995 = GetUserByLogin("mokeev1995");
-			var testUser = GetUserByLogin("test");
+			var firstUser = GetUserByLogin("mokeev1995");
+			var secondUser = GetUserByLogin("test");
 
-			mokeev1995.Group = adminGroup;
-			testUser.Group = usersGroup;
+			firstUser.Group = adminGroup;
+			secondUser.Group = usersGroup;
 		}
 
 		private Group GetGroupByAlias(string alias)

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 {
 	/// <inheritdoc />
-	public class FilesConfiguration : AbstractEntityConfiguration
+	public class FileConfiguration : AbstractEntityConfiguration
 	{
 		/// <inheritdoc />
 		protected override void SetPrimaryKey(ModelBuilder modelBuilder)
@@ -38,7 +38,7 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 				.HasOne(file => file.Person)
 				.WithOne(person => person.Photo)
 				.HasForeignKey<Person>(person => person.PhotoId)
-				.IsRequired(false)
+				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);
 
 			modelBuilder.Entity<File>()

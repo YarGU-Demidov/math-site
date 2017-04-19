@@ -47,75 +47,75 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 			modelBuilder.Entity<Post>()
 				.HasOne(post => post.PostType)
 				.WithMany(postType => postType.Posts)
-				.HasForeignKey(post => post.PostTypeId)
-				.IsRequired(false)
+				.HasForeignKey(postType => postType.PostTypeId)
+				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);
 
 			modelBuilder.Entity<Post>()
 				.HasMany(post => post.PostCategories)
-				.WithOne(postCategories => postCategories.Post)
-				.HasForeignKey(post => post.PostId)
+				.WithOne(postCategory => postCategory.Post)
+				.HasForeignKey(postCategory => postCategory.PostId)
 				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);
 
 			modelBuilder.Entity<Post>()
-				.HasMany(post => post.PostSeoSettings)
-				.WithOne(postSeoSettings => postSeoSettings.Post)
-				.HasForeignKey(post => post.PostId)
-				.IsRequired(false)
+				.HasOne(post => post.PostSeoSettings)
+				.WithOne(postSeoSetting => postSeoSetting.Post)
+				.HasForeignKey<PostSeoSettings>(postSeoSetting => postSeoSetting.PostId)
+				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);
 
 			modelBuilder.Entity<Post>()
 				.HasMany(post => post.PostAttachments)
-				.WithOne(postAttachments => postAttachments.Post)
-				.HasForeignKey(post => post.PostId)
+				.WithOne(postAttachment => postAttachment.Post)
+				.HasForeignKey(postAttachment => postAttachment.PostId)
 				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);
 
 			modelBuilder.Entity<Post>()
-				.HasMany(post => post.PostSettings)
-				.WithOne(postSettings => postSettings.Post)
-				.HasForeignKey(post => post.PostId)
-				.IsRequired(false)
+				.HasOne(post => post.PostSettings)
+				.WithOne(postSetting => postSetting.Post)
+				.HasForeignKey<PostSettings>(postSetting => postSetting.PostId)
+				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);
 
 			modelBuilder.Entity<Post>()
 				.HasMany(post => post.Comments)
-				.WithOne(comments => comments.Post)
-				.HasForeignKey(post => post.PostId)
+				.WithOne(comment => comment.Post)
+				.HasForeignKey(comment => comment.PostId)
 				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);
 
 			modelBuilder.Entity<Post>()
 				.HasMany(post => post.GroupsAllowed)
-				.WithOne(groupsAllowed => groupsAllowed.Post)
-				.HasForeignKey(post => post.PostId)
+				.WithOne(groupAllowed => groupAllowed.Post)
+				.HasForeignKey(groupAllowed => groupAllowed.PostId)
 				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);
 
 			modelBuilder.Entity<Post>()
 				.HasMany(post => post.PostOwners)
-				.WithOne(postOwners => postOwners.Post)
-				.HasForeignKey(post => post.PostId)
+				.WithOne(postOwner => postOwner.Post)
+				.HasForeignKey(postOwner => postOwner.PostId)
 				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);
 
 			modelBuilder.Entity<Post>()
 				.HasMany(post => post.PostRatings)
-				.WithOne(postRatings => postRatings.Post)
-				.HasForeignKey(post => post.PostId)
+				.WithOne(postRating => postRating.Post)
+				.HasForeignKey(postRating => postRating.PostId)
 				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);
 
 			modelBuilder.Entity<Post>()
 				.HasMany(post => post.UsersAllowed)
-				.WithOne(usersAllowed => usersAllowed.Post)
-				.HasForeignKey(post => post.PostId)
+				.WithOne(userAllowed => userAllowed.Post)
+				.HasForeignKey(userAllowed => userAllowed.PostId)
 				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);
 		}
 
 		/// <inheritdoc />
-		public override string ConfigurationName { get; } = "Keyword";
+		public override string ConfigurationName { get; } = "Post";
 	}
 }

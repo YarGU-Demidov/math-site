@@ -32,12 +32,14 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 				.HasOne(comment => comment.User)
 				.WithMany(user => user.Comments)
 				.HasForeignKey(comment => comment.UserId)
+				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);
 
 			modelBuilder.Entity<Comment>()
 				.HasOne(comment => comment.Post)
 				.WithMany(post => post.Comments)
 				.HasForeignKey(comment => comment.PostId)
+				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);
 		}
 
