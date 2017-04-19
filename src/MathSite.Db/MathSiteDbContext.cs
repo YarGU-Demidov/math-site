@@ -58,11 +58,11 @@ namespace MathSite.Db
 		{
 			_configurator.AddConfiguration(new CategoryConfiguration());
 			_configurator.AddConfiguration(new CommentConfiguration());
-			_configurator.AddConfiguration(new FilesConfiguration());
+			_configurator.AddConfiguration(new FileConfiguration());
 			_configurator.AddConfiguration(new GroupRightsConfiguration());
-			_configurator.AddConfiguration(new GroupTypesConfiguration());
+			_configurator.AddConfiguration(new GroupTypeConfiguration());
 			_configurator.AddConfiguration(new KeywordsConfiguration());
-			_configurator.AddConfiguration(new PersonsConfiguration());
+			_configurator.AddConfiguration(new PersonConfiguration());
 			_configurator.AddConfiguration(new PostAttachmentConfiguration());
 			_configurator.AddConfiguration(new PostCategoryConfiguration());
 			_configurator.AddConfiguration(new PostConfiguration());
@@ -73,10 +73,10 @@ namespace MathSite.Db
 			_configurator.AddConfiguration(new PostSeoSettingsConfiguration());
 			_configurator.AddConfiguration(new PostSettingsConfiguration());
 			_configurator.AddConfiguration(new PostTypeConfiguration());
-			_configurator.AddConfiguration(new PostUsersAllowedConfiguration());
-			_configurator.AddConfiguration(new RightsConfiguration());
+			_configurator.AddConfiguration(new PostUserAllowedConfiguration());
+			_configurator.AddConfiguration(new RightConfiguration());
 			_configurator.AddConfiguration(new UserRightsConfiguration());
-			_configurator.AddConfiguration(new UsersConfiguration());
+			_configurator.AddConfiguration(new UserConfiguration());
 			_configurator.AddConfiguration(new UserSettingsConfiguration());
 
 			_configurator.Configure(modelBuilder);

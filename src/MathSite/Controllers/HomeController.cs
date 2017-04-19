@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using MathSite.Db;
-using MathSite.Db.DataSeeding;
+using MathSite.Db.DataSeeding.StaticData;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MathSite.Controllers
@@ -13,7 +13,7 @@ namespace MathSite.Controllers
 
 		public IActionResult Index()
 		{
-			var data = DbContext.Groups.Where(group => group.Alias == GroupsAliases.Admin)
+			var data = DbContext.Groups.Where(group => group.Alias == GroupAliases.Admin)
 				.SelectMany(group => group.Users)
 				.Select(
 					user =>

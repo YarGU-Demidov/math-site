@@ -17,7 +17,7 @@ namespace MathSite.Models
 		/// <summary>
 		/// 
 		/// </summary>
-		public Guid? PostId { get; set; }
+		public Guid PostId { get; set; }
 
 		/// <summary>
 		/// 
@@ -27,7 +27,7 @@ namespace MathSite.Models
 		/// <summary>
 		/// 
 		/// </summary>
-		public Guid? UserId { get; set; }
+		public Guid UserId { get; set; }
 
 		/// <summary>
 		/// 

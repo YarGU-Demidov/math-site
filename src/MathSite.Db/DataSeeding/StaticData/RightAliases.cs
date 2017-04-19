@@ -1,6 +1,6 @@
 ﻿namespace MathSite.Db.DataSeeding.StaticData
 {
-	public static class RightsAliases
+	public static class RightAliases
 	{
 		public const string AdminAccess = "admin";
 		public const string LogoutAccess = "logout";

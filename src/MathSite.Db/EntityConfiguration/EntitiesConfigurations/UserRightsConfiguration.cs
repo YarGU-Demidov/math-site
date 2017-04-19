@@ -39,6 +39,6 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 		}
 
 		/// <inheritdoc />
-		public override string ConfigurationName { get; } = "UserRight";
+		public override string ConfigurationName { get; } = "UserRights";
 	}
 }

@@ -33,7 +33,7 @@ namespace MathSite.Models
 
 		/// <summary>
 		/// </summary>
-		public Guid? GroupTypeId { get; set; }
+		public Guid GroupTypeId { get; set; }
 
 		/// <summary>
 		/// </summary>

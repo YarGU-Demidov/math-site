@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 {
-	public class PostUsersAllowedConfiguration : AbstractEntityConfiguration
+	public class PostUserAllowedConfiguration : AbstractEntityConfiguration
 	{
 		/// <inheritdoc />
 		protected override void SetPrimaryKey(ModelBuilder modelBuilder)

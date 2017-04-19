@@ -41,6 +41,6 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 		}
 
 		/// <inheritdoc />
-		public override string ConfigurationName { get; } = "Keyword";
+		public override string ConfigurationName { get; } = "Keywords";
 	}
 }

@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 namespace MathSite.Db.DataSeeding
 {
 	/// <inheritdoc />
-	public class DataSeeder: IDataSeeder
+	public class DataSeeder : IDataSeeder
 	{
 		private readonly MathSiteDbContext _context;
 		private readonly ILogger _logger;
@@ -55,12 +55,30 @@ namespace MathSite.Db.DataSeeding
 		{
 			return new List<ISeeder>
 			{
-				new PersonsSeeder(_logger, _context),
-				new GroupsSeeder(_logger, _context),
-				new RightsSeeder(_logger, _context),
-				new GroupRightsRelationSeeder(_logger, _context),
-				new UsersSeeder(_logger, _context, _passwordHasher),
-				new UsersToGroupsSeeder(_logger, _context)
+				new GroupTypeSeeder(_logger, _context),
+				new GroupSeeder(_logger, _context),
+				new FileSeeder(_logger, _context),
+				new PersonSeeder(_logger, _context),
+				new RightSeeder(_logger, _context),
+				new GroupRightsSeeder(_logger, _context),
+				new PostSettingsSeeder(_logger, _context),
+				new PostTypeSeeder(_logger, _context),
+				new PostSeeder(_logger, _context),
+				new UserSeeder(_logger, _context, _passwordHasher),
+				new CommentSeeder(_logger, _context),
+				new PostGroupsAllowedSeeder(_logger, _context),
+				new PostRatingSeeder(_logger, _context),
+				new PostUserAllowedSeeder(_logger, _context),
+				new PostOwnerSeeder(_logger, _context),
+				new UsersToGroupsSeeder(_logger, _context),
+				new UserRightsSeeder(_logger, _context),
+				new UserSettingsSeeder(_logger, _context),
+				new CategorySeeder(_logger, _context),
+				new PostCategorySeeder(_logger, _context),
+				new PostAttachmentSeeder(_logger, _context),
+				new PostSeoSettingsSeeder(_logger, _context),
+				new KeywordSeeder(_logger, _context),
+				new PostKeywordsSeeder(_logger, _context)
 			};
 		}
 	}

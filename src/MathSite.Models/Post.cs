@@ -18,14 +18,16 @@ namespace MathSite.Models
 		public DateTime PublishDate { get; set; }
 		public Guid? PostTypeId { get; set; }
 		public PostType PostType { get; set; }
+		public Guid? PostSettingsId { get; set; }
+		public PostSettings PostSettings { get; set; }
+		public Guid? PostSeoSettingsId { get; set; }
+		public PostSeoSettings PostSeoSettings { get; set; }
 		public List<PostCategory> PostCategories { get; set; }
-		public List<PostOwner> PostOwners { get; set; }
-		public List<PostSettings> PostSettings { get; set; }
+		public List<PostOwner> PostOwners { get; set; }		
 		public List<PostUserAllowed> UsersAllowed { get; set; }
 		public List<PostRating> PostRatings { get; set; }
 		public List<Comment> Comments { get; set; }
-		public List<PostAttachment> PostAttachments { get; set; }
-		public List<PostSeoSettings> PostSeoSettings { get; set; }
+		public List<PostAttachment> PostAttachments { get; set; }		
 		public List<PostGroupsAllowed> GroupsAllowed { get; set; }
 	}
 }

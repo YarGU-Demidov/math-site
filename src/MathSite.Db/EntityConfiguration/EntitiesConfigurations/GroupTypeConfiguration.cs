@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 {
-	public class GroupTypesConfiguration : AbstractEntityConfiguration
+	public class GroupTypeConfiguration : AbstractEntityConfiguration
 	{
 		/// <inheritdoc />
 		protected override void SetPrimaryKey(ModelBuilder modelBuilder)
@@ -39,6 +39,7 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 				.HasMany(groupType => groupType.Groups)
 				.WithOne(group => group.GroupType)
 				.HasForeignKey(group => group.GroupTypeId)
+				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);
 		}
 

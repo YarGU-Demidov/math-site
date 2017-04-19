@@ -11,7 +11,8 @@ namespace MathSite.Models
 	{
 		public Guid Id { get; set; }
 		public string TypeName { get; set; }
-		public List<PostSettings> DefaultPostsSettings { get; set; }
+		public Guid? DefaultPostsSettingsId { get; set; }
+		public PostSettings DefaultPostsSettings { get; set; }
 		public List<Post> Posts { get; set; }
 	}
 }

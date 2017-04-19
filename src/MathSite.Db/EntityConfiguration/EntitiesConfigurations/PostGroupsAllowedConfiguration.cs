@@ -28,12 +28,14 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 				.HasOne(postGroupsAllowed => postGroupsAllowed.Post)
 				.WithMany(post => post.GroupsAllowed)
 				.HasForeignKey(postGroupsAllowed => postGroupsAllowed.PostId)
+				.IsRequired(false)
 				.OnDelete(DeleteBehavior.Cascade);
 
 			modelBuilder.Entity<PostGroupsAllowed>()
 				.HasOne(postGroupsAllowed => postGroupsAllowed.Group)
 				.WithMany(post => post.PostGroupsAllowed)
 				.HasForeignKey(postGroupsAllowed => postGroupsAllowed.GroupId)
+				.IsRequired(false)
 				.OnDelete(DeleteBehavior.Cascade);
 		}
 
