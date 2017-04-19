@@ -2,6 +2,7 @@
 using System.Linq;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace MathSite.Db.DataSeeding.Seeders
@@ -36,7 +37,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 				"second url",
 				"second title",
 				"second description",
-				GetPostByPostTypeAlias(PostAliases.SecondPost)
+				GetPostByPostTypeAlias(PostTypeAliases.StaticPage)
 			);
 
 			var postSeoSettings = new[]
@@ -50,7 +51,10 @@ namespace MathSite.Db.DataSeeding.Seeders
 
 		private Post GetPostByPostTypeAlias(string alias)
 		{
-			return Context.Posts.First(post => post.PostType.TypeName == alias);
+			var posts = Context.Posts
+				.Include(post => post.PostType);
+
+			return posts.First(post => post.PostType.TypeName == alias);
 		}
 
 		private static PostSeoSettings CreatePostSeoSettings(string url, string title, string description, Post post)
