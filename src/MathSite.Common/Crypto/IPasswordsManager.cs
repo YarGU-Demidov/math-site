@@ -2,7 +2,7 @@
 {
 	public interface IPasswordsManager
 	{
-		string CreatePasswordString(string password);
-		bool PasswordsAreEqual(string firstPassword, string secondPassword);
+		string CreatePasswordString(string login, string password);
+		bool PasswordsAreEqual(string login, string passwordForVerification, string hashForVerification);
 	}
 }
