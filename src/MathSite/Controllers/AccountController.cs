@@ -43,7 +43,7 @@ namespace MathSite.Controllers
 			var ourUser = DbContext.Users.Include(user1 => user1.Group)
 				.ThenInclude(group => group.GroupsRights)
 				.FirstOrDefault(
-					user => user.Login == model.Login && _passwordHasher.PasswordsAreEqual(model.Password, user.PasswordHash)
+					user => user.Login == model.Login && _passwordHasher.PasswordsAreEqual(model.Login, model.Password, user.PasswordHash)
 				);
 
 			if (ourUser == null)
@@ -85,7 +85,7 @@ namespace MathSite.Controllers
 			return
 				await
 					DbContext.Users.FirstOrDefaultAsync(
-						user => user.Login == login && _passwordHasher.PasswordsAreEqual(password, user.PasswordHash)) != null
+						user => user.Login == login && _passwordHasher.PasswordsAreEqual(login, password, user.PasswordHash)) != null
 					? Json(true)
 					: Json("Пароль неверен");
 		}
