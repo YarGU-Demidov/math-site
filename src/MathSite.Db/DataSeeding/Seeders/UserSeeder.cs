@@ -33,17 +33,19 @@ namespace MathSite.Db.DataSeeding.Seeders
 		/// <inheritdoc />
 		protected override void SeedData()
 		{
+			var firstLogin = "mokeev1995";
 			var firstUser = CreateUser(
-				"mokeev1995",
-				GetPasswordHash("test"),
+				firstLogin,
+				GetPasswordHash(firstLogin, "test"),
 				GetPersonByNames("Андрей", "Мокеев", "Александрович"),
 				GetGroupByAlias(GroupAliases.Admin),
 				DateTime.Now
 			);
 
+			var secondLogin = "andrey_devyatkin";
 			var secondUser = CreateUser(
-				"andrey_devyatkin",
-				GetPasswordHash("qwerty"),
+				secondLogin,
+				GetPasswordHash(secondLogin, "qwerty"),
 				GetPersonByNames("Андрей", "Девяткин", "Вячеславович"),
 				GetGroupByAlias(GroupAliases.User),
 				DateTime.Now
@@ -64,9 +66,9 @@ namespace MathSite.Db.DataSeeding.Seeders
 			return Context.Groups.First(group => group.Alias == alias);
 		}
 
-		private string GetPasswordHash(string password)
+		private string GetPasswordHash(string login, string password)
 		{
-			return PasswordManager.CreatePasswordString(password);
+			return PasswordManager.CreatePasswordString(login, password);
 		}
 
 		private Person GetPersonByNames(string name, string surname, string middlename)

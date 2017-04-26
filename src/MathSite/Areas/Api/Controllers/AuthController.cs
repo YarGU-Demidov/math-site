@@ -39,7 +39,7 @@ namespace MathSite.Areas.Api.Controllers
 			if (ourUser == null)
 				return new LoginResult(LoginStatus.UserDoesntExists);
 
-			if (_passwordHasher.PasswordsAreEqual(password, ourUser.PasswordHash))
+			if (_passwordHasher.PasswordsAreEqual(login, password, ourUser.PasswordHash))
 				return new LoginResult(LoginStatus.WrongPassword);
 
 			await HttpContext.Authentication.SignInAsync(
