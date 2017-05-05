@@ -2,24 +2,22 @@
 using MathSite.Db.EntityConfiguration.EntitiesConfigurations;
 using MathSite.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 
 namespace MathSite.Db
 {
-	// ReSharper disable once ClassNeverInstantiated.Global
 	/// <summary>
-	///		Контекст сайта
+	///		Контекст сайта.
 	/// </summary>
-	public class MathSiteDbContext : DbContext
+	public class MathSiteDbContext : DbContext, IMathSiteDbContext
 	{
 		private readonly IEntitiesConfigurator _configurator;
 
-		/// <summary>
-		///		Контекст
-		/// </summary>
-		/// <param name="options"><inheritdoc /></param>
-		/// <param name="configurator">Конфигуратор моделей</param>
+		///  <summary>
+		/// 		Контекст.
+		///  </summary>
+		/// <param name="options">Настройки контекста.</param>
+		///  <param name="configurator">Конфигуратор моделей.</param>
 		public MathSiteDbContext(DbContextOptions options, IEntitiesConfigurator configurator) : base(options)
 		{
 			_configurator = configurator;
@@ -50,8 +48,7 @@ namespace MathSite.Db
 		public DbSet<UsersRights> UsersRights { get; set; }
 
 		/// <summary>
-		///     Настраиваем сущности: <br />
-		///     устанавливаем все ключи (первичные, внешние), связи между сущностями
+		///		Добавление конфигурации сущностей.
 		/// </summary>
 		/// <param name="modelBuilder"><inheritdoc /></param>
 		protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.6</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MathSite.Common\MathSite.Common.csproj" />
+    <ProjectReference Include="..\MathSite.Db\MathSite.Db.csproj" />
+    <ProjectReference Include="..\MathSite.Models\MathSite.Models.csproj" />
+  </ItemGroup>
+
+</Project>

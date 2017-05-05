@@ -5,6 +5,10 @@ using MathSite.Db;
 using MathSite.Db.DataSeeding;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Db.EntityConfiguration;
+using MathSite.Domain.Common;
+using MathSite.Domain.Logic.Groups;
+using MathSite.Domain.Logic.Persons;
+using MathSite.Domain.Logic.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
@@ -51,7 +55,8 @@ namespace MathSite
 			services.AddAuthorization(options =>
 			{
 				options.AddPolicy("admin", builder => builder.Requirements.Add(new SiteSectionAccess(RightAliases.AdminAccess)));
-				options.AddPolicy("peronal-page", builder => builder.Requirements.Add(new SiteSectionAccess(RightAliases.PanelAccess)));
+				options.AddPolicy("peronal-page",
+					builder => builder.Requirements.Add(new SiteSectionAccess(RightAliases.PanelAccess)));
 
 				options.AddPolicy("logout", builder => builder.Requirements.Add(new SiteSectionAccess(RightAliases.LogoutAccess)));
 			});
@@ -66,6 +71,11 @@ namespace MathSite
 			services.AddScoped<IDataSeeder, DataSeeder>();
 			services.AddScoped<IPasswordsManager, Passwords>();
 			services.AddScoped<IEntitiesConfigurator, EntitiesConfigurator>();
+			services.AddScoped<IMathSiteDbContext, MathSiteDbContext>();
+			services.AddScoped<IBusinessLogicManger, BusinessLogicManager>();
+			services.AddScoped<IGroupsLogic, GroupsLogic>();
+			services.AddScoped<IPersonsLogic, PersonsLogic>();
+			services.AddScoped<IUsersLogic, UsersLogic>();
 		}
 
 		private void ConfigureEntityFramework(IServiceCollection services)
@@ -75,7 +85,7 @@ namespace MathSite
 				.AddDbContext<MathSiteDbContext>(options =>
 				{
 					options.UseNpgsql(
-						Configuration.GetConnectionString("Math"), 
+						Configuration.GetConnectionString("Math"),
 						builder => builder.MigrationsAssembly("MathSite")
 					);
 				});
