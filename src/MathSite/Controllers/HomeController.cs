@@ -18,24 +18,34 @@ namespace MathSite.Controllers
 		public IActionResult Index()
 		{
 			var currentUserId = Guid.Parse("0c4c48cc-ac0e-4bae-8b88-59ea39764bae"); // andrey_devyatkin
-			var groupId = Guid.Parse("bb82cef1-9403-4179-bab0-f95d5a8edad7");
-			var groupTypeId = Guid.Parse("0cc0d232-8682-4753-826f-a2a7fc6a679e"); // Students
+			var groupId = Guid.Parse("1b51199d-d7cf-4de6-a4c1-495e35b1e770");
+			//var groupTypeId = Guid.Parse("0cc0d232-8682-4753-826f-a2a7fc6a679e"); // Students
 
-			var createGroup = _logic.GroupsLogic
-				.CreateGroupAsync(currentUserId, "Test name", "Test description", groupTypeId, null);
-			//var updatedGroup = _logic.GroupsLogic.UpdateGroupAsync(currentUserId, groupId, "Update", "Update", groupTypeId, null);
-			//var deleteGroup = _logic.GroupsLogic.DeleteGroupAsync(currentUserId, groupId);
-			var group = _logic.GroupsLogic.GetFromGroups(g => g.FirstOrDefault(i => i.Id == groupTypeId));
+			var createdPerson = _logic.PersonsLogic.CreatePersonAsync(
+				name: "А",
+				surname: "Д",
+				middlename: "В",
+				birthday: DateTime.Now,
+				phoneNumber: "1",
+				additionalPhoneNumber: "1",
+				userId: null,
+				photoId: null,
+				creationDate: DateTime.Now).Result;
 
-			//var personLogic = _logic.PersonsLogic;
-			//var persons = personLogic.GetFromPersons(allPersons => allPersons
-			//	.Select(s => s.Surname));
+			var person = _logic.PersonsLogic.GetFromPersons(p => p.FirstOrDefault(i => i.Id == createdPerson));
 
-			//var groupLogic = _logic.GroupsLogic;
-			//var groups = groupLogic.GetFromGroups(allGroups => allGroups
-			//	.Select(i => i.Name));
+			//var createdUser = _logic.UsersLogic.CreateUserAsync(
+			//	login: "Test",
+			//	passwordHash: "Test",
+			//	creationDate: DateTime.Now,
+			//	personId: person.Id,
+			//	groupId: groupId).Result;
+			var updatedUser = _logic.UsersLogic.UpdateUserAsync(
+				currentUserId: currentUserId,
+				passwordHash: "1",
+				groupId: groupId);
 
-			ViewBag.UsersData = group;
+			ViewBag.UsersData = person;
 
 			return View();
 		}

@@ -9,6 +9,7 @@ using MathSite.Domain.Common;
 using MathSite.Domain.Logic.Groups;
 using MathSite.Domain.Logic.Persons;
 using MathSite.Domain.Logic.Users;
+using MathSite.Domain.LogicValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
@@ -73,6 +74,7 @@ namespace MathSite
 			services.AddScoped<IEntitiesConfigurator, EntitiesConfigurator>();
 			services.AddScoped<IMathSiteDbContext, MathSiteDbContext>();
 			services.AddScoped<IBusinessLogicManger, BusinessLogicManager>();
+			services.AddScoped<ICurrentUserAccessValidation, CurrentUserAccessValidation>();
 			services.AddScoped<IGroupsLogic, GroupsLogic>();
 			services.AddScoped<IPersonsLogic, PersonsLogic>();
 			services.AddScoped<IUsersLogic, UsersLogic>();

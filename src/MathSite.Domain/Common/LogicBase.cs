@@ -6,37 +6,37 @@ using MathSite.Db;
 namespace MathSite.Domain.Common
 {
 	/// <summary>
-	/// Базовый класс реализации слоя бизнес-логики.
+	///		Базовый класс реализации слоя бизнес-логики.
 	/// </summary>
 	public class LogicBase
 	{
-		private readonly IMathSiteDbContext _contextManager;
+		protected readonly IMathSiteDbContext contextManager;
 
-		protected LogicBase(IMathSiteDbContext contextManager)
+		protected LogicBase(IMathSiteDbContext context)
 		{
-			_contextManager = contextManager;
+			contextManager = context;
 		}
 
 		/// <summary>
-		/// Использование контекста базы данных.
+		///		Использование контекста базы данных.
 		/// </summary>
 		/// <param name="action">Метод использования.</param>
 		protected void UseContext(Action<IMathSiteDbContext> action)
 		{
-			action(_contextManager);
+			action(contextManager);
 		}
 
 		/// <summary>
-		/// Асинхронное использование контекста базы данных.
+		///		Асинхронное использование контекста базы данных.
 		/// </summary>
 		/// <param name="asyncAction">Функция получения метода использования.</param>
 		protected async Task UseContextAsync(Func<IMathSiteDbContext, Task> asyncAction)
 		{
-			await asyncAction(_contextManager);
+			await asyncAction(contextManager);
 		}
 
 		/// <summary>
-		/// Возвращает результат из перечня элементов.
+		///		Возвращает результат из перечня элементов.
 		/// </summary>
 		/// <typeparam name="TEntity">Тип сущности.</typeparam>
 		/// <typeparam name="TResult">Тип результата.</typeparam>
@@ -55,7 +55,7 @@ namespace MathSite.Domain.Common
 		}
 
 		/// <summary>
-		/// Асинхронно возвращает результат из перечня элементов.
+		///		Асинхронно возвращает результат из перечня элементов.
 		/// </summary>
 		/// <typeparam name="TEntity">Тип сущности.</typeparam>
 		/// <typeparam name="TResult">Тип результата.</typeparam>
