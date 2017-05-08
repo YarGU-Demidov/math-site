@@ -1,11 +1,11 @@
 ﻿using Newtonsoft.Json;
 
-namespace MathSite.ViewModels.Api.UsersInfo
+namespace MathSite.Core.DataTableApi
 {
-	public class FilterAndSortData
+	public class FilterAndSortData<TSortData>
 	{
 		[JsonProperty("sort")]
-		public SortData SortData { get; protected set; }
+		public TSortData SortData { get; protected set; }
 		[JsonProperty("filter")]
 		public FilterData FilterData { get; protected set; }
 	}

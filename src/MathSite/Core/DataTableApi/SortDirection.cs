@@ -1,4 +1,4 @@
-﻿namespace MathSite.Common
+﻿namespace MathSite.Core.DataTableApi
 {
 	/// <summary>
 	///		Направление сортировки

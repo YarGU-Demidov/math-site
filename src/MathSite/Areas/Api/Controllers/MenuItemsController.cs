@@ -17,17 +17,33 @@ namespace MathSite.Areas.Api.Controllers
 		public IEnumerable<MenuItemData> GetAll()
 		{
 			var home = new MenuItemData("Главная", "/", "home");
-			var usersManagement = new MenuItemData("Пользователи", "/users", "face", new[]
+
+			var personsManagement = new MenuItemData("Персоны", "/persons", "person", new []
 			{
-				new MenuItemData("Группы", "/groups"),
-				new MenuItemData("Права", "/groups-rights")
+				new MenuItemData("Список", "/persons/list"),
+				new MenuItemData("Добавить", "/persons/add"),
+			});
+
+			var usersManagement = new MenuItemData("Пользователи", "/users", "face", new []
+			{
+				new MenuItemData("Список", "/users/list"),
+				new MenuItemData("Добавить", "/users/add"),
+			});
+
+			var groupsManagement = new MenuItemData("Группы", "/groups", "group", new []
+			{
+				new MenuItemData("Список", "/groups/list"),
+				new MenuItemData("Добавить", "/groups/add"),
 			});
 
 			var siteSettingsManagement = new MenuItemData("Настройки", "/site-settings", "settings");
 
+
 			return new[]
 			{
 				home,
+				personsManagement,
+				groupsManagement,
 				usersManagement,
 				siteSettingsManagement
 			};
