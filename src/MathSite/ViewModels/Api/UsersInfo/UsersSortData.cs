@@ -1,9 +1,9 @@
-﻿using MathSite.Common;
+﻿using MathSite.Core.DataTableApi;
 using Newtonsoft.Json;
 
 namespace MathSite.ViewModels.Api.UsersInfo
 {
-	public class SortData
+	public class UsersSortData
 	{
 		/// <summary>
 		///		Сортировка по группе пользователя

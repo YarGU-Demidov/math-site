@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace MathSite.Core
+namespace MathSite.Core.Responses
 {
 	public interface IResponse<T>
 	{

@@ -3,16 +3,18 @@ using System.Linq;
 using System.Collections.Generic;
 using MathSite.Common;
 using MathSite.Controllers;
+using MathSite.Core.DataTableApi;
+using MathSite.Core.Responses;
+using MathSite.Core.Responses.ResponseTypes;
 using MathSite.Db;
 using MathSite.ViewModels.Api.UsersInfo;
-using MathSite.ViewModels.Api.UsersInfo.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace MathSite.Areas.Api.Controllers
 {
 	[Area("Api")]
-	public class UsersInfoController : BaseController
+	public class UsersInfoController : BaseController, IDataTableApi<UserInfo, UsersSortData>
 	{
 		public UsersInfoController(MathSiteDbContext dbContext) : base(dbContext)
 		{
@@ -21,7 +23,7 @@ namespace MathSite.Areas.Api.Controllers
 		public UserInfo GetCurrentUserInfo()
 		{
 			return CurrentUser == null
-				? new UserInfo("Guest", "Guest", "Guest", "Guest", null)
+				? new UserInfo(null, null, null, null, null)
 				: new UserInfo(CurrentUser);
 		}
 
@@ -47,20 +49,20 @@ namespace MathSite.Areas.Api.Controllers
 		}
 
 		[HttpGet]
-		public GetUsersCountResponse GetUsersCount()
+		public GetCountResponse GetCount()
 		{
 			try
 			{
-				return new GetUsersCountResponse("success", null, DbContext.Users.Count());
+				return new GetCountResponse(new SuccessResponseType(), null, DbContext.Users.Count());
 			}
 			catch (Exception exception)
 			{
-				return new GetUsersCountResponse("error", exception.Message);
+				return new GetCountResponse(new ErrorResponseType(), exception.Message);
 			}
 		}
 
 		[HttpPost]
-		public GetAllResponse GetAll(int offset = 0, int count = 50, [FromBody] FilterAndSortData filterAndSortData = null)
+		public GetAllResponse<UserInfo> GetAll(int offset = 0, int count = 50, [FromBody] FilterAndSortData<UsersSortData> filterAndSortData = null)
 		{
 			try
 			{
@@ -91,11 +93,11 @@ namespace MathSite.Areas.Api.Controllers
 					? users.Select(u => new UserInfo(u)).ToArray()
 					: new UserInfo[0];
 
-				return new GetAllResponse("success", data);
+				return new GetAllResponse<UserInfo>(new SuccessResponseType(), data);
 			}
 			catch (Exception exception)
 			{
-				return new GetAllResponse("error", null, exception.Message);
+				return new GetAllResponse<UserInfo>(new ErrorResponseType(), null, exception.Message);
 			}
 		}
 
