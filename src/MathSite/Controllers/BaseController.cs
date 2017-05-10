@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using MathSite.Db;
+using MathSite.Domain.Common;
 using MathSite.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -11,11 +12,13 @@ namespace MathSite.Controllers
 {
 	public class BaseController : Controller
 	{
-		protected readonly MathSiteDbContext DbContext;
+		protected IBusinessLogicManger LogicManger { get; }
+		protected MathSiteDbContext DbContext { get; }
 		protected User CurrentUser { get; private set; }
 
-		public BaseController(MathSiteDbContext dbContext)
+		public BaseController(MathSiteDbContext dbContext, IBusinessLogicManger logicManger)
 		{
+			LogicManger = logicManger;
 			DbContext = dbContext;
 		}
 

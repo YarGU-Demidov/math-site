@@ -7,6 +7,7 @@ using MathSite.Core.DataTableApi;
 using MathSite.Core.Responses;
 using MathSite.Core.Responses.ResponseTypes;
 using MathSite.Db;
+using MathSite.Domain.Common;
 using MathSite.ViewModels.Api.UsersInfo;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,7 +17,7 @@ namespace MathSite.Areas.Api.Controllers
 	[Area("Api")]
 	public class UsersInfoController : BaseController, IDataTableApi<UserInfo, UsersSortData>
 	{
-		public UsersInfoController(MathSiteDbContext dbContext) : base(dbContext)
+		public UsersInfoController(MathSiteDbContext dbContext, IBusinessLogicManger logicManger) : base(dbContext, logicManger)
 		{
 		}
 

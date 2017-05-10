@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using MathSite.Controllers;
 using MathSite.Db;
+using MathSite.Domain.Common;
 using MathSite.ViewModels.Api.MenuItems;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,7 +10,7 @@ namespace MathSite.Areas.Api.Controllers
 	[Area("Api")]
 	public class MenuItemsController : BaseController
 	{
-		public MenuItemsController(MathSiteDbContext dbContext) : base(dbContext)
+		public MenuItemsController(MathSiteDbContext dbContext, IBusinessLogicManger logicManger) : base(dbContext, logicManger)
 		{
 		}
 

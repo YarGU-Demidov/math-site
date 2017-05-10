@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using MathSite.Common.Crypto;
 using MathSite.Db;
+using MathSite.Domain.Common;
 using MathSite.ViewModels.Account;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Authentication;
@@ -17,7 +18,7 @@ namespace MathSite.Controllers
 	{
 		private readonly IPasswordsManager _passwordHasher;
 
-		public AccountController(MathSiteDbContext dbContext, IPasswordsManager passwordHasher) : base(dbContext)
+		public AccountController(MathSiteDbContext dbContext, IPasswordsManager passwordHasher, IBusinessLogicManger logicManger) : base(dbContext, logicManger)
 		{
 			_passwordHasher = passwordHasher;
 		}

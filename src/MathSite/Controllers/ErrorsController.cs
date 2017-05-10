@@ -1,4 +1,5 @@
 ﻿using MathSite.Db;
+using MathSite.Domain.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,7 +7,7 @@ namespace MathSite.Controllers
 {
 	public class ErrorsController : BaseController
 	{
-		public ErrorsController(MathSiteDbContext dbContext) : base(dbContext)
+		public ErrorsController(MathSiteDbContext dbContext, IBusinessLogicManger logicManger) : base(dbContext, logicManger)
 		{
 		}
 
