@@ -10,11 +10,11 @@ namespace MathSite.Domain.Common
 	/// </summary>
 	public class LogicBase
 	{
-		protected readonly IMathSiteDbContext contextManager;
+		protected IMathSiteDbContext ContextManager { get; }
 
 		protected LogicBase(IMathSiteDbContext context)
 		{
-			contextManager = context;
+			ContextManager = context;
 		}
 
 		/// <summary>
@@ -23,7 +23,7 @@ namespace MathSite.Domain.Common
 		/// <param name="action">Метод использования.</param>
 		protected void UseContext(Action<IMathSiteDbContext> action)
 		{
-			action(contextManager);
+			action(ContextManager);
 		}
 
 		/// <summary>
@@ -32,7 +32,7 @@ namespace MathSite.Domain.Common
 		/// <param name="asyncAction">Функция получения метода использования.</param>
 		protected async Task UseContextAsync(Func<IMathSiteDbContext, Task> asyncAction)
 		{
-			await asyncAction(contextManager);
+			await asyncAction(ContextManager);
 		}
 
 		/// <summary>
