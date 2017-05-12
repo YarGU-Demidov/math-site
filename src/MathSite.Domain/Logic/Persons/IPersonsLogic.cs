@@ -18,11 +18,10 @@ namespace MathSite.Domain.Logic.Persons
 		/// <param name="additionalPhoneNumber">Дополнительный номер телефона.</param>
 		/// <param name="userId">Идентификатор пользователя.</param>
 		/// <param name="photoId">Идентификатор изображения личности.</param>
-		/// <param name="creationDate">Дата регистрации личности.</param>
 		/// <exception cref="Exception">Личность не найдена.</exception>
 		Task<Guid> CreatePersonAsync(string name, string surname, string middlename,
 			DateTime birthday, string phoneNumber, string additionalPhoneNumber, Guid? userId,
-			Guid? photoId, DateTime creationDate);
+			Guid? photoId);
 
 		/// <summary>
 		///		Асинхронно обновляет личность.

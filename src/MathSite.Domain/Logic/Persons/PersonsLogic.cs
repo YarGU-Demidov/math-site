@@ -12,7 +12,7 @@ namespace MathSite.Domain.Logic.Persons
 	public class PersonsLogic : LogicBase, IPersonsLogic
 	{
 		private const string PersonNotFoundFormat = "Личность с Id='{0}' не найдена";
-		private const string PersonEstablishedFormat = "Пользователь с Id={'0'} уже зарегистрирован";
+		private const string PersonEstablishedFormat = "Пользователь с Id='{0}' уже зарегистрирован";
 
 		private readonly ICurrentUserAccessValidation _userValidation;
 
@@ -33,11 +33,9 @@ namespace MathSite.Domain.Logic.Persons
 		/// <param name="additionalPhoneNumber">Дополнительный номер телефона.</param>
 		/// <param name="userId">Идентификатор пользователя.</param>
 		/// <param name="photoId">Идентификатор изображения личности.</param>
-		/// <param name="creationDate">Дата регистрации личности.</param>
 		/// <exception cref="Exception">Личность не найдена.</exception>
 		public async Task<Guid> CreatePersonAsync(string name, string surname, string middlename,
-			DateTime birthday, string phoneNumber, string additionalPhoneNumber, Guid? userId, Guid? photoId,
-			DateTime creationDate)
+			DateTime birthday, string phoneNumber, string additionalPhoneNumber, Guid? userId, Guid? photoId)
 		{
 			var personId = Guid.Empty;
 			await UseContextAsync(async context =>
@@ -47,7 +45,7 @@ namespace MathSite.Domain.Logic.Persons
 					throw new Exception(string.Format(PersonEstablishedFormat, userId));
 
 				var person = new Person(name, surname, middlename, birthday, phoneNumber, additionalPhoneNumber, userId,
-					photoId, creationDate);
+					photoId);
 
 				context.Persons.Add(person);
 				await context.SaveChangesAsync();
