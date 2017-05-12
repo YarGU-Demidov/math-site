@@ -29,14 +29,14 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 				.HasMany(postType => postType.Posts)
 				.WithOne(posts => posts.PostType)
 				.HasForeignKey(postType => postType.PostTypeId)
-				.IsRequired(false)
+				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);
 
 			modelBuilder.Entity<PostType>()
 				.HasOne(postType => postType.DefaultPostsSettings)
 				.WithOne(defaultPostsSettings => defaultPostsSettings.PostType)
 				.HasForeignKey<PostSettings>(defaultPostsSettings => defaultPostsSettings.PostTypeId)
-				.IsRequired(false)
+				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);
 		}
 

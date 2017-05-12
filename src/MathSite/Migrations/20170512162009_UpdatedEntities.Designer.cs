@@ -8,7 +8,7 @@ using MathSite.Db;
 namespace MathSite.Migrations
 {
     [DbContext(typeof(MathSiteDbContext))]
-    [Migration("20170418211917_UpdatedEntities")]
+    [Migration("20170512162009_UpdatedEntities")]
     partial class UpdatedEntities
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -78,12 +78,7 @@ namespace MathSite.Migrations
                     b.Property<string>("FilePath")
                         .IsRequired();
 
-                    b.Property<Guid?>("PersonId");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("PersonId")
-                        .IsUnique();
 
                     b.ToTable("Files");
                 });
@@ -196,6 +191,9 @@ namespace MathSite.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("PhotoId")
+                        .IsUnique();
+
                     b.HasIndex("UserId")
                         .IsUnique();
 
@@ -215,11 +213,11 @@ namespace MathSite.Migrations
                     b.Property<string>("Excerpt")
                         .IsRequired();
 
-                    b.Property<Guid?>("PostSeoSettingsId");
+                    b.Property<Guid>("PostSeoSettingsId");
 
-                    b.Property<Guid?>("PostSettingsId");
+                    b.Property<Guid>("PostSettingsId");
 
-                    b.Property<Guid?>("PostTypeId");
+                    b.Property<Guid>("PostTypeId");
 
                     b.Property<DateTime>("PublishDate");
 
@@ -365,8 +363,6 @@ namespace MathSite.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<Guid>("PostId");
-
                     b.Property<string>("Title");
 
                     b.Property<string>("Url");
@@ -385,12 +381,9 @@ namespace MathSite.Migrations
 
                     b.Property<bool?>("IsCommentsAllowed");
 
-                    b.Property<Guid?>("PostId")
-                        .IsRequired();
-
                     b.Property<bool?>("PostOnStartPage");
 
-                    b.Property<Guid?>("PostTypeId");
+                    b.Property<Guid>("PostTypeId");
 
                     b.Property<Guid?>("PreviewImageId");
 
@@ -408,8 +401,6 @@ namespace MathSite.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<Guid?>("DefaultPostsSettingsId");
 
                     b.Property<string>("TypeName")
                         .IsRequired();
@@ -476,8 +467,6 @@ namespace MathSite.Migrations
                     b.Property<string>("PasswordHash")
                         .IsRequired();
 
-                    b.Property<Guid>("PersonId");
-
                     b.HasKey("Id");
 
                     b.HasIndex("GroupId");
@@ -541,14 +530,6 @@ namespace MathSite.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("MathSite.Models.File", b =>
-                {
-                    b.HasOne("MathSite.Models.Person", "Person")
-                        .WithOne("Photo")
-                        .HasForeignKey("MathSite.Models.File", "PersonId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("MathSite.Models.Group", b =>
                 {
                     b.HasOne("MathSite.Models.GroupType", "GroupType")
@@ -576,6 +557,11 @@ namespace MathSite.Migrations
 
             modelBuilder.Entity("MathSite.Models.Person", b =>
                 {
+                    b.HasOne("MathSite.Models.File", "Photo")
+                        .WithOne("Person")
+                        .HasForeignKey("MathSite.Models.Person", "PhotoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("MathSite.Models.User", "User")
                         .WithOne("Person")
                         .HasForeignKey("MathSite.Models.Person", "UserId")

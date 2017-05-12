@@ -26,12 +26,10 @@ namespace MathSite.Db.DataSeeding.Seeders
 		protected override void SeedData()
 		{
 			var firstPostType = CreateUserSettings(
-				PostTypeAliases.News,
-				GetPostSettingsByPost("First post")
+				PostTypeAliases.News
 			);
 			var secondPostType = CreateUserSettings(
-				PostTypeAliases.StaticPage,
-				GetPostSettingsByPost("Second post")
+				PostTypeAliases.StaticPage
 			);
 			var postTypes = new[]
 			{
@@ -42,18 +40,11 @@ namespace MathSite.Db.DataSeeding.Seeders
 			Context.PostTypes.AddRange(postTypes);
 		}
 
-		private PostSettings GetPostSettingsByPost(string title)
-		{
-			return Context.PostSettings.FirstOrDefault(p => p.Post.Title == title);
-
-		}
-
-		private static PostType CreateUserSettings(string name, PostSettings defaultPostsSettings)
+		private static PostType CreateUserSettings(string name)
 		{
 			return new PostType
 			{
 				TypeName = name,
-				DefaultPostsSettings = defaultPostsSettings,
 				Posts = new List<Post>()
 			};
 		}

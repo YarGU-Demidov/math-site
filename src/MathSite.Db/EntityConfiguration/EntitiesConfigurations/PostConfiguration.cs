@@ -61,7 +61,6 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 			modelBuilder.Entity<Post>()
 				.HasOne(post => post.PostSeoSettings)
 				.WithOne(postSeoSetting => postSeoSetting.Post)
-				.HasForeignKey<PostSeoSettings>(postSeoSetting => postSeoSetting.PostId)
 				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);
 
@@ -75,7 +74,6 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 			modelBuilder.Entity<Post>()
 				.HasOne(post => post.PostSettings)
 				.WithOne(postSetting => postSetting.Post)
-				.HasForeignKey<PostSettings>(postSetting => postSetting.PostId)
 				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);
 

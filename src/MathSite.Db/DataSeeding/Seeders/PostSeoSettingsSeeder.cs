@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Models;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace MathSite.Db.DataSeeding.Seeders
@@ -29,15 +27,13 @@ namespace MathSite.Db.DataSeeding.Seeders
 			var firstPostSeoSettings = CreatePostSeoSettings(
 				"first url",
 				"first title",
-				"first description",
-				GetPostByPostTypeAlias(PostTypeAliases.News)
+				"first description"
 			);
 
 			var secondPostSeoSettings = CreatePostSeoSettings(
 				"second url",
 				"second title",
-				"second description",
-				GetPostByPostTypeAlias(PostTypeAliases.StaticPage)
+				"second description"
 			);
 
 			var postSeoSettings = new[]
@@ -49,22 +45,13 @@ namespace MathSite.Db.DataSeeding.Seeders
 			Context.PostSeoSettings.AddRange(postSeoSettings);
 		}
 
-		private Post GetPostByPostTypeAlias(string alias)
-		{
-			var posts = Context.Posts
-				.Include(post => post.PostType);
-
-			return posts.First(post => post.PostType.TypeName == alias);
-		}
-
-		private static PostSeoSettings CreatePostSeoSettings(string url, string title, string description, Post post)
+		private static PostSeoSettings CreatePostSeoSettings(string url, string title, string description)
 		{
 			return new PostSeoSettings
 			{
 				Url = url,
 				Title = title,
 				Description = description,
-				Post = post,
 				PostKeywords = new List<PostKeywords>()
 			};
 		}
