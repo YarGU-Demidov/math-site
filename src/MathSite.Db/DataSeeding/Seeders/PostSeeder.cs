@@ -34,8 +34,8 @@ namespace MathSite.Db.DataSeeding.Seeders
 				true,
 				false,
 				GetPostTypeByName(PostTypeAliases.News),
-				GetPostSettingsByPostType(GroupTypeAliases.Employee),
-				GetPostSeoSettingsByPostType("First PostSeoSettings title")
+				GetPostSettingsByPostType(PostTypeAliases.News),
+				GetPostSeoSettingsByTitle(PostSeoSettingsAliases.FirstPostSeoSettings)
 			);
 
 			var secondPost = CreatePost(
@@ -46,8 +46,8 @@ namespace MathSite.Db.DataSeeding.Seeders
 				false,
 				true,
 				GetPostTypeByName(PostTypeAliases.StaticPage),
-				GetPostSettingsByPostType(GroupTypeAliases.Student),
-				GetPostSeoSettingsByPostType("Second PostSeoSettings title")
+				GetPostSettingsByPostType(PostTypeAliases.StaticPage),
+				GetPostSeoSettingsByTitle(PostSeoSettingsAliases.SecondPostSeoSettings)
 			);
 
 			var posts = new[]
@@ -66,12 +66,12 @@ namespace MathSite.Db.DataSeeding.Seeders
 
 		private PostSettings GetPostSettingsByPostType(string name)
 		{
-			return Context.PostSettings.FirstOrDefault(postSettings => postSettings.PostType.TypeName == name);
+			return Context.PostSettings.First(postSettings => postSettings.PostType.TypeName == name);
 		}
 
-		private PostSeoSettings GetPostSeoSettingsByPostType(string title)
+		private PostSeoSettings GetPostSeoSettingsByTitle(string title)
 		{
-			return Context.PostSeoSettings.FirstOrDefault(postSeoSettings => postSeoSettings.Title == title);
+			return Context.PostSeoSettings.First(postSeoSettings => postSeoSettings.Title == title);
 		}
 
 		private static Post CreatePost(string title, string excerpt, string content, DateTime publishDate,

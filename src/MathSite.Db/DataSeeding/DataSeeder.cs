@@ -50,21 +50,21 @@ namespace MathSite.Db.DataSeeding
 			_logger.LogInformation("Seeding Done! Continue start server...");
 		}
 
-		// тут происходит магия сидирования всех данных, порядок создания ВАЖЕН! ОЧЕНЬ!
 		private IEnumerable<ISeeder> GetSeeders()
 		{
 			return new List<ISeeder>
 			{
 				new GroupTypeSeeder(_logger, _context),
 				new GroupSeeder(_logger, _context),
-				new FileSeeder(_logger, _context),
 				new PersonSeeder(_logger, _context),
+				new FileSeeder(_logger, _context),
+				new UserSeeder(_logger, _context, _passwordHasher),
 				new RightSeeder(_logger, _context),
 				new GroupRightsSeeder(_logger, _context),
-				new PostSettingsSeeder(_logger, _context),
 				new PostTypeSeeder(_logger, _context),
+				new PostSettingsSeeder(_logger, _context),
+				new PostSeoSettingsSeeder(_logger, _context),
 				new PostSeeder(_logger, _context),
-				new UserSeeder(_logger, _context, _passwordHasher),
 				new CommentSeeder(_logger, _context),
 				new PostGroupsAllowedSeeder(_logger, _context),
 				new PostRatingSeeder(_logger, _context),
@@ -76,7 +76,6 @@ namespace MathSite.Db.DataSeeding
 				new CategorySeeder(_logger, _context),
 				new PostCategorySeeder(_logger, _context),
 				new PostAttachmentSeeder(_logger, _context),
-				new PostSeoSettingsSeeder(_logger, _context),
 				new KeywordSeeder(_logger, _context),
 				new PostKeywordsSeeder(_logger, _context)
 			};

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Models;
 using Microsoft.Extensions.Logging;
 
@@ -33,10 +32,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 				"Александрович",
 				DateTime.Now,
 				"123456",
-				"654321",
-				GetUserByGroup("Students"),
-				GetFileByAlias(FileAliases.FirstFile)
-			);
+				"654321");
 
 			var secondPerson = CreatePerson(
 				"Андрей",
@@ -44,10 +40,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 				"Вячеславович",
 				DateTime.Now,
 				"234567",
-				"765432",
-				GetUserByGroup("Employees"),
-				GetFileByAlias(FileAliases.SecondFile)
-			);
+				"765432");
 
 			var persons = new[]
 			{
@@ -58,18 +51,8 @@ namespace MathSite.Db.DataSeeding.Seeders
 			Context.Persons.AddRange(persons);
 		}
 
-		private User GetUserByGroup(string name)
-		{
-			return Context.Users.FirstOrDefault(u => u.Group.Name == name);
-		}
-
-		private File GetFileByAlias(string alias)
-		{
-			return Context.Files.First(u => u.FileName == alias);
-		}
-
 		private static Person CreatePerson(string name, string surname, string middlename, DateTime birthday, string phone,
-			string additionalPhone, User user, File photo)
+			string additionalPhone)
 		{
 			return new Person
 			{
@@ -79,8 +62,6 @@ namespace MathSite.Db.DataSeeding.Seeders
 				Birthday = birthday,
 				Phone = phone,
 				AdditionalPhone = additionalPhone,
-				User = user,
-				Photo = photo,
 				CreationDate = DateTime.Now
 			};
 		}

@@ -31,21 +31,17 @@ namespace MathSite.Domain.Logic.Users
 		/// <param name="personId">Идентификатор личности.</param>
 		/// <param name="groupId">Идентификатор группы.</param>
 		/// <param name="creationDate">Дата регистрации личности.</param>
-		public async Task<Guid> CreateUserAsync(string login, string passwordHash, Guid personId, Guid groupId,
+		public async Task<Guid> CreateUserAsync(string login, string passwordHash, Guid groupId,
 			DateTime creationDate)
 		{
 			var userId = Guid.Empty;
 			await UseContextAsync(async context =>
 			{
-				var person = await context.Persons.AnyAsync(p => p.Id == personId);
-				if (!person)
-					throw new Exception(string.Format(PersonNotFoundFormat, personId));
-
 				var group = await context.Groups.AnyAsync(p => p.Id == groupId);
 				if (!group)
 					throw new Exception(string.Format(GroupNotFoundFormat, groupId));
 
-				var user = new User(login, passwordHash, creationDate, personId, groupId);
+				var user = new User(login, passwordHash, creationDate, groupId);
 
 				context.Users.Add(user);
 				await context.SaveChangesAsync();

@@ -36,11 +36,6 @@ namespace MathSite.Models
 		/// <summary>
 		/// 
 		/// </summary>
-		public Guid? PersonId { get; set; }
-
-		/// <summary>
-		/// 
-		/// </summary>
 		public Person Person { get; set; }
 
 		/// <summary>
@@ -52,6 +47,5 @@ namespace MathSite.Models
 		/// 
 		/// </summary>
 		public List<PostAttachment> PostAttachments { get; set; }
-
 	}
 }
