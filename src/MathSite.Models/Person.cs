@@ -17,10 +17,8 @@ namespace MathSite.Models
 		/// <param name="additionalPhoneNumber">Дополнительный телефонный номер.</param>
 		/// <param name="userId">Идентификатор пользователя.</param>
 		/// <param name="photoId">Идентификатор изображения личности.</param>
-		/// <param name="creationDate">Дата регистрации.</param>
 		public Person(string name, string surname, string middlename,
-			DateTime birthday, string phoneNumber, string additionalPhoneNumber, Guid? userId, Guid? photoId,
-			DateTime creationDate)
+			DateTime birthday, string phoneNumber, string additionalPhoneNumber, Guid? userId, Guid? photoId)
 		{
 			Name = name;
 			Surname = surname;
@@ -28,7 +26,7 @@ namespace MathSite.Models
 			Phone = phoneNumber;
 			AdditionalPhone = additionalPhoneNumber;
 			Birthday = birthday;
-			CreationDate = creationDate;
+			CreationDate = DateTime.Now;
 			PhotoId = photoId;
 			UserId = userId;
 		}

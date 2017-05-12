@@ -17,14 +17,13 @@ namespace MathSite.Models
 		/// </summary>
 		/// <param name="login">Логин.</param>
 		/// <param name="passwordHash">Пароль.</param>
-		/// <param name="creationDate">Дата регистрации пользователя.</param>
 		/// <param name="groupId">Идентификатор группы.</param>
-		public User(string login, string passwordHash, DateTime creationDate, Guid groupId)
+		public User(string login, string passwordHash, Guid groupId)
 		{
 			Login = login;
 			PasswordHash = passwordHash;
-			CreationDate = creationDate;
 			GroupId = groupId;
+			CreationDate = DateTime.Now;
 		}
 
 		/// <summary>
