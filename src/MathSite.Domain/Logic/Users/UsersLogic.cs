@@ -28,11 +28,8 @@ namespace MathSite.Domain.Logic.Users
 		/// </summary>
 		/// <param name="login">Логин.</param>
 		/// <param name="passwordHash">Пароль.</param>
-		/// <param name="personId">Идентификатор личности.</param>
 		/// <param name="groupId">Идентификатор группы.</param>
-		/// <param name="creationDate">Дата регистрации личности.</param>
-		public async Task<Guid> CreateUserAsync(string login, string passwordHash, Guid groupId,
-			DateTime creationDate)
+		public async Task<Guid> CreateUserAsync(string login, string passwordHash, Guid groupId)
 		{
 			var userId = Guid.Empty;
 			await UseContextAsync(async context =>
@@ -41,7 +38,7 @@ namespace MathSite.Domain.Logic.Users
 				if (!group)
 					throw new Exception(string.Format(GroupNotFoundFormat, groupId));
 
-				var user = new User(login, passwordHash, creationDate, groupId);
+				var user = new User(login, passwordHash, groupId);
 
 				context.Users.Add(user);
 				await context.SaveChangesAsync();

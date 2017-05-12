@@ -6,6 +6,7 @@ using MathSite.Db.DataSeeding;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Db.EntityConfiguration;
 using MathSite.Domain.Common;
+using MathSite.Domain.Logic.Files;
 using MathSite.Domain.Logic.Groups;
 using MathSite.Domain.Logic.Persons;
 using MathSite.Domain.Logic.Users;
@@ -78,6 +79,7 @@ namespace MathSite
 			services.AddScoped<IGroupsLogic, GroupsLogic>();
 			services.AddScoped<IPersonsLogic, PersonsLogic>();
 			services.AddScoped<IUsersLogic, UsersLogic>();
+			services.AddScoped<IFilesLogic, FilesLogic>();
 		}
 
 		private void ConfigureEntityFramework(IServiceCollection services)
