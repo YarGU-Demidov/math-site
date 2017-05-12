@@ -8,8 +8,8 @@ using MathSite.Db;
 namespace MathSite.Migrations
 {
     [DbContext(typeof(MathSiteDbContext))]
-    [Migration("20170512162009_UpdatedEntities")]
-    partial class UpdatedEntities
+    [Migration("20170512174731_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
