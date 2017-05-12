@@ -58,14 +58,12 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 			modelBuilder.Entity<Person>()
 				.HasOne(person => person.User)
 				.WithOne(user => user.Person)
-				.HasForeignKey<User>(person => person.PersonId)
 				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);
 
 			modelBuilder.Entity<Person>()
 				.HasOne(person => person.Photo)
-				.WithOne(user => user.Person)
-				.HasForeignKey<File>(file => file.PersonId)
+				.WithOne(file => file.Person)
 				.IsRequired(false)
 				.OnDelete(DeleteBehavior.Cascade);
 		}

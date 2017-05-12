@@ -8,7 +8,9 @@ namespace MathSite.Models
 	/// </summary>
 	public class User
 	{
-		public User() {}
+		public User()
+		{
+		}
 
 		/// <summary>
 		///		Создает сущность.
@@ -16,14 +18,12 @@ namespace MathSite.Models
 		/// <param name="login">Логин.</param>
 		/// <param name="passwordHash">Пароль.</param>
 		/// <param name="creationDate">Дата регистрации пользователя.</param>
-		/// <param name="personId">Идентификатор личности.</param>
 		/// <param name="groupId">Идентификатор группы.</param>
-		public User(string login, string passwordHash, DateTime creationDate, Guid personId, Guid groupId)
+		public User(string login, string passwordHash, DateTime creationDate, Guid groupId)
 		{
 			Login = login;
 			PasswordHash = passwordHash;
 			CreationDate = creationDate;
-			PersonId = personId;
 			GroupId = groupId;
 		}
 
@@ -41,11 +41,6 @@ namespace MathSite.Models
 		///     Пароль.
 		/// </summary>
 		public string PasswordHash { get; set; }
-
-		/// <summary>
-		///     Идентификатор личности.
-		/// </summary>
-		public Guid PersonId { get; set; }
 
 		/// <summary>
 		///     Личность.

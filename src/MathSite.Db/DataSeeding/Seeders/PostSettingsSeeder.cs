@@ -25,7 +25,6 @@ namespace MathSite.Db.DataSeeding.Seeders
 		protected override void SeedData()
 		{
 			var firstPostSettings = CreatePostSettings(
-				GetPostByTitle(PostAliases.FirstPost),
 				GetPostTypeByName(PostTypeAliases.News),
 				GetPreviewImageByName(FileAliases.FirstFile),
 				true,
@@ -34,7 +33,6 @@ namespace MathSite.Db.DataSeeding.Seeders
 			);
 
 			var secondPostSettings = CreatePostSettings(
-				GetPostByTitle(PostAliases.SecondPost),
 				GetPostTypeByName(PostTypeAliases.StaticPage),
 				GetPreviewImageByName(FileAliases.SecondFile),
 				false,
@@ -51,14 +49,9 @@ namespace MathSite.Db.DataSeeding.Seeders
 			Context.PostSettings.AddRange(postsSettings);
 		}
 
-		private Post GetPostByTitle(string title)
-		{
-			return Context.Posts.FirstOrDefault(post => post.Title == title);
-		}
-
 		private PostType GetPostTypeByName(string name)
 		{
-			return Context.PostTypes.FirstOrDefault(postType => postType.TypeName == name);
+			return Context.PostTypes.First(postType => postType.TypeName == name);
 		}
 
 		private File GetPreviewImageByName(string name)
@@ -66,16 +59,14 @@ namespace MathSite.Db.DataSeeding.Seeders
 			return Context.Files.First(file => file.FileName == name);
 		}
 
-		private static PostSettings CreatePostSettings(Post post, PostType postType, File previewImage,
-			bool isCommentsAllowed,
-			bool canBeRated, bool isPostOnStartPage)
+		private static PostSettings CreatePostSettings(PostType postType, File previewImage,
+			bool isCommentsAllowed, bool canBeRated, bool isPostOnStartPage)
 		{
 			return new PostSettings
 			{
 				IsCommentsAllowed = isCommentsAllowed,
 				CanBeRated = canBeRated,
 				PostOnStartPage = isPostOnStartPage,
-				Post = post,
 				PostType = postType,
 				PreviewImage = previewImage
 			};

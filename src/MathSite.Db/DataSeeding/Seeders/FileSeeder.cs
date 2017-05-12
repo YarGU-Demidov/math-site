@@ -50,7 +50,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 
 		private Person GetPersonBySurname(string surname)
 		{
-			return Context.Persons.FirstOrDefault(person => person.Surname == surname);
+			return Context.Persons.First(person => person.Surname == surname);
 		}
 
 		private static File CreateFile(string name, DateTime dateAdded, string filePath, string extension, Person person)
