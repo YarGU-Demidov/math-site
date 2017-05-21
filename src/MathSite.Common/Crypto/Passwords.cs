@@ -45,36 +45,28 @@ namespace MathSite.Common.Crypto
 			/**
 			 * Для более эффективной защиты hash строится так:
 			 * 1) складываем строки salt и password
-			 * 2) получаем их хеш с помощью SHA256 алгоритма
-			 * 3) складываем salt с получившимся массивом
-			 * 4) снова получаем хеш уже нового массива с помощью sha256
+			 * 2) получаем их хеш с помощью SHA512 алгоритма
+			 * 3) снова получаем хеш с помощью sha512
 			 */
-
 
 			byte[] hash;
 
 			if (password != null && login != null)
 			{
 				var utf8 = Encoding.UTF8;
-				var sha256 = SHA256.Create();
-
-				var currentSalt = utf8.GetBytes(login);
+				var sha512 = SHA512.Create();
 
 				var saltedPassword = password + login;
 
 				var currentSaltedPassword = utf8.GetBytes(saltedPassword);
 
-				var hashForSaltedPassword = sha256.ComputeHash(currentSaltedPassword);
+				var hashForSaltedPassword = sha512.ComputeHash(currentSaltedPassword);
 
-				var hashArray = new byte[currentSalt.Length + hashForSaltedPassword.Length];
+				hash = sha512.ComputeHash(hashForSaltedPassword);
 
-				currentSalt.CopyTo(hashArray, 0);
-
-				hashForSaltedPassword.CopyTo(hashArray, currentSalt.Length);
-
-				hash = sha256.ComputeHash(hashArray);
-
-				Array.Clear(hashArray, 0, hashArray.Length);
+				//очистка масиивов во избежание утечки памяти   
+				Array.Clear(currentSaltedPassword, 0, currentSaltedPassword.Length);
+				Array.Clear(hashForSaltedPassword, 0, hashForSaltedPassword.Length);
 			}
 			else
 			{
