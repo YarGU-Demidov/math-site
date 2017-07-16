@@ -66,9 +66,9 @@ namespace MathSite.Db.DataSeeding.Seeders
 			return Context.Groups.First(group => group.Alias == alias);
 		}
 
-		private string GetPasswordHash(string login, string password)
+		private byte[] GetPasswordHash(string login, string password)
 		{
-			return PasswordManager.CreatePasswordString(login, password);
+			return PasswordManager.CreatePassword(login, password);
 		}
 
 		private Person GetPersonByNames(string name, string surname, string middlename)
@@ -80,7 +80,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 			);
 		}
 
-		private static User CreateUser(string login, string password, Person person, Group group, DateTime creationDate)
+		private static User CreateUser(string login, byte[] password, Person person, Group group, DateTime creationDate)
 		{
 			return new User
 			{
