@@ -9,7 +9,7 @@
 		/// <param name="login">Логин</param>
 		/// <param name="password">Пароль</param>
 		/// <returns>Строковое представление пароля.</returns>
-		string CreatePasswordString(string login, string password);
+		byte[] CreatePassword(string login, string password);
 
 		/// <summary>
 		///     Метод, который сравнивает строковое представление хеша. <br />
@@ -20,6 +20,6 @@
 		/// <param name="passwordForVerification">Пароль для проверки</param>
 		/// <param name="hashForVerification">Хеш реального пароля из БД</param>
 		/// <returns></returns>
-		bool PasswordsAreEqual(string login, string passwordForVerification, string hashForVerification);
+		bool PasswordsAreEqual(string login, string passwordForVerification, byte[] hashForVerification);
 	}
 }

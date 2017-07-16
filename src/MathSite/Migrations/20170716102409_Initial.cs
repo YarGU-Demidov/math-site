@@ -225,7 +225,7 @@ namespace MathSite.Migrations
                     CreationDate = table.Column<DateTime>(nullable: true, defaultValueSql: "NOW()"),
                     GroupId = table.Column<Guid>(nullable: false),
                     Login = table.Column<string>(nullable: false),
-                    PasswordHash = table.Column<string>(nullable: false)
+                    PasswordHash = table.Column<byte[]>(nullable: false)
                 },
                 constraints: table =>
                 {

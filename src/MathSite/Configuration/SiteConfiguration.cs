@@ -11,13 +11,15 @@ namespace MathSite
 	{
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IDataSeeder seeder)
 		{
-			ConfigureLoggers(loggerFactory);
+			var isDevelopmentEnv = env.IsDevelopment();
+
+			ConfigureLoggers(loggerFactory, isDevelopmentEnv);
 
 			seeder.Seed();
 
 			var cookieHttpOnly = true;
 
-			if (env.IsDevelopment())
+			if (isDevelopmentEnv)
 			{
 				app.UseDeveloperExceptionPage();
 				app.UseBrowserLink();
@@ -43,10 +45,14 @@ namespace MathSite
 			ConfigureRoutes(app);
 		}
 
-		private void ConfigureLoggers(ILoggerFactory loggerFactory)
+		private void ConfigureLoggers(ILoggerFactory loggerFactory, bool isDebug)
 		{
 			loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-			loggerFactory.AddDebug(LogLevel.Debug);
+
+			if (isDebug)
+			{
+				loggerFactory.AddDebug(LogLevel.Debug);
+			}
 		}
 
 		private static void ConfigureAuthentication(IApplicationBuilder app, bool cookieHttpOnly)
