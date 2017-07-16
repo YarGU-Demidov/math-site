@@ -4,36 +4,31 @@ using System.Text;
 
 namespace MathSite.Common.Crypto
 {
-	public class Passwords : IPasswordsManager
+	public class BinaryHashPasswordsManager : IPasswordsManager
 	{
-		private byte[] _hash; // хэш пароля
-
 		/// <inheritdoc />
-		public string CreatePasswordString(string login, string password)
+		public byte[] CreatePassword(string login, string password)
 		{
-			_hash = HashPassword(login, password);
-			var utf8 = Encoding.UTF8;
-			return utf8.GetString(_hash);
+			return HashPassword(login, password);
 		}
 
 		/// <inheritdoc />
-		public bool PasswordsAreEqual(string login, string passwordForVerification, string hashForVerification)
+		public bool PasswordsAreEqual(string login, string passwordForVerification, byte[] hashForVerification)
 		{
 			var utf8 = new UTF8Encoding();
-
-			var currentHash = utf8.GetBytes(hashForVerification);
 
 			var hash = HashPassword(login, passwordForVerification);
 
 			var currentArrayForHash = utf8.GetString(hash);
 			hash = utf8.GetBytes(currentArrayForHash);
 
-			if (hash.Length == currentHash.Length)
+			if (hash.Length == hashForVerification.Length)
 			{
 				for (var i = 0; i < hash.Length; i++)
-					if (hash[i] != currentHash[i])
+				{
+					if (hash[i] != hashForVerification[i])
 						return false;
-
+				}
 				return true;
 			}
 

@@ -29,7 +29,7 @@ namespace MathSite.Domain.Logic.Users
 		/// <param name="login">Логин.</param>
 		/// <param name="passwordHash">Пароль.</param>
 		/// <param name="groupId">Идентификатор группы.</param>
-		public async Task<Guid> CreateUserAsync(string login, string passwordHash, Guid groupId)
+		public async Task<Guid> CreateUserAsync(string login, byte[] passwordHash, Guid groupId)
 		{
 			var userId = Guid.Empty;
 			await UseContextAsync(async context =>
@@ -56,7 +56,7 @@ namespace MathSite.Domain.Logic.Users
 		///  <param name="passwordHash">Пароль.</param>
 		/// <param name="groupId">Идентификатор группы.</param>
 		/// <exception cref="Exception">Личность не найдена.</exception>   
-		public async Task UpdateUserAsync(Guid currentUserId, string passwordHash, Guid groupId)
+		public async Task UpdateUserAsync(Guid currentUserId, byte[] passwordHash, Guid groupId)
 		{
 			_userValidation.CheckCurrentUserExistence(currentUserId);
 			await _userValidation.CheckCurrentUserRightsAsync(currentUserId);

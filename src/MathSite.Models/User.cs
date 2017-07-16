@@ -18,7 +18,7 @@ namespace MathSite.Models
 		/// <param name="login">Логин.</param>
 		/// <param name="passwordHash">Пароль.</param>
 		/// <param name="groupId">Идентификатор группы.</param>
-		public User(string login, string passwordHash, Guid groupId)
+		public User(string login, byte[] passwordHash, Guid groupId)
 		{
 			Login = login;
 			PasswordHash = passwordHash;
@@ -39,7 +39,7 @@ namespace MathSite.Models
 		/// <summary>
 		///     Пароль.
 		/// </summary>
-		public string PasswordHash { get; set; }
+		public Byte[] PasswordHash { get; set; }
 
 		/// <summary>
 		///     Личность.

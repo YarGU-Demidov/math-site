@@ -14,7 +14,7 @@ namespace MathSite.Domain.Logic.Users
 		/// <param name="passwordHash">Пароль.</param>
 		/// <param name="groupId">Идентификатор группы.</param>
 		/// <param name="creationDate">Дата регистрации пользователя.</param>
-		Task<Guid> CreateUserAsync(string login, string passwordHash, Guid groupId);
+		Task<Guid> CreateUserAsync(string login, byte[] passwordHash, Guid groupId);
 
 		/// <summary>
 		///		Асинхронно обновляет пользователя.
@@ -22,7 +22,7 @@ namespace MathSite.Domain.Logic.Users
 		/// <param name="currentUserId">Идентификатор текущего пользователя.</param>
 		/// <param name="groupId">Идентификатор группы.</param>
 		/// <param name="passwordHash">Пароль.</param>   
-		Task UpdateUserAsync(Guid currentUserId, string passwordHash, Guid groupId);
+		Task UpdateUserAsync(Guid currentUserId, byte[] passwordHash, Guid groupId);
 
 		/// <summary>
 		///		Асинхронно удаляет пользователя.

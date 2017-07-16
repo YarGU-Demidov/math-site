@@ -15,7 +15,7 @@ namespace MathSite.Migrations
             modelBuilder
                 .HasAnnotation("Npgsql:PostgresExtension:uuid-ossp", "'uuid-ossp', '', ''")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "1.1.1");
+                .HasAnnotation("ProductVersion", "1.1.2");
 
             modelBuilder.Entity("MathSite.Models.Category", b =>
                 {
@@ -463,7 +463,7 @@ namespace MathSite.Migrations
                     b.Property<string>("Login")
                         .IsRequired();
 
-                    b.Property<string>("PasswordHash")
+                    b.Property<byte[]>("PasswordHash")
                         .IsRequired();
 
                     b.HasKey("Id");
