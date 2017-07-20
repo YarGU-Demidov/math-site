@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using MathSite.Db.DataSeeding.StaticData;
-using MathSite.Models;
+using MathSite.Entities;
 using Microsoft.Extensions.Logging;
 
 namespace MathSite.Db.DataSeeding.Seeders

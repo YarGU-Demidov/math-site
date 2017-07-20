@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.9
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1B5AA2C7-A40E-46C8-9FA1-10615BE120BF}"
 EndProject
@@ -8,7 +8,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MathSite", "src\MathSite\Ma
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MathSite.Db", "src\MathSite.Db\MathSite.Db.csproj", "{1EDC5F07-5B9F-4823-B631-A7C4A7731368}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MathSite.Models", "src\MathSite.Models\MathSite.Models.csproj", "{61F6E6C3-8264-46E0-A64C-F8B8FA243D1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MathSite.Entities", "src\MathSite.Models\MathSite.Entities.csproj", "{61F6E6C3-8264-46E0-A64C-F8B8FA243D1E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MathSite.Common", "src\MathSite.Common\MathSite.Common.csproj", "{A6F1ED77-50FC-4D0E-8135-39BAB8A8333E}"
 EndProject

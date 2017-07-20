@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MathSite.Db;
 using MathSite.Domain.Common;
-using MathSite.Models;
+using MathSite.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;

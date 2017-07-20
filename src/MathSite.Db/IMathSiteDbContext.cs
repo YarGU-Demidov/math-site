@@ -1,4 +1,4 @@
-﻿using MathSite.Models;
+﻿using MathSite.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace MathSite.Db

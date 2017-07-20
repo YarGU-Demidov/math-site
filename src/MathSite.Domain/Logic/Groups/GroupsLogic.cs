@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using MathSite.Db;
 using MathSite.Domain.Common;
 using MathSite.Domain.LogicValidation;
-using MathSite.Models;
+using MathSite.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace MathSite.Domain.Logic.Groups
