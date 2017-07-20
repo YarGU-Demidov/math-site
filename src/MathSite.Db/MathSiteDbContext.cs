@@ -2,25 +2,30 @@
 using MathSite.Db.EntityConfiguration.EntitiesConfigurations;
 using MathSite.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 
 namespace MathSite.Db
 {
 	/// <summary>
-	///		Контекст сайта.
+	///     Контекст сайта.
 	/// </summary>
 	public class MathSiteDbContext : DbContext, IMathSiteDbContext
 	{
 		private readonly IEntitiesConfigurator _configurator;
+		private readonly ILoggerFactory _loggerFactory;
 
-		///  <summary>
-		/// 		Контекст.
-		///  </summary>
+		/// <summary>
+		///     Контекст.
+		/// </summary>
 		/// <param name="options">Настройки контекста.</param>
-		///  <param name="configurator">Конфигуратор моделей.</param>
-		public MathSiteDbContext(DbContextOptions options, IEntitiesConfigurator configurator) : base(options)
+		/// <param name="configurator">Конфигуратор моделей.</param>
+		/// <param name="loggerFactory">Фабрика логгеров</param>
+		public MathSiteDbContext(DbContextOptions options, IEntitiesConfigurator configurator,
+			ILoggerFactory loggerFactory) : base(options)
 		{
 			_configurator = configurator;
+			_loggerFactory = loggerFactory;
 		}
 
 		public DbSet<Category> Categories { get; set; }
@@ -48,9 +53,11 @@ namespace MathSite.Db
 		public DbSet<UsersRights> UsersRights { get; set; }
 
 		/// <summary>
-		///		Добавление конфигурации сущностей.
+		///     Добавление конфигурации сущностей.
 		/// </summary>
-		/// <param name="modelBuilder"><inheritdoc /></param>
+		/// <param name="modelBuilder">
+		///     <inheritdoc />
+		/// </param>
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			_configurator.AddConfiguration(new CategoryConfiguration());
@@ -80,6 +87,12 @@ namespace MathSite.Db
 
 			modelBuilder.HasPostgresExtension("uuid-ossp");
 			base.OnModelCreating(modelBuilder);
+		}
+
+		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+		{
+			base.OnConfiguring(optionsBuilder);
+			optionsBuilder.UseLoggerFactory(_loggerFactory);
 		}
 	}
 }
