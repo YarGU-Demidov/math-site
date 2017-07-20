@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using MathSite.Models;
+using MathSite.Entities;
 
 namespace MathSite.Domain.Logic.Persons
 {

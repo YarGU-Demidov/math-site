@@ -1,6 +1,6 @@
 ﻿using MathSite.Db.EntityConfiguration;
 using MathSite.Db.EntityConfiguration.EntitiesConfigurations;
-using MathSite.Models;
+using MathSite.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
