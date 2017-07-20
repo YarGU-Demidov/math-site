@@ -50,7 +50,7 @@ namespace MathSite.ViewModels.Api.Persons
 			IsUser = isUser;
 		}
 
-		public Person(Models.Person person)
+		public Person(Entities.Person person)
 			: this(person.Id, person.Name, person.Surname, person.MiddleName, person.Phone, person.AdditionalPhone,
 				person.Birthday, person.CreationDate ?? DateTime.UtcNow, person.PhotoId, person.UserId != null)
 		{

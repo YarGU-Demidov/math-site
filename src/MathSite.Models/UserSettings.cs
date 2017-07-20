@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MathSite.Models
+namespace MathSite.Entities
 {
 	/// <summary>
 	/// Настройки пользователя.

@@ -1,4 +1,4 @@
-﻿using MathSite.Models;
+﻿using MathSite.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -7,6 +7,9 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 	/// <inheritdoc />
 	public class UserConfiguration : AbstractEntityConfiguration
 	{
+		/// <inheritdoc />
+		public override string ConfigurationName { get; } = "User";
+
 		/// <inheritdoc />
 		protected override void SetPrimaryKey(ModelBuilder modelBuilder)
 		{
@@ -81,8 +84,5 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 				.HasForeignKey(comments => comments.UserId)
 				.OnDelete(DeleteBehavior.Cascade);
 		}
-
-		/// <inheritdoc />
-		public override string ConfigurationName { get; } = "User";
 	}
 }

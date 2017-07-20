@@ -66,14 +66,19 @@ namespace MathSite
 			services.AddSingleton<IAuthorizationHandler, SiteSectionAccessHandler>();
 		}
 
-		private static void ConfigureDependencyInjection(IServiceCollection services)
+		private void ConfigureDependencyInjection(IServiceCollection services)
 		{
 			services.AddLogging();
+
+			services.AddOptions();
+			services.AddSingleton(Configuration);
+			services.AddSingleton<IConfiguration>(Configuration);
+			services.Configure<Settings>(Configuration);
 
 			services.AddScoped<IDataSeeder, DataSeeder>();
 			services.AddScoped<IPasswordsManager, BinaryHashPasswordsManager>();
 			services.AddScoped<IEntitiesConfigurator, EntitiesConfigurator>();
-			services.AddScoped<IMathSiteDbContext, MathSiteDbContext>();
+			services.AddScoped<IMathSiteDbContext, MathSiteDbContext>(provider => provider.GetService<MathSiteDbContext>());
 			services.AddScoped<IBusinessLogicManger, BusinessLogicManager>();
 			services.AddScoped<ICurrentUserAccessValidation, CurrentUserAccessValidation>();
 			services.AddScoped<IGroupsLogic, GroupsLogic>();

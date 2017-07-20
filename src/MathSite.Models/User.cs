@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MathSite.Models
+namespace MathSite.Entities
 {
 	/// <summary>
 	///     Пользователь.
@@ -37,9 +37,9 @@ namespace MathSite.Models
 		public string Login { get; set; }
 
 		/// <summary>
-		///     Пароль.
+		///     Хэш пароля.
 		/// </summary>
-		public Byte[] PasswordHash { get; set; }
+		public byte[] PasswordHash { get; set; }
 
 		/// <summary>
 		///     Личность.

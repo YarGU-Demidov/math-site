@@ -7,7 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MathSite.Common\MathSite.Common.csproj" />
     <ProjectReference Include="..\MathSite.Db\MathSite.Db.csproj" />
-    <ProjectReference Include="..\MathSite.Models\MathSite.Models.csproj" />
+    <ProjectReference Include="..\MathSite.Models\MathSite.Entities.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using MathSite.Models;
+using MathSite.Entities;
 
 namespace MathSite.Core
 {

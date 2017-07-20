@@ -1,5 +1,5 @@
 ﻿using System;
-using MathSite.Models;
+using MathSite.Entities;
 
 namespace MathSite.ViewModels.Api.UsersInfo
 {
