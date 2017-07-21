@@ -76,7 +76,7 @@ namespace MathSite
 			services.Configure<Settings>(Configuration);
 
 			services.AddScoped<IDataSeeder, DataSeeder>();
-			services.AddScoped<IPasswordsManager, BinaryHashPasswordsManager>();
+			services.AddScoped<IPasswordsManager, DoubleSha512HashPasswordsManager>();
 			services.AddScoped<IEntitiesConfigurator, EntitiesConfigurator>();
 			services.AddScoped<IMathSiteDbContext, MathSiteDbContext>(provider => provider.GetService<MathSiteDbContext>());
 			services.AddScoped<IBusinessLogicManger, BusinessLogicManager>();
