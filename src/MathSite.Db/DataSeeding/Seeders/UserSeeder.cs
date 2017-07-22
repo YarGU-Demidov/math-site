@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using MathSite.Common.Crypto;
+using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
 using Microsoft.Extensions.Logging;
 
 namespace MathSite.Db.DataSeeding.Seeders
 {
-	using StaticData;
-
 	/// <inheritdoc />
 	public class UserSeeder : AbstractSeeder<User>
 	{
@@ -23,11 +22,11 @@ namespace MathSite.Db.DataSeeding.Seeders
 
 		/// <inheritdoc />
 		public override string SeedingObjectName { get; } = "User";
-		
+
 		/// <inheritdoc />
 		protected override void SeedData()
 		{
-			var firstLogin = "mokeev1995";
+			const string firstLogin = UsersAliases.FirstUser;
 			var firstUser = CreateUser(
 				firstLogin,
 				GetPasswordHash(firstLogin, "test"),
@@ -36,7 +35,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 				DateTime.Now
 			);
 
-			var secondLogin = "andrey_devyatkin";
+			const string secondLogin = UsersAliases.SecondUser;
 			var secondUser = CreateUser(
 				secondLogin,
 				GetPasswordHash(secondLogin, "qwerty"),
@@ -45,11 +44,21 @@ namespace MathSite.Db.DataSeeding.Seeders
 				DateTime.Now
 			);
 
+			const string thirdLogin = UsersAliases.ThirdUser;
+			var thirdUser = CreateUser(
+				thirdLogin,
+				GetPasswordHash(thirdLogin, "test"),
+				GetPersonByNames("Тест", "Тестов", "Тестович"),
+				GetGroupByAlias(GroupAliases.User),
+				DateTime.Now
+			);
+
 
 			var users = new[]
 			{
 				firstUser,
-				secondUser
+				secondUser,
+				thirdUser
 			};
 
 			Context.Users.AddRange(users);
@@ -69,8 +78,8 @@ namespace MathSite.Db.DataSeeding.Seeders
 		{
 			return Context.Persons.First(
 				person => person.Name == name &&
-						person.Surname == surname &&
-						person.MiddleName == middlename
+				          person.Surname == surname &&
+				          person.MiddleName == middlename
 			);
 		}
 

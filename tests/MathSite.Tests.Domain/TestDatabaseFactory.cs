@@ -1,24 +1,28 @@
 ﻿using System;
-using System.Security;
+using System.Threading.Tasks;
 using MathSite.Common.Crypto;
 using MathSite.Db;
 using MathSite.Db.DataSeeding;
 using MathSite.Db.EntityConfiguration;
-using MathSite.Domain.LogicValidation;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Xunit;
 
 namespace MathSite.Tests.Domain
 {
-	public class TestDatabaseFactory: IDisposable
+	public class TestDatabaseFactory : IDisposable
 	{
 		private static readonly IPasswordsManager PasswordsManager = new DoubleSha512HashPasswordsManager();
+		private SqliteConnection _connection;
 
 		private IMathSiteDbContext _context;
 		private ILoggerFactory _loggerFactory;
-		private SqliteConnection _connection;
+
+		public void Dispose()
+		{
+			_connection?.Close();
+			_context?.Dispose();
+		}
 
 		public IDisposable OpenConnection()
 		{
@@ -30,15 +34,15 @@ namespace MathSite.Tests.Domain
 
 		public IMathSiteDbContext GetContext()
 		{
-			
 			_loggerFactory = new LoggerFactory();
 
-			_context = new MathSiteDbContext(GetContextOptions(), new EntitiesConfigurator(_loggerFactory.CreateLogger<EntitiesConfigurator>()));
+			_context = new MathSiteDbContext(
+				GetContextOptions(),
+				new EntitiesConfigurator(_loggerFactory.CreateLogger<EntitiesConfigurator>())
+			);
 
 			if (!_context.Database.EnsureCreated())
-			{
 				_context.Database.Migrate();
-			}
 
 			SeedData();
 
@@ -61,18 +65,21 @@ namespace MathSite.Tests.Domain
 			seeder.Seed();
 		}
 
-		public void Dispose()
-		{
-			_connection?.Close();
-			_context?.Dispose();
-		}
-
 		public void ExecuteWithContext(Action<IMathSiteDbContext> yourAction)
 		{
 			using (OpenConnection())
 			using (var context = GetContext())
 			{
 				yourAction(context);
+			}
+		}
+
+		public async Task ExecuteWithContextAsync(Func<IMathSiteDbContext, Task> yourAction)
+		{
+			using (OpenConnection())
+			using (var context = GetContext())
+			{
+				await yourAction(context);
 			}
 		}
 	}

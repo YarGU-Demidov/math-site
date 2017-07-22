@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using MathSite.Entities;
 using Microsoft.Extensions.Logging;
 
@@ -16,7 +15,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 
 		/// <inheritdoc />
 		public override string SeedingObjectName { get; } = "Person";
-		
+
 		/// <inheritdoc />
 		protected override void SeedData()
 		{
@@ -38,10 +37,20 @@ namespace MathSite.Db.DataSeeding.Seeders
 				"765432"
 			);
 
+			var thirdPerson = CreatePerson(
+				"Тест",
+				"Тестов",
+				"Тестович",
+				DateTime.Now - TimeSpan.FromDays(365),
+				"111111",
+				"222222"
+			);
+
 			var persons = new[]
 			{
 				firstPerson,
-				secondPerson
+				secondPerson,
+				thirdPerson
 			};
 
 			Context.Persons.AddRange(persons);
