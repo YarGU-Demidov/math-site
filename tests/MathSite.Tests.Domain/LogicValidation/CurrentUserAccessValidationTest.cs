@@ -18,8 +18,7 @@ namespace MathSite.Tests.Domain.LogicValidation
 		[Fact]
 		public void UserExsistance_Exists()
 		{
-			using (_databaseFactory)
-			using (var context = _databaseFactory.GetContext())
+			_databaseFactory.ExecuteWithContext(context =>
 			{
 				var validator = new CurrentUserAccessValidation(context);
 
@@ -27,32 +26,40 @@ namespace MathSite.Tests.Domain.LogicValidation
 
 				// shouldn't throw any exception!
 				validator.CheckCurrentUserExistence(user.Id);
-			}
+			});
 		}
 
 		[Fact]
 		public void UserExsistance_NotExists_EmptyGuid()
 		{
-			using (_databaseFactory)
-			using (var context = _databaseFactory.GetContext())
+			_databaseFactory.ExecuteWithContext(context =>
 			{
 				var validator = new CurrentUserAccessValidation(context);
 
 				Assert.Throws<SecurityException>(() => validator.CheckCurrentUserExistence(Guid.Empty));
-			}
+			});
 		}
 
 		// TODO: FIXME!!!
 		[Fact]
 		public void UserExsistance_NotExists_NotEmptyGuid()
 		{
-			using (_databaseFactory)
-			using (var context = _databaseFactory.GetContext())
+			_databaseFactory.ExecuteWithContext(context =>
 			{
 				var validator = new CurrentUserAccessValidation(context);
 
-				Assert.Throws<SecurityException>(() => validator.CheckCurrentUserExistence(Guid.NewGuid()));
-			}
+				var guid = Guid.NewGuid();
+
+				do
+				{
+					if (!context.Users.Any(user => user.Id == guid))
+						break;
+
+					guid = Guid.NewGuid();
+				} while (true);
+
+				Assert.Throws<SecurityException>(() => validator.CheckCurrentUserExistence(guid));
+			});
 		}
 
 		// TODO: WRITE MORE TESTS!!!
