@@ -7,22 +7,16 @@ using Microsoft.Extensions.Logging;
 namespace MathSite.Db.DataSeeding.Seeders
 {
 	/// <inheritdoc />
-	public class RightSeeder : AbstractSeeder
+	public class RightSeeder : AbstractSeeder<Right>
 	{
 		/// <inheritdoc />
-		public RightSeeder(ILogger logger, MathSiteDbContext context) : base(logger, context)
+		public RightSeeder(ILogger logger, IMathSiteDbContext context) : base(logger, context)
 		{
 		}
 
 		/// <inheritdoc />
 		public override string SeedingObjectName { get; } = "Right";
-
-		/// <inheritdoc />
-		protected override bool DbContainsEntities()
-		{
-			return Context.Rights.Any();
-		}
-
+		
 		/// <inheritdoc />
 		protected override void SeedData()
 		{

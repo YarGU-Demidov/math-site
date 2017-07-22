@@ -6,22 +6,16 @@ using Microsoft.Extensions.Logging;
 
 namespace MathSite.Db.DataSeeding.Seeders
 {
-	public class FileSeeder : AbstractSeeder
+	public class FileSeeder : AbstractSeeder<File>
 	{
 		/// <inheritdoc />
-		public FileSeeder(ILogger logger, MathSiteDbContext context) : base(logger, context)
+		public FileSeeder(ILogger logger, IMathSiteDbContext context) : base(logger, context)
 		{
 		}
 
 		/// <inheritdoc />
 		public override string SeedingObjectName { get; } = "File";
-
-		/// <inheritdoc />
-		protected override bool DbContainsEntities()
-		{
-			return Context.Files.Any();
-		}
-
+		
 		/// <inheritdoc />
 		protected override void SeedData()
 		{

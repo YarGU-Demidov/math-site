@@ -6,22 +6,16 @@ using Microsoft.Extensions.Logging;
 
 namespace MathSite.Db.DataSeeding.Seeders
 {
-	public class GroupTypeSeeder : AbstractSeeder
+	public class GroupTypeSeeder : AbstractSeeder<GroupType>
 	{
 		/// <inheritdoc />
-		public GroupTypeSeeder(ILogger logger, MathSiteDbContext context) : base(logger, context)
+		public GroupTypeSeeder(ILogger logger, IMathSiteDbContext context) : base(logger, context)
 		{
 		}
 
 		/// <inheritdoc />
 		public override string SeedingObjectName { get; } = "GroupType";
-
-		/// <inheritdoc />
-		protected override bool DbContainsEntities()
-		{
-			return Context.GroupTypes.Any();
-		}
-
+		
 		/// <inheritdoc />
 		protected override void SeedData()
 		{

@@ -7,17 +7,22 @@ namespace MathSite.Tests.Common
 {
 	public class BinaryHashPasswordsManagerTests
 	{
+		private readonly DoubleSha512HashPasswordsManager _manager;
+
+		public BinaryHashPasswordsManagerTests()
+		{
+			_manager = new DoubleSha512HashPasswordsManager();
+		}
+
 		[Fact]
 		public void PasswordBytesAreEqual()
 		{
 			const string login = "login";
 			const string pass = "pass";
+			
+			var resultBytes = _manager.CreatePassword(login, pass);
 
-			var hasher = new DoubleSha512HashPasswordsManager();
-
-			var resultBytes = hasher.CreatePassword(login, pass);
-
-			var result = hasher.PasswordsAreEqual(login, pass, resultBytes);
+			var result = _manager.PasswordsAreEqual(login, pass, resultBytes);
 
 			Assert.True(result);
 		}
@@ -25,17 +30,13 @@ namespace MathSite.Tests.Common
 		[Fact]
 		public void LoginNull()
 		{
-			var hasher = new DoubleSha512HashPasswordsManager();
-
-			Assert.Throws<ArgumentNullException>("login", () => hasher.PasswordsAreEqual(null, "test", new byte[0]));
+			Assert.Throws<ArgumentNullException>("login", () => _manager.PasswordsAreEqual(null, "test", new byte[0]));
 		}
 
 		[Fact]
 		public void PasswordNull()
 		{
-			var hasher = new DoubleSha512HashPasswordsManager();
-
-			Assert.Throws<ArgumentNullException>("password", () => hasher.PasswordsAreEqual("test", null, new byte[0]));
+			Assert.Throws<ArgumentNullException>("password", () => _manager.PasswordsAreEqual("test", null, new byte[0]));
 		}
 
 		[Fact]
@@ -43,12 +44,10 @@ namespace MathSite.Tests.Common
 		{
 			const string login = "login";
 			const string pass = "pass";
+			
+			var resultBytes = _manager.CreatePassword(login, pass);
 
-			var hasher = new DoubleSha512HashPasswordsManager();
-
-			var resultBytes = hasher.CreatePassword(login, pass);
-
-			var result = hasher.PasswordsAreEqual($"login_{login}", pass, resultBytes);
+			var result = _manager.PasswordsAreEqual($"login_{login}", pass, resultBytes);
 
 			Assert.False(result);
 		}
@@ -58,12 +57,10 @@ namespace MathSite.Tests.Common
 		{
 			const string login = "login";
 			const string pass = "pass";
+			
+			var resultBytes = _manager.CreatePassword(login, pass);
 
-			var hasher = new DoubleSha512HashPasswordsManager();
-
-			var resultBytes = hasher.CreatePassword(login, pass);
-
-			var result = hasher.PasswordsAreEqual(login, pass, resultBytes.TakeWhile((b, i) => i < 10).ToArray());
+			var result = _manager.PasswordsAreEqual(login, pass, resultBytes.TakeWhile((b, i) => i < 10).ToArray());
 
 			Assert.False(result);
 		}

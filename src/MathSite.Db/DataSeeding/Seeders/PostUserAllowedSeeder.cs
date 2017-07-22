@@ -5,21 +5,16 @@ using Microsoft.Extensions.Logging;
 
 namespace MathSite.Db.DataSeeding.Seeders
 {
-	public class PostUserAllowedSeeder : AbstractSeeder
+	public class PostUserAllowedSeeder : AbstractSeeder<PostUserAllowed>
 	{
 		/// <inheritdoc />
-		public PostUserAllowedSeeder(ILogger logger, MathSiteDbContext context) : base(logger, context)
+		public PostUserAllowedSeeder(ILogger logger, IMathSiteDbContext context) : base(logger, context)
 		{
 		}
 
 		/// <inheritdoc />
 		public override string SeedingObjectName { get; } = "PostUserAllowed";
-
-		/// <inheritdoc />
-		protected override bool DbContainsEntities()
-		{
-			return Context.PostUserAlloweds.Any();
-		}
+		
 
 		/// <inheritdoc />
 		protected override void SeedData()

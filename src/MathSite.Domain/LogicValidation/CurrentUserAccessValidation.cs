@@ -27,6 +27,7 @@ namespace MathSite.Domain.LogicValidation
 		/// <param name="currentUserId">Идентификатор текущего пользователя.</param>
 		public void CheckCurrentUserExistence(Guid currentUserId)
 		{
+			// TODO: IS THAT'S ALL??
 			if (currentUserId == Guid.Empty)
 				throw new SecurityException(string.Format(UserNotFoundFormat, currentUserId));
 		}

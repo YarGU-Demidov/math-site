@@ -5,21 +5,16 @@ using Microsoft.Extensions.Logging;
 
 namespace MathSite.Db.DataSeeding.Seeders
 {
-	public class UserSettingsSeeder : AbstractSeeder
+	public class UserSettingsSeeder : AbstractSeeder<UserSettings>
 	{
 		/// <inheritdoc />
-		public UserSettingsSeeder(ILogger logger, MathSiteDbContext context) : base(logger, context)
+		public UserSettingsSeeder(ILogger logger, IMathSiteDbContext context) : base(logger, context)
 		{
 		}
 
 		/// <inheritdoc />
 		public override string SeedingObjectName { get; } = "UserSettings";
-
-		/// <inheritdoc />
-		protected override bool DbContainsEntities()
-		{
-			return Context.UserSettingses.Any();
-		}
+		
 
 		/// <inheritdoc />
 		protected override void SeedData()
