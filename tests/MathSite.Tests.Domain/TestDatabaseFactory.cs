@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Security;
 using MathSite.Common.Crypto;
 using MathSite.Db;
 using MathSite.Db.DataSeeding;
 using MathSite.Db.EntityConfiguration;
+using MathSite.Domain.LogicValidation;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Xunit;
 
 namespace MathSite.Tests.Domain
 {
@@ -16,6 +19,14 @@ namespace MathSite.Tests.Domain
 		private IMathSiteDbContext _context;
 		private ILoggerFactory _loggerFactory;
 		private SqliteConnection _connection;
+
+		public IDisposable OpenConnection()
+		{
+			_connection = new SqliteConnection("DataSource=:memory:");
+			_connection.Open();
+
+			return _connection;
+		}
 
 		public IMathSiteDbContext GetContext()
 		{
@@ -36,9 +47,6 @@ namespace MathSite.Tests.Domain
 
 		private DbContextOptions GetContextOptions()
 		{
-			_connection = new SqliteConnection("DataSource=:memory:");
-			_connection.Open();
-
 			return new DbContextOptionsBuilder()
 				.UseSqlite(_connection)
 				.Options;
@@ -57,6 +65,15 @@ namespace MathSite.Tests.Domain
 		{
 			_connection?.Close();
 			_context?.Dispose();
+		}
+
+		public void ExecuteWithContext(Action<IMathSiteDbContext> yourAction)
+		{
+			using (OpenConnection())
+			using (var context = GetContext())
+			{
+				yourAction(context);
+			}
 		}
 	}
 }
