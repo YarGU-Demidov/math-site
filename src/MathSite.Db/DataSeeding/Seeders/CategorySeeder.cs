@@ -5,22 +5,16 @@ using Microsoft.Extensions.Logging;
 
 namespace MathSite.Db.DataSeeding.Seeders
 {
-	public class CategorySeeder : AbstractSeeder
+	public class CategorySeeder : AbstractSeeder<Category>
 	{
 		/// <inheritdoc />
-		public CategorySeeder(ILogger logger, MathSiteDbContext context) : base(logger, context)
+		public CategorySeeder(ILogger logger, IMathSiteDbContext context) : base(logger, context)
 		{
 		}
 
 		/// <inheritdoc />
 		public override string SeedingObjectName { get; } = "Category";
-
-		/// <inheritdoc />
-		protected override bool DbContainsEntities()
-		{
-			return Context.Categories.Any();
-		}
-
+		
 		/// <inheritdoc />
 		protected override void SeedData()
 		{

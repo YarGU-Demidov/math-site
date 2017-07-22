@@ -8,7 +8,7 @@ namespace MathSite.Domain.Common
 	/// <summary>
 	///		Базовый класс реализации слоя бизнес-логики.
 	/// </summary>
-	public class LogicBase
+	public abstract class LogicBase
 	{
 		protected IMathSiteDbContext ContextManager { get; }
 

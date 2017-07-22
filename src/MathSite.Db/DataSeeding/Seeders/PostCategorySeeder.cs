@@ -5,22 +5,16 @@ using Microsoft.Extensions.Logging;
 
 namespace MathSite.Db.DataSeeding.Seeders
 {
-	public class PostCategorySeeder : AbstractSeeder
+	public class PostCategorySeeder : AbstractSeeder<PostCategory>
 	{
 		/// <inheritdoc />
-		public PostCategorySeeder(ILogger logger, MathSiteDbContext context) : base(logger, context)
+		public PostCategorySeeder(ILogger logger, IMathSiteDbContext context) : base(logger, context)
 		{
 		}
 
 		/// <inheritdoc />
 		public override string SeedingObjectName { get; } = "PostCategory";
-
-		/// <inheritdoc />
-		protected override bool DbContainsEntities()
-		{
-			return Context.PostCategories.Any();
-		}
-
+		
 		/// <inheritdoc />
 		protected override void SeedData()
 		{

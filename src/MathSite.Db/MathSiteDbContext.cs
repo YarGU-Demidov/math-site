@@ -13,7 +13,6 @@ namespace MathSite.Db
 	public class MathSiteDbContext : DbContext, IMathSiteDbContext
 	{
 		private readonly IEntitiesConfigurator _configurator;
-		private readonly ILoggerFactory _loggerFactory;
 
 		/// <summary>
 		///     Контекст.
@@ -21,11 +20,9 @@ namespace MathSite.Db
 		/// <param name="options">Настройки контекста.</param>
 		/// <param name="configurator">Конфигуратор моделей.</param>
 		/// <param name="loggerFactory">Фабрика логгеров</param>
-		public MathSiteDbContext(DbContextOptions options, IEntitiesConfigurator configurator,
-			ILoggerFactory loggerFactory) : base(options)
+		public MathSiteDbContext(DbContextOptions options, IEntitiesConfigurator configurator) : base(options)
 		{
 			_configurator = configurator;
-			_loggerFactory = loggerFactory;
 		}
 
 		public DbSet<Category> Categories { get; set; }
@@ -87,12 +84,6 @@ namespace MathSite.Db
 
 			modelBuilder.HasPostgresExtension("uuid-ossp");
 			base.OnModelCreating(modelBuilder);
-		}
-
-		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-		{
-			base.OnConfiguring(optionsBuilder);
-			optionsBuilder.UseLoggerFactory(_loggerFactory);
 		}
 	}
 }
