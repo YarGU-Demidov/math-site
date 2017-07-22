@@ -1,27 +1,20 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
 using Microsoft.Extensions.Logging;
 
 namespace MathSite.Db.DataSeeding.Seeders
 {
-	public class PostTypeSeeder : AbstractSeeder
+	public class PostTypeSeeder : AbstractSeeder<PostType>
 	{
 		/// <inheritdoc />
-		public PostTypeSeeder(ILogger logger, MathSiteDbContext context) : base(logger, context)
+		public PostTypeSeeder(ILogger logger, IMathSiteDbContext context) : base(logger, context)
 		{
 		}
 
 		/// <inheritdoc />
 		public override string SeedingObjectName { get; } = "PostType";
-
-		/// <inheritdoc />
-		protected override bool DbContainsEntities()
-		{
-			return Context.PostTypes.Any();
-		}
-
+		
 		/// <inheritdoc />
 		protected override void SeedData()
 		{

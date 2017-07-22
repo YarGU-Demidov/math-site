@@ -8,22 +8,16 @@ namespace MathSite.Db.DataSeeding.Seeders
 	using StaticData;
 
 	/// <inheritdoc />
-	public class GroupSeeder : AbstractSeeder
+	public class GroupSeeder : AbstractSeeder<Group>
 	{
 		/// <inheritdoc />
-		public GroupSeeder(ILogger logger, MathSiteDbContext context) : base(logger, context)
+		public GroupSeeder(ILogger logger, IMathSiteDbContext context) : base(logger, context)
 		{
 		}
 
 		/// <inheritdoc />
 		public override string SeedingObjectName { get; } = "Group";
-
-		/// <inheritdoc />
-		protected override bool DbContainsEntities()
-		{
-			return Context.Groups.Any();
-		}
-
+		
 		/// <inheritdoc />
 		protected override void SeedData()
 		{

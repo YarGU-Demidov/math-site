@@ -5,22 +5,16 @@ using Microsoft.Extensions.Logging;
 
 namespace MathSite.Db.DataSeeding.Seeders
 {
-	public class UserRightsSeeder : AbstractSeeder
+	public class UserRightsSeeder : AbstractSeeder<UsersRights>
 	{
 		/// <inheritdoc />
-		public UserRightsSeeder(ILogger logger, MathSiteDbContext context) : base(logger, context)
+		public UserRightsSeeder(ILogger logger, IMathSiteDbContext context) : base(logger, context)
 		{
 		}
 
 		/// <inheritdoc />
 		public override string SeedingObjectName { get; } = "UserRights";
-
-		/// <inheritdoc />
-		protected override bool DbContainsEntities()
-		{
-			return Context.UsersRights.Any();
-		}
-
+		
 		/// <inheritdoc />
 		protected override void SeedData()
 		{

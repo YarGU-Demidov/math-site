@@ -6,23 +6,17 @@ using Microsoft.Extensions.Logging;
 namespace MathSite.Db.DataSeeding.Seeders
 {
 	/// <inheritdoc />
-	public class PersonSeeder : AbstractSeeder
+	public class PersonSeeder : AbstractSeeder<Person>
 	{
 		/// <inheritdoc />
-		public PersonSeeder(ILogger logger, MathSiteDbContext context)
+		public PersonSeeder(ILogger logger, IMathSiteDbContext context)
 			: base(logger, context)
 		{
 		}
 
 		/// <inheritdoc />
 		public override string SeedingObjectName { get; } = "Person";
-
-		/// <inheritdoc />
-		protected override bool DbContainsEntities()
-		{
-			return Context.Persons.Any();
-		}
-
+		
 		/// <inheritdoc />
 		protected override void SeedData()
 		{
@@ -32,7 +26,8 @@ namespace MathSite.Db.DataSeeding.Seeders
 				"Александрович",
 				DateTime.Now,
 				"123456",
-				"654321");
+				"654321"
+			);
 
 			var secondPerson = CreatePerson(
 				"Андрей",
@@ -40,7 +35,8 @@ namespace MathSite.Db.DataSeeding.Seeders
 				"Вячеславович",
 				DateTime.Now,
 				"234567",
-				"765432");
+				"765432"
+			);
 
 			var persons = new[]
 			{

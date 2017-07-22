@@ -10,10 +10,10 @@ namespace MathSite.Db.DataSeeding.Seeders
 	using StaticData;
 
 	/// <inheritdoc />
-	public class UserSeeder : AbstractSeeder
+	public class UserSeeder : AbstractSeeder<User>
 	{
 		/// <inheritdoc />
-		public UserSeeder(ILogger logger, MathSiteDbContext context, IPasswordsManager passwordsManager) : base(logger,
+		public UserSeeder(ILogger logger, IMathSiteDbContext context, IPasswordsManager passwordsManager) : base(logger,
 			context)
 		{
 			PasswordManager = passwordsManager;
@@ -23,13 +23,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 
 		/// <inheritdoc />
 		public override string SeedingObjectName { get; } = "User";
-
-		/// <inheritdoc />
-		protected override bool DbContainsEntities()
-		{
-			return Context.Users.Any();
-		}
-
+		
 		/// <inheritdoc />
 		protected override void SeedData()
 		{

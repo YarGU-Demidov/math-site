@@ -6,22 +6,16 @@ using Microsoft.Extensions.Logging;
 
 namespace MathSite.Db.DataSeeding.Seeders
 {
-	public class CommentSeeder : AbstractSeeder
+	public class CommentSeeder : AbstractSeeder<Comment>
 	{
 		/// <inheritdoc />
-		public CommentSeeder(ILogger logger, MathSiteDbContext context) : base(logger, context)
+		public CommentSeeder(ILogger logger, IMathSiteDbContext context) : base(logger, context)
 		{
 		}
 
 		/// <inheritdoc />
 		public override string SeedingObjectName { get; } = "Comment";
-
-		/// <inheritdoc />
-		protected override bool DbContainsEntities()
-		{
-			return Context.Comments.Any();
-		}
-
+		
 		/// <inheritdoc />
 		protected override void SeedData()
 		{

@@ -7,22 +7,16 @@ namespace MathSite.Db.DataSeeding.Seeders
 	using StaticData;
 
 	/// <inheritdoc />
-	public class UsersToGroupsSeeder : AbstractSeeder
+	public class UsersToGroupsSeeder : AbstractSeeder<User>
 	{
 		/// <inheritdoc />
-		public UsersToGroupsSeeder(ILogger logger, MathSiteDbContext context) : base(logger, context)
+		public UsersToGroupsSeeder(ILogger logger, IMathSiteDbContext context) : base(logger, context)
 		{
 		}
 
 		/// <inheritdoc />
 		public override string SeedingObjectName { get; } = "UsersToGroups";
-
-		/// <inheritdoc />
-		protected override bool DbContainsEntities()
-		{
-			return Context.Users.Any();
-		}
-
+		
 		/// <inheritdoc />
 		protected override bool ShouldSeed()
 		{

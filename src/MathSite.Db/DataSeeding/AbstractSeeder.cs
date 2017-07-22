@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.Extensions.Logging;
 
 namespace MathSite.Db.DataSeeding
@@ -6,14 +7,14 @@ namespace MathSite.Db.DataSeeding
 	/// <summary>
 	///     Seeder, заполняющий таблицу данными
 	/// </summary>
-	public abstract class AbstractSeeder : ISeeder
+	public abstract class AbstractSeeder<TEntity> : ISeeder where TEntity : class
 	{
 		/// <summary>
 		///     Создание объекта Seeder-а
 		/// </summary>
 		/// <param name="logger">Логгер</param>
 		/// <param name="context">Контекст базы сайта</param>
-		public AbstractSeeder(ILogger logger, MathSiteDbContext context)
+		public AbstractSeeder(ILogger logger, IMathSiteDbContext context)
 		{
 			Logger = logger;
 			Context = context;
@@ -27,7 +28,7 @@ namespace MathSite.Db.DataSeeding
 		/// <summary>
 		///     Контекст базы сайта
 		/// </summary>
-		protected MathSiteDbContext Context { get; }
+		protected IMathSiteDbContext Context { get; }
 
 		/// <inheritdoc />
 		public void Dispose()
@@ -42,10 +43,13 @@ namespace MathSite.Db.DataSeeding
 		public virtual bool CanSeed => !DbContainsEntities() && ShouldSeed();
 
 		/// <summary>
-		///		Возвращает 
+		///		Есть ли сущности в базе 
 		/// </summary>
 		/// <returns>Есть ли сущности в базе</returns>
-		protected abstract bool DbContainsEntities();
+		protected virtual bool DbContainsEntities()
+		{
+			return Context.Set<TEntity>().Any();
+		}
 
 		protected virtual bool ShouldSeed()
 		{
