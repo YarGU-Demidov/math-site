@@ -111,6 +111,13 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 				.HasForeignKey(userAllowed => userAllowed.PostId)
 				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);
+
+			modelBuilder.Entity<Post>()
+				.HasOne(post => post.Author)
+				.WithMany(user => user.Posts)
+				.HasForeignKey(post => post.AuthorId)
+				.IsRequired()
+				.OnDelete(DeleteBehavior.Cascade);
 		}
 
 		/// <inheritdoc />

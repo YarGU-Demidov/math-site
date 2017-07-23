@@ -83,6 +83,13 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 				.WithOne(comments => comments.User)
 				.HasForeignKey(comments => comments.UserId)
 				.OnDelete(DeleteBehavior.Cascade);
+
+			modelBuilder.Entity<User>()
+				.HasMany(user => user.Posts)
+				.WithOne(post => post.Author)
+				.HasForeignKey(post => post.AuthorId)
+				.IsRequired()
+				.OnDelete(DeleteBehavior.Cascade);
 		}
 	}
 }

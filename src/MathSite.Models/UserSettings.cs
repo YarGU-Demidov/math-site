@@ -3,7 +3,7 @@
 namespace MathSite.Entities
 {
 	/// <summary>
-	/// Настройки пользователя.
+	///     Настройки пользователя.
 	/// </summary>
 	public class UserSettings
 	{
