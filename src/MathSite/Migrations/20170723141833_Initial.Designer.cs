@@ -8,7 +8,7 @@ using MathSite.Db;
 namespace MathSite.Migrations
 {
     [DbContext(typeof(MathSiteDbContext))]
-    [Migration("20170716102409_Initial")]
+    [Migration("20170723141833_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -18,7 +18,7 @@ namespace MathSite.Migrations
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
                 .HasAnnotation("ProductVersion", "1.1.2");
 
-            modelBuilder.Entity("MathSite.Models.Category", b =>
+            modelBuilder.Entity("MathSite.Entities.Category", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -38,14 +38,14 @@ namespace MathSite.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("MathSite.Models.Comment", b =>
+            modelBuilder.Entity("MathSite.Entities.Comment", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<bool>("Allowed");
-
                     b.Property<DateTime>("Date");
+
+                    b.Property<bool>("Edited");
 
                     b.Property<Guid>("PostId");
 
@@ -63,7 +63,7 @@ namespace MathSite.Migrations
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("MathSite.Models.File", b =>
+            modelBuilder.Entity("MathSite.Entities.File", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -83,7 +83,7 @@ namespace MathSite.Migrations
                     b.ToTable("Files");
                 });
 
-            modelBuilder.Entity("MathSite.Models.Group", b =>
+            modelBuilder.Entity("MathSite.Entities.Group", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -107,7 +107,7 @@ namespace MathSite.Migrations
                     b.ToTable("Groups");
                 });
 
-            modelBuilder.Entity("MathSite.Models.GroupsRights", b =>
+            modelBuilder.Entity("MathSite.Entities.GroupsRights", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -127,7 +127,7 @@ namespace MathSite.Migrations
                     b.ToTable("GroupsRights");
                 });
 
-            modelBuilder.Entity("MathSite.Models.GroupType", b =>
+            modelBuilder.Entity("MathSite.Entities.GroupType", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -144,7 +144,7 @@ namespace MathSite.Migrations
                     b.ToTable("GroupTypes");
                 });
 
-            modelBuilder.Entity("MathSite.Models.Keywords", b =>
+            modelBuilder.Entity("MathSite.Entities.Keywords", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -162,7 +162,7 @@ namespace MathSite.Migrations
                     b.ToTable("Keywords");
                 });
 
-            modelBuilder.Entity("MathSite.Models.Person", b =>
+            modelBuilder.Entity("MathSite.Entities.Person", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -200,10 +200,12 @@ namespace MathSite.Migrations
                     b.ToTable("Persons");
                 });
 
-            modelBuilder.Entity("MathSite.Models.Post", b =>
+            modelBuilder.Entity("MathSite.Entities.Post", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("AuthorId");
 
                     b.Property<string>("Content")
                         .IsRequired();
@@ -228,6 +230,8 @@ namespace MathSite.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AuthorId");
+
                     b.HasIndex("PostSeoSettingsId")
                         .IsUnique();
 
@@ -239,7 +243,7 @@ namespace MathSite.Migrations
                     b.ToTable("Posts");
                 });
 
-            modelBuilder.Entity("MathSite.Models.PostAttachment", b =>
+            modelBuilder.Entity("MathSite.Entities.PostAttachment", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -259,7 +263,7 @@ namespace MathSite.Migrations
                     b.ToTable("PostAttachments");
                 });
 
-            modelBuilder.Entity("MathSite.Models.PostCategory", b =>
+            modelBuilder.Entity("MathSite.Entities.PostCategory", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -277,7 +281,7 @@ namespace MathSite.Migrations
                     b.ToTable("PostCategories");
                 });
 
-            modelBuilder.Entity("MathSite.Models.PostGroupsAllowed", b =>
+            modelBuilder.Entity("MathSite.Entities.PostGroupsAllowed", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -297,7 +301,7 @@ namespace MathSite.Migrations
                     b.ToTable("PostGroupsAlloweds");
                 });
 
-            modelBuilder.Entity("MathSite.Models.PostKeywords", b =>
+            modelBuilder.Entity("MathSite.Entities.PostKeywords", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -315,7 +319,7 @@ namespace MathSite.Migrations
                     b.ToTable("PostKeywords");
                 });
 
-            modelBuilder.Entity("MathSite.Models.PostOwner", b =>
+            modelBuilder.Entity("MathSite.Entities.PostOwner", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -333,7 +337,7 @@ namespace MathSite.Migrations
                     b.ToTable("PostOwners");
                 });
 
-            modelBuilder.Entity("MathSite.Models.PostRating", b =>
+            modelBuilder.Entity("MathSite.Entities.PostRating", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -356,7 +360,7 @@ namespace MathSite.Migrations
                     b.ToTable("PostRatings");
                 });
 
-            modelBuilder.Entity("MathSite.Models.PostSeoSettings", b =>
+            modelBuilder.Entity("MathSite.Entities.PostSeoSettings", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -372,7 +376,7 @@ namespace MathSite.Migrations
                     b.ToTable("PostSeoSettings");
                 });
 
-            modelBuilder.Entity("MathSite.Models.PostSettings", b =>
+            modelBuilder.Entity("MathSite.Entities.PostSettings", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -397,7 +401,7 @@ namespace MathSite.Migrations
                     b.ToTable("PostSettings");
                 });
 
-            modelBuilder.Entity("MathSite.Models.PostType", b =>
+            modelBuilder.Entity("MathSite.Entities.PostType", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -410,7 +414,7 @@ namespace MathSite.Migrations
                     b.ToTable("PostTypes");
                 });
 
-            modelBuilder.Entity("MathSite.Models.PostUserAllowed", b =>
+            modelBuilder.Entity("MathSite.Entities.PostUserAllowed", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -430,7 +434,7 @@ namespace MathSite.Migrations
                     b.ToTable("PostUserAlloweds");
                 });
 
-            modelBuilder.Entity("MathSite.Models.Right", b =>
+            modelBuilder.Entity("MathSite.Entities.Right", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -450,7 +454,7 @@ namespace MathSite.Migrations
                     b.ToTable("Rights");
                 });
 
-            modelBuilder.Entity("MathSite.Models.User", b =>
+            modelBuilder.Entity("MathSite.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -474,7 +478,7 @@ namespace MathSite.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("MathSite.Models.UserSettings", b =>
+            modelBuilder.Entity("MathSite.Entities.UserSettings", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -497,7 +501,7 @@ namespace MathSite.Migrations
                     b.ToTable("UserSettingses");
                 });
 
-            modelBuilder.Entity("MathSite.Models.UsersRights", b =>
+            modelBuilder.Entity("MathSite.Entities.UsersRights", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -517,203 +521,208 @@ namespace MathSite.Migrations
                     b.ToTable("UsersRights");
                 });
 
-            modelBuilder.Entity("MathSite.Models.Comment", b =>
+            modelBuilder.Entity("MathSite.Entities.Comment", b =>
                 {
-                    b.HasOne("MathSite.Models.Post", "Post")
+                    b.HasOne("MathSite.Entities.Post", "Post")
                         .WithMany("Comments")
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("MathSite.Models.User", "User")
+                    b.HasOne("MathSite.Entities.User", "User")
                         .WithMany("Comments")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("MathSite.Models.Group", b =>
+            modelBuilder.Entity("MathSite.Entities.Group", b =>
                 {
-                    b.HasOne("MathSite.Models.GroupType", "GroupType")
+                    b.HasOne("MathSite.Entities.GroupType", "GroupType")
                         .WithMany("Groups")
                         .HasForeignKey("GroupTypeId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("MathSite.Models.Group", "ParentGroup")
+                    b.HasOne("MathSite.Entities.Group", "ParentGroup")
                         .WithMany()
                         .HasForeignKey("ParentGroupId");
                 });
 
-            modelBuilder.Entity("MathSite.Models.GroupsRights", b =>
+            modelBuilder.Entity("MathSite.Entities.GroupsRights", b =>
                 {
-                    b.HasOne("MathSite.Models.Group", "Group")
+                    b.HasOne("MathSite.Entities.Group", "Group")
                         .WithMany("GroupsRights")
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("MathSite.Models.Right", "Right")
+                    b.HasOne("MathSite.Entities.Right", "Right")
                         .WithMany("GroupsRights")
                         .HasForeignKey("RightId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("MathSite.Models.Person", b =>
+            modelBuilder.Entity("MathSite.Entities.Person", b =>
                 {
-                    b.HasOne("MathSite.Models.File", "Photo")
+                    b.HasOne("MathSite.Entities.File", "Photo")
                         .WithOne("Person")
-                        .HasForeignKey("MathSite.Models.Person", "PhotoId")
+                        .HasForeignKey("MathSite.Entities.Person", "PhotoId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("MathSite.Models.User", "User")
+                    b.HasOne("MathSite.Entities.User", "User")
                         .WithOne("Person")
-                        .HasForeignKey("MathSite.Models.Person", "UserId")
+                        .HasForeignKey("MathSite.Entities.Person", "UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("MathSite.Models.Post", b =>
+            modelBuilder.Entity("MathSite.Entities.Post", b =>
                 {
-                    b.HasOne("MathSite.Models.PostSeoSettings", "PostSeoSettings")
-                        .WithOne("Post")
-                        .HasForeignKey("MathSite.Models.Post", "PostSeoSettingsId")
+                    b.HasOne("MathSite.Entities.User", "Author")
+                        .WithMany("Posts")
+                        .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("MathSite.Models.PostSettings", "PostSettings")
+                    b.HasOne("MathSite.Entities.PostSeoSettings", "PostSeoSettings")
                         .WithOne("Post")
-                        .HasForeignKey("MathSite.Models.Post", "PostSettingsId")
+                        .HasForeignKey("MathSite.Entities.Post", "PostSeoSettingsId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("MathSite.Models.PostType", "PostType")
+                    b.HasOne("MathSite.Entities.PostSettings", "PostSettings")
+                        .WithOne("Post")
+                        .HasForeignKey("MathSite.Entities.Post", "PostSettingsId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MathSite.Entities.PostType", "PostType")
                         .WithMany("Posts")
                         .HasForeignKey("PostTypeId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("MathSite.Models.PostAttachment", b =>
+            modelBuilder.Entity("MathSite.Entities.PostAttachment", b =>
                 {
-                    b.HasOne("MathSite.Models.File", "File")
+                    b.HasOne("MathSite.Entities.File", "File")
                         .WithMany("PostAttachments")
                         .HasForeignKey("FileId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("MathSite.Models.Post", "Post")
+                    b.HasOne("MathSite.Entities.Post", "Post")
                         .WithMany("PostAttachments")
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("MathSite.Models.PostCategory", b =>
+            modelBuilder.Entity("MathSite.Entities.PostCategory", b =>
                 {
-                    b.HasOne("MathSite.Models.Category", "Category")
+                    b.HasOne("MathSite.Entities.Category", "Category")
                         .WithMany("PostCategories")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("MathSite.Models.Post", "Post")
+                    b.HasOne("MathSite.Entities.Post", "Post")
                         .WithMany("PostCategories")
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("MathSite.Models.PostGroupsAllowed", b =>
+            modelBuilder.Entity("MathSite.Entities.PostGroupsAllowed", b =>
                 {
-                    b.HasOne("MathSite.Models.Group", "Group")
+                    b.HasOne("MathSite.Entities.Group", "Group")
                         .WithMany("PostGroupsAllowed")
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("MathSite.Models.Post", "Post")
+                    b.HasOne("MathSite.Entities.Post", "Post")
                         .WithMany("GroupsAllowed")
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("MathSite.Models.PostKeywords", b =>
+            modelBuilder.Entity("MathSite.Entities.PostKeywords", b =>
                 {
-                    b.HasOne("MathSite.Models.Keywords", "Keyword")
+                    b.HasOne("MathSite.Entities.Keywords", "Keyword")
                         .WithMany("Posts")
                         .HasForeignKey("KeywordId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("MathSite.Models.PostSeoSettings", "PostSeoSettings")
+                    b.HasOne("MathSite.Entities.PostSeoSettings", "PostSeoSettings")
                         .WithMany("PostKeywords")
                         .HasForeignKey("PostSeoSettingsId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("MathSite.Models.PostOwner", b =>
+            modelBuilder.Entity("MathSite.Entities.PostOwner", b =>
                 {
-                    b.HasOne("MathSite.Models.Post", "Post")
+                    b.HasOne("MathSite.Entities.Post", "Post")
                         .WithMany("PostOwners")
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("MathSite.Models.User", "User")
+                    b.HasOne("MathSite.Entities.User", "User")
                         .WithMany("PostsOwner")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("MathSite.Models.PostRating", b =>
+            modelBuilder.Entity("MathSite.Entities.PostRating", b =>
                 {
-                    b.HasOne("MathSite.Models.Post", "Post")
+                    b.HasOne("MathSite.Entities.Post", "Post")
                         .WithMany("PostRatings")
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("MathSite.Models.User", "User")
+                    b.HasOne("MathSite.Entities.User", "User")
                         .WithMany("PostsRatings")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("MathSite.Models.PostSettings", b =>
+            modelBuilder.Entity("MathSite.Entities.PostSettings", b =>
                 {
-                    b.HasOne("MathSite.Models.PostType", "PostType")
+                    b.HasOne("MathSite.Entities.PostType", "PostType")
                         .WithOne("DefaultPostsSettings")
-                        .HasForeignKey("MathSite.Models.PostSettings", "PostTypeId")
+                        .HasForeignKey("MathSite.Entities.PostSettings", "PostTypeId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("MathSite.Models.File", "PreviewImage")
+                    b.HasOne("MathSite.Entities.File", "PreviewImage")
                         .WithMany("PostSettings")
                         .HasForeignKey("PreviewImageId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("MathSite.Models.PostUserAllowed", b =>
+            modelBuilder.Entity("MathSite.Entities.PostUserAllowed", b =>
                 {
-                    b.HasOne("MathSite.Models.Post", "Post")
+                    b.HasOne("MathSite.Entities.Post", "Post")
                         .WithMany("UsersAllowed")
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("MathSite.Models.User", "User")
+                    b.HasOne("MathSite.Entities.User", "User")
                         .WithMany("AllowedPosts")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("MathSite.Models.User", b =>
+            modelBuilder.Entity("MathSite.Entities.User", b =>
                 {
-                    b.HasOne("MathSite.Models.Group", "Group")
+                    b.HasOne("MathSite.Entities.Group", "Group")
                         .WithMany("Users")
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("MathSite.Models.UserSettings", b =>
+            modelBuilder.Entity("MathSite.Entities.UserSettings", b =>
                 {
-                    b.HasOne("MathSite.Models.User", "User")
+                    b.HasOne("MathSite.Entities.User", "User")
                         .WithMany("Settings")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("MathSite.Models.UsersRights", b =>
+            modelBuilder.Entity("MathSite.Entities.UsersRights", b =>
                 {
-                    b.HasOne("MathSite.Models.Right", "Right")
+                    b.HasOne("MathSite.Entities.Right", "Right")
                         .WithMany("UsersRights")
                         .HasForeignKey("RightId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("MathSite.Models.User", "User")
+                    b.HasOne("MathSite.Entities.User", "User")
                         .WithMany("UserRights")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);

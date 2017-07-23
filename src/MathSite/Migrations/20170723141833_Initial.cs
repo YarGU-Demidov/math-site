@@ -239,44 +239,6 @@ namespace MathSite.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Posts",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    Content = table.Column<string>(nullable: false),
-                    Deleted = table.Column<bool>(nullable: true),
-                    Excerpt = table.Column<string>(nullable: false),
-                    PostSeoSettingsId = table.Column<Guid>(nullable: false),
-                    PostSettingsId = table.Column<Guid>(nullable: false),
-                    PostTypeId = table.Column<Guid>(nullable: false),
-                    PublishDate = table.Column<DateTime>(nullable: false),
-                    Published = table.Column<bool>(nullable: false),
-                    Title = table.Column<string>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Posts", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Posts_PostSeoSettings_PostSeoSettingsId",
-                        column: x => x.PostSeoSettingsId,
-                        principalTable: "PostSeoSettings",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Posts_PostSettings_PostSettingsId",
-                        column: x => x.PostSettingsId,
-                        principalTable: "PostSettings",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Posts_PostTypes_PostTypeId",
-                        column: x => x.PostTypeId,
-                        principalTable: "PostTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Persons",
                 columns: table => new
                 {
@@ -304,6 +266,51 @@ namespace MathSite.Migrations
                         name: "FK_Persons_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Posts",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    AuthorId = table.Column<Guid>(nullable: false),
+                    Content = table.Column<string>(nullable: false),
+                    Deleted = table.Column<bool>(nullable: true),
+                    Excerpt = table.Column<string>(nullable: false),
+                    PostSeoSettingsId = table.Column<Guid>(nullable: false),
+                    PostSettingsId = table.Column<Guid>(nullable: false),
+                    PostTypeId = table.Column<Guid>(nullable: false),
+                    PublishDate = table.Column<DateTime>(nullable: false),
+                    Published = table.Column<bool>(nullable: false),
+                    Title = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Posts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Posts_Users_AuthorId",
+                        column: x => x.AuthorId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Posts_PostSeoSettings_PostSeoSettingsId",
+                        column: x => x.PostSeoSettingsId,
+                        principalTable: "PostSeoSettings",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Posts_PostSettings_PostSettingsId",
+                        column: x => x.PostSettingsId,
+                        principalTable: "PostSettings",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Posts_PostTypes_PostTypeId",
+                        column: x => x.PostTypeId,
+                        principalTable: "PostTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -360,8 +367,8 @@ namespace MathSite.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    Allowed = table.Column<bool>(nullable: false),
                     Date = table.Column<DateTime>(nullable: false),
+                    Edited = table.Column<bool>(nullable: false),
                     PostId = table.Column<Guid>(nullable: false),
                     Text = table.Column<string>(nullable: false),
                     UserId = table.Column<Guid>(nullable: false)
@@ -579,6 +586,11 @@ namespace MathSite.Migrations
                 table: "Persons",
                 column: "UserId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Posts_AuthorId",
+                table: "Posts",
+                column: "AuthorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Posts_PostSeoSettingsId",

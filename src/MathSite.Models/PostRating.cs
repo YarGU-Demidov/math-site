@@ -8,7 +8,7 @@ namespace MathSite.Entities
 	public class PostRating
 	{
 		/// <summary>
-		/// Идентификатор.
+		///     Идентификатор.
 		/// </summary>
 		public Guid Id { get; set; }
 

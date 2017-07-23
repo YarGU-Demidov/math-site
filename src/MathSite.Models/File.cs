@@ -4,14 +4,17 @@ using System.Collections.Generic;
 namespace MathSite.Entities
 {
 	/// <summary>
-	///		Файл.
+	///     Файл.
 	/// </summary>
 	public class File
 	{
-		public File() { }
+		public File()
+			: this(null, null, null, null)
+		{
+		}
 
 		/// <summary>
-		///		Создает сущность.
+		///     Создает сущность.
 		/// </summary>
 		/// <param name="fileName">Название файла.</param>
 		/// <param name="filePath">Путь к файлу.</param>
@@ -27,43 +30,43 @@ namespace MathSite.Entities
 		}
 
 		/// <summary>
-		/// 
+		///     Идентификатор.
 		/// </summary>
 		public Guid Id { get; set; }
 
 		/// <summary>
-		/// 
+		///     Имя файла.
 		/// </summary>
 		public string FileName { get; set; }
 
 		/// <summary>
-		/// 
+		///     Путь к файлу в файловой системе
 		/// </summary>
 		public string FilePath { get; set; }
 
 		/// <summary>
-		/// 
+		///     Расширение файла
 		/// </summary>
 		public string Extension { get; set; }
 
 		/// <summary>
-		/// 
+		///     Дата добавления файла.
 		/// </summary>
 		public DateTime DateAdded { get; set; }
 
 		/// <summary>
-		/// 
+		///     Личность добавившего файл.
 		/// </summary>
 		public Person Person { get; set; }
 
 		/// <summary>
-		/// 
+		///     Список настроек поста, к которым привязан файл.
 		/// </summary>
-		public List<PostSettings> PostSettings { get; set; }
+		public List<PostSettings> PostSettings { get; set; } = new List<PostSettings>();
 
 		/// <summary>
-		/// 
+		///     Список вложений поста, к которым привязан этот файл.
 		/// </summary>
-		public List<PostAttachment> PostAttachments { get; set; }
+		public List<PostAttachment> PostAttachments { get; set; } = new List<PostAttachment>();
 	}
 }

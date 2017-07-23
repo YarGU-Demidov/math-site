@@ -25,6 +25,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 				"First post about university",
 				"We are studying at Yaroslavl Demidov State University",
 				DateTime.Now,
+				GetUserByLogin(UsersAliases.FirstUser),
 				true,
 				false,
 				GetPostTypeByName(PostTypeAliases.News),
@@ -37,6 +38,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 				"Second post about university",
 				"We are studying in the best university",
 				DateTime.Now,
+				GetUserByLogin(UsersAliases.FirstUser),
 				false,
 				true,
 				GetPostTypeByName(PostTypeAliases.StaticPage),
@@ -58,6 +60,11 @@ namespace MathSite.Db.DataSeeding.Seeders
 			return Context.PostTypes.First(postType => postType.TypeName == name);
 		}
 
+		private User GetUserByLogin(string login)
+		{
+			return Context.Users.First(user => user.Login == login);
+		}
+
 		private PostSettings GetPostSettingsByPostType(string name)
 		{
 			return Context.PostSettings.First(postSettings => postSettings.PostType.TypeName == name);
@@ -68,7 +75,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 			return Context.PostSeoSettings.First(postSeoSettings => postSeoSettings.Title == title);
 		}
 
-		private static Post CreatePost(string title, string excerpt, string content, DateTime publishDate,
+		private static Post CreatePost(string title, string excerpt, string content, DateTime publishDate, User author,
 			bool isPublished, bool isDeleted, PostType postType, PostSettings postSetting, PostSeoSettings postSeoSetting)
 		{
 			return new Post
@@ -77,6 +84,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 				Excerpt = excerpt,
 				Content = content,
 				PublishDate = publishDate,
+				Author = author,
 				Published = isPublished,
 				Deleted = isDeleted,
 				PostType = postType,

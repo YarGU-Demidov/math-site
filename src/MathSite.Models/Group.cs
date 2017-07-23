@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace MathSite.Entities
 {
 	/// <summary>
-	/// Группа.
+	///     Группа.
 	/// </summary>
 	public class Group
 	{
@@ -13,7 +13,7 @@ namespace MathSite.Entities
 		}
 
 		/// <summary>
-		/// Создает сущность.
+		///     Создает сущность.
 		/// </summary>
 		/// <param name="name">Название.</param>
 		/// <param name="description">Описание.</param>
@@ -29,58 +29,58 @@ namespace MathSite.Entities
 		}
 
 		/// <summary>
-		/// Идентификатор.
+		///     Идентификатор.
 		/// </summary>
 		public Guid Id { get; set; }
 
 		/// <summary>
-		/// Алиас.
+		///     Алиас.
 		/// </summary>
 		public string Alias { get; set; }
 
 		/// <summary>
-		/// Название.
+		///     Название.
 		/// </summary>
 		public string Name { get; set; }
 
 		/// <summary>
-		/// Описание.
+		///     Описание.
 		/// </summary>
 		public string Description { get; set; }
 
 		/// <summary>
-		/// Идентификатор родительской группы.
+		///     Идентификатор родительской группы.
 		/// </summary>
 		public Guid? ParentGroupId { get; set; }
 
 		/// <summary>
-		/// Родительская группа.
+		///     Родительская группа.
 		/// </summary>
 		public Group ParentGroup { get; set; }
 
 		/// <summary>
-		/// Идентификатор типа группы.
+		///     Идентификатор типа группы.
 		/// </summary>
 		public Guid GroupTypeId { get; set; }
 
 		/// <summary>
-		/// Тип группы.
+		///     Тип группы.
 		/// </summary>
 		public GroupType GroupType { get; set; }
 
 		/// <summary>
-		/// Перечень прав группы.
+		///     Перечень прав группы.
 		/// </summary>
-		public List<GroupsRights> GroupsRights { get; set; }
+		public List<GroupsRights> GroupsRights { get; set; } = new List<GroupsRights>();
 
 		/// <summary>
-		/// Перечень пользователей.
+		///     Перечень пользователей.
 		/// </summary>
-		public List<User> Users { get; set; }
+		public List<User> Users { get; set; } = new List<User>();
 
 		/// <summary>
-		/// Перечень постов группы.
+		///     Перечень постов группы.
 		/// </summary>
-		public List<PostGroupsAllowed> PostGroupsAllowed { get; set; }
+		public List<PostGroupsAllowed> PostGroupsAllowed { get; set; } = new List<PostGroupsAllowed>();
 	}
 }
