@@ -13,7 +13,7 @@ namespace MathSite.Entities
 		}
 
 		/// <summary>
-		///		Создает сущность.
+		///     Создает сущность.
 		/// </summary>
 		/// <param name="login">Логин.</param>
 		/// <param name="passwordHash">Пароль.</param>
@@ -62,33 +62,38 @@ namespace MathSite.Entities
 		public DateTime? CreationDate { get; set; }
 
 		/// <summary>
-		///		Перечень постов пользователя.
+		///     Перечень постов пользователя.
 		/// </summary>
-		public List<PostOwner> PostsOwner { get; set; }
+		public List<PostOwner> PostsOwner { get; set; } = new List<PostOwner>();
 
 		/// <summary>
-		///		Перечень постов, к которым разрешен доступ.
+		///     Список постов, написаных этим пользователем.
 		/// </summary>
-		public List<PostUserAllowed> AllowedPosts { get; set; }
+		public List<Post> Posts { get; set; } = new List<Post>();
 
 		/// <summary>
-		///		Перечень оценок пользователя к постам, которые он оценил.
+		///     Перечень постов, к которым разрешен доступ.
 		/// </summary>
-		public List<PostRating> PostsRatings { get; set; }
+		public List<PostUserAllowed> AllowedPosts { get; set; } = new List<PostUserAllowed>();
 
 		/// <summary>
-		///		Перечень комментариев пользователя.
+		///     Перечень оценок пользователя к постам, которые он оценил.
 		/// </summary>
-		public List<Comment> Comments { get; set; }
+		public List<PostRating> PostsRatings { get; set; } = new List<PostRating>();
 
 		/// <summary>
-		///		Перечень настроек пользователя.
+		///     Перечень комментариев пользователя.
 		/// </summary>
-		public List<UserSettings> Settings { get; set; }
+		public List<Comment> Comments { get; set; } = new List<Comment>();
+
+		/// <summary>
+		///     Перечень настроек пользователя.
+		/// </summary>
+		public List<UserSettings> Settings { get; set; } = new List<UserSettings>();
 
 		/// <summary>
 		///     Перечень прав пользователя.
 		/// </summary>
-		public List<UsersRights> UserRights { get; set; }
+		public List<UsersRights> UserRights { get; set; } = new List<UsersRights>();
 	}
 }

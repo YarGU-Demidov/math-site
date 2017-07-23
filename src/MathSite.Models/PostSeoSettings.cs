@@ -10,6 +10,6 @@ namespace MathSite.Entities
 		public string Title { get; set; }
 		public string Description { get; set; }
 		public Post Post { get; set; }
-		public List<PostKeywords> PostKeywords { get; set; }
+		public List<PostKeywords> PostKeywords { get; set; } = new List<PostKeywords>();
 	}
 }

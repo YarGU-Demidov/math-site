@@ -2,12 +2,18 @@
 
 namespace MathSite.Entities
 {
+	/// <summary>
+	///     Персона, она же сущность.
+	///     Представляет собой конкретного человека с его личными данными.
+	/// </summary>
 	public class Person
 	{
-		public Person() {}
+		public Person()
+		{
+		}
 
 		/// <summary>
-		/// Создает сущность.
+		///     Создает сущность.
 		/// </summary>
 		/// <param name="name">Имя.</param>
 		/// <param name="surname">Фамилия.</param>
@@ -32,62 +38,62 @@ namespace MathSite.Entities
 		}
 
 		/// <summary>
-		/// Идентификатор.
+		///     Идентификатор.
 		/// </summary>
 		public Guid Id { get; set; }
 
 		/// <summary>
-		/// Имя.
+		///     Имя.
 		/// </summary>
 		public string Name { get; set; }
 
 		/// <summary>
-		/// Фамилия.
+		///     Фамилия.
 		/// </summary>
 		public string Surname { get; set; }
 
 		/// <summary>
-		/// Отчество.
+		///     Отчество.
 		/// </summary>
 		public string MiddleName { get; set; }
 
 		/// <summary>
-		/// Телефонный номер.
+		///     Телефонный номер.
 		/// </summary>
 		public string Phone { get; set; }
 
 		/// <summary>
-		/// Дополнительный телефонный номер.
+		///     Дополнительный телефонный номер.
 		/// </summary>
 		public string AdditionalPhone { get; set; }
 
 		/// <summary>
-		/// Дата рождения.
+		///     Дата рождения.
 		/// </summary>
 		public DateTime Birthday { get; set; }
 
 		/// <summary>
-		/// Дата регистрации.
+		///     Дата регистрации.
 		/// </summary>
 		public DateTime? CreationDate { get; set; }
 
 		/// <summary>
-		/// Идентификатор изображения личности.
+		///     Идентификатор изображения личности.
 		/// </summary>
 		public Guid? PhotoId { get; set; }
 
 		/// <summary>
-		/// Файл.
+		///     Файл.
 		/// </summary>
 		public File Photo { get; set; }
 
 		/// <summary>
-		/// Идентификатор пользователя.
+		///     Идентификатор пользователя.
 		/// </summary>
 		public Guid? UserId { get; set; }
 
 		/// <summary>
-		/// Пользователь.
+		///     Пользователь.
 		/// </summary>
 		public User User { get; set; }
 	}

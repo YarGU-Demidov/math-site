@@ -27,10 +27,11 @@ namespace MathSite.Db.DataSeeding.Seeders
 			);
 
 			var secondComment = CreateComment(
-				"Oh-la-la",
+				"Oh-la-la (edited comment)",
 				DateTime.Now,
 				GetPostByTitle(PostAliases.SecondPost),
-				GetUserByLogin(UsersAliases.SecondUser)
+				GetUserByLogin(UsersAliases.SecondUser),
+				true
 			);
 
 			var comments = new[]
@@ -52,14 +53,15 @@ namespace MathSite.Db.DataSeeding.Seeders
 			return Context.Posts.First(post => post.Title == title);
 		}
 
-		private static Comment CreateComment(string text, DateTime commentDate, Post post, User user)
+		private static Comment CreateComment(string text, DateTime commentDate, Post post, User user, bool edited = false)
 		{
 			return new Comment
 			{
 				Text = text,
 				Date = commentDate,
 				Post = post,
-				User = user
+				User = user,
+				Edited = edited
 			};
 		}
 	}
