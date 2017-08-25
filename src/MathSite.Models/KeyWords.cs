@@ -26,6 +26,6 @@ namespace MathSite.Entities
 		/// <summary>
 		///     Список постов, содержащих это ключевое слово.
 		/// </summary>
-		public List<PostKeywords> Posts { get; set; } = new List<PostKeywords>();
+		public ICollection<PostKeywords> Posts { get; set; } = new List<PostKeywords>();
 	}
 }

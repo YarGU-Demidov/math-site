@@ -1,60 +1,58 @@
 ﻿using MathSite.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 {
 	/// <inheritdoc />
-	public class FileConfiguration : AbstractEntityConfiguration
+	public class FileConfiguration : AbstractEntityConfiguration<File>
 	{
 		/// <inheritdoc />
-		protected override void SetPrimaryKey(ModelBuilder modelBuilder)
+		protected override void SetPrimaryKey(EntityTypeBuilder<File> modelBuilder)
 		{
-			modelBuilder.Entity<File>()
+			modelBuilder
 				.HasKey(f => f.Id);
 		}
 
 		/// <inheritdoc />
-		protected override void SetFields(ModelBuilder modelBuilder)
+		protected override void SetFields(EntityTypeBuilder<File> modelBuilder)
 		{
-			modelBuilder.Entity<File>()
+			modelBuilder
 				.Property(f => f.FileName)
 				.IsRequired();
-			modelBuilder.Entity<File>()
+			modelBuilder
 				.Property(f => f.DateAdded)
 				.IsRequired();
-			modelBuilder.Entity<File>()
+			modelBuilder
 				.Property(f => f.FilePath)
 				.IsRequired();
-			modelBuilder.Entity<File>()
+			modelBuilder
 				.Property(f => f.Extension)
 				.IsRequired(false);
 		}
 
 		/// <inheritdoc />
-		protected override void SetRelationships(ModelBuilder modelBuilder)
+		protected override void SetRelationships(EntityTypeBuilder<File> modelBuilder)
 		{
-			modelBuilder.Entity<File>()
+			modelBuilder
 				.HasOne(file => file.Person)
 				.WithOne(person => person.Photo)
 				.HasForeignKey<Person>(person => person.PhotoId)
 				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);
 
-			modelBuilder.Entity<File>()
+			modelBuilder
 				.HasMany(file => file.PostSettings)
 				.WithOne(postSettings => postSettings.PreviewImage)
 				.HasForeignKey(postSettings => postSettings.PreviewImageId)
 				.OnDelete(DeleteBehavior.Cascade);
 
-			modelBuilder.Entity<File>()
+			modelBuilder
 				.HasMany(file => file.PostAttachments)
 				.WithOne(postAttachments => postAttachments.File)
 				.HasForeignKey(postAttachments => postAttachments.FileId)
 				.OnDelete(DeleteBehavior.Cascade);
 		}
-
-		/// <inheritdoc />
-		public override string ConfigurationName { get; } = "File";
 	}
 }

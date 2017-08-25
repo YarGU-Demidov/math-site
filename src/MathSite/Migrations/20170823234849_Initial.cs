@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+using System;
 using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MathSite.Migrations
 {
@@ -15,10 +15,10 @@ namespace MathSite.Migrations
                 name: "Categories",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    Alias = table.Column<string>(nullable: false),
-                    Description = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Alias = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    Name = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -30,11 +30,11 @@ namespace MathSite.Migrations
                 name: "Files",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    DateAdded = table.Column<DateTime>(nullable: false),
-                    Extension = table.Column<string>(nullable: true),
-                    FileName = table.Column<string>(nullable: false),
-                    FilePath = table.Column<string>(nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    DateAdded = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Extension = table.Column<string>(type: "text", nullable: true),
+                    FileName = table.Column<string>(type: "text", nullable: false),
+                    FilePath = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -45,23 +45,24 @@ namespace MathSite.Migrations
                 name: "GroupTypes",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    Alias = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Alias = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    Name = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_GroupTypes", x => x.Id);
+                    table.UniqueConstraint("AK_GroupTypes_Alias", x => x.Alias);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Keywords",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    Alias = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Alias = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -73,10 +74,10 @@ namespace MathSite.Migrations
                 name: "PostSeoSettings",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    Description = table.Column<string>(nullable: true),
-                    Title = table.Column<string>(nullable: true),
-                    Url = table.Column<string>(nullable: true)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    Title = table.Column<string>(type: "text", nullable: true),
+                    Url = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -87,8 +88,8 @@ namespace MathSite.Migrations
                 name: "PostTypes",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    TypeName = table.Column<string>(nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    TypeName = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -99,10 +100,10 @@ namespace MathSite.Migrations
                 name: "Rights",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    Alias = table.Column<string>(nullable: false),
-                    Description = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Alias = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    Name = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -114,16 +115,17 @@ namespace MathSite.Migrations
                 name: "Groups",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    Alias = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    GroupTypeId = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    ParentGroupId = table.Column<Guid>(nullable: true)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Alias = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    GroupTypeId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    ParentGroupId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Groups", x => x.Id);
+                    table.UniqueConstraint("AK_Groups_Alias", x => x.Alias);
                     table.ForeignKey(
                         name: "FK_Groups_GroupTypes_GroupTypeId",
                         column: x => x.GroupTypeId,
@@ -135,16 +137,16 @@ namespace MathSite.Migrations
                         column: x => x.ParentGroupId,
                         principalTable: "Groups",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "PostKeywords",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    KeywordId = table.Column<Guid>(nullable: false),
-                    PostSeoSettingsId = table.Column<Guid>(nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    KeywordId = table.Column<Guid>(type: "uuid", nullable: false),
+                    PostSeoSettingsId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -167,12 +169,12 @@ namespace MathSite.Migrations
                 name: "PostSettings",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    CanBeRated = table.Column<bool>(nullable: true),
-                    IsCommentsAllowed = table.Column<bool>(nullable: true),
-                    PostOnStartPage = table.Column<bool>(nullable: true),
-                    PostTypeId = table.Column<Guid>(nullable: false),
-                    PreviewImageId = table.Column<Guid>(nullable: true)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    CanBeRated = table.Column<bool>(type: "bool", nullable: true),
+                    IsCommentsAllowed = table.Column<bool>(type: "bool", nullable: true),
+                    PostOnStartPage = table.Column<bool>(type: "bool", nullable: true),
+                    PostTypeId = table.Column<Guid>(type: "uuid", nullable: false),
+                    PreviewImageId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -195,10 +197,10 @@ namespace MathSite.Migrations
                 name: "GroupsRights",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    Allowed = table.Column<bool>(nullable: false),
-                    GroupId = table.Column<Guid>(nullable: false),
-                    RightId = table.Column<Guid>(nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Allowed = table.Column<bool>(type: "bool", nullable: false),
+                    GroupId = table.Column<Guid>(type: "uuid", nullable: false),
+                    RightId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -221,11 +223,11 @@ namespace MathSite.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    CreationDate = table.Column<DateTime>(nullable: true, defaultValueSql: "NOW()"),
-                    GroupId = table.Column<Guid>(nullable: false),
-                    Login = table.Column<string>(nullable: false),
-                    PasswordHash = table.Column<byte[]>(nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "timestamp", nullable: true, defaultValueSql: "NOW()"),
+                    GroupId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Login = table.Column<string>(type: "text", nullable: false),
+                    PasswordHash = table.Column<byte[]>(type: "bytea", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -242,16 +244,16 @@ namespace MathSite.Migrations
                 name: "Persons",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    AdditionalPhone = table.Column<string>(nullable: true),
-                    Birthday = table.Column<DateTime>(nullable: false),
-                    CreationDate = table.Column<DateTime>(nullable: true, defaultValueSql: "NOW()"),
-                    MiddleName = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: false),
-                    Phone = table.Column<string>(nullable: true),
-                    PhotoId = table.Column<Guid>(nullable: true),
-                    Surname = table.Column<string>(nullable: false),
-                    UserId = table.Column<Guid>(nullable: true)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    AdditionalPhone = table.Column<string>(type: "text", nullable: true),
+                    Birthday = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "timestamp", nullable: true, defaultValueSql: "NOW()"),
+                    MiddleName = table.Column<string>(type: "text", nullable: true),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Phone = table.Column<string>(type: "text", nullable: true),
+                    PhotoId = table.Column<Guid>(type: "uuid", nullable: true),
+                    Surname = table.Column<string>(type: "text", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -274,17 +276,17 @@ namespace MathSite.Migrations
                 name: "Posts",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    AuthorId = table.Column<Guid>(nullable: false),
-                    Content = table.Column<string>(nullable: false),
-                    Deleted = table.Column<bool>(nullable: true),
-                    Excerpt = table.Column<string>(nullable: false),
-                    PostSeoSettingsId = table.Column<Guid>(nullable: false),
-                    PostSettingsId = table.Column<Guid>(nullable: false),
-                    PostTypeId = table.Column<Guid>(nullable: false),
-                    PublishDate = table.Column<DateTime>(nullable: false),
-                    Published = table.Column<bool>(nullable: false),
-                    Title = table.Column<string>(nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    AuthorId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Content = table.Column<string>(type: "text", nullable: false),
+                    Deleted = table.Column<bool>(type: "bool", nullable: true),
+                    Excerpt = table.Column<string>(type: "text", nullable: false),
+                    PostSeoSettingsId = table.Column<Guid>(type: "uuid", nullable: false),
+                    PostSettingsId = table.Column<Guid>(type: "uuid", nullable: false),
+                    PostTypeId = table.Column<Guid>(type: "uuid", nullable: false),
+                    PublishDate = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Published = table.Column<bool>(type: "bool", nullable: false),
+                    Title = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -319,11 +321,11 @@ namespace MathSite.Migrations
                 name: "UserSettingses",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    Key = table.Column<string>(nullable: false),
-                    Namespace = table.Column<string>(nullable: false),
-                    UserId = table.Column<Guid>(nullable: false),
-                    Value = table.Column<string>(nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Key = table.Column<string>(type: "text", nullable: false),
+                    Namespace = table.Column<string>(type: "text", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Value = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -340,10 +342,10 @@ namespace MathSite.Migrations
                 name: "UsersRights",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    Allowed = table.Column<bool>(nullable: false),
-                    RightId = table.Column<Guid>(nullable: false),
-                    UserId = table.Column<Guid>(nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Allowed = table.Column<bool>(type: "bool", nullable: false),
+                    RightId = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -366,12 +368,12 @@ namespace MathSite.Migrations
                 name: "Comments",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    Date = table.Column<DateTime>(nullable: false),
-                    Edited = table.Column<bool>(nullable: false),
-                    PostId = table.Column<Guid>(nullable: false),
-                    Text = table.Column<string>(nullable: false),
-                    UserId = table.Column<Guid>(nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Date = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Edited = table.Column<bool>(type: "bool", nullable: false),
+                    PostId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Text = table.Column<string>(type: "text", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -394,10 +396,10 @@ namespace MathSite.Migrations
                 name: "PostAttachments",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    Allowed = table.Column<bool>(nullable: false),
-                    FileId = table.Column<Guid>(nullable: false),
-                    PostId = table.Column<Guid>(nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Allowed = table.Column<bool>(type: "bool", nullable: false),
+                    FileId = table.Column<Guid>(type: "uuid", nullable: false),
+                    PostId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -420,9 +422,9 @@ namespace MathSite.Migrations
                 name: "PostCategories",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    CategoryId = table.Column<Guid>(nullable: false),
-                    PostId = table.Column<Guid>(nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    CategoryId = table.Column<Guid>(type: "uuid", nullable: false),
+                    PostId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -445,10 +447,10 @@ namespace MathSite.Migrations
                 name: "PostGroupsAlloweds",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    Allowed = table.Column<bool>(nullable: false),
-                    GroupId = table.Column<Guid>(nullable: true),
-                    PostId = table.Column<Guid>(nullable: true)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Allowed = table.Column<bool>(type: "bool", nullable: false),
+                    GroupId = table.Column<Guid>(type: "uuid", nullable: true),
+                    PostId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -471,9 +473,9 @@ namespace MathSite.Migrations
                 name: "PostOwners",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    PostId = table.Column<Guid>(nullable: false),
-                    UserId = table.Column<Guid>(nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    PostId = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -496,11 +498,11 @@ namespace MathSite.Migrations
                 name: "PostRatings",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    Allowed = table.Column<bool>(nullable: false),
-                    PostId = table.Column<Guid>(nullable: false),
-                    UserId = table.Column<Guid>(nullable: false),
-                    Value = table.Column<bool>(nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Allowed = table.Column<bool>(type: "bool", nullable: false),
+                    PostId = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Value = table.Column<bool>(type: "bool", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -523,10 +525,10 @@ namespace MathSite.Migrations
                 name: "PostUserAlloweds",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    Allowed = table.Column<bool>(nullable: false),
-                    PostId = table.Column<Guid>(nullable: false),
-                    UserId = table.Column<Guid>(nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Allowed = table.Column<bool>(type: "bool", nullable: false),
+                    PostId = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -588,28 +590,6 @@ namespace MathSite.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Posts_AuthorId",
-                table: "Posts",
-                column: "AuthorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Posts_PostSeoSettingsId",
-                table: "Posts",
-                column: "PostSeoSettingsId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Posts_PostSettingsId",
-                table: "Posts",
-                column: "PostSettingsId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Posts_PostTypeId",
-                table: "Posts",
-                column: "PostTypeId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_PostAttachments_FileId",
                 table: "PostAttachments",
                 column: "FileId");
@@ -668,6 +648,28 @@ namespace MathSite.Migrations
                 name: "IX_PostRatings_UserId",
                 table: "PostRatings",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Posts_AuthorId",
+                table: "Posts",
+                column: "AuthorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Posts_PostSeoSettingsId",
+                table: "Posts",
+                column: "PostSeoSettingsId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Posts_PostSettingsId",
+                table: "Posts",
+                column: "PostSettingsId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Posts_PostTypeId",
+                table: "Posts",
+                column: "PostTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PostSettings_PostTypeId",

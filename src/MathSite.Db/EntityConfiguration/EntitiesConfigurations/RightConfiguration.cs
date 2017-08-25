@@ -1,54 +1,52 @@
 ﻿using MathSite.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 {
 	/// <inheritdoc />
-	public class RightConfiguration : AbstractEntityConfiguration
+	public class RightConfiguration : AbstractEntityConfiguration<Right>
 	{
 		/// <inheritdoc />
-		protected override void SetPrimaryKey(ModelBuilder modelBuilder)
+		protected override void SetPrimaryKey(EntityTypeBuilder<Right> modelBuilder)
 		{
-			modelBuilder.Entity<Right>()
+			modelBuilder
 				.HasKey(right => right.Id);
-			modelBuilder.Entity<Right>()
+			modelBuilder
 				.HasAlternateKey(right => right.Alias);
 		}
 
 		/// <inheritdoc />
-		protected override void SetFields(ModelBuilder modelBuilder)
+		protected override void SetFields(EntityTypeBuilder<Right> modelBuilder)
 		{
-			modelBuilder.Entity<Right>()
+			modelBuilder
 				.Property(right => right.Alias)
 				.IsRequired();
-			modelBuilder.Entity<Right>()
+			modelBuilder
 				.Property(right => right.Description)
 				.IsRequired(false);
-			modelBuilder.Entity<Right>()
+			modelBuilder
 				.Property(right => right.Name)
 				.IsRequired();
 		}
 
 		/// <inheritdoc />
-		protected override void SetRelationships(ModelBuilder modelBuilder)
+		protected override void SetRelationships(EntityTypeBuilder<Right> modelBuilder)
 		{
-			modelBuilder.Entity<Right>()
+			modelBuilder
 				.HasMany(right => right.GroupsRights)
 				.WithOne(groupsRights => groupsRights.Right)
 				.HasForeignKey(groupsRights => groupsRights.RightId)
 				.OnDelete(DeleteBehavior.Cascade)
 				.IsRequired();
 
-			modelBuilder.Entity<Right>()
+			modelBuilder
 				.HasMany(right => right.UsersRights)
 				.WithOne(usersRights => usersRights.Right)
 				.HasForeignKey(usersRights => usersRights.RightId)
 				.OnDelete(DeleteBehavior.Cascade)
 				.IsRequired();
 		}
-
-		/// <inheritdoc />
-		public override string ConfigurationName { get; } = "Right";
 	}
 }

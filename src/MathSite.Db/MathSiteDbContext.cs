@@ -2,8 +2,6 @@
 using MathSite.Db.EntityConfiguration.EntitiesConfigurations;
 using MathSite.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Npgsql.EntityFrameworkCore.PostgreSQL;
 
 namespace MathSite.Db
 {
@@ -12,17 +10,12 @@ namespace MathSite.Db
 	/// </summary>
 	public class MathSiteDbContext : DbContext, IMathSiteDbContext
 	{
-		private readonly IEntitiesConfigurator _configurator;
-
 		/// <summary>
 		///     Контекст.
 		/// </summary>
 		/// <param name="options">Настройки контекста.</param>
-		/// <param name="configurator">Конфигуратор моделей.</param>
-		/// <param name="loggerFactory">Фабрика логгеров</param>
-		public MathSiteDbContext(DbContextOptions options, IEntitiesConfigurator configurator) : base(options)
+		public MathSiteDbContext(DbContextOptions options) : base(options)
 		{
-			_configurator = configurator;
 		}
 
 		public DbSet<Category> Categories { get; set; }
@@ -57,30 +50,29 @@ namespace MathSite.Db
 		/// </param>
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			_configurator.AddConfiguration(new CategoryConfiguration());
-			_configurator.AddConfiguration(new CommentConfiguration());
-			_configurator.AddConfiguration(new FileConfiguration());
-			_configurator.AddConfiguration(new GroupRightsConfiguration());
-			_configurator.AddConfiguration(new GroupTypeConfiguration());
-			_configurator.AddConfiguration(new KeywordsConfiguration());
-			_configurator.AddConfiguration(new PersonConfiguration());
-			_configurator.AddConfiguration(new PostAttachmentConfiguration());
-			_configurator.AddConfiguration(new PostCategoryConfiguration());
-			_configurator.AddConfiguration(new PostConfiguration());
-			_configurator.AddConfiguration(new PostGroupsAllowedConfiguration());
-			_configurator.AddConfiguration(new PostKeywordsConfiguration());
-			_configurator.AddConfiguration(new PostOwnerConfiguration());
-			_configurator.AddConfiguration(new PostRatingConfiguration());
-			_configurator.AddConfiguration(new PostSeoSettingsConfiguration());
-			_configurator.AddConfiguration(new PostSettingsConfiguration());
-			_configurator.AddConfiguration(new PostTypeConfiguration());
-			_configurator.AddConfiguration(new PostUserAllowedConfiguration());
-			_configurator.AddConfiguration(new RightConfiguration());
-			_configurator.AddConfiguration(new UserRightsConfiguration());
-			_configurator.AddConfiguration(new UserConfiguration());
-			_configurator.AddConfiguration(new UserSettingsConfiguration());
-
-			_configurator.Configure(modelBuilder);
+			modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+			modelBuilder.ApplyConfiguration(new CommentConfiguration());
+			modelBuilder.ApplyConfiguration(new FileConfiguration());
+			modelBuilder.ApplyConfiguration(new GroupRightsConfiguration());
+			modelBuilder.ApplyConfiguration(new GroupTypeConfiguration());
+			modelBuilder.ApplyConfiguration(new KeywordsConfiguration());
+			modelBuilder.ApplyConfiguration(new GroupConfiguration());
+			modelBuilder.ApplyConfiguration(new PersonConfiguration());
+			modelBuilder.ApplyConfiguration(new PostAttachmentConfiguration());
+			modelBuilder.ApplyConfiguration(new PostCategoryConfiguration());
+			modelBuilder.ApplyConfiguration(new PostConfiguration());
+			modelBuilder.ApplyConfiguration(new PostGroupsAllowedConfiguration());
+			modelBuilder.ApplyConfiguration(new PostKeywordsConfiguration());
+			modelBuilder.ApplyConfiguration(new PostOwnerConfiguration());
+			modelBuilder.ApplyConfiguration(new PostRatingConfiguration());
+			modelBuilder.ApplyConfiguration(new PostSeoSettingsConfiguration());
+			modelBuilder.ApplyConfiguration(new PostSettingsConfiguration());
+			modelBuilder.ApplyConfiguration(new PostTypeConfiguration());
+			modelBuilder.ApplyConfiguration(new PostUserAllowedConfiguration());
+			modelBuilder.ApplyConfiguration(new RightConfiguration());
+			modelBuilder.ApplyConfiguration(new UserRightsConfiguration());
+			modelBuilder.ApplyConfiguration(new UserConfiguration());
+			modelBuilder.ApplyConfiguration(new UserSettingsConfiguration());
 
 			modelBuilder.HasPostgresExtension("uuid-ossp");
 			base.OnModelCreating(modelBuilder);

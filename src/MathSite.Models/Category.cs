@@ -31,6 +31,6 @@ namespace MathSite.Entities
 		/// <summary>
 		///     Список постов этой категории
 		/// </summary>
-		public List<PostCategory> PostCategories { get; set; } = new List<PostCategory>();
+		public ICollection<PostCategory> PostCategories { get; set; } = new List<PostCategory>();
 	}
 }

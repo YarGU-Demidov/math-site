@@ -1,59 +1,56 @@
 ﻿using MathSite.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 {
-	public class PostSettingsConfiguration : AbstractEntityConfiguration
+	public class PostSettingsConfiguration : AbstractEntityConfiguration<PostSettings>
 	{
 		/// <inheritdoc />
-		protected override void SetPrimaryKey(ModelBuilder modelBuilder)
+		protected override void SetPrimaryKey(EntityTypeBuilder<PostSettings> modelBuilder)
 		{
-			modelBuilder.Entity<PostSettings>()
+			modelBuilder
 				.HasKey(postSettings => postSettings.Id);
 		}
 
 		/// <inheritdoc />
-		protected override void SetFields(ModelBuilder modelBuilder)
+		protected override void SetFields(EntityTypeBuilder<PostSettings> modelBuilder)
 		{
-			modelBuilder.Entity<PostSettings>()
+			modelBuilder
 				.Property(postSettings => postSettings.IsCommentsAllowed)
 				.IsRequired(false);
 
-			modelBuilder.Entity<PostSettings>()
+			modelBuilder
 				.Property(postSettings => postSettings.CanBeRated)
 				.IsRequired(false);
 
-			modelBuilder.Entity<PostSettings>()
+			modelBuilder
 				.Property(postSettings => postSettings.PostOnStartPage)
 				.IsRequired(false);
 		}
 
 		/// <inheritdoc />
-		protected override void SetRelationships(ModelBuilder modelBuilder)
+		protected override void SetRelationships(EntityTypeBuilder<PostSettings> modelBuilder)
 		{
-			modelBuilder.Entity<PostSettings>()
+			modelBuilder
 				.HasOne(postSettings => postSettings.PostType)
 				.WithOne(postType => postType.DefaultPostsSettings)
 				.IsRequired(false)
 				.OnDelete(DeleteBehavior.Cascade);
 
-			modelBuilder.Entity<PostSettings>()
+			modelBuilder
 				.HasOne(postSettings => postSettings.Post)
 				.WithOne(post => post.PostSettings)
 				.HasForeignKey<Post>(post => post.PostSettingsId)
 				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);
 
-			modelBuilder.Entity<PostSettings>()
+			modelBuilder
 				.HasOne(postSettings => postSettings.PreviewImage)
 				.WithMany(previewImage => previewImage.PostSettings)
 				.HasForeignKey(postSettings => postSettings.PreviewImageId)
 				.IsRequired(false)
 				.OnDelete(DeleteBehavior.Cascade);
 		}
-
-		/// <inheritdoc />
-		public override string ConfigurationName { get; } = "PostSettings";
 	}
 }

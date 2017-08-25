@@ -1,20 +1,21 @@
-﻿using MathSite.Common.Crypto;
+﻿using System;
+using MathSite.Common.Crypto;
 using MathSite.Core.Auth.Handlers;
 using MathSite.Core.Auth.Requirements;
 using MathSite.Db;
 using MathSite.Db.DataSeeding;
 using MathSite.Db.DataSeeding.StaticData;
-using MathSite.Db.EntityConfiguration;
 using MathSite.Domain.Common;
 using MathSite.Domain.Logic.Files;
 using MathSite.Domain.Logic.Groups;
 using MathSite.Domain.Logic.Persons;
 using MathSite.Domain.Logic.Users;
 using MathSite.Domain.LogicValidation;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
@@ -23,12 +24,12 @@ namespace MathSite
 {
 	// ReSharper disable once ClassNeverInstantiated.Global
 	/// <summary>
-	///		Класс загрузчик
+	///     Класс загрузчик
 	/// </summary>
 	public partial class Startup
 	{
 		/// <summary>
-		///		Конфигурация сервисов
+		///     Конфигурация сервисов
 		/// </summary>
 		/// <param name="services"></param>
 		public void ConfigureServices(IServiceCollection services)
@@ -54,6 +55,26 @@ namespace MathSite
 
 		private static void ConfigureAuthPolices(IServiceCollection services)
 		{
+			services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+				.AddCookie(options =>
+				{
+					var expiration = TimeSpan.FromDays(365);
+
+					options.Cookie.Name = $"{CookieAuthenticationDefaults.CookiePrefix}Math";
+					options.Cookie.HttpOnly = true;
+					options.Cookie.Path = "/";
+					options.Cookie.Expiration = expiration;
+					options.Cookie.SecurePolicy = CookieSecurePolicy.None;
+					options.Cookie.SameSite = SameSiteMode.None;
+
+					options.ExpireTimeSpan = expiration;
+
+					options.AccessDeniedPath = new PathString("/forbidden/");
+					options.LoginPath = new PathString("/login/");
+					options.LogoutPath = new PathString("/logout/");
+					options.ReturnUrlParameter = "returnUrl";
+				});
+
 			services.AddAuthorization(options =>
 			{
 				options.AddPolicy("admin", builder => builder.Requirements.Add(new SiteSectionAccess(RightAliases.AdminAccess)));
@@ -63,7 +84,7 @@ namespace MathSite
 				options.AddPolicy("logout", builder => builder.Requirements.Add(new SiteSectionAccess(RightAliases.LogoutAccess)));
 			});
 
-			services.AddSingleton<IAuthorizationHandler, SiteSectionAccessHandler>();
+			services.AddScoped<IAuthorizationHandler, SiteSectionAccessHandler>();
 		}
 
 		private void ConfigureDependencyInjection(IServiceCollection services)
@@ -77,7 +98,6 @@ namespace MathSite
 
 			services.AddScoped<IDataSeeder, DataSeeder>();
 			services.AddScoped<IPasswordsManager, DoubleSha512HashPasswordsManager>();
-			services.AddScoped<IEntitiesConfigurator, EntitiesConfigurator>();
 			services.AddScoped<IMathSiteDbContext, MathSiteDbContext>(provider => provider.GetService<MathSiteDbContext>());
 			services.AddScoped<IBusinessLogicManger, BusinessLogicManager>();
 			services.AddScoped<ICurrentUserAccessValidation, CurrentUserAccessValidation>();
@@ -89,9 +109,8 @@ namespace MathSite
 
 		private void ConfigureEntityFramework(IServiceCollection services)
 		{
-			services.AddEntityFramework()
-				.AddEntityFrameworkNpgsql()
-				.AddDbContext<MathSiteDbContext>(options =>
+			services.AddEntityFrameworkNpgsql()
+				.AddDbContextPool<MathSiteDbContext>(options =>
 				{
 					options.UseNpgsql(
 						Configuration.GetConnectionString("Math"),

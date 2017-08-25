@@ -1,49 +1,46 @@
 ﻿using MathSite.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 {
-	public class CommentConfiguration : AbstractEntityConfiguration
+	public class CommentConfiguration : AbstractEntityConfiguration<Comment>
 	{
 		/// <inheritdoc />
-		protected override void SetPrimaryKey(ModelBuilder modelBuilder)
+		protected override void SetPrimaryKey(EntityTypeBuilder<Comment> modelBuilder)
 		{
-			modelBuilder.Entity<Comment>()
+			modelBuilder
 				.HasKey(comment => comment.Id);
 		}
 
 		/// <inheritdoc />
-		protected override void SetFields(ModelBuilder modelBuilder)
+		protected override void SetFields(EntityTypeBuilder<Comment> modelBuilder)
 		{
-			modelBuilder.Entity<Comment>()
+			modelBuilder
 				.Property(comment => comment.Text)
 				.IsRequired();
 
-			modelBuilder.Entity<Comment>()
+			modelBuilder
 				.Property(comment => comment.Date)
 				.IsRequired();
 		}
 
 		/// <inheritdoc />
-		protected override void SetRelationships(ModelBuilder modelBuilder)
+		protected override void SetRelationships(EntityTypeBuilder<Comment> modelBuilder)
 		{
-			modelBuilder.Entity<Comment>()
+			modelBuilder
 				.HasOne(comment => comment.User)
 				.WithMany(user => user.Comments)
 				.HasForeignKey(comment => comment.UserId)
 				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);
 
-			modelBuilder.Entity<Comment>()
+			modelBuilder
 				.HasOne(comment => comment.Post)
 				.WithMany(post => post.Comments)
 				.HasForeignKey(comment => comment.PostId)
 				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);
 		}
-
-		/// <inheritdoc />
-		public override string ConfigurationName { get; } = "Comment";
 	}
 }

@@ -1,46 +1,43 @@
 ﻿using MathSite.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 {
 	/// <inheritdoc />
-	public class KeywordsConfiguration : AbstractEntityConfiguration
+	public class KeywordsConfiguration : AbstractEntityConfiguration<Keywords>
 	{
 		/// <inheritdoc />
-		protected override void SetPrimaryKey(ModelBuilder modelBuilder)
+		protected override void SetPrimaryKey(EntityTypeBuilder<Keywords> modelBuilder)
 		{
-			modelBuilder.Entity<Keywords>()
+			modelBuilder
 				.HasKey(keyword => keyword.Id);
 
-			modelBuilder.Entity<Keywords>()
+			modelBuilder
 				.HasAlternateKey(keyword => keyword.Alias);
 		}
 
 		/// <inheritdoc />
-		protected override void SetFields(ModelBuilder modelBuilder)
+		protected override void SetFields(EntityTypeBuilder<Keywords> modelBuilder)
 		{
-			modelBuilder.Entity<Keywords>()
+			modelBuilder
 				.Property(keyword => keyword.Name)
 				.IsRequired();
 
-			modelBuilder.Entity<Keywords>()
+			modelBuilder
 				.Property(keyword => keyword.Alias)
 				.IsRequired();
 		}
 
 		/// <inheritdoc />
-		protected override void SetRelationships(ModelBuilder modelBuilder)
+		protected override void SetRelationships(EntityTypeBuilder<Keywords> modelBuilder)
 		{
-			modelBuilder.Entity<Keywords>()
+			modelBuilder
 				.HasMany(keyword => keyword.Posts)
 				.WithOne(posts => posts.Keyword)
 				.HasForeignKey(keyword => keyword.KeywordId)
 				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);
 		}
-
-		/// <inheritdoc />
-		public override string ConfigurationName { get; } = "Keywords";
 	}
 }
