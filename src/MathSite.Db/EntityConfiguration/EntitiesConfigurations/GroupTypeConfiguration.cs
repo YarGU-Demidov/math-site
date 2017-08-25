@@ -1,49 +1,46 @@
 ﻿using MathSite.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 {
-	public class GroupTypeConfiguration : AbstractEntityConfiguration
+	public class GroupTypeConfiguration : AbstractEntityConfiguration<GroupType>
 	{
 		/// <inheritdoc />
-		protected override void SetPrimaryKey(ModelBuilder modelBuilder)
+		protected override void SetPrimaryKey(EntityTypeBuilder<GroupType> modelBuilder)
 		{
-			modelBuilder.Entity<GroupType>()
+			modelBuilder
 				.HasKey(groupType => groupType.Id);
 
-			modelBuilder.Entity<GroupType>()
+			modelBuilder
 				.HasAlternateKey(groupType => groupType.Alias);
 		}
 
 		/// <inheritdoc />
-		protected override void SetFields(ModelBuilder modelBuilder)
+		protected override void SetFields(EntityTypeBuilder<GroupType> modelBuilder)
 		{
-			modelBuilder.Entity<GroupType>()
+			modelBuilder
 				.Property(groupType => groupType.Name)
 				.IsRequired();
 
-			modelBuilder.Entity<GroupType>()
+			modelBuilder
 				.Property(groupType => groupType.Description)
 				.IsRequired(false);
 
-			modelBuilder.Entity<GroupType>()
+			modelBuilder
 				.Property(groupType => groupType.Alias)
-				.IsRequired(false);
+				.IsRequired();
 		}
 
 		/// <inheritdoc />
-		protected override void SetRelationships(ModelBuilder modelBuilder)
+		protected override void SetRelationships(EntityTypeBuilder<GroupType> modelBuilder)
 		{
-			modelBuilder.Entity<GroupType>()
+			modelBuilder
 				.HasMany(groupType => groupType.Groups)
 				.WithOne(group => group.GroupType)
 				.HasForeignKey(group => group.GroupTypeId)
 				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);
 		}
-
-		/// <inheritdoc />
-		public override string ConfigurationName { get; } = "GroupType";
 	}
 }

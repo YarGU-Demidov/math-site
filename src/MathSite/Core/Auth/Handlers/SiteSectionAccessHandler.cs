@@ -10,9 +10,9 @@ namespace MathSite.Core.Auth.Handlers
 {
 	public class SiteSectionAccessHandler : AuthorizationHandler<SiteSectionAccess>
 	{
-		private readonly MathSiteDbContext _dbContext;
+		private readonly IMathSiteDbContext _dbContext;
 
-		public SiteSectionAccessHandler(MathSiteDbContext dbContext)
+		public SiteSectionAccessHandler(IMathSiteDbContext dbContext)
 		{
 			_dbContext = dbContext;
 		}

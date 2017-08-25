@@ -1,45 +1,42 @@
 ﻿using MathSite.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 {
-	public class PostAttachmentConfiguration : AbstractEntityConfiguration
+	public class PostAttachmentConfiguration : AbstractEntityConfiguration<PostAttachment>
 	{
 		/// <inheritdoc />
-		protected override void SetPrimaryKey(ModelBuilder modelBuilder)
+		protected override void SetPrimaryKey(EntityTypeBuilder<PostAttachment> modelBuilder)
 		{
-			modelBuilder.Entity<PostAttachment>()
+			modelBuilder
 				.HasKey(postAttachment => postAttachment.Id);
 		}
 
 		/// <inheritdoc />
-		protected override void SetFields(ModelBuilder modelBuilder)
+		protected override void SetFields(EntityTypeBuilder<PostAttachment> modelBuilder)
 		{
-			modelBuilder.Entity<PostAttachment>()
+			modelBuilder
 				.Property(postAttachment => postAttachment.Allowed)
 				.IsRequired();
 		}
 
 		/// <inheritdoc />
-		protected override void SetRelationships(ModelBuilder modelBuilder)
+		protected override void SetRelationships(EntityTypeBuilder<PostAttachment> modelBuilder)
 		{
-			modelBuilder.Entity<PostAttachment>()
+			modelBuilder
 				.HasOne(postAttachment => postAttachment.Post)
 				.WithMany(posts => posts.PostAttachments)
 				.HasForeignKey(postAttachment => postAttachment.PostId)
 				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);
 
-			modelBuilder.Entity<PostAttachment>()
+			modelBuilder
 				.HasOne(postAttachment => postAttachment.File)
 				.WithMany(file => file.PostAttachments)
 				.HasForeignKey(postAttachment => postAttachment.FileId)
 				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);
 		}
-
-		/// <inheritdoc />
-		public override string ConfigurationName { get; } = "PostAttachment";
 	}
 }

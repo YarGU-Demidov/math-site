@@ -1,45 +1,42 @@
 ﻿using MathSite.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 {
-	public class UserSettingsConfiguration : AbstractEntityConfiguration
+	public class UserSettingsConfiguration : AbstractEntityConfiguration<UserSettings>
 	{
 		/// <inheritdoc />
-		protected override void SetPrimaryKey(ModelBuilder modelBuilder)
+		protected override void SetPrimaryKey(EntityTypeBuilder<UserSettings> modelBuilder)
 		{
-			modelBuilder.Entity<UserSettings>()
+			modelBuilder
 				.HasKey(userSettings => userSettings.Id);
 		}
 
 		/// <inheritdoc />
-		protected override void SetFields(ModelBuilder modelBuilder)
+		protected override void SetFields(EntityTypeBuilder<UserSettings> modelBuilder)
 		{
-			modelBuilder.Entity<UserSettings>()
+			modelBuilder
 				.Property(userSettings => userSettings.Namespace)
 				.IsRequired();
 
-			modelBuilder.Entity<UserSettings>()
+			modelBuilder
 				.Property(userSettings => userSettings.Key)
 				.IsRequired();
 
-			modelBuilder.Entity<UserSettings>()
+			modelBuilder
 				.Property(userSettings => userSettings.Value)
 				.IsRequired();
 		}
 
 		/// <inheritdoc />
-		protected override void SetRelationships(ModelBuilder modelBuilder)
+		protected override void SetRelationships(EntityTypeBuilder<UserSettings> modelBuilder)
 		{
-			modelBuilder.Entity<UserSettings>()
+			modelBuilder
 				.HasOne(userSettings => userSettings.User)
 				.WithMany(user => user.Settings)
 				.HasForeignKey(userSettings => userSettings.UserId)
 				.OnDelete(DeleteBehavior.Cascade);
 		}
-
-		/// <inheritdoc />
-		public override string ConfigurationName { get; } = "UserSettings";
 	}
 }

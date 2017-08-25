@@ -1,36 +1,33 @@
 ﻿using MathSite.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 {
 	/// <inheritdoc />
-	public class PostCategoryConfiguration : AbstractEntityConfiguration
+	public class PostCategoryConfiguration : AbstractEntityConfiguration<PostCategory>
 	{
 		/// <inheritdoc />
-		protected override void SetPrimaryKey(ModelBuilder modelBuilder)
+		protected override void SetPrimaryKey(EntityTypeBuilder<PostCategory> modelBuilder)
 		{
-			modelBuilder.Entity<PostCategory>()
+			modelBuilder
 				.HasKey(postCategory => postCategory.Id);
 		}
 
 		/// <inheritdoc />
-		protected override void SetFields(ModelBuilder modelBuilder)
+		protected override void SetFields(EntityTypeBuilder<PostCategory> modelBuilder)
 		{
 		}
 
 		/// <inheritdoc />
-		protected override void SetRelationships(ModelBuilder modelBuilder)
+		protected override void SetRelationships(EntityTypeBuilder<PostCategory> modelBuilder)
 		{
-			modelBuilder.Entity<PostCategory>()
+			modelBuilder
 				.HasOne(postCategory => postCategory.Category)
 				.WithMany(category => category.PostCategories)
 				.HasForeignKey(postCategory => postCategory.CategoryId)
 				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);
 		}
-
-		/// <inheritdoc />
-		public override string ConfigurationName { get; } = "PostCategory";
 	}
 }

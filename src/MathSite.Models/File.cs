@@ -62,11 +62,11 @@ namespace MathSite.Entities
 		/// <summary>
 		///     Список настроек поста, к которым привязан файл.
 		/// </summary>
-		public List<PostSettings> PostSettings { get; set; } = new List<PostSettings>();
+		public ICollection<PostSettings> PostSettings { get; set; } = new List<PostSettings>();
 
 		/// <summary>
 		///     Список вложений поста, к которым привязан этот файл.
 		/// </summary>
-		public List<PostAttachment> PostAttachments { get; set; } = new List<PostAttachment>();
+		public ICollection<PostAttachment> PostAttachments { get; set; } = new List<PostAttachment>();
 	}
 }

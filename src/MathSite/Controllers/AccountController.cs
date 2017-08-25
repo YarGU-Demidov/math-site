@@ -7,8 +7,9 @@ using MathSite.Common.Crypto;
 using MathSite.Db;
 using MathSite.Domain.Common;
 using MathSite.ViewModels.Account;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,7 +19,8 @@ namespace MathSite.Controllers
 	{
 		private readonly IPasswordsManager _passwordHasher;
 
-		public AccountController(MathSiteDbContext dbContext, IPasswordsManager passwordHasher, IBusinessLogicManger logicManger) : base(dbContext, logicManger)
+		public AccountController(MathSiteDbContext dbContext, IPasswordsManager passwordHasher,
+			IBusinessLogicManger logicManger) : base(dbContext, logicManger)
 		{
 			_passwordHasher = passwordHasher;
 		}
@@ -44,14 +46,15 @@ namespace MathSite.Controllers
 			var ourUser = DbContext.Users.Include(user1 => user1.Group)
 				.ThenInclude(group => group.GroupsRights)
 				.FirstOrDefault(
-					user => user.Login == model.Login && _passwordHasher.PasswordsAreEqual(model.Login, model.Password, user.PasswordHash)
+					user => user.Login == model.Login &&
+					        _passwordHasher.PasswordsAreEqual(model.Login, model.Password, user.PasswordHash)
 				);
 
 			if (ourUser == null)
 				return View(model);
 
-			await HttpContext.Authentication.SignInAsync(
-				"Auth",
+			await HttpContext.SignInAsync(
+				CookieAuthenticationDefaults.AuthenticationScheme,
 				new ClaimsPrincipal(
 					new ClaimsIdentity(
 						new List<Claim>
@@ -63,7 +66,7 @@ namespace MathSite.Controllers
 						"Auth"
 					)
 				),
-				new AuthenticationProperties {ExpiresUtc = DateTime.UtcNow.AddMonths(12)}
+				new AuthenticationProperties {ExpiresUtc = DateTimeOffset.UtcNow.AddMonths(12)}
 			);
 
 			var returnUrl = HttpContext.Request.Query["returnUrl"].ToString();
@@ -95,7 +98,7 @@ namespace MathSite.Controllers
 		[HttpGet("/logout")]
 		public async Task<IActionResult> Logout()
 		{
-			await HttpContext.Authentication.SignOutAsync("Auth");
+			await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
 			return RedirectToAction("Index", "Home");
 		}

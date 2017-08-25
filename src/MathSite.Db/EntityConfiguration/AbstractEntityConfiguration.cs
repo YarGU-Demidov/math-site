@@ -1,33 +1,31 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MathSite.Db.EntityConfiguration
 {
 	/// <inheritdoc />
-	public abstract class AbstractEntityConfiguration : IEntityConfiguration
+	public abstract class AbstractEntityConfiguration<T> : IEntityTypeConfiguration<T> where T : class
 	{
 		/// <summary>
 		///		Установка первичного ключа
 		/// </summary>
 		/// <param name="modelBuilder">Билдер моделей</param>
-		protected abstract void SetPrimaryKey(ModelBuilder modelBuilder);
+		protected abstract void SetPrimaryKey(EntityTypeBuilder<T> modelBuilder);
 
 		/// <summary>
 		///		Установка параметров полей сущностей
 		/// </summary>
 		/// <param name="modelBuilder">Билдер моделей</param>
-		protected abstract void SetFields(ModelBuilder modelBuilder);
+		protected abstract void SetFields(EntityTypeBuilder<T> modelBuilder);
 
 		/// <summary>
 		///		Установка отношений между сущностями
 		/// </summary>
 		/// <param name="modelBuilder">Билдер моделей</param>
-		protected abstract void SetRelationships(ModelBuilder modelBuilder);
-
+		protected abstract void SetRelationships(EntityTypeBuilder<T> modelBuilder);
+		
 		/// <inheritdoc />
-		public abstract string ConfigurationName { get; }
-
-		/// <inheritdoc />
-		public virtual void Configure(ModelBuilder modelBuilder)
+		public void Configure(EntityTypeBuilder<T> modelBuilder)
 		{
 			SetPrimaryKey(modelBuilder);
 			SetFields(modelBuilder);

@@ -1,51 +1,51 @@
 ﻿using MathSite.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 {
 	/// <inheritdoc />
-	public class PersonConfiguration : AbstractEntityConfiguration
+	public class PersonConfiguration : AbstractEntityConfiguration<Person>
 	{
 		/// <inheritdoc />
-		protected override void SetPrimaryKey(ModelBuilder modelBuilder)
+		protected override void SetPrimaryKey(EntityTypeBuilder<Person> modelBuilder)
 		{
-			modelBuilder.Entity<Person>()
+			modelBuilder
 				.HasKey(p => p.Id);
 		}
 
 		/// <inheritdoc />
-		protected override void SetFields(ModelBuilder modelBuilder)
+		protected override void SetFields(EntityTypeBuilder<Person> modelBuilder)
 		{
-			modelBuilder.Entity<Person>()
+			modelBuilder
 				.Property(p => p.Name)
 				.IsRequired();
 
-			modelBuilder.Entity<Person>()
+			modelBuilder
 				.Property(p => p.Surname)
 				.IsRequired();
 
-			modelBuilder.Entity<Person>()
+			modelBuilder
 				.Property(p => p.MiddleName)
 				.IsRequired(false);
 
-			modelBuilder.Entity<Person>()
+			modelBuilder
 				.Property(p => p.Birthday)
 				.IsRequired();
 
-			modelBuilder.Entity<Person>()
+			modelBuilder
 				.Property(p => p.Phone)
 				.IsRequired(false);
 
-			modelBuilder.Entity<Person>()
+			modelBuilder
 				.Property(p => p.AdditionalPhone)
 				.IsRequired(false);
 
-			modelBuilder.Entity<Person>()
+			modelBuilder
 				.Property(p => p.PhotoId)
 				.IsRequired(false);
 
-			modelBuilder.Entity<Person>()
+			modelBuilder
 				.Property(p => p.CreationDate)
 				.HasDefaultValueSql("NOW()")
 				.IsRequired(false);
@@ -53,22 +53,19 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 		}
 
 		/// <inheritdoc />
-		protected override void SetRelationships(ModelBuilder modelBuilder)
+		protected override void SetRelationships(EntityTypeBuilder<Person> modelBuilder)
 		{
-			modelBuilder.Entity<Person>()
+			modelBuilder
 				.HasOne(person => person.User)
 				.WithOne(user => user.Person)
 				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);
 
-			modelBuilder.Entity<Person>()
+			modelBuilder
 				.HasOne(person => person.Photo)
 				.WithOne(file => file.Person)
 				.IsRequired(false)
 				.OnDelete(DeleteBehavior.Cascade);
 		}
-
-		/// <inheritdoc />
-		public override string ConfigurationName { get; } = "Person";
 	}
 }

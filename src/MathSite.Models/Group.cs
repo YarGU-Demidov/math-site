@@ -81,6 +81,12 @@ namespace MathSite.Entities
 		/// <summary>
 		///     Перечень постов группы.
 		/// </summary>
-		public List<PostGroupsAllowed> PostGroupsAllowed { get; set; } = new List<PostGroupsAllowed>();
+		public ICollection<PostGroupsAllowed> PostGroupsAllowed { get; set; } = new List<PostGroupsAllowed>();
+
+		/// <summary>
+		///		Перечень групп-детей.
+		/// </summary>
+		public ICollection<Group> ChildGroups { get; set; } = new List<Group>();
+
 	}
 }

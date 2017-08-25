@@ -1,46 +1,43 @@
 ﻿using MathSite.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 {
 	/// <inheritdoc />
-	public class PostTypeConfiguration : AbstractEntityConfiguration
+	public class PostTypeConfiguration : AbstractEntityConfiguration<PostType>
 	{
 		/// <inheritdoc />
-		protected override void SetPrimaryKey(ModelBuilder modelBuilder)
+		protected override void SetPrimaryKey(EntityTypeBuilder<PostType> modelBuilder)
 		{
-			modelBuilder.Entity<PostType>()
+			modelBuilder
 				.HasKey(postType => postType.Id);
 		}
 
 		/// <inheritdoc />
-		protected override void SetFields(ModelBuilder modelBuilder)
+		protected override void SetFields(EntityTypeBuilder<PostType> modelBuilder)
 		{
-			modelBuilder.Entity<PostType>()
+			modelBuilder
 				.Property(postType => postType.TypeName)
 				.IsRequired();
 		}
 
 		/// <inheritdoc />
-		protected override void SetRelationships(ModelBuilder modelBuilder)
+		protected override void SetRelationships(EntityTypeBuilder<PostType> modelBuilder)
 		{
-			modelBuilder.Entity<PostType>()
+			modelBuilder
 				.HasMany(postType => postType.Posts)
 				.WithOne(posts => posts.PostType)
 				.HasForeignKey(postType => postType.PostTypeId)
 				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);
 
-			modelBuilder.Entity<PostType>()
+			modelBuilder
 				.HasOne(postType => postType.DefaultPostsSettings)
 				.WithOne(defaultPostsSettings => defaultPostsSettings.PostType)
 				.HasForeignKey<PostSettings>(defaultPostsSettings => defaultPostsSettings.PostTypeId)
 				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);
 		}
-
-		/// <inheritdoc />
-		public override string ConfigurationName { get; } = "PostType";
 	}
 }
