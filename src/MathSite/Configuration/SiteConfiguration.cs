@@ -1,29 +1,21 @@
-﻿using System;
-using MathSite.Db.DataSeeding;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
 namespace MathSite
 {
 	public partial class Startup
 	{
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IDataSeeder seeder)
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
 		{
 			var isDevelopmentEnv = env.IsDevelopment();
 
 			ConfigureLoggers(loggerFactory, isDevelopmentEnv);
 
-			seeder.Seed();
-
-			var cookieHttpOnly = true;
-
 			if (isDevelopmentEnv)
 			{
 				app.UseDeveloperExceptionPage();
 				app.UseBrowserLink();
-				cookieHttpOnly = false;
 
 
 				app.UseCors(builder =>
@@ -41,7 +33,7 @@ namespace MathSite
 
 			app.UseStatusCodePagesWithRedirects("~/errors/{0}");
 
-			ConfigureAuthentication(app, cookieHttpOnly);
+			ConfigureAuthentication(app);
 			ConfigureRoutes(app);
 		}
 
@@ -50,25 +42,12 @@ namespace MathSite
 			loggerFactory.AddConsole(Configuration.GetSection("Logging"));
 
 			if (isDebug)
-			{
 				loggerFactory.AddDebug(LogLevel.Debug);
-			}
 		}
 
-		private static void ConfigureAuthentication(IApplicationBuilder app, bool cookieHttpOnly)
+		private static void ConfigureAuthentication(IApplicationBuilder app)
 		{
-			app.UseCookieAuthentication(new CookieAuthenticationOptions
-			{
-				AuthenticationScheme = "Auth",
-				LoginPath = new PathString("/login/"),
-				AccessDeniedPath = new PathString("/forbidden/"),
-				AutomaticAuthenticate = true,
-				AutomaticChallenge = true,
-				CookieHttpOnly = cookieHttpOnly,
-				LogoutPath = new PathString("/logout/"),
-				ReturnUrlParameter = "returnUrl",
-				ExpireTimeSpan = TimeSpan.FromDays(365)
-			});
+			app.UseAuthentication();
 		}
 
 		private static void ConfigureRoutes(IApplicationBuilder app)
@@ -86,7 +65,7 @@ namespace MathSite
 					"PersonalPageRoutes",
 					"personal-page",
 					"personal-page/{*pageAdress}",
-					new { controller = "Home", action = "Index" }
+					new {controller = "Home", action = "Index"}
 				);
 			});
 		}

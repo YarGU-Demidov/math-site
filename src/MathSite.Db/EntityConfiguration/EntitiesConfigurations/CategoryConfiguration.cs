@@ -1,50 +1,47 @@
 ﻿using MathSite.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 {
 	/// <inheritdoc />
-	public class CategoryConfiguration : AbstractEntityConfiguration
+	public class CategoryConfiguration : AbstractEntityConfiguration<Category>
 	{
 		/// <inheritdoc />
-		protected override void SetPrimaryKey(ModelBuilder modelBuilder)
+		protected override void SetPrimaryKey(EntityTypeBuilder<Category> modelBuilder)
 		{
-			modelBuilder.Entity<Category>()
+			modelBuilder
 				.HasKey(category => category.Id);
 
-			modelBuilder.Entity<Category>()
+			modelBuilder
 				.HasAlternateKey(category => category.Alias);
 		}
 
 		/// <inheritdoc />
-		protected override void SetFields(ModelBuilder modelBuilder)
+		protected override void SetFields(EntityTypeBuilder<Category> modelBuilder)
 		{
-			modelBuilder.Entity<Category>()
+			modelBuilder
 				.Property(category => category.Name)
 				.IsRequired();
 
-			modelBuilder.Entity<Category>()
+			modelBuilder
 				.Property(category => category.Description)
 				.IsRequired(false);
 
-			modelBuilder.Entity<Category>()
+			modelBuilder
 				.Property(category => category.Alias)
 				.IsRequired();
 		}
 
 		/// <inheritdoc />
-		protected override void SetRelationships(ModelBuilder modelBuilder)
+		protected override void SetRelationships(EntityTypeBuilder<Category> modelBuilder)
 		{
-			modelBuilder.Entity<Category>()
+			modelBuilder
 				.HasMany(category => category.PostCategories)
 				.WithOne(postCategories => postCategories.Category)
 				.HasForeignKey(postCategories => postCategories.CategoryId)
 				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);
 		}
-
-		/// <inheritdoc />
-		public override string ConfigurationName { get; } = "Category";
 	}
 }

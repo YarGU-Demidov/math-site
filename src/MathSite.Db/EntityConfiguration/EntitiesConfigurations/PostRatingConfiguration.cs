@@ -1,43 +1,40 @@
 ﻿using MathSite.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 {
-	public class PostRatingConfiguration : AbstractEntityConfiguration
+	public class PostRatingConfiguration : AbstractEntityConfiguration<PostRating>
 	{
 		/// <inheritdoc />
-		protected override void SetPrimaryKey(ModelBuilder modelBuilder)
+		protected override void SetPrimaryKey(EntityTypeBuilder<PostRating> modelBuilder)
 		{
-			modelBuilder.Entity<PostRating>()
+			modelBuilder
 				.HasKey(postRating => postRating.Id);
 		}
 
 		/// <inheritdoc />
-		protected override void SetFields(ModelBuilder modelBuilder)
+		protected override void SetFields(EntityTypeBuilder<PostRating> modelBuilder)
 		{
-			modelBuilder.Entity<PostRating>()
+			modelBuilder
 				.Property(postRating => postRating.Value)
 				.IsRequired();
 		}
 
 		/// <inheritdoc />
-		protected override void SetRelationships(ModelBuilder modelBuilder)
+		protected override void SetRelationships(EntityTypeBuilder<PostRating> modelBuilder)
 		{
-			modelBuilder.Entity<PostRating>()
+			modelBuilder
 				.HasOne(postRating => postRating.User)
 				.WithMany(user => user.PostsRatings)
 				.HasForeignKey(postRating => postRating.UserId)
 				.OnDelete(DeleteBehavior.Cascade);
 
-			modelBuilder.Entity<PostRating>()
+			modelBuilder
 				.HasOne(postRating => postRating.Post)
 				.WithMany(post => post.PostRatings)
 				.HasForeignKey(postRating => postRating.PostId)
 				.OnDelete(DeleteBehavior.Cascade);
 		}
-
-		/// <inheritdoc />
-		public override string ConfigurationName { get; } = "PostRating";
 	}
 }

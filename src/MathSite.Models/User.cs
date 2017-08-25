@@ -64,36 +64,36 @@ namespace MathSite.Entities
 		/// <summary>
 		///     Перечень постов пользователя.
 		/// </summary>
-		public List<PostOwner> PostsOwner { get; set; } = new List<PostOwner>();
+		public ICollection<PostOwner> PostsOwner { get; set; } = new List<PostOwner>();
 
 		/// <summary>
 		///     Список постов, написаных этим пользователем.
 		/// </summary>
-		public List<Post> Posts { get; set; } = new List<Post>();
+		public ICollection<Post> Posts { get; set; } = new List<Post>();
 
 		/// <summary>
 		///     Перечень постов, к которым разрешен доступ.
 		/// </summary>
-		public List<PostUserAllowed> AllowedPosts { get; set; } = new List<PostUserAllowed>();
+		public ICollection<PostUserAllowed> AllowedPosts { get; set; } = new List<PostUserAllowed>();
 
 		/// <summary>
 		///     Перечень оценок пользователя к постам, которые он оценил.
 		/// </summary>
-		public List<PostRating> PostsRatings { get; set; } = new List<PostRating>();
+		public ICollection<PostRating> PostsRatings { get; set; } = new List<PostRating>();
 
 		/// <summary>
 		///     Перечень комментариев пользователя.
 		/// </summary>
-		public List<Comment> Comments { get; set; } = new List<Comment>();
+		public ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
 		/// <summary>
 		///     Перечень настроек пользователя.
 		/// </summary>
-		public List<UserSettings> Settings { get; set; } = new List<UserSettings>();
+		public ICollection<UserSettings> Settings { get; set; } = new List<UserSettings>();
 
 		/// <summary>
 		///     Перечень прав пользователя.
 		/// </summary>
-		public List<UsersRights> UserRights { get; set; } = new List<UsersRights>();
+		public ICollection<UsersRights> UserRights { get; set; } = new List<UsersRights>();
 	}
 }

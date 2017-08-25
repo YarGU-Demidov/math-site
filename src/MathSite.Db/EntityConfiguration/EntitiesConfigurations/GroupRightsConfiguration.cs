@@ -1,44 +1,41 @@
 ﻿using MathSite.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 {
 	/// <inheritdoc />
-	public class GroupRightsConfiguration : AbstractEntityConfiguration
+	public class GroupRightsConfiguration : AbstractEntityConfiguration<GroupsRights>
 	{
 		/// <inheritdoc />
-		protected override void SetPrimaryKey(ModelBuilder modelBuilder)
+		protected override void SetPrimaryKey(EntityTypeBuilder<GroupsRights> modelBuilder)
 		{
-			modelBuilder.Entity<GroupsRights>()
+			modelBuilder
 				.HasKey(groupsRights => groupsRights.Id);
 		}
 
 		/// <inheritdoc />
-		protected override void SetFields(ModelBuilder modelBuilder)
+		protected override void SetFields(EntityTypeBuilder<GroupsRights> modelBuilder)
 		{
-			modelBuilder.Entity<GroupsRights>()
+			modelBuilder
 				.Property(groupsRights => groupsRights.Allowed)
 				.IsRequired();
 		}
 
 		/// <inheritdoc />
-		protected override void SetRelationships(ModelBuilder modelBuilder)
+		protected override void SetRelationships(EntityTypeBuilder<GroupsRights> modelBuilder)
 		{
-			modelBuilder.Entity<GroupsRights>()
+			modelBuilder
 				.HasOne(groupsRights => groupsRights.Group)
 				.WithMany(group => group.GroupsRights)
 				.HasForeignKey(groupsRights => groupsRights.GroupId)
 				.OnDelete(DeleteBehavior.Cascade);
 
-			modelBuilder.Entity<GroupsRights>()
+			modelBuilder
 				.HasOne(groupsRights => groupsRights.Right)
 				.WithMany(right => right.GroupsRights)
 				.HasForeignKey(groupsRights => groupsRights.RightId)
 				.OnDelete(DeleteBehavior.Cascade);
 		}
-
-		/// <inheritdoc />
-		public override string ConfigurationName { get; } = "GroupRights";
 	}
 }

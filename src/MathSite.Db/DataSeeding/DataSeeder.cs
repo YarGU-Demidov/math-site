@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using MathSite.Common.Crypto;
 using MathSite.Db.DataSeeding.Seeders;
+using MathSite.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace MathSite.Db.DataSeeding
@@ -12,11 +16,11 @@ namespace MathSite.Db.DataSeeding
 		private readonly ILogger _logger;
 		private readonly IPasswordsManager _passwordHasher;
 
-		///  <summary>
-		/// 		Создается Data Seeder
-		///  </summary>
-		///  <param name="context">Контекст базы сайта</param>
-		///  <param name="logger">Логгер</param>
+		/// <summary>
+		///     Создается Data Seeder
+		/// </summary>
+		/// <param name="context">Контекст базы сайта</param>
+		/// <param name="logger">Логгер</param>
 		/// <param name="passwordHasher">Парольный хэшировщик</param>
 		public DataSeeder(IMathSiteDbContext context, ILogger<DataSeeder> logger, IPasswordsManager passwordHasher)
 		{
@@ -24,15 +28,48 @@ namespace MathSite.Db.DataSeeding
 			_logger = logger;
 			_passwordHasher = passwordHasher;
 		}
+		
+		private bool DatabaseMigrated => !_context.Database.GetPendingMigrations().Any() && _context.Database.GetAppliedMigrations().Any();
+
+		private bool DatabaseExists
+		{
+			get
+			{
+				try
+				{
+					_context.Set<Person>().Find(Guid.NewGuid());
+					return true;
+				}
+				catch
+				{
+					return false;
+				}
+			}
+		}
+
+		private int PendingMigrationsCount => _context.Database.GetPendingMigrations().Count();
 
 		/// <inheritdoc />
 		public void Seed()
 		{
 			var seeders = GetSeeders();
 
+			if (!DatabaseExists)
+			{
+				_logger.LogError("Database wasn't created, seeding skipped!");
+				_logger.LogError("You need create or even migrate database first!");
+				return;
+			}
+
+			if (!DatabaseMigrated)
+			{
+				_logger.LogError($"Database wasn't migrated, seeding skipped! (There's {PendingMigrationsCount} pending migrations!)");
+				_logger.LogError("You need migrate database first!");
+				return;
+			}
+
 			_logger.LogInformation("Trying to seed data.");
 			foreach (var seeder in seeders)
-			{
 				if (seeder.CanSeed)
 				{
 					_logger.LogInformation($"Trying seed {seeder.SeedingObjectName}");
@@ -46,7 +83,6 @@ namespace MathSite.Db.DataSeeding
 				{
 					_logger.LogInformation($"Seeding {seeder.SeedingObjectName} skipped!");
 				}
-			}
 			_logger.LogInformation("Seeding Done! Continue start server...");
 		}
 

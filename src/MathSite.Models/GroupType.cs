@@ -32,6 +32,6 @@ namespace MathSite.Entities
 		/// <summary>
 		///     Список групп этого типа.
 		/// </summary>
-		public List<Group> Groups { get; set; } = new List<Group>();
+		public ICollection<Group> Groups { get; set; } = new List<Group>();
 	}
 }

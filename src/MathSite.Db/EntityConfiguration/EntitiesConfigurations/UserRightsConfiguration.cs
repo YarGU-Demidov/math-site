@@ -1,44 +1,41 @@
 ﻿using MathSite.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 {
 	/// <inheritdoc />
-	public class UserRightsConfiguration : AbstractEntityConfiguration
+	public class UserRightsConfiguration : AbstractEntityConfiguration<UsersRights>
 	{
 		/// <inheritdoc />
-		protected override void SetPrimaryKey(ModelBuilder modelBuilder)
+		protected override void SetPrimaryKey(EntityTypeBuilder<UsersRights> modelBuilder)
 		{
-			modelBuilder.Entity<UsersRights>()
+			modelBuilder
 				.HasKey(gr => gr.Id);
 
 		}
 
 		/// <inheritdoc />
-		protected override void SetFields(ModelBuilder modelBuilder)
+		protected override void SetFields(EntityTypeBuilder<UsersRights> modelBuilder)
 		{
-			modelBuilder.Entity<UsersRights>()
+			modelBuilder
 				.Property(gr => gr.Allowed)
 				.IsRequired();
 		}
 
 		/// <inheritdoc />
-		protected override void SetRelationships(ModelBuilder modelBuilder)
+		protected override void SetRelationships(EntityTypeBuilder<UsersRights> modelBuilder)
 		{
-			modelBuilder.Entity<UsersRights>()
+			modelBuilder
 				.HasOne(usersRights => usersRights.User)
 				.WithMany(user => user.UserRights)
 				.HasForeignKey(usersRights => usersRights.UserId)
 				.OnDelete(DeleteBehavior.Cascade);
-			modelBuilder.Entity<UsersRights>()
+			modelBuilder
 				.HasOne(usersRights => usersRights.Right)
 				.WithMany(right => right.UsersRights)
 				.HasForeignKey(usersRights => usersRights.RightId)
 				.OnDelete(DeleteBehavior.Cascade);
 		}
-
-		/// <inheritdoc />
-		public override string ConfigurationName { get; } = "UserRights";
 	}
 }

@@ -8,9 +8,10 @@ using MathSite.Common.Crypto;
 using MathSite.Controllers;
 using MathSite.Db;
 using MathSite.Domain.Common;
-using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace MathSite.Areas.Api.Controllers
 {
@@ -43,8 +44,8 @@ namespace MathSite.Areas.Api.Controllers
 			if (_passwordHasher.PasswordsAreEqual(login, password, ourUser.PasswordHash))
 				return new LoginResult(LoginStatus.WrongPassword);
 
-			await HttpContext.Authentication.SignInAsync(
-				"Auth",
+			await HttpContext.SignInAsync(
+				CookieAuthenticationDefaults.AuthenticationScheme,
 				new ClaimsPrincipal(
 					new ClaimsIdentity(
 						new List<Claim>
@@ -71,7 +72,7 @@ namespace MathSite.Areas.Api.Controllers
 				return new LogoutResult(LogoutStatus.NotLoggedIn);
 			try
 			{
-				await HttpContext.Authentication.SignOutAsync("Auth");
+				await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 				return new LogoutResult(LogoutStatus.Success);
 			}
 			catch (Exception)

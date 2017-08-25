@@ -36,10 +36,7 @@ namespace MathSite.Tests.Domain
 		{
 			_loggerFactory = new LoggerFactory();
 
-			_context = new MathSiteDbContext(
-				GetContextOptions(),
-				new EntitiesConfigurator(_loggerFactory.CreateLogger<EntitiesConfigurator>())
-			);
+			_context = new MathSiteDbContext(GetContextOptions());
 
 			if (!_context.Database.EnsureCreated())
 				_context.Database.Migrate();

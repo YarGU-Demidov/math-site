@@ -86,36 +86,36 @@ namespace MathSite.Entities
 		/// <summary>
 		///     Список категорий поста.
 		/// </summary>
-		public List<PostCategory> PostCategories { get; set; } = new List<PostCategory>();
+		public ICollection<PostCategory> PostCategories { get; set; } = new List<PostCategory>();
 
 		/// <summary>
 		///     Список владельцев поста.
 		/// </summary>
-		public List<PostOwner> PostOwners { get; set; } = new List<PostOwner>();
+		public ICollection<PostOwner> PostOwners { get; set; } = new List<PostOwner>();
 
 		/// <summary>
 		///     Список пользователей, которым точно разрешен доступ к посту.
 		/// </summary>
-		public List<PostUserAllowed> UsersAllowed { get; set; } = new List<PostUserAllowed>();
+		public ICollection<PostUserAllowed> UsersAllowed { get; set; } = new List<PostUserAllowed>();
 
 		/// <summary>
 		///     Список оценок от пользователей.
 		/// </summary>
-		public List<PostRating> PostRatings { get; set; } = new List<PostRating>();
+		public ICollection<PostRating> PostRatings { get; set; } = new List<PostRating>();
 
 		/// <summary>
 		///     Список комментариев к посту.
 		/// </summary>
-		public List<Comment> Comments { get; set; } = new List<Comment>();
+		public ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
 		/// <summary>
 		///     Список приложений к посту.
 		/// </summary>
-		public List<PostAttachment> PostAttachments { get; set; } = new List<PostAttachment>();
+		public ICollection<PostAttachment> PostAttachments { get; set; } = new List<PostAttachment>();
 
 		/// <summary>
 		///     Список групп, которым разрешен доступ к посту.
 		/// </summary>
-		public List<PostGroupsAllowed> GroupsAllowed { get; set; } = new List<PostGroupsAllowed>();
+		public ICollection<PostGroupsAllowed> GroupsAllowed { get; set; } = new List<PostGroupsAllowed>();
 	}
 }

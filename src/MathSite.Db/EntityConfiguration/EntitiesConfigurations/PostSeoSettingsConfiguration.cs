@@ -1,53 +1,50 @@
 ﻿using MathSite.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 {
-	public class PostSeoSettingsConfiguration : AbstractEntityConfiguration
+	public class PostSeoSettingsConfiguration : AbstractEntityConfiguration<PostSeoSettings>
 	{
 		/// <inheritdoc />
-		protected override void SetPrimaryKey(ModelBuilder modelBuilder)
+		protected override void SetPrimaryKey(EntityTypeBuilder<PostSeoSettings> modelBuilder)
 		{
-			modelBuilder.Entity<PostSeoSettings>()
+			modelBuilder
 				.HasKey(postSeoSettings => postSeoSettings.Id);
 		}
 
 		/// <inheritdoc />
-		protected override void SetFields(ModelBuilder modelBuilder)
+		protected override void SetFields(EntityTypeBuilder<PostSeoSettings> modelBuilder)
 		{
-			modelBuilder.Entity<PostSeoSettings>()
+			modelBuilder
 				.Property(postSeoSettings => postSeoSettings.Url)
 				.IsRequired(false);
 
-			modelBuilder.Entity<PostSeoSettings>()
+			modelBuilder
 				.Property(postSeoSettings => postSeoSettings.Title)
 				.IsRequired(false);
 
-			modelBuilder.Entity<PostSeoSettings>()
+			modelBuilder
 				.Property(postSeoSettings => postSeoSettings.Description)
 				.IsRequired(false);
 		}
 
 		/// <inheritdoc />
-		protected override void SetRelationships(ModelBuilder modelBuilder)
+		protected override void SetRelationships(EntityTypeBuilder<PostSeoSettings> modelBuilder)
 		{
-			modelBuilder.Entity<PostSeoSettings>()
+			modelBuilder
 				.HasOne(postSeoSettings => postSeoSettings.Post)
 				.WithOne(post => post.PostSeoSettings)
 				.HasForeignKey<Post>(post => post.PostSeoSettingsId)
 				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);
 
-			modelBuilder.Entity<PostSeoSettings>()
+			modelBuilder
 				.HasMany(postSeoSettings => postSeoSettings.PostKeywords)
 				.WithOne(postKeywords => postKeywords.PostSeoSettings)
 				.HasForeignKey(postSeoSettings => postSeoSettings.PostSeoSettingsId)
 				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);
 		}
-
-		/// <inheritdoc />
-		public override string ConfigurationName { get; } = "PostSeoSettings";
 	}
 }
