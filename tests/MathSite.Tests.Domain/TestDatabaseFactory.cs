@@ -1,22 +1,29 @@
 ﻿using System;
+using System.Data.Common;
 using System.Threading.Tasks;
 using MathSite.Common.Crypto;
 using MathSite.Db;
 using MathSite.Db.DataSeeding;
-using MathSite.Db.EntityConfiguration;
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace MathSite.Tests.Domain
 {
-	public class TestDatabaseFactory : IDisposable
+	public class TestDatabaseFactory<T> : ITestDatabaseFactory where T : DbConnection
 	{
-		private static readonly IPasswordsManager PasswordsManager = new DoubleSha512HashPasswordsManager();
-		private SqliteConnection _connection;
+
+		private readonly ILoggerFactory _loggerFactory;
+		private readonly IPasswordsManager _passwordsManager;
+		private readonly DbConnection _connection;
 
 		private IMathSiteDbContext _context;
-		private ILoggerFactory _loggerFactory;
+
+		public TestDatabaseFactory(T connection, IPasswordsManager passwordsManager, ILoggerFactory loggerFactory)
+		{
+			_connection = connection;
+			_passwordsManager = passwordsManager;
+			_loggerFactory = loggerFactory;
+		}
 
 		public void Dispose()
 		{
@@ -26,24 +33,43 @@ namespace MathSite.Tests.Domain
 
 		public IDisposable OpenConnection()
 		{
-			_connection = new SqliteConnection("DataSource=:memory:");
 			_connection.Open();
 
 			return _connection;
 		}
 
-		public IMathSiteDbContext GetContext()
+		public async Task<IMathSiteDbContext> GetContext()
 		{
-			_loggerFactory = new LoggerFactory();
-
 			_context = new MathSiteDbContext(GetContextOptions());
 
-			if (!_context.Database.EnsureCreated())
-				_context.Database.Migrate();
+			await _context.Database.MigrateAsync();
 
 			SeedData();
 
 			return _context;
+		}
+
+		public void ExecuteWithContext(Action<IMathSiteDbContext> yourAction)
+		{
+			using (OpenConnection())
+			{
+				var contextGetterTask = GetContext();
+				contextGetterTask.Wait();
+
+				using (var context = contextGetterTask.Result)
+				{
+					yourAction(context);
+				}
+			}
+		}
+
+		public async Task ExecuteWithContextAsync(Func<IMathSiteDbContext, Task> yourAction)
+		{
+			using (OpenConnection())
+			using (var context = await GetContext())
+			{
+				await yourAction(context);
+			}
 		}
 
 		private DbContextOptions GetContextOptions()
@@ -55,29 +81,11 @@ namespace MathSite.Tests.Domain
 
 		private void SeedData()
 		{
-			var dataSeederLogger = _loggerFactory.CreateLogger<DataSeeder>();
+			var dataSeederLogger = _loggerFactory.CreateLogger<IDataSeeder>();
 
-			var seeder = new DataSeeder(_context, dataSeederLogger, PasswordsManager);
+			var seeder = new DataSeeder(_context, dataSeederLogger, _passwordsManager);
 
 			seeder.Seed();
-		}
-
-		public void ExecuteWithContext(Action<IMathSiteDbContext> yourAction)
-		{
-			using (OpenConnection())
-			using (var context = GetContext())
-			{
-				yourAction(context);
-			}
-		}
-
-		public async Task ExecuteWithContextAsync(Func<IMathSiteDbContext, Task> yourAction)
-		{
-			using (OpenConnection())
-			using (var context = GetContext())
-			{
-				await yourAction(context);
-			}
 		}
 	}
 }
