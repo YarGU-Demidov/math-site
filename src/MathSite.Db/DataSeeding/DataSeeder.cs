@@ -22,7 +22,7 @@ namespace MathSite.Db.DataSeeding
 		/// <param name="context">Контекст базы сайта</param>
 		/// <param name="logger">Логгер</param>
 		/// <param name="passwordHasher">Парольный хэшировщик</param>
-		public DataSeeder(IMathSiteDbContext context, ILogger<DataSeeder> logger, IPasswordsManager passwordHasher)
+		public DataSeeder(IMathSiteDbContext context, ILogger<IDataSeeder> logger, IPasswordsManager passwordHasher)
 		{
 			_context = context;
 			_logger = logger;

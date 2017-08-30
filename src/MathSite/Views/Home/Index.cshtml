@@ -1,13 +1,42 @@
-﻿@{
-	ViewBag.Title = "Home Page";
-
-    var person = ViewBag.Person;
+﻿@model MainPageViewModel
+@{
+	Layout = "MainLayout";
 }
 
-<h1>Home page</h1>
+<div class="features">
+	<div class="features__container container">
+		<div class="features__head">
+			<h2 class="features__title">
+				У нас творится история
+			</h2>
+			<div class="features__link">
+				<a class="button button_palette_blue button__news" href="/news">НОВОСТИ &nbsp;►</a>
+			</div>
+		</div>
+		<ul class="features__list">
+			@{var i = 0;}
+			@foreach (var item in Model.Posts)
+			{
+				var className = "";
 
-<p>
-    Here we are!
-    
-    @person
-</p>
+				switch (i)
+				{
+					case 0:
+						className = "teaser_palette_blue";
+						break;
+					case 1:
+						className = "teaser_palette_purple";
+						break;
+					case 2:
+						className = "teaser_palette_orange";
+						break;
+				}
+
+				<li class="features__item @className">
+					@Html.Partial("Partials/Posts/PostPreview", item)
+				</li>
+				i = (i+1) % 3;
+			}
+		</ul>
+	</div>
+</div>
