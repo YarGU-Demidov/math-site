@@ -1,0 +1,10 @@
+﻿@model IEnumerable<MenuItem>
+
+<ul>
+	@foreach (var item in Model)
+	{
+		<li>
+			@Html.Partial("Partials/Menu/MenuLink", item)
+		</li>
+	}
+</ul>

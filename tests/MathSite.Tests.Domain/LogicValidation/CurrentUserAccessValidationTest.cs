@@ -13,10 +13,10 @@ namespace MathSite.Tests.Domain.LogicValidation
 	{
 		public CurrentUserAccessValidationTest()
 		{
-			_databaseFactory = new TestDatabaseFactory();
+			_databaseFactory = TestSqlLiteDatabaseFactory.UseDefault();
 		}
 
-		private readonly TestDatabaseFactory _databaseFactory;
+		private readonly ITestDatabaseFactory _databaseFactory;
 
 		[Fact]
 		public void UserExsistance_Exists()
