@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using MathSite.Db;
+using MathSite.Tests.CoreThings;
 
 namespace MathSite.Tests.Domain
 {
