@@ -10,7 +10,7 @@ namespace MathSite.Db.EntityConfiguration
 		///		Установка первичного ключа
 		/// </summary>
 		/// <param name="modelBuilder">Билдер моделей</param>
-		protected abstract void SetPrimaryKey(EntityTypeBuilder<T> modelBuilder);
+		protected abstract void SetKeys(EntityTypeBuilder<T> modelBuilder);
 
 		/// <summary>
 		///		Установка параметров полей сущностей
@@ -27,7 +27,7 @@ namespace MathSite.Db.EntityConfiguration
 		/// <inheritdoc />
 		public void Configure(EntityTypeBuilder<T> modelBuilder)
 		{
-			SetPrimaryKey(modelBuilder);
+			SetKeys(modelBuilder);
 			SetFields(modelBuilder);
 			SetRelationships(modelBuilder);
 		}

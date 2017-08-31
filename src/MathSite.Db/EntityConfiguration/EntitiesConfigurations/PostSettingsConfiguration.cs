@@ -7,7 +7,7 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 	public class PostSettingsConfiguration : AbstractEntityConfiguration<PostSettings>
 	{
 		/// <inheritdoc />
-		protected override void SetPrimaryKey(EntityTypeBuilder<PostSettings> modelBuilder)
+		protected override void SetKeys(EntityTypeBuilder<PostSettings> modelBuilder)
 		{
 			modelBuilder
 				.HasKey(postSettings => postSettings.Id);

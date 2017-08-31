@@ -112,6 +112,20 @@ namespace MathSite.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SiteSettings",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Key = table.Column<string>(type: "text", nullable: false),
+                    Value = table.Column<byte[]>(type: "bytea", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SiteSettings", x => x.Id);
+                    table.UniqueConstraint("AK_SiteSettings_Key", x => x.Key);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Groups",
                 columns: table => new
                 {
@@ -693,6 +707,11 @@ namespace MathSite.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_SiteSettings_Key",
+                table: "SiteSettings",
+                column: "Key");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Users_GroupId",
                 table: "Users",
                 column: "GroupId");
@@ -744,6 +763,9 @@ namespace MathSite.Migrations
 
             migrationBuilder.DropTable(
                 name: "PostUserAlloweds");
+
+            migrationBuilder.DropTable(
+                name: "SiteSettings");
 
             migrationBuilder.DropTable(
                 name: "UserSettingses");

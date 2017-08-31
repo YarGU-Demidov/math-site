@@ -1,0 +1,8 @@
+﻿@model NewsPageInfo
+@{
+	Layout = "SecondaryLayout";
+}
+@foreach (var post in Model.Posts)
+{
+	@Html.Partial("Partials/Posts/ListPostPreview", post)
+}

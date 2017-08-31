@@ -9,7 +9,7 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 	public class RightConfiguration : AbstractEntityConfiguration<Right>
 	{
 		/// <inheritdoc />
-		protected override void SetPrimaryKey(EntityTypeBuilder<Right> modelBuilder)
+		protected override void SetKeys(EntityTypeBuilder<Right> modelBuilder)
 		{
 			modelBuilder
 				.HasKey(right => right.Id);

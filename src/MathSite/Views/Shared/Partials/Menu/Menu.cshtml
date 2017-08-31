@@ -5,6 +5,10 @@
 	{
 		<li>
 			@Html.Partial("Partials/Menu/MenuLink", item)
+			@if (item.Subitems != null)
+			{
+				@Html.Partial("Partials/Menu/Menu", item.Subitems)
+			}
 		</li>
 	}
 </ul>

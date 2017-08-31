@@ -71,12 +71,12 @@ namespace MathSite.Entities
 		/// <summary>
 		///     Перечень прав группы.
 		/// </summary>
-		public List<GroupsRights> GroupsRights { get; set; } = new List<GroupsRights>();
+		public ICollection<GroupsRights> GroupsRights { get; set; } = new List<GroupsRights>();
 
 		/// <summary>
 		///     Перечень пользователей.
 		/// </summary>
-		public List<User> Users { get; set; } = new List<User>();
+		public ICollection<User> Users { get; set; } = new List<User>();
 
 		/// <summary>
 		///     Перечень постов группы.

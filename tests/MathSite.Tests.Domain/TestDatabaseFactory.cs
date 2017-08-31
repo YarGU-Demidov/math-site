@@ -42,6 +42,7 @@ namespace MathSite.Tests.Domain
 		{
 			_context = new MathSiteDbContext(GetContextOptions());
 
+			await _context.Database.EnsureCreatedAsync();
 			await _context.Database.MigrateAsync();
 
 			SeedData();

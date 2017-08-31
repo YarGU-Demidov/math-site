@@ -11,7 +11,7 @@ namespace MathSite.Domain.Logic.Users
 {
 	public class UsersLogic : LogicBase, IUsersLogic
 	{
-		private const string PersonNotFoundFormat = "Личность с Id={'0'} не найдена";
+		private const string PersonNotFoundFormat = "Личность с Id={0} не найдена";
 		private const string UserNotFoundFormat = "Пользователь с Id='{0}' не найдена";
 		private const string GroupNotFoundFormat = "Группа с Id='{0}' не найдена";
 
@@ -106,7 +106,7 @@ namespace MathSite.Domain.Logic.Users
 		/// <param name="getResult">Метод получения результата.</param>
 		public TResult GetFromUsers<TResult>(Func<IQueryable<User>, TResult> getResult)
 		{
-			return GetFromItems(i => i.Users, getResult);
+			return GetFromItems(getResult);
 		}
 
 		/// <summary>
@@ -116,7 +116,7 @@ namespace MathSite.Domain.Logic.Users
 		/// <param name="getResult">Метод получения результата.</param>
 		public Task<TResult> GetFromUsersAsync<TResult>(Func<IQueryable<User>, Task<TResult>> getResult)
 		{
-			return GetFromItems(i => i.Users, getResult);
+			return GetFromItems(getResult);
 		}
 
 		/// <summary>
@@ -126,7 +126,7 @@ namespace MathSite.Domain.Logic.Users
 		/// <param name="getResult">Метод получения результата.</param>
 		public TResult GetUserRights<TResult>(Func<IQueryable<UsersRights>, TResult> getResult)
 		{
-			return GetFromItems(i => i.UsersRights, getResult);
+			return GetFromItems(getResult);
 		}
 
 		/// <summary>
@@ -136,7 +136,7 @@ namespace MathSite.Domain.Logic.Users
 		/// <param name="getResult">Метод получения результата.</param>
 		public Task<TResult> GetUserRightsAsync<TResult>(Func<IQueryable<UsersRights>, Task<TResult>> getResult)
 		{
-			return GetFromItems(i => i.UsersRights, getResult);
+			return GetFromItems(getResult);
 		}
 	}
 }

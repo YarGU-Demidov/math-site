@@ -11,7 +11,7 @@ using System;
 namespace MathSite.Migrations
 {
     [DbContext(typeof(MathSiteDbContext))]
-    [Migration("20170823234849_Initial")]
+    [Migration("20170830225723_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -463,6 +463,26 @@ namespace MathSite.Migrations
                     b.HasAlternateKey("Alias");
 
                     b.ToTable("Rights");
+                });
+
+            modelBuilder.Entity("MathSite.Entities.SiteSettings", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Key")
+                        .IsRequired();
+
+                    b.Property<byte[]>("Value")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasAlternateKey("Key");
+
+                    b.HasIndex("Key");
+
+                    b.ToTable("SiteSettings");
                 });
 
             modelBuilder.Entity("MathSite.Entities.User", b =>

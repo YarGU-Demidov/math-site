@@ -8,7 +8,7 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 	public class PersonConfiguration : AbstractEntityConfiguration<Person>
 	{
 		/// <inheritdoc />
-		protected override void SetPrimaryKey(EntityTypeBuilder<Person> modelBuilder)
+		protected override void SetKeys(EntityTypeBuilder<Person> modelBuilder)
 		{
 			modelBuilder
 				.HasKey(p => p.Id);
