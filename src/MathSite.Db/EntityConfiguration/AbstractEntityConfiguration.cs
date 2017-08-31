@@ -10,6 +10,7 @@ namespace MathSite.Db.EntityConfiguration
 		public void Configure(EntityTypeBuilder<T> modelBuilder)
 		{
 			SetKeys(modelBuilder);
+			SetIndexes(modelBuilder);
 			SetFields(modelBuilder);
 			SetRelationships(modelBuilder);
 		}
@@ -31,5 +32,7 @@ namespace MathSite.Db.EntityConfiguration
 		/// </summary>
 		/// <param name="modelBuilder">Билдер моделей</param>
 		protected abstract void SetRelationships(EntityTypeBuilder<T> modelBuilder);
+
+		protected abstract void SetIndexes(EntityTypeBuilder<T> modelBuilder);
 	}
 }

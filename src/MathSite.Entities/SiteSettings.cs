@@ -8,19 +8,12 @@ namespace MathSite.Entities
 		{
 		}
 
-		public SiteSettings(Guid id, string key, byte[] value)
+		public SiteSettings(string key, byte[] value)
 		{
-			Id = id;
 			Key = key;
 			Value = value;
 		}
 
-		public SiteSettings(string key, byte[] value)
-			: this(Guid.NewGuid(), key, value)
-		{
-		}
-
-		public Guid Id { get; set; }
 		public string Key { get; set; }
 		public byte[] Value { get; set; }
 	}

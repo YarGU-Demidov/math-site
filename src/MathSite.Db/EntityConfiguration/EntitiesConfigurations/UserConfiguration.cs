@@ -88,5 +88,9 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);
 		}
+
+		protected override void SetIndexes(EntityTypeBuilder<User> modelBuilder)
+		{
+		}
 	}
 }

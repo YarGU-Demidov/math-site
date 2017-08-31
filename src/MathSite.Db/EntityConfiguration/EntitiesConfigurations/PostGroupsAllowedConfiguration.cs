@@ -38,5 +38,9 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 				.IsRequired(false)
 				.OnDelete(DeleteBehavior.Cascade);
 		}
+
+		protected override void SetIndexes(EntityTypeBuilder<PostGroupsAllowed> modelBuilder)
+		{
+		}
 	}
 }

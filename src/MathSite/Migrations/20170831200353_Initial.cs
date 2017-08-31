@@ -115,14 +115,12 @@ namespace MathSite.Migrations
                 name: "SiteSettings",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Key = table.Column<string>(type: "text", nullable: false),
                     Value = table.Column<byte[]>(type: "bytea", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SiteSettings", x => x.Id);
-                    table.UniqueConstraint("AK_SiteSettings_Key", x => x.Key);
+                    table.PrimaryKey("PK_SiteSettings", x => x.Key);
                 });
 
             migrationBuilder.CreateTable(
