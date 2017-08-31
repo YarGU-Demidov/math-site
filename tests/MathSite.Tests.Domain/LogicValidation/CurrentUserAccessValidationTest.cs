@@ -29,7 +29,7 @@ namespace MathSite.Tests.Domain.LogicValidation
 		[Fact]
 		public async void CurrentUser_HasNotRights_Test()
 		{
-			await DatabaseFactory.ExecuteWithContextAsync(async context =>
+			await ExecuteWithContextAsync(async context =>
 			{
 				var validator = new CurrentUserAccessValidation(context);
 
@@ -45,7 +45,7 @@ namespace MathSite.Tests.Domain.LogicValidation
 		[Fact]
 		public async void CurrentUser_HasRights_Test()
 		{
-			await DatabaseFactory.ExecuteWithContextAsync(async context =>
+			await ExecuteWithContextAsync(async context =>
 			{
 				var validator = new CurrentUserAccessValidation(context);
 
@@ -62,7 +62,7 @@ namespace MathSite.Tests.Domain.LogicValidation
 		[Fact]
 		public async void CurrentUser_IsNotUser_Test()
 		{
-			await DatabaseFactory.ExecuteWithContextAsync(async context =>
+			await ExecuteWithContextAsync(async context =>
 			{
 				var validator = new CurrentUserAccessValidation(context);
 
@@ -76,7 +76,7 @@ namespace MathSite.Tests.Domain.LogicValidation
 		[Fact]
 		public void UserExsistance_Exists()
 		{
-			DatabaseFactory.ExecuteWithContext(context =>
+			ExecuteWithContext(context =>
 			{
 				var validator = new CurrentUserAccessValidation(context);
 
@@ -90,7 +90,7 @@ namespace MathSite.Tests.Domain.LogicValidation
 		[Fact]
 		public void UserExsistance_NotExists_EmptyGuid()
 		{
-			DatabaseFactory.ExecuteWithContext(context =>
+			ExecuteWithContext(context =>
 			{
 				var validator = new CurrentUserAccessValidation(context);
 
@@ -102,7 +102,7 @@ namespace MathSite.Tests.Domain.LogicValidation
 		[Fact]
 		public void UserExsistance_NotExists_NotEmptyGuid()
 		{
-			DatabaseFactory.ExecuteWithContext(context =>
+			ExecuteWithContext(context =>
 			{
 				var validator = new CurrentUserAccessValidation(context);
 
