@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using MathSite.Db;
 
-namespace MathSite.Tests.Domain
+namespace MathSite.Tests.CoreThings
 {
 	public interface ITestDatabaseFactory : IDisposable
 	{

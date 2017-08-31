@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using MathSite.Common.Crypto;
 using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Debug;
 
-namespace MathSite.Tests.Domain
+namespace MathSite.Tests.CoreThings
 {
-	public class TestSqliteDatabaseFactory : TestDatabaseFactory<SqliteConnection>
+	public class TestSqliteDatabaseFactory : TestDatabaseFactory
 	{
 		public TestSqliteDatabaseFactory(SqliteConnection connection, IPasswordsManager passwordsManager,
 			ILoggerFactory loggerFactory)
@@ -27,6 +28,13 @@ namespace MathSite.Tests.Domain
 				loggerFactory = new LoggerFactory(new List<ILoggerProvider> {new DebugLoggerProvider()});
 
 			return new TestSqliteDatabaseFactory(connection, passwordsManager, loggerFactory);
+		}
+
+		protected override DbContextOptions GetContextOptions()
+		{
+			return new DbContextOptionsBuilder()
+				.UseSqlite(Connection)
+				.Options;
 		}
 	}
 }
