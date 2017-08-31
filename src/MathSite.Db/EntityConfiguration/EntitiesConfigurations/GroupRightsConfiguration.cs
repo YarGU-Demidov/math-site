@@ -37,5 +37,9 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 				.HasForeignKey(groupsRights => groupsRights.RightId)
 				.OnDelete(DeleteBehavior.Cascade);
 		}
+
+		protected override void SetIndexes(EntityTypeBuilder<GroupsRights> modelBuilder)
+		{
+		}
 	}
 }

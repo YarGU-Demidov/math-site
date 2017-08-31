@@ -466,18 +466,13 @@ namespace MathSite.Migrations
 
             modelBuilder.Entity("MathSite.Entities.SiteSettings", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
                     b.Property<string>("Key")
-                        .IsRequired();
+                        .ValueGeneratedOnAdd();
 
                     b.Property<byte[]>("Value")
                         .IsRequired();
 
-                    b.HasKey("Id");
-
-                    b.HasAlternateKey("Key");
+                    b.HasKey("Key");
 
                     b.HasIndex("Key");
 

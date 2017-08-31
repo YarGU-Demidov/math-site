@@ -38,5 +38,9 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 				.HasForeignKey(userSettings => userSettings.UserId)
 				.OnDelete(DeleteBehavior.Cascade);
 		}
+
+		protected override void SetIndexes(EntityTypeBuilder<UserSettings> modelBuilder)
+		{
+		}
 	}
 }

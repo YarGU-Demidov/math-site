@@ -36,5 +36,9 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 				.HasForeignKey(postRating => postRating.PostId)
 				.OnDelete(DeleteBehavior.Cascade);
 		}
+
+		protected override void SetIndexes(EntityTypeBuilder<PostRating> modelBuilder)
+		{
+		}
 	}
 }

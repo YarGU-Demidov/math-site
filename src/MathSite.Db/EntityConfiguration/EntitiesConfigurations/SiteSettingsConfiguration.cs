@@ -7,10 +7,7 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 	{
 		protected override void SetKeys(EntityTypeBuilder<SiteSettings> modelBuilder)
 		{
-			modelBuilder.HasKey(settings => settings.Id);
-
-			modelBuilder.HasAlternateKey(settings => settings.Key);
-			modelBuilder.HasIndex(settings => settings.Key);
+			modelBuilder.HasKey(settings => settings.Key);
 		}
 
 		protected override void SetFields(EntityTypeBuilder<SiteSettings> modelBuilder)
@@ -23,6 +20,11 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 
 		protected override void SetRelationships(EntityTypeBuilder<SiteSettings> modelBuilder)
 		{
+		}
+
+		protected override void SetIndexes(EntityTypeBuilder<SiteSettings> modelBuilder)
+		{
+			modelBuilder.HasIndex(settings => settings.Key);
 		}
 	}
 }

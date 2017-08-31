@@ -63,7 +63,8 @@ namespace MathSite.Db.DataSeeding
 
 			if (!DatabaseMigrated)
 			{
-				_logger.LogError($"Database wasn't migrated, seeding skipped! (There's {PendingMigrationsCount} pending migrations!)");
+				_logger.LogError(
+					$"Database wasn't migrated, seeding skipped! (There's {PendingMigrationsCount} pending migrations!)");
 				_logger.LogError("You need migrate database first!");
 				return;
 			}

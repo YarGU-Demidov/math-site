@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using MathSite.Db;
 using MathSite.Domain.Common;
-using MathSite.Domain.LogicValidation;
 using MathSite.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,13 +12,10 @@ namespace MathSite.Domain.Logic.Files
 		private const string PersonNotFoundFormat = "Личность с Id='{0}' не найдена";
 		private const string PersonAlreadyHasPhotoFormat = "Личность с Id='{0}' уже имеет фото";
 		private const string FileNotFoundFormat = "Файл с Id='{0}' не найден";
-
-		private readonly ICurrentUserAccessValidation _userValidation;
-
-		public FilesLogic(IMathSiteDbContext contextManager,
-			ICurrentUserAccessValidation userValidation) : base(contextManager)
+		
+		public FilesLogic(IMathSiteDbContext contextManager) 
+			: base(contextManager)
 		{
-			_userValidation = userValidation;
 		}
 
 		/// <summary>
@@ -33,9 +29,6 @@ namespace MathSite.Domain.Logic.Files
 		public async Task<Guid> CreateFileAsync(Guid currentUserId, string fileName, string filePath, string extension,
 			Guid personId)
 		{
-			_userValidation.CheckCurrentUserExistence(currentUserId);
-			await _userValidation.CheckCurrentUserRightsAsync(currentUserId);
-
 			var fileId = Guid.Empty;
 			await UseContextAsync(async context =>
 			{
@@ -66,9 +59,6 @@ namespace MathSite.Domain.Logic.Files
 		/// <param name="extension">Расширение файла.</param>
 		public async Task UpdateFileAsync(Guid currentUserId, Guid fileId, string fileName, string filePath, string extension)
 		{
-			_userValidation.CheckCurrentUserExistence(currentUserId);
-			await _userValidation.CheckCurrentUserRightsAsync(currentUserId);
-
 			await UseContextAsync(async context =>
 			{
 				var file = await context.Files.FirstOrDefaultAsync(i => i.Id == fileId);
@@ -90,9 +80,6 @@ namespace MathSite.Domain.Logic.Files
 		/// <param name="fileId">Идентификатор файла.</param>
 		public async Task DeleteFileAsync(Guid currentUserId, Guid fileId)
 		{
-			_userValidation.CheckCurrentUserExistence(currentUserId);
-			await _userValidation.CheckCurrentUserRightsAsync(currentUserId);
-
 			await UseContextAsync(async context =>
 			{
 				var file = await context.Files.FirstOrDefaultAsync(i => i.Id == fileId);

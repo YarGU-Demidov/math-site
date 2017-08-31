@@ -47,5 +47,9 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 				.OnDelete(DeleteBehavior.Cascade)
 				.IsRequired();
 		}
+
+		protected override void SetIndexes(EntityTypeBuilder<Right> modelBuilder)
+		{
+		}
 	}
 }

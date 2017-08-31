@@ -53,5 +53,9 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 				.HasForeignKey(postAttachments => postAttachments.FileId)
 				.OnDelete(DeleteBehavior.Cascade);
 		}
+
+		protected override void SetIndexes(EntityTypeBuilder<File> modelBuilder)
+		{
+		}
 	}
 }

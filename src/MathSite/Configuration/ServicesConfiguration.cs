@@ -10,7 +10,7 @@ using MathSite.Domain.Logic.Groups;
 using MathSite.Domain.Logic.Persons;
 using MathSite.Domain.Logic.SiteSettings;
 using MathSite.Domain.Logic.Users;
-using MathSite.Domain.LogicValidation;
+using MathSite.Facades.RightsValidation;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -101,7 +101,7 @@ namespace MathSite
 			services.AddScoped<IPasswordsManager, DoubleSha512HashPasswordsManager>();
 			services.AddScoped<IMathSiteDbContext, MathSiteDbContext>(provider => provider.GetService<MathSiteDbContext>());
 			services.AddScoped<IBusinessLogicManger, BusinessLogicManager>();
-			services.AddScoped<ICurrentUserAccessValidation, CurrentUserAccessValidation>();
+			services.AddScoped<IUserAccessValidation, UserAccessValidation>();
 
 			services.AddScoped<IGroupsLogic, GroupsLogic>();
 			services.AddScoped<IPersonsLogic, PersonsLogic>();
