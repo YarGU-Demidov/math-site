@@ -8,7 +8,7 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 	public class UserConfiguration : AbstractEntityConfiguration<User>
 	{
 		/// <inheritdoc />
-		protected override void SetPrimaryKey(EntityTypeBuilder<User> modelBuilder)
+		protected override void SetKeys(EntityTypeBuilder<User> modelBuilder)
 		{
 			modelBuilder
 				.HasKey(u => u.Id);

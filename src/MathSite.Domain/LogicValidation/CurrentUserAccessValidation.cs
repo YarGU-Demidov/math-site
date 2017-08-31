@@ -3,6 +3,7 @@ using System.Linq;
 using System.Security;
 using System.Threading.Tasks;
 using MathSite.Db;
+using MathSite.Db.DataSeeding.StaticData;
 using Microsoft.EntityFrameworkCore;
 
 namespace MathSite.Domain.LogicValidation
@@ -40,7 +41,7 @@ namespace MathSite.Domain.LogicValidation
 		{
 			var isUserHaveAdminRights = await _contextManager.UsersRights
 				.Where(i => i.UserId == currentUserId)
-				.AnyAsync(i => i.Right.Alias == "admin");
+				.AnyAsync(i => i.Right.Alias == GroupAliases.Admin);
 
 			if (!isUserHaveAdminRights)
 				throw new Exception(string.Format(UserDoNotHaveAdminRightsFormat, currentUserId));

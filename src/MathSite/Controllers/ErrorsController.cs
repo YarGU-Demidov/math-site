@@ -11,7 +11,7 @@ namespace MathSite.Controllers
 		{
 		}
 
-		[Route("/errors/404")]
+		[Route("/error/404")]
 		public IActionResult NotFound404()
 		{
 			Response.StatusCode = 404;
@@ -19,7 +19,7 @@ namespace MathSite.Controllers
 		}
 
 		[AllowAnonymous]
-		[Route("/errors/403")]
+		[Route("/error/403")]
 		public IActionResult Forbidden(string returnUrl)
 		{
 			Response.StatusCode = 403;

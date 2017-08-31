@@ -42,6 +42,7 @@ namespace MathSite.Domain.Common
 		/// <typeparam name="TResult">Тип результата.</typeparam>
 		/// <param name="getEntities">Метод получения перечней сущностей.</param>
 		/// <param name="getResult">Метод получения результата.</param>
+		[Obsolete("Используй однопараметрную перегрузку, эту не надо!", true)]
 		protected TResult GetFromItems<TEntity, TResult>(Func<IMathSiteDbContext, IQueryable<TEntity>> getEntities,
 			Func<IQueryable<TEntity>, TResult> getResult)
 		{
@@ -49,6 +50,24 @@ namespace MathSite.Domain.Common
 			UseContext(context =>
 			{
 				var entities = getEntities(context);
+				result = getResult(entities);
+			});
+			return result;
+		}
+
+		/// <summary>
+		///		Возвращает результат из перечня элементов.
+		/// </summary>
+		/// <typeparam name="TEntity">Тип сущности.</typeparam>
+		/// <typeparam name="TResult">Тип результата.</typeparam>
+		/// <param name="getResult">Метод получения результата.</param>
+		protected TResult GetFromItems<TEntity, TResult>(Func<IQueryable<TEntity>, TResult> getResult)
+			where TEntity: class
+		{
+			var result = default(TResult);
+			UseContext(context =>
+			{
+				var entities = context.Set<TEntity>();
 				result = getResult(entities);
 			});
 			return result;

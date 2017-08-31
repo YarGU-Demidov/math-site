@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
+// ReSharper disable ArgumentsStyleOther
+// ReSharper disable ArgumentsStyleStringLiteral
 
 namespace MathSite
 {
@@ -28,11 +30,11 @@ namespace MathSite
 			}
 			else
 			{
-				app.UseExceptionHandler("/Home/Error");
+				app.UseExceptionHandler("/home/error");
 			}
 
-			app.UseStatusCodePagesWithRedirects("~/errors/{0}");
-
+			app.UseStatusCodePagesWithReExecute("/error/{0}");
+			
 			ConfigureAuthentication(app);
 			ConfigureRoutes(app);
 		}
@@ -56,16 +58,35 @@ namespace MathSite
 
 			app.UseMvc(routes =>
 			{
-				routes.MapRoute("areaRoute",
-					"{area:exists}/{controller=Home}/{action=Index}");
 				routes.MapRoute(
-					"default",
-					"{controller=Home}/{action=Index}/{id?}");
+					"areaRoute",
+					"{area:exists}/{controller=Home}/{action=Index}"
+				);
+
+				routes.MapRoute(
+					name: "default",
+					template: "{controller=Home}/{action=Index}/{id?}"
+				);
+
+				//новости
+				routes.MapRoute(
+					name: "News",
+					template: "news/{*query}",
+					defaults: new {controller = "News", action = "Index"}
+				);
+
+				// статические страницы
+				routes.MapRoute(
+					name: "Pages",
+					template: "{*query}",
+					defaults: new {controller = "Pages", action = "Index"}
+				);
+
 				routes.MapAreaRoute(
-					"PersonalPageRoutes",
-					"personal-page",
-					"personal-page/{*pageAdress}",
-					new {controller = "Home", action = "Index"}
+					name: "PersonalPageRoutes",
+					areaName: "personal-page",
+					template: "personal-page/{*pageAdress}",
+					defaults: new {controller = "Home", action = "Index"}
 				);
 			});
 		}

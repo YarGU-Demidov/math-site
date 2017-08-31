@@ -9,7 +9,7 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 	public class FileConfiguration : AbstractEntityConfiguration<File>
 	{
 		/// <inheritdoc />
-		protected override void SetPrimaryKey(EntityTypeBuilder<File> modelBuilder)
+		protected override void SetKeys(EntityTypeBuilder<File> modelBuilder)
 		{
 			modelBuilder
 				.HasKey(f => f.Id);

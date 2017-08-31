@@ -121,7 +121,7 @@ namespace MathSite.Domain.Logic.Persons
 		/// <param name="getResult">Метод получения результата.</param>
 		public TResult GetFromPersons<TResult>(Func<IQueryable<Person>, TResult> getResult)
 		{
-			return GetFromItems(i => i.Persons, getResult);
+			return GetFromItems(getResult);
 		}
 
 		/// <summary>
@@ -131,7 +131,7 @@ namespace MathSite.Domain.Logic.Persons
 		/// <param name="getResult">Метод получения результата.</param>
 		public Task<TResult> GetFromPersonsAsync<TResult>(Func<IQueryable<Person>, Task<TResult>> getResult)
 		{
-			return GetFromItems(i => i.Persons, getResult);
+			return GetFromItems(getResult);
 		}
 	}
 }

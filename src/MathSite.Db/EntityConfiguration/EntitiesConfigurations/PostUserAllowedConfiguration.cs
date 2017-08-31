@@ -7,7 +7,7 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 	public class PostUserAllowedConfiguration : AbstractEntityConfiguration<PostUserAllowed>
 	{
 		/// <inheritdoc />
-		protected override void SetPrimaryKey(EntityTypeBuilder<PostUserAllowed> modelBuilder)
+		protected override void SetKeys(EntityTypeBuilder<PostUserAllowed> modelBuilder)
 		{
 			modelBuilder
 				.HasKey(postUserAllowed => postUserAllowed.Id);

@@ -7,7 +7,7 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 	public class PostAttachmentConfiguration : AbstractEntityConfiguration<PostAttachment>
 	{
 		/// <inheritdoc />
-		protected override void SetPrimaryKey(EntityTypeBuilder<PostAttachment> modelBuilder)
+		protected override void SetKeys(EntityTypeBuilder<PostAttachment> modelBuilder)
 		{
 			modelBuilder
 				.HasKey(postAttachment => postAttachment.Id);

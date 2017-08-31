@@ -29,7 +29,7 @@ namespace MathSite.Db.DataSeeding
 			_passwordHasher = passwordHasher;
 		}
 		
-		private bool DatabaseMigrated => !_context.Database.GetPendingMigrations().Any() && _context.Database.GetAppliedMigrations().Any();
+		private bool DatabaseMigrated => !_context.Database.GetPendingMigrations().Any();
 
 		private bool DatabaseExists
 		{

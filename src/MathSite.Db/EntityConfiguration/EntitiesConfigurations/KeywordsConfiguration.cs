@@ -8,7 +8,7 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 	public class KeywordsConfiguration : AbstractEntityConfiguration<Keywords>
 	{
 		/// <inheritdoc />
-		protected override void SetPrimaryKey(EntityTypeBuilder<Keywords> modelBuilder)
+		protected override void SetKeys(EntityTypeBuilder<Keywords> modelBuilder)
 		{
 			modelBuilder
 				.HasKey(keyword => keyword.Id);

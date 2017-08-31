@@ -8,7 +8,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MathSite", "src\MathSite\Ma
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MathSite.Db", "src\MathSite.Db\MathSite.Db.csproj", "{1EDC5F07-5B9F-4823-B631-A7C4A7731368}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MathSite.Entities", "src\MathSite.Models\MathSite.Entities.csproj", "{61F6E6C3-8264-46E0-A64C-F8B8FA243D1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MathSite.Entities", "src\MathSite.Entities\MathSite.Entities.csproj", "{61F6E6C3-8264-46E0-A64C-F8B8FA243D1E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MathSite.Common", "src\MathSite.Common\MathSite.Common.csproj", "{A6F1ED77-50FC-4D0E-8135-39BAB8A8333E}"
 EndProject
@@ -20,7 +20,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MathSite.Tests.Common", "te
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MathSite.Tests.Domain", "tests\MathSite.Tests.Domain\MathSite.Tests.Domain.csproj", "{7CC81FE7-F74C-4438-848F-E265980BA558}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seeder", "Seeder\Seeder.csproj", "{91854032-8808-4468-8335-7FBB22E870B2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seeder", "src\Seeder\Seeder.csproj", "{91854032-8808-4468-8335-7FBB22E870B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -38,6 +38,7 @@ namespace MathSite.Db
 		public DbSet<PostType> PostTypes { get; set; }
 		public DbSet<PostUserAllowed> PostUserAlloweds { get; set; }
 		public DbSet<Right> Rights { get; set; }
+		public DbSet<SiteSettings> SiteSettings { get; set; }
 		public DbSet<User> Users { get; set; }
 		public DbSet<UserSettings> UserSettingses { get; set; }
 		public DbSet<UsersRights> UsersRights { get; set; }
@@ -70,6 +71,7 @@ namespace MathSite.Db
 			modelBuilder.ApplyConfiguration(new PostTypeConfiguration());
 			modelBuilder.ApplyConfiguration(new PostUserAllowedConfiguration());
 			modelBuilder.ApplyConfiguration(new RightConfiguration());
+			modelBuilder.ApplyConfiguration(new SiteSettingsConfiguration());
 			modelBuilder.ApplyConfiguration(new UserRightsConfiguration());
 			modelBuilder.ApplyConfiguration(new UserConfiguration());
 			modelBuilder.ApplyConfiguration(new UserSettingsConfiguration());

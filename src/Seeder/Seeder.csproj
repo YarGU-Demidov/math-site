@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\MathSite.Db\MathSite.Db.csproj" />
+    <ProjectReference Include="..\MathSite.Db\MathSite.Db.csproj" />
   </ItemGroup>
 
 </Project>

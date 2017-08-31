@@ -118,7 +118,7 @@ namespace MathSite.Domain.Logic.Groups
 		/// <param name="getResult">Метод получения результата.</param>
 		public TResult GetFromGroups<TResult>(Func<IQueryable<Group>, TResult> getResult)
 		{
-			return GetFromItems(i => i.Groups, getResult);
+			return GetFromItems(getResult);
 		}
 
 		/// <summary>
@@ -128,7 +128,7 @@ namespace MathSite.Domain.Logic.Groups
 		/// <param name="getResult">Метод получения результата.</param>
 		public async Task<TResult> GetFromGroupsAsync<TResult>(Func<IQueryable<Group>, Task<TResult>> getResult)
 		{
-			return await GetFromItems(i => i.Groups, getResult);
+			return await GetFromItems(getResult);
 		}
 	}
 }
