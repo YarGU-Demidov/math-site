@@ -7,35 +7,40 @@ using MathSite.Db.DataSeeding;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace MathSite.Tests.Domain
+namespace MathSite.Tests.CoreThings
 {
-	public class TestDatabaseFactory<T> : ITestDatabaseFactory where T : DbConnection
+	public abstract class TestDatabaseFactory : ITestDatabaseFactory
 	{
-		private readonly DbConnection _connection;
+		protected readonly DbConnection Connection;
 
 		private readonly ILoggerFactory _loggerFactory;
 		private readonly IPasswordsManager _passwordsManager;
 
 		private IMathSiteDbContext _context;
 
-		public TestDatabaseFactory(T connection, IPasswordsManager passwordsManager, ILoggerFactory loggerFactory)
+		public TestDatabaseFactory(DbConnection connection, IPasswordsManager passwordsManager, ILoggerFactory loggerFactory)
 		{
-			_connection = connection;
+			Connection = connection;
 			_passwordsManager = passwordsManager;
 			_loggerFactory = loggerFactory;
 		}
 
+		public TestDatabaseFactory(IPasswordsManager passwordsManager, ILoggerFactory loggerFactory)
+			: this(null, passwordsManager, loggerFactory)
+		{
+		}
+
 		public void Dispose()
 		{
-			_connection?.Close();
+			Connection?.Close();
 			_context?.Dispose();
 		}
 
 		public IDisposable OpenConnection()
 		{
-			_connection.Open();
+			Connection?.Open();
 
-			return _connection;
+			return Connection;
 		}
 
 		public async Task<IMathSiteDbContext> GetContext()
@@ -73,12 +78,7 @@ namespace MathSite.Tests.Domain
 			}
 		}
 
-		private DbContextOptions GetContextOptions()
-		{
-			return new DbContextOptionsBuilder()
-				.UseSqlite(_connection)
-				.Options;
-		}
+		protected abstract DbContextOptions GetContextOptions();
 
 		private void SeedData()
 		{
