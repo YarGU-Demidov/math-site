@@ -25,6 +25,7 @@ namespace MathSite.Db
 		DbSet<PostType> PostTypes { get; set; }
 		DbSet<PostUserAllowed> PostUserAlloweds { get; set; }
 		DbSet<Right> Rights { get; set; }
+		DbSet<SiteSettings> SiteSettings { get; set; }
 		DbSet<User> Users { get; set; }
 		DbSet<UserSettings> UserSettingses { get; set; }
 		DbSet<UsersRights> UsersRights { get; set; }

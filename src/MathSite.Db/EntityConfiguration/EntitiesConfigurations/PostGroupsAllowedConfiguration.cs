@@ -7,7 +7,7 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 	public class PostGroupsAllowedConfiguration : AbstractEntityConfiguration<PostGroupsAllowed>
 	{
 		/// <inheritdoc />
-		protected override void SetPrimaryKey(EntityTypeBuilder<PostGroupsAllowed> modelBuilder)
+		protected override void SetKeys(EntityTypeBuilder<PostGroupsAllowed> modelBuilder)
 		{
 			modelBuilder
 				.HasKey(postGroupsAllowed => postGroupsAllowed.Id);

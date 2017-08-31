@@ -113,7 +113,7 @@ namespace MathSite.Domain.Logic.Files
 		/// <param name="getResult">Метод получения результата.</param>
 		public TResult GetFromFiles<TResult>(Func<IQueryable<File>, TResult> getResult)
 		{
-			return GetFromItems(i => i.Files, getResult);
+			return GetFromItems(getResult);
 		}
 
 		/// <summary>
@@ -123,7 +123,7 @@ namespace MathSite.Domain.Logic.Files
 		/// <param name="getResult">Метод получения результата.</param>
 		public async Task<TResult> GetFromFilesAsync<TResult>(Func<IQueryable<File>, Task<TResult>> getResult)
 		{
-			return await GetFromItems(i => i.Files, getResult);
+			return await GetFromItems(getResult);
 		}
 	}
 }

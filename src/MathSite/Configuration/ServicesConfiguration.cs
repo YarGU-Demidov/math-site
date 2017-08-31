@@ -3,12 +3,12 @@ using MathSite.Common.Crypto;
 using MathSite.Core.Auth.Handlers;
 using MathSite.Core.Auth.Requirements;
 using MathSite.Db;
-using MathSite.Db.DataSeeding;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Domain.Common;
 using MathSite.Domain.Logic.Files;
 using MathSite.Domain.Logic.Groups;
 using MathSite.Domain.Logic.Persons;
+using MathSite.Domain.Logic.SiteSettings;
 using MathSite.Domain.Logic.Users;
 using MathSite.Domain.LogicValidation;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -60,7 +60,7 @@ namespace MathSite
 				{
 					var expiration = TimeSpan.FromDays(365);
 
-					options.Cookie.Name = $"{CookieAuthenticationDefaults.CookiePrefix}Math";
+					options.Cookie.Name = "YSU.Math.Auth";
 					options.Cookie.HttpOnly = true;
 					options.Cookie.Path = "/";
 					options.Cookie.Expiration = expiration;
@@ -69,7 +69,7 @@ namespace MathSite
 
 					options.ExpireTimeSpan = expiration;
 
-					options.AccessDeniedPath = new PathString("/forbidden/");
+					options.AccessDeniedPath = new PathString("/error/forbidden/");
 					options.LoginPath = new PathString("/login/");
 					options.LogoutPath = new PathString("/logout/");
 					options.ReturnUrlParameter = "returnUrl";
@@ -77,11 +77,13 @@ namespace MathSite
 
 			services.AddAuthorization(options =>
 			{
-				options.AddPolicy("admin", builder => builder.Requirements.Add(new SiteSectionAccess(RightAliases.AdminAccess)));
+				options.AddPolicy("admin",
+					builder => builder.Requirements.Add(new SiteSectionAccess(RightAliases.AdminAccess)));
 				options.AddPolicy("peronal-page",
 					builder => builder.Requirements.Add(new SiteSectionAccess(RightAliases.PanelAccess)));
 
-				options.AddPolicy("logout", builder => builder.Requirements.Add(new SiteSectionAccess(RightAliases.LogoutAccess)));
+				options.AddPolicy("logout",
+					builder => builder.Requirements.Add(new SiteSectionAccess(RightAliases.LogoutAccess)));
 			});
 
 			services.AddScoped<IAuthorizationHandler, SiteSectionAccessHandler>();
@@ -96,15 +98,16 @@ namespace MathSite
 			services.AddSingleton<IConfiguration>(Configuration);
 			services.Configure<Settings>(Configuration);
 
-			services.AddScoped<IDataSeeder, DataSeeder>();
 			services.AddScoped<IPasswordsManager, DoubleSha512HashPasswordsManager>();
 			services.AddScoped<IMathSiteDbContext, MathSiteDbContext>(provider => provider.GetService<MathSiteDbContext>());
 			services.AddScoped<IBusinessLogicManger, BusinessLogicManager>();
 			services.AddScoped<ICurrentUserAccessValidation, CurrentUserAccessValidation>();
+
 			services.AddScoped<IGroupsLogic, GroupsLogic>();
 			services.AddScoped<IPersonsLogic, PersonsLogic>();
 			services.AddScoped<IUsersLogic, UsersLogic>();
 			services.AddScoped<IFilesLogic, FilesLogic>();
+			services.AddScoped<ISiteSettingsLogic, SiteSettingsLogic>();
 		}
 
 		private void ConfigureEntityFramework(IServiceCollection services)

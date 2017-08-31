@@ -7,7 +7,7 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 	public class PostRatingConfiguration : AbstractEntityConfiguration<PostRating>
 	{
 		/// <inheritdoc />
-		protected override void SetPrimaryKey(EntityTypeBuilder<PostRating> modelBuilder)
+		protected override void SetKeys(EntityTypeBuilder<PostRating> modelBuilder)
 		{
 			modelBuilder
 				.HasKey(postRating => postRating.Id);

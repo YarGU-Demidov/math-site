@@ -45,20 +45,20 @@ namespace MathSite.Controllers
 				}
 			);
 
-			var pageTItle = new PageTitle("Главная страница", " | ", "Математический Факультет ЯрГУ");
+			var pageTitle = new PageTitle("Главная страница", " | ", "Математический Факультет ЯрГУ");
 
 			var posts = new List<PostPreviewViewModel>
 			{
-				new PostPreviewViewModel("Test1", "test1-url", "Test content for 1st post", DateTime.Now.ToString("dd MMM yyyy", new CultureInfo("ru"))),
-				new PostPreviewViewModel("Test2", "test2-url", "Test content for 2nd post", DateTime.Now.AddMonths(-2).AddDays(-1).ToString("dd MMM yyyy", new CultureInfo("ru"))),
-				new PostPreviewViewModel("Test3", "test3-url", "Test content for 3d post", DateTime.Now.AddDays(-2).ToString("dd MMM yyyy", new CultureInfo("ru"))),
-				new PostPreviewViewModel("Test4", "test4-url", "Test content for 4th post", DateTime.Now.AddDays(-3).ToString("dd MMM yyyy", new CultureInfo("ru"))),
-				new PostPreviewViewModel("Test5", "test5-url", "Test content for 5th post", DateTime.Now.AddMonths(-7).AddDays(-15).ToString("dd MMM yyyy", new CultureInfo("ru"))),
-				new PostPreviewViewModel("Test6", "test6-url", "Test content for 6th post", DateTime.Now.AddMonths(-5).AddDays(-10).ToString("dd MMM yyyy", new CultureInfo("ru"))),
+				new PostPreviewViewModel("Test1", "/news/test1-url", "Test content for 1st post", DateTime.Now.ToString("dd MMM yyyy", new CultureInfo("ru"))),
+				new PostPreviewViewModel("Test2", "/news/test2-url", "Test content for 2nd post", DateTime.Now.AddMonths(-2).AddDays(-1).ToString("dd MMM yyyy", new CultureInfo("ru"))),
+				new PostPreviewViewModel("Test3", "/news/test3-url", "Test content for 3d post", DateTime.Now.AddDays(-2).ToString("dd MMM yyyy", new CultureInfo("ru"))),
+				new PostPreviewViewModel("Test4", "/news/test4-url", "Test content for 4th post", DateTime.Now.AddDays(-3).ToString("dd MMM yyyy", new CultureInfo("ru"))),
+				new PostPreviewViewModel("Test5", "/news/test5-url", "Test content for 5th post", DateTime.Now.AddMonths(-7).AddDays(-15).ToString("dd MMM yyyy", new CultureInfo("ru"))),
+				new PostPreviewViewModel("Test6", "/news/test6-url", "Test content for 6th post", DateTime.Now.AddMonths(-5).AddDays(-10).ToString("dd MMM yyyy", new CultureInfo("ru"))),
 			};
 
 			var model = new MainPageViewModel(
-				pageTItle,
+				pageTitle,
 				"Главная страница сайта Математического факультета ЯрГУ",
 				"Математика, ЯрГУ, Матфак",
 				menu,

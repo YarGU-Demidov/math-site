@@ -7,7 +7,7 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 	public class CommentConfiguration : AbstractEntityConfiguration<Comment>
 	{
 		/// <inheritdoc />
-		protected override void SetPrimaryKey(EntityTypeBuilder<Comment> modelBuilder)
+		protected override void SetKeys(EntityTypeBuilder<Comment> modelBuilder)
 		{
 			modelBuilder
 				.HasKey(comment => comment.Id);

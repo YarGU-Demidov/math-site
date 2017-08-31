@@ -1,0 +1,33 @@
+﻿@model SecondaryPageInfoViewModel
+
+<aside class="secondary__body secondary__body_info">
+	@Html.Partial("Partials/Menu/Menu", Model.SidebarMenuItems)
+	<!--<div class="secondary__body_info_poster">
+		<a href="@Url.Action("Index", "News")"><img src="@Url.Content("img/poster_1.png")" alt="" class="poster"></a>
+	</div>-->
+	<div class="secondary__body_info_contacts">
+		<div class="contacts_math">
+			<div class="contacts__title">
+				Математический факультет
+			</div>
+			<div class="contacts__description">
+				+7 (4852) 78-85-91
+			</div>
+			<div class="contacts__description">
+				Ярославль, <br> ул.Союзная, 144
+			</div>
+		</div>
+
+		<div>
+			<div class="contacts__title">
+				Приёмная комиссия
+			</div>
+			<div class="contacts__description">
+				+7 (4852) 303-210, 314-373
+			</div>
+			<div class="contacts__description">
+				Ярославль, <br> ул.Кирова, 8/10
+			</div>
+		</div>
+	</div>
+</aside>

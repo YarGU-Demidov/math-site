@@ -1,0 +1,23 @@
+﻿@model PostPreviewViewModel
+@{
+	var imageUrl = !string.IsNullOrWhiteSpace(Model.PreviewImage)
+		? Model.PreviewImage
+		: Url.Content("img/default_news.png");
+}
+
+<article class="news__item">
+	<div class="news__item_preview">
+		<img src="@imageUrl" alt="Новость" class="round">
+	</div>
+	<div class="news__item_body">
+		<time>
+			@Model.PublishedAt
+		</time>
+		<div class="news__item_title">
+			<a class="contacts_link" href="@Model.Url">@Model.Title</a>
+		</div>
+		<div class="news__item_description">
+			@Model.Content
+		</div>
+	</div>
+</article>

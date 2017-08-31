@@ -7,7 +7,7 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 	public class GroupTypeConfiguration : AbstractEntityConfiguration<GroupType>
 	{
 		/// <inheritdoc />
-		protected override void SetPrimaryKey(EntityTypeBuilder<GroupType> modelBuilder)
+		protected override void SetKeys(EntityTypeBuilder<GroupType> modelBuilder)
 		{
 			modelBuilder
 				.HasKey(groupType => groupType.Id);
