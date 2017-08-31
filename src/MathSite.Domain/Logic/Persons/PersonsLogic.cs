@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using MathSite.Db;
 using MathSite.Domain.Common;
-using MathSite.Domain.LogicValidation;
 using MathSite.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,12 +12,9 @@ namespace MathSite.Domain.Logic.Persons
 		private const string PersonNotFoundFormat = "Личность с Id='{0}' не найдена";
 		private const string PersonEstablishedFormat = "Пользователь с Id='{0}' уже зарегистрирован";
 
-		private readonly ICurrentUserAccessValidation _userValidation;
-
-		public PersonsLogic(IMathSiteDbContext contextManager,
-			ICurrentUserAccessValidation userValidation) : base(contextManager)
+		public PersonsLogic(IMathSiteDbContext contextManager)
+			: base(contextManager)
 		{
-			_userValidation = userValidation;
 		}
 
 		/// <summary>
@@ -71,9 +67,6 @@ namespace MathSite.Domain.Logic.Persons
 		public async Task UpdatePersonAsync(Guid currentUserId, Guid personId, string name, string surname, string middlename,
 			DateTime birthday, string phoneNumber, string additionalPhoneNumber, Guid? photoId)
 		{
-			_userValidation.CheckCurrentUserExistence(currentUserId);
-			await _userValidation.CheckCurrentUserRightsAsync(currentUserId);
-
 			await UseContextAsync(async context =>
 			{
 				var person = await context.Persons.FirstOrDefaultAsync(p => p.Id == personId);
@@ -99,9 +92,6 @@ namespace MathSite.Domain.Logic.Persons
 		/// <param name="personId">Идентификатор личности.</param>
 		public async Task DeletePersonAsync(Guid currentUserId, Guid personId)
 		{
-			_userValidation.CheckCurrentUserExistence(currentUserId);
-			await _userValidation.CheckCurrentUserRightsAsync(currentUserId);
-
 			await UseContextAsync(async context =>
 			{
 				var person = await context.Persons.FirstOrDefaultAsync(p => p.Id == personId);

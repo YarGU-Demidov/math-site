@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using MathSite.Db;
 using MathSite.Domain.Common;
-using MathSite.Domain.LogicValidation;
 using MathSite.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,13 +11,10 @@ namespace MathSite.Domain.Logic.Groups
 	{
 		private const string GroupNotFoundFormat = "Группа с Id='{0}' не найдена";
 		private const string GroupTypeNotFoundFormat = "Тип группы с Id='{0}' не найден";
-
-		private readonly ICurrentUserAccessValidation _userValidation;
-
-		public GroupsLogic(IMathSiteDbContext contextManager,
-			ICurrentUserAccessValidation userValidation) : base(contextManager)
+		
+		public GroupsLogic(IMathSiteDbContext contextManager) 
+			: base(contextManager)
 		{
-			_userValidation = userValidation;
 		}
 
 		/// <summary>
@@ -32,9 +28,6 @@ namespace MathSite.Domain.Logic.Groups
 		public async Task<Guid> CreateGroupAsync(Guid currentUserId, string name, string description, Guid groupTypeId,
 			Guid? parentGroupId)
 		{
-			_userValidation.CheckCurrentUserExistence(currentUserId);
-			await _userValidation.CheckCurrentUserRightsAsync(currentUserId);
-
 			var groupId = Guid.Empty;
 			await UseContextAsync(async context =>
 			{
@@ -65,9 +58,6 @@ namespace MathSite.Domain.Logic.Groups
 		public async Task UpdateGroupAsync(Guid currentUserId, Guid groupId, string name, string description,
 			Guid groupTypeId, Guid? parentGroupId)
 		{
-			_userValidation.CheckCurrentUserExistence(currentUserId);
-			await _userValidation.CheckCurrentUserRightsAsync(currentUserId);
-
 			await UseContextAsync(async context =>
 			{
 				var group = await context.Groups.FirstOrDefaultAsync(i => i.Id == groupId);
@@ -95,9 +85,6 @@ namespace MathSite.Domain.Logic.Groups
 		/// <param name="groupId">Идентификатор группы.</param>
 		public async Task DeleteGroupAsync(Guid currentUserId, Guid groupId)
 		{
-			_userValidation.CheckCurrentUserExistence(currentUserId);
-			await _userValidation.CheckCurrentUserRightsAsync(currentUserId);
-
 			await UseContextAsync(async context =>
 			{
 				var group = await context.Groups.FirstOrDefaultAsync(i => i.Id == groupId);
