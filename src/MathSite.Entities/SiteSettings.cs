@@ -4,6 +4,10 @@ namespace MathSite.Entities
 {
 	public class SiteSettings
 	{
+		public SiteSettings()
+		{
+		}
+
 		public SiteSettings(Guid id, string key, byte[] value)
 		{
 			Id = id;

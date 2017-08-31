@@ -6,45 +6,37 @@ using MathSite.Db;
 namespace MathSite.Domain.Common
 {
 	/// <summary>
-	///		Базовый класс реализации слоя бизнес-логики.
+	///     Базовый класс реализации слоя бизнес-логики.
 	/// </summary>
-	public abstract class LogicBase
+	public abstract class LogicBase<TEntity> : ILogicBase<TEntity>
+		where TEntity : class
 	{
-		protected IMathSiteDbContext ContextManager { get; }
-
 		protected LogicBase(IMathSiteDbContext context)
 		{
 			ContextManager = context;
 		}
 
-		/// <summary>
-		///		Использование контекста базы данных.
-		/// </summary>
-		/// <param name="action">Метод использования.</param>
-		protected void UseContext(Action<IMathSiteDbContext> action)
-		{
-			action(ContextManager);
-		}
+		protected IMathSiteDbContext ContextManager { get; }
 
 		/// <summary>
-		///		Асинхронное использование контекста базы данных.
-		/// </summary>
-		/// <param name="asyncAction">Функция получения метода использования.</param>
-		protected async Task UseContextAsync(Func<IMathSiteDbContext, Task> asyncAction)
-		{
-			await asyncAction(ContextManager);
-		}
-
-		/// <summary>
-		///		Возвращает результат из перечня элементов.
+		///     Возвращает результат из перечня элементов.
 		/// </summary>
 		/// <typeparam name="TEntity">Тип сущности.</typeparam>
 		/// <typeparam name="TResult">Тип результата.</typeparam>
 		/// <param name="getEntities">Метод получения перечней сущностей.</param>
 		/// <param name="getResult">Метод получения результата.</param>
-		[Obsolete("Используй однопараметрную перегрузку, эту не надо!", true)]
-		protected TResult GetFromItems<TEntity, TResult>(Func<IMathSiteDbContext, IQueryable<TEntity>> getEntities,
-			Func<IQueryable<TEntity>, TResult> getResult)
+		public virtual TResult GetFromItems<TResult>(
+			Func<IMathSiteDbContext, IQueryable<TEntity>> getEntities,
+			Func<IQueryable<TEntity>, TResult> getResult
+		)
+		{
+			return GetFromItems<TEntity, TResult>(getEntities, getResult);
+		}
+
+		public virtual TResult GetFromItems<TMainEntity, TResult>(
+			Func<IMathSiteDbContext, IQueryable<TMainEntity>> getEntities,
+			Func<IQueryable<TMainEntity>, TResult> getResult
+		) where TMainEntity : class
 		{
 			var result = default(TResult);
 			UseContext(context =>
@@ -56,32 +48,35 @@ namespace MathSite.Domain.Common
 		}
 
 		/// <summary>
-		///		Возвращает результат из перечня элементов.
+		///     Возвращает результат из перечня элементов.
 		/// </summary>
 		/// <typeparam name="TEntity">Тип сущности.</typeparam>
 		/// <typeparam name="TResult">Тип результата.</typeparam>
 		/// <param name="getResult">Метод получения результата.</param>
-		protected TResult GetFromItems<TEntity, TResult>(Func<IQueryable<TEntity>, TResult> getResult)
-			where TEntity: class
+		public virtual TResult GetFromItems<TResult>(
+			Func<IQueryable<TEntity>, TResult> getResult
+		)
 		{
-			var result = default(TResult);
-			UseContext(context =>
-			{
-				var entities = context.Set<TEntity>();
-				result = getResult(entities);
-			});
-			return result;
+			return GetFromItems<TEntity, TResult>(getResult);
+		}
+
+		public virtual TResult GetFromItems<TMainEntity, TResult>(Func<IQueryable<TMainEntity>, TResult> getResult)
+			where TMainEntity : class
+		{
+			return GetFromItems(context => context.Set<TMainEntity>(), getResult);
 		}
 
 		/// <summary>
-		///		Асинхронно возвращает результат из перечня элементов.
+		///     Асинхронно возвращает результат из перечня элементов.
 		/// </summary>
 		/// <typeparam name="TEntity">Тип сущности.</typeparam>
 		/// <typeparam name="TResult">Тип результата.</typeparam>
 		/// <param name="getEntities">Метод получения перечней сущностей.</param>
 		/// <param name="getResultAsync">Метод получения результата.</param>
-		protected async Task<TResult> GetFromItemsAsync<TEntity, TResult>(
-			Func<IMathSiteDbContext, IQueryable<TEntity>> getEntities, Func<IQueryable<TEntity>, Task<TResult>> getResultAsync)
+		public virtual async Task<TResult> GetFromItemsAsync<TResult>(
+			Func<IMathSiteDbContext, IQueryable<TEntity>> getEntities,
+			Func<IQueryable<TEntity>, Task<TResult>> getResultAsync
+		)
 		{
 			var result = default(TResult);
 			await UseContextAsync(async context =>
@@ -90,6 +85,37 @@ namespace MathSite.Domain.Common
 				result = await getResultAsync(entities);
 			});
 			return result;
+		}
+
+		/// <summary>
+		///     Асинхронно возвращает результат из перечня элементов.
+		/// </summary>
+		/// <typeparam name="TEntity">Тип сущности.</typeparam>
+		/// <typeparam name="TResult">Тип результата.</typeparam>
+		/// <param name="getResultAsync">Метод получения результата.</param>
+		public virtual async Task<TResult> GetFromItemsAsync<TResult>(
+			Func<IQueryable<TEntity>, Task<TResult>> getResultAsync
+		)
+		{
+			return await GetFromItemsAsync(context => context.Set<TEntity>(), getResultAsync);
+		}
+
+		/// <summary>
+		///     Использование контекста базы данных.
+		/// </summary>
+		/// <param name="action">Метод использования.</param>
+		protected void UseContext(Action<IMathSiteDbContext> action)
+		{
+			action(ContextManager);
+		}
+
+		/// <summary>
+		///     Асинхронное использование контекста базы данных.
+		/// </summary>
+		/// <param name="asyncAction">Функция получения метода использования.</param>
+		protected async Task UseContextAsync(Func<IMathSiteDbContext, Task> asyncAction)
+		{
+			await asyncAction(ContextManager);
 		}
 	}
 }

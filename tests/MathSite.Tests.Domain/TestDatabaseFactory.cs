@@ -11,10 +11,10 @@ namespace MathSite.Tests.Domain
 {
 	public class TestDatabaseFactory<T> : ITestDatabaseFactory where T : DbConnection
 	{
+		private readonly DbConnection _connection;
 
 		private readonly ILoggerFactory _loggerFactory;
 		private readonly IPasswordsManager _passwordsManager;
-		private readonly DbConnection _connection;
 
 		private IMathSiteDbContext _context;
 

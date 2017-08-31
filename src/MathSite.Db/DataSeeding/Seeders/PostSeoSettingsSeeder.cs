@@ -12,8 +12,8 @@ namespace MathSite.Db.DataSeeding.Seeders
 		}
 
 		/// <inheritdoc />
-		public override string SeedingObjectName { get; } = "PostSeoSettings";
-		
+		public override string SeedingObjectName { get; } = nameof(PostSeoSettings);
+
 		/// <inheritdoc />
 		protected override void SeedData()
 		{

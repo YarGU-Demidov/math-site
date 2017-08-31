@@ -12,7 +12,6 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 		{
 			modelBuilder
 				.HasKey(gr => gr.Id);
-
 		}
 
 		/// <inheritdoc />

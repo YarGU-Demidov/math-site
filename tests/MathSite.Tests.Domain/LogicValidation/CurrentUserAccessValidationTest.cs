@@ -9,58 +9,43 @@ using Xunit;
 
 namespace MathSite.Tests.Domain.LogicValidation
 {
-	public class CurrentUserAccessValidationTest
+	public class CurrentUserAccessValidationTest : DomainTestsBase
 	{
-		public CurrentUserAccessValidationTest()
+		private static Guid GetUniqueGuid(IQueryable<User> users)
 		{
-			_databaseFactory = TestSqlLiteDatabaseFactory.UseDefault();
-		}
+			var guid = Guid.NewGuid();
 
-		private readonly ITestDatabaseFactory _databaseFactory;
-
-		[Fact]
-		public void UserExsistance_Exists()
-		{
-			_databaseFactory.ExecuteWithContext(context =>
+			do
 			{
-				var validator = new CurrentUserAccessValidation(context);
+				if (!users.Any(user => user.Id == guid))
+					break;
 
-				var user = context.Users.First();
+				guid = Guid.NewGuid();
+			} while (true);
 
-				// NOTE: shouldn't throw any exception!
-				validator.CheckCurrentUserExistence(user.Id);
-			});
+			return guid;
 		}
 
 		[Fact]
-		public void UserExsistance_NotExists_EmptyGuid()
+		public async void CurrentUser_HasNotRights_Test()
 		{
-			_databaseFactory.ExecuteWithContext(context =>
+			await DatabaseFactory.ExecuteWithContextAsync(async context =>
 			{
 				var validator = new CurrentUserAccessValidation(context);
 
-				Assert.Throws<SecurityException>(() => validator.CheckCurrentUserExistence(Guid.Empty));
-			});
-		}
+				var userId = await context.Users
+					.Where(user => user.Login == UsersAliases.ThirdUser)
+					.Select(user => user.Id)
+					.FirstAsync();
 
-		// TODO: FIXME!!!
-		[Fact]
-		public void UserExsistance_NotExists_NotEmptyGuid()
-		{
-			_databaseFactory.ExecuteWithContext(context =>
-			{
-				var validator = new CurrentUserAccessValidation(context);
-
-				var guid = GetUniqueGuid(context.Users);
-
-				Assert.Throws<SecurityException>(() => validator.CheckCurrentUserExistence(guid));
+				await Assert.ThrowsAsync<Exception>(async () => await validator.CheckCurrentUserRightsAsync(userId));
 			});
 		}
 
 		[Fact]
 		public async void CurrentUser_HasRights_Test()
 		{
-			await _databaseFactory.ExecuteWithContextAsync(async context =>
+			await DatabaseFactory.ExecuteWithContextAsync(async context =>
 			{
 				var validator = new CurrentUserAccessValidation(context);
 
@@ -75,25 +60,9 @@ namespace MathSite.Tests.Domain.LogicValidation
 		}
 
 		[Fact]
-		public async void CurrentUser_HasNotRights_Test()
-		{
-			await _databaseFactory.ExecuteWithContextAsync(async context =>
-			{
-				var validator = new CurrentUserAccessValidation(context);
-
-				var userId = await context.Users
-					.Where(user => user.Login == UsersAliases.ThirdUser)
-					.Select(user => user.Id)
-					.FirstAsync();
-
-				await Assert.ThrowsAsync<Exception>(async () => await validator.CheckCurrentUserRightsAsync(userId));
-			});
-		}
-
-		[Fact]
 		public async void CurrentUser_IsNotUser_Test()
 		{
-			await _databaseFactory.ExecuteWithContextAsync(async context =>
+			await DatabaseFactory.ExecuteWithContextAsync(async context =>
 			{
 				var validator = new CurrentUserAccessValidation(context);
 
@@ -104,19 +73,43 @@ namespace MathSite.Tests.Domain.LogicValidation
 			});
 		}
 
-		private static Guid GetUniqueGuid(IQueryable<User> users)
+		[Fact]
+		public void UserExsistance_Exists()
 		{
-			var guid = Guid.NewGuid();
-
-			do
+			DatabaseFactory.ExecuteWithContext(context =>
 			{
-				if (!users.Any(user => user.Id == guid))
-					break;
+				var validator = new CurrentUserAccessValidation(context);
 
-				guid = Guid.NewGuid();
-			} while (true);
+				var user = context.Users.First();
 
-			return guid;
+				// NOTE: shouldn't throw any exception!
+				validator.CheckCurrentUserExistence(user.Id);
+			});
+		}
+
+		[Fact]
+		public void UserExsistance_NotExists_EmptyGuid()
+		{
+			DatabaseFactory.ExecuteWithContext(context =>
+			{
+				var validator = new CurrentUserAccessValidation(context);
+
+				Assert.Throws<SecurityException>(() => validator.CheckCurrentUserExistence(Guid.Empty));
+			});
+		}
+
+		// TODO: FIXME!!!
+		[Fact]
+		public void UserExsistance_NotExists_NotEmptyGuid()
+		{
+			DatabaseFactory.ExecuteWithContext(context =>
+			{
+				var validator = new CurrentUserAccessValidation(context);
+
+				var guid = GetUniqueGuid(context.Users);
+
+				Assert.Throws<SecurityException>(() => validator.CheckCurrentUserExistence(guid));
+			});
 		}
 
 		// TODO: WRITE MORE TESTS!!!

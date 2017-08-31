@@ -14,8 +14,8 @@ namespace MathSite.Db.DataSeeding.Seeders
 		}
 
 		/// <inheritdoc />
-		public override string SeedingObjectName { get; } = "File";
-		
+		public override string SeedingObjectName { get; } = nameof(File);
+
 		/// <inheritdoc />
 		protected override void SeedData()
 		{

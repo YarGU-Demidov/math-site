@@ -6,13 +6,13 @@ namespace MathSite.Domain.LogicValidation
 	public interface ICurrentUserAccessValidation
 	{
 		/// <summary>
-		///		Выполняет проверку существования текущего пользователя.
+		///     Выполняет проверку существования текущего пользователя.
 		/// </summary>
 		/// <param name="currentUserId">Идентификатор текущего пользователя.</param>
 		void CheckCurrentUserExistence(Guid currentUserId);
 
 		/// <summary>
-		///		Асинхронно выполняет проверку прав текущего пользователя.
+		///     Асинхронно выполняет проверку прав текущего пользователя.
 		/// </summary>
 		/// <param name="currentUserId">Идентификатор текущего пользователя.</param>
 		Task CheckCurrentUserRightsAsync(Guid currentUserId);

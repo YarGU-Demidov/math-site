@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 {
-	public class SiteSettingsConfiguration: AbstractEntityConfiguration<SiteSettings>
+	public class SiteSettingsConfiguration : AbstractEntityConfiguration<SiteSettings>
 	{
 		protected override void SetKeys(EntityTypeBuilder<SiteSettings> modelBuilder)
 		{

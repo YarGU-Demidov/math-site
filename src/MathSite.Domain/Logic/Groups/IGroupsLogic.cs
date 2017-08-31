@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
+using MathSite.Domain.Common;
 using MathSite.Entities;
 
 namespace MathSite.Domain.Logic.Groups
 {
-	public interface IGroupsLogic
+	public interface IGroupsLogic : ILogicBase<Group>
 	{
 		/// <summary>
-		/// Асинхронно создает группу.
+		///     Асинхронно создает группу.
 		/// </summary>
 		/// <param name="currentUserId">Идентификатор текущего пользователя.</param>
 		/// <param name="name">Название.</param>
@@ -19,7 +19,7 @@ namespace MathSite.Domain.Logic.Groups
 			Guid? parentGroupId);
 
 		/// <summary>
-		/// Асинхронно обновляет группу.
+		///     Асинхронно обновляет группу.
 		/// </summary>
 		/// <param name="currentUserId">Идентификатор текущего пользователя.</param>
 		/// <param name="groupId">Идентификатор группы.</param>
@@ -31,24 +31,10 @@ namespace MathSite.Domain.Logic.Groups
 			Guid? parentGroupId);
 
 		/// <summary>
-		/// Асинхронно удаляет группу.
+		///     Асинхронно удаляет группу.
 		/// </summary>
 		/// <param name="currentUserId">Идентификатор текущего пользователя.</param>
 		/// <param name="groupId">Идентификатор группы.</param>
 		Task DeleteGroupAsync(Guid currentUserId, Guid groupId);
-
-		/// <summary>
-		/// Возвращает результат из перечня групп.
-		/// </summary>
-		/// <typeparam name="TResult">Тип результата.</typeparam>
-		/// <param name="getResult">Метод получения результата.</param>
-		TResult GetFromGroups<TResult>(Func<IQueryable<Group>, TResult> getResult);
-
-		/// <summary>
-		/// Асинхронно возвращает результат из перечня групп.
-		/// </summary>
-		/// <typeparam name="TResult">Тип результата.</typeparam>
-		/// <param name="getResult">Метод получения результата.</param>
-		Task<TResult> GetFromGroupsAsync<TResult>(Func<IQueryable<Group>, Task<TResult>> getResult);
 	}
 }
