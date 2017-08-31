@@ -12,15 +12,15 @@ namespace MathSite.Controllers
 {
 	public class BaseController : Controller
 	{
-		protected IBusinessLogicManger LogicManger { get; }
-		protected MathSiteDbContext DbContext { get; }
-		protected User CurrentUser { get; private set; }
-
 		public BaseController(MathSiteDbContext dbContext, IBusinessLogicManger logicManger)
 		{
 			LogicManger = logicManger;
 			DbContext = dbContext;
 		}
+
+		protected IBusinessLogicManger LogicManger { get; }
+		protected MathSiteDbContext DbContext { get; }
+		protected User CurrentUser { get; private set; }
 
 		private void TrySetUser(ActionContext context)
 		{

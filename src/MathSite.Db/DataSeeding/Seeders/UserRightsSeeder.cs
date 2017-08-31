@@ -13,8 +13,8 @@ namespace MathSite.Db.DataSeeding.Seeders
 		}
 
 		/// <inheritdoc />
-		public override string SeedingObjectName { get; } = "UserRights";
-		
+		public override string SeedingObjectName { get; } = nameof(UsersRights);
+
 		/// <inheritdoc />
 		protected override void SeedData()
 		{
@@ -29,7 +29,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 			{
 				CreateRights(false, firstUser, adminAccess),
 				CreateRights(true, firstUser, logoutAccess),
-				CreateRights(true, firstUser, panelAccess),
+				CreateRights(true, firstUser, panelAccess)
 			};
 
 			var userRights = new[]

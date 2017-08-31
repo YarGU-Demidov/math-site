@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using MathSite.Db;
 using MathSite.Domain.Common;
@@ -9,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MathSite.Domain.Logic.Persons
 {
-	public class PersonsLogic : LogicBase, IPersonsLogic
+	public class PersonsLogic : LogicBase<Person>, IPersonsLogic
 	{
 		private const string PersonNotFoundFormat = "Личность с Id='{0}' не найдена";
 		private const string PersonEstablishedFormat = "Пользователь с Id='{0}' уже зарегистрирован";
@@ -23,7 +22,7 @@ namespace MathSite.Domain.Logic.Persons
 		}
 
 		/// <summary>
-		///		Асинхронно создает личность.
+		///     Асинхронно создает личность.
 		/// </summary>
 		/// <param name="name">Имя.</param>
 		/// <param name="surname">Фамилия.</param>
@@ -57,7 +56,7 @@ namespace MathSite.Domain.Logic.Persons
 		}
 
 		/// <summary>
-		///		Асинхронно обновляет личность.
+		///     Асинхронно обновляет личность.
 		/// </summary>
 		/// <param name="currentUserId">Идентификатор текущего пользователя.</param>
 		/// <param name="personId">Идентификатор личности.</param>
@@ -68,7 +67,7 @@ namespace MathSite.Domain.Logic.Persons
 		/// <param name="phoneNumber">Номер телефона.</param>
 		/// <param name="additionalPhoneNumber">Дополнительный номер телефона.</param>
 		/// <param name="photoId">Идентификатор изображения личности.</param>
-		/// <exception cref="Exception">Личность не найдена.</exception>   
+		/// <exception cref="Exception">Личность не найдена.</exception>
 		public async Task UpdatePersonAsync(Guid currentUserId, Guid personId, string name, string surname, string middlename,
 			DateTime birthday, string phoneNumber, string additionalPhoneNumber, Guid? photoId)
 		{
@@ -94,7 +93,7 @@ namespace MathSite.Domain.Logic.Persons
 		}
 
 		/// <summary>
-		///		Асинхронно удаляет личность.
+		///     Асинхронно удаляет личность.
 		/// </summary>
 		/// <param name="currentUserId">Идентификатор текущего пользователя.</param>
 		/// <param name="personId">Идентификатор личности.</param>
@@ -112,26 +111,6 @@ namespace MathSite.Domain.Logic.Persons
 				context.Persons.Remove(person);
 				await context.SaveChangesAsync();
 			});
-		}
-
-		/// <summary>
-		///		Возвращает результат из перечня личностей.
-		/// </summary>
-		/// <typeparam name="TResult">Тип результата.</typeparam>
-		/// <param name="getResult">Метод получения результата.</param>
-		public TResult GetFromPersons<TResult>(Func<IQueryable<Person>, TResult> getResult)
-		{
-			return GetFromItems(getResult);
-		}
-
-		/// <summary>
-		///		Асинхронно возвращает результат из перечня личностей.
-		/// </summary>
-		/// <typeparam name="TResult">Тип результата.</typeparam>
-		/// <param name="getResult">Метод получения результата.</param>
-		public Task<TResult> GetFromPersonsAsync<TResult>(Func<IQueryable<Person>, Task<TResult>> getResult)
-		{
-			return GetFromItems(getResult);
 		}
 	}
 }

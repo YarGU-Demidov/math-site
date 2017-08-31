@@ -14,8 +14,8 @@ namespace MathSite.Db.DataSeeding.Seeders
 		}
 
 		/// <inheritdoc />
-		public override string SeedingObjectName { get; } = "GroupRights";
-		
+		public override string SeedingObjectName { get; } = nameof(GroupsRights);
+
 		/// <inheritdoc />
 		protected override void SeedData()
 		{
@@ -30,7 +30,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 			{
 				CreateGroupRights(true, adminGroup, adminAccessRight),
 				CreateGroupRights(true, adminGroup, logoutAccess),
-				CreateGroupRights(true, adminGroup, panelAccess),
+				CreateGroupRights(true, adminGroup, panelAccess)
 			};
 
 			var usersRights = new[]

@@ -1,11 +1,10 @@
 ﻿using System.Linq;
+using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
 using Microsoft.Extensions.Logging;
 
 namespace MathSite.Db.DataSeeding.Seeders
 {
-	using StaticData;
-
 	/// <inheritdoc />
 	public class UsersToGroupsSeeder : AbstractSeeder<User>
 	{
@@ -16,7 +15,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 
 		/// <inheritdoc />
 		public override string SeedingObjectName { get; } = "UsersToGroups";
-		
+
 		/// <inheritdoc />
 		protected override bool ShouldSeed()
 		{

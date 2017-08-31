@@ -42,8 +42,17 @@ namespace MathSite.Db.DataSeeding
 		/// <inheritdoc />
 		public virtual bool CanSeed => !DbContainsEntities() && ShouldSeed();
 
+		/// <inheritdoc />
+		public void Seed()
+		{
+			if (!CanSeed)
+				throw new NotSupportedException($"Can't seed {SeedingObjectName}");
+
+			SeedData();
+		}
+
 		/// <summary>
-		///		Есть ли сущности в базе 
+		///     Есть ли сущности в базе
 		/// </summary>
 		/// <returns>Есть ли сущности в базе</returns>
 		protected virtual bool DbContainsEntities()
@@ -56,19 +65,8 @@ namespace MathSite.Db.DataSeeding
 			return true;
 		}
 
-		/// <inheritdoc />
-		public void Seed()
-		{
-			if (!CanSeed)
-			{
-				throw new NotSupportedException($"Can't seed {SeedingObjectName}");
-			}
-
-			SeedData();
-		}
-
 		/// <summary>
-		///		Заполнение данными
+		///     Заполнение данными
 		/// </summary>
 		protected abstract void SeedData();
 	}

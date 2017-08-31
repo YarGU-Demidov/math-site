@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
+
 // ReSharper disable ArgumentsStyleOther
 // ReSharper disable ArgumentsStyleStringLiteral
 
@@ -34,7 +35,7 @@ namespace MathSite
 			}
 
 			app.UseStatusCodePagesWithReExecute("/error/{0}");
-			
+
 			ConfigureAuthentication(app);
 			ConfigureRoutes(app);
 		}

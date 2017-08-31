@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
+using MathSite.Domain.Common;
 using MathSite.Entities;
 
 namespace MathSite.Domain.Logic.Files
 {
-	public interface IFilesLogic
+	public interface IFilesLogic : ILogicBase<File>
 	{
 		/// <summary>
-		///		Асинхронно создает файл.
+		///     Асинхронно создает файл.
 		/// </summary>
 		/// <param name="currentUserId">Идентификатор текущего пользователя.</param>
 		/// <param name="fileName">Название файла.</param>
@@ -18,7 +18,7 @@ namespace MathSite.Domain.Logic.Files
 		Task<Guid> CreateFileAsync(Guid currentUserId, string fileName, string filePath, string extension, Guid personId);
 
 		/// <summary>
-		///		Асинхронно обновляет файл.
+		///     Асинхронно обновляет файл.
 		/// </summary>
 		/// <param name="fileId">Идентификатор файла.</param>
 		/// <param name="currentUserId">Идентификатор текущего пользователя.</param>
@@ -28,24 +28,10 @@ namespace MathSite.Domain.Logic.Files
 		Task UpdateFileAsync(Guid currentUserId, Guid fileId, string fileName, string filePath, string extension);
 
 		/// <summary>
-		///		Асинхронно удаляет файл.
+		///     Асинхронно удаляет файл.
 		/// </summary>
 		/// <param name="currentUserId">Идентификатор текущего пользователя.</param>
 		/// <param name="fileId">Идентификатор файла.</param>
 		Task DeleteFileAsync(Guid currentUserId, Guid fileId);
-
-		/// <summary>
-		///		Возвращает результат из перечня файлов.
-		/// </summary>
-		/// <typeparam name="TResult">Тип результата.</typeparam>
-		/// <param name="getResult">Метод получения результата.</param>
-		TResult GetFromFiles<TResult>(Func<IQueryable<File>, TResult> getResult);
-
-		/// <summary>
-		///		Асинхронно возвращает результат из перечня файлов.
-		/// </summary>
-		/// <typeparam name="TResult">Тип результата.</typeparam>
-		/// <param name="getResult">Метод получения результата.</param>
-		Task<TResult> GetFromFilesAsync<TResult>(Func<IQueryable<File>, Task<TResult>> getResult);
 	}
 }

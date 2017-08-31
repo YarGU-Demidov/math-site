@@ -23,7 +23,7 @@ namespace MathSite.Domain.LogicValidation
 		}
 
 		/// <summary>
-		///		Выполняет проверку существования текущего пользователя.
+		///     Выполняет проверку существования текущего пользователя.
 		/// </summary>
 		/// <param name="currentUserId">Идентификатор текущего пользователя.</param>
 		public void CheckCurrentUserExistence(Guid currentUserId)
@@ -34,7 +34,7 @@ namespace MathSite.Domain.LogicValidation
 		}
 
 		/// <summary>
-		///		Асинхронно выполняет проверку прав текущего пользователя.
+		///     Асинхронно выполняет проверку прав текущего пользователя.
 		/// </summary>
 		/// <param name="currentUserId">Идентификатор текущего пользователя.</param>
 		public async Task CheckCurrentUserRightsAsync(Guid currentUserId)

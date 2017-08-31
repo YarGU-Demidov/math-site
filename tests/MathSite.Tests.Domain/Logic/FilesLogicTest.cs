@@ -1,7 +1,6 @@
 ﻿namespace MathSite.Tests.Domain.Logic
 {
-	public class FilesLogicTest
+	public class FilesLogicTest : DomainTestsBase
 	{
-		
 	}
 }

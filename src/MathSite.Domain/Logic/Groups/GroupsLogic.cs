@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using MathSite.Db;
 using MathSite.Domain.Common;
@@ -9,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MathSite.Domain.Logic.Groups
 {
-	public class GroupsLogic : LogicBase, IGroupsLogic
+	public class GroupsLogic : LogicBase<Group>, IGroupsLogic
 	{
 		private const string GroupNotFoundFormat = "Группа с Id='{0}' не найдена";
 		private const string GroupTypeNotFoundFormat = "Тип группы с Id='{0}' не найден";
@@ -23,7 +22,7 @@ namespace MathSite.Domain.Logic.Groups
 		}
 
 		/// <summary>
-		///		Асинхронно создает группу.
+		///     Асинхронно создает группу.
 		/// </summary>
 		/// <param name="currentUserId">Идентификатор текущего пользователя.</param>
 		/// <param name="name">Наименование группы.</param>
@@ -55,7 +54,7 @@ namespace MathSite.Domain.Logic.Groups
 		}
 
 		/// <summary>
-		///		Асинхронно обновляет группу.
+		///     Асинхронно обновляет группу.
 		/// </summary>
 		/// <param name="currentUserId">Идентификатор текущего пользователя.</param>
 		/// <param name="groupId">Идентификатор группы.</param>
@@ -90,7 +89,7 @@ namespace MathSite.Domain.Logic.Groups
 		}
 
 		/// <summary>
-		///		Асинхронно удаляет группу.
+		///     Асинхронно удаляет группу.
 		/// </summary>
 		/// <param name="currentUserId">Идентификатор текущего пользователя.</param>
 		/// <param name="groupId">Идентификатор группы.</param>
@@ -108,27 +107,6 @@ namespace MathSite.Domain.Logic.Groups
 				context.Groups.Remove(group);
 				await context.SaveChangesAsync();
 			});
-
-		}
-
-		/// <summary>
-		///		Возвращает результат из перечня групп.
-		/// </summary>
-		/// <typeparam name="TResult">Тип результата.</typeparam>
-		/// <param name="getResult">Метод получения результата.</param>
-		public TResult GetFromGroups<TResult>(Func<IQueryable<Group>, TResult> getResult)
-		{
-			return GetFromItems(getResult);
-		}
-
-		/// <summary>
-		///		Асинхронно возвращает результат из перечня групп.
-		/// </summary>
-		/// <typeparam name="TResult">Тип результата.</typeparam>
-		/// <param name="getResult">Метод получения результата.</param>
-		public async Task<TResult> GetFromGroupsAsync<TResult>(Func<IQueryable<Group>, Task<TResult>> getResult)
-		{
-			return await GetFromItems(getResult);
 		}
 	}
 }

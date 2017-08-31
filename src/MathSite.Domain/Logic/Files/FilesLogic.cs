@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using MathSite.Db;
 using MathSite.Domain.Common;
@@ -9,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MathSite.Domain.Logic.Files
 {
-	public class FilesLogic : LogicBase, IFilesLogic
+	public class FilesLogic : LogicBase<File>, IFilesLogic
 	{
 		private const string PersonNotFoundFormat = "Личность с Id='{0}' не найдена";
 		private const string PersonAlreadyHasPhotoFormat = "Личность с Id='{0}' уже имеет фото";
@@ -24,7 +23,7 @@ namespace MathSite.Domain.Logic.Files
 		}
 
 		/// <summary>
-		///		Асинхронно создает файл.
+		///     Асинхронно создает файл.
 		/// </summary>
 		/// <param name="currentUserId">Идентификатор текущего пользователя.</param>
 		/// <param name="fileName">Название файла.</param>
@@ -58,7 +57,7 @@ namespace MathSite.Domain.Logic.Files
 		}
 
 		/// <summary>
-		///		Асинхронно обновляет файл.
+		///     Асинхронно обновляет файл.
 		/// </summary>
 		/// <param name="fileId">Идентификатор файла.</param>
 		/// <param name="currentUserId">Идентификатор текущего пользователя.</param>
@@ -85,7 +84,7 @@ namespace MathSite.Domain.Logic.Files
 		}
 
 		/// <summary>
-		///		Асинхронно удаляет файл.
+		///     Асинхронно удаляет файл.
 		/// </summary>
 		/// <param name="currentUserId">Идентификатор текущего пользователя.</param>
 		/// <param name="fileId">Идентификатор файла.</param>
@@ -103,27 +102,6 @@ namespace MathSite.Domain.Logic.Files
 				context.Files.Remove(file);
 				await context.SaveChangesAsync();
 			});
-
-		}
-
-		/// <summary>
-		///		Возвращает результат из перечня файлов.
-		/// </summary>
-		/// <typeparam name="TResult">Тип результата.</typeparam>
-		/// <param name="getResult">Метод получения результата.</param>
-		public TResult GetFromFiles<TResult>(Func<IQueryable<File>, TResult> getResult)
-		{
-			return GetFromItems(getResult);
-		}
-
-		/// <summary>
-		///		Асинхронно возвращает результат из перечня файлов.
-		/// </summary>
-		/// <typeparam name="TResult">Тип результата.</typeparam>
-		/// <param name="getResult">Метод получения результата.</param>
-		public async Task<TResult> GetFromFilesAsync<TResult>(Func<IQueryable<File>, Task<TResult>> getResult)
-		{
-			return await GetFromItems(getResult);
 		}
 	}
 }

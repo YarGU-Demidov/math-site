@@ -1,14 +1,12 @@
-﻿using System;
-
-namespace MathSite.Db.DataSeeding
+﻿namespace MathSite.Db.DataSeeding
 {
 	/// <summary>
-	///		Позволяет добавить данные в базу
+	///     Позволяет добавить данные в базу
 	/// </summary>
 	public interface IDataSeeder
 	{
 		/// <summary>
-		///		Запуск добавления данных
+		///     Запуск добавления данных
 		/// </summary>
 		void Seed();
 	}

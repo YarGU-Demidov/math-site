@@ -12,9 +12,9 @@ namespace MathSite.Controllers
 		{
 			ViewData.Add("page", page);
 
-			return string.IsNullOrWhiteSpace(query) 
-				? ShowAllNews() 
-				: Content("news content will be here... soon, we promise");
+			return string.IsNullOrWhiteSpace(query)
+				? ShowAllNews()
+				: ShowNews(query, page);
 		}
 
 		[NonAction]
@@ -27,7 +27,7 @@ namespace MathSite.Controllers
 				new MenuItem("Абитуриентам", "for-entrants"),
 				new MenuItem("Студентам", "for-students"),
 				new MenuItem("Школа", "for-scholars"),
-				new MenuItem("Контакты", "contacts"),
+				new MenuItem("Контакты", "contacts")
 			};
 
 			var footerMenu = new Tuple<IEnumerable<MenuItem>, IEnumerable<MenuItem>, IEnumerable<MenuItem>, IEnumerable<MenuItem>>(
@@ -77,7 +77,7 @@ namespace MathSite.Controllers
 			var sidebar = new List<MenuItem>
 			{
 				new MenuItem(
-					"Кафедры", 
+					"Кафедры",
 					"/departments",
 					new List<MenuItem>
 					{
@@ -103,6 +103,12 @@ namespace MathSite.Controllers
 			);
 
 			return View(model);
+		}
+
+		[NonAction]
+		private IActionResult ShowNews(string query, int page)
+		{
+			return Content("news content will be here... soon, we promise");
 		}
 	}
 }

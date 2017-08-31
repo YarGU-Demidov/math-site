@@ -13,8 +13,8 @@ namespace MathSite.Db.DataSeeding.Seeders
 		}
 
 		/// <inheritdoc />
-		public override string SeedingObjectName { get; } = "PostType";
-		
+		public override string SeedingObjectName { get; } = nameof(PostType);
+
 		/// <inheritdoc />
 		protected override void SeedData()
 		{

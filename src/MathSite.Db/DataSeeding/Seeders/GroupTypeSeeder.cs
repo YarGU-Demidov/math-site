@@ -13,8 +13,8 @@ namespace MathSite.Db.DataSeeding.Seeders
 		}
 
 		/// <inheritdoc />
-		public override string SeedingObjectName { get; } = "GroupType";
-		
+		public override string SeedingObjectName { get; } = nameof(GroupType);
+
 		/// <inheritdoc />
 		protected override void SeedData()
 		{
