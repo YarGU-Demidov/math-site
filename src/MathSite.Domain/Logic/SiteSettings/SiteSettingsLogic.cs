@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using MathSite.Db;
 using MathSite.Domain.Common;
@@ -8,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MathSite.Domain.Logic.SiteSettings
 {
-	public class SiteSettingsLogic : LogicBase, ISiteSettingsLogic
+	public class SiteSettingsLogic : LogicBase<Entities.SiteSettings>, ISiteSettingsLogic
 	{
 		private const string AlreadyExistsFormat = "Key '{0}' already exists in database!";
 
@@ -31,9 +30,7 @@ namespace MathSite.Domain.Logic.SiteSettings
 				var sameKeyExists = await context.SiteSettings.AnyAsync(settings => settings.Key == key);
 
 				if (sameKeyExists)
-				{
 					throw new ArgumentException(string.Format(AlreadyExistsFormat, key));
-				}
 
 				var setting = new Entities.SiteSettings(key, value);
 				await context.SiteSettings.AddAsync(setting);
@@ -50,11 +47,6 @@ namespace MathSite.Domain.Logic.SiteSettings
 		}
 
 		public Task<Guid> DeleteSettingAsync(Guid currentUser, Guid id, string key, byte[] value)
-		{
-			throw new NotImplementedException();
-		}
-
-		public Task<TResult> GetFromSettingsAsync<TResult>(Func<IQueryable<Entities.SiteSettings>, Task<TResult>> getResult)
 		{
 			throw new NotImplementedException();
 		}

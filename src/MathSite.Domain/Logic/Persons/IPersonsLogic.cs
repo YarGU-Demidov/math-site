@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
+using MathSite.Domain.Common;
 using MathSite.Entities;
 
 namespace MathSite.Domain.Logic.Persons
 {
-	public interface IPersonsLogic
+	public interface IPersonsLogic : ILogicBase<Person>
 	{
 		/// <summary>
-		///		Асинхронно создает личность.
+		///     Асинхронно создает личность.
 		/// </summary>
 		/// <param name="name">Имя.</param>
 		/// <param name="surname">Фамилия.</param>
@@ -24,7 +24,7 @@ namespace MathSite.Domain.Logic.Persons
 			Guid? photoId);
 
 		/// <summary>
-		///		Асинхронно обновляет личность.
+		///     Асинхронно обновляет личность.
 		/// </summary>
 		/// <param name="currentUserId">Идентификатор текущего пользователя.</param>
 		/// <param name="personId">Идентификатор личности.</param>
@@ -35,29 +35,15 @@ namespace MathSite.Domain.Logic.Persons
 		/// <param name="phoneNumber">Номер телефона.</param>
 		/// <param name="additionalPhoneNumber">Дополнительный номер телефона.</param>
 		/// <param name="photoId">Идентификатор изображения личности.</param>
-		/// <exception cref="Exception">Личность не найдена.</exception>   
+		/// <exception cref="Exception">Личность не найдена.</exception>
 		Task UpdatePersonAsync(Guid currentUserId, Guid personId, string name, string surname, string middlename,
 			DateTime birthday, string phoneNumber, string additionalPhoneNumber, Guid? photoId);
 
 		/// <summary>
-		///		Асинхронно удаляет личность.
+		///     Асинхронно удаляет личность.
 		/// </summary>
 		/// <param name="currentUserId">Идентификатор текущего пользователя.</param>
 		/// <param name="personId">Идентификатор личности.</param>
 		Task DeletePersonAsync(Guid currentUserId, Guid personId);
-
-		/// <summary>
-		///		Возвращает результат из перечня личностей.
-		/// </summary>
-		/// <typeparam name="TResult">Тип результата.</typeparam>
-		/// <param name="getResult">Метод получения результата.</param>
-		TResult GetFromPersons<TResult>(Func<IQueryable<Person>, TResult> getResult);
-
-		/// <summary>
-		///		Асинхронно возвращает результат из перечня личностей.
-		/// </summary>
-		/// <typeparam name="TResult">Тип результата.</typeparam>
-		/// <param name="getResult">Метод получения результата.</param>
-		Task<TResult> GetFromPersonsAsync<TResult>(Func<IQueryable<Person>, Task<TResult>> getResult);
 	}
 }

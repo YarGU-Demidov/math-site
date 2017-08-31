@@ -28,7 +28,7 @@ namespace MathSite.Db.DataSeeding
 			_logger = logger;
 			_passwordHasher = passwordHasher;
 		}
-		
+
 		private bool DatabaseMigrated => !_context.Database.GetPendingMigrations().Any();
 
 		private bool DatabaseExists
@@ -90,6 +90,7 @@ namespace MathSite.Db.DataSeeding
 		{
 			return new List<ISeeder>
 			{
+				new SiteSettingsSeeder(_logger, _context),
 				new GroupTypeSeeder(_logger, _context),
 				new GroupSeeder(_logger, _context),
 				new PersonSeeder(_logger, _context),

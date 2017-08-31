@@ -10,7 +10,7 @@ namespace MathSite.Controllers
 {
 	public class HomeController : BaseController
 	{
-		public HomeController(MathSiteDbContext dbContext, IBusinessLogicManger businessLogicManager) 
+		public HomeController(MathSiteDbContext dbContext, IBusinessLogicManger businessLogicManager)
 			: base(dbContext, businessLogicManager)
 		{
 			Logic = businessLogicManager;
@@ -25,7 +25,7 @@ namespace MathSite.Controllers
 				new MenuItem("Абитуриентам", "for-entrants"),
 				new MenuItem("Студентам", "for-students"),
 				new MenuItem("Школа", "for-scholars"),
-				new MenuItem("Контакты", "contacts"),
+				new MenuItem("Контакты", "contacts")
 			};
 
 			var footerMenu = new Tuple<IEnumerable<MenuItem>, IEnumerable<MenuItem>, IEnumerable<MenuItem>, IEnumerable<MenuItem>>(

@@ -21,7 +21,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 		private IPasswordsManager PasswordManager { get; }
 
 		/// <inheritdoc />
-		public override string SeedingObjectName { get; } = "User";
+		public override string SeedingObjectName { get; } = nameof(User);
 
 		/// <inheritdoc />
 		protected override void SeedData()

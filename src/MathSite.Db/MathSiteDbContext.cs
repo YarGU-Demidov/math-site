@@ -1,5 +1,4 @@
-﻿using MathSite.Db.EntityConfiguration;
-using MathSite.Db.EntityConfiguration.EntitiesConfigurations;
+﻿using MathSite.Db.EntityConfiguration.EntitiesConfigurations;
 using MathSite.Entities;
 using Microsoft.EntityFrameworkCore;
 

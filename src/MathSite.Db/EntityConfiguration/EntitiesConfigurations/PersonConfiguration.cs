@@ -49,7 +49,6 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 				.Property(p => p.CreationDate)
 				.HasDefaultValueSql("NOW()")
 				.IsRequired(false);
-
 		}
 
 		/// <inheritdoc />
