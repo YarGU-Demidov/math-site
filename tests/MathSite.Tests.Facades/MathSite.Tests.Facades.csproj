@@ -12,4 +12,12 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\MathSite.Common\MathSite.Common.csproj" />
+    <ProjectReference Include="..\..\src\MathSite.Db\MathSite.Db.csproj" />
+    <ProjectReference Include="..\..\src\MathSite.Domain\MathSite.Domain.csproj" />
+    <ProjectReference Include="..\..\src\MathSite.Entities\MathSite.Entities.csproj" />
+    <ProjectReference Include="..\..\src\MathSite.Facades\MathSite.Facades.csproj" />
+  </ItemGroup>
+
 </Project>
