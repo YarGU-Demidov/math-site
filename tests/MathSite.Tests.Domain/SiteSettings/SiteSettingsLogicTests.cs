@@ -16,7 +16,7 @@ namespace MathSite.Tests.Domain.SiteSettings
 		[Fact]
 		public async Task CreateSettingTest()
 		{
-			await DatabaseFactory.ExecuteWithContextAsync(async context =>
+			await ExecuteWithContextAsync(async context =>
 			{
 				var validator = new CurrentUserAccessValidation(context);
 				var settingsLogic = new SiteSettingsLogic(context, validator);
@@ -39,7 +39,7 @@ namespace MathSite.Tests.Domain.SiteSettings
 		[Fact]
 		public async Task UpdateSettingTest()
 		{
-			await DatabaseFactory.ExecuteWithContextAsync(async context =>
+			await ExecuteWithContextAsync(async context =>
 			{
 				var validator = new CurrentUserAccessValidation(context);
 				var settingsLogic = new SiteSettingsLogic(context, validator);
