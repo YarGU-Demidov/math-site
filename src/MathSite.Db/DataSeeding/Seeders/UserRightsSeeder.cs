@@ -25,24 +25,24 @@ namespace MathSite.Db.DataSeeding.Seeders
 			var logoutAccess = GetRightByAlias(RightAliases.LogoutAccess);
 			var panelAccess = GetRightByAlias(RightAliases.PanelAccess);
 
-			var adminRights = new[]
+			var firstUserRights = new[]
 			{
-				CreateRights(false, firstUser, adminAccess),
+				CreateRights(true, firstUser, adminAccess),
 				CreateRights(true, firstUser, logoutAccess),
 				CreateRights(true, firstUser, panelAccess)
 			};
 
-			var userRights = new[]
+			var secondUserRights = new[]
 			{
 				CreateRights(false, secondUser, adminAccess),
 				CreateRights(true, secondUser, logoutAccess),
 				CreateRights(true, secondUser, panelAccess)
 			};
 
-			Context.UsersRights.AddRange(userRights);
+			Context.UsersRights.AddRange(secondUserRights);
 			Dispose();
 
-			Context.UsersRights.AddRange(adminRights);
+			Context.UsersRights.AddRange(firstUserRights);
 			Dispose();
 		}
 

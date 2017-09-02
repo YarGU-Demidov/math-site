@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace MathSite.Db.DataSeeding.Seeders
@@ -25,7 +26,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 
 			var secondPostGroupsAllowed = CreatePostGroupsAllowed(
 				GetPostByTitle(PostAliases.SecondPost),
-				GetGroupByGroupTypeAlias(GroupTypeAliases.Student)
+				GetGroupByGroupTypeAlias(GroupTypeAliases.User)
 			);
 
 			var postGroupsAlloweds = new[]
@@ -39,7 +40,9 @@ namespace MathSite.Db.DataSeeding.Seeders
 
 		private Group GetGroupByGroupTypeAlias(string alias)
 		{
-			return Context.Groups.First(group => group.Name == alias);
+			return Context.Groups
+				.Include(group => group.GroupType)
+				.First(group => group.GroupType.Alias == alias);
 		}
 
 		private Post GetPostByTitle(string title)

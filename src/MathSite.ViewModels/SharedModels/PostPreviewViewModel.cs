@@ -1,4 +1,4 @@
-﻿namespace MathSite.ViewModels.Capability
+﻿namespace MathSite.ViewModels.SharedModels
 {
 	public class PostPreviewViewModel
 	{

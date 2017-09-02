@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using MathSite.Domain.Common;
 using MathSite.Entities;
 
 namespace MathSite.Domain.Logic.Groups
 {
-	public interface IGroupsLogic : ILogicBase<Group>
+	public interface IGroupsLogic
 	{
 		/// <summary>
 		///     Асинхронно создает группу.
@@ -36,5 +36,17 @@ namespace MathSite.Domain.Logic.Groups
 		/// <param name="currentUserId">Идентификатор текущего пользователя.</param>
 		/// <param name="groupId">Идентификатор группы.</param>
 		Task DeleteGroupAsync(Guid currentUserId, Guid groupId);
+
+		Task<Group> TryGetByIdAsync(Guid id);
+
+		Task<Group> TryGetByAliasAsync(string alias);
+
+		Task<ICollection<User>> GetGroupUsersAsync(Guid id);
+
+		Task<ICollection<User>> GetGroupUsersAsync(string alias);
+
+		Task<ICollection<User>> GetGroupUsersWithRightsAsync(Guid id);
+
+		Task<ICollection<User>> GetGroupUsersWithRightsAsync(string alias);
 	}
 }

@@ -6,6 +6,8 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 {
 	public class CommentConfiguration : AbstractEntityConfiguration<Comment>
 	{
+		protected override string TableName { get; } = nameof(Comment);
+
 		/// <inheritdoc />
 		protected override void SetKeys(EntityTypeBuilder<Comment> modelBuilder)
 		{

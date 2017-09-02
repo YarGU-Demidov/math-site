@@ -6,6 +6,8 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 {
 	public class PostAttachmentConfiguration : AbstractEntityConfiguration<PostAttachment>
 	{
+		protected override string TableName { get; } = nameof(PostAttachment);
+
 		/// <inheritdoc />
 		protected override void SetKeys(EntityTypeBuilder<PostAttachment> modelBuilder)
 		{

@@ -5,6 +5,8 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 {
 	public class SiteSettingsConfiguration : AbstractEntityConfiguration<SiteSettings>
 	{
+		protected override string TableName { get; } = nameof(SiteSettings);
+
 		protected override void SetKeys(EntityTypeBuilder<SiteSettings> modelBuilder)
 		{
 			modelBuilder.HasKey(settings => settings.Key);

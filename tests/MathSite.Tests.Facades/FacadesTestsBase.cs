@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
+using MathSite.Db;
 using MathSite.Domain.Common;
 using MathSite.Domain.Logic.Files;
 using MathSite.Domain.Logic.Groups;
 using MathSite.Domain.Logic.Persons;
+using MathSite.Domain.Logic.Rights;
 using MathSite.Domain.Logic.SiteSettings;
 using MathSite.Domain.Logic.Users;
 using MathSite.Tests.CoreThings;
@@ -28,14 +30,7 @@ namespace MathSite.Tests.Facades
 		{
 			_databaseFactory.ExecuteWithContext(context =>
 			{
-				var logic = new BusinessLogicManager(
-					context, 
-					new GroupsLogic(context), 
-					new PersonsLogic(context), 
-					new UsersLogic(context), 
-					new FilesLogic(context), 
-					new SiteSettingsLogic(context)
-				);
+				var logic = CreateBusinessLogicManger(context);
 				using (logic)
 				{
 					actions(logic);
@@ -47,19 +42,25 @@ namespace MathSite.Tests.Facades
 		{
 			await _databaseFactory.ExecuteWithContextAsync(async context =>
 			{
-				var logic = new BusinessLogicManager(
-					context, 
-					new GroupsLogic(context), 
-					new PersonsLogic(context), 
-					new UsersLogic(context), 
-					new FilesLogic(context), 
-					new SiteSettingsLogic(context)
-				);
+				var logic = CreateBusinessLogicManger(context);
 				using (logic)
 				{
 					await actions(logic);
 				}
 			});
+		}
+
+		private IBusinessLogicManger CreateBusinessLogicManger(IMathSiteDbContext context)
+		{
+			return new BusinessLogicManager(
+				context,
+				new GroupsLogic(context),
+				new PersonsLogic(context),
+				new UsersLogic(context),
+				new FilesLogic(context),
+				new SiteSettingsLogic(context),
+				new RightsLogic(context)
+			);
 		}
 	}
 }

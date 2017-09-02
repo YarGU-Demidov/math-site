@@ -7,6 +7,8 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 	/// <inheritdoc />
 	public class FileConfiguration : AbstractEntityConfiguration<File>
 	{
+		protected override string TableName { get; } = nameof(File);
+
 		/// <inheritdoc />
 		protected override void SetKeys(EntityTypeBuilder<File> modelBuilder)
 		{

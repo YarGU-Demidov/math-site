@@ -7,6 +7,8 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 	/// <inheritdoc />
 	public class KeywordsConfiguration : AbstractEntityConfiguration<Keywords>
 	{
+		protected override string TableName { get; } = nameof(Keywords);
+
 		/// <inheritdoc />
 		protected override void SetKeys(EntityTypeBuilder<Keywords> modelBuilder)
 		{

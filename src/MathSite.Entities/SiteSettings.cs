@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MathSite.Entities
+﻿namespace MathSite.Entities
 {
 	public class SiteSettings
 	{
