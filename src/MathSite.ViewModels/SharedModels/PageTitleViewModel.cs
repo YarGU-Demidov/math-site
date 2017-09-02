@@ -18,9 +18,12 @@
 
 		public override string ToString()
 		{
-			return SiteNameFirst
-				? SiteName + Delimiter + Title
-				: Title + Delimiter + SiteName;
+			if (Title != null)
+				return SiteNameFirst
+					? SiteName + Delimiter + Title
+					: Title + Delimiter + SiteName;
+
+			return SiteName;
 		}
 	}
 }

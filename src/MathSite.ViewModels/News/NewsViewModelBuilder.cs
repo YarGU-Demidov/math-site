@@ -9,11 +9,6 @@ using MathSite.ViewModels.SharedModels.SecondaryPage;
 
 namespace MathSite.ViewModels.News
 {
-	public interface INewsViewModelBuilder
-	{
-		Task<NewsIndexViewModel> BuildIndexViewModelAsync();
-	}
-
 	public class NewsViewModelBuilder: SecondaryViewModelBuilder, INewsViewModelBuilder
 	{
 		public NewsViewModelBuilder(ISiteSettingsFacade siteSettingsFacade) 
