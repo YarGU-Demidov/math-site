@@ -7,11 +7,6 @@ using MathSite.ViewModels.SharedModels;
 
 namespace MathSite.ViewModels.Home
 {
-	public interface IHomeViewModelBuilder
-	{
-		Task<HomeIndexViewModel> BuildIndexModel();
-	}
-
 	public class HomeViewModelBuilder : CommonViewModelBuilder, IHomeViewModelBuilder
 	{
 		public HomeViewModelBuilder(ISiteSettingsFacade siteSettingsFacade) 
