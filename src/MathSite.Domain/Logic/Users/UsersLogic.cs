@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using MathSite.Db;
 using MathSite.Domain.Common;
@@ -10,10 +9,6 @@ namespace MathSite.Domain.Logic.Users
 {
 	public class UsersLogic : LogicBase<User>, IUsersLogic
 	{
-		private const string PersonNotFoundFormat = "Личность с Id={0} не найдена";
-		private const string UserNotFoundFormat = "Пользователь с Id='{0}' не найдена";
-		private const string GroupNotFoundFormat = "Группа с Id='{0}' не найдена";
-		
 		public UsersLogic(IMathSiteDbContext contextManager) : base(contextManager)
 		{
 		}
@@ -29,10 +24,6 @@ namespace MathSite.Domain.Logic.Users
 			var userId = Guid.Empty;
 			await UseContextAsync(async context =>
 			{
-				var group = await context.Groups.AnyAsync(p => p.Id == groupId);
-				if (!group)
-					throw new Exception(string.Format(GroupNotFoundFormat, groupId));
-
 				var user = new User(login, passwordHash, groupId);
 
 				context.Users.Add(user);
@@ -47,26 +38,18 @@ namespace MathSite.Domain.Logic.Users
 		/// <summary>
 		///     Асинхронно обновляет личность.
 		/// </summary>
-		/// <param name="currentUserId">Идентификатор текущего пользователя.</param>
+		/// <param name="id">Идентификатор пользователя.</param>
 		/// <param name="passwordHash">Пароль.</param>
 		/// <param name="groupId">Идентификатор группы.</param>
 		/// <exception cref="Exception">Личность не найдена.</exception>
-		public async Task UpdateUserAsync(Guid currentUserId, byte[] passwordHash, Guid groupId)
+		public async Task UpdateUserAsync(Guid id, byte[] passwordHash, Guid groupId)
 		{
-			await UseContextAsync(async context =>
+			await UseContextWithSaveAsync(async context =>
 			{
-				var group = await context.Groups.AnyAsync(p => p.Id == groupId);
-				if (!group)
-					throw new Exception(string.Format(GroupNotFoundFormat, groupId));
-
-				var user = await context.Users.FirstOrDefaultAsync(p => p.Id == currentUserId);
-				if (user == null)
-					throw new Exception(string.Format(UserNotFoundFormat, currentUserId));
+				var user = await context.Users.FirstAsync(p => p.Id == id);
 
 				user.PasswordHash = passwordHash;
 				user.GroupId = groupId;
-
-				await context.SaveChangesAsync();
 			});
 		}
 
@@ -75,17 +58,62 @@ namespace MathSite.Domain.Logic.Users
 		/// </summary>
 		/// <param name="currentUserId">Идентификатор текущего пользователя.</param>
 		/// <param name="personId">Идентификатор личности.</param>
-		public async Task DeleteUserAsync(Guid currentUserId, Guid personId)
+		public async Task DeleteUserAsync(Guid id)
 		{
-			await UseContextAsync(async context =>
+			await UseContextWithSaveAsync(async context =>
 			{
-				var user = await context.Users.FirstOrDefaultAsync(p => p.Id == currentUserId);
-				if (user == null)
-					throw new Exception(string.Format(UserNotFoundFormat, currentUserId));
+				var user = await context.Users.FirstAsync(p => p.Id == id);
 
 				context.Users.Remove(user);
-				await context.SaveChangesAsync();
 			});
+		}
+
+		public async Task<User> TryGetByIdAsync(Guid userId)
+		{
+			User user = null;
+
+			await UseContextAsync(async context => { user = await context.Users.FirstOrDefaultAsync(u => u.Id == userId); });
+
+			return user;
+		}
+
+		public async Task<User> TryGetByLoginAsync(string login)
+		{
+			User user = null;
+
+			await UseContextAsync(async context => { user = await context.Users.FirstOrDefaultAsync(u => u.Login == login); });
+
+			return user;
+		}
+
+		public async Task<User> TryGetUserWithRightsById(Guid id)
+		{
+			User user = null;
+
+			await UseContextAsync(async context =>
+			{
+				user = await context.Users
+					.Include(u => u.UserRights).ThenInclude(ur => ur.Right)
+					.Include(u => u.Group).ThenInclude(g => g.GroupsRights).ThenInclude(gr => gr.Right)
+					.FirstOrDefaultAsync(u => u.Id == id);
+			});
+
+			return user;
+		}
+
+		public async Task<User> TryGetUserWithRightsByLogin(string login)
+		{
+			User user = null;
+
+			await UseContextAsync(async context =>
+			{
+				user = await context.Users
+					.Include(u => u.UserRights).ThenInclude(ur => ur.Right)
+					.Include(u => u.Group).ThenInclude(g => g.GroupsRights).ThenInclude(gr => gr.Right)
+					.FirstOrDefaultAsync(u => u.Login == login);
+			});
+
+			return user;
 		}
 	}
 }

@@ -6,6 +6,8 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 {
 	public class PostGroupsAllowedConfiguration : AbstractEntityConfiguration<PostGroupsAllowed>
 	{
+		protected override string TableName { get; } = nameof(PostGroupsAllowed);
+
 		/// <inheritdoc />
 		protected override void SetKeys(EntityTypeBuilder<PostGroupsAllowed> modelBuilder)
 		{

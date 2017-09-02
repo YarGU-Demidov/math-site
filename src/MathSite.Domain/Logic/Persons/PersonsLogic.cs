@@ -9,9 +9,6 @@ namespace MathSite.Domain.Logic.Persons
 {
 	public class PersonsLogic : LogicBase<Person>, IPersonsLogic
 	{
-		private const string PersonNotFoundFormat = "Личность с Id='{0}' не найдена";
-		private const string PersonEstablishedFormat = "Пользователь с Id='{0}' уже зарегистрирован";
-
 		public PersonsLogic(IMathSiteDbContext contextManager)
 			: base(contextManager)
 		{
@@ -35,10 +32,6 @@ namespace MathSite.Domain.Logic.Persons
 			var personId = Guid.Empty;
 			await UseContextAsync(async context =>
 			{
-				var user = await context.Users.AnyAsync(i => i.Id == userId);
-				if (user)
-					throw new Exception(string.Format(PersonEstablishedFormat, userId));
-
 				var person = new Person(name, surname, middlename, birthday, phoneNumber, additionalPhoneNumber, userId,
 					photoId);
 
@@ -67,11 +60,9 @@ namespace MathSite.Domain.Logic.Persons
 		public async Task UpdatePersonAsync(Guid currentUserId, Guid personId, string name, string surname, string middlename,
 			DateTime birthday, string phoneNumber, string additionalPhoneNumber, Guid? photoId)
 		{
-			await UseContextAsync(async context =>
+			await UseContextWithSaveAsync(async context =>
 			{
-				var person = await context.Persons.FirstOrDefaultAsync(p => p.Id == personId);
-				if (person == null)
-					throw new Exception(string.Format(PersonNotFoundFormat, personId));
+				var person = await context.Persons.FirstAsync(p => p.Id == personId);
 
 				person.Name = name;
 				person.Surname = surname;
@@ -80,8 +71,6 @@ namespace MathSite.Domain.Logic.Persons
 				person.Phone = phoneNumber;
 				person.AdditionalPhone = additionalPhoneNumber;
 				person.PhotoId = photoId;
-
-				await context.SaveChangesAsync();
 			});
 		}
 
@@ -92,14 +81,11 @@ namespace MathSite.Domain.Logic.Persons
 		/// <param name="personId">Идентификатор личности.</param>
 		public async Task DeletePersonAsync(Guid currentUserId, Guid personId)
 		{
-			await UseContextAsync(async context =>
+			await UseContextWithSaveAsync(async context =>
 			{
-				var person = await context.Persons.FirstOrDefaultAsync(p => p.Id == personId);
-				if (person == null)
-					throw new Exception(string.Format(PersonNotFoundFormat, personId));
+				var person = await context.Persons.FirstAsync(p => p.Id == personId);
 
 				context.Persons.Remove(person);
-				await context.SaveChangesAsync();
 			});
 		}
 	}

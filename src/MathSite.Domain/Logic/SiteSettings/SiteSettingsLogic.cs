@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using MathSite.Db;
 using MathSite.Domain.Common;
 using Microsoft.EntityFrameworkCore;
@@ -8,59 +7,62 @@ namespace MathSite.Domain.Logic.SiteSettings
 {
 	public class SiteSettingsLogic : LogicBase<Entities.SiteSettings>, ISiteSettingsLogic
 	{
-		private const string AlreadyExistsFormat = "Key '{0}' already exists in database!";
-		private const string DoNotExistsFormat = "Key '{0}' don't exists in database!";
-		
 		public SiteSettingsLogic(IMathSiteDbContext context)
 			: base(context)
 		{
 		}
 
-		public async Task CreateSettingAsync(Guid currentUser, string key, byte[] value)
+		public async Task CreateSettingAsync(string key, byte[] value)
 		{
-			await UseContextAsync(async context =>
+			await UseContextWithSaveAsync(async context =>
 			{
-				var sameKeyExists = await context.SiteSettings.AnyAsync(settings => settings.Key == key);
-
-				if (sameKeyExists)
-					throw new ArgumentException(string.Format(AlreadyExistsFormat, key));
-
 				var setting = new Entities.SiteSettings(key, value);
 				await context.SiteSettings.AddAsync(setting);
-
-				await context.SaveChangesAsync();
 			});
 		}
 
-		public async Task UpdateSettingAsync(Guid currentUser, string key, byte[] value)
+		public async Task UpdateSettingAsync(string key, byte[] value)
 		{
-			await UseContextAsync(async context =>
+			await UseContextWithSaveAsync(async context =>
 			{
 				var setting = await context.SiteSettings.FirstOrDefaultAsync(settings => settings.Key == key);
-
-				if (setting == null)
-					throw new ArgumentException(string.Format(DoNotExistsFormat, key));
 
 				setting.Value = value;
 
 				context.SiteSettings.Update(setting);
-
-				await context.SaveChangesAsync();
 			});
 		}
 
-		public async Task DeleteSettingAsync(Guid currentUser, string key)
+		public async Task DeleteSettingAsync(string key)
 		{
-			await UseContextAsync(async context =>
+			await UseContextWithSaveAsync(async context =>
 			{
-				var setting = await context.SiteSettings.FirstOrDefaultAsync(settings => settings.Key == key);
-
-				if (setting == null)
-					throw new ArgumentException(string.Format(DoNotExistsFormat, key));
+				var setting = await context.SiteSettings.FirstAsync(settings => settings.Key == key);
 
 				context.SiteSettings.Remove(setting);
-				await context.SaveChangesAsync();
 			});
+		}
+
+		public async Task<Entities.SiteSettings> TryGetByKeyAsync(string key)
+		{
+			Entities.SiteSettings setting = null;
+			await UseContextAsync(async context =>
+			{
+				setting = await context.SiteSettings.FirstOrDefaultAsync(settings => settings.Key == key);
+			});
+
+			return setting;
+		}
+
+		public async Task<Entities.SiteSettings> FirstOrDefaultAsync()
+		{
+			Entities.SiteSettings setting = null;
+			await UseContextAsync(async context =>
+			{
+				setting = await context.SiteSettings.FirstOrDefaultAsync();
+			});
+
+			return setting;
 		}
 	}
 }

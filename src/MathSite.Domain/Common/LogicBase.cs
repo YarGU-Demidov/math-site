@@ -8,7 +8,7 @@ namespace MathSite.Domain.Common
 	/// <summary>
 	///     Базовый класс реализации слоя бизнес-логики.
 	/// </summary>
-	public abstract class LogicBase<TEntity> : ILogicBase<TEntity>
+	public abstract class LogicBase<TEntity>
 		where TEntity : class
 	{
 		protected LogicBase(IMathSiteDbContext context)
@@ -25,7 +25,7 @@ namespace MathSite.Domain.Common
 		/// <typeparam name="TResult">Тип результата.</typeparam>
 		/// <param name="getEntities">Метод получения перечней сущностей.</param>
 		/// <param name="getResult">Метод получения результата.</param>
-		public virtual TResult GetFromItems<TResult>(
+		protected virtual TResult GetFromItems<TResult>(
 			Func<IMathSiteDbContext, IQueryable<TEntity>> getEntities,
 			Func<IQueryable<TEntity>, TResult> getResult
 		)
@@ -33,7 +33,7 @@ namespace MathSite.Domain.Common
 			return GetFromItems<TEntity, TResult>(getEntities, getResult);
 		}
 
-		public virtual TResult GetFromItems<TMainEntity, TResult>(
+		protected virtual TResult GetFromItems<TMainEntity, TResult>(
 			Func<IMathSiteDbContext, IQueryable<TMainEntity>> getEntities,
 			Func<IQueryable<TMainEntity>, TResult> getResult
 		) where TMainEntity : class
@@ -53,14 +53,14 @@ namespace MathSite.Domain.Common
 		/// <typeparam name="TEntity">Тип сущности.</typeparam>
 		/// <typeparam name="TResult">Тип результата.</typeparam>
 		/// <param name="getResult">Метод получения результата.</param>
-		public virtual TResult GetFromItems<TResult>(
+		protected virtual TResult GetFromItems<TResult>(
 			Func<IQueryable<TEntity>, TResult> getResult
 		)
 		{
 			return GetFromItems<TEntity, TResult>(getResult);
 		}
 
-		public virtual TResult GetFromItems<TMainEntity, TResult>(Func<IQueryable<TMainEntity>, TResult> getResult)
+		protected virtual TResult GetFromItems<TMainEntity, TResult>(Func<IQueryable<TMainEntity>, TResult> getResult)
 			where TMainEntity : class
 		{
 			return GetFromItems(context => context.Set<TMainEntity>(), getResult);
@@ -73,7 +73,7 @@ namespace MathSite.Domain.Common
 		/// <typeparam name="TResult">Тип результата.</typeparam>
 		/// <param name="getEntities">Метод получения перечней сущностей.</param>
 		/// <param name="getResultAsync">Метод получения результата.</param>
-		public virtual async Task<TResult> GetFromItemsAsync<TResult>(
+		protected virtual async Task<TResult> GetFromItemsAsync<TResult>(
 			Func<IMathSiteDbContext, IQueryable<TEntity>> getEntities,
 			Func<IQueryable<TEntity>, Task<TResult>> getResultAsync
 		)
@@ -93,7 +93,7 @@ namespace MathSite.Domain.Common
 		/// <typeparam name="TEntity">Тип сущности.</typeparam>
 		/// <typeparam name="TResult">Тип результата.</typeparam>
 		/// <param name="getResultAsync">Метод получения результата.</param>
-		public virtual async Task<TResult> GetFromItemsAsync<TResult>(
+		protected virtual async Task<TResult> GetFromItemsAsync<TResult>(
 			Func<IQueryable<TEntity>, Task<TResult>> getResultAsync
 		)
 		{
@@ -110,12 +110,32 @@ namespace MathSite.Domain.Common
 		}
 
 		/// <summary>
+		///     Использование контекста базы данных и сохранение данных после этого.
+		/// </summary>
+		/// <param name="action">Метод использования.</param>
+		protected void UseContextWithSave(Action<IMathSiteDbContext> action)
+		{
+			UseContext(action);
+			ContextManager.SaveChanges();
+		}
+
+		/// <summary>
 		///     Асинхронное использование контекста базы данных.
 		/// </summary>
 		/// <param name="asyncAction">Функция получения метода использования.</param>
 		protected async Task UseContextAsync(Func<IMathSiteDbContext, Task> asyncAction)
 		{
 			await asyncAction(ContextManager);
+		}
+
+		/// <summary>
+		///     Асинхронное использование контекста базы данных и сохранение данных после этого.
+		/// </summary>
+		/// <param name="asyncAction">Функция получения метода использования.</param>
+		protected async Task UseContextWithSaveAsync(Func<IMathSiteDbContext, Task> asyncAction)
+		{
+			await UseContextAsync(asyncAction);
+			await ContextManager.SaveChangesAsync();
 		}
 	}
 }

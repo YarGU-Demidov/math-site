@@ -7,11 +7,10 @@ using MathSite.Areas.Api.Heplers.Auth;
 using MathSite.Common.Crypto;
 using MathSite.Controllers;
 using MathSite.Db;
-using MathSite.Domain.Common;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace MathSite.Areas.Api.Controllers
 {
@@ -20,7 +19,7 @@ namespace MathSite.Areas.Api.Controllers
 	{
 		private readonly IPasswordsManager _passwordHasher;
 
-		public AuthController(MathSiteDbContext dbContext, IPasswordsManager passwordHasher, IBusinessLogicManger logicManger) : base(dbContext, logicManger)
+		public AuthController(MathSiteDbContext dbContext, IPasswordsManager passwordHasher) : base(dbContext)
 		{
 			_passwordHasher = passwordHasher;
 		}

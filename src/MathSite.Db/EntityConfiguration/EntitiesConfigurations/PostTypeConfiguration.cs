@@ -7,6 +7,8 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 	/// <inheritdoc />
 	public class PostTypeConfiguration : AbstractEntityConfiguration<PostType>
 	{
+		protected override string TableName { get; } = nameof(PostType);
+
 		/// <inheritdoc />
 		protected override void SetKeys(EntityTypeBuilder<PostType> modelBuilder)
 		{

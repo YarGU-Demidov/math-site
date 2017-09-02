@@ -3,6 +3,7 @@ using MathSite.Db;
 using MathSite.Domain.Logic.Files;
 using MathSite.Domain.Logic.Groups;
 using MathSite.Domain.Logic.Persons;
+using MathSite.Domain.Logic.Rights;
 using MathSite.Domain.Logic.SiteSettings;
 using MathSite.Domain.Logic.Users;
 
@@ -19,7 +20,8 @@ namespace MathSite.Domain.Common
 			IPersonsLogic personsLogic,
 			IUsersLogic usersLogic,
 			IFilesLogic filesLogic,
-			ISiteSettingsLogic siteSettingsLogic
+			ISiteSettingsLogic siteSettingsLogic,
+			IRightsLogic rightsLogic
 		)
 		{
 			_context = context;
@@ -28,6 +30,7 @@ namespace MathSite.Domain.Common
 			UsersLogic = usersLogic;
 			FilesLogic = filesLogic;
 			SiteSettingsLogic = siteSettingsLogic;
+			RightsLogic = rightsLogic;
 		}
 
 		public IGroupsLogic GroupsLogic { get; }
@@ -35,6 +38,7 @@ namespace MathSite.Domain.Common
 		public IUsersLogic UsersLogic { get; }
 		public IFilesLogic FilesLogic { get; }
 		public ISiteSettingsLogic SiteSettingsLogic { get; }
+		public IRightsLogic RightsLogic { get; }
 
 		public void Dispose()
 		{

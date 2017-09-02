@@ -1,5 +1,4 @@
 ﻿using MathSite.Core.Responses;
-using MathSite.ViewModels.Api.UsersInfo;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MathSite.Core.DataTableApi

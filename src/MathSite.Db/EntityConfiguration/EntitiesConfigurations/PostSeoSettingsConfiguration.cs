@@ -6,6 +6,8 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 {
 	public class PostSeoSettingsConfiguration : AbstractEntityConfiguration<PostSeoSettings>
 	{
+		protected override string TableName { get; } = nameof(PostSeoSettings);
+
 		/// <inheritdoc />
 		protected override void SetKeys(EntityTypeBuilder<PostSeoSettings> modelBuilder)
 		{

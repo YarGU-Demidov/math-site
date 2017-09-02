@@ -8,9 +8,13 @@ using MathSite.Domain.Common;
 using MathSite.Domain.Logic.Files;
 using MathSite.Domain.Logic.Groups;
 using MathSite.Domain.Logic.Persons;
+using MathSite.Domain.Logic.Rights;
 using MathSite.Domain.Logic.SiteSettings;
 using MathSite.Domain.Logic.Users;
-using MathSite.Facades.RightsValidation;
+using MathSite.Facades.SiteSettings;
+using MathSite.Facades.UserValidation;
+using MathSite.ViewModels.Home;
+using MathSite.ViewModels.News;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -101,13 +105,22 @@ namespace MathSite
 			services.AddScoped<IPasswordsManager, DoubleSha512HashPasswordsManager>();
 			services.AddScoped<IMathSiteDbContext, MathSiteDbContext>(provider => provider.GetService<MathSiteDbContext>());
 			services.AddScoped<IBusinessLogicManger, BusinessLogicManager>();
-			services.AddScoped<IUserAccessValidation, UserAccessValidation>();
 
+			// BL
 			services.AddScoped<IGroupsLogic, GroupsLogic>();
 			services.AddScoped<IPersonsLogic, PersonsLogic>();
 			services.AddScoped<IUsersLogic, UsersLogic>();
 			services.AddScoped<IFilesLogic, FilesLogic>();
 			services.AddScoped<ISiteSettingsLogic, SiteSettingsLogic>();
+			services.AddScoped<IRightsLogic, RightsLogic>();
+
+			// Facades
+			services.AddScoped<IUserValidationFacade, UserValidationFacade>();
+			services.AddScoped<ISiteSettingsFacade, SiteSettingsFacade>();
+
+			// View Models Builders
+			services.AddScoped<IHomeViewModelBuilder, HomeViewModelBuilder>();
+			services.AddScoped<INewsViewModelBuilder, NewsViewModelBuilder>();
 		}
 
 		private void ConfigureEntityFramework(IServiceCollection services)

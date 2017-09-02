@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MathSite.Domain.Common;
-using MathSite.Entities;
 
 namespace MathSite.Domain.Logic.Files
 {
-	public interface IFilesLogic : ILogicBase<File>
+	public interface IFilesLogic
 	{
 		/// <summary>
 		///     Асинхронно создает файл.

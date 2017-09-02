@@ -24,7 +24,7 @@ namespace MathSite.Entities
 
 		/// <summary>
 		/// </summary>
-		public Guid RightId { get; set; }
+		public string RightAlias { get; set; }
 
 		/// <summary>
 		/// </summary>

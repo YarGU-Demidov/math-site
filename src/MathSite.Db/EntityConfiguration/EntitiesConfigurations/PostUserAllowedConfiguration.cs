@@ -6,6 +6,8 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 {
 	public class PostUserAllowedConfiguration : AbstractEntityConfiguration<PostUserAllowed>
 	{
+		protected override string TableName { get; } = nameof(PostUserAllowed);
+
 		/// <inheritdoc />
 		protected override void SetKeys(EntityTypeBuilder<PostUserAllowed> modelBuilder)
 		{

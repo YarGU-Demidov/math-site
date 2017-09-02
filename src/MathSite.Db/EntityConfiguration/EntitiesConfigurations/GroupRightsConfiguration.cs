@@ -7,6 +7,8 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 	/// <inheritdoc />
 	public class GroupRightsConfiguration : AbstractEntityConfiguration<GroupsRights>
 	{
+		protected override string TableName { get; } = nameof(GroupsRights);
+
 		/// <inheritdoc />
 		protected override void SetKeys(EntityTypeBuilder<GroupsRights> modelBuilder)
 		{
@@ -34,7 +36,7 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 			modelBuilder
 				.HasOne(groupsRights => groupsRights.Right)
 				.WithMany(right => right.GroupsRights)
-				.HasForeignKey(groupsRights => groupsRights.RightId)
+				.HasForeignKey(groupsRights => groupsRights.RightAlias)
 				.OnDelete(DeleteBehavior.Cascade);
 		}
 

@@ -6,6 +6,8 @@ namespace MathSite.Db.EntityConfiguration
 	/// <inheritdoc />
 	public abstract class AbstractEntityConfiguration<T> : IEntityTypeConfiguration<T> where T : class
 	{
+		protected abstract string TableName { get; }
+
 		/// <inheritdoc />
 		public void Configure(EntityTypeBuilder<T> modelBuilder)
 		{
@@ -13,6 +15,8 @@ namespace MathSite.Db.EntityConfiguration
 			SetIndexes(modelBuilder);
 			SetFields(modelBuilder);
 			SetRelationships(modelBuilder);
+
+			modelBuilder.ToTable(TableName);
 		}
 
 		/// <summary>

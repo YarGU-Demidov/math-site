@@ -7,6 +7,8 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 	/// <inheritdoc />
 	public class UserConfiguration : AbstractEntityConfiguration<User>
 	{
+		protected override string TableName { get; } = nameof(User);
+
 		/// <inheritdoc />
 		protected override void SetKeys(EntityTypeBuilder<User> modelBuilder)
 		{

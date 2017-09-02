@@ -22,11 +22,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MathSite.Tests.Domain", "te
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Seeder", "src\Seeder\Seeder.csproj", "{91854032-8808-4468-8335-7FBB22E870B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathSite.Facades", "src\MathSite.Facades\MathSite.Facades.csproj", "{87FC64FA-4653-4D55-89C5-F6DC4265D690}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MathSite.Facades", "src\MathSite.Facades\MathSite.Facades.csproj", "{87FC64FA-4653-4D55-89C5-F6DC4265D690}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathSite.Tests.Facades", "tests\MathSite.Tests.Facades\MathSite.Tests.Facades.csproj", "{3DF20AA5-3BE7-4187-B54E-5C2112DB4373}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MathSite.Tests.Facades", "tests\MathSite.Tests.Facades\MathSite.Tests.Facades.csproj", "{3DF20AA5-3BE7-4187-B54E-5C2112DB4373}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathSite.Tests.CoreThings", "MathSite.Tests.CoreThings\MathSite.Tests.CoreThings.csproj", "{9438585B-53EA-455F-A93B-4774F676B8E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MathSite.Tests.CoreThings", "tests\MathSite.Tests.CoreThings\MathSite.Tests.CoreThings.csproj", "{9438585B-53EA-455F-A93B-4774F676B8E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathSite.ViewModels", "src\MathSite.ViewModels\MathSite.ViewModels.csproj", "{2FD31761-D2B9-466B-87D1-C78F5F100B10}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -78,6 +80,10 @@ Global
 		{9438585B-53EA-455F-A93B-4774F676B8E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9438585B-53EA-455F-A93B-4774F676B8E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9438585B-53EA-455F-A93B-4774F676B8E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FD31761-D2B9-466B-87D1-C78F5F100B10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FD31761-D2B9-466B-87D1-C78F5F100B10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FD31761-D2B9-466B-87D1-C78F5F100B10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FD31761-D2B9-466B-87D1-C78F5F100B10}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -94,6 +100,7 @@ Global
 		{87FC64FA-4653-4D55-89C5-F6DC4265D690} = {1B5AA2C7-A40E-46C8-9FA1-10615BE120BF}
 		{3DF20AA5-3BE7-4187-B54E-5C2112DB4373} = {5EE503D8-01C7-4CCB-8926-CAF3CC5D2B69}
 		{9438585B-53EA-455F-A93B-4774F676B8E8} = {5EE503D8-01C7-4CCB-8926-CAF3CC5D2B69}
+		{2FD31761-D2B9-466B-87D1-C78F5F100B10} = {1B5AA2C7-A40E-46C8-9FA1-10615BE120BF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FAFEA99C-7A5E-4112-B12C-3C466EF23980}

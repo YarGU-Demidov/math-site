@@ -12,7 +12,7 @@ namespace MathSite.Migrations
                 .Annotation("Npgsql:PostgresExtension:uuid-ossp", "'uuid-ossp', '', ''");
 
             migrationBuilder.CreateTable(
-                name: "Categories",
+                name: "Category",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -22,12 +22,12 @@ namespace MathSite.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Categories", x => x.Id);
-                    table.UniqueConstraint("AK_Categories_Alias", x => x.Alias);
+                    table.PrimaryKey("PK_Category", x => x.Id);
+                    table.UniqueConstraint("AK_Category_Alias", x => x.Alias);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Files",
+                name: "File",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -38,11 +38,11 @@ namespace MathSite.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Files", x => x.Id);
+                    table.PrimaryKey("PK_File", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "GroupTypes",
+                name: "GroupType",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -52,8 +52,8 @@ namespace MathSite.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GroupTypes", x => x.Id);
-                    table.UniqueConstraint("AK_GroupTypes_Alias", x => x.Alias);
+                    table.PrimaryKey("PK_GroupType", x => x.Id);
+                    table.UniqueConstraint("AK_GroupType_Alias", x => x.Alias);
                 });
 
             migrationBuilder.CreateTable(
@@ -85,7 +85,7 @@ namespace MathSite.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PostTypes",
+                name: "PostType",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -93,22 +93,20 @@ namespace MathSite.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PostTypes", x => x.Id);
+                    table.PrimaryKey("PK_PostType", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Rights",
+                name: "Right",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Alias = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: true),
                     Name = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Rights", x => x.Id);
-                    table.UniqueConstraint("AK_Rights_Alias", x => x.Alias);
+                    table.PrimaryKey("PK_Right", x => x.Alias);
                 });
 
             migrationBuilder.CreateTable(
@@ -124,30 +122,30 @@ namespace MathSite.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Groups",
+                name: "Group",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Alias = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: true),
                     GroupTypeId = table.Column<Guid>(type: "uuid", nullable: false),
+                    IsAdmin = table.Column<bool>(type: "bool", nullable: false, defaultValue: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     ParentGroupId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Groups", x => x.Id);
-                    table.UniqueConstraint("AK_Groups_Alias", x => x.Alias);
+                    table.PrimaryKey("PK_Group", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Groups_GroupTypes_GroupTypeId",
+                        name: "FK_Group_GroupType_GroupTypeId",
                         column: x => x.GroupTypeId,
-                        principalTable: "GroupTypes",
+                        principalTable: "GroupType",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Groups_Groups_ParentGroupId",
+                        name: "FK_Group_Group_ParentGroupId",
                         column: x => x.ParentGroupId,
-                        principalTable: "Groups",
+                        principalTable: "Group",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -192,15 +190,15 @@ namespace MathSite.Migrations
                 {
                     table.PrimaryKey("PK_PostSettings", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PostSettings_PostTypes_PostTypeId",
+                        name: "FK_PostSettings_PostType_PostTypeId",
                         column: x => x.PostTypeId,
-                        principalTable: "PostTypes",
+                        principalTable: "PostType",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PostSettings_Files_PreviewImageId",
+                        name: "FK_PostSettings_File_PreviewImageId",
                         column: x => x.PreviewImageId,
-                        principalTable: "Files",
+                        principalTable: "File",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -212,27 +210,27 @@ namespace MathSite.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Allowed = table.Column<bool>(type: "bool", nullable: false),
                     GroupId = table.Column<Guid>(type: "uuid", nullable: false),
-                    RightId = table.Column<Guid>(type: "uuid", nullable: false)
+                    RightAlias = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_GroupsRights", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_GroupsRights_Groups_GroupId",
+                        name: "FK_GroupsRights_Group_GroupId",
                         column: x => x.GroupId,
-                        principalTable: "Groups",
+                        principalTable: "Group",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_GroupsRights_Rights_RightId",
-                        column: x => x.RightId,
-                        principalTable: "Rights",
-                        principalColumn: "Id",
+                        name: "FK_GroupsRights_Right_RightAlias",
+                        column: x => x.RightAlias,
+                        principalTable: "Right",
+                        principalColumn: "Alias",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "User",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -243,17 +241,17 @@ namespace MathSite.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_User", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Users_Groups_GroupId",
+                        name: "FK_User_Group_GroupId",
                         column: x => x.GroupId,
-                        principalTable: "Groups",
+                        principalTable: "Group",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Persons",
+                name: "Person",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -269,23 +267,23 @@ namespace MathSite.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Persons", x => x.Id);
+                    table.PrimaryKey("PK_Person", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Persons_Files_PhotoId",
+                        name: "FK_Person_File_PhotoId",
                         column: x => x.PhotoId,
-                        principalTable: "Files",
+                        principalTable: "File",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Persons_Users_UserId",
+                        name: "FK_Person_User_UserId",
                         column: x => x.UserId,
-                        principalTable: "Users",
+                        principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Posts",
+                name: "Post",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -302,35 +300,61 @@ namespace MathSite.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Posts", x => x.Id);
+                    table.PrimaryKey("PK_Post", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Posts_Users_AuthorId",
+                        name: "FK_Post_User_AuthorId",
                         column: x => x.AuthorId,
-                        principalTable: "Users",
+                        principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Posts_PostSeoSettings_PostSeoSettingsId",
+                        name: "FK_Post_PostSeoSettings_PostSeoSettingsId",
                         column: x => x.PostSeoSettingsId,
                         principalTable: "PostSeoSettings",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Posts_PostSettings_PostSettingsId",
+                        name: "FK_Post_PostSettings_PostSettingsId",
                         column: x => x.PostSettingsId,
                         principalTable: "PostSettings",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Posts_PostTypes_PostTypeId",
+                        name: "FK_Post_PostType_PostTypeId",
                         column: x => x.PostTypeId,
-                        principalTable: "PostTypes",
+                        principalTable: "PostType",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserSettingses",
+                name: "UserRights",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Allowed = table.Column<bool>(type: "bool", nullable: false),
+                    RightAlias = table.Column<string>(type: "text", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserRights", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserRights_Right_RightAlias",
+                        column: x => x.RightAlias,
+                        principalTable: "Right",
+                        principalColumn: "Alias",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserRights_User_UserId",
+                        column: x => x.UserId,
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserSettings",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -341,43 +365,17 @@ namespace MathSite.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserSettingses", x => x.Id);
+                    table.PrimaryKey("PK_UserSettings", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserSettingses_Users_UserId",
+                        name: "FK_UserSettings_User_UserId",
                         column: x => x.UserId,
-                        principalTable: "Users",
+                        principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "UsersRights",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Allowed = table.Column<bool>(type: "bool", nullable: false),
-                    RightId = table.Column<Guid>(type: "uuid", nullable: false),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UsersRights", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_UsersRights_Rights_RightId",
-                        column: x => x.RightId,
-                        principalTable: "Rights",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UsersRights_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Comments",
+                name: "Comment",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -389,23 +387,23 @@ namespace MathSite.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Comments", x => x.Id);
+                    table.PrimaryKey("PK_Comment", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Comments_Posts_PostId",
+                        name: "FK_Comment_Post_PostId",
                         column: x => x.PostId,
-                        principalTable: "Posts",
+                        principalTable: "Post",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Comments_Users_UserId",
+                        name: "FK_Comment_User_UserId",
                         column: x => x.UserId,
-                        principalTable: "Users",
+                        principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "PostAttachments",
+                name: "PostAttachment",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -415,23 +413,23 @@ namespace MathSite.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PostAttachments", x => x.Id);
+                    table.PrimaryKey("PK_PostAttachment", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PostAttachments_Files_FileId",
+                        name: "FK_PostAttachment_File_FileId",
                         column: x => x.FileId,
-                        principalTable: "Files",
+                        principalTable: "File",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PostAttachments_Posts_PostId",
+                        name: "FK_PostAttachment_Post_PostId",
                         column: x => x.PostId,
-                        principalTable: "Posts",
+                        principalTable: "Post",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "PostCategories",
+                name: "PostCategory",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -440,23 +438,23 @@ namespace MathSite.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PostCategories", x => x.Id);
+                    table.PrimaryKey("PK_PostCategory", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PostCategories_Categories_CategoryId",
+                        name: "FK_PostCategory_Category_CategoryId",
                         column: x => x.CategoryId,
-                        principalTable: "Categories",
+                        principalTable: "Category",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PostCategories_Posts_PostId",
+                        name: "FK_PostCategory_Post_PostId",
                         column: x => x.PostId,
-                        principalTable: "Posts",
+                        principalTable: "Post",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "PostGroupsAlloweds",
+                name: "PostGroupsAllowed",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -466,23 +464,23 @@ namespace MathSite.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PostGroupsAlloweds", x => x.Id);
+                    table.PrimaryKey("PK_PostGroupsAllowed", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PostGroupsAlloweds_Groups_GroupId",
+                        name: "FK_PostGroupsAllowed_Group_GroupId",
                         column: x => x.GroupId,
-                        principalTable: "Groups",
+                        principalTable: "Group",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PostGroupsAlloweds_Posts_PostId",
+                        name: "FK_PostGroupsAllowed_Post_PostId",
                         column: x => x.PostId,
-                        principalTable: "Posts",
+                        principalTable: "Post",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "PostOwners",
+                name: "PostOwner",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -491,23 +489,23 @@ namespace MathSite.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PostOwners", x => x.Id);
+                    table.PrimaryKey("PK_PostOwner", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PostOwners_Posts_PostId",
+                        name: "FK_PostOwner_Post_PostId",
                         column: x => x.PostId,
-                        principalTable: "Posts",
+                        principalTable: "Post",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PostOwners_Users_UserId",
+                        name: "FK_PostOwner_User_UserId",
                         column: x => x.UserId,
-                        principalTable: "Users",
+                        principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "PostRatings",
+                name: "PostRating",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -518,23 +516,23 @@ namespace MathSite.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PostRatings", x => x.Id);
+                    table.PrimaryKey("PK_PostRating", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PostRatings_Posts_PostId",
+                        name: "FK_PostRating_Post_PostId",
                         column: x => x.PostId,
-                        principalTable: "Posts",
+                        principalTable: "Post",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PostRatings_Users_UserId",
+                        name: "FK_PostRating_User_UserId",
                         column: x => x.UserId,
-                        principalTable: "Users",
+                        principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "PostUserAlloweds",
+                name: "PostUserAllowed",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -544,39 +542,39 @@ namespace MathSite.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PostUserAlloweds", x => x.Id);
+                    table.PrimaryKey("PK_PostUserAllowed", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PostUserAlloweds_Posts_PostId",
+                        name: "FK_PostUserAllowed_Post_PostId",
                         column: x => x.PostId,
-                        principalTable: "Posts",
+                        principalTable: "Post",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PostUserAlloweds_Users_UserId",
+                        name: "FK_PostUserAllowed_User_UserId",
                         column: x => x.UserId,
-                        principalTable: "Users",
+                        principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_PostId",
-                table: "Comments",
+                name: "IX_Comment_PostId",
+                table: "Comment",
                 column: "PostId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_UserId",
-                table: "Comments",
+                name: "IX_Comment_UserId",
+                table: "Comment",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Groups_GroupTypeId",
-                table: "Groups",
+                name: "IX_Group_GroupTypeId",
+                table: "Group",
                 column: "GroupTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Groups_ParentGroupId",
-                table: "Groups",
+                name: "IX_Group_ParentGroupId",
+                table: "Group",
                 column: "ParentGroupId");
 
             migrationBuilder.CreateIndex(
@@ -585,50 +583,72 @@ namespace MathSite.Migrations
                 column: "GroupId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_GroupsRights_RightId",
+                name: "IX_GroupsRights_RightAlias",
                 table: "GroupsRights",
-                column: "RightId");
+                column: "RightAlias");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Persons_PhotoId",
-                table: "Persons",
+                name: "IX_Person_PhotoId",
+                table: "Person",
                 column: "PhotoId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Persons_UserId",
-                table: "Persons",
+                name: "IX_Person_UserId",
+                table: "Person",
                 column: "UserId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostAttachments_FileId",
-                table: "PostAttachments",
+                name: "IX_Post_AuthorId",
+                table: "Post",
+                column: "AuthorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Post_PostSeoSettingsId",
+                table: "Post",
+                column: "PostSeoSettingsId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Post_PostSettingsId",
+                table: "Post",
+                column: "PostSettingsId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Post_PostTypeId",
+                table: "Post",
+                column: "PostTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PostAttachment_FileId",
+                table: "PostAttachment",
                 column: "FileId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostAttachments_PostId",
-                table: "PostAttachments",
+                name: "IX_PostAttachment_PostId",
+                table: "PostAttachment",
                 column: "PostId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostCategories_CategoryId",
-                table: "PostCategories",
+                name: "IX_PostCategory_CategoryId",
+                table: "PostCategory",
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostCategories_PostId",
-                table: "PostCategories",
+                name: "IX_PostCategory_PostId",
+                table: "PostCategory",
                 column: "PostId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostGroupsAlloweds_GroupId",
-                table: "PostGroupsAlloweds",
+                name: "IX_PostGroupsAllowed_GroupId",
+                table: "PostGroupsAllowed",
                 column: "GroupId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostGroupsAlloweds_PostId",
-                table: "PostGroupsAlloweds",
+                name: "IX_PostGroupsAllowed_PostId",
+                table: "PostGroupsAllowed",
                 column: "PostId");
 
             migrationBuilder.CreateIndex(
@@ -642,46 +662,24 @@ namespace MathSite.Migrations
                 column: "PostSeoSettingsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostOwners_PostId",
-                table: "PostOwners",
+                name: "IX_PostOwner_PostId",
+                table: "PostOwner",
                 column: "PostId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostOwners_UserId",
-                table: "PostOwners",
+                name: "IX_PostOwner_UserId",
+                table: "PostOwner",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostRatings_PostId",
-                table: "PostRatings",
+                name: "IX_PostRating_PostId",
+                table: "PostRating",
                 column: "PostId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostRatings_UserId",
-                table: "PostRatings",
+                name: "IX_PostRating_UserId",
+                table: "PostRating",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Posts_AuthorId",
-                table: "Posts",
-                column: "AuthorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Posts_PostSeoSettingsId",
-                table: "Posts",
-                column: "PostSeoSettingsId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Posts_PostSettingsId",
-                table: "Posts",
-                column: "PostSettingsId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Posts_PostTypeId",
-                table: "Posts",
-                column: "PostTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PostSettings_PostTypeId",
@@ -695,13 +693,13 @@ namespace MathSite.Migrations
                 column: "PreviewImageId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostUserAlloweds_PostId",
-                table: "PostUserAlloweds",
+                name: "IX_PostUserAllowed_PostId",
+                table: "PostUserAllowed",
                 column: "PostId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostUserAlloweds_UserId",
-                table: "PostUserAlloweds",
+                name: "IX_PostUserAllowed_UserId",
+                table: "PostUserAllowed",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -710,81 +708,81 @@ namespace MathSite.Migrations
                 column: "Key");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_GroupId",
-                table: "Users",
+                name: "IX_User_GroupId",
+                table: "User",
                 column: "GroupId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserSettingses_UserId",
-                table: "UserSettingses",
+                name: "IX_UserRights_RightAlias",
+                table: "UserRights",
+                column: "RightAlias");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserRights_UserId",
+                table: "UserRights",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UsersRights_RightId",
-                table: "UsersRights",
-                column: "RightId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UsersRights_UserId",
-                table: "UsersRights",
+                name: "IX_UserSettings_UserId",
+                table: "UserSettings",
                 column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Comments");
+                name: "Comment");
 
             migrationBuilder.DropTable(
                 name: "GroupsRights");
 
             migrationBuilder.DropTable(
-                name: "Persons");
+                name: "Person");
 
             migrationBuilder.DropTable(
-                name: "PostAttachments");
+                name: "PostAttachment");
 
             migrationBuilder.DropTable(
-                name: "PostCategories");
+                name: "PostCategory");
 
             migrationBuilder.DropTable(
-                name: "PostGroupsAlloweds");
+                name: "PostGroupsAllowed");
 
             migrationBuilder.DropTable(
                 name: "PostKeywords");
 
             migrationBuilder.DropTable(
-                name: "PostOwners");
+                name: "PostOwner");
 
             migrationBuilder.DropTable(
-                name: "PostRatings");
+                name: "PostRating");
 
             migrationBuilder.DropTable(
-                name: "PostUserAlloweds");
+                name: "PostUserAllowed");
 
             migrationBuilder.DropTable(
                 name: "SiteSettings");
 
             migrationBuilder.DropTable(
-                name: "UserSettingses");
+                name: "UserRights");
 
             migrationBuilder.DropTable(
-                name: "UsersRights");
+                name: "UserSettings");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "Category");
 
             migrationBuilder.DropTable(
                 name: "Keywords");
 
             migrationBuilder.DropTable(
-                name: "Posts");
+                name: "Post");
 
             migrationBuilder.DropTable(
-                name: "Rights");
+                name: "Right");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "User");
 
             migrationBuilder.DropTable(
                 name: "PostSeoSettings");
@@ -793,16 +791,16 @@ namespace MathSite.Migrations
                 name: "PostSettings");
 
             migrationBuilder.DropTable(
-                name: "Groups");
+                name: "Group");
 
             migrationBuilder.DropTable(
-                name: "PostTypes");
+                name: "PostType");
 
             migrationBuilder.DropTable(
-                name: "Files");
+                name: "File");
 
             migrationBuilder.DropTable(
-                name: "GroupTypes");
+                name: "GroupType");
         }
     }
 }
