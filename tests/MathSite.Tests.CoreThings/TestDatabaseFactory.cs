@@ -16,7 +16,7 @@ namespace MathSite.Tests.CoreThings
 		private readonly ILoggerFactory _loggerFactory;
 		private readonly IPasswordsManager _passwordsManager;
 
-		private IMathSiteDbContext _context;
+		private MathSiteDbContext _context;
 
 		public TestDatabaseFactory(DbConnection connection, IPasswordsManager passwordsManager, ILoggerFactory loggerFactory)
 		{
@@ -43,7 +43,7 @@ namespace MathSite.Tests.CoreThings
 			return Connection;
 		}
 
-		public async Task<IMathSiteDbContext> GetContext()
+		public async Task<MathSiteDbContext> GetContext()
 		{
 			_context = new MathSiteDbContext(GetContextOptions());
 
@@ -55,7 +55,7 @@ namespace MathSite.Tests.CoreThings
 			return _context;
 		}
 
-		public void ExecuteWithContext(Action<IMathSiteDbContext> yourAction)
+		public void ExecuteWithContext(Action<MathSiteDbContext> yourAction)
 		{
 			using (OpenConnection())
 			{
@@ -69,7 +69,7 @@ namespace MathSite.Tests.CoreThings
 			}
 		}
 
-		public async Task ExecuteWithContextAsync(Func<IMathSiteDbContext, Task> yourAction)
+		public async Task ExecuteWithContextAsync(Func<MathSiteDbContext, Task> yourAction)
 		{
 			using (OpenConnection())
 			using (var context = await GetContext())

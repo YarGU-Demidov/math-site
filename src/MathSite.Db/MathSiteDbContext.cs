@@ -7,7 +7,7 @@ namespace MathSite.Db
 	/// <summary>
 	///     Контекст сайта.
 	/// </summary>
-	public class MathSiteDbContext : DbContext, IMathSiteDbContext
+	public class MathSiteDbContext : DbContext
 	{
 		/// <summary>
 		///     Контекст.

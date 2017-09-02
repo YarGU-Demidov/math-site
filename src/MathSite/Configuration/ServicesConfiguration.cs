@@ -103,7 +103,6 @@ namespace MathSite
 			services.Configure<Settings>(Configuration);
 
 			services.AddScoped<IPasswordsManager, DoubleSha512HashPasswordsManager>();
-			services.AddScoped<IMathSiteDbContext, MathSiteDbContext>(provider => provider.GetService<MathSiteDbContext>());
 			services.AddScoped<IBusinessLogicManger, BusinessLogicManager>();
 
 			// BL

@@ -6,9 +6,9 @@ namespace MathSite.Tests.CoreThings
 {
 	public interface ITestDatabaseFactory : IDisposable
 	{
-		void ExecuteWithContext(Action<IMathSiteDbContext> yourAction);
-		Task ExecuteWithContextAsync(Func<IMathSiteDbContext, Task> yourAction);
-		Task<IMathSiteDbContext> GetContext();
+		void ExecuteWithContext(Action<MathSiteDbContext> yourAction);
+		Task ExecuteWithContextAsync(Func<MathSiteDbContext, Task> yourAction);
+		Task<MathSiteDbContext> GetContext();
 		IDisposable OpenConnection();
 	}
 }

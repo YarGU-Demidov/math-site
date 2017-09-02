@@ -42,7 +42,7 @@ namespace MathSite.Tests.Facades
 			});
 		}
 
-		private IBusinessLogicManger CreateBusinessLogicManger(IMathSiteDbContext context)
+		private IBusinessLogicManger CreateBusinessLogicManger(MathSiteDbContext context)
 		{
 			return new BusinessLogicManager(
 				new GroupsLogic(context),

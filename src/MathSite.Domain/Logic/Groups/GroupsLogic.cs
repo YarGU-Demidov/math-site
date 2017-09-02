@@ -11,7 +11,7 @@ namespace MathSite.Domain.Logic.Groups
 {
 	public class GroupsLogic : LogicBase<Group>, IGroupsLogic
 	{
-		public GroupsLogic(IMathSiteDbContext contextManager)
+		public GroupsLogic(MathSiteDbContext contextManager)
 			: base(contextManager)
 		{
 		}

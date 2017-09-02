@@ -8,7 +8,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 	public class GroupTypeSeeder : AbstractSeeder<GroupType>
 	{
 		/// <inheritdoc />
-		public GroupTypeSeeder(ILogger logger, IMathSiteDbContext context) : base(logger, context)
+		public GroupTypeSeeder(ILogger logger, MathSiteDbContext context) : base(logger, context)
 		{
 		}
 

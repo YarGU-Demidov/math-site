@@ -12,7 +12,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 	public class UserSeeder : AbstractSeeder<User>
 	{
 		/// <inheritdoc />
-		public UserSeeder(ILogger logger, IMathSiteDbContext context, IPasswordsManager passwordsManager) : base(logger,
+		public UserSeeder(ILogger logger, MathSiteDbContext context, IPasswordsManager passwordsManager) : base(logger,
 			context)
 		{
 			PasswordManager = passwordsManager;

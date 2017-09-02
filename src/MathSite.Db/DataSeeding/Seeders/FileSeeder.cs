@@ -9,7 +9,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 	public class FileSeeder : AbstractSeeder<File>
 	{
 		/// <inheritdoc />
-		public FileSeeder(ILogger logger, IMathSiteDbContext context) : base(logger, context)
+		public FileSeeder(ILogger logger, MathSiteDbContext context) : base(logger, context)
 		{
 		}
 

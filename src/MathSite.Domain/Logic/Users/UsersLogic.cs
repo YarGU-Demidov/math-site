@@ -9,7 +9,7 @@ namespace MathSite.Domain.Logic.Users
 {
 	public class UsersLogic : LogicBase<User>, IUsersLogic
 	{
-		public UsersLogic(IMathSiteDbContext contextManager) : base(contextManager)
+		public UsersLogic(MathSiteDbContext contextManager) : base(contextManager)
 		{
 		}
 

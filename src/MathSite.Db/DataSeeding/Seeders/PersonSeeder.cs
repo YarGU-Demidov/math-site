@@ -8,7 +8,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 	public class PersonSeeder : AbstractSeeder<Person>
 	{
 		/// <inheritdoc />
-		public PersonSeeder(ILogger logger, IMathSiteDbContext context)
+		public PersonSeeder(ILogger logger, MathSiteDbContext context)
 			: base(logger, context)
 		{
 		}

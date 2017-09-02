@@ -19,12 +19,12 @@ namespace MathSite.Tests.Domain
 			_databaseFactory = databaseFactory;
 		}
 
-		protected virtual async Task ExecuteWithContextAsync(Func<IMathSiteDbContext, Task> yourAction)
+		protected virtual async Task ExecuteWithContextAsync(Func<MathSiteDbContext, Task> yourAction)
 		{
 			await _databaseFactory.ExecuteWithContextAsync(yourAction);
 		}
 
-		protected virtual void ExecuteWithContext(Action<IMathSiteDbContext> yourAction)
+		protected virtual void ExecuteWithContext(Action<MathSiteDbContext> yourAction)
 		{
 			_databaseFactory.ExecuteWithContext(yourAction);
 		}

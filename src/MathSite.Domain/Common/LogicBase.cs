@@ -11,12 +11,12 @@ namespace MathSite.Domain.Common
 	public abstract class LogicBase<TEntity>
 		where TEntity : class
 	{
-		protected LogicBase(IMathSiteDbContext context)
+		protected LogicBase(MathSiteDbContext context)
 		{
 			ContextManager = context;
 		}
 
-		protected IMathSiteDbContext ContextManager { get; }
+		protected MathSiteDbContext ContextManager { get; }
 
 		/// <summary>
 		///     Возвращает результат из перечня элементов.
@@ -26,7 +26,7 @@ namespace MathSite.Domain.Common
 		/// <param name="getEntities">Метод получения перечней сущностей.</param>
 		/// <param name="getResult">Метод получения результата.</param>
 		protected virtual TResult GetFromItems<TResult>(
-			Func<IMathSiteDbContext, IQueryable<TEntity>> getEntities,
+			Func<MathSiteDbContext, IQueryable<TEntity>> getEntities,
 			Func<IQueryable<TEntity>, TResult> getResult
 		)
 		{
@@ -34,7 +34,7 @@ namespace MathSite.Domain.Common
 		}
 
 		protected virtual TResult GetFromItems<TMainEntity, TResult>(
-			Func<IMathSiteDbContext, IQueryable<TMainEntity>> getEntities,
+			Func<MathSiteDbContext, IQueryable<TMainEntity>> getEntities,
 			Func<IQueryable<TMainEntity>, TResult> getResult
 		) where TMainEntity : class
 		{
@@ -74,7 +74,7 @@ namespace MathSite.Domain.Common
 		/// <param name="getEntities">Метод получения перечней сущностей.</param>
 		/// <param name="getResultAsync">Метод получения результата.</param>
 		protected virtual async Task<TResult> GetFromItemsAsync<TResult>(
-			Func<IMathSiteDbContext, IQueryable<TEntity>> getEntities,
+			Func<MathSiteDbContext, IQueryable<TEntity>> getEntities,
 			Func<IQueryable<TEntity>, Task<TResult>> getResultAsync
 		)
 		{
@@ -104,7 +104,7 @@ namespace MathSite.Domain.Common
 		///     Использование контекста базы данных.
 		/// </summary>
 		/// <param name="action">Метод использования.</param>
-		protected void UseContext(Action<IMathSiteDbContext> action)
+		protected void UseContext(Action<MathSiteDbContext> action)
 		{
 			action(ContextManager);
 		}
@@ -113,7 +113,7 @@ namespace MathSite.Domain.Common
 		///     Использование контекста базы данных и сохранение данных после этого.
 		/// </summary>
 		/// <param name="action">Метод использования.</param>
-		protected void UseContextWithSave(Action<IMathSiteDbContext> action)
+		protected void UseContextWithSave(Action<MathSiteDbContext> action)
 		{
 			UseContext(action);
 			ContextManager.SaveChanges();
@@ -123,7 +123,7 @@ namespace MathSite.Domain.Common
 		///     Асинхронное использование контекста базы данных.
 		/// </summary>
 		/// <param name="asyncAction">Функция получения метода использования.</param>
-		protected async Task UseContextAsync(Func<IMathSiteDbContext, Task> asyncAction)
+		protected async Task UseContextAsync(Func<MathSiteDbContext, Task> asyncAction)
 		{
 			await asyncAction(ContextManager);
 		}
@@ -132,7 +132,7 @@ namespace MathSite.Domain.Common
 		///     Асинхронное использование контекста базы данных и сохранение данных после этого.
 		/// </summary>
 		/// <param name="asyncAction">Функция получения метода использования.</param>
-		protected async Task UseContextWithSaveAsync(Func<IMathSiteDbContext, Task> asyncAction)
+		protected async Task UseContextWithSaveAsync(Func<MathSiteDbContext, Task> asyncAction)
 		{
 			await UseContextAsync(asyncAction);
 			await ContextManager.SaveChangesAsync();

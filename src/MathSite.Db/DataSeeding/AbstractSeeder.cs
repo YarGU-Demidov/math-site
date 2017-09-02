@@ -14,7 +14,7 @@ namespace MathSite.Db.DataSeeding
 		/// </summary>
 		/// <param name="logger">Логгер</param>
 		/// <param name="context">Контекст базы сайта</param>
-		public AbstractSeeder(ILogger logger, IMathSiteDbContext context)
+		public AbstractSeeder(ILogger logger, MathSiteDbContext context)
 		{
 			Logger = logger;
 			Context = context;
@@ -28,7 +28,7 @@ namespace MathSite.Db.DataSeeding
 		/// <summary>
 		///     Контекст базы сайта
 		/// </summary>
-		protected IMathSiteDbContext Context { get; }
+		protected MathSiteDbContext Context { get; }
 
 		/// <inheritdoc />
 		public void Dispose()

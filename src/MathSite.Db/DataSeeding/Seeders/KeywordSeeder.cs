@@ -7,7 +7,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 	public class KeywordSeeder : AbstractSeeder<Keywords>
 	{
 		/// <inheritdoc />
-		public KeywordSeeder(ILogger logger, IMathSiteDbContext context) : base(logger, context)
+		public KeywordSeeder(ILogger logger, MathSiteDbContext context) : base(logger, context)
 		{
 		}
 

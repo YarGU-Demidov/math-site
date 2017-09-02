@@ -9,7 +9,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 	public class PostGroupsAllowedSeeder : AbstractSeeder<PostGroupsAllowed>
 	{
 		/// <inheritdoc />
-		public PostGroupsAllowedSeeder(ILogger logger, IMathSiteDbContext context) : base(logger, context)
+		public PostGroupsAllowedSeeder(ILogger logger, MathSiteDbContext context) : base(logger, context)
 		{
 		}
 

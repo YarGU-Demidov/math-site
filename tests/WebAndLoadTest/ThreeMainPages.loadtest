@@ -1,26 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<LoadTest Name="MainLoadTest" Description="" Owner="" storage="c:\git\math-site\webandloadtest\mainloadtest.loadtest" Priority="2147483647" Enabled="true" CssProjectStructure="" CssIteration="" DeploymentItemsEditable="" WorkItemIds="" TraceLevel="None" CurrentRunConfig="Параметры запуска1" Id="519997d3-082f-4545-ac08-35c40676f686" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+<LoadTest Name="ThreeMainPages" Description="" Owner="" storage="c:\git\math-site\tests\webandloadtest\threemainpages.loadtest" Priority="2147483647" Enabled="true" CssProjectStructure="" CssIteration="" DeploymentItemsEditable="" WorkItemIds="" TraceLevel="None" CurrentRunConfig="Параметры запуска1" Id="612e655d-1be7-4626-8027-8445192ca4ae" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
   <Scenarios>
-    <Scenario Name="Сценарий" DelayBetweenIterations="0" PercentNewUsers="0" IPSwitching="false" TestMixType="PercentageOfTestsStarted" ApplyDistributionToPacingDelay="true" MaxTestIterations="0" DisableDuringWarmup="false" DelayStartTime="0" AllowedAgents="">
+    <Scenario Name="Three main links" DelayBetweenIterations="0" PercentNewUsers="0" IPSwitching="false" TestMixType="PercentageOfTestsStarted" ApplyDistributionToPacingDelay="true" MaxTestIterations="0" DisableDuringWarmup="false" DelayStartTime="0" AllowedAgents="">
       <ThinkProfile Value="0.2" Pattern="NormalDistribution" />
-      <LoadProfile Pattern="Step" InitialUsers="100" MaxUsers="200000" StepUsers="50" StepDuration="5" StepRampTime="0" />
+      <LoadProfile Pattern="Step" InitialUsers="10" MaxUsers="500" StepUsers="10" StepDuration="10" StepRampTime="0" />
       <TestMix>
-        <TestProfile Name="ThreeSimplePages" Path="threesimplepages.webtest" Id="82238218-0926-48ea-937c-c884bf8ec83f" Percentage="34" Type="Microsoft.VisualStudio.TestTools.WebStress.DeclarativeWebTestElement, Microsoft.VisualStudio.QualityTools.LoadTest, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-        <TestProfile Name="ThreeSimplePages" Path="threesimplepages.webtest" Id="f18f2d95-d058-461c-bd6a-9fe1f3e055e0" Percentage="33" Type="Microsoft.VisualStudio.TestTools.WebStress.DeclarativeWebTestElement, Microsoft.VisualStudio.QualityTools.LoadTest, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-        <TestProfile Name="ThreeSimplePages" Path="threesimplepages.webtest" Id="0e7c3505-13e8-4ac8-a060-69e4b9c0a64a" Percentage="33" Type="Microsoft.VisualStudio.TestTools.WebStress.DeclarativeWebTestElement, Microsoft.VisualStudio.QualityTools.LoadTest, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+        <TestProfile Name="ThreeSimplePages" Path="threesimplepages.webtest" Id="f18f2d95-d058-461c-bd6a-9fe1f3e055e0" Percentage="100" Type="Microsoft.VisualStudio.TestTools.WebStress.DeclarativeWebTestElement, Microsoft.VisualStudio.QualityTools.LoadTest, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
       </TestMix>
       <BrowserMix>
-        <BrowserProfile Percentage="17">
-          <Browser Name="Internet Explorer 11.0" MaxConnections="6">
-            <Headers>
-              <Header Name="User-Agent" Value="Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko" />
-              <Header Name="Accept" Value="*/*" />
-              <Header Name="Accept-Language" Value="{{$IEAcceptLanguage}}" />
-              <Header Name="Accept-Encoding" Value="GZIP" />
-            </Headers>
-          </Browser>
-        </BrowserProfile>
-        <BrowserProfile Percentage="17">
+        <BrowserProfile Percentage="32">
           <Browser Name="Chrome 2" MaxConnections="6">
             <Headers>
               <Header Name="User-Agent" Value="Mozilla/5.0 (Windows; U; Windows NT 5.1;) AppleWebKit/530.1 (KHTML, like Gecko) Chrome/2.0.169.1 Safari/530.1" />
@@ -31,18 +19,18 @@
             </Headers>
           </Browser>
         </BrowserProfile>
-        <BrowserProfile Percentage="17">
-          <Browser Name="Firefox 2.0" MaxConnections="2">
+        <BrowserProfile Percentage="32">
+          <Browser Name="Safari 3" MaxConnections="4">
             <Headers>
-              <Header Name="User-Agent" Value="Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1) Gecko/20061010 Firefox/2.0" />
+              <Header Name="User-Agent" Value="Mozilla/5.0 (Windows; U; Windows NT 5.2; en-US) AppleWebKit/525.28 (KHTML, like Gecko) Version/3.2.2 Safari/525.28.1" />
               <Header Name="Accept" Value="*/*" />
               <Header Name="Accept-Language" Value="{{$IEAcceptLanguage}}" />
-              <Header Name="Accept-Encoding" Value="GZIP" />
+              <Header Name="Accept-Encoding" Value="GZIP,deflate" />
               <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.7" />
             </Headers>
           </Browser>
         </BrowserProfile>
-        <BrowserProfile Percentage="17">
+        <BrowserProfile Percentage="31">
           <Browser Name="Firefox 3.0" MaxConnections="6">
             <Headers>
               <Header Name="User-Agent" Value="Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1) Gecko/20061010 Firefox/3.0" />
@@ -53,20 +41,10 @@
             </Headers>
           </Browser>
         </BrowserProfile>
-        <BrowserProfile Percentage="16">
-          <Browser Name="Internet Explorer 10.0" MaxConnections="6">
+        <BrowserProfile Percentage="5">
+          <Browser Name="Internet Explorer 11.0" MaxConnections="6">
             <Headers>
-              <Header Name="User-Agent" Value="Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)" />
-              <Header Name="Accept" Value="*/*" />
-              <Header Name="Accept-Language" Value="{{$IEAcceptLanguage}}" />
-              <Header Name="Accept-Encoding" Value="GZIP" />
-            </Headers>
-          </Browser>
-        </BrowserProfile>
-        <BrowserProfile Percentage="16">
-          <Browser Name="Internet Explorer 5.5" MaxConnections="2">
-            <Headers>
-              <Header Name="User-Agent" Value="Mozilla/4.0 (compatible; IE 5.5; Windows NT 5.1)" />
+              <Header Name="User-Agent" Value="Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko" />
               <Header Name="Accept" Value="*/*" />
               <Header Name="Accept-Language" Value="{{$IEAcceptLanguage}}" />
               <Header Name="Accept-Encoding" Value="GZIP" />
@@ -476,7 +454,7 @@
     </CounterSet>
   </CounterSets>
   <RunConfigurations>
-    <RunConfiguration Name="Параметры запуска1" Description="Нагрузочное" ResultsStoreType="Database" TimingDetailsStorage="AllIndividualDetails" SaveTestLogsOnError="true" SaveTestLogsFrequency="0" MaxErrorDetails="200" MaxErrorsPerType="1000" MaxThresholdViolations="1000" MaxRequestUrlsReported="1000" UseTestIterations="false" RunDuration="600" WarmupTime="30" CoolDownTime="0" TestIterations="100" WebTestConnectionModel="ConnectionPerUser" WebTestConnectionPoolSize="50" SampleRate="15" ValidationLevel="High" SqlTracingConnectString="" SqlTracingConnectStringDisplayValue="" SqlTracingDirectory="" SqlTracingEnabled="false" SqlTracingFileCount="2" SqlTracingRolloverEnabled="true" SqlTracingMinimumDuration="500" RunUnitTestsInAppDomain="true" CoreCount="0" ResourcesRetentionTimeInMinutes="0" AgentDiagnosticsLevel="Warning">
+    <RunConfiguration Name="Параметры запуска1" Description="" ResultsStoreType="Database" TimingDetailsStorage="AllIndividualDetails" SaveTestLogsOnError="true" SaveTestLogsFrequency="0" MaxErrorDetails="200" MaxErrorsPerType="1000" MaxThresholdViolations="1000" MaxRequestUrlsReported="1000" UseTestIterations="false" RunDuration="300" WarmupTime="15" CoolDownTime="0" TestIterations="100" WebTestConnectionModel="ConnectionPerUser" WebTestConnectionPoolSize="50" SampleRate="15" ValidationLevel="High" SqlTracingConnectString="" SqlTracingConnectStringDisplayValue="" SqlTracingDirectory="" SqlTracingEnabled="false" SqlTracingFileCount="2" SqlTracingRolloverEnabled="true" SqlTracingMinimumDuration="500" RunUnitTestsInAppDomain="true" CoreCount="0" ResourcesRetentionTimeInMinutes="0" AgentDiagnosticsLevel="Warning">
       <CounterSetMappings>
         <CounterSetMapping ComputerName="[CONTROLLER MACHINE]">
           <CounterSetReferences>
