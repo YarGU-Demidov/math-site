@@ -33,7 +33,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 			);
 
 			var defaultNewsPageTitle = CreateCategory(
-				SiteSettingsNames.DefaultHomePageTitle,
+				SiteSettingsNames.DefaultNewsPageTitle,
 				Encoding.UTF8.GetBytes("Новости нашего факультета")
 			);
 
