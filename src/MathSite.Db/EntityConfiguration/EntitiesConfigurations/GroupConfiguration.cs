@@ -7,14 +7,13 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 	/// <inheritdoc />
 	public class GroupConfiguration : AbstractEntityConfiguration<Group>
 	{
+		protected override string TableName { get; } = nameof(Group);
+
 		/// <inheritdoc />
 		protected override void SetKeys(EntityTypeBuilder<Group> modelBuilder)
 		{
 			modelBuilder
 				.HasKey(group => group.Id);
-
-			modelBuilder
-				.HasAlternateKey(group => group.Alias);
 		}
 
 		/// <inheritdoc />
@@ -31,6 +30,10 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 			modelBuilder
 				.Property(group => group.Alias)
 				.IsRequired();
+
+			modelBuilder.Property(group => group.IsAdmin)
+				.IsRequired()
+				.HasDefaultValue(false);
 		}
 
 		/// <inheritdoc />

@@ -21,27 +21,46 @@ namespace MathSite.Db.DataSeeding.Seeders
 		protected override void SeedData()
 		{
 			var employeesGroup = CreateGroup(
-				"Employees",
-				"Teacher or employees",
+				"Dean's Office",
+				"Dean's Office",
+				GroupAliases.DeansOffice,
+				Context.GroupTypes.First(groupType => groupType.Alias == GroupTypeAliases.Employee)
+			);
+
+			var usersGroup = CreateGroup(
+				"Users",
+				"Site users",
+				GroupAliases.User,
+				Context.GroupTypes.First(groupType => groupType.Alias == GroupTypeAliases.User)
+			);
+
+			var administratorsGroup = CreateGroup(
+				"Administrators",
+				"Site administrators",
 				GroupAliases.Admin,
-				Context.GroupTypes.First(groupType => groupType.Alias == GroupTypeAliases.Employee));
+				Context.GroupTypes.First(groupType => groupType.Alias == GroupTypeAliases.User),
+				true
+			);
 
 			var studentsGroup = CreateGroup(
 				"Students",
 				"Students",
-				GroupAliases.User,
-				Context.GroupTypes.First(groupType => groupType.Alias == GroupTypeAliases.Student));
+				GroupAliases.Students,
+				Context.GroupTypes.First(groupType => groupType.Alias == GroupTypeAliases.Student)
+			);
 
 			var groups = new[]
 			{
 				employeesGroup,
-				studentsGroup
+				studentsGroup,
+				usersGroup,
+				administratorsGroup
 			};
 
 			Context.Groups.AddRange(groups);
 		}
 
-		private static Group CreateGroup(string name, string description, string groupAlias, GroupType groupType)
+		private static Group CreateGroup(string name, string description, string groupAlias, GroupType groupType, bool isAdmin = false)
 		{
 			return new Group
 			{
@@ -51,7 +70,8 @@ namespace MathSite.Db.DataSeeding.Seeders
 				GroupType = groupType,
 				GroupsRights = new List<GroupsRights>(),
 				Users = new List<User>(),
-				PostGroupsAllowed = new List<PostGroupsAllowed>()
+				PostGroupsAllowed = new List<PostGroupsAllowed>(),
+				IsAdmin = isAdmin
 			};
 		}
 	}

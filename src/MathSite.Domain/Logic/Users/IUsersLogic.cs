@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MathSite.Domain.Common;
 using MathSite.Entities;
 
 namespace MathSite.Domain.Logic.Users
 {
-	public interface IUsersLogic : ILogicBase<User>
+	public interface IUsersLogic
 	{
 		/// <summary>
 		///     Асинхронно создает пользователя.
@@ -18,16 +17,23 @@ namespace MathSite.Domain.Logic.Users
 		/// <summary>
 		///     Асинхронно обновляет пользователя.
 		/// </summary>
-		/// <param name="currentUserId">Идентификатор текущего пользователя.</param>
+		/// <param name="id">Идентификатор пользователя.</param>
 		/// <param name="groupId">Идентификатор группы.</param>
 		/// <param name="passwordHash">Пароль.</param>
-		Task UpdateUserAsync(Guid currentUserId, byte[] passwordHash, Guid groupId);
+		Task UpdateUserAsync(Guid id, byte[] passwordHash, Guid groupId);
 
 		/// <summary>
 		///     Асинхронно удаляет пользователя.
 		/// </summary>
-		/// <param name="currentUserId">Идентификатор текущего пользователя.</param>
-		/// <param name="personId">Идентификатор личности.</param>
-		Task DeleteUserAsync(Guid currentUserId, Guid personId);
+		/// <param name="id">Идентификатор пользователя.</param>
+		Task DeleteUserAsync(Guid id);
+
+		Task<User> TryGetByIdAsync(Guid userId);
+
+		Task<User> TryGetByLoginAsync(string login);
+
+		Task<User> TryGetUserWithRightsById(Guid id);
+
+		Task<User> TryGetUserWithRightsByLogin(string login);
 	}
 }

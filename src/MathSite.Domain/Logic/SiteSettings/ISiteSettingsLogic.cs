@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MathSite.Domain.Common;
 
 namespace MathSite.Domain.Logic.SiteSettings
 {
-	public interface ISiteSettingsLogic : ILogicBase<Entities.SiteSettings>
+	public interface ISiteSettingsLogic
 	{
-		Task CreateSettingAsync(Guid currentUser, string key, byte[] value);
-		Task UpdateSettingAsync(Guid currentUser, string key, byte[] value);
-		Task DeleteSettingAsync(Guid currentUser, string key);
+		Task CreateSettingAsync(string key, byte[] value);
+		Task UpdateSettingAsync(string key, byte[] value);
+		Task DeleteSettingAsync(string key);
+
+		Task<Entities.SiteSettings> TryGetByKeyAsync(string key);
+		Task<Entities.SiteSettings> FirstOrDefaultAsync();
 	}
 }

@@ -1,6 +1,6 @@
-﻿namespace MathSite.ViewModels.Capability
+﻿namespace MathSite.ViewModels.SharedModels
 {
-	public class PageTitle
+	public class PageTitleViewModel
 	{
 		public string Title { get;  set; }
 		public string Delimiter { get; set; }
@@ -8,7 +8,7 @@
 
 		public bool SiteNameFirst { get; set; }
 
-		public PageTitle(string title, string delimiter, string siteName, bool siteNameFirst = false)
+		public PageTitleViewModel(string title, string delimiter, string siteName, bool siteNameFirst = false)
 		{
 			Title = title;
 			Delimiter = delimiter;

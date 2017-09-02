@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MathSite.Db;
 using MathSite.Domain.Common;
@@ -9,10 +11,7 @@ namespace MathSite.Domain.Logic.Groups
 {
 	public class GroupsLogic : LogicBase<Group>, IGroupsLogic
 	{
-		private const string GroupNotFoundFormat = "Группа с Id='{0}' не найдена";
-		private const string GroupTypeNotFoundFormat = "Тип группы с Id='{0}' не найден";
-		
-		public GroupsLogic(IMathSiteDbContext contextManager) 
+		public GroupsLogic(IMathSiteDbContext contextManager)
 			: base(contextManager)
 		{
 		}
@@ -31,10 +30,6 @@ namespace MathSite.Domain.Logic.Groups
 			var groupId = Guid.Empty;
 			await UseContextAsync(async context =>
 			{
-				var groupType = await context.GroupTypes.AnyAsync(i => i.Id == groupTypeId);
-				if (!groupType)
-					throw new Exception(string.Format(GroupTypeNotFoundFormat, groupTypeId));
-
 				var group = new Group(name, description, groupTypeId, parentGroupId);
 
 				context.Groups.Add(group);
@@ -58,23 +53,15 @@ namespace MathSite.Domain.Logic.Groups
 		public async Task UpdateGroupAsync(Guid currentUserId, Guid groupId, string name, string description,
 			Guid groupTypeId, Guid? parentGroupId)
 		{
-			await UseContextAsync(async context =>
+			await UseContextWithSaveAsync(async context =>
 			{
 				var group = await context.Groups.FirstOrDefaultAsync(i => i.Id == groupId);
-				if (group == null)
-					throw new Exception(string.Format(GroupNotFoundFormat, groupId));
-
-				var groupType = await context.GroupTypes.AnyAsync(i => i.Id == groupTypeId);
-				if (!groupType)
-					throw new Exception(string.Format(GroupTypeNotFoundFormat, groupTypeId));
 
 				group.Name = name;
 				group.Description = description;
 				group.Alias = name;
 				group.GroupTypeId = groupTypeId;
 				group.ParentGroupId = parentGroupId;
-
-				await context.SaveChangesAsync();
 			});
 		}
 
@@ -85,15 +72,118 @@ namespace MathSite.Domain.Logic.Groups
 		/// <param name="groupId">Идентификатор группы.</param>
 		public async Task DeleteGroupAsync(Guid currentUserId, Guid groupId)
 		{
-			await UseContextAsync(async context =>
+			await UseContextWithSaveAsync(async context =>
 			{
 				var group = await context.Groups.FirstOrDefaultAsync(i => i.Id == groupId);
-				if (group == null)
-					throw new Exception(string.Format(GroupNotFoundFormat, groupId));
 
 				context.Groups.Remove(group);
-				await context.SaveChangesAsync();
 			});
+		}
+
+		public async Task<Group> TryGetByIdAsync(Guid id)
+		{
+			Group group = null;
+			await UseContextAsync(async context =>
+			{
+				group = await context.Groups.FirstOrDefaultAsync(g => g.Id == id);
+			});
+
+			return group;
+		}
+
+		public async Task<Group> TryGetByAliasAsync(string alias)
+		{
+			Group group = null;
+			await UseContextAsync(async context =>
+			{
+				group = await context.Groups.FirstOrDefaultAsync(g => g.Alias == alias);
+			});
+
+			return group;
+		}
+
+		public async Task<ICollection<User>> GetGroupUsersAsync(Guid id)
+		{
+			ICollection<User> users = new List<User>();
+
+			await UseContextAsync(async context =>
+			{
+				var group = await context.Groups
+					.Include(g => g.Users)
+					.Where(g => g.Id == id)
+					.FirstOrDefaultAsync();
+
+				if(group == null)
+					return;
+
+				users = group.Users;
+			});
+
+			return users;
+		}
+
+		public async Task<ICollection<User>> GetGroupUsersAsync(string alias)
+		{
+			ICollection<User> users = new List<User>();
+
+			await UseContextAsync(async context =>
+			{
+				var group = await context.Groups
+					.Include(g => g.Users)
+					.Where(g => g.Alias == alias)
+					.FirstOrDefaultAsync();
+
+				if (group == null)
+					return;
+
+				users = group.Users;
+			});
+
+			return users;
+		}
+
+		public async Task<ICollection<User>> GetGroupUsersWithRightsAsync(Guid id)
+		{
+			ICollection<User> users = new List<User>();
+
+			await UseContextAsync(async context =>
+			{
+				var group = await context.Groups
+					.Include(g => g.Users)
+					.ThenInclude(u => u.UserRights)
+					.ThenInclude(rights => rights.Right)
+					.Where(g => g.Id == id)
+					.FirstOrDefaultAsync();
+
+				if (group == null)
+					return;
+
+				users = group.Users;
+			});
+
+			return users;
+		}
+
+		public async Task<ICollection<User>> GetGroupUsersWithRightsAsync(string alias)
+		{
+			ICollection<User> users = new List<User>();
+
+			await UseContextAsync(async context =>
+			{
+				var group = await context.Groups
+					.Include(g => g.Users)
+					.ThenInclude(u => u.UserRights)
+					.ThenInclude(rights => rights.Right)
+					.Where(g => g.Alias == alias)
+					.FirstOrDefaultAsync();
+
+				if (group == null)
+					return;
+
+				users = group.Users;
+			});
+
+			return users;
 		}
 	}
 }

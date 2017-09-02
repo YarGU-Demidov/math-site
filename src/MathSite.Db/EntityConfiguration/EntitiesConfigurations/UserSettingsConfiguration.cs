@@ -6,6 +6,8 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 {
 	public class UserSettingsConfiguration : AbstractEntityConfiguration<UserSettings>
 	{
+		protected override string TableName { get; } = nameof(UserSettings);
+
 		/// <inheritdoc />
 		protected override void SetKeys(EntityTypeBuilder<UserSettings> modelBuilder)
 		{

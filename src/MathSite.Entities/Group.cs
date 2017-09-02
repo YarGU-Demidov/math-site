@@ -26,6 +26,7 @@ namespace MathSite.Entities
 			Alias = name;
 			GroupTypeId = groupTypeId;
 			ParentGroupId = parentGroupId;
+			IsAdmin = false;
 		}
 
 		/// <summary>
@@ -67,6 +68,12 @@ namespace MathSite.Entities
 		///     Тип группы.
 		/// </summary>
 		public GroupType GroupType { get; set; }
+
+		/// <summary>
+		///	    Является ли группа администраторской.
+		///     ОСТОРОЖНО! Позволяет делать всё!
+		/// </summary>
+		public bool IsAdmin { get; set; }
 
 		/// <summary>
 		///     Перечень прав группы.

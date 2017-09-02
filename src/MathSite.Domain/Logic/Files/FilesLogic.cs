@@ -59,7 +59,7 @@ namespace MathSite.Domain.Logic.Files
 		/// <param name="extension">Расширение файла.</param>
 		public async Task UpdateFileAsync(Guid currentUserId, Guid fileId, string fileName, string filePath, string extension)
 		{
-			await UseContextAsync(async context =>
+			await UseContextWithSaveAsync(async context =>
 			{
 				var file = await context.Files.FirstOrDefaultAsync(i => i.Id == fileId);
 				if (file == null)
@@ -68,8 +68,6 @@ namespace MathSite.Domain.Logic.Files
 				file.FileName = fileName;
 				file.FilePath = filePath;
 				file.Extension = extension;
-
-				await context.SaveChangesAsync();
 			});
 		}
 
@@ -80,14 +78,13 @@ namespace MathSite.Domain.Logic.Files
 		/// <param name="fileId">Идентификатор файла.</param>
 		public async Task DeleteFileAsync(Guid currentUserId, Guid fileId)
 		{
-			await UseContextAsync(async context =>
+			await UseContextWithSaveAsync(async context =>
 			{
 				var file = await context.Files.FirstOrDefaultAsync(i => i.Id == fileId);
 				if (file == null)
 					throw new Exception(string.Format(FileNotFoundFormat, fileId));
 
 				context.Files.Remove(file);
-				await context.SaveChangesAsync();
 			});
 		}
 	}

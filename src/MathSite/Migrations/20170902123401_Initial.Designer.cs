@@ -11,7 +11,7 @@ using System;
 namespace MathSite.Migrations
 {
     [DbContext(typeof(MathSiteDbContext))]
-    [Migration("20170831200353_Initial")]
+    [Migration("20170902123401_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,7 +39,7 @@ namespace MathSite.Migrations
 
                     b.HasAlternateKey("Alias");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Category");
                 });
 
             modelBuilder.Entity("MathSite.Entities.Comment", b =>
@@ -64,7 +64,7 @@ namespace MathSite.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comment");
                 });
 
             modelBuilder.Entity("MathSite.Entities.File", b =>
@@ -84,7 +84,7 @@ namespace MathSite.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Files");
+                    b.ToTable("File");
                 });
 
             modelBuilder.Entity("MathSite.Entities.Group", b =>
@@ -99,6 +99,10 @@ namespace MathSite.Migrations
 
                     b.Property<Guid>("GroupTypeId");
 
+                    b.Property<bool>("IsAdmin")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
+
                     b.Property<string>("Name")
                         .IsRequired();
 
@@ -106,13 +110,11 @@ namespace MathSite.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasAlternateKey("Alias");
-
                     b.HasIndex("GroupTypeId");
 
                     b.HasIndex("ParentGroupId");
 
-                    b.ToTable("Groups");
+                    b.ToTable("Group");
                 });
 
             modelBuilder.Entity("MathSite.Entities.GroupsRights", b =>
@@ -124,13 +126,14 @@ namespace MathSite.Migrations
 
                     b.Property<Guid>("GroupId");
 
-                    b.Property<Guid>("RightId");
+                    b.Property<string>("RightAlias")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
                     b.HasIndex("GroupId");
 
-                    b.HasIndex("RightId");
+                    b.HasIndex("RightAlias");
 
                     b.ToTable("GroupsRights");
                 });
@@ -152,7 +155,7 @@ namespace MathSite.Migrations
 
                     b.HasAlternateKey("Alias");
 
-                    b.ToTable("GroupTypes");
+                    b.ToTable("GroupType");
                 });
 
             modelBuilder.Entity("MathSite.Entities.Keywords", b =>
@@ -208,7 +211,7 @@ namespace MathSite.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Persons");
+                    b.ToTable("Person");
                 });
 
             modelBuilder.Entity("MathSite.Entities.Post", b =>
@@ -251,7 +254,7 @@ namespace MathSite.Migrations
 
                     b.HasIndex("PostTypeId");
 
-                    b.ToTable("Posts");
+                    b.ToTable("Post");
                 });
 
             modelBuilder.Entity("MathSite.Entities.PostAttachment", b =>
@@ -271,7 +274,7 @@ namespace MathSite.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("PostAttachments");
+                    b.ToTable("PostAttachment");
                 });
 
             modelBuilder.Entity("MathSite.Entities.PostCategory", b =>
@@ -289,7 +292,7 @@ namespace MathSite.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("PostCategories");
+                    b.ToTable("PostCategory");
                 });
 
             modelBuilder.Entity("MathSite.Entities.PostGroupsAllowed", b =>
@@ -309,7 +312,7 @@ namespace MathSite.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("PostGroupsAlloweds");
+                    b.ToTable("PostGroupsAllowed");
                 });
 
             modelBuilder.Entity("MathSite.Entities.PostKeywords", b =>
@@ -345,7 +348,7 @@ namespace MathSite.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("PostOwners");
+                    b.ToTable("PostOwner");
                 });
 
             modelBuilder.Entity("MathSite.Entities.PostRating", b =>
@@ -368,7 +371,7 @@ namespace MathSite.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("PostRatings");
+                    b.ToTable("PostRating");
                 });
 
             modelBuilder.Entity("MathSite.Entities.PostSeoSettings", b =>
@@ -422,7 +425,7 @@ namespace MathSite.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PostTypes");
+                    b.ToTable("PostType");
                 });
 
             modelBuilder.Entity("MathSite.Entities.PostUserAllowed", b =>
@@ -442,27 +445,22 @@ namespace MathSite.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("PostUserAlloweds");
+                    b.ToTable("PostUserAllowed");
                 });
 
             modelBuilder.Entity("MathSite.Entities.Right", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
                     b.Property<string>("Alias")
-                        .IsRequired();
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Description");
 
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.HasKey("Id");
+                    b.HasKey("Alias");
 
-                    b.HasAlternateKey("Alias");
-
-                    b.ToTable("Rights");
+                    b.ToTable("Right");
                 });
 
             modelBuilder.Entity("MathSite.Entities.SiteSettings", b =>
@@ -501,7 +499,7 @@ namespace MathSite.Migrations
 
                     b.HasIndex("GroupId");
 
-                    b.ToTable("Users");
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("MathSite.Entities.UserSettings", b =>
@@ -524,7 +522,7 @@ namespace MathSite.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserSettingses");
+                    b.ToTable("UserSettings");
                 });
 
             modelBuilder.Entity("MathSite.Entities.UsersRights", b =>
@@ -534,17 +532,18 @@ namespace MathSite.Migrations
 
                     b.Property<bool>("Allowed");
 
-                    b.Property<Guid>("RightId");
+                    b.Property<string>("RightAlias")
+                        .IsRequired();
 
                     b.Property<Guid>("UserId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RightId");
+                    b.HasIndex("RightAlias");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UsersRights");
+                    b.ToTable("UserRights");
                 });
 
             modelBuilder.Entity("MathSite.Entities.Comment", b =>
@@ -582,7 +581,7 @@ namespace MathSite.Migrations
 
                     b.HasOne("MathSite.Entities.Right", "Right")
                         .WithMany("GroupsRights")
-                        .HasForeignKey("RightId")
+                        .HasForeignKey("RightAlias")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -746,7 +745,7 @@ namespace MathSite.Migrations
                 {
                     b.HasOne("MathSite.Entities.Right", "Right")
                         .WithMany("UsersRights")
-                        .HasForeignKey("RightId")
+                        .HasForeignKey("RightAlias")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("MathSite.Entities.User", "User")

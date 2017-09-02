@@ -6,6 +6,8 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 {
 	public class PostOwnerConfiguration : AbstractEntityConfiguration<PostOwner>
 	{
+		protected override string TableName { get; } = nameof(PostOwner);
+
 		/// <inheritdoc />
 		protected override void SetKeys(EntityTypeBuilder<PostOwner> modelBuilder)
 		{

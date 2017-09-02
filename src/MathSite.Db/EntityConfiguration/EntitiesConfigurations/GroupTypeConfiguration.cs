@@ -6,6 +6,8 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 {
 	public class GroupTypeConfiguration : AbstractEntityConfiguration<GroupType>
 	{
+		protected override string TableName { get; } = nameof(GroupType);
+
 		/// <inheritdoc />
 		protected override void SetKeys(EntityTypeBuilder<GroupType> modelBuilder)
 		{

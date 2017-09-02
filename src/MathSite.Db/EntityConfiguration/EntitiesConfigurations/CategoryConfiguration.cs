@@ -7,6 +7,7 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 	/// <inheritdoc />
 	public class CategoryConfiguration : AbstractEntityConfiguration<Category>
 	{
+		protected override string TableName { get; } = nameof(Category);
 		/// <inheritdoc />
 		protected override void SetKeys(EntityTypeBuilder<Category> modelBuilder)
 		{

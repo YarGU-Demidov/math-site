@@ -1,6 +1,5 @@
 ﻿using MathSite.Controllers;
 using MathSite.Db;
-using MathSite.Domain.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,7 +9,7 @@ namespace MathSite.Areas.PersonalPage.Controllers
 	[Authorize("peronal-page")]
 	public class HomeController : BaseController
 	{
-		public HomeController(MathSiteDbContext dbContext, IBusinessLogicManger logicManger) : base(dbContext, logicManger)
+		public HomeController(MathSiteDbContext dbContext) : base(dbContext)
 		{
 		}
 

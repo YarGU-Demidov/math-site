@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MathSite.Domain.Common;
-using MathSite.Entities;
 
 namespace MathSite.Domain.Logic.Persons
 {
-	public interface IPersonsLogic : ILogicBase<Person>
+	public interface IPersonsLogic
 	{
 		/// <summary>
 		///     Асинхронно создает личность.

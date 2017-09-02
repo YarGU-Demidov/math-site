@@ -34,12 +34,18 @@ namespace MathSite.Db.DataSeeding.Seeders
 				"Allowing to access user panel.",
 				RightAliases.PanelAccess
 			);
+			var settingsSetRight = CreateRight(
+				"Configure Site Setting",
+				"Allowing to change site settings.",
+				RightAliases.SetSiteSettingsAccess
+			);
 
 			var rights = new[]
 			{
 				adminAccessRight,
 				logoutRight,
-				panelAccessRight
+				panelAccessRight,
+				settingsSetRight
 			};
 
 			Context.Rights.AddRange(rights);

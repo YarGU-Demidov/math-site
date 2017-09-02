@@ -25,7 +25,7 @@ namespace MathSite.Entities
 		/// <summary>
 		///     Идентификатор правила, с которым настраивается сопоставление.
 		/// </summary>
-		public Guid RightId { get; set; }
+		public string RightAlias { get; set; }
 
 		/// <summary>
 		///     Группа, к которой относится это правило.
