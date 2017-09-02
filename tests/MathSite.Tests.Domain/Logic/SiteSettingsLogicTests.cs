@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using System.Threading.Tasks;
 using MathSite.Domain.Logic.SiteSettings;
+using Microsoft.EntityFrameworkCore;
 using Xunit;
 
 namespace MathSite.Tests.Domain.Logic
@@ -68,6 +69,40 @@ namespace MathSite.Tests.Domain.Logic
 				setting = await settingsLogic.TryGetByKeyAsync(setting.Key);
 
 				Assert.Equal(newValue, setting.Value);
+			});
+		}
+
+		[Fact]
+		public async Task TryGetByKeyTest()
+		{
+			await ExecuteWithContextAsync(async context =>
+			{
+				var settingsLogic = new SiteSettingsLogic(context);
+
+				var testingKey = "testKeyForCreating";
+				var testingValue = Encoding.UTF8.GetBytes("testValue");
+
+				await settingsLogic.CreateSettingAsync(testingKey, testingValue);
+
+				var setting = await context.SiteSettings.FirstOrDefaultAsync(settings => settings.Key == testingKey);
+
+				Assert.NotNull(setting);
+				Assert.Equal(testingValue, setting.Value);
+			});
+		}
+
+		[Fact]
+		public async Task FirstOrDefaultAsyncTest()
+		{
+			await ExecuteWithContextAsync(async context =>
+			{
+				var settingsLogic = new SiteSettingsLogic(context);
+
+				var first = await context.SiteSettings.FirstOrDefaultAsync();
+
+				var setting = await settingsLogic.FirstOrDefaultAsync();
+
+				Assert.Equal(first, setting);
 			});
 		}
 	}

@@ -67,6 +67,22 @@ namespace MathSite.Tests.Domain.Logic
 			});
 		}
 
+		[Fact]
+		public async Task TryGetByAliasTest()
+		{
+			await ExecuteWithContextAsync(async context =>
+			{
+				var rightsLogic = new RightsLogic(context);
+				var createdRight = await CreateTestRightAsync(rightsLogic);
+
+				var right = await rightsLogic.TryGetByAliasAsync(createdRight.Alias);
+
+				Assert.NotNull(right);
+				Assert.Equal(createdRight.Description, right.Description);
+				Assert.Equal(createdRight.Name, right.Name);
+			});
+		}
+
 		private async Task<Right> CreateTestRightAsync(IRightsLogic rightsLogic)
 		{
 			var randomId = Guid.NewGuid();
