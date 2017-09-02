@@ -30,11 +30,7 @@ namespace MathSite.Tests.Facades
 		{
 			_databaseFactory.ExecuteWithContext(context =>
 			{
-				var logic = CreateBusinessLogicManger(context);
-				using (logic)
-				{
-					actions(logic);
-				}
+				actions(CreateBusinessLogicManger(context));
 			});
 		}
 
@@ -42,18 +38,13 @@ namespace MathSite.Tests.Facades
 		{
 			await _databaseFactory.ExecuteWithContextAsync(async context =>
 			{
-				var logic = CreateBusinessLogicManger(context);
-				using (logic)
-				{
-					await actions(logic);
-				}
+				await actions(CreateBusinessLogicManger(context));
 			});
 		}
 
 		private IBusinessLogicManger CreateBusinessLogicManger(IMathSiteDbContext context)
 		{
 			return new BusinessLogicManager(
-				context,
 				new GroupsLogic(context),
 				new PersonsLogic(context),
 				new UsersLogic(context),

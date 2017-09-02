@@ -28,7 +28,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MathSite.Tests.Facades", "t
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MathSite.Tests.CoreThings", "tests\MathSite.Tests.CoreThings\MathSite.Tests.CoreThings.csproj", "{9438585B-53EA-455F-A93B-4774F676B8E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathSite.ViewModels", "src\MathSite.ViewModels\MathSite.ViewModels.csproj", "{2FD31761-D2B9-466B-87D1-C78F5F100B10}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MathSite.ViewModels", "src\MathSite.ViewModels\MathSite.ViewModels.csproj", "{2FD31761-D2B9-466B-87D1-C78F5F100B10}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAndLoadTest", "tests\WebAndLoadTest\WebAndLoadTest.csproj", "{606F6699-FA50-4033-A425-E4869F33D31B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1C75544A-F01F-4F1A-8D61-EB538F6F1E34}"
+	ProjectSection(SolutionItems) = preProject
+		Local.testsettings = Local.testsettings
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -84,6 +91,10 @@ Global
 		{2FD31761-D2B9-466B-87D1-C78F5F100B10}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2FD31761-D2B9-466B-87D1-C78F5F100B10}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2FD31761-D2B9-466B-87D1-C78F5F100B10}.Release|Any CPU.Build.0 = Release|Any CPU
+		{606F6699-FA50-4033-A425-E4869F33D31B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{606F6699-FA50-4033-A425-E4869F33D31B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{606F6699-FA50-4033-A425-E4869F33D31B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{606F6699-FA50-4033-A425-E4869F33D31B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
