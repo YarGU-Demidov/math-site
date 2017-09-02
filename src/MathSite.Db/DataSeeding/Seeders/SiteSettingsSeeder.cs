@@ -27,10 +27,22 @@ namespace MathSite.Db.DataSeeding.Seeders
 				Encoding.UTF8.GetBytes(" | ")
 			);
 
+			var defaultHomePageTitle = CreateCategory(
+				SiteSettingsNames.DefaultHomePageTitle,
+				Encoding.UTF8.GetBytes("Главная страница")
+			);
+
+			var defaultNewsPageTitle = CreateCategory(
+				SiteSettingsNames.DefaultHomePageTitle,
+				Encoding.UTF8.GetBytes("Новости нашего факультета")
+			);
+
 			var categories = new[]
 			{
 				siteNameSetting,
-				defaultDelimiter
+				defaultDelimiter,
+				defaultHomePageTitle,
+				defaultNewsPageTitle
 			};
 
 			Context.SiteSettings.AddRange(categories);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
+using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Facades.SiteSettings;
 using MathSite.ViewModels.SharedModels;
 using MathSite.ViewModels.SharedModels.SecondaryPage;
@@ -20,15 +21,25 @@ namespace MathSite.ViewModels.News
 		{
 		}
 
-		protected override string PageTitle { get; } = "Новости нашего факультета";
+		protected override string PageTitle { get; set; }
 
 		public async Task<NewsIndexViewModel> BuildIndexViewModelAsync()
 		{
+			await FillPageNameAsync();
+
 			var model = await BuildSecondaryViewModel<NewsIndexViewModel>();
 
 			await BuildPosts(model);
 
 			return model;
+		}
+
+
+		private async Task FillPageNameAsync()
+		{
+			var title = await SiteSettingsFacade[SiteSettingsNames.DefaultNewsPageTitle];
+
+			PageTitle = title ?? "Новости нашего факультета";
 		}
 
 		private async Task BuildPosts(NewsIndexViewModel model)
