@@ -25,7 +25,7 @@ namespace MathSite.Domain.Logic.SiteSettings
 		{
 			await UseContextWithSaveAsync(async context =>
 			{
-				var setting = await context.SiteSettings.FirstOrDefaultAsync(settings => settings.Key == key);
+				var setting = await context.SiteSettings.FirstAsync(settings => settings.Key == key);
 
 				setting.Value = value;
 

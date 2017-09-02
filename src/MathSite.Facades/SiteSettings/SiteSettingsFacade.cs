@@ -38,7 +38,7 @@ namespace MathSite.Facades.SiteSettings
 			if (!hasRight)
 				return false;
 
-			var setting = LogicManger.SiteSettingsLogic.TryGetByKeyAsync(name);
+			var setting = await LogicManger.SiteSettingsLogic.TryGetByKeyAsync(name);
 
 			var valueBytes = Encoding.UTF8.GetBytes(value);
 
