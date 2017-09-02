@@ -16,7 +16,7 @@ namespace MathSite.ViewModels
 
 		public ISiteSettingsFacade SiteSettingsFacade { get; }
 
-		protected abstract string PageTitle { get; }
+		protected abstract string PageTitle { get; set; }
 
 		protected virtual async Task<T> BuildCommonViewModelAsync<T>()
 			where T : CommonViewModel, new()

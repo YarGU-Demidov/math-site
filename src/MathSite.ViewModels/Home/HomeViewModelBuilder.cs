@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
+using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Facades.SiteSettings;
 using MathSite.ViewModels.SharedModels;
 
@@ -14,7 +15,7 @@ namespace MathSite.ViewModels.Home
 		{
 		}
 
-		protected override string PageTitle { get; } = "Главная страница";
+		protected override string PageTitle { get; set; }
 
 		private async Task BuildPostsAsync(HomeIndexViewModel model)
 		{
@@ -33,10 +34,17 @@ namespace MathSite.ViewModels.Home
 
 		public async Task<HomeIndexViewModel> BuildIndexModel()
 		{
+			await FillPageNameAsync();
 			var model = await BuildCommonViewModelAsync<HomeIndexViewModel>();
 			await BuildPostsAsync(model);
-
 			return model;
+		}
+
+		private async Task FillPageNameAsync()
+		{
+			var title = await SiteSettingsFacade[SiteSettingsNames.DefaultHomePageTitle];
+
+			PageTitle = title ?? "Главная страница";
 		}
 	}
 }

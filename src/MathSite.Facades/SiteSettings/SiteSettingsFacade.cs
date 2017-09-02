@@ -22,10 +22,10 @@ namespace MathSite.Facades.SiteSettings
 		public async Task<string> GetStringSettingAsync(string name)
 		{
 			var setting = await LogicManger.SiteSettingsLogic.TryGetByKeyAsync(name);
-			if (setting == null)
-				throw new ArgumentException(string.Format(SettingNotFound, name), nameof(name));
 
-			return Encoding.UTF8.GetString(setting.Value);
+			return setting != null 
+				? Encoding.UTF8.GetString(setting.Value) 
+				: null;
 		}
 
 		public async Task<bool> SetStringSettingAsync(Guid userId, string name, string value)

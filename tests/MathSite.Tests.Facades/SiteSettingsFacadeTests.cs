@@ -45,14 +45,31 @@ namespace MathSite.Tests.Facades
 
 				var user = await manger.UsersLogic.TryGetByLoginAsync(UsersAliases.FirstUser);
 
-				var testKey = "testKey";
-				var testValue = "testValue";
+				var testSalt = Guid.NewGuid();
+				var testKey = $"testKey-{testSalt}";
+				var testValue = $"testValue-{testSalt}";
 
 				await siteSettingsFacade.SetStringSettingAsync(user.Id, testKey, testValue);
 
 				var value = await siteSettingsFacade.GetStringSettingAsync(testKey);
 
 				Assert.Equal(testValue, value);
+			});
+		}
+
+		[Fact]
+		public async Task GetSettingStringTest_KeyDoesNotExists()
+		{
+			await WithLogicAsync(async manger =>
+			{
+				var userValidationFacade = new UserValidationFacade(manger);
+				var siteSettingsFacade = new SiteSettingsFacade(manger, userValidationFacade);
+
+				var testKey = $"testKey-{Guid.NewGuid()}";
+
+				var value = await siteSettingsFacade.GetStringSettingAsync(testKey);
+
+				Assert.Null(value);
 			});
 		}
 
