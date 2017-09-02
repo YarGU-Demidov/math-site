@@ -9,7 +9,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 	public class CommentSeeder : AbstractSeeder<Comment>
 	{
 		/// <inheritdoc />
-		public CommentSeeder(ILogger logger, IMathSiteDbContext context) : base(logger, context)
+		public CommentSeeder(ILogger logger, MathSiteDbContext context) : base(logger, context)
 		{
 		}
 

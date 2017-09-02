@@ -7,7 +7,7 @@ namespace MathSite.Domain.Logic.SiteSettings
 {
 	public class SiteSettingsLogic : LogicBase<Entities.SiteSettings>, ISiteSettingsLogic
 	{
-		public SiteSettingsLogic(IMathSiteDbContext context)
+		public SiteSettingsLogic(MathSiteDbContext context)
 			: base(context)
 		{
 		}

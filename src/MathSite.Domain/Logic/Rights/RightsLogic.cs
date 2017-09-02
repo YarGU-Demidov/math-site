@@ -8,7 +8,7 @@ namespace MathSite.Domain.Logic.Rights
 {
 	public class RightsLogic: LogicBase<Right>, IRightsLogic
 	{
-		public RightsLogic(IMathSiteDbContext context) 
+		public RightsLogic(MathSiteDbContext context) 
 			: base(context)
 		{
 		}

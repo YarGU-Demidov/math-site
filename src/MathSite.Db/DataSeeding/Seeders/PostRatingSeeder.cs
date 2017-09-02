@@ -8,7 +8,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 	public class PostRatingSeeder : AbstractSeeder<PostRating>
 	{
 		/// <inheritdoc />
-		public PostRatingSeeder(ILogger logger, IMathSiteDbContext context) : base(logger, context)
+		public PostRatingSeeder(ILogger logger, MathSiteDbContext context) : base(logger, context)
 		{
 		}
 

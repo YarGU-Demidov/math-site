@@ -9,7 +9,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 	public class RightSeeder : AbstractSeeder<Right>
 	{
 		/// <inheritdoc />
-		public RightSeeder(ILogger logger, IMathSiteDbContext context) : base(logger, context)
+		public RightSeeder(ILogger logger, MathSiteDbContext context) : base(logger, context)
 		{
 		}
 

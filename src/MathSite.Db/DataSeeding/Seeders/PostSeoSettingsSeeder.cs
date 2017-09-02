@@ -7,7 +7,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 	public class PostSeoSettingsSeeder : AbstractSeeder<PostSeoSettings>
 	{
 		/// <inheritdoc />
-		public PostSeoSettingsSeeder(ILogger logger, IMathSiteDbContext context) : base(logger, context)
+		public PostSeoSettingsSeeder(ILogger logger, MathSiteDbContext context) : base(logger, context)
 		{
 		}
 

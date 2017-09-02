@@ -1,6 +1,4 @@
-﻿using System;
-using MathSite.Db;
-using MathSite.Domain.Logic.Files;
+﻿using MathSite.Domain.Logic.Files;
 using MathSite.Domain.Logic.Groups;
 using MathSite.Domain.Logic.Persons;
 using MathSite.Domain.Logic.Rights;
@@ -11,11 +9,7 @@ namespace MathSite.Domain.Common
 {
 	public class BusinessLogicManager : IBusinessLogicManger
 	{
-		private readonly IMathSiteDbContext _context;
-		private bool _isDisposed;
-
 		public BusinessLogicManager(
-			IMathSiteDbContext context,
 			IGroupsLogic groupsLogic,
 			IPersonsLogic personsLogic,
 			IUsersLogic usersLogic,
@@ -24,7 +18,6 @@ namespace MathSite.Domain.Common
 			IRightsLogic rightsLogic
 		)
 		{
-			_context = context;
 			GroupsLogic = groupsLogic;
 			PersonsLogic = personsLogic;
 			UsersLogic = usersLogic;
@@ -39,22 +32,5 @@ namespace MathSite.Domain.Common
 		public IFilesLogic FilesLogic { get; }
 		public ISiteSettingsLogic SiteSettingsLogic { get; }
 		public IRightsLogic RightsLogic { get; }
-
-		public void Dispose()
-		{
-			Dispose(true);
-			GC.SuppressFinalize(this);
-		}
-
-		protected virtual void Dispose(bool canDispose)
-		{
-			if (_isDisposed)
-				return;
-
-			if (canDispose)
-				_context.Dispose();
-
-			_isDisposed = true;
-		}
 	}
 }

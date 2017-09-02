@@ -28,7 +28,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MathSite.Tests.Facades", "t
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MathSite.Tests.CoreThings", "tests\MathSite.Tests.CoreThings\MathSite.Tests.CoreThings.csproj", "{9438585B-53EA-455F-A93B-4774F676B8E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathSite.ViewModels", "src\MathSite.ViewModels\MathSite.ViewModels.csproj", "{2FD31761-D2B9-466B-87D1-C78F5F100B10}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MathSite.ViewModels", "src\MathSite.ViewModels\MathSite.ViewModels.csproj", "{2FD31761-D2B9-466B-87D1-C78F5F100B10}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

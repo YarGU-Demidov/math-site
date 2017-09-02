@@ -8,7 +8,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 	public class SiteSettingsSeeder : AbstractSeeder<SiteSettings>
 	{
 		/// <inheritdoc />
-		public SiteSettingsSeeder(ILogger logger, IMathSiteDbContext context) : base(logger, context)
+		public SiteSettingsSeeder(ILogger logger, MathSiteDbContext context) : base(logger, context)
 		{
 		}
 

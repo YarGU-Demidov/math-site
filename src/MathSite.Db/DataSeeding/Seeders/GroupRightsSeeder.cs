@@ -9,7 +9,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 	public class GroupRightsSeeder : AbstractSeeder<GroupsRights>
 	{
 		/// <inheritdoc />
-		public GroupRightsSeeder(ILogger logger, IMathSiteDbContext context) : base(logger, context)
+		public GroupRightsSeeder(ILogger logger, MathSiteDbContext context) : base(logger, context)
 		{
 		}
 

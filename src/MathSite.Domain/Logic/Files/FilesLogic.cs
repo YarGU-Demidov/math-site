@@ -13,7 +13,7 @@ namespace MathSite.Domain.Logic.Files
 		private const string PersonAlreadyHasPhotoFormat = "Личность с Id='{0}' уже имеет фото";
 		private const string FileNotFoundFormat = "Файл с Id='{0}' не найден";
 		
-		public FilesLogic(IMathSiteDbContext contextManager) 
+		public FilesLogic(MathSiteDbContext contextManager) 
 			: base(contextManager)
 		{
 		}

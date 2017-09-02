@@ -7,7 +7,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 	public class CategorySeeder : AbstractSeeder<Category>
 	{
 		/// <inheritdoc />
-		public CategorySeeder(ILogger logger, IMathSiteDbContext context) : base(logger, context)
+		public CategorySeeder(ILogger logger, MathSiteDbContext context) : base(logger, context)
 		{
 		}
 

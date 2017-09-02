@@ -8,7 +8,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 	public class PostUserAllowedSeeder : AbstractSeeder<PostUserAllowed>
 	{
 		/// <inheritdoc />
-		public PostUserAllowedSeeder(ILogger logger, IMathSiteDbContext context) : base(logger, context)
+		public PostUserAllowedSeeder(ILogger logger, MathSiteDbContext context) : base(logger, context)
 		{
 		}
 
