@@ -5,10 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\MathSite.Db\MathSite.Db.csproj" />
     <ProjectReference Include="..\MathSite.Domain\MathSite.Domain.csproj" />
     <ProjectReference Include="..\MathSite.Entities\MathSite.Entities.csproj" />

@@ -16,7 +16,7 @@
 
 ### Информация по установке
 
-* Склонировать `git clone https://github.com/mokeev1995/math-site.ru.git` (если нужна самая последняя версия -- брать из последней rc-ветки)
+* Склонировать `git clone https://github.com/YarGU-Demidov/math-site.git` или `git clone git@github.com:YarGU-Demidov/math-site.git`(если нужна самая последняя версия -- брать из последней rc-ветки)
 * Создать базу данных для сайта
   * Открыть `powershell`/`cmd`/`terminal` (что угодно, лишь бы был доступ к консольной утилите dotnet)
   * Перейти в корневой каталог проекта
