@@ -12,18 +12,15 @@ namespace MathSite
 	{
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
 		{
-			var isDevelopmentEnv = env.IsDevelopment();
-
 			app.UseForwardedHeaders(new ForwardedHeadersOptions
 			{
 				ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
 			});
 
-			ConfigureLoggers(loggerFactory, isDevelopmentEnv);
-
-			if (isDevelopmentEnv)
+			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
+				app.UseDatabaseErrorPage();
 				app.UseBrowserLink();
 
 
@@ -44,14 +41,6 @@ namespace MathSite
 
 			ConfigureAuthentication(app);
 			ConfigureRoutes(app);
-		}
-
-		private void ConfigureLoggers(ILoggerFactory loggerFactory, bool isDebug)
-		{
-			loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-
-			if (isDebug)
-				loggerFactory.AddDebug(LogLevel.Debug);
 		}
 
 		private static void ConfigureAuthentication(IApplicationBuilder app)

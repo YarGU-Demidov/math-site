@@ -11,6 +11,7 @@
     <AssetTargetFallback>$(AssetTargetFallback);netcoreapp1.1;net451;dotnet5.6;netcoreapp1.1;portable-net45+win8+wp8+wpa81;dnxcore50</AssetTargetFallback>
     <Description>Package Description</Description>
 	<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+	<TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Areas\PersonalPage\Views\Shared\**" />
