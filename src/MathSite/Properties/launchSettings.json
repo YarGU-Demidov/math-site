@@ -15,12 +15,20 @@
 				"ASPNETCORE_ENVIRONMENT": "Development"
 			}
 		},
-		"MathSite": {
+		"MathSite.Dev": {
 			"commandName": "Project",
-			"launchBrowser": false,
 			"launchUrl": "http://localhost:5000",
+			"launchBrowser": false,
 			"environmentVariables": {
 				"ASPNETCORE_ENVIRONMENT": "Development"
+			}
+		},
+		"MathSite.Prod": {
+			"commandName": "Project",
+			"launchUrl": "http://localhost:5000",
+			"launchBrowser": false,
+			"environmentVariables": {
+				"ASPNETCORE_ENVIRONMENT": "Production"
 			}
 		}
 	}
