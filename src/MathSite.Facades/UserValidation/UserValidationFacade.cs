@@ -4,19 +4,20 @@ using System.Threading.Tasks;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Domain.Common;
 using MathSite.Entities;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace MathSite.Facades.UserValidation
 {
 	public class UserValidationFacade : BaseFacade, IUserValidationFacade
 	{
-		public UserValidationFacade(IBusinessLogicManger logicManger)
-			: base(logicManger)
+		public UserValidationFacade(IBusinessLogicManager logicManager, IMemoryCache memoryCache)
+			: base(logicManager, memoryCache)
 		{
 		}
 
 		public async Task<bool> DoesUserExistsAsync(Guid userId)
 		{
-			var user = await LogicManger.UsersLogic.TryGetByIdAsync(userId);
+			var user = await LogicManager.UsersLogic.TryGetByIdAsync(userId);
 			return user != null;
 		}
 
@@ -25,7 +26,7 @@ namespace MathSite.Facades.UserValidation
 			if (userId == Guid.Empty)
 				return false;
 
-			var user = await LogicManger.UsersLogic.TryGetUserWithRightsById(userId);
+			var user = await LogicManager.UsersLogic.TryGetUserWithRightsById(userId);
 
 			if (user == null)
 				return false;

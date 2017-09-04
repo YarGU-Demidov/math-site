@@ -30,6 +30,10 @@ namespace MathSite.Controllers
 				return;
 
 			var userIdGuid = Guid.Parse(userId);
+
+			if(userIdGuid == Guid.Empty)
+				return;
+
 			var currentUser = DbContext.Users
 				.Where(u => u.Id == userIdGuid)
 				.Include(user => user.Person)

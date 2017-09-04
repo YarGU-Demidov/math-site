@@ -42,6 +42,8 @@ namespace MathSite
 				.AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 			services.AddRouting(options => { options.LowercaseUrls = true; });
 
+			services.AddMemoryCache();
+
 			ConfigureEntityFramework(services);
 			ConfigureDependencyInjection(services);
 			ConfigureAuthPolices(services);
@@ -103,7 +105,7 @@ namespace MathSite
 			services.Configure<Settings>(Configuration);
 
 			services.AddScoped<IPasswordsManager, DoubleSha512HashPasswordsManager>();
-			services.AddScoped<IBusinessLogicManger, BusinessLogicManager>();
+			services.AddScoped<IBusinessLogicManager, BusinessLogicManager>();
 
 			// BL
 			services.AddScoped<IGroupsLogic, GroupsLogic>();

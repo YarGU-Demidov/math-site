@@ -2,6 +2,7 @@
 using System.Text;
 using System.Threading.Tasks;
 using MathSite.Db.DataSeeding.StaticData;
+using MathSite.Domain.Common;
 using MathSite.Facades.SiteSettings;
 using MathSite.Facades.UserValidation;
 using Xunit;
@@ -10,14 +11,19 @@ namespace MathSite.Tests.Facades
 {
 	public class SiteSettingsFacadeTests : FacadesTestsBase
 	{
+		public IUserValidationFacade GetFacade(IBusinessLogicManager manager)
+		{
+			return new UserValidationFacade(manager, MemoryCache);
+		}
+
 		[Fact]
 		public async Task SetSettingStringTest()
 		{
-			await WithLogicAsync(async manger =>
+			await WithLogicAsync(async manager =>
 			{
-				var userValidationFacade = new UserValidationFacade(manger);
-				var siteSettingsFacade = new SiteSettingsFacade(manger, userValidationFacade);
-				var user = await manger.UsersLogic.TryGetByLoginAsync(UsersAliases.FirstUser);
+				var userValidationFacade = GetFacade(manager);
+				var siteSettingsFacade = new SiteSettingsFacade(manager, userValidationFacade, MemoryCache);
+				var user = await manager.UsersLogic.TryGetByLoginAsync(UsersAliases.FirstUser);
 
 				var testSalt = Guid.NewGuid();
 				var testKey = $"testKey-{testSalt}";
@@ -27,7 +33,7 @@ namespace MathSite.Tests.Facades
 
 				Assert.True(done);
 
-				var setting = await manger.SiteSettingsLogic.TryGetByKeyAsync(testKey);
+				var setting = await manager.SiteSettingsLogic.TryGetByKeyAsync(testKey);
 
 				Assert.NotNull(setting);
 				
@@ -38,12 +44,12 @@ namespace MathSite.Tests.Facades
 		[Fact]
 		public async Task GetSettingStringTest()
 		{
-			await WithLogicAsync(async manger =>
+			await WithLogicAsync(async manager =>
 			{
-				var userValidationFacade = new UserValidationFacade(manger);
-				var siteSettingsFacade = new SiteSettingsFacade(manger, userValidationFacade);
+				var userValidationFacade = GetFacade(manager);
+				var siteSettingsFacade = new SiteSettingsFacade(manager, userValidationFacade, MemoryCache);
 
-				var user = await manger.UsersLogic.TryGetByLoginAsync(UsersAliases.FirstUser);
+				var user = await manager.UsersLogic.TryGetByLoginAsync(UsersAliases.FirstUser);
 
 				var testSalt = Guid.NewGuid();
 				var testKey = $"testKey-{testSalt}";
@@ -60,10 +66,10 @@ namespace MathSite.Tests.Facades
 		[Fact]
 		public async Task GetSettingStringTest_KeyDoesNotExists()
 		{
-			await WithLogicAsync(async manger =>
+			await WithLogicAsync(async manager =>
 			{
-				var userValidationFacade = new UserValidationFacade(manger);
-				var siteSettingsFacade = new SiteSettingsFacade(manger, userValidationFacade);
+				var userValidationFacade = GetFacade(manager);
+				var siteSettingsFacade = new SiteSettingsFacade(manager, userValidationFacade, MemoryCache);
 
 				var testKey = $"testKey-{Guid.NewGuid()}";
 
@@ -76,12 +82,12 @@ namespace MathSite.Tests.Facades
 		[Fact]
 		public async Task IndexerTask()
 		{
-			await WithLogicAsync(async manger =>
+			await WithLogicAsync(async manager =>
 			{
-				var userValidationFacade = new UserValidationFacade(manger);
-				var siteSettingsFacade = new SiteSettingsFacade(manger, userValidationFacade);
+				var userValidationFacade = GetFacade(manager);
+				var siteSettingsFacade = new SiteSettingsFacade(manager, userValidationFacade, MemoryCache);
 
-				var user = await manger.UsersLogic.TryGetByLoginAsync(UsersAliases.FirstUser);
+				var user = await manager.UsersLogic.TryGetByLoginAsync(UsersAliases.FirstUser);
 				
 				var testSalt = Guid.NewGuid();
 				var testKey = $"testKey-{testSalt}";

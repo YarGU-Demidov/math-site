@@ -1,14 +1,17 @@
 ﻿using MathSite.Domain.Common;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace MathSite.Facades
 {
 	public class BaseFacade
 	{
-		public BaseFacade(IBusinessLogicManger logicManger)
+		public BaseFacade(IBusinessLogicManager logicManager, IMemoryCache memoryCache)
 		{
-			LogicManger = logicManger;
+			LogicManager = logicManager;
+			MemoryCache = memoryCache;
 		}
 
-		public IBusinessLogicManger LogicManger { get; }
+		public IBusinessLogicManager LogicManager { get; }
+		public IMemoryCache MemoryCache { get; }
 	}
 }

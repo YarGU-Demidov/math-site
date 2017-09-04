@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using MathSite.Db.DataSeeding.StaticData;
+using MathSite.Domain.Common;
 using MathSite.Facades.UserValidation;
 using Xunit;
 
@@ -8,16 +9,21 @@ namespace MathSite.Tests.Facades
 {
 	public class UserValidationTests : FacadesTestsBase
 	{
+		public IUserValidationFacade GetFacade(IBusinessLogicManager manager)
+		{
+			return new UserValidationFacade(manager, MemoryCache);
+		}
+
 		[Fact]
 		public async Task CheckRights_Fail()
 		{
-			await WithLogicAsync(async manger =>
+			await WithLogicAsync(async manager =>
 			{
-				var rightsValidator = new UserValidationFacade(manger);
+				var rightsValidator = GetFacade(manager);
 
-				var user = await manger.UsersLogic.TryGetByLoginAsync(UsersAliases.SecondUser);
+				var user = await manager.UsersLogic.TryGetByLoginAsync(UsersAliases.SecondUser);
 
-				var groupRight = await manger.RightsLogic.TryGetByAliasAsync(RightAliases.AdminAccess);
+				var groupRight = await manager.RightsLogic.TryGetByAliasAsync(RightAliases.AdminAccess);
 
 				var hasRight = await rightsValidator.UserHasRightAsync(user.Id, groupRight);
 				Assert.False(hasRight);
@@ -36,13 +42,13 @@ namespace MathSite.Tests.Facades
 		[Fact]
 		public async Task CheckRights_Success()
 		{
-			await WithLogicAsync(async manger =>
+			await WithLogicAsync(async manager =>
 			{
-				var rightsValidator = new UserValidationFacade(manger);
+				var rightsValidator = GetFacade(manager);
 
-				var user = await manger.UsersLogic.TryGetByLoginAsync(UsersAliases.FirstUser);
+				var user = await manager.UsersLogic.TryGetByLoginAsync(UsersAliases.FirstUser);
 
-				var groupRight = await manger.RightsLogic.TryGetByAliasAsync(RightAliases.PanelAccess);
+				var groupRight = await manager.RightsLogic.TryGetByAliasAsync(RightAliases.PanelAccess);
 
 				var hasRight = await rightsValidator.UserHasRightAsync(user.Id, groupRight);
 				Assert.True(hasRight);
@@ -61,19 +67,19 @@ namespace MathSite.Tests.Facades
 		[Fact]
 		public async Task UserDoesNotExistsTest()
 		{
-			await WithLogicAsync(async manger =>
+			await WithLogicAsync(async manager =>
 			{
 				Guid? userId = null;
 				do
 				{
 					var tempId = Guid.NewGuid();
-					var tempUser = await manger.UsersLogic.TryGetByIdAsync(tempId);
+					var tempUser = await manager.UsersLogic.TryGetByIdAsync(tempId);
 
 					if (tempUser == null)
 						userId = tempId;
 				} while (userId == null);
 
-				var rightsValidator = new UserValidationFacade(manger);
+				var rightsValidator = GetFacade(manager);
 
 				var exists = await rightsValidator.DoesUserExistsAsync(userId.Value);
 
@@ -84,10 +90,10 @@ namespace MathSite.Tests.Facades
 		[Fact]
 		public async Task UserExistsTest()
 		{
-			await WithLogicAsync(async manger =>
+			await WithLogicAsync(async manager =>
 			{
-				var user = await manger.UsersLogic.TryGetByLoginAsync(UsersAliases.FirstUser);
-				var rightsValidator = new UserValidationFacade(manger);
+				var user = await manager.UsersLogic.TryGetByLoginAsync(UsersAliases.FirstUser);
+				var rightsValidator = GetFacade(manager);
 
 				var exists = await rightsValidator.DoesUserExistsAsync(user.Id);
 
