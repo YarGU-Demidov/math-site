@@ -9,6 +9,7 @@ using MathSite.Domain.Logic.Rights;
 using MathSite.Domain.Logic.SiteSettings;
 using MathSite.Domain.Logic.Users;
 using MathSite.Tests.CoreThings;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace MathSite.Tests.Facades
 {
@@ -19,14 +20,17 @@ namespace MathSite.Tests.Facades
 		public FacadesTestsBase()
 			: this(TestSqliteDatabaseFactory.UseDefault())
 		{
+			MemoryCache = new MemoryCache(new MemoryCacheOptions());
 		}
+
+		public IMemoryCache MemoryCache { get; }
 
 		public FacadesTestsBase(ITestDatabaseFactory databaseFactory)
 		{
 			_databaseFactory = databaseFactory;
 		}
 
-		protected void WithLogic(Action<IBusinessLogicManger> actions)
+		protected void WithLogic(Action<IBusinessLogicManager> actions)
 		{
 			_databaseFactory.ExecuteWithContext(context =>
 			{
@@ -34,7 +38,7 @@ namespace MathSite.Tests.Facades
 			});
 		}
 
-		protected async Task WithLogicAsync(Func<IBusinessLogicManger, Task> actions)
+		protected async Task WithLogicAsync(Func<IBusinessLogicManager, Task> actions)
 		{
 			await _databaseFactory.ExecuteWithContextAsync(async context =>
 			{
@@ -42,7 +46,7 @@ namespace MathSite.Tests.Facades
 			});
 		}
 
-		private IBusinessLogicManger CreateBusinessLogicManger(MathSiteDbContext context)
+		private IBusinessLogicManager CreateBusinessLogicManger(MathSiteDbContext context)
 		{
 			return new BusinessLogicManager(
 				new GroupsLogic(context),

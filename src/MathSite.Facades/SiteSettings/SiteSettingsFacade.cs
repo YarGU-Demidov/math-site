@@ -4,15 +4,18 @@ using System.Threading.Tasks;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Domain.Common;
 using MathSite.Facades.UserValidation;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace MathSite.Facades.SiteSettings
 {
 	public class SiteSettingsFacade : BaseFacade, ISiteSettingsFacade
 	{
 		private readonly IUserValidationFacade _userValidation;
-		private const string SettingNotFound = "Настройка с именем '{0}' не была найдена.";
 
-		public SiteSettingsFacade(IBusinessLogicManger logicManger, IUserValidationFacade userValidation) : base(logicManger)
+		private const string MemoryCachePrefix = "SiteSetting-";
+
+		public SiteSettingsFacade(IBusinessLogicManager logicManager, IUserValidationFacade userValidation, IMemoryCache memoryCache) 
+			: base(logicManager, memoryCache)
 		{
 			_userValidation = userValidation;
 		}
@@ -21,11 +24,18 @@ namespace MathSite.Facades.SiteSettings
 
 		public async Task<string> GetStringSettingAsync(string name)
 		{
-			var setting = await LogicManger.SiteSettingsLogic.TryGetByKeyAsync(name);
+			var settingValue = await MemoryCache.GetOrCreateAsync(GetKey(name), async entry =>
+			{
+				entry.SetSlidingExpiration(GetCacheSpan());
 
-			return setting != null 
-				? Encoding.UTF8.GetString(setting.Value) 
-				: null;
+				var setting = await LogicManager.SiteSettingsLogic.TryGetByKeyAsync(name);
+
+				return setting != null
+					? Encoding.UTF8.GetString(setting.Value)
+					: null;
+			});
+
+			return settingValue;
 		}
 
 		public async Task<bool> SetStringSettingAsync(Guid userId, string name, string value)
@@ -38,19 +48,31 @@ namespace MathSite.Facades.SiteSettings
 			if (!hasRight)
 				return false;
 
-			var setting = await LogicManger.SiteSettingsLogic.TryGetByKeyAsync(name);
+			var setting = await LogicManager.SiteSettingsLogic.TryGetByKeyAsync(name);
 
 			var valueBytes = Encoding.UTF8.GetBytes(value);
 
+			MemoryCache.Set(GetKey(name), value, GetCacheSpan());
+
 			if (setting == null)
 			{
-				await LogicManger.SiteSettingsLogic.CreateSettingAsync(name, valueBytes);
+				await LogicManager.SiteSettingsLogic.CreateSettingAsync(name, valueBytes);
 			}
 			else
 			{
-				await LogicManger.SiteSettingsLogic.UpdateSettingAsync(name, valueBytes);
+				await LogicManager.SiteSettingsLogic.UpdateSettingAsync(name, valueBytes);
 			}
 			return true;
+		}
+
+		private string GetKey(string name)
+		{
+			return MemoryCachePrefix + name;
+		}
+
+		private TimeSpan GetCacheSpan()
+		{
+			return TimeSpan.FromMinutes(5);
 		}
 	}
 }

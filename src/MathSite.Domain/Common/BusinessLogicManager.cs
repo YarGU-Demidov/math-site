@@ -7,7 +7,7 @@ using MathSite.Domain.Logic.Users;
 
 namespace MathSite.Domain.Common
 {
-	public class BusinessLogicManager : IBusinessLogicManger
+	public class BusinessLogicManager : IBusinessLogicManager
 	{
 		public BusinessLogicManager(
 			IGroupsLogic groupsLogic,

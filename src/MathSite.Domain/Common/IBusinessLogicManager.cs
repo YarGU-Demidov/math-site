@@ -8,7 +8,7 @@ using MathSite.Domain.Logic.Users;
 
 namespace MathSite.Domain.Common
 {
-	public interface IBusinessLogicManger
+	public interface IBusinessLogicManager
 	{
 		IGroupsLogic GroupsLogic { get; }
 		IPersonsLogic PersonsLogic { get; }
