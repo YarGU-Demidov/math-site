@@ -10,7 +10,7 @@ namespace MathSite
 {
 	public partial class Startup
 	{
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 		{
 			app.UseForwardedHeaders(new ForwardedHeadersOptions
 			{
@@ -64,7 +64,7 @@ namespace MathSite
 					template: "{controller=Home}/{action=Index}/{id?}"
 				);
 
-				//новости
+				// новости
 				routes.MapRoute(
 					name: "News",
 					template: "news/{*query}",

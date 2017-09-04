@@ -20,7 +20,7 @@ namespace MathSite.Controllers
 
 			return string.IsNullOrWhiteSpace(query)
 				? await ShowAllNews()
-				: ShowNewsItem(query, page);
+				: await ShowNewsItem(query, page);
 		}
 
 		[NonAction]
@@ -30,9 +30,9 @@ namespace MathSite.Controllers
 		}
 
 		[NonAction]
-		private IActionResult ShowNewsItem(string query, int page)
+		private async Task<IActionResult> ShowNewsItem(string query, int page)
 		{
-			return Content("news content will be here... soon, we promise");
+			return View("NewsItem", await _viewModelBuilder.BuildNewsItemViewModelAsync(query, page));
 		}
 	}
 }
