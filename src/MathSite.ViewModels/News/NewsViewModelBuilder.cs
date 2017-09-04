@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
 using MathSite.Db.DataSeeding.StaticData;
+using MathSite.Entities;
 using MathSite.Facades.SiteSettings;
 using MathSite.ViewModels.SharedModels;
 using MathSite.ViewModels.SharedModels.SecondaryPage;
@@ -20,7 +21,7 @@ namespace MathSite.ViewModels.News
 
 		public async Task<NewsIndexViewModel> BuildIndexViewModelAsync()
 		{
-			await FillPageNameAsync();
+			await FillIndexPageNameAsync();
 
 			var model = await BuildSecondaryViewModel<NewsIndexViewModel>();
 
@@ -29,8 +30,20 @@ namespace MathSite.ViewModels.News
 			return model;
 		}
 
+		public async Task<NewsItemViewModel> BuildNewsItemViewModelAsync(string query, int page = 1)
+		{
+			var model = await BuildSecondaryViewModel<NewsItemViewModel>();
 
-		private async Task FillPageNameAsync()
+			var post = await BuildPostData(query, page);
+
+			model.Content = post.Content;
+			model.PageTitle.Title = post.Title;
+
+			return model;
+		}
+
+
+		private async Task FillIndexPageNameAsync()
 		{
 			var title = await SiteSettingsFacade[SiteSettingsNames.DefaultNewsPageTitle];
 
@@ -57,6 +70,15 @@ namespace MathSite.ViewModels.News
 				new PostPreviewViewModel("Test14", "/news/test14-url", "Test content for 14th post", DateTime.Now.AddDays(-2).ToString("dd MMM yyyy", new CultureInfo("ru"))),
 				new PostPreviewViewModel("Test15", "/news/test15-url", "Test content for 15th post", DateTime.Now.AddDays(-2).ToString("dd MMM yyyy", new CultureInfo("ru"))),
 				new PostPreviewViewModel("Test16", "/news/test16-url", "Test content for 16th post", DateTime.Now.AddDays(-2).ToString("dd MMM yyyy", new CultureInfo("ru")))
+			};
+		}
+
+		private async Task<Post> BuildPostData(string query, int page = 1)
+		{
+			return new Post
+			{
+				Content = @"<h2>Post Content here!</h2><hr><br/><br/> Test content hardcoded here....",
+				Title = "Test title (Which is hardcoded)"
 			};
 		}
 	}

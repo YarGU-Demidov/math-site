@@ -17,7 +17,7 @@
 			<a class="contacts_link" href="@Model.Url">@Model.Title</a>
 		</div>
 		<div class="news__item_description">
-			@Model.Content
+			@Html.Raw(Model.Content)
 		</div>
 	</div>
 </article>
