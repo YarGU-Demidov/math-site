@@ -92,12 +92,12 @@ namespace MathSite.Db.DataSeeding.Seeders
 				Person = person,
 				Group = group,
 				CreationDate = creationDate,
-				Settings = new List<UserSettings>(),
+				Settings = new List<UserSetting>(),
 				PostsOwner = new List<PostOwner>(),
 				AllowedPosts = new List<PostUserAllowed>(),
 				PostsRatings = new List<PostRating>(),
 				Comments = new List<Comment>(),
-				UserRights = new List<UsersRights>()
+				UserRights = new List<UsersRight>()
 			};
 		}
 	}

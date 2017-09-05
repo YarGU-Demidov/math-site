@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace MathSite.Db.DataSeeding.Seeders
 {
-	public class UserRightsSeeder : AbstractSeeder<UsersRights>
+	public class UserRightsSeeder : AbstractSeeder<UsersRight>
 	{
 		/// <inheritdoc />
 		public UserRightsSeeder(ILogger logger, MathSiteDbContext context) : base(logger, context)
@@ -13,7 +13,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 		}
 
 		/// <inheritdoc />
-		public override string SeedingObjectName { get; } = nameof(UsersRights);
+		public override string SeedingObjectName { get; } = nameof(UsersRight);
 
 		/// <inheritdoc />
 		protected override void SeedData()
@@ -56,9 +56,9 @@ namespace MathSite.Db.DataSeeding.Seeders
 			return Context.Users.First(user => user.Login == login);
 		}
 
-		private static UsersRights CreateRights(bool allowed, User user, Right right)
+		private static UsersRight CreateRights(bool allowed, User user, Right right)
 		{
-			return new UsersRights
+			return new UsersRight
 			{
 				Allowed = allowed,
 				User = user,

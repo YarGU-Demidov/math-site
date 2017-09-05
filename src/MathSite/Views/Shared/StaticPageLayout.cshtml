@@ -1,0 +1,58 @@
+﻿@model PageItemViewModel
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    @Html.Partial("Partials/Headers")
+</head>
+
+<body>
+
+<div class="secondary">
+    <div class="container secondary__container">
+        <!-- Header -->
+        @Html.Partial("Partials/Header")
+
+        <!-- Breadcrumbs -->
+        <nav class="secondary__path">
+            <ul class="breadcrumbs">
+                <li class="breadcrumbs__item">
+                    <a class="button button_palette_darkblue" href="/">ГЛАВНАЯ &nbsp;►</a>
+                </li>
+            </ul>
+        </nav>
+
+        <main class="secondary__body">
+            <div class="secondary__body_news">
+                <h1 class="secondary__body_news_title">
+                    @Model.Title
+                </h1>
+                <div class="secondary__news">
+                    <div class="secondary__item">
+                        <div class="secondary__item_body">
+                            <div class="news__description">
+                                <article class="content">
+                                    @RenderBody()
+                                </article>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @Html.Partial("Partials/Sidebar")
+        </main>
+    </div>
+</div>
+
+
+<!-- Featured -->
+@Html.Partial("Partials/Featured")
+
+<!-- Footer -->
+@Html.Partial("Partials/Footer")
+
+<!-- Scripts -->
+@Html.Partial("Partials/Scripts")
+
+</body>
+</html>

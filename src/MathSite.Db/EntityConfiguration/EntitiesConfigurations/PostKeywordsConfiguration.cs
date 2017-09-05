@@ -4,24 +4,24 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 {
-	public class PostKeywordsConfiguration : AbstractEntityConfiguration<PostKeywords>
+	public class PostKeywordsConfiguration : AbstractEntityConfiguration<PostKeyword>
 	{
-		protected override string TableName { get; } = nameof(PostKeywords);
+		protected override string TableName { get; } = nameof(PostKeyword);
 
 		/// <inheritdoc />
-		protected override void SetKeys(EntityTypeBuilder<PostKeywords> modelBuilder)
+		protected override void SetKeys(EntityTypeBuilder<PostKeyword> modelBuilder)
 		{
 			modelBuilder
 				.HasKey(postKeywords => postKeywords.Id);
 		}
 
 		/// <inheritdoc />
-		protected override void SetFields(EntityTypeBuilder<PostKeywords> modelBuilder)
+		protected override void SetFields(EntityTypeBuilder<PostKeyword> modelBuilder)
 		{
 		}
 
 		/// <inheritdoc />
-		protected override void SetRelationships(EntityTypeBuilder<PostKeywords> modelBuilder)
+		protected override void SetRelationships(EntityTypeBuilder<PostKeyword> modelBuilder)
 		{
 			modelBuilder
 				.HasOne(postKeywords => postKeywords.Keyword)
@@ -38,7 +38,7 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 				.OnDelete(DeleteBehavior.Cascade);
 		}
 
-		protected override void SetIndexes(EntityTypeBuilder<PostKeywords> modelBuilder)
+		protected override void SetIndexes(EntityTypeBuilder<PostKeyword> modelBuilder)
 		{
 		}
 	}

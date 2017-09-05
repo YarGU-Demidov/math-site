@@ -68,7 +68,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 				Description = description,
 				Alias = groupAlias,
 				GroupType = groupType,
-				GroupsRights = new List<GroupsRights>(),
+				GroupsRights = new List<GroupsRight>(),
 				Users = new List<User>(),
 				PostGroupsAllowed = new List<PostGroupsAllowed>(),
 				IsAdmin = isAdmin

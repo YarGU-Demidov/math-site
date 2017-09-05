@@ -2,13 +2,13 @@
 
 namespace MathSite.Entities
 {
-	public class SiteSettings: IEquatable<SiteSettings>
+	public class SiteSetting: IEquatable<SiteSetting>
 	{
-		public SiteSettings()
+		public SiteSetting()
 		{
 		}
 
-		public SiteSettings(string key, byte[] value)
+		public SiteSetting(string key, byte[] value)
 		{
 			Key = key;
 			Value = value;
@@ -17,7 +17,7 @@ namespace MathSite.Entities
 		public string Key { get; set; }
 		public byte[] Value { get; set; }
 
-		public bool Equals(SiteSettings other)
+		public bool Equals(SiteSetting other)
 		{
 			return string.Equals(Key, other.Key) && Equals(Value, other.Value);
 		}
@@ -27,7 +27,7 @@ namespace MathSite.Entities
 			if (ReferenceEquals(null, obj)) return false;
 			if (ReferenceEquals(this, obj)) return true;
 			if (obj.GetType() != GetType()) return false;
-			return Equals((SiteSettings) obj);
+			return Equals((SiteSetting) obj);
 		}
 
 		public override int GetHashCode()

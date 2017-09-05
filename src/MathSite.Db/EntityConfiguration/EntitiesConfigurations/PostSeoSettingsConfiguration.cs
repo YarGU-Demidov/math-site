@@ -4,19 +4,19 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 {
-	public class PostSeoSettingsConfiguration : AbstractEntityConfiguration<PostSeoSettings>
+	public class PostSeoSettingsConfiguration : AbstractEntityConfiguration<PostSeoSetting>
 	{
-		protected override string TableName { get; } = nameof(PostSeoSettings);
+		protected override string TableName { get; } = nameof(PostSeoSetting);
 
 		/// <inheritdoc />
-		protected override void SetKeys(EntityTypeBuilder<PostSeoSettings> modelBuilder)
+		protected override void SetKeys(EntityTypeBuilder<PostSeoSetting> modelBuilder)
 		{
 			modelBuilder
 				.HasKey(postSeoSettings => postSeoSettings.Id);
 		}
 
 		/// <inheritdoc />
-		protected override void SetFields(EntityTypeBuilder<PostSeoSettings> modelBuilder)
+		protected override void SetFields(EntityTypeBuilder<PostSeoSetting> modelBuilder)
 		{
 			modelBuilder
 				.Property(postSeoSettings => postSeoSettings.Url)
@@ -32,11 +32,11 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 		}
 
 		/// <inheritdoc />
-		protected override void SetRelationships(EntityTypeBuilder<PostSeoSettings> modelBuilder)
+		protected override void SetRelationships(EntityTypeBuilder<PostSeoSetting> modelBuilder)
 		{
 			modelBuilder
 				.HasOne(postSeoSettings => postSeoSettings.Post)
-				.WithOne(post => post.PostSeoSettings)
+				.WithOne(post => post.PostSeoSetting)
 				.HasForeignKey<Post>(post => post.PostSeoSettingsId)
 				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);
@@ -49,7 +49,7 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 				.OnDelete(DeleteBehavior.Cascade);
 		}
 
-		protected override void SetIndexes(EntityTypeBuilder<PostSeoSettings> modelBuilder)
+		protected override void SetIndexes(EntityTypeBuilder<PostSeoSetting> modelBuilder)
 		{
 		}
 	}

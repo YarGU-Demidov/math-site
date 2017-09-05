@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace MathSite.Db.DataSeeding.Seeders
 {
-	public class KeywordSeeder : AbstractSeeder<Keywords>
+	public class KeywordSeeder : AbstractSeeder<Keyword>
 	{
 		/// <inheritdoc />
 		public KeywordSeeder(ILogger logger, MathSiteDbContext context) : base(logger, context)
@@ -12,7 +12,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 		}
 
 		/// <inheritdoc />
-		public override string SeedingObjectName { get; } = nameof(Keywords);
+		public override string SeedingObjectName { get; } = nameof(Keyword);
 
 		/// <inheritdoc />
 		protected override void SeedData()
@@ -29,13 +29,13 @@ namespace MathSite.Db.DataSeeding.Seeders
 			Context.Keywords.AddRange(keywords);
 		}
 
-		private static Keywords CreateKeyword(string name, string alias)
+		private static Keyword CreateKeyword(string name, string alias)
 		{
-			return new Keywords
+			return new Keyword
 			{
 				Name = name,
 				Alias = alias,
-				Posts = new List<PostKeywords>()
+				Posts = new List<PostKeyword>()
 			};
 		}
 	}

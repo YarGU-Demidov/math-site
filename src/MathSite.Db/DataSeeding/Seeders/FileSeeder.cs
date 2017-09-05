@@ -56,7 +56,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 				FilePath = filePath,
 				Extension = extension,
 				Person = person,
-				PostSettings = new List<PostSettings>(),
+				PostSettings = new List<PostSetting>(),
 				PostAttachments = new List<PostAttachment>()
 			};
 		}

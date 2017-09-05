@@ -1,14 +1,7 @@
-﻿@model string
+﻿@model PageItemViewModel
 
-<!DOCTYPE html>
+@{
+    Layout = "SecondaryLayout";
+}
 
-<html>
-	<head>
-		<title>title</title>
-	</head>
-	<body>
-		<div>
-			pages: @Model
-		</div>
-	</body>
-</html>
+@Html.Raw(Model.Content)

@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace MathSite.Db.DataSeeding.Seeders
 {
-	public class PostSeoSettingsSeeder : AbstractSeeder<PostSeoSettings>
+	public class PostSeoSettingsSeeder : AbstractSeeder<PostSeoSetting>
 	{
 		/// <inheritdoc />
 		public PostSeoSettingsSeeder(ILogger logger, MathSiteDbContext context) : base(logger, context)
@@ -12,7 +12,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 		}
 
 		/// <inheritdoc />
-		public override string SeedingObjectName { get; } = nameof(PostSeoSettings);
+		public override string SeedingObjectName { get; } = nameof(PostSeoSetting);
 
 		/// <inheritdoc />
 		protected override void SeedData()
@@ -38,14 +38,14 @@ namespace MathSite.Db.DataSeeding.Seeders
 			Context.PostSeoSettings.AddRange(postSeoSettings);
 		}
 
-		private static PostSeoSettings CreatePostSeoSettings(string url, string title, string description)
+		private static PostSeoSetting CreatePostSeoSettings(string url, string title, string description)
 		{
-			return new PostSeoSettings
+			return new PostSeoSetting
 			{
 				Url = url,
 				Title = title,
 				Description = description,
-				PostKeywords = new List<PostKeywords>()
+				PostKeywords = new List<PostKeyword>()
 			};
 		}
 	}

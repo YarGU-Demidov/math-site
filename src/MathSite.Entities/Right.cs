@@ -9,8 +9,8 @@ namespace MathSite.Entities
 		public string Name { get; set; }
 		public string Description { get; set; }
 
-		public List<GroupsRights> GroupsRights { get; set; } = new List<GroupsRights>();
-		public List<UsersRights> UsersRights { get; set; } = new List<UsersRights>();
+		public List<GroupsRight> GroupsRights { get; set; } = new List<GroupsRight>();
+		public List<UsersRight> UsersRights { get; set; } = new List<UsersRight>();
 
 		public bool Equals(Right other)
 		{

@@ -2,7 +2,7 @@
 
 namespace MathSite.Entities
 {
-	public class PostSettings
+	public class PostSetting
 	{
 		public Guid Id { get; set; }
 		public bool? IsCommentsAllowed { get; set; }

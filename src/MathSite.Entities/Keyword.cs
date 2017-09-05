@@ -6,7 +6,7 @@ namespace MathSite.Entities
 	/// <summary>
 	///     Ключевые слова.
 	/// </summary>
-	public class Keywords
+	public class Keyword
 	{
 		/// <summary>
 		///     Идентификатор.
@@ -26,6 +26,6 @@ namespace MathSite.Entities
 		/// <summary>
 		///     Список постов, содержащих это ключевое слово.
 		/// </summary>
-		public ICollection<PostKeywords> Posts { get; set; } = new List<PostKeywords>();
+		public ICollection<PostKeyword> Posts { get; set; } = new List<PostKeyword>();
 	}
 }

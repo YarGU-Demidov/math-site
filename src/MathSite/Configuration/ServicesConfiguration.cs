@@ -8,13 +8,18 @@ using MathSite.Domain.Common;
 using MathSite.Domain.Logic.Files;
 using MathSite.Domain.Logic.Groups;
 using MathSite.Domain.Logic.Persons;
+using MathSite.Domain.Logic.Posts;
+using MathSite.Domain.Logic.PostSeoSettings;
+using MathSite.Domain.Logic.PostSettings;
 using MathSite.Domain.Logic.Rights;
 using MathSite.Domain.Logic.SiteSettings;
 using MathSite.Domain.Logic.Users;
+using MathSite.Facades.Posts;
 using MathSite.Facades.SiteSettings;
 using MathSite.Facades.UserValidation;
 using MathSite.ViewModels.Home;
 using MathSite.ViewModels.News;
+using MathSite.ViewModels.Pages;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -114,14 +119,19 @@ namespace MathSite
 			services.AddScoped<IFilesLogic, FilesLogic>();
 			services.AddScoped<ISiteSettingsLogic, SiteSettingsLogic>();
 			services.AddScoped<IRightsLogic, RightsLogic>();
+			services.AddScoped<IPostsLogic, PostsLogic>();
+			services.AddScoped<IPostSeoSettingsLogic, PostSeoSettingsLogic>();
+			services.AddScoped<IPostSettingLogic, PostSettingLogic>();
 
 			// Facades
 			services.AddScoped<IUserValidationFacade, UserValidationFacade>();
 			services.AddScoped<ISiteSettingsFacade, SiteSettingsFacade>();
+			services.AddScoped<IPostsFacade, PostsFacade>();
 
 			// View Models Builders
 			services.AddScoped<IHomeViewModelBuilder, HomeViewModelBuilder>();
 			services.AddScoped<INewsViewModelBuilder, NewsViewModelBuilder>();
+			services.AddScoped<IPagesViewModelBuilder, PagesViewModelBuilder>();
 		}
 
 		private void ConfigureEntityFramework(IServiceCollection services)

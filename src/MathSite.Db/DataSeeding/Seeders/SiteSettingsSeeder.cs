@@ -5,14 +5,14 @@ using Microsoft.Extensions.Logging;
 
 namespace MathSite.Db.DataSeeding.Seeders
 {
-	public class SiteSettingsSeeder : AbstractSeeder<SiteSettings>
+	public class SiteSettingsSeeder : AbstractSeeder<SiteSetting>
 	{
 		/// <inheritdoc />
 		public SiteSettingsSeeder(ILogger logger, MathSiteDbContext context) : base(logger, context)
 		{
 		}
 
-		public override string SeedingObjectName { get; } = nameof(SiteSettings);
+		public override string SeedingObjectName { get; } = nameof(SiteSetting);
 
 		/// <inheritdoc />
 		protected override void SeedData()
@@ -48,9 +48,9 @@ namespace MathSite.Db.DataSeeding.Seeders
 			Context.SiteSettings.AddRange(categories);
 		}
 
-		private static SiteSettings CreateCategory(string key, byte[] value)
+		private static SiteSetting CreateCategory(string key, byte[] value)
 		{
-			return new SiteSettings
+			return new SiteSetting
 			{
 				Key = key,
 				Value = value

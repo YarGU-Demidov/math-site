@@ -37,14 +37,14 @@
 								(function(w, doc) {
 									if (!w.__utlWdgt) {
 										w.__utlWdgt = true;
-										const d = doc;
-										const s = d.createElement('script');
-										const g = 'getElementsByTagName';
+										var d = doc;
+										var s = d.createElement('script');
+										var g = 'getElementsByTagName';
 										s.type = 'text/javascript';
 										s.charset = 'UTF-8';
 										s.async = true;
-										s.src = ('https:' == w.location.protocol ? 'https' : 'http') + '://w.uptolike.com/widgets/v1/uptolike.js';
-										const h = d[g]('body')[0];
+										s.src = ('https:' === w.location.protocol ? 'https' : 'http') + '://w.uptolike.com/widgets/v1/uptolike.js';
+										var h = d[g]('body')[0];
 										h.appendChild(s);
 									}
 								})(window, document);
@@ -120,12 +120,12 @@
 			// Создает обработчик события window.onLoad
 			YMaps.jQuery(function() {
 				// Создает экземпляр карты и привязывает его к созданному контейнеру
-				const map = new YMaps.Map(YMaps.jQuery("#YMapsID")[0]);
+				var map = new YMaps.Map(YMaps.jQuery("#YMapsID")[0]);
 				map.addControl(new YMaps.SmallZoom());
 				// Устанавливает начальные параметры отображения карты: центр карты и коэффициент масштабирования
 				map.setCenter(new YMaps.GeoPoint(39.926, 57.621426), 16);
 				// Создает метку в центре Москвы
-				const placemark = new YMaps.Placemark(new YMaps.GeoPoint(39.926, 57.621426));
+				var placemark = new YMaps.Placemark(new YMaps.GeoPoint(39.926, 57.621426));
 				map.addOverlay(placemark);
 			});
 		</script>

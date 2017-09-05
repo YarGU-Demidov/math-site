@@ -10,7 +10,7 @@ namespace MathSite.Entities
 	{
 		public Guid Id { get; set; }
 		public string TypeName { get; set; }
-		public PostSettings DefaultPostsSettings { get; set; }
+		public PostSetting DefaultPostsSettings { get; set; }
 		public ICollection<Post> Posts { get; set; } = new List<Post>();
 	}
 }

@@ -4,19 +4,19 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 {
-	public class PostSettingsConfiguration : AbstractEntityConfiguration<PostSettings>
+	public class PostSettingsConfiguration : AbstractEntityConfiguration<PostSetting>
 	{
-		protected override string TableName { get; } = nameof(PostSettings);
+		protected override string TableName { get; } = nameof(PostSetting);
 
 		/// <inheritdoc />
-		protected override void SetKeys(EntityTypeBuilder<PostSettings> modelBuilder)
+		protected override void SetKeys(EntityTypeBuilder<PostSetting> modelBuilder)
 		{
 			modelBuilder
 				.HasKey(postSettings => postSettings.Id);
 		}
 
 		/// <inheritdoc />
-		protected override void SetFields(EntityTypeBuilder<PostSettings> modelBuilder)
+		protected override void SetFields(EntityTypeBuilder<PostSetting> modelBuilder)
 		{
 			modelBuilder
 				.Property(postSettings => postSettings.IsCommentsAllowed)
@@ -32,7 +32,7 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 		}
 
 		/// <inheritdoc />
-		protected override void SetRelationships(EntityTypeBuilder<PostSettings> modelBuilder)
+		protected override void SetRelationships(EntityTypeBuilder<PostSetting> modelBuilder)
 		{
 			modelBuilder
 				.HasOne(postSettings => postSettings.PostType)
@@ -55,7 +55,7 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 				.OnDelete(DeleteBehavior.Cascade);
 		}
 
-		protected override void SetIndexes(EntityTypeBuilder<PostSettings> modelBuilder)
+		protected override void SetIndexes(EntityTypeBuilder<PostSetting> modelBuilder)
 		{
 		}
 	}

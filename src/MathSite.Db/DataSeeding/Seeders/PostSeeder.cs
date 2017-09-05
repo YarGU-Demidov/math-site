@@ -65,18 +65,18 @@ namespace MathSite.Db.DataSeeding.Seeders
 			return Context.Users.First(user => user.Login == login);
 		}
 
-		private PostSettings GetPostSettingsByPostType(string name)
+		private PostSetting GetPostSettingsByPostType(string name)
 		{
 			return Context.PostSettings.First(postSettings => postSettings.PostType.TypeName == name);
 		}
 
-		private PostSeoSettings GetPostSeoSettingsByTitle(string title)
+		private PostSeoSetting GetPostSeoSettingsByTitle(string title)
 		{
 			return Context.PostSeoSettings.First(postSeoSettings => postSeoSettings.Title == title);
 		}
 
 		private static Post CreatePost(string title, string excerpt, string content, DateTime publishDate, User author,
-			bool isPublished, bool isDeleted, PostType postType, PostSettings postSetting, PostSeoSettings postSeoSetting)
+			bool isPublished, bool isDeleted, PostType postType, PostSetting postSetting, PostSeoSetting postSeoSetting)
 		{
 			return new Post
 			{
@@ -89,7 +89,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 				Deleted = isDeleted,
 				PostType = postType,
 				PostSettings = postSetting,
-				PostSeoSettings = postSeoSetting,
+				PostSeoSetting = postSeoSetting,
 				PostCategories = new List<PostCategory>(),
 				PostOwners = new List<PostOwner>(),
 				UsersAllowed = new List<PostUserAllowed>(),

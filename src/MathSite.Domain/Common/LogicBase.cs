@@ -16,7 +16,7 @@ namespace MathSite.Domain.Common
 			ContextManager = context;
 		}
 
-		protected MathSiteDbContext ContextManager { get; }
+		private MathSiteDbContext ContextManager { get; }
 
 		/// <summary>
 		///     Возвращает результат из перечня элементов.

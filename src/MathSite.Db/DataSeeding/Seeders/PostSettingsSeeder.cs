@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace MathSite.Db.DataSeeding.Seeders
 {
-	public class PostSettingsSeeder : AbstractSeeder<PostSettings>
+	public class PostSettingsSeeder : AbstractSeeder<PostSetting>
 	{
 		/// <inheritdoc />
 		public PostSettingsSeeder(ILogger logger, MathSiteDbContext context) : base(logger, context)
@@ -13,7 +13,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 		}
 
 		/// <inheritdoc />
-		public override string SeedingObjectName { get; } = nameof(PostSettings);
+		public override string SeedingObjectName { get; } = nameof(PostSetting);
 
 		/// <inheritdoc />
 		protected override void SeedData()
@@ -53,10 +53,10 @@ namespace MathSite.Db.DataSeeding.Seeders
 			return Context.Files.First(file => file.FileName == name);
 		}
 
-		private static PostSettings CreatePostSettings(PostType postType, File previewImage,
+		private static PostSetting CreatePostSettings(PostType postType, File previewImage,
 			bool isCommentsAllowed, bool canBeRated, bool isPostOnStartPage)
 		{
-			return new PostSettings
+			return new PostSetting
 			{
 				IsCommentsAllowed = isCommentsAllowed,
 				CanBeRated = canBeRated,

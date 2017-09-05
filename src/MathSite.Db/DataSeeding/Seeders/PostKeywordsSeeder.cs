@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace MathSite.Db.DataSeeding.Seeders
 {
-	public class PostKeywordsSeeder : AbstractSeeder<PostKeywords>
+	public class PostKeywordsSeeder : AbstractSeeder<PostKeyword>
 	{
 		/// <inheritdoc />
 		public PostKeywordsSeeder(ILogger logger, MathSiteDbContext context) : base(logger, context)
@@ -13,7 +13,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 		}
 
 		/// <inheritdoc />
-		public override string SeedingObjectName { get; } = nameof(PostKeywords);
+		public override string SeedingObjectName { get; } = nameof(PostKeyword);
 
 		/// <inheritdoc />
 		protected override void SeedData()
@@ -35,19 +35,19 @@ namespace MathSite.Db.DataSeeding.Seeders
 			Context.PostKeywords.AddRange(keywords);
 		}
 
-		private Keywords GetKeywordByName(string name)
+		private Keyword GetKeywordByName(string name)
 		{
 			return Context.Keywords.First(keyword => keyword.Name == name);
 		}
 
-		private PostSeoSettings GetPostSeoSettingsByTitle(string title)
+		private PostSeoSetting GetPostSeoSettingsByTitle(string title)
 		{
 			return Context.PostSeoSettings.First(postSeoSettings => postSeoSettings.Title == title);
 		}
 
-		private static PostKeywords CreatePostKeywords(Keywords keyword, PostSeoSettings postSeoSettings)
+		private static PostKeyword CreatePostKeywords(Keyword keyword, PostSeoSetting postSeoSettings)
 		{
-			return new PostKeywords
+			return new PostKeyword
 			{
 				Keyword = keyword,
 				PostSeoSettings = postSeoSettings
