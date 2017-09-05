@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 namespace MathSite.Db.DataSeeding.Seeders
 {
 	/// <inheritdoc />
-	public class GroupRightsSeeder : AbstractSeeder<GroupsRights>
+	public class GroupRightsSeeder : AbstractSeeder<GroupsRight>
 	{
 		/// <inheritdoc />
 		public GroupRightsSeeder(ILogger logger, MathSiteDbContext context) : base(logger, context)
@@ -14,7 +14,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 		}
 
 		/// <inheritdoc />
-		public override string SeedingObjectName { get; } = nameof(GroupsRights);
+		public override string SeedingObjectName { get; } = nameof(GroupsRight);
 
 		/// <inheritdoc />
 		protected override void SeedData()
@@ -60,9 +60,9 @@ namespace MathSite.Db.DataSeeding.Seeders
 			return Context.Groups.First(group => group.Alias == alias);
 		}
 
-		private static GroupsRights CreateGroupRights(bool allowed, Group group, Right right)
+		private static GroupsRight CreateGroupRights(bool allowed, Group group, Right right)
 		{
-			return new GroupsRights
+			return new GroupsRight
 			{
 				Allowed = allowed,
 				Group = group,

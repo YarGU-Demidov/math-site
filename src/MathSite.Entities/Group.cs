@@ -78,7 +78,7 @@ namespace MathSite.Entities
 		/// <summary>
 		///     Перечень прав группы.
 		/// </summary>
-		public ICollection<GroupsRights> GroupsRights { get; set; } = new List<GroupsRights>();
+		public ICollection<GroupsRight> GroupsRights { get; set; } = new List<GroupsRight>();
 
 		/// <summary>
 		///     Перечень пользователей.

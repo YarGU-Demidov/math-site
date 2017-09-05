@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using MathSite.Entities;
 
 namespace MathSite.Domain.Logic.SiteSettings
 {
@@ -9,7 +10,7 @@ namespace MathSite.Domain.Logic.SiteSettings
 		Task UpdateSettingAsync(string key, byte[] value);
 		Task DeleteSettingAsync(string key);
 
-		Task<Entities.SiteSettings> TryGetByKeyAsync(string key);
-		Task<Entities.SiteSettings> FirstOrDefaultAsync();
+		Task<SiteSetting> TryGetByKeyAsync(string key);
+		Task<SiteSetting> FirstOrDefaultAsync();
 	}
 }

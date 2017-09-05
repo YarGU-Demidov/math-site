@@ -71,7 +71,7 @@ namespace MathSite.Entities
 		/// <summary>
 		///     Настройки поста.
 		/// </summary>
-		public PostSettings PostSettings { get; set; }
+		public PostSetting PostSettings { get; set; }
 
 		/// <summary>
 		///     Идентификатор SEO настроек поста.
@@ -81,7 +81,7 @@ namespace MathSite.Entities
 		/// <summary>
 		///     SEO настройки поста.
 		/// </summary>
-		public PostSeoSettings PostSeoSettings { get; set; }
+		public PostSeoSetting PostSeoSetting { get; set; }
 
 		/// <summary>
 		///     Список категорий поста.

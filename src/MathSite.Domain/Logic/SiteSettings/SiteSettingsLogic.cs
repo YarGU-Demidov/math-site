@@ -1,11 +1,12 @@
 ﻿using System.Threading.Tasks;
 using MathSite.Db;
 using MathSite.Domain.Common;
+using MathSite.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace MathSite.Domain.Logic.SiteSettings
 {
-	public class SiteSettingsLogic : LogicBase<Entities.SiteSettings>, ISiteSettingsLogic
+	public class SiteSettingsLogic : LogicBase<SiteSetting>, ISiteSettingsLogic
 	{
 		public SiteSettingsLogic(MathSiteDbContext context)
 			: base(context)
@@ -16,7 +17,7 @@ namespace MathSite.Domain.Logic.SiteSettings
 		{
 			await UseContextWithSaveAsync(async context =>
 			{
-				var setting = new Entities.SiteSettings(key, value);
+				var setting = new SiteSetting(key, value);
 				await context.SiteSettings.AddAsync(setting);
 			});
 		}
@@ -43,9 +44,9 @@ namespace MathSite.Domain.Logic.SiteSettings
 			});
 		}
 
-		public async Task<Entities.SiteSettings> TryGetByKeyAsync(string key)
+		public async Task<SiteSetting> TryGetByKeyAsync(string key)
 		{
-			Entities.SiteSettings setting = null;
+			SiteSetting setting = null;
 			await UseContextAsync(async context =>
 			{
 				setting = await context.SiteSettings.FirstOrDefaultAsync(settings => settings.Key == key);
@@ -54,9 +55,9 @@ namespace MathSite.Domain.Logic.SiteSettings
 			return setting;
 		}
 
-		public async Task<Entities.SiteSettings> FirstOrDefaultAsync()
+		public async Task<SiteSetting> FirstOrDefaultAsync()
 		{
-			Entities.SiteSettings setting = null;
+			SiteSetting setting = null;
 			await UseContextAsync(async context =>
 			{
 				setting = await context.SiteSettings.FirstOrDefaultAsync();

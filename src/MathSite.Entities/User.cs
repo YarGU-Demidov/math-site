@@ -89,11 +89,11 @@ namespace MathSite.Entities
 		/// <summary>
 		///     Перечень настроек пользователя.
 		/// </summary>
-		public ICollection<UserSettings> Settings { get; set; } = new List<UserSettings>();
+		public ICollection<UserSetting> Settings { get; set; } = new List<UserSetting>();
 
 		/// <summary>
 		///     Перечень прав пользователя.
 		/// </summary>
-		public ICollection<UsersRights> UserRights { get; set; } = new List<UsersRights>();
+		public ICollection<UsersRight> UserRights { get; set; } = new List<UsersRight>();
 	}
 }

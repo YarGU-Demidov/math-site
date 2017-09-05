@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 {
 	/// <inheritdoc />
-	public class KeywordsConfiguration : AbstractEntityConfiguration<Keywords>
+	public class KeywordsConfiguration : AbstractEntityConfiguration<Keyword>
 	{
-		protected override string TableName { get; } = nameof(Keywords);
+		protected override string TableName { get; } = nameof(Keyword);
 
 		/// <inheritdoc />
-		protected override void SetKeys(EntityTypeBuilder<Keywords> modelBuilder)
+		protected override void SetKeys(EntityTypeBuilder<Keyword> modelBuilder)
 		{
 			modelBuilder
 				.HasKey(keyword => keyword.Id);
@@ -20,7 +20,7 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 		}
 
 		/// <inheritdoc />
-		protected override void SetFields(EntityTypeBuilder<Keywords> modelBuilder)
+		protected override void SetFields(EntityTypeBuilder<Keyword> modelBuilder)
 		{
 			modelBuilder
 				.Property(keyword => keyword.Name)
@@ -32,7 +32,7 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 		}
 
 		/// <inheritdoc />
-		protected override void SetRelationships(EntityTypeBuilder<Keywords> modelBuilder)
+		protected override void SetRelationships(EntityTypeBuilder<Keyword> modelBuilder)
 		{
 			modelBuilder
 				.HasMany(keyword => keyword.Posts)
@@ -42,7 +42,7 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 				.OnDelete(DeleteBehavior.Cascade);
 		}
 
-		protected override void SetIndexes(EntityTypeBuilder<Keywords> modelBuilder)
+		protected override void SetIndexes(EntityTypeBuilder<Keyword> modelBuilder)
 		{
 		}
 	}

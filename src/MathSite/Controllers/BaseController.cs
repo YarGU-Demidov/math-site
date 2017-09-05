@@ -19,6 +19,7 @@ namespace MathSite.Controllers
 		protected MathSiteDbContext DbContext { get; }
 		protected User CurrentUser { get; private set; }
 
+		[NonAction]
 		private void TrySetUser(ActionContext context)
 		{
 			if (!context.HttpContext.User.Identity.IsAuthenticated)
@@ -44,12 +45,14 @@ namespace MathSite.Controllers
 			ViewBag.User = currentUser;
 		}
 
+		[NonAction]
 		public override void OnActionExecuting(ActionExecutingContext context)
 		{
 			TrySetUser(context);
 			base.OnActionExecuting(context);
 		}
 
+		[NonAction]
 		public override Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
 		{
 			TrySetUser(context);

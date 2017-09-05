@@ -5,7 +5,7 @@ namespace MathSite.Entities
 	/// <summary>
 	///     Настройки пользователя.
 	/// </summary>
-	public class UserSettings
+	public class UserSetting
 	{
 		/// <summary>
 		/// 

@@ -5,7 +5,7 @@ namespace MathSite.Entities
 	/// <summary>
 	///     Права групп.
 	/// </summary>
-	public class GroupsRights
+	public class GroupsRight
 	{
 		/// <summary>
 		///     Идентификатор.

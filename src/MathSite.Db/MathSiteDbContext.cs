@@ -21,26 +21,26 @@ namespace MathSite.Db
 		public DbSet<Comment> Comments { get; set; }
 		public DbSet<File> Files { get; set; }
 		public DbSet<Group> Groups { get; set; }
-		public DbSet<GroupsRights> GroupsRights { get; set; }
+		public DbSet<GroupsRight> GroupsRights { get; set; }
 		public DbSet<GroupType> GroupTypes { get; set; }
-		public DbSet<Keywords> Keywords { get; set; }
+		public DbSet<Keyword> Keywords { get; set; }
 		public DbSet<Person> Persons { get; set; }
 		public DbSet<Post> Posts { get; set; }
 		public DbSet<PostAttachment> PostAttachments { get; set; }
 		public DbSet<PostCategory> PostCategories { get; set; }
 		public DbSet<PostGroupsAllowed> PostGroupsAlloweds { get; set; }
-		public DbSet<PostKeywords> PostKeywords { get; set; }
+		public DbSet<PostKeyword> PostKeywords { get; set; }
 		public DbSet<PostOwner> PostOwners { get; set; }
 		public DbSet<PostRating> PostRatings { get; set; }
-		public DbSet<PostSeoSettings> PostSeoSettings { get; set; }
-		public DbSet<PostSettings> PostSettings { get; set; }
+		public DbSet<PostSeoSetting> PostSeoSettings { get; set; }
+		public DbSet<PostSetting> PostSettings { get; set; }
 		public DbSet<PostType> PostTypes { get; set; }
 		public DbSet<PostUserAllowed> PostUserAlloweds { get; set; }
 		public DbSet<Right> Rights { get; set; }
-		public DbSet<SiteSettings> SiteSettings { get; set; }
+		public DbSet<SiteSetting> SiteSettings { get; set; }
 		public DbSet<User> Users { get; set; }
-		public DbSet<UserSettings> UserSettingses { get; set; }
-		public DbSet<UsersRights> UsersRights { get; set; }
+		public DbSet<UserSetting> UserSettingses { get; set; }
+		public DbSet<UsersRight> UsersRights { get; set; }
 
 		/// <summary>
 		///     Добавление конфигурации сущностей.

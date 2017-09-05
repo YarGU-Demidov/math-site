@@ -5,19 +5,19 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 {
 	/// <inheritdoc />
-	public class UserRightsConfiguration : AbstractEntityConfiguration<UsersRights>
+	public class UserRightsConfiguration : AbstractEntityConfiguration<UsersRight>
 	{
 		protected override string TableName { get; } = "UserRights";
 
 		/// <inheritdoc />
-		protected override void SetKeys(EntityTypeBuilder<UsersRights> modelBuilder)
+		protected override void SetKeys(EntityTypeBuilder<UsersRight> modelBuilder)
 		{
 			modelBuilder
 				.HasKey(gr => gr.Id);
 		}
 
 		/// <inheritdoc />
-		protected override void SetFields(EntityTypeBuilder<UsersRights> modelBuilder)
+		protected override void SetFields(EntityTypeBuilder<UsersRight> modelBuilder)
 		{
 			modelBuilder
 				.Property(gr => gr.Allowed)
@@ -25,7 +25,7 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 		}
 
 		/// <inheritdoc />
-		protected override void SetRelationships(EntityTypeBuilder<UsersRights> modelBuilder)
+		protected override void SetRelationships(EntityTypeBuilder<UsersRight> modelBuilder)
 		{
 			modelBuilder
 				.HasOne(usersRights => usersRights.User)
@@ -39,7 +39,7 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 				.OnDelete(DeleteBehavior.Cascade);
 		}
 
-		protected override void SetIndexes(EntityTypeBuilder<UsersRights> modelBuilder)
+		protected override void SetIndexes(EntityTypeBuilder<UsersRight> modelBuilder)
 		{
 		}
 	}

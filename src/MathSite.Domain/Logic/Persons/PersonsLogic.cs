@@ -62,7 +62,7 @@ namespace MathSite.Domain.Logic.Persons
 		{
 			await UseContextWithSaveAsync(async context =>
 			{
-				var person = await context.Persons.FirstAsync(p => p.Id == personId);
+				var person = await GetFromItemsAsync(persons => persons.FirstAsync(p => p.Id == personId));
 
 				person.Name = name;
 				person.Surname = surname;
@@ -83,7 +83,7 @@ namespace MathSite.Domain.Logic.Persons
 		{
 			await UseContextWithSaveAsync(async context =>
 			{
-				var person = await context.Persons.FirstAsync(p => p.Id == personId);
+				var person = await GetFromItemsAsync(persons => persons.FirstAsync(p => p.Id == personId));
 
 				context.Persons.Remove(person);
 			});

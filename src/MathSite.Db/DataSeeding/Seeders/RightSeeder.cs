@@ -58,8 +58,8 @@ namespace MathSite.Db.DataSeeding.Seeders
 				Name = name,
 				Description = description,
 				Alias = alias,
-				UsersRights = new List<UsersRights>(),
-				GroupsRights = new List<GroupsRights>()
+				UsersRights = new List<UsersRight>(),
+				GroupsRights = new List<GroupsRight>()
 			};
 		}
 	}

@@ -1,14 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\MathSite.Db\MathSite.Db.csproj" />
     <ProjectReference Include="..\MathSite.Domain\MathSite.Domain.csproj" />
     <ProjectReference Include="..\MathSite.Entities\MathSite.Entities.csproj" />
     <ProjectReference Include="..\MathSite.Facades\MathSite.Facades.csproj" />
   </ItemGroup>
-
 </Project>

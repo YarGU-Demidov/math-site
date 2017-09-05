@@ -116,7 +116,7 @@ namespace MathSite.Migrations
                     b.ToTable("Group");
                 });
 
-            modelBuilder.Entity("MathSite.Entities.GroupsRights", b =>
+            modelBuilder.Entity("MathSite.Entities.GroupsRight", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -134,7 +134,7 @@ namespace MathSite.Migrations
 
                     b.HasIndex("RightAlias");
 
-                    b.ToTable("GroupsRights");
+                    b.ToTable("GroupsRight");
                 });
 
             modelBuilder.Entity("MathSite.Entities.GroupType", b =>
@@ -157,7 +157,7 @@ namespace MathSite.Migrations
                     b.ToTable("GroupType");
                 });
 
-            modelBuilder.Entity("MathSite.Entities.Keywords", b =>
+            modelBuilder.Entity("MathSite.Entities.Keyword", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -172,7 +172,7 @@ namespace MathSite.Migrations
 
                     b.HasAlternateKey("Alias");
 
-                    b.ToTable("Keywords");
+                    b.ToTable("Keyword");
                 });
 
             modelBuilder.Entity("MathSite.Entities.Person", b =>
@@ -314,7 +314,7 @@ namespace MathSite.Migrations
                     b.ToTable("PostGroupsAllowed");
                 });
 
-            modelBuilder.Entity("MathSite.Entities.PostKeywords", b =>
+            modelBuilder.Entity("MathSite.Entities.PostKeyword", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -329,7 +329,7 @@ namespace MathSite.Migrations
 
                     b.HasIndex("PostSeoSettingsId");
 
-                    b.ToTable("PostKeywords");
+                    b.ToTable("PostKeyword");
                 });
 
             modelBuilder.Entity("MathSite.Entities.PostOwner", b =>
@@ -373,7 +373,7 @@ namespace MathSite.Migrations
                     b.ToTable("PostRating");
                 });
 
-            modelBuilder.Entity("MathSite.Entities.PostSeoSettings", b =>
+            modelBuilder.Entity("MathSite.Entities.PostSeoSetting", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -386,10 +386,10 @@ namespace MathSite.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PostSeoSettings");
+                    b.ToTable("PostSeoSetting");
                 });
 
-            modelBuilder.Entity("MathSite.Entities.PostSettings", b =>
+            modelBuilder.Entity("MathSite.Entities.PostSetting", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -411,7 +411,7 @@ namespace MathSite.Migrations
 
                     b.HasIndex("PreviewImageId");
 
-                    b.ToTable("PostSettings");
+                    b.ToTable("PostSetting");
                 });
 
             modelBuilder.Entity("MathSite.Entities.PostType", b =>
@@ -462,7 +462,7 @@ namespace MathSite.Migrations
                     b.ToTable("Right");
                 });
 
-            modelBuilder.Entity("MathSite.Entities.SiteSettings", b =>
+            modelBuilder.Entity("MathSite.Entities.SiteSetting", b =>
                 {
                     b.Property<string>("Key")
                         .ValueGeneratedOnAdd();
@@ -474,7 +474,7 @@ namespace MathSite.Migrations
 
                     b.HasIndex("Key");
 
-                    b.ToTable("SiteSettings");
+                    b.ToTable("SiteSetting");
                 });
 
             modelBuilder.Entity("MathSite.Entities.User", b =>
@@ -501,7 +501,7 @@ namespace MathSite.Migrations
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("MathSite.Entities.UserSettings", b =>
+            modelBuilder.Entity("MathSite.Entities.UserSetting", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -521,10 +521,10 @@ namespace MathSite.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserSettings");
+                    b.ToTable("UserSetting");
                 });
 
-            modelBuilder.Entity("MathSite.Entities.UsersRights", b =>
+            modelBuilder.Entity("MathSite.Entities.UsersRight", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -571,7 +571,7 @@ namespace MathSite.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("MathSite.Entities.GroupsRights", b =>
+            modelBuilder.Entity("MathSite.Entities.GroupsRight", b =>
                 {
                     b.HasOne("MathSite.Entities.Group", "Group")
                         .WithMany("GroupsRights")
@@ -604,12 +604,12 @@ namespace MathSite.Migrations
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("MathSite.Entities.PostSeoSettings", "PostSeoSettings")
+                    b.HasOne("MathSite.Entities.PostSeoSetting", "PostSeoSetting")
                         .WithOne("Post")
                         .HasForeignKey("MathSite.Entities.Post", "PostSeoSettingsId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("MathSite.Entities.PostSettings", "PostSettings")
+                    b.HasOne("MathSite.Entities.PostSetting", "PostSettings")
                         .WithOne("Post")
                         .HasForeignKey("MathSite.Entities.Post", "PostSettingsId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -659,14 +659,14 @@ namespace MathSite.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("MathSite.Entities.PostKeywords", b =>
+            modelBuilder.Entity("MathSite.Entities.PostKeyword", b =>
                 {
-                    b.HasOne("MathSite.Entities.Keywords", "Keyword")
+                    b.HasOne("MathSite.Entities.Keyword", "Keyword")
                         .WithMany("Posts")
                         .HasForeignKey("KeywordId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("MathSite.Entities.PostSeoSettings", "PostSeoSettings")
+                    b.HasOne("MathSite.Entities.PostSeoSetting", "PostSeoSettings")
                         .WithMany("PostKeywords")
                         .HasForeignKey("PostSeoSettingsId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -698,11 +698,11 @@ namespace MathSite.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("MathSite.Entities.PostSettings", b =>
+            modelBuilder.Entity("MathSite.Entities.PostSetting", b =>
                 {
                     b.HasOne("MathSite.Entities.PostType", "PostType")
                         .WithOne("DefaultPostsSettings")
-                        .HasForeignKey("MathSite.Entities.PostSettings", "PostTypeId")
+                        .HasForeignKey("MathSite.Entities.PostSetting", "PostTypeId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("MathSite.Entities.File", "PreviewImage")
@@ -732,7 +732,7 @@ namespace MathSite.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("MathSite.Entities.UserSettings", b =>
+            modelBuilder.Entity("MathSite.Entities.UserSetting", b =>
                 {
                     b.HasOne("MathSite.Entities.User", "User")
                         .WithMany("Settings")
@@ -740,7 +740,7 @@ namespace MathSite.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("MathSite.Entities.UsersRights", b =>
+            modelBuilder.Entity("MathSite.Entities.UsersRight", b =>
                 {
                     b.HasOne("MathSite.Entities.Right", "Right")
                         .WithMany("UsersRights")

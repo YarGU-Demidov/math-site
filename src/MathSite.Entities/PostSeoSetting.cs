@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace MathSite.Entities
 {
-	public class PostSeoSettings
+	public class PostSeoSetting
 	{
 		public Guid Id { get; set; }
 		public string Url { get; set; }
 		public string Title { get; set; }
 		public string Description { get; set; }
 		public Post Post { get; set; }
-		public ICollection<PostKeywords> PostKeywords { get; set; } = new List<PostKeywords>();
+		public ICollection<PostKeyword> PostKeywords { get; set; } = new List<PostKeyword>();
 	}
 }

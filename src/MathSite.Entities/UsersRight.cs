@@ -4,7 +4,7 @@ namespace MathSite.Entities
 {
 	/// <summary>
 	/// </summary>
-	public class UsersRights
+	public class UsersRight
 	{
 		/// <summary>
 		/// </summary>

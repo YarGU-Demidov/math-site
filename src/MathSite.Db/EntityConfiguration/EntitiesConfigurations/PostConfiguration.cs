@@ -61,7 +61,7 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 				.OnDelete(DeleteBehavior.Cascade);
 
 			modelBuilder
-				.HasOne(post => post.PostSeoSettings)
+				.HasOne(post => post.PostSeoSetting)
 				.WithOne(postSeoSetting => postSeoSetting.Post)
 				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);

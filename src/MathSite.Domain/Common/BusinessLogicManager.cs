@@ -1,6 +1,9 @@
 ﻿using MathSite.Domain.Logic.Files;
 using MathSite.Domain.Logic.Groups;
 using MathSite.Domain.Logic.Persons;
+using MathSite.Domain.Logic.Posts;
+using MathSite.Domain.Logic.PostSeoSettings;
+using MathSite.Domain.Logic.PostSettings;
 using MathSite.Domain.Logic.Rights;
 using MathSite.Domain.Logic.SiteSettings;
 using MathSite.Domain.Logic.Users;
@@ -15,7 +18,10 @@ namespace MathSite.Domain.Common
 			IUsersLogic usersLogic,
 			IFilesLogic filesLogic,
 			ISiteSettingsLogic siteSettingsLogic,
-			IRightsLogic rightsLogic
+			IRightsLogic rightsLogic,
+			IPostsLogic postsLogic,
+			IPostSeoSettingsLogic postSeoSettingsLogic, 
+			IPostSettingLogic postSettingLogic
 		)
 		{
 			GroupsLogic = groupsLogic;
@@ -24,6 +30,9 @@ namespace MathSite.Domain.Common
 			FilesLogic = filesLogic;
 			SiteSettingsLogic = siteSettingsLogic;
 			RightsLogic = rightsLogic;
+			PostsLogic = postsLogic;
+			PostSeoSettingsLogic = postSeoSettingsLogic;
+			PostSettingLogic = postSettingLogic;
 		}
 
 		public IGroupsLogic GroupsLogic { get; }
@@ -32,5 +41,8 @@ namespace MathSite.Domain.Common
 		public IFilesLogic FilesLogic { get; }
 		public ISiteSettingsLogic SiteSettingsLogic { get; }
 		public IRightsLogic RightsLogic { get; }
+		public IPostsLogic PostsLogic { get; }
+		public IPostSeoSettingsLogic PostSeoSettingsLogic { get; }
+		public IPostSettingLogic PostSettingLogic { get; }
 	}
 }

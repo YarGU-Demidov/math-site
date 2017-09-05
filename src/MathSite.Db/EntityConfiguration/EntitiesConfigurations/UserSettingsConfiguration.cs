@@ -4,19 +4,19 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 {
-	public class UserSettingsConfiguration : AbstractEntityConfiguration<UserSettings>
+	public class UserSettingsConfiguration : AbstractEntityConfiguration<UserSetting>
 	{
-		protected override string TableName { get; } = nameof(UserSettings);
+		protected override string TableName { get; } = nameof(UserSetting);
 
 		/// <inheritdoc />
-		protected override void SetKeys(EntityTypeBuilder<UserSettings> modelBuilder)
+		protected override void SetKeys(EntityTypeBuilder<UserSetting> modelBuilder)
 		{
 			modelBuilder
 				.HasKey(userSettings => userSettings.Id);
 		}
 
 		/// <inheritdoc />
-		protected override void SetFields(EntityTypeBuilder<UserSettings> modelBuilder)
+		protected override void SetFields(EntityTypeBuilder<UserSetting> modelBuilder)
 		{
 			modelBuilder
 				.Property(userSettings => userSettings.Namespace)
@@ -32,7 +32,7 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 		}
 
 		/// <inheritdoc />
-		protected override void SetRelationships(EntityTypeBuilder<UserSettings> modelBuilder)
+		protected override void SetRelationships(EntityTypeBuilder<UserSetting> modelBuilder)
 		{
 			modelBuilder
 				.HasOne(userSettings => userSettings.User)
@@ -41,7 +41,7 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 				.OnDelete(DeleteBehavior.Cascade);
 		}
 
-		protected override void SetIndexes(EntityTypeBuilder<UserSettings> modelBuilder)
+		protected override void SetIndexes(EntityTypeBuilder<UserSetting> modelBuilder)
 		{
 		}
 	}

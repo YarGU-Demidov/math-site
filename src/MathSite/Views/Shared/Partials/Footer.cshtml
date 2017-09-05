@@ -1,46 +1,33 @@
 ﻿@model CommonViewModel
 
 <footer class="footer">
-	<div class="footer__container container">
-		<div class="footer__primary">
-			<div class="footer__nav">
-				<nav class="column-nav">
-					<section>
-						<ul>
-							@Html.Partial("Partials/Menu/Menu", Model.FooterMenus.Item1)
-						</ul>
-					</section>
-					<section>
-						<ul>
-							@Html.Partial("Partials/Menu/Menu", Model.FooterMenus.Item2)
-						</ul>
-					</section>
-					<section>
-						<ul>
-							@Html.Partial("Partials/Menu/Menu", Model.FooterMenus.Item3)
-						</ul>
-					</section>
-					<section>
-						<ul>
-							@Html.Partial("Partials/Menu/Menu", Model.FooterMenus.Item4)
-						</ul>
-					</section>
-				</nav>
-			</div>
-			<!--
-			<div class="footer__actions">
-				<div class="footer__search">
-					<form class="search">
-						<input class="search__input" type="search">
-						<button class="search__submit" type="submit"></button>
-					</form>
-				</div>
-				<div class="footer__site-map">
-					<a class="link" href="#">Карта сайта</a>
-				</div>
-			</div>-->
-			<div class="footer__secondary_line"></div>
+	<div class="container">
+		<div class="footer__nav">
+			<nav class="column-nav">
+				<section>
+					<ul>
+						@Html.Partial("Partials/Menu/Menu", Model.FooterMenus.Item1)
+					</ul>
+				</section>
+				<section>
+					<ul>
+						@Html.Partial("Partials/Menu/Menu", Model.FooterMenus.Item2)
+					</ul>
+				</section>
+				<section>
+					<ul>
+						@Html.Partial("Partials/Menu/Menu", Model.FooterMenus.Item3)
+					</ul>
+				</section>
+				<section>
+					<ul>
+						@Html.Partial("Partials/Menu/Menu", Model.FooterMenus.Item4)
+					</ul>
+				</section>
+			</nav>
 		</div>
+		<div class="footer__secondary_line"></div>
+		
 		<div class="footer__secondary">
 			<div class="footer__secondary_logo"></div>
 			<div class="footer__secondary_description">

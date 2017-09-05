@@ -5,6 +5,9 @@ using MathSite.Domain.Common;
 using MathSite.Domain.Logic.Files;
 using MathSite.Domain.Logic.Groups;
 using MathSite.Domain.Logic.Persons;
+using MathSite.Domain.Logic.Posts;
+using MathSite.Domain.Logic.PostSeoSettings;
+using MathSite.Domain.Logic.PostSettings;
 using MathSite.Domain.Logic.Rights;
 using MathSite.Domain.Logic.SiteSettings;
 using MathSite.Domain.Logic.Users;
@@ -54,7 +57,10 @@ namespace MathSite.Tests.Facades
 				new UsersLogic(context),
 				new FilesLogic(context),
 				new SiteSettingsLogic(context),
-				new RightsLogic(context)
+				new RightsLogic(context),
+				new PostsLogic(context),
+				new PostSeoSettingsLogic(context),
+				new PostSettingLogic(context)
 			);
 		}
 	}
