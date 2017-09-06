@@ -15,7 +15,8 @@ namespace MathSite.Domain.Logic.Posts
 		{
 		}
 
-		public async Task<Guid> CreatePostAsync(string title, string excerpt, string content, bool published, DateTime publishDate, string postTypeName,
+		public async Task<Guid> CreatePostAsync(string title, string excerpt, string content, bool published,
+			DateTime publishDate, string postTypeName,
 			Guid author, Guid settings, Guid seoSettings)
 		{
 			var id = Guid.Empty;
@@ -43,7 +44,8 @@ namespace MathSite.Domain.Logic.Posts
 			return id;
 		}
 
-		public async Task UpdatePostAsync(Guid id, string title, string excerpt, string content, bool published, DateTime publishDate,
+		public async Task UpdatePostAsync(Guid id, string title, string excerpt, string content, bool published,
+			DateTime publishDate,
 			string postTypeName, Guid author)
 		{
 			await UseContextWithSaveAsync(async context =>
@@ -57,7 +59,7 @@ namespace MathSite.Domain.Logic.Posts
 				post.PublishDate = publishDate;
 				post.PostTypeName = postTypeName;
 				post.AuthorId = author;
-				
+
 				context.Posts.Update(post);
 			});
 		}
@@ -75,7 +77,7 @@ namespace MathSite.Domain.Logic.Posts
 		public async Task<Post> TryGetPostByIdAsync(Guid id)
 		{
 			Post post = null;
-			
+
 			await UseContextAsync(async context =>
 			{
 				post = await GetFromItemsAsync(
@@ -90,7 +92,7 @@ namespace MathSite.Domain.Logic.Posts
 						.Include(p => p.PostRatings)
 						.Include(p => p.PostType).ThenInclude(pt => pt.DefaultPostsSettings)
 						.Include(p => p.UsersAllowed)
-						.Include(p => p.PostAttachments), 
+						.Include(p => p.PostAttachments),
 					posts => posts.Where(p => p.Id == id).FirstOrDefaultAsync()
 				);
 			});
@@ -101,7 +103,7 @@ namespace MathSite.Domain.Logic.Posts
 		public async Task<Post> TryGetPostByUrlAsync(string url)
 		{
 			Post post = null;
-			
+
 			await UseContextAsync(async context =>
 			{
 				post = await GetFromItemsAsync(
@@ -127,27 +129,18 @@ namespace MathSite.Domain.Logic.Posts
 		public async Task<IEnumerable<Post>> TryGetMainPagePostsWithAllDataAsync(int count, string postTypeName)
 		{
 			IEnumerable<Post> posts = null;
-			
+
 			await UseContextAsync(async context =>
 			{
 				posts = await GetFromItemsAsync(
 					dbContext => dbContext.Posts
 						.Include(p => p.PostSeoSetting)
-						.Include(p => p.Author).ThenInclude(u => u.Person)
-						.Include(p => p.GroupsAllowed)
-						.Include(p => p.PostSettings)
-						.Include(p => p.Comments)
-						.Include(p => p.PostCategories)
-						.Include(p => p.PostOwners)
-						.Include(p => p.PostRatings)
-						.Include(p => p.PostType).ThenInclude(pt => pt.DefaultPostsSettings)
-						.Include(p => p.UsersAllowed)
-						.Include(p => p.PostAttachments),
+						.Include(p => p.PostSettings),
 					postsWithData => postsWithData
-						.Where(p => 
-							p.PostSettings.PostOnStartPage == true && 
-							p.PostTypeName == postTypeName && 
-							p.Published && 
+						.Where(p =>
+							p.PostSettings.PostOnStartPage == true &&
+							p.PostTypeName == postTypeName &&
+							p.Published &&
 							p.Deleted == false &&
 							p.PublishDate.Date >= DateTime.Today
 						)
