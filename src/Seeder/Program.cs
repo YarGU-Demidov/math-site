@@ -45,11 +45,11 @@ namespace Seeder
 				catch (Exception e)
 				{
 					logger.LogError(e, "Unhandled critical exeption!");
-					throw;
+					Console.WriteLine();
+					Console.WriteLine(e);
+					Console.ReadKey();
 				}
 			}
-
-			Console.ReadKey();
 		}
 
 		private static IPasswordsManager GetPasswordManager()

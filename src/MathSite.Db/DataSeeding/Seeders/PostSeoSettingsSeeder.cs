@@ -18,13 +18,13 @@ namespace MathSite.Db.DataSeeding.Seeders
 		protected override void SeedData()
 		{
 			var firstPostSeoSettings = CreatePostSeoSettings(
-				"first url",
+				"news/first-url",
 				"first title",
 				"first description"
 			);
 
 			var secondPostSeoSettings = CreatePostSeoSettings(
-				"second url",
+				"news/second-url",
 				"second title",
 				"second description"
 			);
