@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
+using MathSite.Facades.Posts;
 using MathSite.Facades.SiteSettings;
 using MathSite.ViewModels.SharedModels;
 using MathSite.ViewModels.SharedModels.SecondaryPage;
@@ -12,8 +14,8 @@ namespace MathSite.ViewModels.News
 {
 	public class NewsViewModelBuilder: SecondaryViewModelBuilder, INewsViewModelBuilder
 	{
-		public NewsViewModelBuilder(ISiteSettingsFacade siteSettingsFacade) 
-			: base(siteSettingsFacade)
+		public NewsViewModelBuilder(ISiteSettingsFacade siteSettingsFacade, IPostsFacade postsFacade) 
+			: base(siteSettingsFacade, postsFacade)
 		{
 		}
 
@@ -51,7 +53,7 @@ namespace MathSite.ViewModels.News
 		}
 
 		private async Task BuildPosts(NewsIndexViewModel model)
-		{
+		{ 
 			model.Posts = new List<PostPreviewViewModel>
 			{
 				new PostPreviewViewModel("Test1", "/news/test1-url", "Test content for 1st post", DateTime.Now.ToString("dd MMM yyyy", new CultureInfo("ru"))),
@@ -71,6 +73,22 @@ namespace MathSite.ViewModels.News
 				new PostPreviewViewModel("Test15", "/news/test15-url", "Test content for 15th post", DateTime.Now.AddDays(-2).ToString("dd MMM yyyy", new CultureInfo("ru"))),
 				new PostPreviewViewModel("Test16", "/news/test16-url", "Test content for 16th post", DateTime.Now.AddDays(-2).ToString("dd MMM yyyy", new CultureInfo("ru")))
 			};
+		}
+
+		private IEnumerable<PostPreviewViewModel> GetPosts(IEnumerable<Post> posts)
+		{
+			return posts.Select(GetPostPreviewViewModelFromPost);
+		}
+
+		private PostPreviewViewModel GetPostPreviewViewModelFromPost(Post post)
+		{
+			return new PostPreviewViewModel(
+				post.Title,
+				post.PostSeoSetting.Url,
+				post.Content,
+				post.PublishDate.ToString("dd MMM yyyy", new CultureInfo("ru")),
+				post.PostSettings.PreviewImage?.FilePath
+			);
 		}
 
 		private async Task<Post> BuildPostData(string query, int page = 1)

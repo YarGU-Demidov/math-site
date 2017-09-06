@@ -232,7 +232,8 @@ namespace MathSite.Migrations
 
                     b.Property<Guid>("PostSettingsId");
 
-                    b.Property<Guid>("PostTypeId");
+                    b.Property<string>("PostTypeName")
+                        .IsRequired();
 
                     b.Property<DateTime>("PublishDate");
 
@@ -251,7 +252,7 @@ namespace MathSite.Migrations
                     b.HasIndex("PostSettingsId")
                         .IsUnique();
 
-                    b.HasIndex("PostTypeId");
+                    b.HasIndex("PostTypeName");
 
                     b.ToTable("Post");
                 });
@@ -400,13 +401,14 @@ namespace MathSite.Migrations
 
                     b.Property<bool?>("PostOnStartPage");
 
-                    b.Property<Guid>("PostTypeId");
+                    b.Property<string>("PostTypeName")
+                        .IsRequired();
 
                     b.Property<Guid?>("PreviewImageId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PostTypeId")
+                    b.HasIndex("PostTypeName")
                         .IsUnique();
 
                     b.HasIndex("PreviewImageId");
@@ -416,13 +418,10 @@ namespace MathSite.Migrations
 
             modelBuilder.Entity("MathSite.Entities.PostType", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("TypeName")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("TypeName")
-                        .IsRequired();
-
-                    b.HasKey("Id");
+                    b.HasKey("TypeName");
 
                     b.ToTable("PostType");
                 });
@@ -616,7 +615,7 @@ namespace MathSite.Migrations
 
                     b.HasOne("MathSite.Entities.PostType", "PostType")
                         .WithMany("Posts")
-                        .HasForeignKey("PostTypeId")
+                        .HasForeignKey("PostTypeName")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -702,7 +701,7 @@ namespace MathSite.Migrations
                 {
                     b.HasOne("MathSite.Entities.PostType", "PostType")
                         .WithOne("DefaultPostsSettings")
-                        .HasForeignKey("MathSite.Entities.PostSetting", "PostTypeId")
+                        .HasForeignKey("MathSite.Entities.PostSetting", "PostTypeName")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("MathSite.Entities.File", "PreviewImage")

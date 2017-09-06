@@ -11,6 +11,7 @@ using MathSite.Domain.Logic.Persons;
 using MathSite.Domain.Logic.Posts;
 using MathSite.Domain.Logic.PostSeoSettings;
 using MathSite.Domain.Logic.PostSettings;
+using MathSite.Domain.Logic.PostTypes;
 using MathSite.Domain.Logic.Rights;
 using MathSite.Domain.Logic.SiteSettings;
 using MathSite.Domain.Logic.Users;
@@ -122,6 +123,7 @@ namespace MathSite
 			services.AddScoped<IPostsLogic, PostsLogic>();
 			services.AddScoped<IPostSeoSettingsLogic, PostSeoSettingsLogic>();
 			services.AddScoped<IPostSettingLogic, PostSettingLogic>();
+			services.AddScoped<IPostTypeLogic, PostTypeLogic>();
 
 			// Facades
 			services.AddScoped<IUserValidationFacade, UserValidationFacade>();

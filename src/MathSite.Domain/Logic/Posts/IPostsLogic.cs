@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MathSite.Entities;
 
@@ -12,7 +13,7 @@ namespace MathSite.Domain.Logic.Posts
 			string content, 
 			bool published,
 			DateTime publishDate,
-			Guid postType,
+			string postTypeName,
 			Guid author,
 			Guid settings,
 			Guid seoSettings
@@ -25,7 +26,7 @@ namespace MathSite.Domain.Logic.Posts
 			string content, 
 			bool published,
 			DateTime publishDate,
-			Guid postType,
+			string postTypeName,
 			Guid author
 		);
 		
@@ -34,5 +35,7 @@ namespace MathSite.Domain.Logic.Posts
 		Task<Post> TryGetPostByIdAsync(Guid id);
 		
 		Task<Post> TryGetPostByUrlAsync(string url);
+		
+		Task<ICollection<Post>> TryGetMainPagePostsWithAllDataAsync(int count, string postTypeName);
 	}
 }

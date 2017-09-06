@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MathSite.Db;
@@ -14,7 +15,7 @@ namespace MathSite.Domain.Logic.Posts
 		{
 		}
 
-		public async Task<Guid> CreatePostAsync(string title, string excerpt, string content, bool published, DateTime publishDate, Guid postType,
+		public async Task<Guid> CreatePostAsync(string title, string excerpt, string content, bool published, DateTime publishDate, string postTypeName,
 			Guid author, Guid settings, Guid seoSettings)
 		{
 			var id = Guid.Empty;
@@ -27,7 +28,7 @@ namespace MathSite.Domain.Logic.Posts
 					Excerpt = excerpt,
 					Published = published,
 					PublishDate = publishDate,
-					PostTypeId = postType,
+					PostTypeName = postTypeName,
 					Title = title,
 					PostSettingsId = settings,
 					PostSeoSettingsId = seoSettings
@@ -43,7 +44,7 @@ namespace MathSite.Domain.Logic.Posts
 		}
 
 		public async Task UpdatePostAsync(Guid id, string title, string excerpt, string content, bool published, DateTime publishDate,
-			Guid postType, Guid author)
+			string postTypeName, Guid author)
 		{
 			await UseContextWithSaveAsync(async context =>
 			{
@@ -54,7 +55,7 @@ namespace MathSite.Domain.Logic.Posts
 				post.Content = content;
 				post.Published = published;
 				post.PublishDate = publishDate;
-				post.PostTypeId = postType;
+				post.PostTypeName = postTypeName;
 				post.AuthorId = author;
 				
 				context.Posts.Update(post);
@@ -78,7 +79,18 @@ namespace MathSite.Domain.Logic.Posts
 			await UseContextAsync(async context =>
 			{
 				post = await GetFromItemsAsync(
-					dbContext => dbContext.Posts.Include(p => p.PostSeoSetting).Include(p => p.Author).ThenInclude(u => u.Person).Include(p => p.GroupsAllowed).Include(p => p.PostSettings), 
+					dbContext => dbContext.Posts
+						.Include(p => p.PostSeoSetting)
+						.Include(p => p.Author).ThenInclude(u => u.Person)
+						.Include(p => p.GroupsAllowed)
+						.Include(p => p.PostSettings)
+						.Include(p => p.Comments)
+						.Include(p => p.PostCategories)
+						.Include(p => p.PostOwners)
+						.Include(p => p.PostRatings)
+						.Include(p => p.PostType).ThenInclude(pt => pt.DefaultPostsSettings)
+						.Include(p => p.UsersAllowed)
+						.Include(p => p.PostAttachments), 
 					posts => posts.Where(p => p.Id == id).FirstOrDefaultAsync()
 				);
 			});
@@ -93,12 +105,58 @@ namespace MathSite.Domain.Logic.Posts
 			await UseContextAsync(async context =>
 			{
 				post = await GetFromItemsAsync(
-					dbContext => dbContext.Posts.Include(p => p.PostSeoSetting).Include(p => p.Author).ThenInclude(u => u.Person).Include(p => p.GroupsAllowed).Include(p => p.PostSettings),
+					dbContext => dbContext.Posts
+						.Include(p => p.PostSeoSetting)
+						.Include(p => p.Author).ThenInclude(u => u.Person)
+						.Include(p => p.GroupsAllowed)
+						.Include(p => p.PostSettings)
+						.Include(p => p.Comments)
+						.Include(p => p.PostCategories)
+						.Include(p => p.PostOwners)
+						.Include(p => p.PostRatings)
+						.Include(p => p.PostType).ThenInclude(pt => pt.DefaultPostsSettings)
+						.Include(p => p.UsersAllowed)
+						.Include(p => p.PostAttachments),
 					posts => posts.Where(p => p.PostSeoSetting.Url == url).FirstOrDefaultAsync()
 				);
 			});
 
 			return post;
+		}
+
+		public async Task<ICollection<Post>> TryGetMainPagePostsWithAllDataAsync(int count, string postTypeName)
+		{
+			ICollection<Post> posts = null;
+			
+			await UseContextAsync(async context =>
+			{
+				posts = await GetFromItemsAsync(
+					dbContext => dbContext.Posts
+						.Include(p => p.PostSeoSetting)
+						.Include(p => p.Author).ThenInclude(u => u.Person)
+						.Include(p => p.GroupsAllowed)
+						.Include(p => p.PostSettings)
+						.Include(p => p.Comments)
+						.Include(p => p.PostCategories)
+						.Include(p => p.PostOwners)
+						.Include(p => p.PostRatings)
+						.Include(p => p.PostType).ThenInclude(pt => pt.DefaultPostsSettings)
+						.Include(p => p.UsersAllowed)
+						.Include(p => p.PostAttachments),
+					postsWithData => postsWithData
+						.Where(p => 
+							p.PostSettings.PostOnStartPage == true && 
+							p.PostTypeName == postTypeName && 
+							p.Published && 
+							p.Deleted == false &&
+							p.PublishDate.Date >= DateTime.Today
+						)
+						.Take(count)
+						.ToListAsync()
+				);
+			});
+
+			return posts;
 		}
 	}
 }

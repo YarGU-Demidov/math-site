@@ -4,6 +4,7 @@ using MathSite.Domain.Logic.Persons;
 using MathSite.Domain.Logic.Posts;
 using MathSite.Domain.Logic.PostSeoSettings;
 using MathSite.Domain.Logic.PostSettings;
+using MathSite.Domain.Logic.PostTypes;
 using MathSite.Domain.Logic.Rights;
 using MathSite.Domain.Logic.SiteSettings;
 using MathSite.Domain.Logic.Users;
@@ -21,7 +22,8 @@ namespace MathSite.Domain.Common
 			IRightsLogic rightsLogic,
 			IPostsLogic postsLogic,
 			IPostSeoSettingsLogic postSeoSettingsLogic, 
-			IPostSettingLogic postSettingLogic
+			IPostSettingLogic postSettingLogic, 
+			IPostTypeLogic postTypeLogic
 		)
 		{
 			GroupsLogic = groupsLogic;
@@ -33,6 +35,7 @@ namespace MathSite.Domain.Common
 			PostsLogic = postsLogic;
 			PostSeoSettingsLogic = postSeoSettingsLogic;
 			PostSettingLogic = postSettingLogic;
+			PostTypeLogic = postTypeLogic;
 		}
 
 		public IGroupsLogic GroupsLogic { get; }
@@ -44,5 +47,6 @@ namespace MathSite.Domain.Common
 		public IPostsLogic PostsLogic { get; }
 		public IPostSeoSettingsLogic PostSeoSettingsLogic { get; }
 		public IPostSettingLogic PostSettingLogic { get; }
+		public IPostTypeLogic PostTypeLogic { get; }
 	}
 }

@@ -8,6 +8,7 @@ using MathSite.Domain.Logic.Persons;
 using MathSite.Domain.Logic.Posts;
 using MathSite.Domain.Logic.PostSeoSettings;
 using MathSite.Domain.Logic.PostSettings;
+using MathSite.Domain.Logic.PostTypes;
 using MathSite.Domain.Logic.Rights;
 using MathSite.Domain.Logic.SiteSettings;
 using MathSite.Domain.Logic.Users;
@@ -60,7 +61,8 @@ namespace MathSite.Tests.Facades
 				new RightsLogic(context),
 				new PostsLogic(context),
 				new PostSeoSettingsLogic(context),
-				new PostSettingLogic(context)
+				new PostSettingLogic(context),
+				new PostTypeLogic(context)
 			);
 		}
 	}

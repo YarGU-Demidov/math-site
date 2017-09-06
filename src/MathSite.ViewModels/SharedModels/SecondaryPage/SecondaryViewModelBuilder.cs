@@ -1,16 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
+using MathSite.Entities;
+using MathSite.Facades.Posts;
 using MathSite.Facades.SiteSettings;
 
 namespace MathSite.ViewModels.SharedModels.SecondaryPage
 {
 	public abstract class SecondaryViewModelBuilder : CommonViewModelBuilder
 	{
-		protected SecondaryViewModelBuilder(ISiteSettingsFacade siteSettingsFacade) 
+		protected IPostsFacade PostsFacade { get; }
+
+		protected SecondaryViewModelBuilder(ISiteSettingsFacade siteSettingsFacade, IPostsFacade postsFacade) 
 			: base(siteSettingsFacade)
 		{
+			PostsFacade = postsFacade;
 		}
 
 		protected async Task<T> BuildSecondaryViewModel<T>()
@@ -44,15 +50,29 @@ namespace MathSite.ViewModels.SharedModels.SecondaryPage
 				)
 			};
 		}
-
+		
 		private async Task BuildFeaturedMenuAsync(SecondaryViewModel model)
 		{
-			model.Featured = new List<PostPreviewViewModel>
-			{
-				new PostPreviewViewModel("Test1", "/news/test1-url", "Test content for 1st post", DateTime.Now.ToString("dd MMM yyyy", new CultureInfo("ru"))),
-				new PostPreviewViewModel("Test2", "/news/test2-url", "Test content for 2nd post", DateTime.Now.AddMonths(-2).AddDays(-1).ToString("dd MMM yyyy", new CultureInfo("ru"))),
-				new PostPreviewViewModel("Test3", "/news/test3-url", "Test content for 3d post", DateTime.Now.AddDays(-2).ToString("dd MMM yyyy", new CultureInfo("ru")))
-			};
+			var posts = await PostsFacade.GetLastSelectedForMainPagePostsAsync(3);
+
+			model.Featured = GetPostsModels(posts);
+		}
+
+
+		private IEnumerable<PostPreviewViewModel> GetPostsModels(IEnumerable<Post> posts)
+		{
+			return posts.Select(GetPostPreviewViewModelFromPost);
+		} 
+
+		private PostPreviewViewModel GetPostPreviewViewModelFromPost(Post post)
+		{
+			return new PostPreviewViewModel(
+				post.Title,
+				post.PostSeoSetting.Url,
+				post.Content,
+				post.PublishDate.ToString("dd MMM yyyy", new CultureInfo("ru")),
+				post.PostSettings.PreviewImage?.FilePath
+			);
 		}
 	}
 }
