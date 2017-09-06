@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using MathSite.Entities;
+using MathSite.Facades.Posts;
 using MathSite.Facades.SiteSettings;
 using MathSite.ViewModels.SharedModels.SecondaryPage;
 
@@ -8,8 +9,8 @@ namespace MathSite.ViewModels.Pages
 	public class PagesViewModelBuilder : SecondaryViewModelBuilder, IPagesViewModelBuilder
 
 	{
-		public PagesViewModelBuilder(ISiteSettingsFacade siteSettingsFacade) 
-			: base(siteSettingsFacade)
+		public PagesViewModelBuilder(ISiteSettingsFacade siteSettingsFacade, IPostsFacade postsFacade) 
+			: base(siteSettingsFacade, postsFacade)
 		{
 		}
 

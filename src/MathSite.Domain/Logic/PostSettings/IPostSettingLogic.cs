@@ -11,7 +11,7 @@ namespace MathSite.Domain.Logic.PostSettings
 			bool? canBeRated,
 			bool? postOnStartPage,
 			Guid? previewImageId,
-			Guid postTypeId
+			string postTypeName
 		);
 		
 		Task UpdatePostSettings(
@@ -20,7 +20,7 @@ namespace MathSite.Domain.Logic.PostSettings
 			bool? canBeRated,
 			bool? postOnStartPage,
 			Guid? previewImageId,
-			Guid postTypeId
+			string postTypeName
 		);
 
 		Task DeletePostSettings(Guid id);

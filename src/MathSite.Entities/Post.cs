@@ -46,7 +46,7 @@ namespace MathSite.Entities
 		/// <summary>
 		///     Идентификатор типа поста.
 		/// </summary>
-		public Guid PostTypeId { get; set; }
+		public string PostTypeName { get; set; }
 
 		/// <summary>
 		///     Идентификатор автора поста.

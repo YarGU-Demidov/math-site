@@ -13,7 +13,7 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 		protected override void SetKeys(EntityTypeBuilder<PostType> modelBuilder)
 		{
 			modelBuilder
-				.HasKey(postType => postType.Id);
+				.HasKey(postType => postType.TypeName);
 		}
 
 		/// <inheritdoc />
@@ -30,14 +30,14 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 			modelBuilder
 				.HasMany(postType => postType.Posts)
 				.WithOne(posts => posts.PostType)
-				.HasForeignKey(postType => postType.PostTypeId)
+				.HasForeignKey(postType => postType.PostTypeName)
 				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);
 
 			modelBuilder
 				.HasOne(postType => postType.DefaultPostsSettings)
 				.WithOne(defaultPostsSettings => defaultPostsSettings.PostType)
-				.HasForeignKey<PostSetting>(defaultPostsSettings => defaultPostsSettings.PostTypeId)
+				.HasForeignKey<PostSetting>(defaultPostsSettings => defaultPostsSettings.PostTypeName)
 				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);
 		}

@@ -88,12 +88,11 @@ namespace MathSite.Migrations
                 name: "PostType",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     TypeName = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PostType", x => x.Id);
+                    table.PrimaryKey("PK_PostType", x => x.TypeName);
                 });
 
             migrationBuilder.CreateTable(
@@ -183,17 +182,17 @@ namespace MathSite.Migrations
                     CanBeRated = table.Column<bool>(type: "bool", nullable: true),
                     IsCommentsAllowed = table.Column<bool>(type: "bool", nullable: true),
                     PostOnStartPage = table.Column<bool>(type: "bool", nullable: true),
-                    PostTypeId = table.Column<Guid>(type: "uuid", nullable: false),
+                    PostTypeName = table.Column<string>(type: "text", nullable: false),
                     PreviewImageId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PostSetting", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PostSetting_PostType_PostTypeId",
-                        column: x => x.PostTypeId,
+                        name: "FK_PostSetting_PostType_PostTypeName",
+                        column: x => x.PostTypeName,
                         principalTable: "PostType",
-                        principalColumn: "Id",
+                        principalColumn: "TypeName",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_PostSetting_File_PreviewImageId",
@@ -293,7 +292,7 @@ namespace MathSite.Migrations
                     Excerpt = table.Column<string>(type: "text", nullable: false),
                     PostSeoSettingsId = table.Column<Guid>(type: "uuid", nullable: false),
                     PostSettingsId = table.Column<Guid>(type: "uuid", nullable: false),
-                    PostTypeId = table.Column<Guid>(type: "uuid", nullable: false),
+                    PostTypeName = table.Column<string>(type: "text", nullable: false),
                     PublishDate = table.Column<DateTime>(type: "timestamp", nullable: false),
                     Published = table.Column<bool>(type: "bool", nullable: false),
                     Title = table.Column<string>(type: "text", nullable: false)
@@ -320,10 +319,10 @@ namespace MathSite.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Post_PostType_PostTypeId",
-                        column: x => x.PostTypeId,
+                        name: "FK_Post_PostType_PostTypeName",
+                        column: x => x.PostTypeName,
                         principalTable: "PostType",
-                        principalColumn: "Id",
+                        principalColumn: "TypeName",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -617,9 +616,9 @@ namespace MathSite.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Post_PostTypeId",
+                name: "IX_Post_PostTypeName",
                 table: "Post",
-                column: "PostTypeId");
+                column: "PostTypeName");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PostAttachment_FileId",
@@ -682,9 +681,9 @@ namespace MathSite.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostSetting_PostTypeId",
+                name: "IX_PostSetting_PostTypeName",
                 table: "PostSetting",
-                column: "PostTypeId",
+                column: "PostTypeName",
                 unique: true);
 
             migrationBuilder.CreateIndex(

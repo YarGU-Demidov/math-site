@@ -27,6 +27,7 @@ namespace MathSite.Facades.SiteSettings
 			var settingValue = await MemoryCache.GetOrCreateAsync(GetKey(name), async entry =>
 			{
 				entry.SetSlidingExpiration(GetCacheSpan());
+				entry.Priority = CacheItemPriority.High;
 
 				var setting = await LogicManager.SiteSettingsLogic.TryGetByKeyAsync(name);
 

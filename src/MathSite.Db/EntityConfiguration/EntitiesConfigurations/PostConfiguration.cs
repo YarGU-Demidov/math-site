@@ -49,7 +49,7 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 			modelBuilder
 				.HasOne(post => post.PostType)
 				.WithMany(postType => postType.Posts)
-				.HasForeignKey(postType => postType.PostTypeId)
+				.HasForeignKey(postType => postType.PostTypeName)
 				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);
 
