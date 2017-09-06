@@ -124,9 +124,9 @@ namespace MathSite.Domain.Logic.Posts
 			return post;
 		}
 
-		public async Task<ICollection<Post>> TryGetMainPagePostsWithAllDataAsync(int count, string postTypeName)
+		public async Task<IEnumerable<Post>> TryGetMainPagePostsWithAllDataAsync(int count, string postTypeName)
 		{
-			ICollection<Post> posts = null;
+			IEnumerable<Post> posts = null;
 			
 			await UseContextAsync(async context =>
 			{
@@ -151,6 +151,7 @@ namespace MathSite.Domain.Logic.Posts
 							p.Deleted == false &&
 							p.PublishDate.Date >= DateTime.Today
 						)
+						.OrderBy(p => p.PublishDate)
 						.Take(count)
 						.ToListAsync()
 				);

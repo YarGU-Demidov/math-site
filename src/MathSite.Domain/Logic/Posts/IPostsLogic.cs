@@ -36,6 +36,6 @@ namespace MathSite.Domain.Logic.Posts
 		
 		Task<Post> TryGetPostByUrlAsync(string url);
 		
-		Task<ICollection<Post>> TryGetMainPagePostsWithAllDataAsync(int count, string postTypeName);
+		Task<IEnumerable<Post>> TryGetMainPagePostsWithAllDataAsync(int count, string postTypeName);
 	}
 }
