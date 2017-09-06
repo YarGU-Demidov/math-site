@@ -151,7 +151,7 @@ namespace MathSite.Domain.Logic.Posts
 							p.Deleted == false &&
 							p.PublishDate.Date >= DateTime.Today
 						)
-						.OrderBy(p => p.PublishDate)
+						.OrderByDescending(p => p.PublishDate)
 						.Take(count)
 						.ToListAsync()
 				);
