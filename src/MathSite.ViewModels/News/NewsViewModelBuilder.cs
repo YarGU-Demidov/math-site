@@ -57,7 +57,10 @@ namespace MathSite.ViewModels.News
 
 		private async Task BuildPosts(NewsIndexViewModel model, int page)
 		{
-			var posts = await PostsFacade.GetNewsAsync(page);
+			var posts = (await PostsFacade.GetNewsAsync(page)).ToArray();
+
+			if(!posts.Any())
+				throw new NoMorePosts();
 
 			model.Posts = GetPosts(posts);
 		}
