@@ -127,7 +127,7 @@ namespace MathSite.Domain.Logic.Posts
 							p.PostType.Alias == postTypeAlias &&
 							p.Published &&
 							(p.Deleted == false || p.Deleted == null) &&
-							p.PublishDate.Date >= DateTime.Today
+							p.PublishDate <= DateTime.UtcNow
 						)
 						.OrderByDescending(p => p.PublishDate)
 						.Take(count)
@@ -156,7 +156,7 @@ namespace MathSite.Domain.Logic.Posts
 							p.PostType.Alias == postTypeAlias &&
 							p.Published &&
 							(p.Deleted == false || p.Deleted == null) &&
-							p.PublishDate.Date >= DateTime.Today
+							p.PublishDate <= DateTime.UtcNow
 						)
 						.OrderByDescending(p => p.PublishDate)
 						.Skip(toSkip)
