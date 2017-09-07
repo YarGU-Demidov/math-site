@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using MathSite.ViewModels.SharedModels;
+using MathSite.ViewModels.SharedModels.PostPreview;
 using MathSite.ViewModels.SharedModels.SecondaryPage;
 
 namespace MathSite.ViewModels.News

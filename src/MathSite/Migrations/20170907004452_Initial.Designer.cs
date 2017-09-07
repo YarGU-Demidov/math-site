@@ -11,7 +11,7 @@ using System;
 namespace MathSite.Migrations
 {
     [DbContext(typeof(MathSiteDbContext))]
-    [Migration("20170906114124_Initial")]
+    [Migration("20170907004452_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -233,7 +233,7 @@ namespace MathSite.Migrations
 
                     b.Property<Guid>("PostSettingsId");
 
-                    b.Property<string>("PostTypeName")
+                    b.Property<string>("PostTypeAlias")
                         .IsRequired();
 
                     b.Property<DateTime>("PublishDate");
@@ -253,7 +253,7 @@ namespace MathSite.Migrations
                     b.HasIndex("PostSettingsId")
                         .IsUnique();
 
-                    b.HasIndex("PostTypeName");
+                    b.HasIndex("PostTypeAlias");
 
                     b.ToTable("Post");
                 });
@@ -419,10 +419,13 @@ namespace MathSite.Migrations
 
             modelBuilder.Entity("MathSite.Entities.PostType", b =>
                 {
-                    b.Property<string>("TypeName")
+                    b.Property<string>("Alias")
                         .ValueGeneratedOnAdd();
 
-                    b.HasKey("TypeName");
+                    b.Property<string>("TypeName")
+                        .IsRequired();
+
+                    b.HasKey("Alias");
 
                     b.ToTable("PostType");
                 });
@@ -616,7 +619,7 @@ namespace MathSite.Migrations
 
                     b.HasOne("MathSite.Entities.PostType", "PostType")
                         .WithMany("Posts")
-                        .HasForeignKey("PostTypeName")
+                        .HasForeignKey("PostTypeAlias")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

@@ -88,11 +88,12 @@ namespace MathSite.Migrations
                 name: "PostType",
                 columns: table => new
                 {
+                    Alias = table.Column<string>(type: "text", nullable: false),
                     TypeName = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PostType", x => x.TypeName);
+                    table.PrimaryKey("PK_PostType", x => x.Alias);
                 });
 
             migrationBuilder.CreateTable(
@@ -192,7 +193,7 @@ namespace MathSite.Migrations
                         name: "FK_PostSetting_PostType_PostTypeName",
                         column: x => x.PostTypeName,
                         principalTable: "PostType",
-                        principalColumn: "TypeName",
+                        principalColumn: "Alias",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_PostSetting_File_PreviewImageId",
@@ -292,7 +293,7 @@ namespace MathSite.Migrations
                     Excerpt = table.Column<string>(type: "text", nullable: false),
                     PostSeoSettingsId = table.Column<Guid>(type: "uuid", nullable: false),
                     PostSettingsId = table.Column<Guid>(type: "uuid", nullable: false),
-                    PostTypeName = table.Column<string>(type: "text", nullable: false),
+                    PostTypeAlias = table.Column<string>(type: "text", nullable: false),
                     PublishDate = table.Column<DateTime>(type: "timestamp", nullable: false),
                     Published = table.Column<bool>(type: "bool", nullable: false),
                     Title = table.Column<string>(type: "text", nullable: false)
@@ -319,10 +320,10 @@ namespace MathSite.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Post_PostType_PostTypeName",
-                        column: x => x.PostTypeName,
+                        name: "FK_Post_PostType_PostTypeAlias",
+                        column: x => x.PostTypeAlias,
                         principalTable: "PostType",
-                        principalColumn: "TypeName",
+                        principalColumn: "Alias",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -616,9 +617,9 @@ namespace MathSite.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Post_PostTypeName",
+                name: "IX_Post_PostTypeAlias",
                 table: "Post",
-                column: "PostTypeName");
+                column: "PostTypeAlias");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PostAttachment_FileId",

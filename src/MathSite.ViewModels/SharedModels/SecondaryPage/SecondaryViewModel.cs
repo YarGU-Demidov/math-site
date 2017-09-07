@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using MathSite.ViewModels.SharedModels.PostPreview;
 
 namespace MathSite.ViewModels.SharedModels.SecondaryPage
 {

@@ -2,7 +2,7 @@
 {
 	public static class PostTypeAliases
 	{
-		public const string News = "Новость";
-		public const string StaticPage = "Статическая страница";
+		public const string News = "news";
+		public const string StaticPage = "static";
 	}
 }

@@ -19,10 +19,13 @@ namespace MathSite.Db.DataSeeding.Seeders
 		protected override void SeedData()
 		{
 			var firstPostType = CreateUserSettings(
-				PostTypeAliases.News
+				PostTypeAliases.News,
+				"Новости"
 			);
+
 			var secondPostType = CreateUserSettings(
-				PostTypeAliases.StaticPage
+				PostTypeAliases.StaticPage,
+				"Статическая страница"
 			);
 			var postTypes = new[]
 			{
@@ -33,10 +36,11 @@ namespace MathSite.Db.DataSeeding.Seeders
 			Context.PostTypes.AddRange(postTypes);
 		}
 
-		private static PostType CreateUserSettings(string name)
+		private static PostType CreateUserSettings(string alias, string name)
 		{
 			return new PostType
 			{
+				Alias = alias,
 				TypeName = name,
 				Posts = new List<Post>()
 			};

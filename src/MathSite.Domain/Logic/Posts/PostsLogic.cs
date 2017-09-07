@@ -29,7 +29,7 @@ namespace MathSite.Domain.Logic.Posts
 					Excerpt = excerpt,
 					Published = published,
 					PublishDate = publishDate,
-					PostTypeName = postTypeName,
+					PostTypeAlias = postTypeName,
 					Title = title,
 					PostSettingsId = settings,
 					PostSeoSettingsId = seoSettings
@@ -57,7 +57,7 @@ namespace MathSite.Domain.Logic.Posts
 				post.Content = content;
 				post.Published = published;
 				post.PublishDate = publishDate;
-				post.PostTypeName = postTypeName;
+				post.PostTypeAlias = postTypeName;
 				post.AuthorId = author;
 
 				context.Posts.Update(post);
@@ -84,15 +84,7 @@ namespace MathSite.Domain.Logic.Posts
 					dbContext => dbContext.Posts
 						.Include(p => p.PostSeoSetting)
 						.Include(p => p.Author).ThenInclude(u => u.Person)
-						.Include(p => p.GroupsAllowed)
-						.Include(p => p.PostSettings)
-						.Include(p => p.Comments)
-						.Include(p => p.PostCategories)
-						.Include(p => p.PostOwners)
-						.Include(p => p.PostRatings)
-						.Include(p => p.PostType).ThenInclude(pt => pt.DefaultPostsSettings)
-						.Include(p => p.UsersAllowed)
-						.Include(p => p.PostAttachments),
+						.Include(p => p.PostSettings),
 					posts => posts.Where(p => p.Id == id).FirstOrDefaultAsync()
 				);
 			});
@@ -100,7 +92,83 @@ namespace MathSite.Domain.Logic.Posts
 			return post;
 		}
 
-		public async Task<Post> TryGetPostByUrlAsync(string url)
+		public async Task<IEnumerable<Post>> TryGetPostByUrlAsync(string url)
+		{
+			IEnumerable<Post> postsArray = null;
+
+			await UseContextAsync(async context =>
+			{
+				postsArray = await GetFromItemsAsync(
+					dbContext => dbContext.Posts
+						.Include(p => p.PostSeoSetting)
+						.Include(p => p.Author).ThenInclude(u => u.Person)
+						.Include(p => p.PostSettings),
+					posts => posts.Where(p => p.PostSeoSetting.Url == url).ToArrayAsync()
+				);
+			});
+
+			return postsArray;
+		}
+
+		public async Task<IEnumerable<Post>> TryGetMainPagePostsWithAllDataAsync(int count, string postTypeAlias)
+		{
+			IEnumerable<Post> posts = null;
+
+			await UseContextAsync(async context =>
+			{
+				posts = await GetFromItemsAsync(
+					dbContext => dbContext.Posts
+						.Include(p => p.PostSeoSetting)
+						.Include(p => p.PostType)
+						.Include(p => p.PostSettings),
+					postsWithData => postsWithData
+						.Where(p =>
+							p.PostSettings.PostOnStartPage == true &&
+							p.PostType.Alias == postTypeAlias &&
+							p.Published &&
+							(p.Deleted == false || p.Deleted == null) &&
+							p.PublishDate.Date >= DateTime.Today
+						)
+						.OrderByDescending(p => p.PublishDate)
+						.Take(count)
+						.ToArrayAsync()
+				);
+			});
+
+			return posts;
+		}
+
+		public async Task<IEnumerable<Post>> TryGetNews(int perPage, int page, string postTypeAlias)
+		{
+			IEnumerable<Post> posts = null;
+
+			await UseContextAsync(async context =>
+			{
+				var toSkip = (page - 1) * perPage;
+
+				posts = await GetFromItemsAsync(
+					dbContext => dbContext.Posts
+						.Include(p => p.PostSeoSetting)
+						.Include(p => p.PostType)
+						.Include(p => p.PostSettings),
+					postsWithData => postsWithData
+						.Where(p =>
+							p.PostType.Alias == postTypeAlias &&
+							p.Published &&
+							(p.Deleted == false || p.Deleted == null) &&
+							p.PublishDate.Date >= DateTime.Today
+						)
+						.OrderByDescending(p => p.PublishDate)
+						.Skip(toSkip)
+						.Take(perPage)
+						.ToArrayAsync()
+				);
+			});
+
+			return posts;
+		}
+
+		public async Task<Post> TryGetActivePostByUrlAndTypeAsync(string url, string postType)
 		{
 			Post post = null;
 
@@ -110,47 +178,17 @@ namespace MathSite.Domain.Logic.Posts
 					dbContext => dbContext.Posts
 						.Include(p => p.PostSeoSetting)
 						.Include(p => p.Author).ThenInclude(u => u.Person)
-						.Include(p => p.GroupsAllowed)
-						.Include(p => p.PostSettings)
-						.Include(p => p.Comments)
-						.Include(p => p.PostCategories)
-						.Include(p => p.PostOwners)
-						.Include(p => p.PostRatings)
-						.Include(p => p.PostType).ThenInclude(pt => pt.DefaultPostsSettings)
-						.Include(p => p.UsersAllowed)
-						.Include(p => p.PostAttachments),
-					posts => posts.Where(p => p.PostSeoSetting.Url == url).FirstOrDefaultAsync()
+						.Include(p => p.PostSettings),
+					posts => posts.FirstOrDefaultAsync(p => 
+						p.PostSeoSetting.Url == url && 
+						p.PostTypeAlias == postType &&
+						(p.Deleted == false || p.Deleted == null) &&
+						p.Published
+					)
 				);
 			});
 
 			return post;
-		}
-
-		public async Task<IEnumerable<Post>> TryGetMainPagePostsWithAllDataAsync(int count, string postTypeName)
-		{
-			IEnumerable<Post> posts = null;
-
-			await UseContextAsync(async context =>
-			{
-				posts = await GetFromItemsAsync(
-					dbContext => dbContext.Posts
-						.Include(p => p.PostSeoSetting)
-						.Include(p => p.PostSettings),
-					postsWithData => postsWithData
-						.Where(p =>
-							p.PostSettings.PostOnStartPage == true &&
-							p.PostTypeName == postTypeName &&
-							p.Published &&
-							p.Deleted == false &&
-							p.PublishDate.Date >= DateTime.Today
-						)
-						.OrderByDescending(p => p.PublishDate)
-						.Take(count)
-						.ToListAsync()
-				);
-			});
-
-			return posts;
 		}
 	}
 }
