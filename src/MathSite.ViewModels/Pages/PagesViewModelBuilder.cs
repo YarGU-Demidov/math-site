@@ -2,6 +2,7 @@
 using MathSite.Entities;
 using MathSite.Facades.Posts;
 using MathSite.Facades.SiteSettings;
+using MathSite.ViewModels.SharedModels.PostPreview;
 using MathSite.ViewModels.SharedModels.SecondaryPage;
 
 namespace MathSite.ViewModels.Pages
@@ -9,8 +10,8 @@ namespace MathSite.ViewModels.Pages
 	public class PagesViewModelBuilder : SecondaryViewModelBuilder, IPagesViewModelBuilder
 
 	{
-		public PagesViewModelBuilder(ISiteSettingsFacade siteSettingsFacade, IPostsFacade postsFacade) 
-			: base(siteSettingsFacade, postsFacade)
+		public PagesViewModelBuilder(ISiteSettingsFacade siteSettingsFacade, IPostsFacade postsFacade, IPostPreviewViewModelBuilder postPreviewViewModelBuilder) 
+			: base(siteSettingsFacade, postsFacade, postPreviewViewModelBuilder)
 		{
 		}
 

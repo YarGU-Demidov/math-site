@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using MathSite.Common.Exceptions;
 using MathSite.Db;
 using MathSite.ViewModels.News;
 using Microsoft.AspNetCore.Mvc;
@@ -32,7 +33,14 @@ namespace MathSite.Controllers
 		[NonAction]
 		private async Task<IActionResult> ShowNewsItem(string query, int page)
 		{
-			return View("NewsItem", await _viewModelBuilder.BuildNewsItemViewModelAsync(query, page));
+			try
+			{
+				return View("NewsItem", await _viewModelBuilder.BuildNewsItemViewModelAsync(query, page));
+			}
+			catch (PostNotFoundException)
+			{
+				return NotFound();
+			}
 		}
 	}
 }

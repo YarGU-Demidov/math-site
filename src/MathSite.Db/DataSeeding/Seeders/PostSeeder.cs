@@ -28,7 +28,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 				GetUserByLogin(UsersAliases.FirstUser),
 				true,
 				false,
-				GetPostTypeByName(PostTypeAliases.News),
+				GetPostTypeByAlias(PostTypeAliases.News),
 				GetPostSettingsByPostType(PostTypeAliases.News),
 				GetPostSeoSettingsByTitle(PostSeoSettingsAliases.FirstPostSeoSettings)
 			);
@@ -41,7 +41,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 				GetUserByLogin(UsersAliases.FirstUser),
 				false,
 				true,
-				GetPostTypeByName(PostTypeAliases.StaticPage),
+				GetPostTypeByAlias(PostTypeAliases.StaticPage),
 				GetPostSettingsByPostType(PostTypeAliases.StaticPage),
 				GetPostSeoSettingsByTitle(PostSeoSettingsAliases.SecondPostSeoSettings)
 			);
@@ -55,9 +55,9 @@ namespace MathSite.Db.DataSeeding.Seeders
 			Context.Posts.AddRange(posts);
 		}
 
-		private PostType GetPostTypeByName(string name)
+		private PostType GetPostTypeByAlias(string alias)
 		{
-			return Context.PostTypes.First(postType => postType.TypeName == name);
+			return Context.PostTypes.First(postType => postType.Alias == alias);
 		}
 
 		private User GetUserByLogin(string login)
@@ -67,7 +67,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 
 		private PostSetting GetPostSettingsByPostType(string name)
 		{
-			return Context.PostSettings.First(postSettings => postSettings.PostType.TypeName == name);
+			return Context.PostSettings.First(postSettings => postSettings.PostType.Alias == name);
 		}
 
 		private PostSeoSetting GetPostSeoSettingsByTitle(string title)

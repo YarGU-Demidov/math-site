@@ -21,6 +21,7 @@ using MathSite.Facades.UserValidation;
 using MathSite.ViewModels.Home;
 using MathSite.ViewModels.News;
 using MathSite.ViewModels.Pages;
+using MathSite.ViewModels.SharedModels.PostPreview;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -134,6 +135,7 @@ namespace MathSite
 			services.AddScoped<IHomeViewModelBuilder, HomeViewModelBuilder>();
 			services.AddScoped<INewsViewModelBuilder, NewsViewModelBuilder>();
 			services.AddScoped<IPagesViewModelBuilder, PagesViewModelBuilder>();
+			services.AddScoped<IPostPreviewViewModelBuilder, PostPreviewViewModelBuilder>();
 		}
 
 		private void ConfigureEntityFramework(IServiceCollection services)

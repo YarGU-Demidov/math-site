@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using MathSite.ViewModels.SharedModels;
+﻿using System.Collections.Generic;
+using MathSite.ViewModels.SharedModels.PostPreview;
 
 namespace MathSite.ViewModels.Home
 {
