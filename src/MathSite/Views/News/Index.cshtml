@@ -2,6 +2,12 @@
 @{
 	Layout = "SecondaryLayout";
 }
+
+@if (!Model.Posts.Any())
+{
+	<h2>Новостей нет.</h2>
+}
+
 @foreach (var post in Model.Posts)
 {
 	@Html.Partial("Partials/Posts/ListPostPreview", post)

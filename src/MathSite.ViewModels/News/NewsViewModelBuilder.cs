@@ -59,9 +59,6 @@ namespace MathSite.ViewModels.News
 		{
 			var posts = (await PostsFacade.GetNewsAsync(page)).ToArray();
 
-			if(!posts.Any())
-				throw new NoMorePosts();
-
 			model.Posts = GetPosts(posts);
 		}
 
