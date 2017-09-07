@@ -9,36 +9,17 @@ namespace MathSite.Domain.Logic.Files
 {
 	public class FilesLogic : LogicBase<File>, IFilesLogic
 	{
-		private const string PersonNotFoundFormat = "Личность с Id='{0}' не найдена";
-		private const string PersonAlreadyHasPhotoFormat = "Личность с Id='{0}' уже имеет фото";
-		private const string FileNotFoundFormat = "Файл с Id='{0}' не найден";
-		
 		public FilesLogic(MathSiteDbContext contextManager) 
 			: base(contextManager)
 		{
 		}
-
-		/// <summary>
-		///     Асинхронно создает файл.
-		/// </summary>
-		/// <param name="currentUserId">Идентификатор текущего пользователя.</param>
-		/// <param name="fileName">Название файла.</param>
-		/// <param name="filePath">Путь к файлу.</param>
-		/// <param name="extension">Расширение файла.</param>
-		/// <param name="personId">Идентификатор личности.</param>
-		public async Task<Guid> CreateFileAsync(Guid currentUserId, string fileName, string filePath, string extension,
-			Guid personId)
+		
+		public async Task<Guid> CreateFileAsync(string fileName, string filePath, string extension)
 		{
 			var fileId = Guid.Empty;
 			await UseContextAsync(async context =>
 			{
-				var person = context.Persons.FirstOrDefaultAsync(p => p.Id == personId).Result;
-				if (person == null)
-					throw new Exception(string.Format(PersonNotFoundFormat, personId));
-				if (person.PhotoId != null)
-					throw new Exception(string.Format(PersonAlreadyHasPhotoFormat, personId));
-
-				var file = new File(fileName, filePath, extension, person);
+				var file = new File(fileName, filePath, extension);
 
 				context.Files.Add(file);
 				await context.SaveChangesAsync();
@@ -49,21 +30,11 @@ namespace MathSite.Domain.Logic.Files
 			return fileId;
 		}
 
-		/// <summary>
-		///     Асинхронно обновляет файл.
-		/// </summary>
-		/// <param name="fileId">Идентификатор файла.</param>
-		/// <param name="currentUserId">Идентификатор текущего пользователя.</param>
-		/// <param name="fileName">Название файла.</param>
-		/// <param name="filePath">Путь к файлу.</param>
-		/// <param name="extension">Расширение файла.</param>
-		public async Task UpdateFileAsync(Guid currentUserId, Guid fileId, string fileName, string filePath, string extension)
+		public async Task UpdateFileAsync(Guid fileId, string fileName, string filePath, string extension)
 		{
 			await UseContextWithSaveAsync(async context =>
 			{
-				var file = await context.Files.FirstOrDefaultAsync(i => i.Id == fileId);
-				if (file == null)
-					throw new Exception(string.Format(FileNotFoundFormat, fileId));
+				var file = await TryGetFileByIdAsync(fileId);
 
 				file.FileName = fileName;
 				file.FilePath = filePath;
@@ -71,21 +42,26 @@ namespace MathSite.Domain.Logic.Files
 			});
 		}
 
-		/// <summary>
-		///     Асинхронно удаляет файл.
-		/// </summary>
-		/// <param name="currentUserId">Идентификатор текущего пользователя.</param>
-		/// <param name="fileId">Идентификатор файла.</param>
-		public async Task DeleteFileAsync(Guid currentUserId, Guid fileId)
+		public async Task DeleteFileAsync(Guid fileId)
 		{
 			await UseContextWithSaveAsync(async context =>
 			{
-				var file = await context.Files.FirstOrDefaultAsync(i => i.Id == fileId);
-				if (file == null)
-					throw new Exception(string.Format(FileNotFoundFormat, fileId));
+				var file = await TryGetFileByIdAsync(fileId);
 
 				context.Files.Remove(file);
 			});
+		}
+
+		public async Task<File> TryGetFileByIdAsync(Guid id)
+		{
+			File file = null;
+
+			await UseContextAsync(async context =>
+			{
+				file = await context.Files.FirstOrDefaultAsync(i => i.Id == id);
+			});
+
+			return file;
 		}
 	}
 }

@@ -23,15 +23,15 @@ namespace MathSite.Db.DataSeeding.Seeders
 				"FirstFile",
 				DateTime.Now,
 				"first file path",
-				"first extension",
-				GetPersonBySurname("Девяткин"));
+				"first extension"
+			);
 
 			var secondFile = CreateFile(
 				"SecondFile",
 				DateTime.Now,
 				"second file path",
-				"second extension",
-				GetPersonBySurname("Мокеев"));
+				"second extension"
+			);
 
 			var files = new[]
 			{
@@ -42,12 +42,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 			Context.Files.AddRange(files);
 		}
 
-		private Person GetPersonBySurname(string surname)
-		{
-			return Context.Persons.First(person => person.Surname == surname);
-		}
-
-		private static File CreateFile(string name, DateTime dateAdded, string filePath, string extension, Person person)
+		private static File CreateFile(string name, DateTime dateAdded, string filePath, string extension)
 		{
 			return new File
 			{
@@ -55,7 +50,6 @@ namespace MathSite.Db.DataSeeding.Seeders
 				DateAdded = dateAdded,
 				FilePath = filePath,
 				Extension = extension,
-				Person = person,
 				PostSettings = new List<PostSetting>(),
 				PostAttachments = new List<PostAttachment>()
 			};
