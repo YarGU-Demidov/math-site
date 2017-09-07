@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using MathSite.Common.Exceptions;
 using MathSite.Db;
 using MathSite.ViewModels.News;
@@ -15,19 +16,24 @@ namespace MathSite.Controllers
 			_viewModelBuilder = viewModelBuilder;
 		}
 
-		public async Task<IActionResult> Index(string query, int page = 1)
+		public async Task<IActionResult> Index(string query, [FromQuery] int page = 1)
 		{
-			ViewData.Add("page", page);
-
 			return string.IsNullOrWhiteSpace(query)
-				? await ShowAllNews()
+				? await ShowAllNews(page)
 				: await ShowNewsItem(query, page);
 		}
 
 		[NonAction]
-		private async Task<IActionResult> ShowAllNews()
+		private async Task<IActionResult> ShowAllNews(int page)
 		{
-			return View(await _viewModelBuilder.BuildIndexViewModelAsync());
+			try
+			{
+				return View(await _viewModelBuilder.BuildIndexViewModelAsync(page));
+			}
+			catch (NoMorePosts)
+			{
+				return NotFound();
+			}
 		}
 
 		[NonAction]
