@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using MathSite.Entities;
 
 namespace MathSite.Domain.Logic.Persons
 {
@@ -24,7 +25,6 @@ namespace MathSite.Domain.Logic.Persons
 		/// <summary>
 		///     Асинхронно обновляет личность.
 		/// </summary>
-		/// <param name="currentUserId">Идентификатор текущего пользователя.</param>
 		/// <param name="personId">Идентификатор личности.</param>
 		/// <param name="name">Имя.</param>
 		/// <param name="surname">Фамилия.</param>
@@ -34,14 +34,15 @@ namespace MathSite.Domain.Logic.Persons
 		/// <param name="additionalPhoneNumber">Дополнительный номер телефона.</param>
 		/// <param name="photoId">Идентификатор изображения личности.</param>
 		/// <exception cref="Exception">Личность не найдена.</exception>
-		Task UpdatePersonAsync(Guid currentUserId, Guid personId, string name, string surname, string middlename,
+		Task UpdatePersonAsync(Guid personId, string name, string surname, string middlename,
 			DateTime birthday, string phoneNumber, string additionalPhoneNumber, Guid? photoId);
 
 		/// <summary>
 		///     Асинхронно удаляет личность.
 		/// </summary>
-		/// <param name="currentUserId">Идентификатор текущего пользователя.</param>
 		/// <param name="personId">Идентификатор личности.</param>
-		Task DeletePersonAsync(Guid currentUserId, Guid personId);
+		Task DeletePersonAsync(Guid personId);
+
+		Task<Person> TryGetPersonById(Guid id);
 	}
 }

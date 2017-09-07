@@ -57,12 +57,12 @@ namespace MathSite.Domain.Logic.Persons
 		/// <param name="additionalPhoneNumber">Дополнительный номер телефона.</param>
 		/// <param name="photoId">Идентификатор изображения личности.</param>
 		/// <exception cref="Exception">Личность не найдена.</exception>
-		public async Task UpdatePersonAsync(Guid currentUserId, Guid personId, string name, string surname, string middlename,
+		public async Task UpdatePersonAsync(Guid personId, string name, string surname, string middlename,
 			DateTime birthday, string phoneNumber, string additionalPhoneNumber, Guid? photoId)
 		{
 			await UseContextWithSaveAsync(async context =>
 			{
-				var person = await GetFromItemsAsync(persons => persons.FirstAsync(p => p.Id == personId));
+				var person = await TryGetPersonById(personId);
 
 				person.Name = name;
 				person.Surname = surname;
@@ -79,14 +79,19 @@ namespace MathSite.Domain.Logic.Persons
 		/// </summary>
 		/// <param name="currentUserId">Идентификатор текущего пользователя.</param>
 		/// <param name="personId">Идентификатор личности.</param>
-		public async Task DeletePersonAsync(Guid currentUserId, Guid personId)
+		public async Task DeletePersonAsync(Guid personId)
 		{
 			await UseContextWithSaveAsync(async context =>
 			{
-				var person = await GetFromItemsAsync(persons => persons.FirstAsync(p => p.Id == personId));
+				var person = await TryGetPersonById(personId);
 
 				context.Persons.Remove(person);
 			});
+		}
+
+		public async Task<Person> TryGetPersonById(Guid id)
+		{
+			return await GetFromItemsAsync(persons => persons.FirstOrDefaultAsync(p => p.Id == id));
 		}
 	}
 }
