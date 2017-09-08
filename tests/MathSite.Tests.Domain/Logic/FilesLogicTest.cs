@@ -16,7 +16,7 @@ namespace MathSite.Tests.Domain.Logic
 
 				var id = await CreateFileItemAsync(filesLogic);
 
-				var file = await filesLogic.TryGetFileByIdAsync(id);
+				var file = await filesLogic.TryGetByIdAsync(id);
 
 				Assert.NotNull(file);
 			});
@@ -30,7 +30,7 @@ namespace MathSite.Tests.Domain.Logic
 			await ExecuteWithContextAsync(async context =>
 			{
 				var filesLogic = new FilesLogic(context);
-				var file = await filesLogic.TryGetFileByIdAsync(id);
+				var file = await filesLogic.TryGetByIdAsync(id);
 
 				Assert.Null(file);
 			});
@@ -51,7 +51,7 @@ namespace MathSite.Tests.Domain.Logic
 
 				Assert.NotEqual(Guid.Empty, id);
 
-				var file = await filesLogic.TryGetFileByIdAsync(id);
+				var file = await filesLogic.TryGetByIdAsync(id);
 				Assert.NotNull(file);
 
 				Assert.Equal(fileName,file.FileName);
@@ -76,7 +76,7 @@ namespace MathSite.Tests.Domain.Logic
 
 				await filesLogic.UpdateFileAsync(id, fileName, filePath, fileExtension);
 
-				var file = await filesLogic.TryGetFileByIdAsync(id);
+				var file = await filesLogic.TryGetByIdAsync(id);
 
 				Assert.NotNull(file);
 
@@ -97,7 +97,7 @@ namespace MathSite.Tests.Domain.Logic
 
 				await filesLogic.DeleteFileAsync(id);
 
-				var file = await filesLogic.TryGetFileByIdAsync(id);
+				var file = await filesLogic.TryGetByIdAsync(id);
 
 				Assert.Null(file);
 			});

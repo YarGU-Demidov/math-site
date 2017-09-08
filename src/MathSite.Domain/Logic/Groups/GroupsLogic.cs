@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MathSite.Db;
@@ -16,21 +15,13 @@ namespace MathSite.Domain.Logic.Groups
 		{
 		}
 
-		/// <summary>
-		///     Асинхронно создает группу.
-		/// </summary>
-		/// <param name="currentUserId">Идентификатор текущего пользователя.</param>
-		/// <param name="name">Наименование группы.</param>
-		/// <param name="description">Описание группы.</param>
-		/// <param name="groupTypeId">Идентификатор типа группы.</param>
-		/// <param name="parentGroupId">Идентификатор родительской группы.</param>
-		public async Task<Guid> CreateGroupAsync(Guid currentUserId, string name, string description, Guid groupTypeId,
+		public async Task<Guid> CreateGroupAsync(string name, string description, string alias, string groupTypeAlias,
 			Guid? parentGroupId)
 		{
 			var groupId = Guid.Empty;
 			await UseContextAsync(async context =>
 			{
-				var group = new Group(name, description, groupTypeId, parentGroupId);
+				var group = new Group(name, description, alias, groupTypeAlias, parentGroupId);
 
 				context.Groups.Add(group);
 				await context.SaveChangesAsync();
@@ -41,40 +32,24 @@ namespace MathSite.Domain.Logic.Groups
 			return groupId;
 		}
 
-		/// <summary>
-		///     Асинхронно обновляет группу.
-		/// </summary>
-		/// <param name="currentUserId">Идентификатор текущего пользователя.</param>
-		/// <param name="groupId">Идентификатор группы.</param>
-		/// <param name="name">Наименование группы.</param>
-		/// <param name="description">Описание группы.</param>
-		/// <param name="groupTypeId">Идентификатор типа группы.</param>
-		/// <param name="parentGroupId">Идентификатор родительской группы.</param>
-		public async Task UpdateGroupAsync(Guid currentUserId, Guid groupId, string name, string description,
-			Guid groupTypeId, Guid? parentGroupId)
+		public async Task UpdateGroupAsync(Guid groupId, string name, string description, string groupTypeAlias,
+			Guid? parentGroupId)
 		{
 			await UseContextWithSaveAsync(async context =>
 			{
-				var group = await context.Groups.FirstOrDefaultAsync(i => i.Id == groupId);
+				var group = await TryGetByIdAsync(groupId);
 
 				group.Name = name;
 				group.Description = description;
-				group.Alias = name;
-				group.GroupTypeId = groupTypeId;
 				group.ParentGroupId = parentGroupId;
 			});
 		}
 
-		/// <summary>
-		///     Асинхронно удаляет группу.
-		/// </summary>
-		/// <param name="currentUserId">Идентификатор текущего пользователя.</param>
-		/// <param name="groupId">Идентификатор группы.</param>
-		public async Task DeleteGroupAsync(Guid currentUserId, Guid groupId)
+		public async Task DeleteGroupAsync(Guid groupId)
 		{
 			await UseContextWithSaveAsync(async context =>
 			{
-				var group = await context.Groups.FirstOrDefaultAsync(i => i.Id == groupId);
+				var group = await TryGetByIdAsync(groupId);
 
 				context.Groups.Remove(group);
 			});
@@ -85,7 +60,7 @@ namespace MathSite.Domain.Logic.Groups
 			Group group = null;
 			await UseContextAsync(async context =>
 			{
-				group = await context.Groups.FirstOrDefaultAsync(g => g.Id == id);
+				group = await GetFromItemsAsync(groups => groups.FirstOrDefaultAsync(g => g.Id == id));
 			});
 
 			return group;
@@ -96,94 +71,51 @@ namespace MathSite.Domain.Logic.Groups
 			Group group = null;
 			await UseContextAsync(async context =>
 			{
-				group = await context.Groups.FirstOrDefaultAsync(g => g.Alias == alias);
+				group = await GetFromItemsAsync(groups => groups.FirstOrDefaultAsync(g => g.Alias == alias));
 			});
 
 			return group;
 		}
 
-		public async Task<ICollection<User>> GetGroupUsersAsync(Guid id)
+		public async Task<Group> TryGetGroupWithUsersByIdAsync(Guid id)
 		{
-			ICollection<User> users = new List<User>();
-
-			await UseContextAsync(async context =>
-			{
-				var group = await context.Groups
-					.Include(g => g.Users)
-					.Where(g => g.Id == id)
-					.FirstOrDefaultAsync();
-
-				if(group == null)
-					return;
-
-				users = group.Users;
-			});
-
-			return users;
+			return await TryGetGroup(
+				groups => groups.Include(group => group.Users).FirstOrDefaultAsync(group => group.Id == id)
+			);
 		}
 
-		public async Task<ICollection<User>> GetGroupUsersAsync(string alias)
+		public async Task<Group> TryGetGroupWithUsersByAliasAsync(string alias)
 		{
-			ICollection<User> users = new List<User>();
-
-			await UseContextAsync(async context =>
-			{
-				var group = await context.Groups
-					.Include(g => g.Users)
-					.Where(g => g.Alias == alias)
-					.FirstOrDefaultAsync();
-
-				if (group == null)
-					return;
-
-				users = group.Users;
-			});
-
-			return users;
+			return await TryGetGroup(
+				groups => groups.Include(group => group.Users).FirstOrDefaultAsync(group => group.Alias == alias)
+			);
 		}
 
-		public async Task<ICollection<User>> GetGroupUsersWithRightsAsync(Guid id)
+		public async Task<Group> TryGetGroupWithUsersWithRightsByIdAsync(Guid id)
 		{
-			ICollection<User> users = new List<User>();
-
-			await UseContextAsync(async context =>
-			{
-				var group = await context.Groups
-					.Include(g => g.Users)
-					.ThenInclude(u => u.UserRights)
-					.ThenInclude(rights => rights.Right)
-					.Where(g => g.Id == id)
-					.FirstOrDefaultAsync();
-
-				if (group == null)
-					return;
-
-				users = group.Users;
-			});
-
-			return users;
+			return await TryGetGroup(
+				groups => groups
+					.Include(group => group.Users).ThenInclude(user => user.UserRights).ThenInclude(right => right.Right)
+					.Include(group => group.GroupsRights).ThenInclude(right => right.Right)
+					.FirstOrDefaultAsync(group => group.Id == id)
+			);
 		}
 
-		public async Task<ICollection<User>> GetGroupUsersWithRightsAsync(string alias)
+		public async Task<Group> TryGetGroupWithUsersWithRightsByAliasAsync(string alias)
 		{
-			ICollection<User> users = new List<User>();
+			return await TryGetGroup(
+				groups => groups
+					.Include(group => group.Users).ThenInclude(user => user.UserRights).ThenInclude(right => right.Right)
+					.Include(group => group.GroupsRights).ThenInclude(right => right.Right)
+					.FirstOrDefaultAsync(group => group.Alias == alias)
+			);
+		}
 
-			await UseContextAsync(async context =>
-			{
-				var group = await context.Groups
-					.Include(g => g.Users)
-					.ThenInclude(u => u.UserRights)
-					.ThenInclude(rights => rights.Right)
-					.Where(g => g.Alias == alias)
-					.FirstOrDefaultAsync();
-
-				if (group == null)
-					return;
-
-				users = group.Users;
-			});
-
-			return users;
+		private async Task<Group> TryGetGroup(
+			Func<IQueryable<Group>, Task<Group>> getResultAsync
+		)
+		{
+			return await GetFromItemsAsync(getResultAsync);
 		}
 	}
 }

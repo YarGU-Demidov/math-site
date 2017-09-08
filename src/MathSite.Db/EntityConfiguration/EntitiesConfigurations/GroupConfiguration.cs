@@ -56,7 +56,7 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 			modelBuilder
 				.HasOne(group => group.GroupType)
 				.WithMany(groupType => groupType.Groups)
-				.HasForeignKey(groupType => groupType.GroupTypeId)
+				.HasForeignKey(groupType => groupType.GroupTypeAlias)
 				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);
 

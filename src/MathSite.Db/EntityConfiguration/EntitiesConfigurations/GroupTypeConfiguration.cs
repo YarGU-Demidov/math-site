@@ -12,10 +12,7 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 		protected override void SetKeys(EntityTypeBuilder<GroupType> modelBuilder)
 		{
 			modelBuilder
-				.HasKey(groupType => groupType.Id);
-
-			modelBuilder
-				.HasAlternateKey(groupType => groupType.Alias);
+				.HasKey(groupType => groupType.Alias);
 		}
 
 		/// <inheritdoc />
@@ -40,7 +37,7 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 			modelBuilder
 				.HasMany(groupType => groupType.Groups)
 				.WithOne(group => group.GroupType)
-				.HasForeignKey(group => group.GroupTypeId)
+				.HasForeignKey(group => group.GroupTypeAlias)
 				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);
 		}

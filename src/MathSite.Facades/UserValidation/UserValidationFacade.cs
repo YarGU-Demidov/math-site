@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Domain.Common;
 using MathSite.Entities;
 using Microsoft.Extensions.Caching.Memory;

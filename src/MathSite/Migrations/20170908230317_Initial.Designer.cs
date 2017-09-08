@@ -11,7 +11,7 @@ using System;
 namespace MathSite.Migrations
 {
     [DbContext(typeof(MathSiteDbContext))]
-    [Migration("20170907004452_Initial")]
+    [Migration("20170908230317_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -97,7 +97,8 @@ namespace MathSite.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<Guid>("GroupTypeId");
+                    b.Property<string>("GroupTypeAlias")
+                        .IsRequired();
 
                     b.Property<bool>("IsAdmin")
                         .ValueGeneratedOnAdd()
@@ -110,7 +111,7 @@ namespace MathSite.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GroupTypeId");
+                    b.HasIndex("GroupTypeAlias");
 
                     b.HasIndex("ParentGroupId");
 
@@ -140,20 +141,15 @@ namespace MathSite.Migrations
 
             modelBuilder.Entity("MathSite.Entities.GroupType", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
                     b.Property<string>("Alias")
-                        .IsRequired();
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Description");
 
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.HasKey("Id");
-
-                    b.HasAlternateKey("Alias");
+                    b.HasKey("Alias");
 
                     b.ToTable("GroupType");
                 });
@@ -565,7 +561,7 @@ namespace MathSite.Migrations
                 {
                     b.HasOne("MathSite.Entities.GroupType", "GroupType")
                         .WithMany("Groups")
-                        .HasForeignKey("GroupTypeId")
+                        .HasForeignKey("GroupTypeAlias")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("MathSite.Entities.Group", "ParentGroup")
