@@ -45,15 +45,13 @@ namespace MathSite.Migrations
                 name: "GroupType",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Alias = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: true),
                     Name = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GroupType", x => x.Id);
-                    table.UniqueConstraint("AK_GroupType_Alias", x => x.Alias);
+                    table.PrimaryKey("PK_GroupType", x => x.Alias);
                 });
 
             migrationBuilder.CreateTable(
@@ -128,7 +126,7 @@ namespace MathSite.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Alias = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: true),
-                    GroupTypeId = table.Column<Guid>(type: "uuid", nullable: false),
+                    GroupTypeAlias = table.Column<string>(type: "text", nullable: false),
                     IsAdmin = table.Column<bool>(type: "bool", nullable: false, defaultValue: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     ParentGroupId = table.Column<Guid>(type: "uuid", nullable: true)
@@ -137,10 +135,10 @@ namespace MathSite.Migrations
                 {
                     table.PrimaryKey("PK_Group", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Group_GroupType_GroupTypeId",
-                        column: x => x.GroupTypeId,
+                        name: "FK_Group_GroupType_GroupTypeAlias",
+                        column: x => x.GroupTypeAlias,
                         principalTable: "GroupType",
-                        principalColumn: "Id",
+                        principalColumn: "Alias",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Group_Group_ParentGroupId",
@@ -568,9 +566,9 @@ namespace MathSite.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Group_GroupTypeId",
+                name: "IX_Group_GroupTypeAlias",
                 table: "Group",
-                column: "GroupTypeId");
+                column: "GroupTypeAlias");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Group_ParentGroupId",

@@ -10,11 +10,6 @@ namespace MathSite.Entities
 	public class GroupType
 	{
 		/// <summary>
-		///     Идентификатор группы.
-		/// </summary>
-		public Guid Id { get; set; }
-
-		/// <summary>
 		///     Имя типа группы.
 		/// </summary>
 		public string Name { get; set; }

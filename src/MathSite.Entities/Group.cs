@@ -17,15 +17,16 @@ namespace MathSite.Entities
 		/// </summary>
 		/// <param name="name">Название.</param>
 		/// <param name="description">Описание.</param>
-		/// <param name="groupTypeId">Идентификатор типа группы.</param>
+		/// <param name="alias">Alias группы.</param>
+		/// <param name="groupTypeAlias">Alias типа группы.</param>
 		/// <param name="parentGroupId">Идентификатор родительской группы.</param>
-		public Group(string name, string description, Guid groupTypeId, Guid? parentGroupId)
+		public Group(string name, string description, string alias, string groupTypeAlias, Guid? parentGroupId)
 		{
 			Name = name;
 			Description = description;
-			Alias = name;
-			GroupTypeId = groupTypeId;
+			Alias = alias;
 			ParentGroupId = parentGroupId;
+			GroupTypeAlias = groupTypeAlias;
 			IsAdmin = false;
 		}
 
@@ -62,7 +63,7 @@ namespace MathSite.Entities
 		/// <summary>
 		///     Идентификатор типа группы.
 		/// </summary>
-		public Guid GroupTypeId { get; set; }
+		public string GroupTypeAlias { get; set; }
 
 		/// <summary>
 		///     Тип группы.

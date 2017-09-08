@@ -29,6 +29,6 @@ namespace MathSite.Domain.Logic.Files
 		/// <param name="fileId">Идентификатор файла.</param>
 		Task DeleteFileAsync(Guid fileId);
 
-		Task<File> TryGetFileByIdAsync(Guid id);
+		Task<File> TryGetByIdAsync(Guid id);
 	}
 }

@@ -34,7 +34,7 @@ namespace MathSite.Domain.Logic.Files
 		{
 			await UseContextWithSaveAsync(async context =>
 			{
-				var file = await TryGetFileByIdAsync(fileId);
+				var file = await TryGetByIdAsync(fileId);
 
 				file.FileName = fileName;
 				file.FilePath = filePath;
@@ -46,19 +46,19 @@ namespace MathSite.Domain.Logic.Files
 		{
 			await UseContextWithSaveAsync(async context =>
 			{
-				var file = await TryGetFileByIdAsync(fileId);
+				var file = await TryGetByIdAsync(fileId);
 
 				context.Files.Remove(file);
 			});
 		}
 
-		public async Task<File> TryGetFileByIdAsync(Guid id)
+		public async Task<File> TryGetByIdAsync(Guid id)
 		{
 			File file = null;
 
 			await UseContextAsync(async context =>
 			{
-				file = await context.Files.FirstOrDefaultAsync(i => i.Id == id);
+				file = await GetFromItemsAsync(files => files.FirstOrDefaultAsync(i => i.Id == id));
 			});
 
 			return file;

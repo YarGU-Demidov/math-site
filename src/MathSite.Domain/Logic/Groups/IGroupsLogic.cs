@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using MathSite.Entities;
 
@@ -10,43 +9,38 @@ namespace MathSite.Domain.Logic.Groups
 		/// <summary>
 		///     Асинхронно создает группу.
 		/// </summary>
-		/// <param name="currentUserId">Идентификатор текущего пользователя.</param>
 		/// <param name="name">Название.</param>
 		/// <param name="description">Описание.</param>
-		/// <param name="groupTypeId">Идентификатор типа группы.</param>
+		/// <param name="groupTypeAlias">Alias типа группы.</param>
 		/// <param name="parentGroupId">Идентификатор родительской группы.</param>
-		Task<Guid> CreateGroupAsync(Guid currentUserId, string name, string description, Guid groupTypeId,
-			Guid? parentGroupId);
+		Task<Guid> CreateGroupAsync(string name, string description, string alias, string groupTypeAlias, Guid? parentGroupId);
 
 		/// <summary>
 		///     Асинхронно обновляет группу.
 		/// </summary>
-		/// <param name="currentUserId">Идентификатор текущего пользователя.</param>
 		/// <param name="groupId">Идентификатор группы.</param>
 		/// <param name="name">Наименование группы.</param>
 		/// <param name="description">Описание группы.</param>
-		/// <param name="groupTypeId">Идентификатор типа группы.</param>
+		/// <param name="groupTypeAlias">Alias типа группы.</param>
 		/// <param name="parentGroupId">Идентификатор родительской группы.</param>
-		Task UpdateGroupAsync(Guid currentUserId, Guid groupId, string name, string description, Guid groupTypeId,
-			Guid? parentGroupId);
+		Task UpdateGroupAsync(Guid groupId, string name, string description, string groupTypeAlias, Guid? parentGroupId);
 
 		/// <summary>
 		///     Асинхронно удаляет группу.
 		/// </summary>
-		/// <param name="currentUserId">Идентификатор текущего пользователя.</param>
 		/// <param name="groupId">Идентификатор группы.</param>
-		Task DeleteGroupAsync(Guid currentUserId, Guid groupId);
+		Task DeleteGroupAsync(Guid groupId);
 
 		Task<Group> TryGetByIdAsync(Guid id);
 
 		Task<Group> TryGetByAliasAsync(string alias);
 
-		Task<ICollection<User>> GetGroupUsersAsync(Guid id);
+		Task<Group> TryGetGroupWithUsersByIdAsync(Guid id);
 
-		Task<ICollection<User>> GetGroupUsersAsync(string alias);
+		Task<Group> TryGetGroupWithUsersByAliasAsync(string alias);
 
-		Task<ICollection<User>> GetGroupUsersWithRightsAsync(Guid id);
+		Task<Group> TryGetGroupWithUsersWithRightsByIdAsync(Guid id);
 
-		Task<ICollection<User>> GetGroupUsersWithRightsAsync(string alias);
+		Task<Group> TryGetGroupWithUsersWithRightsByAliasAsync(string alias);
 	}
 }
