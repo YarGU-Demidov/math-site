@@ -12,8 +12,9 @@ namespace MathSite.Domain.Logic.Groups
 		/// <param name="name">Название.</param>
 		/// <param name="description">Описание.</param>
 		/// <param name="groupTypeAlias">Alias типа группы.</param>
+		/// <param name="isAdmin">Является ли группа администраторской в своём типе</param>
 		/// <param name="parentGroupId">Идентификатор родительской группы.</param>
-		Task<Guid> CreateGroupAsync(string name, string description, string alias, string groupTypeAlias, Guid? parentGroupId);
+		Task<Guid> CreateGroupAsync(string name, string description, string alias, string groupTypeAlias, bool isAdmin, Guid? parentGroupId);
 
 		/// <summary>
 		///     Асинхронно обновляет группу.
@@ -23,7 +24,7 @@ namespace MathSite.Domain.Logic.Groups
 		/// <param name="description">Описание группы.</param>
 		/// <param name="groupTypeAlias">Alias типа группы.</param>
 		/// <param name="parentGroupId">Идентификатор родительской группы.</param>
-		Task UpdateGroupAsync(Guid groupId, string name, string description, string groupTypeAlias, Guid? parentGroupId);
+		Task UpdateGroupAsync(Guid groupId, string name, string description, string groupTypeAlias, bool isAdmin, Guid? parentGroupId);
 
 		/// <summary>
 		///     Асинхронно удаляет группу.
