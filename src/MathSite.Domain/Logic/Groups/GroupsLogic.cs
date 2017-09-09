@@ -15,13 +15,12 @@ namespace MathSite.Domain.Logic.Groups
 		{
 		}
 
-		public async Task<Guid> CreateGroupAsync(string name, string description, string alias, string groupTypeAlias,
-			Guid? parentGroupId)
+		public async Task<Guid> CreateGroupAsync(string name, string description, string alias, string groupTypeAlias, bool isAdmin, Guid? parentGroupId)
 		{
 			var groupId = Guid.Empty;
 			await UseContextAsync(async context =>
 			{
-				var group = new Group(name, description, alias, groupTypeAlias, parentGroupId);
+				var group = new Group(name, description, alias, groupTypeAlias, parentGroupId, isAdmin);
 
 				context.Groups.Add(group);
 				await context.SaveChangesAsync();
@@ -32,8 +31,7 @@ namespace MathSite.Domain.Logic.Groups
 			return groupId;
 		}
 
-		public async Task UpdateGroupAsync(Guid groupId, string name, string description, string groupTypeAlias,
-			Guid? parentGroupId)
+		public async Task UpdateGroupAsync(Guid groupId, string name, string description, string groupTypeAlias, bool isAdmin, Guid? parentGroupId)
 		{
 			await UseContextWithSaveAsync(async context =>
 			{
@@ -42,6 +40,7 @@ namespace MathSite.Domain.Logic.Groups
 				group.Name = name;
 				group.Description = description;
 				group.ParentGroupId = parentGroupId;
+				group.IsAdmin = isAdmin;
 			});
 		}
 

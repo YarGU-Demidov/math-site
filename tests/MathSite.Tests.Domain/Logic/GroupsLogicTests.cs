@@ -49,10 +49,11 @@ namespace MathSite.Tests.Domain.Logic
 				const string groupName = "test-group-name";
 				const string description = "test-group-description";
 				const string alias = "test-group-alias";
+				const bool isAdmin = true;
 
 				var testGroupId = await CreateGroupAsync(groupsLogic);
 
-				var id = await CreateGroupAsync(groupsLogic, groupName, description, alias, testGroupId);
+				var id = await CreateGroupAsync(groupsLogic, groupName, description, alias, testGroupId, isAdmin);
 
 				Assert.NotEqual(Guid.Empty, id);
 
@@ -63,6 +64,7 @@ namespace MathSite.Tests.Domain.Logic
 				Assert.Equal(description, group.Description);
 				Assert.Equal(alias, group.Alias);
 				Assert.Equal(testGroupId, group.ParentGroupId);
+				Assert.Equal(isAdmin, group.IsAdmin);
 			});
 		}
 
@@ -75,12 +77,13 @@ namespace MathSite.Tests.Domain.Logic
 
 				const string groupName = "test-group-name-new";
 				const string groupDescription = "test-group-description-new";
+				const bool isAdmin = false;
 
 				var testGroupId = await CreateGroupAsync(groupsLogic);
 
-				var id = await CreateGroupAsync(groupsLogic);
+				var id = await CreateGroupAsync(groupsLogic, isAdmin: true);
 
-				await groupsLogic.UpdateGroupAsync(id, groupName, groupDescription, GroupTypeAliases.Employee, testGroupId);
+				await groupsLogic.UpdateGroupAsync(id, groupName, groupDescription, GroupTypeAliases.Employee, isAdmin, testGroupId);
 
 				var group = await groupsLogic.TryGetByIdAsync(id);
 
@@ -89,6 +92,7 @@ namespace MathSite.Tests.Domain.Logic
 				Assert.Equal(groupName, group.Name);
 				Assert.Equal(groupDescription, group.Description);
 				Assert.Equal(testGroupId, group.ParentGroupId);
+				Assert.Equal(isAdmin, group.IsAdmin);
 			});
 		}
 
@@ -187,7 +191,7 @@ namespace MathSite.Tests.Domain.Logic
 			Assert.NotEmpty(groupRights);
 		}
 
-		private async Task<Guid> CreateGroupAsync(IGroupsLogic logic, string name = null, string description = null, string alias = null, Guid? parentGroup = null)
+		private async Task<Guid> CreateGroupAsync(IGroupsLogic logic, string name = null, string description = null, string alias = null, Guid? parentGroup = null, bool isAdmin = false)
 		{
 			var salt = Guid.NewGuid();
 
@@ -195,7 +199,7 @@ namespace MathSite.Tests.Domain.Logic
 			var groupDesc = description ?? $"test-group-description-{salt}";
 			var groupAlias = alias ?? $"test-group-alias-{salt}";
 
-			return await logic.CreateGroupAsync(groupName, groupDesc, groupAlias, GroupTypeAliases.User, parentGroup);
+			return await logic.CreateGroupAsync(groupName, groupDesc, groupAlias, GroupTypeAliases.User, isAdmin, parentGroup);
 		}
 	}
 }

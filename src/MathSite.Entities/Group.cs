@@ -20,14 +20,15 @@ namespace MathSite.Entities
 		/// <param name="alias">Alias группы.</param>
 		/// <param name="groupTypeAlias">Alias типа группы.</param>
 		/// <param name="parentGroupId">Идентификатор родительской группы.</param>
-		public Group(string name, string description, string alias, string groupTypeAlias, Guid? parentGroupId)
+		/// <param name="isAdmin">Является ли группа администраторской в своем типе.</param>
+		public Group(string name, string description, string alias, string groupTypeAlias, Guid? parentGroupId, bool isAdmin = false)
 		{
 			Name = name;
 			Description = description;
 			Alias = alias;
 			ParentGroupId = parentGroupId;
 			GroupTypeAlias = groupTypeAlias;
-			IsAdmin = false;
+			IsAdmin = isAdmin;
 		}
 
 		/// <summary>
