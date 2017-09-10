@@ -17,7 +17,7 @@ namespace MathSite.Domain.Logic.PostSeoSettings
 		public async Task<Guid> CreateSeoSettingsAsync(string url, string title, string description)
 		{
 			var id = Guid.Empty;
-			await UseContextWithSaveAsync(async context =>
+			await UseContextAsync(async context =>
 			{
 				var item = new PostSeoSetting
 				{
@@ -26,7 +26,10 @@ namespace MathSite.Domain.Logic.PostSeoSettings
 					Url = url
 				};
 
-				await context.PostSeoSettings.AddAsync(item);
+				context.PostSeoSettings.Add(item);
+				await context.SaveChangesAsync();
+
+				id = item.Id;
 			});
 			return id;
 		}

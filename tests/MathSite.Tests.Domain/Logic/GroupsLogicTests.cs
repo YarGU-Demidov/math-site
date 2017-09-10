@@ -19,9 +19,9 @@ namespace MathSite.Tests.Domain.Logic
 
 				var id = await CreateGroupAsync(filesLogic);
 
-				var file = await filesLogic.TryGetByIdAsync(id);
+				var group = await filesLogic.TryGetByIdAsync(id);
 
-				Assert.NotNull(file);
+				Assert.NotNull(group);
 			});
 		}
 
@@ -33,9 +33,9 @@ namespace MathSite.Tests.Domain.Logic
 			await ExecuteWithContextAsync(async context =>
 			{
 				var filesLogic = new GroupsLogic(context);
-				var file = await filesLogic.TryGetByIdAsync(id);
+				var group = await filesLogic.TryGetByIdAsync(id);
 
-				Assert.Null(file);
+				Assert.Null(group);
 			});
 		}
 
