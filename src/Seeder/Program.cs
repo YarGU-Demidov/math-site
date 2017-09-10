@@ -7,16 +7,16 @@ using Microsoft.Extensions.Logging;
 
 namespace Seeder
 {
-	internal class Program
+	public class Program
 	{
 		/// <summary>
 		///     Запуск сидера с первым аргументом - connection string
 		/// </summary>
 		/// <param name="args">нулевой аргумент - connection string</param>
-		private static void Main(string[] args)
+		public static void Main(string[] args)
 		{
 			var loggerFactory = new LoggerFactory()
-				.AddConsole(LogLevel.Trace)
+				.AddConsole(LogLevel.Information)
 				.AddDebug();
 
 			using (loggerFactory)
@@ -25,16 +25,15 @@ namespace Seeder
 
 				if (args.Length < 1 || string.IsNullOrWhiteSpace(args[0]))
 				{
-					logger.LogError(
-						new ArgumentException("You should specify connection string!"),
-						"You forget to specify your connection string!"
-					);
-					return;
+					throw new ArgumentException("You should specify connection string!");
 				}
 
 				try
 				{
-					var options = new DbContextOptionsBuilder<MathSiteDbContext>().UseNpgsql(args[0]);
+					var options = new DbContextOptionsBuilder<MathSiteDbContext>()
+						.UseNpgsql(args[0])
+						.UseLoggerFactory(loggerFactory)
+						.EnableSensitiveDataLogging();
 
 					using (var context = new MathSiteDbContext(options.Options))
 					{

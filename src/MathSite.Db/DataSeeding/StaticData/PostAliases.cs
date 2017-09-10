@@ -3,6 +3,6 @@
 	public static class PostAliases
 	{
 		public const string FirstPost = "First post";
-		public const string SecondPost = "Second post";
+		public const string SecondPost = "New post";
 	}
 }

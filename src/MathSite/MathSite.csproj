@@ -46,5 +46,6 @@
     <ProjectReference Include="..\MathSite.Entities\MathSite.Entities.csproj" />
     <ProjectReference Include="..\MathSite.Facades\MathSite.Facades.csproj" />
     <ProjectReference Include="..\MathSite.ViewModels\MathSite.ViewModels.csproj" />
+    <ProjectReference Include="..\Seeder\Seeder.csproj" />
   </ItemGroup>
 </Project>

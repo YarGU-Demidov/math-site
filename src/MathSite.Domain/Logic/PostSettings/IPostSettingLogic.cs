@@ -10,8 +10,7 @@ namespace MathSite.Domain.Logic.PostSettings
 			bool? isCommentsAllowed,
 			bool? canBeRated,
 			bool? postOnStartPage,
-			Guid? previewImageId,
-			string postTypeName
+			Guid? previewImageId
 		);
 		
 		Task UpdatePostSettings(
@@ -19,8 +18,7 @@ namespace MathSite.Domain.Logic.PostSettings
 			bool? isCommentsAllowed,
 			bool? canBeRated,
 			bool? postOnStartPage,
-			Guid? previewImageId,
-			string postTypeName
+			Guid? previewImageId
 		);
 
 		Task DeletePostSettings(Guid id);

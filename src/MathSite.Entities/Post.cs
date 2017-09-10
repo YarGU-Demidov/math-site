@@ -36,7 +36,7 @@ namespace MathSite.Entities
 		/// <summary>
 		///     Удален ли пост.
 		/// </summary>
-		public bool? Deleted { get; set; }
+		public bool Deleted { get; set; }
 
 		/// <summary>
 		///     Дата публикации поста.
@@ -66,7 +66,7 @@ namespace MathSite.Entities
 		/// <summary>
 		///     Идентификатор настроек поста.
 		/// </summary>
-		public Guid PostSettingsId { get; set; }
+		public Guid? PostSettingsId { get; set; }
 
 		/// <summary>
 		///     Настройки поста.

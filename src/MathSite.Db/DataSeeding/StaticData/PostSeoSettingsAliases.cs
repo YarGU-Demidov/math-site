@@ -3,6 +3,6 @@
 	public static class PostSeoSettingsAliases
 	{
 		public const string FirstPostSeoSettings = "first title";
-		public const string SecondPostSeoSettings = "second title";
+		public const string StaticPostSeoSettings = "static page title";
 	}
 }

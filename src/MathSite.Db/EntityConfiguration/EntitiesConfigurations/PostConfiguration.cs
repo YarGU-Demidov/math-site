@@ -39,8 +39,7 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 				.IsRequired();
 
 			modelBuilder
-				.Property(post => post.Deleted)
-				.IsRequired(false);
+				.Property(post => post.Deleted);
 		}
 
 		/// <inheritdoc />
@@ -76,7 +75,7 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 			modelBuilder
 				.HasOne(post => post.PostSettings)
 				.WithOne(postSetting => postSetting.Post)
-				.IsRequired()
+				.IsRequired(false)
 				.OnDelete(DeleteBehavior.Cascade);
 
 			modelBuilder
