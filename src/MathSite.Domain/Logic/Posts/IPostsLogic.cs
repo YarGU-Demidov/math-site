@@ -13,9 +13,9 @@ namespace MathSite.Domain.Logic.Posts
 			string content, 
 			bool published,
 			DateTime publishDate,
-			string postTypeName,
+			string postTypeAlias,
 			Guid author,
-			Guid settings,
+			Guid? settings,
 			Guid seoSettings
 		);
 		
@@ -26,15 +26,15 @@ namespace MathSite.Domain.Logic.Posts
 			string content, 
 			bool published,
 			DateTime publishDate,
-			string postTypeName,
+			string postTypeAlias,
 			Guid author
 		);
 		
 		Task DeletePostAsync(Guid id);
 		
-		Task<Post> TryGetPostByIdAsync(Guid id);
+		Task<Post> TryGetByIdAsync(Guid id);
 		
-		Task<IEnumerable<Post>> TryGetPostByUrlAsync(string url);
+		Task<Post> TryGetByUrlAsync(string url);
 		Task<Post> TryGetActivePostByUrlAndTypeAsync(string url, string postType);
 		
 		Task<IEnumerable<Post>> TryGetMainPagePostsWithAllDataAsync(int count, string postTypeAlias);

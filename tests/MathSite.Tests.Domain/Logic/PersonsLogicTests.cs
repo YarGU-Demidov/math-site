@@ -17,9 +17,9 @@ namespace MathSite.Tests.Domain.Logic
 
 				var id = await CreatePersonAsync(personsLogic);
 
-				var file = await personsLogic.TryGetByIdAsync(id);
+				var person = await personsLogic.TryGetByIdAsync(id);
 
-				Assert.NotNull(file);
+				Assert.NotNull(person);
 			});
 		}
 
@@ -31,9 +31,9 @@ namespace MathSite.Tests.Domain.Logic
 			await ExecuteWithContextAsync(async context =>
 			{
 				var personsLogic = new PersonsLogic(context);
-				var file = await personsLogic.TryGetByIdAsync(id);
+				var person = await personsLogic.TryGetByIdAsync(id);
 
-				Assert.Null(file);
+				Assert.Null(person);
 			});
 		}
 

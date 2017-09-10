@@ -15,9 +15,17 @@ namespace MathSite.Domain.Logic.Posts
 		{
 		}
 
-		public async Task<Guid> CreatePostAsync(string title, string excerpt, string content, bool published,
-			DateTime publishDate, string postTypeName,
-			Guid author, Guid settings, Guid seoSettings)
+		public async Task<Guid> CreatePostAsync(
+			string title, 
+			string excerpt, 
+			string content, 
+			bool published,
+			DateTime publishDate, 
+			string postTypeAlias,
+			Guid author, 
+			Guid? settings, 
+			Guid seoSettings
+		)
 		{
 			var id = Guid.Empty;
 			await UseContextAsync(async context =>
@@ -29,13 +37,13 @@ namespace MathSite.Domain.Logic.Posts
 					Excerpt = excerpt,
 					Published = published,
 					PublishDate = publishDate,
-					PostTypeAlias = postTypeName,
+					PostTypeAlias = postTypeAlias,
 					Title = title,
 					PostSettingsId = settings,
 					PostSeoSettingsId = seoSettings
 				};
 
-				await context.Posts.AddAsync(post);
+				context.Posts.Add(post);
 				await context.SaveChangesAsync();
 
 				id = post.Id;
@@ -44,9 +52,16 @@ namespace MathSite.Domain.Logic.Posts
 			return id;
 		}
 
-		public async Task UpdatePostAsync(Guid id, string title, string excerpt, string content, bool published,
+		public async Task UpdatePostAsync(
+			Guid id, 
+			string title, 
+			string excerpt, 
+			string content, 
+			bool published,
 			DateTime publishDate,
-			string postTypeName, Guid author)
+			string postTypeAlias, 
+			Guid author
+		)
 		{
 			await UseContextWithSaveAsync(async context =>
 			{
@@ -57,7 +72,7 @@ namespace MathSite.Domain.Logic.Posts
 				post.Content = content;
 				post.Published = published;
 				post.PublishDate = publishDate;
-				post.PostTypeAlias = postTypeName;
+				post.PostTypeAlias = postTypeAlias;
 				post.AuthorId = author;
 
 				context.Posts.Update(post);
@@ -74,7 +89,7 @@ namespace MathSite.Domain.Logic.Posts
 			});
 		}
 
-		public async Task<Post> TryGetPostByIdAsync(Guid id)
+		public async Task<Post> TryGetByIdAsync(Guid id)
 		{
 			Post post = null;
 
@@ -92,22 +107,22 @@ namespace MathSite.Domain.Logic.Posts
 			return post;
 		}
 
-		public async Task<IEnumerable<Post>> TryGetPostByUrlAsync(string url)
+		public async Task<Post> TryGetByUrlAsync(string url)
 		{
-			IEnumerable<Post> postsArray = null;
+			Post post = null;
 
 			await UseContextAsync(async context =>
 			{
-				postsArray = await GetFromItemsAsync(
+				post = await GetFromItemsAsync(
 					dbContext => dbContext.Posts
 						.Include(p => p.PostSeoSetting)
 						.Include(p => p.Author).ThenInclude(u => u.Person)
 						.Include(p => p.PostSettings),
-					posts => posts.Where(p => p.PostSeoSetting.Url == url).ToArrayAsync()
+					posts => posts.SingleOrDefaultAsync(p => p.PostSeoSetting.Url == url)
 				);
 			});
 
-			return postsArray;
+			return post;
 		}
 
 		public async Task<IEnumerable<Post>> TryGetMainPagePostsWithAllDataAsync(int count, string postTypeAlias)
@@ -126,7 +141,7 @@ namespace MathSite.Domain.Logic.Posts
 							p.PostSettings.PostOnStartPage == true &&
 							p.PostType.Alias == postTypeAlias &&
 							p.Published &&
-							(p.Deleted == false || p.Deleted == null) &&
+							p.Deleted == false &&
 							p.PublishDate <= DateTime.UtcNow
 						)
 						.OrderByDescending(p => p.PublishDate)
@@ -155,7 +170,7 @@ namespace MathSite.Domain.Logic.Posts
 						.Where(p =>
 							p.PostType.Alias == postTypeAlias &&
 							p.Published &&
-							(p.Deleted == false || p.Deleted == null) &&
+							p.Deleted == false &&
 							p.PublishDate <= DateTime.UtcNow
 						)
 						.OrderByDescending(p => p.PublishDate)
@@ -182,7 +197,7 @@ namespace MathSite.Domain.Logic.Posts
 					posts => posts.FirstOrDefaultAsync(p => 
 						p.PostSeoSetting.Url == url && 
 						p.PostTypeAlias == postType &&
-						(p.Deleted == false || p.Deleted == null) &&
+						p.Deleted == false &&
 						p.Published
 					)
 				);
