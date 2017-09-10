@@ -5,7 +5,7 @@ using Xunit;
 
 namespace MathSite.Tests.Domain.Logic
 {
-	public class FilesLogicTest : DomainTestsBase
+	public class FilesLogicTests : DomainTestsBase
 	{
 		[Fact]
 		public async Task TryGet_Found()

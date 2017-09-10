@@ -21,10 +21,9 @@ namespace MathSite.Entities
 		/// <param name="birthday">Дата рождения.</param>
 		/// <param name="phoneNumber">Телефонный номер.</param>
 		/// <param name="additionalPhoneNumber">Дополнительный телефонный номер.</param>
-		/// <param name="userId">Идентификатор пользователя.</param>
 		/// <param name="photoId">Идентификатор изображения личности.</param>
 		public Person(string name, string surname, string middlename,
-			DateTime birthday, string phoneNumber, string additionalPhoneNumber, Guid? userId, Guid? photoId)
+			DateTime birthday, string phoneNumber, string additionalPhoneNumber, Guid? photoId)
 		{
 			Name = name;
 			Surname = surname;
@@ -34,7 +33,6 @@ namespace MathSite.Entities
 			Birthday = birthday;
 			CreationDate = DateTime.Now;
 			PhotoId = photoId;
-			UserId = userId;
 		}
 
 		/// <summary>

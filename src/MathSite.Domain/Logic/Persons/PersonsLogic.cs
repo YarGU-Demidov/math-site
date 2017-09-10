@@ -13,27 +13,14 @@ namespace MathSite.Domain.Logic.Persons
 			: base(contextManager)
 		{
 		}
-
-		/// <summary>
-		///     Асинхронно создает личность.
-		/// </summary>
-		/// <param name="name">Имя.</param>
-		/// <param name="surname">Фамилия.</param>
-		/// <param name="middlename">Отчество.</param>
-		/// <param name="birthday">Дата рождения.</param>
-		/// <param name="phoneNumber">Номер телефона.</param>
-		/// <param name="additionalPhoneNumber">Дополнительный номер телефона.</param>
-		/// <param name="userId">Идентификатор пользователя.</param>
-		/// <param name="photoId">Идентификатор изображения личности.</param>
-		/// <exception cref="Exception">Личность не найдена.</exception>
+		
 		public async Task<Guid> CreatePersonAsync(string name, string surname, string middlename,
-			DateTime birthday, string phoneNumber, string additionalPhoneNumber, Guid? userId, Guid? photoId)
+			DateTime birthday, string phoneNumber, string additionalPhoneNumber, Guid? photoId)
 		{
 			var personId = Guid.Empty;
 			await UseContextAsync(async context =>
 			{
-				var person = new Person(name, surname, middlename, birthday, phoneNumber, additionalPhoneNumber, userId,
-					photoId);
+				var person = new Person(name, surname, middlename, birthday, phoneNumber, additionalPhoneNumber, photoId);
 
 				context.Persons.Add(person);
 				await context.SaveChangesAsync();
@@ -43,26 +30,13 @@ namespace MathSite.Domain.Logic.Persons
 
 			return personId;
 		}
-
-		/// <summary>
-		///     Асинхронно обновляет личность.
-		/// </summary>
-		/// <param name="currentUserId">Идентификатор текущего пользователя.</param>
-		/// <param name="personId">Идентификатор личности.</param>
-		/// <param name="name">Имя.</param>
-		/// <param name="surname">Фамилия.</param>
-		/// <param name="middlename">Отчество.</param>
-		/// <param name="birthday">Дата рождения.</param>
-		/// <param name="phoneNumber">Номер телефона.</param>
-		/// <param name="additionalPhoneNumber">Дополнительный номер телефона.</param>
-		/// <param name="photoId">Идентификатор изображения личности.</param>
-		/// <exception cref="Exception">Личность не найдена.</exception>
+		
 		public async Task UpdatePersonAsync(Guid personId, string name, string surname, string middlename,
 			DateTime birthday, string phoneNumber, string additionalPhoneNumber, Guid? photoId)
 		{
 			await UseContextWithSaveAsync(async context =>
 			{
-				var person = await TryGetPersonById(personId);
+				var person = await TryGetByIdAsync(personId);
 
 				person.Name = name;
 				person.Surname = surname;
@@ -73,23 +47,18 @@ namespace MathSite.Domain.Logic.Persons
 				person.PhotoId = photoId;
 			});
 		}
-
-		/// <summary>
-		///     Асинхронно удаляет личность.
-		/// </summary>
-		/// <param name="currentUserId">Идентификатор текущего пользователя.</param>
-		/// <param name="personId">Идентификатор личности.</param>
+		
 		public async Task DeletePersonAsync(Guid personId)
 		{
 			await UseContextWithSaveAsync(async context =>
 			{
-				var person = await TryGetPersonById(personId);
+				var person = await TryGetByIdAsync(personId);
 
 				context.Persons.Remove(person);
 			});
 		}
 
-		public async Task<Person> TryGetPersonById(Guid id)
+		public async Task<Person> TryGetByIdAsync(Guid id)
 		{
 			return await GetFromItemsAsync(persons => persons.FirstOrDefaultAsync(p => p.Id == id));
 		}
