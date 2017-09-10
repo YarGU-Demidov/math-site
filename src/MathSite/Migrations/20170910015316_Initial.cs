@@ -83,18 +83,6 @@ namespace MathSite.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PostType",
-                columns: table => new
-                {
-                    Alias = table.Column<string>(type: "text", nullable: false),
-                    TypeName = table.Column<string>(type: "text", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PostType", x => x.Alias);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Right",
                 columns: table => new
                 {
@@ -117,6 +105,27 @@ namespace MathSite.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SiteSetting", x => x.Key);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PostSetting",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    CanBeRated = table.Column<bool>(type: "bool", nullable: true),
+                    IsCommentsAllowed = table.Column<bool>(type: "bool", nullable: true),
+                    PostOnStartPage = table.Column<bool>(type: "bool", nullable: true),
+                    PreviewImageId = table.Column<Guid>(type: "uuid", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PostSetting", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PostSetting_File_PreviewImageId",
+                        column: x => x.PreviewImageId,
+                        principalTable: "File",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -174,29 +183,20 @@ namespace MathSite.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PostSetting",
+                name: "PostType",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CanBeRated = table.Column<bool>(type: "bool", nullable: true),
-                    IsCommentsAllowed = table.Column<bool>(type: "bool", nullable: true),
-                    PostOnStartPage = table.Column<bool>(type: "bool", nullable: true),
-                    PostTypeName = table.Column<string>(type: "text", nullable: false),
-                    PreviewImageId = table.Column<Guid>(type: "uuid", nullable: true)
+                    Alias = table.Column<string>(type: "text", nullable: false),
+                    DefaultPostsSettingsId = table.Column<Guid>(type: "uuid", nullable: false),
+                    TypeName = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PostSetting", x => x.Id);
+                    table.PrimaryKey("PK_PostType", x => x.Alias);
                     table.ForeignKey(
-                        name: "FK_PostSetting_PostType_PostTypeName",
-                        column: x => x.PostTypeName,
-                        principalTable: "PostType",
-                        principalColumn: "Alias",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_PostSetting_File_PreviewImageId",
-                        column: x => x.PreviewImageId,
-                        principalTable: "File",
+                        name: "FK_PostType_PostSetting_DefaultPostsSettingsId",
+                        column: x => x.DefaultPostsSettingsId,
+                        principalTable: "PostSetting",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -287,10 +287,10 @@ namespace MathSite.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     AuthorId = table.Column<Guid>(type: "uuid", nullable: false),
                     Content = table.Column<string>(type: "text", nullable: false),
-                    Deleted = table.Column<bool>(type: "bool", nullable: true),
+                    Deleted = table.Column<bool>(type: "bool", nullable: false),
                     Excerpt = table.Column<string>(type: "text", nullable: false),
                     PostSeoSettingsId = table.Column<Guid>(type: "uuid", nullable: false),
-                    PostSettingsId = table.Column<Guid>(type: "uuid", nullable: false),
+                    PostSettingsId = table.Column<Guid>(type: "uuid", nullable: true),
                     PostTypeAlias = table.Column<string>(type: "text", nullable: false),
                     PublishDate = table.Column<DateTime>(type: "timestamp", nullable: false),
                     Published = table.Column<bool>(type: "bool", nullable: false),
@@ -680,15 +680,21 @@ namespace MathSite.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostSetting_PostTypeName",
-                table: "PostSetting",
-                column: "PostTypeName",
+                name: "IX_PostSeoSetting_Url",
+                table: "PostSeoSetting",
+                column: "Url",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_PostSetting_PreviewImageId",
                 table: "PostSetting",
                 column: "PreviewImageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PostType_DefaultPostsSettingsId",
+                table: "PostType",
+                column: "DefaultPostsSettingsId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_PostUserAllowed_PostId",
@@ -786,19 +792,19 @@ namespace MathSite.Migrations
                 name: "PostSeoSetting");
 
             migrationBuilder.DropTable(
-                name: "PostSetting");
+                name: "PostType");
 
             migrationBuilder.DropTable(
                 name: "Group");
 
             migrationBuilder.DropTable(
-                name: "PostType");
-
-            migrationBuilder.DropTable(
-                name: "File");
+                name: "PostSetting");
 
             migrationBuilder.DropTable(
                 name: "GroupType");
+
+            migrationBuilder.DropTable(
+                name: "File");
         }
     }
 }

@@ -44,7 +44,7 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 				.HasOne(postSettings => postSettings.Post)
 				.WithOne(post => post.PostSettings)
 				.HasForeignKey<Post>(post => post.PostSettingsId)
-				.IsRequired()
+				.IsRequired(false)
 				.OnDelete(DeleteBehavior.Cascade);
 
 			modelBuilder

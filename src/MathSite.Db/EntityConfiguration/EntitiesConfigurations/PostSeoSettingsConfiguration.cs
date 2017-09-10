@@ -51,6 +51,9 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 
 		protected override void SetIndexes(EntityTypeBuilder<PostSeoSetting> modelBuilder)
 		{
+			modelBuilder
+				.HasIndex(setting => setting.Url)
+				.IsUnique();
 		}
 	}
 }

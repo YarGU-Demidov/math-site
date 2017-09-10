@@ -20,39 +20,154 @@ namespace MathSite.Db.DataSeeding.Seeders
 		/// <inheritdoc />
 		protected override void SeedData()
 		{
-			var firstPost = CreatePost(
-				"First post",
-				"First post about university",
-				"We are studying at Yaroslavl Demidov State University",
-				DateTime.Now,
-				GetUserByLogin(UsersAliases.FirstUser),
-				true,
-				false,
-				GetPostTypeByAlias(PostTypeAliases.News),
-				GetPostSettingsByPostType(PostTypeAliases.News),
-				GetPostSeoSettingsByTitle(PostSeoSettingsAliases.FirstPostSeoSettings)
-			);
+			var newsPosts = CreateNewsPosts();
 
 			var secondPost = CreatePost(
-				"Second post",
-				"Second post about university",
+				"New post",
+				"New post about university",
 				"We are studying in the best university",
-				DateTime.Now,
+				DateTime.UtcNow,
 				GetUserByLogin(UsersAliases.FirstUser),
 				false,
 				true,
 				GetPostTypeByAlias(PostTypeAliases.StaticPage),
-				GetPostSettingsByPostType(PostTypeAliases.StaticPage),
-				GetPostSeoSettingsByTitle(PostSeoSettingsAliases.SecondPostSeoSettings)
+				null,
+				GetPostSeoSettingsByType("static-page-url")
 			);
 
-			var posts = new[]
+			var posts = new List<Post>(newsPosts)
 			{
-				firstPost,
 				secondPost
 			};
 
 			Context.Posts.AddRange(posts);
+		}
+
+		private IEnumerable<Post> CreateNewsPosts()
+		{
+			return new[]
+			{
+				CreatePost(
+					"First post",
+					"First post about university",
+					"We are studying at Yaroslavl Demidov State University",
+					DateTime.UtcNow,
+					GetUserByLogin(UsersAliases.FirstUser),
+					true,
+					false,
+					GetPostTypeByAlias(PostTypeAliases.News),
+					CreateSetting(true),
+					GetPostSeoSettingsByType("first-url")
+				),
+				CreatePost(
+					"Second post",
+					"Second post about university",
+					"We are studying at Yaroslavl Demidov State University",
+					DateTime.UtcNow,
+					GetUserByLogin(UsersAliases.FirstUser),
+					true,
+					false,
+					GetPostTypeByAlias(PostTypeAliases.News),
+					CreateSetting(true),
+					GetPostSeoSettingsByType("second-url")
+				),
+				CreatePost(
+					"Third post",
+					"Third post about university",
+					"We are studying at Yaroslavl Demidov State University",
+					DateTime.UtcNow,
+					GetUserByLogin(UsersAliases.FirstUser),
+					true,
+					false,
+					GetPostTypeByAlias(PostTypeAliases.News),
+					CreateSetting(true),
+					GetPostSeoSettingsByType("third-url")
+				),
+				CreatePost(
+					"Fourth post",
+					"Fourth post about university",
+					"We are studying at Yaroslavl Demidov State University",
+					DateTime.UtcNow,
+					GetUserByLogin(UsersAliases.FirstUser),
+					true,
+					false,
+					GetPostTypeByAlias(PostTypeAliases.News),
+					CreateSetting(true),
+					GetPostSeoSettingsByType("fourth-url")
+				),
+				CreatePost(
+					"Fifth post",
+					"Fifth post about university",
+					"We are studying at Yaroslavl Demidov State University",
+					DateTime.UtcNow,
+					GetUserByLogin(UsersAliases.FirstUser),
+					true,
+					false,
+					GetPostTypeByAlias(PostTypeAliases.News),
+					CreateSetting(true),
+					GetPostSeoSettingsByType("fifth-url")
+				),
+				CreatePost(
+					"Sixth post",
+					"Sixth post about university",
+					"We are studying at Yaroslavl Demidov State University",
+					DateTime.UtcNow,
+					GetUserByLogin(UsersAliases.FirstUser),
+					true,
+					false,
+					GetPostTypeByAlias(PostTypeAliases.News),
+					CreateSetting(true),
+					GetPostSeoSettingsByType("sixth-url")
+				),
+				CreatePost(
+					"Seventh post",
+					"Seventh post about university",
+					"We are studying at Yaroslavl Demidov State University",
+					DateTime.UtcNow,
+					GetUserByLogin(UsersAliases.FirstUser),
+					true,
+					false,
+					GetPostTypeByAlias(PostTypeAliases.News),
+					CreateSetting(true),
+					GetPostSeoSettingsByType("seventh-url")
+				),
+				CreatePost(
+					"Eighth post",
+					"Eighth post about university",
+					"We are studying at Yaroslavl Demidov State University",
+					DateTime.UtcNow,
+					GetUserByLogin(UsersAliases.FirstUser),
+					true,
+					false,
+					GetPostTypeByAlias(PostTypeAliases.News),
+					CreateSetting(true),
+					GetPostSeoSettingsByType("eighth-url")
+				),
+				CreatePost(
+					"Ninth post",
+					"Ninth post about university",
+					"We are studying at Yaroslavl Demidov State University",
+					DateTime.UtcNow,
+					GetUserByLogin(UsersAliases.FirstUser),
+					true,
+					false,
+					GetPostTypeByAlias(PostTypeAliases.News),
+					CreateSetting(),
+					GetPostSeoSettingsByType("ninth-url")
+				),
+				CreatePost(
+					"Tenth post",
+					"Tenth post about university",
+					"We are studying at Yaroslavl Demidov State University",
+					DateTime.UtcNow,
+					GetUserByLogin(UsersAliases.FirstUser),
+					true,
+					false,
+					GetPostTypeByAlias(PostTypeAliases.News),
+					CreateSetting(true),
+					GetPostSeoSettingsByType("tenth-url")
+				),
+			};
 		}
 
 		private PostType GetPostTypeByAlias(string alias)
@@ -64,15 +179,10 @@ namespace MathSite.Db.DataSeeding.Seeders
 		{
 			return Context.Users.First(user => user.Login == login);
 		}
-
-		private PostSetting GetPostSettingsByPostType(string name)
+		
+		private PostSeoSetting GetPostSeoSettingsByType(string url)
 		{
-			return Context.PostSettings.First(postSettings => postSettings.PostType.Alias == name);
-		}
-
-		private PostSeoSetting GetPostSeoSettingsByTitle(string title)
-		{
-			return Context.PostSeoSettings.First(postSeoSettings => postSeoSettings.Title == title);
+			return Context.PostSeoSettings.First(postSeoSettings => postSeoSettings.Url == url);
 		}
 
 		private static Post CreatePost(string title, string excerpt, string content, DateTime publishDate, User author,
@@ -97,6 +207,18 @@ namespace MathSite.Db.DataSeeding.Seeders
 				Comments = new List<Comment>(),
 				PostAttachments = new List<PostAttachment>(),
 				GroupsAllowed = new List<PostGroupsAllowed>()
+			};
+		}
+
+		public static PostSetting CreateSetting(bool onMainPage = false, bool canBeRated = false, bool commentsAllowed = true,
+			File previewImage = null)
+		{
+			return new PostSetting
+			{
+				PostOnStartPage = onMainPage,
+				CanBeRated = canBeRated,
+				IsCommentsAllowed = commentsAllowed,
+				PreviewImage = previewImage
 			};
 		}
 	}

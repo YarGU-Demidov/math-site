@@ -13,47 +13,38 @@ namespace MathSite.Db.DataSeeding.Seeders
 		}
 
 		/// <inheritdoc />
-		public override string SeedingObjectName { get; } = nameof(PostSetting);
+		public override string SeedingObjectName { get; } = $"{nameof(PostSetting)} ### Default Posts Settings";
 
 		/// <inheritdoc />
 		protected override void SeedData()
 		{
-			var firstPostSettings = CreatePostSettings(
-				GetPostTypeByAlias(PostTypeAliases.News),
-				GetPreviewImageByName(FileAliases.FirstFile),
-				true,
-				true,
-				true
-			);
-
-			var secondPostSettings = CreatePostSettings(
-				GetPostTypeByAlias(PostTypeAliases.StaticPage),
-				GetPreviewImageByName(FileAliases.SecondFile),
-				false,
-				false,
-				false
-			);
-
 			var postsSettings = new[]
 			{
-				firstPostSettings,
-				secondPostSettings
+				CreatePostSettings(
+					null,
+					GetPreviewImageByName(FileAliases.FirstFile),
+					true,
+					true,
+					true
+				),
+				CreatePostSettings(
+					null,
+					GetPreviewImageByName(FileAliases.SecondFile),
+					false,
+					false,
+					false
+				)
 			};
 
 			Context.PostSettings.AddRange(postsSettings);
 		}
 
-		private PostType GetPostTypeByAlias(string alias)
-		{
-			return Context.PostTypes.First(postType => postType.Alias == alias);
-		}
-
-		private File GetPreviewImageByName(string name)
+		protected File GetPreviewImageByName(string name)
 		{
 			return Context.Files.First(file => file.FileName == name);
 		}
 
-		private static PostSetting CreatePostSettings(PostType postType, File previewImage,
+		protected static PostSetting CreatePostSettings(PostType postType, File previewImage,
 			bool isCommentsAllowed, bool canBeRated, bool isPostOnStartPage)
 		{
 			return new PostSetting

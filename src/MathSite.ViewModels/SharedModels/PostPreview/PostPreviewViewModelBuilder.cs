@@ -38,7 +38,7 @@ namespace MathSite.ViewModels.SharedModels.PostPreview
 				Url = $"{post.PostType.Alias}/{post.PostSeoSetting.Url}",
 				Content = post.Content,
 				PublishedAt = post.PublishDate.ToString("dd MMM yyyy", CultureInfo.CurrentUICulture),
-				PreviewImage = post.PostSettings.PreviewImage?.FilePath ??
+				PreviewImage = post.PostSettings?.PreviewImage?.FilePath ??
 				               post.PostType?.DefaultPostsSettings?.PreviewImage?.FilePath
 			};
 		}

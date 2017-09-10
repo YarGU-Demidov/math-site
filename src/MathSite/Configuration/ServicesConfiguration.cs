@@ -35,15 +35,44 @@ namespace MathSite
 {
 	// ReSharper disable once ClassNeverInstantiated.Global
 	/// <summary>
-	///     Класс загрузчик
+	///     Класс-загрузчик.
 	/// </summary>
 	public partial class Startup
 	{
 		/// <summary>
-		///     Конфигурация сервисов
+		///     Конфигурация сервисов для разработки.
 		/// </summary>
 		/// <param name="services"></param>
-		public void ConfigureServices(IServiceCollection services)
+		public void ConfigureDevelopmentServices(IServiceCollection services)
+		{
+			ConfigureServices(services, true);
+		}
+
+
+		/// <summary>
+		///     Конфигурация сервисов для боевого сайта.
+		/// </summary>
+		/// <param name="services"></param>
+		public void ConfigureProductionServices(IServiceCollection services)
+		{
+			ConfigureServices(services, false);
+		}
+
+		/// <summary>
+		///     Конфигурация сервисов для тестирования.
+		/// </summary>
+		/// <param name="services"></param>
+		public void ConfigureStagingServices(IServiceCollection services)
+		{
+			ConfigureServices(services, false);
+		}
+
+		/// <summary>
+		///		Конфигурирование DI и настройка сервисов.
+		/// </summary>
+		/// <param name="services"></param>
+		/// <param name="isDevelopment"></param>
+		private void ConfigureServices(IServiceCollection services, bool isDevelopment)
 		{
 			services.AddMvc()
 				.AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
@@ -51,7 +80,7 @@ namespace MathSite
 
 			services.AddMemoryCache();
 
-			ConfigureEntityFramework(services);
+			ConfigureEntityFramework(services, isDevelopment);
 			ConfigureDependencyInjection(services);
 			ConfigureAuthPolices(services);
 			ConfigureRazorViews(services);
@@ -138,7 +167,7 @@ namespace MathSite
 			services.AddScoped<IPostPreviewViewModelBuilder, PostPreviewViewModelBuilder>();
 		}
 
-		private void ConfigureEntityFramework(IServiceCollection services)
+		private void ConfigureEntityFramework(IServiceCollection services, bool isDevelopment)
 		{
 			services.AddEntityFrameworkNpgsql()
 				.AddDbContextPool<MathSiteDbContext>(options =>
@@ -147,6 +176,9 @@ namespace MathSite
 						Configuration.GetConnectionString("Math"),
 						builder => builder.MigrationsAssembly("MathSite")
 					);
+
+					if (isDevelopment)
+						options.EnableSensitiveDataLogging().ConfigureWarnings(builder => builder.Log());
 				});
 		}
 	}

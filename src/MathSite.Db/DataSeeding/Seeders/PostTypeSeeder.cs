@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
 using Microsoft.Extensions.Logging;
@@ -20,12 +21,14 @@ namespace MathSite.Db.DataSeeding.Seeders
 		{
 			var firstPostType = CreateUserSettings(
 				PostTypeAliases.News,
-				"Новости"
+				"Новости",
+				GetPostSetting(1)
 			);
 
 			var secondPostType = CreateUserSettings(
 				PostTypeAliases.StaticPage,
-				"Статическая страница"
+				"Статическая страница",
+				GetPostSetting(2)
 			);
 			var postTypes = new[]
 			{
@@ -36,14 +39,20 @@ namespace MathSite.Db.DataSeeding.Seeders
 			Context.PostTypes.AddRange(postTypes);
 		}
 
-		private static PostType CreateUserSettings(string alias, string name)
+		private static PostType CreateUserSettings(string alias, string name, PostSetting postSetting)
 		{
 			return new PostType
 			{
 				Alias = alias,
 				TypeName = name,
+				DefaultPostsSettings = postSetting,
 				Posts = new List<Post>()
 			};
+		}
+
+		private PostSetting GetPostSetting(int at)
+		{
+			return Context.PostSettings.Skip(at - 1).First();
 		}
 	}
 }
