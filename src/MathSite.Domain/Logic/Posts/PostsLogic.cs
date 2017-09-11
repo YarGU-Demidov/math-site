@@ -15,7 +15,7 @@ namespace MathSite.Domain.Logic.Posts
 		{
 		}
 
-		public async Task<Guid> CreatePostAsync(
+		public async Task<Guid> CreateAsync(
 			string title, 
 			string excerpt, 
 			string content, 
@@ -52,7 +52,7 @@ namespace MathSite.Domain.Logic.Posts
 			return id;
 		}
 
-		public async Task UpdatePostAsync(
+		public async Task UpdateAsync(
 			Guid id, 
 			string title, 
 			string excerpt, 
@@ -79,7 +79,7 @@ namespace MathSite.Domain.Logic.Posts
 			});
 		}
 
-		public async Task DeletePostAsync(Guid id)
+		public async Task DeleteAsync(Guid id)
 		{
 			await UseContextWithSaveAsync(async context =>
 			{

@@ -14,7 +14,7 @@ namespace MathSite.Domain.Logic.PostSeoSettings
 		{
 		}
 
-		public async Task<Guid> CreateSeoSettingsAsync(string url, string title, string description)
+		public async Task<Guid> CreateAsync(string url, string title, string description)
 		{
 			var id = Guid.Empty;
 			await UseContextAsync(async context =>
@@ -34,7 +34,7 @@ namespace MathSite.Domain.Logic.PostSeoSettings
 			return id;
 		}
 
-		public async Task UpdateSeoSettingsAsync(Guid id, string url, string title, string description)
+		public async Task UpdateAsync(Guid id, string url, string title, string description)
 		{
 			await UseContextWithSaveAsync(async context =>
 			{
@@ -48,7 +48,7 @@ namespace MathSite.Domain.Logic.PostSeoSettings
 			});
 		}
 
-		public async Task DeleteSeoSettingsAsync(Guid id)
+		public async Task DeleteAsync(Guid id)
 		{
 			await UseContextWithSaveAsync(async context =>
 			{

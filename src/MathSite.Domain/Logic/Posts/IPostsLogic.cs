@@ -7,7 +7,7 @@ namespace MathSite.Domain.Logic.Posts
 {
 	public interface IPostsLogic
 	{
-		Task<Guid> CreatePostAsync(
+		Task<Guid> CreateAsync(
 			string title, 
 			string excerpt, 
 			string content, 
@@ -19,7 +19,7 @@ namespace MathSite.Domain.Logic.Posts
 			Guid seoSettings
 		);
 		
-		Task UpdatePostAsync(
+		Task UpdateAsync(
 			Guid id,
 			string title, 
 			string excerpt, 
@@ -30,7 +30,7 @@ namespace MathSite.Domain.Logic.Posts
 			Guid author
 		);
 		
-		Task DeletePostAsync(Guid id);
+		Task DeleteAsync(Guid id);
 		
 		Task<Post> TryGetByIdAsync(Guid id);
 		

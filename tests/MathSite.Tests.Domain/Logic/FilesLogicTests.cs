@@ -74,7 +74,7 @@ namespace MathSite.Tests.Domain.Logic
 
 				var id = await CreateFileItemAsync(filesLogic);
 
-				await filesLogic.UpdateFileAsync(id, fileName, filePath, fileExtension);
+				await filesLogic.UpdateAsync(id, fileName, filePath, fileExtension);
 
 				var file = await filesLogic.TryGetByIdAsync(id);
 
@@ -95,7 +95,7 @@ namespace MathSite.Tests.Domain.Logic
 
 				var id = await CreateFileItemAsync(filesLogic);
 
-				await filesLogic.DeleteFileAsync(id);
+				await filesLogic.DeleteAsync(id);
 
 				var file = await filesLogic.TryGetByIdAsync(id);
 
@@ -111,7 +111,7 @@ namespace MathSite.Tests.Domain.Logic
 			var filePath = path ?? $"test-file-path-{salt}";
 			var fileExtension = extension ?? $"test-file-extension-{salt}";
 
-			return await logic.CreateFileAsync(fileName, filePath, fileExtension);
+			return await logic.CreateAsync(fileName, filePath, fileExtension);
 		}
 	}
 }

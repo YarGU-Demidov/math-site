@@ -57,11 +57,11 @@ namespace MathSite.Facades.SiteSettings
 
 			if (setting == null)
 			{
-				await LogicManager.SiteSettingsLogic.CreateSettingAsync(name, valueBytes);
+				await LogicManager.SiteSettingsLogic.CreateAsync(name, valueBytes);
 			}
 			else
 			{
-				await LogicManager.SiteSettingsLogic.UpdateSettingAsync(name, valueBytes);
+				await LogicManager.SiteSettingsLogic.UpdateAsync(name, valueBytes);
 			}
 			return true;
 		}

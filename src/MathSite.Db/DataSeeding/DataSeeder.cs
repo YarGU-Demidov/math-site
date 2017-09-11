@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using MathSite.Common.Crypto;
 using MathSite.Db.DataSeeding.Seeders;
@@ -58,7 +59,7 @@ namespace MathSite.Db.DataSeeding
 			{
 				_logger.LogError("Database wasn't created, seeding skipped!");
 				_logger.LogError("You need create or even migrate database first!");
-				return;
+				throw new ApplicationException("Database wasn't created");
 			}
 
 			if (!DatabaseMigrated)

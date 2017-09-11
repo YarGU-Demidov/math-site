@@ -6,18 +6,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MathSite.Domain.Logic.PostTypes
 {
-	public interface IPostTypeLogic
-	{
-		Task<PostType> TryGetTypeByAlias(string alias);
-	}
-	
 	public class PostTypeLogic : LogicBase<PostType>, IPostTypeLogic
 	{
 		public PostTypeLogic(MathSiteDbContext context) : base(context)
 		{
 		}
 
-		public async Task<PostType> TryGetTypeByAlias(string alias)
+		public async Task<PostType> TryGetByAliasAsync(string alias)
 		{
 			PostType postType = null;
 			await UseContextAsync(async context =>

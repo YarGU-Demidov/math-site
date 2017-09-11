@@ -105,7 +105,7 @@ namespace MathSite.Tests.Domain.Logic
 
 				var id = await CreateSeoSettingAsync(postSeoSettingsLogic);
 
-				await postSeoSettingsLogic.UpdateSeoSettingsAsync(id, url, title, description);
+				await postSeoSettingsLogic.UpdateAsync(id, url, title, description);
 
 				var seoSetting = await postSeoSettingsLogic.TryGetByIdAsync(id);
 
@@ -125,7 +125,7 @@ namespace MathSite.Tests.Domain.Logic
 
 				var id = await CreateSeoSettingAsync(postSeoSettingsLogic);
 
-				await postSeoSettingsLogic.DeleteSeoSettingsAsync(id);
+				await postSeoSettingsLogic.DeleteAsync(id);
 
 				var seoSetting = await postSeoSettingsLogic.TryGetByIdAsync(id);
 
@@ -146,7 +146,7 @@ namespace MathSite.Tests.Domain.Logic
 			title = title ?? $"test-seo-setting-title-{salt}";
 			description = description ?? $"test-seo-setting-description-{salt}";
 
-			return await logic.CreateSeoSettingsAsync(url, title, description);
+			return await logic.CreateAsync(url, title, description);
 		}
 	}
 }

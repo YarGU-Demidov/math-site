@@ -15,7 +15,7 @@ namespace MathSite.Domain.Logic.PostSettings
 		{
 		}
 
-		public async Task<Guid> CreatePostSettings(bool? isCommentsAllowed, bool? canBeRated, bool? postOnStartPage, Guid? previewImageId)
+		public async Task<Guid> CreateAsync(bool isCommentsAllowed, bool canBeRated, bool postOnStartPage, Guid? previewImageId)
 		{
 			var id = Guid.Empty;
 			
@@ -38,7 +38,7 @@ namespace MathSite.Domain.Logic.PostSettings
 			return id;
 		}
 
-		public async Task UpdatePostSettings(Guid id, bool? isCommentsAllowed, bool? canBeRated, bool? postOnStartPage, Guid? previewImageId)
+		public async Task UpdateAsync(Guid id, bool isCommentsAllowed, bool canBeRated, bool postOnStartPage, Guid? previewImageId)
 		{
 			await UseContextWithSaveAsync(async context =>
 			{
@@ -53,7 +53,7 @@ namespace MathSite.Domain.Logic.PostSettings
 			});
 		}
 
-		public async Task DeletePostSettings(Guid id)
+		public async Task DeleteAsync(Guid id)
 		{
 			await UseContextWithSaveAsync(async context =>
 			{

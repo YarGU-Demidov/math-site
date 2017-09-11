@@ -51,7 +51,7 @@ namespace MathSite.Tests.Domain.Logic
 				var phone = "+78889991100";
 				var additionalPhone = "78889991122";
 				var birthday = DateTime.Today.AddYears(-25);
-				var photo = await filesLogic.CreateFileAsync("test file", "/home/test/filePath.jpg", "jpg");
+				var photo = await filesLogic.CreateAsync("test file", "/home/test/filePath.jpg", "jpg");
 
 				var personId = await CreatePersonAsync(
 					personsLogic,
@@ -91,11 +91,11 @@ namespace MathSite.Tests.Domain.Logic
 				var phone = "+78889991100";
 				var additionalPhone = "78889991122";
 				var birthday = DateTime.Today.AddYears(-25);
-				var photo = await filesLogic.CreateFileAsync("test file", "/home/test/filePath.jpg", "jpg");
+				var photo = await filesLogic.CreateAsync("test file", "/home/test/filePath.jpg", "jpg");
 
 				var personId = await CreatePersonAsync(personsLogic);
 
-				await personsLogic.UpdatePersonAsync(personId, name, surname, middlename, birthday, phone, additionalPhone, photo);
+				await personsLogic.UpdateAsync(personId, name, surname, middlename, birthday, phone, additionalPhone, photo);
 
 				var person = await personsLogic.TryGetByIdAsync(personId);
 
@@ -119,7 +119,7 @@ namespace MathSite.Tests.Domain.Logic
 
 				var id = await CreatePersonAsync(personsLogic);
 
-				await personsLogic.DeletePersonAsync(id);
+				await personsLogic.DeleteAsync(id);
 
 				var person = await personsLogic.TryGetByIdAsync(id);
 
@@ -147,7 +147,7 @@ namespace MathSite.Tests.Domain.Logic
 			var personPhone = phone ?? "+79998887766";
 			var personAdditionalPhone = additionalPhone ?? "+76665554433";
 
-			return await logic.CreatePersonAsync(personName, personSurname, personMiddlename, personBirthday, personPhone,
+			return await logic.CreateAsync(personName, personSurname, personMiddlename, personBirthday, personPhone,
 				personAdditionalPhone, photoId);
 		}
 	}

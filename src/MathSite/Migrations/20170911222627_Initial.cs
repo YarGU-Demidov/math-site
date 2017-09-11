@@ -112,9 +112,9 @@ namespace MathSite.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CanBeRated = table.Column<bool>(type: "bool", nullable: true),
-                    IsCommentsAllowed = table.Column<bool>(type: "bool", nullable: true),
-                    PostOnStartPage = table.Column<bool>(type: "bool", nullable: true),
+                    CanBeRated = table.Column<bool>(type: "bool", nullable: false, defaultValue: false),
+                    IsCommentsAllowed = table.Column<bool>(type: "bool", nullable: false, defaultValue: false),
+                    PostOnStartPage = table.Column<bool>(type: "bool", nullable: false, defaultValue: false),
                     PreviewImageId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>

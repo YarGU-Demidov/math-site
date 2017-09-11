@@ -13,7 +13,7 @@ namespace MathSite.Domain.Logic.Rights
 		{
 		}
 
-		public async Task CreateRightAsync(string alias, string name, string description)
+		public async Task CreateAsync(string alias, string name, string description)
 		{
 			await UseContextWithSaveAsync(async context =>
 			{
@@ -28,7 +28,7 @@ namespace MathSite.Domain.Logic.Rights
 			});
 		}
 
-		public async Task UpdateRightAsync(string alias, string name, string description)
+		public async Task UpdateAsync(string alias, string name, string description)
 		{
 			await UseContextWithSaveAsync(async context =>
 			{
@@ -42,7 +42,7 @@ namespace MathSite.Domain.Logic.Rights
 			});
 		}
 
-		public async Task DeleteRightAsync(string alias)
+		public async Task DeleteAsync(string alias)
 		{
 			await UseContextWithSaveAsync(async context =>
 			{

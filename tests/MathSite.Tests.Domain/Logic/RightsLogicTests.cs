@@ -19,7 +19,7 @@ namespace MathSite.Tests.Domain.Logic
 				const string rightName = "testRight-Name";
 				const string rightDesc = "testRight-Desc";
 
-				await rightsLogic.CreateRightAsync(rightAlias, rightName, rightDesc);
+				await rightsLogic.CreateAsync(rightAlias, rightName, rightDesc);
 
 				var right = await rightsLogic.TryGetByAliasAsync(rightAlias);
 				Assert.NotNull(right);
@@ -41,7 +41,7 @@ namespace MathSite.Tests.Domain.Logic
 				const string name = "testName";
 				const string desc = "testDesc";
 
-				await rightsLogic.UpdateRightAsync(right.Alias, name, desc);
+				await rightsLogic.UpdateAsync(right.Alias, name, desc);
 
 				var updated = await rightsLogic.TryGetByAliasAsync(right.Alias);
 
@@ -59,7 +59,7 @@ namespace MathSite.Tests.Domain.Logic
 				var rightsLogic = new RightsLogic(context);
 				var right = await CreateTestRightAsync(rightsLogic);
 
-				await rightsLogic.DeleteRightAsync(right.Alias);
+				await rightsLogic.DeleteAsync(right.Alias);
 
 				var deleted = await rightsLogic.TryGetByAliasAsync(right.Alias);
 
@@ -90,7 +90,7 @@ namespace MathSite.Tests.Domain.Logic
 			var rightName = $"testRight-Name-{randomId}";
 			var rightDesc = $"testRight-Desc-{randomId}";
 
-			await rightsLogic.CreateRightAsync(rightAlias, rightName, rightDesc);
+			await rightsLogic.CreateAsync(rightAlias, rightName, rightDesc);
 
 			return await rightsLogic.TryGetByAliasAsync(rightAlias);
 		}

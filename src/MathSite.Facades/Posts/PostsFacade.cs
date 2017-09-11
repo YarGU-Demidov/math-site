@@ -38,7 +38,7 @@ namespace MathSite.Facades.Posts
 			{
 				entry.Priority = cachePriority;
 				entry.SetSlidingExpiration(TimeSpan.FromMinutes(featuredPostsCacheMinutes));
-				return await LogicManager.PostTypeLogic.TryGetTypeByAlias(PostTypeAliases.News);
+				return await LogicManager.PostTypeLogic.TryGetByAliasAsync(PostTypeAliases.News);
 			});
 			
 			return await MemoryCache.GetOrCreateAsync(postsCacheKey, async entry =>
@@ -63,7 +63,7 @@ namespace MathSite.Facades.Posts
 			{
 				entry.Priority = cachePriority;
 				entry.SetSlidingExpiration(TimeSpan.FromMinutes(postTypeCacheHours));
-				return await LogicManager.PostTypeLogic.TryGetTypeByAlias(PostTypeAliases.News);
+				return await LogicManager.PostTypeLogic.TryGetByAliasAsync(PostTypeAliases.News);
 			});
 
 			return await MemoryCache.GetOrCreateAsync(postCacheKey, async entry =>
@@ -87,7 +87,7 @@ namespace MathSite.Facades.Posts
 			{
 				entry.Priority = cachePriority;
 				entry.SetSlidingExpiration(newsPageCacheTime);
-				return await LogicManager.PostTypeLogic.TryGetTypeByAlias(PostTypeAliases.News);
+				return await LogicManager.PostTypeLogic.TryGetByAliasAsync(PostTypeAliases.News);
 			});
 
 			var perPage = await MemoryCache.GetOrCreateAsync(perPageCacheKey, async entry =>

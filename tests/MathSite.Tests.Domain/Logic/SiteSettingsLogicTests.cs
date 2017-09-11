@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using System.Threading.Tasks;
 using MathSite.Domain.Logic.SiteSettings;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +19,7 @@ namespace MathSite.Tests.Domain.Logic
 				var testingKey = "testKeyForCreating";
 				var testingValue = Encoding.UTF8.GetBytes("testValue");
 
-				await settingsLogic.CreateSettingAsync(testingKey, testingValue);
+				await CreateSiteSetting(settingsLogic, testingKey, testingValue);
 
 				var setting = await settingsLogic.TryGetByKeyAsync(testingKey);
 
@@ -41,11 +42,11 @@ namespace MathSite.Tests.Domain.Logic
 
 				const string testingKey = "testKeyForDeleting";
 
-				await settingsLogic.CreateSettingAsync(testingKey, Encoding.UTF8.GetBytes("testValue"));
+				await CreateSiteSetting(settingsLogic, testingKey);
 
 				var setting = await settingsLogic.TryGetByKeyAsync(testingKey);
 
-				await settingsLogic.DeleteSettingAsync(setting.Key);
+				await settingsLogic.DeleteAsync(setting.Key);
 
 				var newSetting = await settingsLogic.TryGetByKeyAsync(testingKey);
 
@@ -60,13 +61,15 @@ namespace MathSite.Tests.Domain.Logic
 			{
 				var settingsLogic = new SiteSettingsLogic(context);
 
-				var setting = await settingsLogic.FirstOrDefaultAsync();
+				const string key = "test-key-for-update";
 
+				await CreateSiteSetting(settingsLogic, key);
+				
 				var newValue = Encoding.UTF8.GetBytes("new value");
 
-				await settingsLogic.UpdateSettingAsync(setting.Key, newValue);
+				await settingsLogic.UpdateAsync(key, newValue);
 
-				setting = await settingsLogic.TryGetByKeyAsync(setting.Key);
+				var setting = await settingsLogic.TryGetByKeyAsync(key);
 
 				Assert.Equal(newValue, setting.Value);
 			});
@@ -82,7 +85,7 @@ namespace MathSite.Tests.Domain.Logic
 				var testingKey = "testKeyForCreating";
 				var testingValue = Encoding.UTF8.GetBytes("testValue");
 
-				await settingsLogic.CreateSettingAsync(testingKey, testingValue);
+				await settingsLogic.CreateAsync(testingKey, testingValue);
 
 				var setting = await context.SiteSettings.FirstOrDefaultAsync(settings => settings.Key == testingKey);
 
@@ -91,19 +94,12 @@ namespace MathSite.Tests.Domain.Logic
 			});
 		}
 
-		[Fact]
-		public async Task FirstOrDefaultAsyncTest()
+		private async Task CreateSiteSetting(ISiteSettingsLogic logic, string key, byte[] value = null)
 		{
-			await ExecuteWithContextAsync(async context =>
-			{
-				var settingsLogic = new SiteSettingsLogic(context);
-
-				var first = await context.SiteSettings.FirstOrDefaultAsync();
-
-				var setting = await settingsLogic.FirstOrDefaultAsync();
-
-				Assert.Equal(first, setting);
-			});
+			var salt = Guid.NewGuid();
+			
+			value = value ?? Encoding.UTF8.GetBytes($"test-value-{salt}");
+			await logic.CreateAsync(key, value);
 		}
 	}
 }

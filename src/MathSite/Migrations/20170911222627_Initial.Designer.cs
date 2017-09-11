@@ -11,7 +11,7 @@ using System;
 namespace MathSite.Migrations
 {
     [DbContext(typeof(MathSiteDbContext))]
-    [Migration("20170910015316_Initial")]
+    [Migration("20170911222627_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -395,11 +395,17 @@ namespace MathSite.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<bool?>("CanBeRated");
+                    b.Property<bool>("CanBeRated")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
 
-                    b.Property<bool?>("IsCommentsAllowed");
+                    b.Property<bool>("IsCommentsAllowed")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
 
-                    b.Property<bool?>("PostOnStartPage");
+                    b.Property<bool>("PostOnStartPage")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
 
                     b.Property<Guid?>("PreviewImageId");
 
