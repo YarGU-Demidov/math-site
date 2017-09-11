@@ -83,7 +83,7 @@ namespace MathSite.Tests.Domain.Logic
 
 				var id = await CreateGroupAsync(groupsLogic, isAdmin: true);
 
-				await groupsLogic.UpdateGroupAsync(id, groupName, groupDescription, GroupTypeAliases.Employee, isAdmin, testGroupId);
+				await groupsLogic.UpdateAsync(id, groupName, groupDescription, GroupTypeAliases.Employee, isAdmin, testGroupId);
 
 				var group = await groupsLogic.TryGetByIdAsync(id);
 
@@ -105,7 +105,7 @@ namespace MathSite.Tests.Domain.Logic
 
 				var id = await CreateGroupAsync(groupsLogic);
 
-				await groupsLogic.DeleteGroupAsync(id);
+				await groupsLogic.DeleteAsync(id);
 
 				var file = await groupsLogic.TryGetByIdAsync(id);
 
@@ -199,7 +199,7 @@ namespace MathSite.Tests.Domain.Logic
 			var groupDesc = description ?? $"test-group-description-{salt}";
 			var groupAlias = alias ?? $"test-group-alias-{salt}";
 
-			return await logic.CreateGroupAsync(groupName, groupDesc, groupAlias, GroupTypeAliases.User, isAdmin, parentGroup);
+			return await logic.CreateAsync(groupName, groupDesc, groupAlias, GroupTypeAliases.User, isAdmin, parentGroup);
 		}
 	}
 }

@@ -17,7 +17,7 @@ namespace MathSite.Domain.Logic.Persons
 		/// <param name="additionalPhoneNumber">Дополнительный номер телефона.</param>
 		/// <param name="photoId">Идентификатор изображения личности.</param>
 		/// <exception cref="Exception">Личность не найдена.</exception>
-		Task<Guid> CreatePersonAsync(string name, string surname, string middlename,
+		Task<Guid> CreateAsync(string name, string surname, string middlename,
 			DateTime birthday, string phoneNumber, string additionalPhoneNumber, Guid? photoId);
 
 		/// <summary>
@@ -32,14 +32,14 @@ namespace MathSite.Domain.Logic.Persons
 		/// <param name="additionalPhoneNumber">Дополнительный номер телефона.</param>
 		/// <param name="photoId">Идентификатор изображения личности.</param>
 		/// <exception cref="Exception">Личность не найдена.</exception>
-		Task UpdatePersonAsync(Guid personId, string name, string surname, string middlename,
+		Task UpdateAsync(Guid personId, string name, string surname, string middlename,
 			DateTime birthday, string phoneNumber, string additionalPhoneNumber, Guid? photoId);
 
 		/// <summary>
 		///     Асинхронно удаляет личность.
 		/// </summary>
 		/// <param name="personId">Идентификатор личности.</param>
-		Task DeletePersonAsync(Guid personId);
+		Task DeleteAsync(Guid personId);
 
 		Task<Person> TryGetByIdAsync(Guid id);
 	}

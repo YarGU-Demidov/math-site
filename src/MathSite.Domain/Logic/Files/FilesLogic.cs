@@ -14,7 +14,7 @@ namespace MathSite.Domain.Logic.Files
 		{
 		}
 		
-		public async Task<Guid> CreateFileAsync(string fileName, string filePath, string extension)
+		public async Task<Guid> CreateAsync(string fileName, string filePath, string extension)
 		{
 			var fileId = Guid.Empty;
 			await UseContextAsync(async context =>
@@ -30,7 +30,7 @@ namespace MathSite.Domain.Logic.Files
 			return fileId;
 		}
 
-		public async Task UpdateFileAsync(Guid fileId, string fileName, string filePath, string extension)
+		public async Task UpdateAsync(Guid fileId, string fileName, string filePath, string extension)
 		{
 			await UseContextWithSaveAsync(async context =>
 			{
@@ -42,7 +42,7 @@ namespace MathSite.Domain.Logic.Files
 			});
 		}
 
-		public async Task DeleteFileAsync(Guid fileId)
+		public async Task DeleteAsync(Guid fileId)
 		{
 			await UseContextWithSaveAsync(async context =>
 			{

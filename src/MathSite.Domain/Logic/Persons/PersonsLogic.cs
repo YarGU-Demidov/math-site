@@ -14,7 +14,7 @@ namespace MathSite.Domain.Logic.Persons
 		{
 		}
 		
-		public async Task<Guid> CreatePersonAsync(string name, string surname, string middlename,
+		public async Task<Guid> CreateAsync(string name, string surname, string middlename,
 			DateTime birthday, string phoneNumber, string additionalPhoneNumber, Guid? photoId)
 		{
 			var personId = Guid.Empty;
@@ -31,7 +31,7 @@ namespace MathSite.Domain.Logic.Persons
 			return personId;
 		}
 		
-		public async Task UpdatePersonAsync(Guid personId, string name, string surname, string middlename,
+		public async Task UpdateAsync(Guid personId, string name, string surname, string middlename,
 			DateTime birthday, string phoneNumber, string additionalPhoneNumber, Guid? photoId)
 		{
 			await UseContextWithSaveAsync(async context =>
@@ -48,7 +48,7 @@ namespace MathSite.Domain.Logic.Persons
 			});
 		}
 		
-		public async Task DeletePersonAsync(Guid personId)
+		public async Task DeleteAsync(Guid personId)
 		{
 			await UseContextWithSaveAsync(async context =>
 			{

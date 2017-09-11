@@ -13,7 +13,7 @@ namespace MathSite.Domain.Logic.SiteSettings
 		{
 		}
 
-		public async Task CreateSettingAsync(string key, byte[] value)
+		public async Task CreateAsync(string key, byte[] value)
 		{
 			await UseContextWithSaveAsync(async context =>
 			{
@@ -22,7 +22,7 @@ namespace MathSite.Domain.Logic.SiteSettings
 			});
 		}
 
-		public async Task UpdateSettingAsync(string key, byte[] value)
+		public async Task UpdateAsync(string key, byte[] value)
 		{
 			await UseContextWithSaveAsync(async context =>
 			{
@@ -34,7 +34,7 @@ namespace MathSite.Domain.Logic.SiteSettings
 			});
 		}
 
-		public async Task DeleteSettingAsync(string key)
+		public async Task DeleteAsync(string key)
 		{
 			await UseContextWithSaveAsync(async context =>
 			{
@@ -50,17 +50,6 @@ namespace MathSite.Domain.Logic.SiteSettings
 			await UseContextAsync(async context =>
 			{
 				setting = await context.SiteSettings.FirstOrDefaultAsync(settings => settings.Key == key);
-			});
-
-			return setting;
-		}
-
-		public async Task<SiteSetting> FirstOrDefaultAsync()
-		{
-			SiteSetting setting = null;
-			await UseContextAsync(async context =>
-			{
-				setting = await context.SiteSettings.FirstOrDefaultAsync();
 			});
 
 			return setting;

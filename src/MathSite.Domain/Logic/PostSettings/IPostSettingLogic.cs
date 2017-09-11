@@ -6,22 +6,22 @@ namespace MathSite.Domain.Logic.PostSettings
 {
 	public interface IPostSettingLogic
 	{
-		Task<Guid> CreatePostSettings(
-			bool? isCommentsAllowed,
-			bool? canBeRated,
-			bool? postOnStartPage,
+		Task<Guid> CreateAsync(
+			bool isCommentsAllowed,
+			bool canBeRated,
+			bool postOnStartPage,
 			Guid? previewImageId
 		);
 		
-		Task UpdatePostSettings(
+		Task UpdateAsync(
 			Guid id,
-			bool? isCommentsAllowed,
-			bool? canBeRated,
-			bool? postOnStartPage,
+			bool isCommentsAllowed,
+			bool canBeRated,
+			bool postOnStartPage,
 			Guid? previewImageId
 		);
 
-		Task DeletePostSettings(Guid id);
+		Task DeleteAsync(Guid id);
 
 		Task<PostSetting> TryGetByIdAsync(Guid id);
 	}

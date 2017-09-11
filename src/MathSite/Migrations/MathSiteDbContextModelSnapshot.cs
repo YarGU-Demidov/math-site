@@ -394,11 +394,17 @@ namespace MathSite.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<bool?>("CanBeRated");
+                    b.Property<bool>("CanBeRated")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
 
-                    b.Property<bool?>("IsCommentsAllowed");
+                    b.Property<bool>("IsCommentsAllowed")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
 
-                    b.Property<bool?>("PostOnStartPage");
+                    b.Property<bool>("PostOnStartPage")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
 
                     b.Property<Guid?>("PreviewImageId");
 

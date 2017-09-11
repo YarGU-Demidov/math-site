@@ -6,20 +6,20 @@ namespace MathSite.Domain.Logic.PostSeoSettings
 {
 	public interface IPostSeoSettingsLogic
 	{
-		Task<Guid> CreateSeoSettingsAsync(
+		Task<Guid> CreateAsync(
 			string url,
 			string title,
 			string description
 		);
 
-		Task UpdateSeoSettingsAsync(
+		Task UpdateAsync(
 			Guid id,
 			string url,
 			string title,
 			string description
 		);
 
-		Task DeleteSeoSettingsAsync(Guid id);
+		Task DeleteAsync(Guid id);
 
 		Task<PostSeoSetting> TryGetByIdAsync(Guid id);
 		Task<PostSeoSetting> TryGetByUrlAsync(string url);

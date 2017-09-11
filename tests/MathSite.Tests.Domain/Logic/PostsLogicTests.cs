@@ -54,7 +54,7 @@ namespace MathSite.Tests.Domain.Logic
 
 				var url = "test-find-post-by-url";
 
-				var seoId = await seoSettingsLogic.CreateSeoSettingsAsync(url, "test-title", "test-desc");
+				var seoId = await seoSettingsLogic.CreateAsync(url, "test-title", "test-desc");
 
 				await CreatePostAsync(postsLogic, usersLogic, seoSettingsLogic, seoSettings: seoId);
 
@@ -144,8 +144,8 @@ namespace MathSite.Tests.Domain.Logic
 				var publishDate = DateTime.Today.AddDays(-10);
 				var postTypeAlias = PostTypeAliases.StaticPage;
 				var author = await usersLogic.TryGetByLoginAsync(UsersAliases.SecondUser);
-				var settingsId = await postSettingsLogic.CreatePostSettings(true, false, true, null);
-				var seoSettingsId = await seoSettingsLogic.CreateSeoSettingsAsync("test-post-url-new", "test-post-seo-title-new", "test-post-seo-description-new");
+				var settingsId = await postSettingsLogic.CreateAsync(true, false, true, null);
+				var seoSettingsId = await seoSettingsLogic.CreateAsync("test-post-url-new", "test-post-seo-title-new", "test-post-seo-description-new");
 
 				var postId = await CreatePostAsync(
 					postsLogic, usersLogic, seoSettingsLogic, 
@@ -190,7 +190,7 @@ namespace MathSite.Tests.Domain.Logic
 					postsLogic, usersLogic, seoSettingsLogic
 				);
 
-				await postsLogic.UpdatePostAsync(postId, title, excerpt, content, published, publishDate, postTypeAlias, author.Id);
+				await postsLogic.UpdateAsync(postId, title, excerpt, content, published, publishDate, postTypeAlias, author.Id);
 
 				var post = await postsLogic.TryGetByIdAsync(postId);
 
@@ -216,7 +216,7 @@ namespace MathSite.Tests.Domain.Logic
 
 				var id = await CreatePostAsync(postsLogic, usersLogic, seoSettingsLogic);
 
-				await postsLogic.DeletePostAsync(id);
+				await postsLogic.DeleteAsync(id);
 
 				var person = await postsLogic.TryGetByIdAsync(id);
 
@@ -247,13 +247,13 @@ namespace MathSite.Tests.Domain.Logic
 			publishDate = publishDate ?? DateTime.Today.AddDays(-10);
 			postTypeAlias = postTypeAlias ?? PostTypeAliases.News;
 			authorId = authorId ?? (await usersLogic.TryGetByLoginAsync(UsersAliases.FirstUser)).Id;
-			seoSettings = seoSettings ?? await seoSettingsLogic.CreateSeoSettingsAsync(
+			seoSettings = seoSettings ?? await seoSettingsLogic.CreateAsync(
 				$"test-post-url-{salt}",
 				$"test-post-seo-title-{salt}", 
 				$"test-post-sep-description-{salt}"
 			);
 
-			return await logic.CreatePostAsync(title, excerpt, content, published, publishDate.Value, postTypeAlias, authorId.Value, settings, seoSettings.Value);
+			return await logic.CreateAsync(title, excerpt, content, published, publishDate.Value, postTypeAlias, authorId.Value, settings, seoSettings.Value);
 		}
 	}
 }

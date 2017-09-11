@@ -23,13 +23,13 @@ namespace Seeder
 			{
 				var logger = loggerFactory.CreateLogger<Program>();
 
-				if (args.Length < 1 || string.IsNullOrWhiteSpace(args[0]))
-				{
-					throw new ArgumentException("You should specify connection string!");
-				}
-
 				try
 				{
+					if (args.Length < 1 || string.IsNullOrWhiteSpace(args[0]))
+					{
+						throw new ArgumentException("You should specify connection string!");
+					}
+
 					var options = new DbContextOptionsBuilder<MathSiteDbContext>()
 						.UseNpgsql(args[0])
 						.UseLoggerFactory(loggerFactory)
