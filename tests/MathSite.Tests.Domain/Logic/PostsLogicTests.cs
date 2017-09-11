@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Domain.Logic.Posts;
@@ -35,8 +36,8 @@ namespace MathSite.Tests.Domain.Logic
 
 			await ExecuteWithContextAsync(async context =>
 			{
-				var personsLogic = new PostsLogic(context);
-				var post = await personsLogic.TryGetByIdAsync(id);
+				var postsLogic = new PostsLogic(context);
+				var post = await postsLogic.TryGetByIdAsync(id);
 
 				Assert.Null(post);
 			});
@@ -68,19 +69,61 @@ namespace MathSite.Tests.Domain.Logic
 		{
 			await ExecuteWithContextAsync(async context =>
 			{
-				var personsLogic = new PostsLogic(context);
-				var post = await personsLogic.TryGetByUrlAsync(" wrong url. it doesn't exists :) ");
+				var postsLogic = new PostsLogic(context);
+				var post = await postsLogic.TryGetByUrlAsync(" wrong url. it doesn't exists :) ");
 
 				Assert.Null(post);
 			});
 		}
 
 		[Fact]
-		public async Task TryGetMainPagePostsWithAllDataTest()
+		public async Task TryGetMainPagePostsWithAllData_Found_Test()
 		{
 			await ExecuteWithContextAsync(async context =>
 			{
+				var postsLogic = new PostsLogic(context);
 
+				var posts = (await postsLogic.TryGetMainPagePostsWithAllDataAsync(3, PostTypeAliases.News)).ToArray();
+				
+				Assert.Equal(3, posts.Length);
+
+				var first = posts.First();
+
+				Assert.Equal("tenth-url", first.PostSeoSetting.Url);
+
+				var second = posts.Skip(1).First();
+
+				Assert.Equal("eighth-url", second.PostSeoSetting.Url);
+
+				var third = posts.Skip(2).First();
+
+				Assert.Equal("seventh-url", third.PostSeoSetting.Url);
+			});
+		}
+
+		[Fact]
+		public async Task TryGetActivePostByUrlAndType_Found_Test()
+		{
+			await ExecuteWithContextAsync(async context =>
+			{
+				var postsLogic = new PostsLogic(context);
+
+				var post = await postsLogic.TryGetActivePostByUrlAndTypeAsync("tenth-url", PostTypeAliases.News);
+				
+				Assert.Equal("tenth-url", post.PostSeoSetting.Url);
+			});
+		}
+
+		[Fact]
+		public async Task TryGetActivePostByUrlAndType_NotFound_Test()
+		{
+			await ExecuteWithContextAsync(async context =>
+			{
+				var postsLogic = new PostsLogic(context);
+
+				var post = await postsLogic.TryGetActivePostByUrlAndTypeAsync("teeeeeest", PostTypeAliases.News);
+				
+				Assert.Null(post);
 			});
 		}
 
