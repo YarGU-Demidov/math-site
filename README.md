@@ -16,7 +16,10 @@
 
 ### Информация по установке
 
-* Склонировать `git clone https://github.com/YarGU-Demidov/math-site.git` или `git clone git@github.com:YarGU-Demidov/math-site.git`(если нужна самая последняя версия -- брать из последней rc-ветки)
+* Склонировать (одну из версий, выбор зависит от типа конфигурации аутентификации гита)
+  * `git clone https://github.com/YarGU-Demidov/math-site.git`
+  * `git clone git@github.com:YarGU-Demidov/math-site.git`
+* если нужна самая последняя версия - брать из последней rc-ветки
 
 #### Вариант 1 (Ручной, из коммандной строки)
 
@@ -38,7 +41,7 @@
 
 * Создать базу данных для сайта
   * Открыть `Visual Studio 2017`
-  * Поправить `appsettings.{env}.json`, где env -- это может быть dev или этого пункта может не быть вовсе, то есть просто `appsettings.json`
+  * Поправить `appsettings.{env}.json`, где env - это может быть dev или этого пункта может не быть вовсе, то есть просто `appsettings.json`
   * Открыть окошко `Консоль диспетчера пакетов`
   * Запустить `Update-Database`
 * Добавить данные в БД
