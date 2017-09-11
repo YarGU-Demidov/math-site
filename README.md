@@ -17,8 +17,8 @@
 ### Информация по установке
 
 * Склонировать (одну из версий, выбор зависит от типа конфигурации аутентификации гита)
- * `git clone https://github.com/YarGU-Demidov/math-site.git`
- * `git clone git@github.com:YarGU-Demidov/math-site.git`
+  * `git clone https://github.com/YarGU-Demidov/math-site.git`
+  * `git clone git@github.com:YarGU-Demidov/math-site.git`
 * если нужна самая последняя версия - брать из последней rc-ветки
 
 #### Вариант 1 (Ручной, из коммандной строки)
