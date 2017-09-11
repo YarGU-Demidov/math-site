@@ -28,7 +28,7 @@
   * Поправить `appsettings.{env}.json`, где env -- это может быть dev или этого пункта может не быть вовсе, то есть просто `appsettings.json`
   * Запустить `dotnet ef database update`
 * Добавить данные в БД
-  * Перейти в powershell/cmd/terminal в каталог проекта
+  * Перейти в `powershell`/`cmd`/`terminal` в каталог проекта
   * Перейти в `src/MathSite`
   * Запустить команду `dotnet run -с Release --launch-profile MathSite.Seed`
   
