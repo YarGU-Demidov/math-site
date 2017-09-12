@@ -153,7 +153,7 @@ namespace MathSite.Domain.Logic.Posts
 			return posts;
 		}
 
-		public async Task<IEnumerable<Post>> TryGetNews(int perPage, int page, string postTypeAlias)
+		public async Task<IEnumerable<Post>> TryGetNewsAsync(int perPage, int page, string postTypeAlias)
 		{
 			IEnumerable<Post> posts = null;
 
@@ -181,6 +181,11 @@ namespace MathSite.Domain.Logic.Posts
 			});
 
 			return posts;
+		}
+
+		public async Task<int> GetPostsCountAsync(string postTypeAlias)
+		{
+			return await GetFromItems(posts => posts.Where(post => post.PostTypeAlias == postTypeAlias).CountAsync());
 		}
 
 		public async Task<Post> TryGetActivePostByUrlAndTypeAsync(string url, string postType)
