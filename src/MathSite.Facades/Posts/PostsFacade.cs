@@ -14,6 +14,7 @@ namespace MathSite.Facades.Posts
 		Task<IEnumerable<Post>> GetLastSelectedForMainPagePostsAsync(int count);
 		Task<Post> GetNewsPostByUrlAsync(string url);
 		Task<IEnumerable<Post>> GetNewsAsync(int page);
+		Task<int> GetNewsPagesCountAsync();
 	}
 	
 	public class PostsFacade : BaseFacade, IPostsFacade
@@ -77,7 +78,6 @@ namespace MathSite.Facades.Posts
 		public async Task<IEnumerable<Post>> GetNewsAsync(int page)
 		{
 			const CacheItemPriority cachePriority = CacheItemPriority.Normal;
-			const string perPageCacheKey = "NewsPage-PerPage";
 			const string postTypeCacheKey = "NewsPage-PostTypeFor";
 
 			var newsPageCacheTime = TimeSpan.FromMinutes(10);
@@ -90,23 +90,52 @@ namespace MathSite.Facades.Posts
 				return await LogicManager.PostTypeLogic.TryGetByAliasAsync(PostTypeAliases.News);
 			});
 
-			var perPage = await MemoryCache.GetOrCreateAsync(perPageCacheKey, async entry =>
-			{
-				entry.Priority = cachePriority;
-				entry.SetSlidingExpiration(newsPageCacheTime);
-
-				var perPageSetting = await SiteSettingsFacade["PerPageNews"];
-
-				return int.Parse(
-					perPageSetting ?? "10"
-				);
-			});
+			var perPage = await GetPerPageCount();
 
 			return await MemoryCache.GetOrCreateAsync(postsCacheKey, async entry =>
 			{
 				entry.Priority = cachePriority;
 				entry.SetSlidingExpiration(newsPageCacheTime);
-				return await LogicManager.PostsLogic.TryGetNews(perPage, page, postType.Alias);
+				return await LogicManager.PostsLogic.TryGetNewsAsync(perPage, page, postType.Alias);
+			});
+		}
+
+		public async Task<int> GetNewsPagesCountAsync()
+		{
+			const CacheItemPriority cachePriority = CacheItemPriority.Normal;
+			const string newsPagesCountCacheKey = "NewsPage-PagesCount";
+			
+			var cacheTime = TimeSpan.FromMinutes(10);
+
+			var newsCount = await MemoryCache.GetOrCreateAsync(newsPagesCountCacheKey, async entry =>
+			{
+				entry.SetSlidingExpiration(cacheTime);
+				entry.Priority = cachePriority;
+
+				return await LogicManager.PostsLogic.GetPostsCountAsync(PostTypeAliases.News);
+			});
+
+			var perPage = await GetPerPageCount();
+
+			return (int) Math.Ceiling(newsCount / (float) perPage);
+		}
+
+		private async Task<int> GetPerPageCount(TimeSpan? cacheTime = null)
+		{
+			const string perPageCacheKey = "NewsPage-PerPage";
+			const CacheItemPriority cachePriority = CacheItemPriority.Normal;
+			cacheTime = cacheTime ?? TimeSpan.FromMinutes(10);
+			
+			return await MemoryCache.GetOrCreateAsync(perPageCacheKey, async entry =>
+			{
+				entry.Priority = cachePriority;
+				entry.SetSlidingExpiration(cacheTime.Value);
+
+				var perPageSetting = await SiteSettingsFacade["PerPageNews"];
+
+				return int.Parse(
+					perPageSetting ?? "5"
+				);
 			});
 		}
 	}

@@ -6,6 +6,7 @@ using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
 using MathSite.Facades.Posts;
 using MathSite.Facades.SiteSettings;
+using MathSite.ViewModels.SharedModels;
 using MathSite.ViewModels.SharedModels.PostPreview;
 using MathSite.ViewModels.SharedModels.SecondaryPage;
 
@@ -29,7 +30,18 @@ namespace MathSite.ViewModels.News
 
 			await BuildPosts(model, page);
 
+			model.Paginator = await GetPaginator(page);
+
 			return model;
+		}
+
+		private async Task<PaginatorViewModel> GetPaginator(int page)
+		{
+			return new PaginatorViewModel
+			{
+				CurrentPage = page,
+				PagesCount = await PostsFacade.GetNewsPagesCountAsync()
+			};
 		}
 
 		public async Task<NewsItemViewModel> BuildNewsItemViewModelAsync(string query, int page = 1)

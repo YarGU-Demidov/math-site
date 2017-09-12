@@ -224,6 +224,21 @@ namespace MathSite.Tests.Domain.Logic
 			});
 		}
 
+		[Fact]
+		public async Task GetPostsCountTest()
+		{
+			await ExecuteWithContextAsync(async context =>
+			{
+				var postsLogic = new PostsLogic(context);
+
+				var newsCount = await postsLogic.GetPostsCountAsync(PostTypeAliases.News);
+				var pagesCount = await postsLogic.GetPostsCountAsync(PostTypeAliases.StaticPage);
+				
+				Assert.Equal(10, newsCount);
+				Assert.Equal(1, pagesCount);
+			});
+		}
+
 		private async Task<Guid> CreatePostAsync(
 			IPostsLogic logic,
 			IUsersLogic usersLogic,
