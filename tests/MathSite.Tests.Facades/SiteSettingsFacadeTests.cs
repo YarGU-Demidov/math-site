@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Threading.Tasks;
+using MathSite.Common.Crypto;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Domain.Common;
 using MathSite.Facades.SiteSettings;
@@ -13,7 +14,7 @@ namespace MathSite.Tests.Facades
 	{
 		public IUserValidationFacade GetFacade(IBusinessLogicManager manager)
 		{
-			return new UserValidationFacade(manager, MemoryCache);
+			return new UserValidationFacade(manager, MemoryCache, new DoubleSha512HashPasswordsManager());
 		}
 
 		[Fact]

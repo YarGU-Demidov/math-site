@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using MathSite.Db;
+using MathSite.Facades.UserValidation;
 using MathSite.ViewModels.Pages;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,8 +10,8 @@ namespace MathSite.Controllers
 	{
 		private readonly IPagesViewModelBuilder _viewModelBuilder; 
 		
-		public PagesController(MathSiteDbContext dbContext, IPagesViewModelBuilder pagesViewModelBuilder) 
-			: base(dbContext)
+		public PagesController(IUserValidationFacade userValidationFacade, IPagesViewModelBuilder pagesViewModelBuilder) 
+			: base(userValidationFacade)
 		{
 			_viewModelBuilder = pagesViewModelBuilder;
 		}

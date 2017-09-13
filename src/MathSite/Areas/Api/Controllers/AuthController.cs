@@ -7,6 +7,7 @@ using MathSite.Areas.Api.Heplers.Auth;
 using MathSite.Common.Crypto;
 using MathSite.Controllers;
 using MathSite.Db;
+using MathSite.Facades.UserValidation;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
@@ -17,11 +18,9 @@ namespace MathSite.Areas.Api.Controllers
 	[Area("Api")]
 	public class AuthController : BaseController
 	{
-		private readonly IPasswordsManager _passwordHasher;
-
-		public AuthController(MathSiteDbContext dbContext, IPasswordsManager passwordHasher) : base(dbContext)
+		public AuthController(IUserValidationFacade userValidationFacade)
+			: base(userValidationFacade)
 		{
-			_passwordHasher = passwordHasher;
 		}
 
 		[HttpPost]
@@ -30,18 +29,10 @@ namespace MathSite.Areas.Api.Controllers
 			if (HttpContext.User.Identity.IsAuthenticated)
 				return new LoginResult(LoginStatus.AlreadySignedIn);
 
-			var ourUser = DbContext.Users
-				.Include(user => user.UserRights)
-				.Include(user => user.Group)
-				.ThenInclude(group => group.GroupsRights)
-				.ThenInclude(rights => rights.Right)
-				.FirstOrDefault(u => u.Login == login);
+			var ourUser = await UserValidationFacade.GetUserByLoginAndPasswordAsync(login, password);
 
 			if (ourUser == null)
-				return new LoginResult(LoginStatus.UserDoesntExists);
-
-			if (_passwordHasher.PasswordsAreEqual(login, password, ourUser.PasswordHash))
-				return new LoginResult(LoginStatus.WrongPassword);
+				return new LoginResult(LoginStatus.WrongPasswordOrDoesntExists);
 
 			await HttpContext.SignInAsync(
 				CookieAuthenticationDefaults.AuthenticationScheme,
@@ -49,9 +40,7 @@ namespace MathSite.Areas.Api.Controllers
 					new ClaimsIdentity(
 						new List<Claim>
 						{
-							new Claim("UserId", ourUser.Id.ToString()),
-							new Claim("Login", ourUser.Login),
-							new Claim("GroupAlias", ourUser.Group.Alias)
+							new Claim("UserId", ourUser.Id.ToString())
 						},
 						"Auth"
 					)

@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using MathSite.Common;
 using MathSite.Controllers;
 using MathSite.Core.DataTableApi;
 using MathSite.Core.Responses;
 using MathSite.Core.Responses.ResponseTypes;
 using MathSite.Db;
+using MathSite.Domain.Logic.Users;
+using MathSite.Facades.UserValidation;
 using MathSite.ViewModels.Api.UsersInfo;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,15 +19,21 @@ namespace MathSite.Areas.Api.Controllers
 	[Area("Api")]
 	public class UsersInfoController : BaseController, IDataTableApi<UserInfo, UsersSortData>
 	{
-		public UsersInfoController(MathSiteDbContext dbContext) : base(dbContext)
+		private readonly IUsersLogic _usersLogic;
+		public MathSiteDbContext DbContext { get; }
+
+		public UsersInfoController(IUserValidationFacade userValidationFacade, MathSiteDbContext dbContext, IUsersLogic usersLogic)
+			: base(userValidationFacade)
 		{
+			_usersLogic = usersLogic;
+			DbContext = dbContext;
 		}
 
-		public UserInfo GetCurrentUserInfo()
+		public async Task<UserInfo> GetCurrentUserInfo()
 		{
-			return CurrentUser == null
+			return CurrentUserId == null
 				? new UserInfo(null, null, null, null, null)
-				: new UserInfo(CurrentUser);
+				: new UserInfo(await _usersLogic.TryGetByIdAsync(CurrentUserId.Value));
 		}
 
 		public IActionResult GetUserInfo(string id)
