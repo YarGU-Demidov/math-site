@@ -4,10 +4,10 @@ using MathSite.Facades.UserValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MathSite.Areas.PersonalPage.Controllers
+namespace MathSite.Areas.Manager.Controllers
 {
-	[Area("personal-page")]
-	[Authorize("peronal-page")]
+	[Authorize("admin")]
+	[Area("manager")]
 	public class HomeController : BaseController
 	{
 		public HomeController(IUserValidationFacade userValidationFacade) : base(userValidationFacade)
@@ -17,6 +17,6 @@ namespace MathSite.Areas.PersonalPage.Controllers
 		public IActionResult Index()
 		{
 			return View();
-		}	
+		}
 	}
 }

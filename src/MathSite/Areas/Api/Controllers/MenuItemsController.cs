@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using MathSite.Controllers;
 using MathSite.Db;
+using MathSite.Facades.UserValidation;
 using MathSite.ViewModels.Api.MenuItems;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,7 +10,7 @@ namespace MathSite.Areas.Api.Controllers
 	[Area("Api")]
 	public class MenuItemsController : BaseController
 	{
-		public MenuItemsController(MathSiteDbContext dbContext) : base(dbContext)
+		public MenuItemsController(IUserValidationFacade userValidationFacade) : base(userValidationFacade)
 		{
 		}
 
@@ -18,19 +19,19 @@ namespace MathSite.Areas.Api.Controllers
 		{
 			var home = new MenuItemData("Главная", "/", "home");
 
-			var personsManagement = new MenuItemData("Персоны", "/persons", "person", new []
+			var personsManagement = new MenuItemData("Персоны", "/persons", "person", new[]
 			{
 				new MenuItemData("Список", "/persons/list"),
 				new MenuItemData("Добавить", "/persons/add")
 			});
 
-			var usersManagement = new MenuItemData("Пользователи", "/users", "face", new []
+			var usersManagement = new MenuItemData("Пользователи", "/users", "face", new[]
 			{
 				new MenuItemData("Список", "/users/list"),
 				new MenuItemData("Добавить", "/users/add")
 			});
 
-			var groupsManagement = new MenuItemData("Группы", "/groups", "group", new []
+			var groupsManagement = new MenuItemData("Группы", "/groups", "group", new[]
 			{
 				new MenuItemData("Список", "/groups/list"),
 				new MenuItemData("Добавить", "/groups/add")
@@ -48,5 +49,6 @@ namespace MathSite.Areas.Api.Controllers
 				siteSettingsManagement
 			};
 		}
+
 	}
 }

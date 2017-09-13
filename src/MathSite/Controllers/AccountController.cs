@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using MathSite.Common.Crypto;
 using MathSite.Db;
+using MathSite.Facades.UserValidation;
 using MathSite.ViewModels.Account;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -16,11 +17,8 @@ namespace MathSite.Controllers
 {
 	public class AccountController : BaseController
 	{
-		private readonly IPasswordsManager _passwordHasher;
-
-		public AccountController(MathSiteDbContext dbContext, IPasswordsManager passwordHasher) : base(dbContext)
+		public AccountController(IUserValidationFacade userValidationFacade) : base(userValidationFacade)
 		{
-			_passwordHasher = passwordHasher;
 		}
 
 		[HttpGet("/login")]
@@ -41,12 +39,7 @@ namespace MathSite.Controllers
 		[HttpPost("/login")]
 		public async Task<IActionResult> Login(LoginFormViewModel model)
 		{
-			var ourUser = DbContext.Users.Include(user1 => user1.Group)
-				.ThenInclude(group => group.GroupsRights)
-				.FirstOrDefault(
-					user => user.Login == model.Login &&
-					        _passwordHasher.PasswordsAreEqual(model.Login, model.Password, user.PasswordHash)
-				);
+			var ourUser = await UserValidationFacade.GetUserByLoginAndPasswordAsync(model.Login, model.Password);
 
 			if (ourUser == null)
 				return View(model);
@@ -57,9 +50,7 @@ namespace MathSite.Controllers
 					new ClaimsIdentity(
 						new List<Claim>
 						{
-							new Claim("UserId", ourUser.Id.ToString()),
-							new Claim("Login", ourUser.Login),
-							new Claim("GroupAlias", ourUser.Group.Alias)
+							new Claim("UserId", ourUser.Id.ToString())
 						},
 						"Auth"
 					)
@@ -77,17 +68,16 @@ namespace MathSite.Controllers
 
 		public async Task<IActionResult> CheckLogin(string login)
 		{
-			return await DbContext.Users.FirstOrDefaultAsync(user => user.Login == login) != null
+			return await UserValidationFacade.DoesUserExistsAsync(login)
 				? Json(true)
 				: Json("Данного пользователя не существует");
 		}
 
 		public async Task<IActionResult> CheckPassword(string password, string login)
 		{
-			return
-				await
-					DbContext.Users.FirstOrDefaultAsync(
-						user => user.Login == login && _passwordHasher.PasswordsAreEqual(login, password, user.PasswordHash)) != null
+			var user = await UserValidationFacade.GetUserByLoginAndPasswordAsync(login, password);
+			
+			return user != null
 					? Json(true)
 					: Json("Пароль неверен");
 		}

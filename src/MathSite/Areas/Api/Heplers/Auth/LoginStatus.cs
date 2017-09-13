@@ -3,8 +3,7 @@
 	public enum LoginStatus
 	{
 		Success,
-		WrongPassword,
-		UserDoesntExists,
+		WrongPasswordOrDoesntExists,
 		AlreadySignedIn
 	}
 }

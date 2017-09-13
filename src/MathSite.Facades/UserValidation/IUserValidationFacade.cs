@@ -11,6 +11,12 @@ namespace MathSite.Facades.UserValidation
 		/// </summary>
 		/// <param name="userId">Идентификатор текущего пользователя.</param>
 		Task<bool> DoesUserExistsAsync(Guid userId);
+		
+		/// <summary>
+		///     Выполняет проверку существования текущего пользователя.
+		/// </summary>
+		/// <param name="login">Логин текущего пользователя.</param>
+		Task<bool> DoesUserExistsAsync(string login);
 
 		/// <summary>
 		///     Асинхронно выполняет проверку прав пользователя.
@@ -39,5 +45,7 @@ namespace MathSite.Facades.UserValidation
 		/// <param name="user">Пользователь.</param>
 		/// <param name="right">Право.</param>
 		Task<bool> UserHasRightAsync(User user, Right right);
+
+		Task<User> GetUserByLoginAndPasswordAsync(string login, string password);
 	}
 }

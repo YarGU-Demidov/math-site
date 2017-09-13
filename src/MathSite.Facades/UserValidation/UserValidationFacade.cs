@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using MathSite.Common.Crypto;
 using MathSite.Domain.Common;
 using MathSite.Entities;
 using Microsoft.Extensions.Caching.Memory;
@@ -9,14 +10,27 @@ namespace MathSite.Facades.UserValidation
 {
 	public class UserValidationFacade : BaseFacade, IUserValidationFacade
 	{
-		public UserValidationFacade(IBusinessLogicManager logicManager, IMemoryCache memoryCache)
+		private readonly IPasswordsManager _passwordHasher;
+
+		public UserValidationFacade(
+			IBusinessLogicManager logicManager, 
+			IMemoryCache memoryCache, 
+			IPasswordsManager passwordHasher
+		)
 			: base(logicManager, memoryCache)
 		{
+			_passwordHasher = passwordHasher;
 		}
 
 		public async Task<bool> DoesUserExistsAsync(Guid userId)
 		{
 			var user = await LogicManager.UsersLogic.TryGetByIdAsync(userId);
+			return user != null;
+		}
+
+		public async Task<bool> DoesUserExistsAsync(string login)
+		{
+			var user = await LogicManager.UsersLogic.TryGetByLoginAsync(login);
 			return user != null;
 		}
 
@@ -64,6 +78,16 @@ namespace MathSite.Facades.UserValidation
 		public async Task<bool> UserHasRightAsync(User user, Right right)
 		{
 			return await UserHasRightAsync(user.Id, right.Alias);
+		}
+
+		public async Task<User> GetUserByLoginAndPasswordAsync(string login, string password)
+		{
+			var user = await LogicManager.UsersLogic.TryGetByLoginAsync(login);
+			
+			if(user == null || _passwordHasher.PasswordsAreEqual(login, password, user.PasswordHash))
+				return null;
+
+			return user;
 		}
 	}
 }

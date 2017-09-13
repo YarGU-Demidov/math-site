@@ -2,29 +2,27 @@
 using System.Linq;
 using System.Threading.Tasks;
 using MathSite.Core.Auth.Requirements;
-using MathSite.Db;
+using MathSite.Facades.UserValidation;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.EntityFrameworkCore;
 
 namespace MathSite.Core.Auth.Handlers
 {
 	public class SiteSectionAccessHandler : AuthorizationHandler<SiteSectionAccess>
 	{
-		private readonly MathSiteDbContext _dbContext;
+		private readonly IUserValidationFacade _userValidationFacade;
 
-		public SiteSectionAccessHandler(MathSiteDbContext dbContext)
+		public SiteSectionAccessHandler(IUserValidationFacade userValidationFacade)
 		{
-			_dbContext = dbContext;
+			_userValidationFacade = userValidationFacade;
 		}
 
-		protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, SiteSectionAccess requirement)
+		protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, SiteSectionAccess requirement)
 		{
-			var userRightsRetriever = new UserRightsRetriever();
 
 			if (!context.User.Identity.IsAuthenticated)
 			{
 				context.Fail();
-				return Task.FromResult(0);
+				return;
 			}
 
 			var userIdGuidString = context.User.Claims.FirstOrDefault(claim => claim.Type == "UserId")?.Value;
@@ -32,34 +30,24 @@ namespace MathSite.Core.Auth.Handlers
 			if (string.IsNullOrWhiteSpace(userIdGuidString))
 			{
 				context.Fail();
-				return Task.FromResult(0);
+				return;
 			}
 
 			var userId = Guid.Parse(userIdGuidString);
-			var user = _dbContext.Users.Where(u => u.Id == userId)
-				.Include(u => u.Group)
-				.ThenInclude(group => group.GroupsRights)
-				.ThenInclude(group => group.Right)
-				.Include(u => u.UserRights)
-				.ThenInclude(usersRights => usersRights.Right)
-				.FirstOrDefault();
 
-			if (user == null)
+			if (!await _userValidationFacade.DoesUserExistsAsync(userId))
 			{
 				context.Fail();
-				return Task.FromResult(0);
+				return;
 			}
 
-			var rights = userRightsRetriever.GetUserRights(user);
-
-			if (rights.ContainsKey(requirement.SectionName) && rights[requirement.SectionName])
+			if (!await _userValidationFacade.UserHasRightAsync(userId, requirement.SectionName))
 			{
-				context.Succeed(requirement);
-				return Task.FromResult(0);
+				context.Fail();
+				return;
 			}
 
-			context.Fail();
-			return Task.FromResult(0);
+			context.Succeed(requirement);
 		}
 	}
 }

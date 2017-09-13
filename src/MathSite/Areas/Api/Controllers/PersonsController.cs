@@ -5,6 +5,7 @@ using MathSite.Core.DataTableApi;
 using MathSite.Core.Responses;
 using MathSite.Core.Responses.ResponseTypes;
 using MathSite.Db;
+using MathSite.Facades.UserValidation;
 using MathSite.ViewModels.Api.Persons;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,8 +14,11 @@ namespace MathSite.Areas.Api.Controllers
 	[Area("Api")]
 	public class PersonsController : BaseController, IDataTableApi<Person, PersonsSortData>
 	{
-		public PersonsController(MathSiteDbContext dbContext) : base(dbContext)
+		public MathSiteDbContext DbContext { get; }
+
+		public PersonsController(IUserValidationFacade userValidationFacade, MathSiteDbContext dbContext) : base(userValidationFacade)
 		{
+			DbContext = dbContext;
 		}
 
 		[HttpPost]
