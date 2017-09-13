@@ -41,17 +41,18 @@ namespace MathSite.Controllers
 		}
 
 		[NonAction]
-		public override async void OnActionExecuting(ActionExecutingContext context)
+		public override void OnActionExecuting(ActionExecutingContext context)
 		{
-			await TrySetUser(context);
 			base.OnActionExecuting(context);
+			var userSetTask = TrySetUser(context);
+			userSetTask.Wait();
 		}
 
 		[NonAction]
 		public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
 		{
-			await TrySetUser(context);
 			await base.OnActionExecutionAsync(context, next);
+			await TrySetUser(context);
 		}
 	}
 }

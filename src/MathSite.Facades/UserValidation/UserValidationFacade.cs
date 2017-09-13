@@ -84,7 +84,7 @@ namespace MathSite.Facades.UserValidation
 		{
 			var user = await LogicManager.UsersLogic.TryGetByLoginAsync(login);
 			
-			if(user == null || _passwordHasher.PasswordsAreEqual(login, password, user.PasswordHash))
+			if(user == null || !_passwordHasher.PasswordsAreEqual(login, password, user.PasswordHash))
 				return null;
 
 			return user;
