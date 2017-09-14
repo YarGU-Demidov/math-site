@@ -15,5 +15,7 @@ namespace MathSite.ViewModels.Account
 		[Required(ErrorMessage = "Необходим пароль")]
 		[Remote(controller: "Account", action: "CheckPassword", AdditionalFields = "Login")]
 		public string Password { get; set; }
+
+		public string ReturnUrl { get; set; } = "/";
 	}
 }

@@ -48,7 +48,6 @@ namespace MathSite
 			ConfigureServices(services, true);
 		}
 
-
 		/// <summary>
 		///     Конфигурация сервисов для боевого сайта.
 		/// </summary>
@@ -90,6 +89,8 @@ namespace MathSite
 		{
 			services.Configure<RazorViewEngineOptions>(options =>
 			{
+				options.AreaViewLocationFormats.Add("/Areas/Manager/Views/{1}/{0}.cshtml");
+				options.AreaViewLocationFormats.Add("/Areas/Manager/Views/Shared/{0}.cshtml");
 				options.AreaViewLocationFormats.Add("/Areas/PersonalPage/Views/{1}/{0}.cshtml");
 				options.AreaViewLocationFormats.Add("/Areas/PersonalPage/Views/Shared/{0}.cshtml");
 			});

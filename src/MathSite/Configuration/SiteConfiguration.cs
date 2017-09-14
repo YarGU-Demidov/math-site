@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.Extensions.Logging;
 
 // ReSharper disable ArgumentsStyleOther
 // ReSharper disable ArgumentsStyleStringLiteral
 
 namespace MathSite
 {
+	// ReSharper disable once ClassNeverInstantiated.Global
 	public partial class Startup
 	{
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env)

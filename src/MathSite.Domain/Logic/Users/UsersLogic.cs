@@ -12,13 +12,7 @@ namespace MathSite.Domain.Logic.Users
 		public UsersLogic(MathSiteDbContext contextManager) : base(contextManager)
 		{
 		}
-
-		/// <summary>
-		///     Асинхронно создает личность.
-		/// </summary>
-		/// <param name="login">Логин.</param>
-		/// <param name="passwordHash">Пароль.</param>
-		/// <param name="groupId">Идентификатор группы.</param>
+		
 		public async Task<Guid> CreateAsync(string login, byte[] passwordHash, Guid groupId)
 		{
 			var userId = Guid.Empty;
@@ -34,14 +28,7 @@ namespace MathSite.Domain.Logic.Users
 
 			return userId;
 		}
-
-		/// <summary>
-		///     Асинхронно обновляет личность.
-		/// </summary>
-		/// <param name="id">Идентификатор пользователя.</param>
-		/// <param name="passwordHash">Пароль.</param>
-		/// <param name="groupId">Идентификатор группы.</param>
-		/// <exception cref="Exception">Личность не найдена.</exception>
+		
 		public async Task UpdateAsync(Guid id, byte[] passwordHash, Guid groupId)
 		{
 			await UseContextWithSaveAsync(async context =>
@@ -53,11 +40,6 @@ namespace MathSite.Domain.Logic.Users
 			});
 		}
 
-		/// <summary>
-		///     Асинхронно удаляет личность.
-		/// </summary>
-		/// <param name="currentUserId">Идентификатор текущего пользователя.</param>
-		/// <param name="personId">Идентификатор личности.</param>
 		public async Task DeleteAsync(Guid id)
 		{
 			await UseContextWithSaveAsync(async context =>

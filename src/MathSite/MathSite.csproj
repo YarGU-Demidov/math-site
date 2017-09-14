@@ -40,6 +40,7 @@
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MathSite.BasicAdmin.ViewModels\MathSite.BasicAdmin.ViewModels.csproj" />
     <ProjectReference Include="..\MathSite.Common\MathSite.Common.csproj" />
     <ProjectReference Include="..\MathSite.Db\MathSite.Db.csproj" />
     <ProjectReference Include="..\MathSite.Domain\MathSite.Domain.csproj" />

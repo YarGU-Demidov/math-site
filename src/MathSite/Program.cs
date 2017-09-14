@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Net;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Newtonsoft.Json;
@@ -19,6 +20,7 @@ namespace MathSite
 		public static IWebHost BuildWebHost(string[] args) =>
 			WebHost.CreateDefaultBuilder(args)
 				.UseStartup<Startup>()	
+				.UseUrls($"http://{IPAddress.Any}:5000")
 				.Build();
 
 		public static void RunSeeding()
