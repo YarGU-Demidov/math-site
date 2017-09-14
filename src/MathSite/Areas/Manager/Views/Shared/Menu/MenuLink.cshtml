@@ -1,0 +1,12 @@
+﻿@model MenuLink
+@{
+	var activeClass = Model.IsActive ? "active" : "";
+}
+
+<a
+	class="nav-link @activeClass"
+	href="@Model.Url"
+	alt="@Model.Alt"
+	aria-label="@Model.Alt">
+	@Model.DisplayingTitle
+</a>

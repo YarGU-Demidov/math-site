@@ -29,12 +29,18 @@ namespace MathSite.Controllers
 				else
 					return RedirectToAction("Index", "Home");
 
-			return View();
+			return View(new LoginFormViewModel {ReturnUrl = returnUrl});
 		}
 
 		[HttpPost("/login")]
+		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Login(LoginFormViewModel model)
 		{
+			var valid = TryValidateModel(model);
+
+			if (!valid)
+				return View(model);
+
 			var ourUser = await UserValidationFacade.GetUserByLoginAndPasswordAsync(model.Login, model.Password);
 
 			if (ourUser == null)

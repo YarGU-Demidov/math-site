@@ -1,0 +1,10 @@
+﻿@model TopMenuViewModel
+
+<ul class="navbar-nav flex-row">
+	@foreach (var model in Model.Links)
+	{
+		<li class="nav-item">
+			@Html.Partial("Menu/MenuLink", model)
+		</li>
+	}
+</ul>
