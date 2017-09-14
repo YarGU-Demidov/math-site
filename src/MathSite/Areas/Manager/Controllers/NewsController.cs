@@ -12,11 +12,11 @@ using Microsoft.AspNetCore.Mvc;
 namespace MathSite.Areas.Manager.Controllers
 {
 	[Area("manager"), Authorize("admin")]
-	public class HomeController : BaseController
+	public class NewsController : BaseController
 	{
 		private readonly ISiteSettingsFacade _siteSettingsFacade;
 
-		public HomeController(IUserValidationFacade userValidationFacade, ISiteSettingsFacade siteSettingsFacade) : base(userValidationFacade)
+		public NewsController(IUserValidationFacade userValidationFacade, ISiteSettingsFacade siteSettingsFacade) : base(userValidationFacade)
 		{
 			_siteSettingsFacade = siteSettingsFacade;
 		}
@@ -31,9 +31,9 @@ namespace MathSite.Areas.Manager.Controllers
 				),
 				new TopMenuViewModel(new List<MenuLink>
 				{
-					new MenuLink("Dashboard", "/manager", true),
+					new MenuLink("Dashboard", "/manager", false),
 					new MenuLink("Статьи", "/manager", false),
-					new MenuLink("Новости", "/manager/news", false),
+					new MenuLink("Новости", "/manager/news", true),
 					new MenuLink("Файлы", "/manager", false),
 					new MenuLink("Пользователи", "/manager", false),
 					new MenuLink("Настройки", "/manager", false),
