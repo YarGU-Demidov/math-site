@@ -9,134 +9,145 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace MathSite.Facades.Posts
 {
-	public interface IPostsFacade
-	{
-		Task<IEnumerable<Post>> GetLastSelectedForMainPagePostsAsync(int count);
-		Task<Post> GetNewsPostByUrlAsync(string url);
-		Task<IEnumerable<Post>> GetNewsAsync(int page);
-		Task<int> GetNewsPagesCountAsync();
-	}
-	
-	public class PostsFacade : BaseFacade, IPostsFacade
-	{
-		public ISiteSettingsFacade SiteSettingsFacade { get; }
+  public class PostsFacade : BaseFacade, IPostsFacade
+  {
+    private const int cacheMinutes = 10;
+    private const int cacheHours = 12;
 
-		public PostsFacade(IBusinessLogicManager logicManager, IMemoryCache memoryCache, ISiteSettingsFacade siteSettingsFacade) 
-			: base(logicManager, memoryCache)
-		{
-			SiteSettingsFacade = siteSettingsFacade;
-		}
+    public ISiteSettingsFacade SiteSettingsFacade { get; }
 
-		public async Task<IEnumerable<Post>> GetLastSelectedForMainPagePostsAsync(int count)
-		{
-			const CacheItemPriority cachePriority = CacheItemPriority.Normal;
-			const int featuredPostsCacheMinutes = 10;
+    public PostsFacade(IBusinessLogicManager logicManager, IMemoryCache memoryCache,
+      ISiteSettingsFacade siteSettingsFacade)
+      : base(logicManager, memoryCache)
+    {
+      SiteSettingsFacade = siteSettingsFacade;
+    }
 
-			var postsCacheKey = $"Last{count}FeaturedPosts";
-			var postTypeCacheKey = $"Last{count}FeaturedPostsType";
-			
-			var postType = await MemoryCache.GetOrCreateAsync(postTypeCacheKey, async entry =>
-			{
-				entry.Priority = cachePriority;
-				entry.SetSlidingExpiration(TimeSpan.FromMinutes(featuredPostsCacheMinutes));
-				return await LogicManager.PostTypeLogic.TryGetByAliasAsync(PostTypeAliases.News);
-			});
-			
-			return await MemoryCache.GetOrCreateAsync(postsCacheKey, async entry =>
-			{
-				entry.Priority = cachePriority;
-				entry.SetSlidingExpiration(TimeSpan.FromMinutes(featuredPostsCacheMinutes));
-				return await LogicManager.PostsLogic.TryGetMainPagePostsWithAllDataAsync(count, postType.Alias);
-			});
-		}
+    public async Task<IEnumerable<Post>> GetLastSelectedForMainPagePostsAsync(int count)
+    {
+      const CacheItemPriority cachePriority = CacheItemPriority.Normal;
 
-		public async Task<Post> GetNewsPostByUrlAsync(string url)
-		{
-			const CacheItemPriority cachePriority = CacheItemPriority.Low;
+      var postsCacheKey = $"Last{count}FeaturedPosts";
+      var postTypeCacheKey = $"Last{count}FeaturedPostsType";
 
-			const string postTypeCacheKey = "NewsPostType";
-			const int postCacheMinutes = 10;
-			const int postTypeCacheHours = 12;
+      var postType = await MemoryCache.GetOrCreateAsync(postTypeCacheKey, async entry =>
+      {
+        entry.Priority = cachePriority;
+        entry.SetSlidingExpiration(TimeSpan.FromMinutes(cacheMinutes));
+        return await LogicManager.PostTypeLogic.TryGetByAliasAsync(PostTypeAliases.News);
+      });
 
-			var postCacheKey = $"NewsPostData:{url}";
+      return await MemoryCache.GetOrCreateAsync(postsCacheKey, async entry =>
+      {
+        entry.Priority = cachePriority;
+        entry.SetSlidingExpiration(TimeSpan.FromMinutes(cacheMinutes));
+        return await LogicManager.PostsLogic.TryGetMainPagePostsWithAllDataAsync(count, postType.Alias);
+      });
+    }
 
-			var postType = await MemoryCache.GetOrCreateAsync(postTypeCacheKey, async entry =>
-			{
-				entry.Priority = cachePriority;
-				entry.SetSlidingExpiration(TimeSpan.FromMinutes(postTypeCacheHours));
-				return await LogicManager.PostTypeLogic.TryGetByAliasAsync(PostTypeAliases.News);
-			});
+    public async Task<Post> GetNewsPostByUrlAsync(string url)
+    {
+      const CacheItemPriority cachePriority = CacheItemPriority.Low;
+      const string postTypeCacheKey = "NewsPostType";
 
-			return await MemoryCache.GetOrCreateAsync(postCacheKey, async entry =>
-			{
-				entry.Priority = cachePriority;
-				entry.SetSlidingExpiration(TimeSpan.FromMinutes(postCacheMinutes));
-				return await LogicManager.PostsLogic.TryGetActivePostByUrlAndTypeAsync(url, postType.Alias);
-			});
-		}
+      var postCacheKey = $"NewsPostData:{url}";
 
-		public async Task<IEnumerable<Post>> GetNewsAsync(int page)
-		{
-			const CacheItemPriority cachePriority = CacheItemPriority.Normal;
-			const string postTypeCacheKey = "NewsPage-PostTypeFor";
+      var postType = await MemoryCache.GetOrCreateAsync(postTypeCacheKey, async entry =>
+      {
+        entry.Priority = cachePriority;
+        entry.SetSlidingExpiration(TimeSpan.FromMinutes(cacheHours));
+        return await LogicManager.PostTypeLogic.TryGetByAliasAsync(PostTypeAliases.News);
+      });
 
-			var newsPageCacheTime = TimeSpan.FromMinutes(10);
-			var postsCacheKey = $"NewsPage{page}";
+      return await MemoryCache.GetOrCreateAsync(postCacheKey, async entry =>
+      {
+        entry.Priority = cachePriority;
+        entry.SetSlidingExpiration(TimeSpan.FromMinutes(cacheMinutes));
+        return await LogicManager.PostsLogic.TryGetActivePostByUrlAndTypeAsync(url, postType.Alias);
+      });
+    }
 
-			var postType = await MemoryCache.GetOrCreateAsync(postTypeCacheKey, async entry =>
-			{
-				entry.Priority = cachePriority;
-				entry.SetSlidingExpiration(newsPageCacheTime);
-				return await LogicManager.PostTypeLogic.TryGetByAliasAsync(PostTypeAliases.News);
-			});
+    public async Task<Post> GetStaticPageByUrlAsync(string url)
+    {
+      const CacheItemPriority cachePriority = CacheItemPriority.Low;
+      const string postTypeCacheKey = "StaticPagePostType";
 
-			var perPage = await GetPerPageCount();
+      var postCacheKey = $"StaticPagePostData:{url}";
 
-			return await MemoryCache.GetOrCreateAsync(postsCacheKey, async entry =>
-			{
-				entry.Priority = cachePriority;
-				entry.SetSlidingExpiration(newsPageCacheTime);
-				return await LogicManager.PostsLogic.TryGetNewsAsync(perPage, page, postType.Alias);
-			});
-		}
+      var postType = await MemoryCache.GetOrCreateAsync(postTypeCacheKey, async entry =>
+      {
+        entry.Priority = cachePriority;
+        entry.SetSlidingExpiration(TimeSpan.FromMinutes(cacheMinutes));
+        return await LogicManager.PostTypeLogic.TryGetByAliasAsync(PostTypeAliases.StaticPage);
+      });
 
-		public async Task<int> GetNewsPagesCountAsync()
-		{
-			const CacheItemPriority cachePriority = CacheItemPriority.Normal;
-			const string newsPagesCountCacheKey = "NewsPage-PagesCount";
-			
-			var cacheTime = TimeSpan.FromMinutes(10);
+      return await MemoryCache.GetOrCreateAsync(postCacheKey, async entry =>
+      {
+        entry.Priority = cachePriority;
+        entry.SetSlidingExpiration(TimeSpan.FromMinutes(cacheMinutes));
+        return await LogicManager.PostsLogic.TryGetActivePostByUrlAndTypeAsync(url, postType.Alias);
+      });
+    }
 
-			var newsCount = await MemoryCache.GetOrCreateAsync(newsPagesCountCacheKey, async entry =>
-			{
-				entry.SetSlidingExpiration(cacheTime);
-				entry.Priority = cachePriority;
+    public async Task<IEnumerable<Post>> GetNewsAsync(int page)
+    {
+      const CacheItemPriority cachePriority = CacheItemPriority.Normal;
+      const string postTypeCacheKey = "NewsPage-PostTypeFor";
 
-				return await LogicManager.PostsLogic.GetPostsCountAsync(PostTypeAliases.News);
-			});
+      var postsCacheKey = $"NewsPage{page}";
 
-			var perPage = await GetPerPageCount();
+      var postType = await MemoryCache.GetOrCreateAsync(postTypeCacheKey, async entry =>
+      {
+        entry.Priority = cachePriority;
+        entry.SetSlidingExpiration(TimeSpan.FromMinutes(cacheMinutes));
+        return await LogicManager.PostTypeLogic.TryGetByAliasAsync(PostTypeAliases.News);
+      });
 
-			return (int) Math.Ceiling(newsCount / (float) perPage);
-		}
+      var perPage = await GetPerPageCount();
 
-		private async Task<int> GetPerPageCount(TimeSpan? cacheTime = null)
-		{
-			const string perPageCacheKey = "NewsPage-PerPage";
-			const CacheItemPriority cachePriority = CacheItemPriority.Normal;
-			cacheTime = cacheTime ?? TimeSpan.FromMinutes(10);
-			
-			return await MemoryCache.GetOrCreateAsync(perPageCacheKey, async entry =>
-			{
-				entry.Priority = cachePriority;
-				entry.SetSlidingExpiration(cacheTime.Value);
+      return await MemoryCache.GetOrCreateAsync(postsCacheKey, async entry =>
+      {
+        entry.Priority = cachePriority;
+        entry.SetSlidingExpiration(TimeSpan.FromMinutes(cacheMinutes));
+        return await LogicManager.PostsLogic.TryGetNewsAsync(perPage, page, postType.Alias);
+      });
+    }
 
-				var perPageSetting = await SiteSettingsFacade["PerPageNews"];
+    public async Task<int> GetNewsPagesCountAsync()
+    {
+      const CacheItemPriority cachePriority = CacheItemPriority.Normal;
+      const string newsPagesCountCacheKey = "NewsPage-PagesCount";
 
-				return int.Parse(
-					perPageSetting ?? "5"
-				);
-			});
-		}
-	}
+      var newsCount = await MemoryCache.GetOrCreateAsync(newsPagesCountCacheKey, async entry =>
+      {
+        entry.SetSlidingExpiration(TimeSpan.FromMinutes(cacheMinutes));
+        entry.Priority = cachePriority;
+
+        return await LogicManager.PostsLogic.GetPostsCountAsync(PostTypeAliases.News);
+      });
+
+      var perPage = await GetPerPageCount();
+
+      return (int) Math.Ceiling(newsCount / (float) perPage);
+    }
+
+    private async Task<int> GetPerPageCount(TimeSpan? cacheTime = null)
+    {
+      const string perPageCacheKey = "NewsPage-PerPage";
+      const CacheItemPriority cachePriority = CacheItemPriority.Normal;
+      cacheTime = cacheTime ?? TimeSpan.FromMinutes(cacheMinutes);
+
+      return await MemoryCache.GetOrCreateAsync(perPageCacheKey, async entry =>
+      {
+        entry.Priority = cachePriority;
+        entry.SetSlidingExpiration(cacheTime.Value);
+
+        var perPageSetting = await SiteSettingsFacade["PerPageNews"];
+
+        return int.Parse(
+          perPageSetting ?? "5"
+        );
+      });
+    }
+  }
 }

@@ -44,10 +44,10 @@ namespace MathSite.Db.DataSeeding.Seeders
 				DateTime.Now
 			);
 
-			const string thirdLogin = UsersAliases.ThirdUser;
-			var thirdUser = CreateUser(
-				thirdLogin,
-				GetPasswordHash(thirdLogin, "test"),
+			const string testLogin = UsersAliases.TestUser;
+			var testUser = CreateUser(
+				testLogin,
+				GetPasswordHash(testLogin, "test"),
 				GetPersonByNames("Тест", "Тестов", "Тестович"),
 				GetGroupByAlias(GroupAliases.User),
 				DateTime.Now
@@ -58,7 +58,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 			{
 				firstUser,
 				secondUser,
-				thirdUser
+				testUser
 			};
 
 			Context.Users.AddRange(users);
