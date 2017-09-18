@@ -1,7 +1,7 @@
-﻿@model TopMenuViewModel
+﻿@model IEnumerable<MenuLink>
 
 <ul class="navbar-nav flex-row">
-	@foreach (var model in Model.Links)
+	@foreach (var model in Model)
 	{
 		<li class="nav-item">
 			@Html.Partial("Menu/MenuLink", model)

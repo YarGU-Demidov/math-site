@@ -1,10 +1,11 @@
 ﻿@model MenuLink
 @{
 	var activeClass = Model.IsActive ? "active" : "";
+	var classLink = ViewData["classLink"] ?? "nav-link";
 }
 
 <a
-	class="nav-link @activeClass"
+	class="@classLink @activeClass"
 	href="@Model.Url"
 	title="@Model.Alt"
 	aria-label="@Model.Alt">

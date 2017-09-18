@@ -1,0 +1,40 @@
+﻿/* Extra small devices (portrait phones, less than 576px) */
+
+@media (max-width: 575px) {
+}
+
+/* Small devices (landscape phones, less than 768px) */
+
+@media (max-width: 767px) {
+}
+
+/* Medium devices (tablets, less than 992px) */
+
+@media (max-width: 991px) {
+	.header {
+		padding-left: .5rem;
+		padding-right: .5rem;
+	}
+
+	.header .navbar-nav-scroll {
+		font-size: .875rem;
+		height: 2.5rem;
+		margin-top: .25rem;
+		max-width: 100%;
+		overflow: hidden;
+	}
+
+	.header .navbar-nav-scroll .navbar-nav {
+		-webkit-overflow-scrolling: touch;
+		overflow-x: auto;
+		white-space: nowrap;
+	}
+}
+
+/* Large devices (desktops, less than 1200px) */
+
+@media (max-width: 1199px) {
+}
+
+/* Extra large devices (large desktops) */
+/* No media query since the extra-large breakpoint has no upper bound on its width */

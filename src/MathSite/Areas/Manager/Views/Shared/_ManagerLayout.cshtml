@@ -11,7 +11,10 @@
 
 		<title>@Model.PageTitle</title>
 		
+		<link href="~/css/manager/media-before.css" rel="stylesheet" />
+		<link href="~/css/manager/media-inside.css" rel="stylesheet" />
 		<link href="~/css/manager/manager-main.css" rel="stylesheet" />
+		<link href="~/css/manager/media-after.css" rel="stylesheet" />
 
 		<!-- Bootstrap CSS -->
 		<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
@@ -20,7 +23,14 @@
 		@Html.Partial("ManagerHeader", Model.TopMenu)
 
 		<div class="container-fluid">
-			@RenderBody()
+			<div class="row">
+				<div class="col-12 col-sm-4 col-md-3 col-lg-2 col-xl-2">
+					@Html.Partial("Menu/LeftMenu", Model.TopMenu)
+				</div>
+				<div class="col-12 col-sm-8 col-md-9 col-lg-10 col-xl-10">
+					@RenderBody()
+				</div>
+			</div>
 		</div>
 
 		<!-- Optional JavaScript -->

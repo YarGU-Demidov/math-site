@@ -1,10 +1,11 @@
-﻿using MathSite.BasicAdmin.ViewModels.SharedModels.Menu;
+﻿using System.Collections.Generic;
+using MathSite.BasicAdmin.ViewModels.SharedModels.Menu;
 
 namespace MathSite.BasicAdmin.ViewModels.SharedModels
 {
 	public class AdminPageBaseViewModel
 	{
-		public AdminPageBaseViewModel(PageTitleViewModel pageTitle, TopMenuViewModel topMenu)
+		public AdminPageBaseViewModel(PageTitleViewModel pageTitle, IEnumerable<MenuLink> topMenu)
 		{
 			PageTitle = pageTitle;
 			TopMenu = topMenu;
@@ -12,6 +13,9 @@ namespace MathSite.BasicAdmin.ViewModels.SharedModels
 
 		public PageTitleViewModel PageTitle { get; set; }
 
-		public TopMenuViewModel TopMenu { get; set; }
+		public IEnumerable<MenuLink> TopMenu { get; set; }
+
+		public IEnumerable<MenuLink> LeftMenu { get; set; }
+
 	}
 }
