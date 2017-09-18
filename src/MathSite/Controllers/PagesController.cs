@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using MathSite.Db;
+using MathSite.Common.Exceptions;
 using MathSite.Facades.UserValidation;
 using MathSite.ViewModels.Pages;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +18,14 @@ namespace MathSite.Controllers
 		
 		public async Task<IActionResult> Index(string query)
 		{
-			return View(await _viewModelBuilder.BuildPageItemViewModelAsync(query));
+			try
+			{
+				return View(await _viewModelBuilder.BuildPageItemViewModelAsync(query));
+			}
+			catch (PostNotFoundException)
+			{
+				return NotFound();
+			}
 		}
 	}
 }

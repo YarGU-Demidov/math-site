@@ -29,7 +29,7 @@ namespace MathSite.Areas.Manager.Controllers
 					await _siteSettingsFacade[SiteSettingsNames.TitleDelimiter],
 					await _siteSettingsFacade[SiteSettingsNames.SiteName]
 				),
-				new TopMenuViewModel(new List<MenuLink>
+				new List<MenuLink>
 				{
 					new MenuLink("Dashboard", "/manager", true),
 					new MenuLink("Статьи", "/manager", false),
@@ -37,7 +37,7 @@ namespace MathSite.Areas.Manager.Controllers
 					new MenuLink("Файлы", "/manager", false),
 					new MenuLink("Пользователи", "/manager", false),
 					new MenuLink("Настройки", "/manager", false),
-				})
+				}
 			));
 		}
 	}
