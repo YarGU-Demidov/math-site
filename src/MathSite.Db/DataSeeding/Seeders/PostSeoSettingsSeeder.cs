@@ -74,8 +74,77 @@ namespace MathSite.Db.DataSeeding.Seeders
 					"static page title",
 					"static page description"
 				),
+				CreatePostSeoSettings(
+					"for-entrants",
+					"for entrants title",
+					"for entrants description"
+				),
+				CreatePostSeoSettings(
+					"for-students",
+					"for students title",
+					"for students description"
+				),
+				CreatePostSeoSettings(
+					"for-scholars",
+					"for scholars title",
+					"for scholars description"
+				),
+				CreatePostSeoSettings(
+					"contacts",
+					"contacts title",
+					"contacts description"
+				),
+				CreatePostSeoSettings(
+					"departments",
+					"departments title",
+					"departments description"
+				),
+				CreatePostSeoSettings(
+					"departments/general-math",
+					"general-math title",
+					"general-math description"
+				),
+				CreatePostSeoSettings(
+					"departments/calculus",
+					"calculus title",
+					"calculus description"
+				),
+				CreatePostSeoSettings(
+					"departments/computer-security",
+					"computer-security title",
+					"computer-security description"
+				),
+				CreatePostSeoSettings(
+					"departments/algebra",
+					"algebra title",
+					"algebra description"
+				),
+				CreatePostSeoSettings(
+					"departments/mathmod",
+					"mathmod title",
+					"mathmod description"
+				),
+				CreatePostSeoSettings(
+					"departments/differential-equations",
+					"differential-equations title",
+					"differential-equations description"
+				),
+				CreatePostSeoSettings(
+					"how-to-enter",
+					"how-to-enter title",
+					"how-to-enter description"
+				),
+				CreatePostSeoSettings(
+					"how-to-learn",
+					"how-to-learn title",
+					"how-to-learn description"
+				),
+				CreatePostSeoSettings(
+					"where-to-work",
+					"where-to-work title",
+					"where-to-work description"
+				),
 			};
-
 			Context.PostSeoSettings.AddRange(postSeoSettings);
 		}
 
