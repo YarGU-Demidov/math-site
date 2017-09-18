@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using MathSite.Common.Exceptions;
 using MathSite.Entities;
 using MathSite.Facades.Posts;
 using MathSite.Facades.SiteSettings;
@@ -10,7 +11,8 @@ namespace MathSite.ViewModels.Pages
 	public class PagesViewModelBuilder : SecondaryViewModelBuilder, IPagesViewModelBuilder
 
 	{
-		public PagesViewModelBuilder(ISiteSettingsFacade siteSettingsFacade, IPostsFacade postsFacade, IPostPreviewViewModelBuilder postPreviewViewModelBuilder) 
+		public PagesViewModelBuilder(ISiteSettingsFacade siteSettingsFacade, IPostsFacade postsFacade,
+			IPostPreviewViewModelBuilder postPreviewViewModelBuilder)
 			: base(siteSettingsFacade, postsFacade, postPreviewViewModelBuilder)
 		{
 		}
@@ -21,21 +23,19 @@ namespace MathSite.ViewModels.Pages
 		{
 			var model = await BuildSecondaryViewModel<PageItemViewModel>();
 
-			var post = await GetPostAsync(query);
+			var post = await BuildPostData(query);
+			if (post == null)
+				throw new PostNotFoundException(query);
 
 			model.PageTitle.Title = post.Title;
 			model.Content = post.Content;
-			
+
 			return model;
 		}
 
-		private async Task<Post> GetPostAsync(string query)
+		private async Task<Post> BuildPostData(string query)
 		{
-			return new Post
-			{
-				Title = "Static Page \\\\Hardcoded title",
-				Content = $"Query: {query}<br><br>test content<hr><br><br>bla bla bla..."
-			};
+			return await PostsFacade.GetStaticPageByUrlAsync(query);
 		}
 	}
 }
