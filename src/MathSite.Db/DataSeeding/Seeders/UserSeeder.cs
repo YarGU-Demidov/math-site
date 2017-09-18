@@ -78,8 +78,8 @@ namespace MathSite.Db.DataSeeding.Seeders
 		{
 			return Context.Persons.First(
 				person => person.Name == name &&
-				          person.Surname == surname &&
-				          person.MiddleName == middlename
+						  person.Surname == surname &&
+						  person.MiddleName == middlename
 			);
 		}
 

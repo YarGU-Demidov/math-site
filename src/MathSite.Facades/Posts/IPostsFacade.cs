@@ -8,8 +8,8 @@ namespace MathSite.Facades.Posts
 	{
 		Task<int> GetNewsPagesCountAsync();
 		Task<Post> GetNewsPostByUrlAsync(string url);
-	  Task<Post> GetStaticPageByUrlAsync(string url);
-    Task<IEnumerable<Post>> GetNewsAsync(int page);
+		Task<Post> GetStaticPageByUrlAsync(string url);
+		Task<IEnumerable<Post>> GetNewsAsync(int page);
 		Task<IEnumerable<Post>> GetLastSelectedForMainPagePostsAsync(int count);
 	}
 }
