@@ -7,95 +7,101 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MathSite.Domain.Logic.Users
 {
-	public class UsersLogic : LogicBase<User>, IUsersLogic
-	{
-		public UsersLogic(MathSiteDbContext contextManager) : base(contextManager)
-		{
-		}
-		
-		public async Task<Guid> CreateAsync(string login, byte[] passwordHash, Guid groupId)
-		{
-			var userId = Guid.Empty;
-			await UseContextAsync(async context =>
-			{
-				var user = new User(login, passwordHash, groupId);
+    public class UsersLogic : LogicBase<User>, IUsersLogic
+    {
+        public UsersLogic(MathSiteDbContext contextManager) : base(contextManager)
+        {
+        }
 
-				context.Users.Add(user);
-				await context.SaveChangesAsync();
+        public async Task<Guid> CreateAsync(string login, byte[] passwordHash, Guid groupId)
+        {
+            var userId = Guid.Empty;
+            await UseContextAsync(async context =>
+            {
+                var user = new User(login, passwordHash, groupId);
 
-				userId = user.Id;
-			});
+                context.Users.Add(user);
+                await context.SaveChangesAsync();
 
-			return userId;
-		}
-		
-		public async Task UpdateAsync(Guid id, byte[] passwordHash, Guid groupId)
-		{
-			await UseContextWithSaveAsync(async context =>
-			{
-				var user = await context.Users.FirstAsync(p => p.Id == id);
+                userId = user.Id;
+            });
 
-				user.PasswordHash = passwordHash;
-				user.GroupId = groupId;
-			});
-		}
+            return userId;
+        }
 
-		public async Task DeleteAsync(Guid id)
-		{
-			await UseContextWithSaveAsync(async context =>
-			{
-				var user = await context.Users.FirstAsync(p => p.Id == id);
+        public async Task UpdateAsync(Guid id, byte[] passwordHash, Guid groupId)
+        {
+            await UseContextWithSaveAsync(async context =>
+            {
+                var user = await context.Users.FirstAsync(p => p.Id == id);
 
-				context.Users.Remove(user);
-			});
-		}
+                user.PasswordHash = passwordHash;
+                user.GroupId = groupId;
+            });
+        }
 
-		public async Task<User> TryGetByIdAsync(Guid userId)
-		{
-			User user = null;
+        public async Task DeleteAsync(Guid id)
+        {
+            await UseContextWithSaveAsync(async context =>
+            {
+                var user = await context.Users.FirstAsync(p => p.Id == id);
 
-			await UseContextAsync(async context => { user = await context.Users.FirstOrDefaultAsync(u => u.Id == userId); });
+                context.Users.Remove(user);
+            });
+        }
 
-			return user;
-		}
+        public async Task<User> TryGetByIdAsync(Guid userId)
+        {
+            User user = null;
 
-		public async Task<User> TryGetByLoginAsync(string login)
-		{
-			User user = null;
+            await UseContextAsync(async context =>
+            {
+                user = await context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            });
 
-			await UseContextAsync(async context => { user = await context.Users.FirstOrDefaultAsync(u => u.Login == login); });
+            return user;
+        }
 
-			return user;
-		}
+        public async Task<User> TryGetByLoginAsync(string login)
+        {
+            User user = null;
 
-		public async Task<User> TryGetUserWithRightsById(Guid id)
-		{
-			User user = null;
+            await UseContextAsync(async context =>
+            {
+                user = await context.Users.FirstOrDefaultAsync(u => u.Login == login);
+            });
 
-			await UseContextAsync(async context =>
-			{
-				user = await context.Users
-					.Include(u => u.UserRights).ThenInclude(ur => ur.Right)
-					.Include(u => u.Group).ThenInclude(g => g.GroupsRights).ThenInclude(gr => gr.Right)
-					.FirstOrDefaultAsync(u => u.Id == id);
-			});
+            return user;
+        }
 
-			return user;
-		}
+        public async Task<User> TryGetUserWithRightsById(Guid id)
+        {
+            User user = null;
 
-		public async Task<User> TryGetUserWithRightsByLogin(string login)
-		{
-			User user = null;
+            await UseContextAsync(async context =>
+            {
+                user = await context.Users
+                    .Include(u => u.UserRights).ThenInclude(ur => ur.Right)
+                    .Include(u => u.Group).ThenInclude(g => g.GroupsRights).ThenInclude(gr => gr.Right)
+                    .FirstOrDefaultAsync(u => u.Id == id);
+            });
 
-			await UseContextAsync(async context =>
-			{
-				user = await context.Users
-					.Include(u => u.UserRights).ThenInclude(ur => ur.Right)
-					.Include(u => u.Group).ThenInclude(g => g.GroupsRights).ThenInclude(gr => gr.Right)
-					.FirstOrDefaultAsync(u => u.Login == login);
-			});
+            return user;
+        }
 
-			return user;
-		}
-	}
+        public async Task<User> TryGetUserWithRightsByLogin(string login)
+        {
+            User user = null;
+
+            await UseContextAsync(async context =>
+            {
+                user = await context.Users
+                    .Include(u => u.UserRights).ThenInclude(ur => ur.Right)
+                    .Include(u => u.Group).ThenInclude(g => g.GroupsRights).ThenInclude(gr => gr.Right)
+                    .FirstOrDefaultAsync(u => u.Login == login);
+            });
+
+            return user;
+        }
+    }
 }

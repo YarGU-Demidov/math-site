@@ -10,96 +10,96 @@ using Xunit;
 
 namespace MathSite.Tests.Facades
 {
-	public class SiteSettingsFacadeTests : FacadesTestsBase
-	{
-		public IUserValidationFacade GetFacade(IBusinessLogicManager manager)
-		{
-			return new UserValidationFacade(manager, MemoryCache, new DoubleSha512HashPasswordsManager());
-		}
+    public class SiteSettingsFacadeTests : FacadesTestsBase
+    {
+        public IUserValidationFacade GetFacade(IBusinessLogicManager manager)
+        {
+            return new UserValidationFacade(manager, MemoryCache, new DoubleSha512HashPasswordsManager());
+        }
 
-		[Fact]
-		public async Task SetSettingStringTest()
-		{
-			await WithLogicAsync(async manager =>
-			{
-				var userValidationFacade = GetFacade(manager);
-				var siteSettingsFacade = new SiteSettingsFacade(manager, userValidationFacade, MemoryCache);
-				var user = await manager.UsersLogic.TryGetByLoginAsync(UsersAliases.FirstUser);
+        [Fact]
+        public async Task GetSettingStringTest()
+        {
+            await WithLogicAsync(async manager =>
+            {
+                var userValidationFacade = GetFacade(manager);
+                var siteSettingsFacade = new SiteSettingsFacade(manager, userValidationFacade, MemoryCache);
 
-				var testSalt = Guid.NewGuid();
-				var testKey = $"testKey-{testSalt}";
-				var testValue = $"testValue-{testSalt}";
+                var user = await manager.UsersLogic.TryGetByLoginAsync(UsersAliases.FirstUser);
 
-				var done = await siteSettingsFacade.SetStringSettingAsync(user.Id, testKey, testValue);
+                var testSalt = Guid.NewGuid();
+                var testKey = $"testKey-{testSalt}";
+                var testValue = $"testValue-{testSalt}";
 
-				Assert.True(done);
+                await siteSettingsFacade.SetStringSettingAsync(user.Id, testKey, testValue);
 
-				var setting = await manager.SiteSettingsLogic.TryGetByKeyAsync(testKey);
+                var value = await siteSettingsFacade.GetStringSettingAsync(testKey);
 
-				Assert.NotNull(setting);
-				
-				Assert.Equal(setting.Value, Encoding.UTF8.GetBytes(testValue));
-			});
-		}
+                Assert.Equal(testValue, value);
+            });
+        }
 
-		[Fact]
-		public async Task GetSettingStringTest()
-		{
-			await WithLogicAsync(async manager =>
-			{
-				var userValidationFacade = GetFacade(manager);
-				var siteSettingsFacade = new SiteSettingsFacade(manager, userValidationFacade, MemoryCache);
+        [Fact]
+        public async Task GetSettingStringTest_KeyDoesNotExists()
+        {
+            await WithLogicAsync(async manager =>
+            {
+                var userValidationFacade = GetFacade(manager);
+                var siteSettingsFacade = new SiteSettingsFacade(manager, userValidationFacade, MemoryCache);
 
-				var user = await manager.UsersLogic.TryGetByLoginAsync(UsersAliases.FirstUser);
+                var testKey = $"testKey-{Guid.NewGuid()}";
 
-				var testSalt = Guid.NewGuid();
-				var testKey = $"testKey-{testSalt}";
-				var testValue = $"testValue-{testSalt}";
+                var value = await siteSettingsFacade.GetStringSettingAsync(testKey);
 
-				await siteSettingsFacade.SetStringSettingAsync(user.Id, testKey, testValue);
+                Assert.Null(value);
+            });
+        }
 
-				var value = await siteSettingsFacade.GetStringSettingAsync(testKey);
+        [Fact]
+        public async Task IndexerTask()
+        {
+            await WithLogicAsync(async manager =>
+            {
+                var userValidationFacade = GetFacade(manager);
+                var siteSettingsFacade = new SiteSettingsFacade(manager, userValidationFacade, MemoryCache);
 
-				Assert.Equal(testValue, value);
-			});
-		}
+                var user = await manager.UsersLogic.TryGetByLoginAsync(UsersAliases.FirstUser);
 
-		[Fact]
-		public async Task GetSettingStringTest_KeyDoesNotExists()
-		{
-			await WithLogicAsync(async manager =>
-			{
-				var userValidationFacade = GetFacade(manager);
-				var siteSettingsFacade = new SiteSettingsFacade(manager, userValidationFacade, MemoryCache);
+                var testSalt = Guid.NewGuid();
+                var testKey = $"testKey-{testSalt}";
+                var testValue = $"testValue-{testSalt}";
 
-				var testKey = $"testKey-{Guid.NewGuid()}";
+                await siteSettingsFacade.SetStringSettingAsync(user.Id, testKey, testValue);
 
-				var value = await siteSettingsFacade.GetStringSettingAsync(testKey);
+                var value = await siteSettingsFacade[testKey];
 
-				Assert.Null(value);
-			});
-		}
+                Assert.Equal(testValue, value);
+            });
+        }
 
-		[Fact]
-		public async Task IndexerTask()
-		{
-			await WithLogicAsync(async manager =>
-			{
-				var userValidationFacade = GetFacade(manager);
-				var siteSettingsFacade = new SiteSettingsFacade(manager, userValidationFacade, MemoryCache);
+        [Fact]
+        public async Task SetSettingStringTest()
+        {
+            await WithLogicAsync(async manager =>
+            {
+                var userValidationFacade = GetFacade(manager);
+                var siteSettingsFacade = new SiteSettingsFacade(manager, userValidationFacade, MemoryCache);
+                var user = await manager.UsersLogic.TryGetByLoginAsync(UsersAliases.FirstUser);
 
-				var user = await manager.UsersLogic.TryGetByLoginAsync(UsersAliases.FirstUser);
-				
-				var testSalt = Guid.NewGuid();
-				var testKey = $"testKey-{testSalt}";
-				var testValue = $"testValue-{testSalt}";
+                var testSalt = Guid.NewGuid();
+                var testKey = $"testKey-{testSalt}";
+                var testValue = $"testValue-{testSalt}";
 
-				await siteSettingsFacade.SetStringSettingAsync(user.Id, testKey, testValue);
+                var done = await siteSettingsFacade.SetStringSettingAsync(user.Id, testKey, testValue);
 
-				var value = await siteSettingsFacade[testKey];
+                Assert.True(done);
 
-				Assert.Equal(testValue, value);
-			});
-		}
-	}
+                var setting = await manager.SiteSettingsLogic.TryGetByKeyAsync(testKey);
+
+                Assert.NotNull(setting);
+
+                Assert.Equal(setting.Value, Encoding.UTF8.GetBytes(testValue));
+            });
+        }
+    }
 }

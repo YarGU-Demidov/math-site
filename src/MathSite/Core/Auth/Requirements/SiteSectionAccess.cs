@@ -2,13 +2,13 @@
 
 namespace MathSite.Core.Auth.Requirements
 {
-	public class SiteSectionAccess : IAuthorizationRequirement
-	{
-		public SiteSectionAccess(string sectionName)
-		{
-			SectionName = sectionName;
-		}
+    public class SiteSectionAccess : IAuthorizationRequirement
+    {
+        public SiteSectionAccess(string sectionName)
+        {
+            SectionName = sectionName;
+        }
 
-		public string SectionName { get; }
-	}
+        public string SectionName { get; }
+    }
 }

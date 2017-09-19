@@ -2,8 +2,8 @@
 
 namespace MathSite.ViewModels.Pages
 {
-	public interface IPagesViewModelBuilder
-	{
-		Task<PageItemViewModel> BuildPageItemViewModelAsync(string query);
-	}
+    public interface IPagesViewModelBuilder
+    {
+        Task<PageItemViewModel> BuildPageItemViewModelAsync(string query);
+    }
 }

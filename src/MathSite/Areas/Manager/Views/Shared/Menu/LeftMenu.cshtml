@@ -2,12 +2,12 @@
 
 @if (Model != null)
 {
-	<ul class="col sidebar">
-		@foreach (var model in Model)
-		{
-			<li>
-				@Html.Partial("Menu/MenuLink", model, new ViewDataDictionary(ViewData) {{"classLink", "sidebar-link"}, {"InternalDiv", true}})
-			</li>
-		}
-	</ul>
+    <ul class="col sidebar">
+        @foreach (var model in Model)
+        {
+            <li>
+                @Html.Partial("Menu/MenuLink", model, new ViewDataDictionary(ViewData) {{"classLink", "sidebar-link"}, {"InternalDiv", true}})
+            </li>
+        }
+    </ul>
 }

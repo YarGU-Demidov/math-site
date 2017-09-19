@@ -1,23 +1,23 @@
 ﻿@{
-	var userExists = ViewBag.User != null;
-	User user = null;
-	if (userExists)
-	{
-		user = (User) ViewBag.User;
-	}
+    var userExists = ViewBag.User != null;
+    User user = null;
+    if (userExists)
+    {
+        user = (User) ViewBag.User;
+    }
 }
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8"/>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-		<title>@ViewData["Title"] - MathSite</title>
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>@ViewData["Title"] - MathSite</title>
 
-		<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-	</head>
-	<body>
-		<div class="container">
-			@RenderBody()
-		</div>
-	</body>
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css"/>
+    </head>
+    <body>
+        <div class="container">
+            @RenderBody()
+        </div>
+    </body>
 </html>

@@ -11,17 +11,17 @@ using MathSite.Domain.Logic.Users;
 
 namespace MathSite.Domain.Common
 {
-	public interface IBusinessLogicManager
-	{
-		IGroupsLogic GroupsLogic { get; }
-		IPersonsLogic PersonsLogic { get; }
-		IUsersLogic UsersLogic { get; }
-		IFilesLogic FilesLogic { get; }
-		ISiteSettingsLogic SiteSettingsLogic { get; }
-		IRightsLogic RightsLogic { get; }
-		IPostsLogic PostsLogic { get; }
-		IPostSeoSettingsLogic PostSeoSettingsLogic { get; }
-		IPostSettingLogic PostSettingLogic { get; }
-		IPostTypeLogic PostTypeLogic { get; }
-	}
+    public interface IBusinessLogicManager
+    {
+        IGroupsLogic GroupsLogic { get; }
+        IPersonsLogic PersonsLogic { get; }
+        IUsersLogic UsersLogic { get; }
+        IFilesLogic FilesLogic { get; }
+        ISiteSettingsLogic SiteSettingsLogic { get; }
+        IRightsLogic RightsLogic { get; }
+        IPostsLogic PostsLogic { get; }
+        IPostSeoSettingsLogic PostSeoSettingsLogic { get; }
+        IPostSettingLogic PostSettingLogic { get; }
+        IPostTypeLogic PostTypeLogic { get; }
+    }
 }

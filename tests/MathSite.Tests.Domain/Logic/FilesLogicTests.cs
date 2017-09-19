@@ -5,113 +5,114 @@ using Xunit;
 
 namespace MathSite.Tests.Domain.Logic
 {
-	public class FilesLogicTests : DomainTestsBase
-	{
-		[Fact]
-		public async Task TryGet_Found()
-		{
-			await ExecuteWithContextAsync(async context =>
-			{
-				var filesLogic = new FilesLogic(context);
+    public class FilesLogicTests : DomainTestsBase
+    {
+        private async Task<Guid> CreateFileItemAsync(IFilesLogic logic, string name = null, string path = null,
+            string extension = null)
+        {
+            var salt = Guid.NewGuid();
 
-				var id = await CreateFileItemAsync(filesLogic);
+            var fileName = name ?? $"test-file-name-{salt}";
+            var filePath = path ?? $"test-file-path-{salt}";
+            var fileExtension = extension ?? $"test-file-extension-{salt}";
 
-				var file = await filesLogic.TryGetByIdAsync(id);
+            return await logic.CreateAsync(fileName, filePath, fileExtension);
+        }
 
-				Assert.NotNull(file);
-			});
-		}
+        [Fact]
+        public async Task CreateFileTest()
+        {
+            await ExecuteWithContextAsync(async context =>
+            {
+                var filesLogic = new FilesLogic(context);
 
-		[Fact]
-		public async Task TryGet_NotFound()
-		{
-			var id = Guid.NewGuid();
+                const string fileName = "test-file-name";
+                const string filePath = "test-file-path";
+                const string fileExtension = "test-file-extension";
 
-			await ExecuteWithContextAsync(async context =>
-			{
-				var filesLogic = new FilesLogic(context);
-				var file = await filesLogic.TryGetByIdAsync(id);
+                var id = await CreateFileItemAsync(filesLogic, fileName, filePath, fileExtension);
 
-				Assert.Null(file);
-			});
-		}
+                Assert.NotEqual(Guid.Empty, id);
 
-		[Fact]
-		public async Task CreateFileTest()
-		{
-			await ExecuteWithContextAsync(async context =>
-			{
-				var filesLogic = new FilesLogic(context);
+                var file = await filesLogic.TryGetByIdAsync(id);
+                Assert.NotNull(file);
 
-				const string fileName = "test-file-name";
-				const string filePath = "test-file-path";
-				const string fileExtension = "test-file-extension";
+                Assert.Equal(fileName, file.FileName);
+                Assert.Equal(filePath, file.FilePath);
+                Assert.Equal(fileExtension, file.Extension);
+                Assert.Equal(DateTime.Today, file.DateAdded.Date);
+            });
+        }
 
-				var id = await CreateFileItemAsync(filesLogic, fileName, filePath, fileExtension);
+        [Fact]
+        public async Task DeleteFileTest()
+        {
+            await ExecuteWithContextAsync(async context =>
+            {
+                var filesLogic = new FilesLogic(context);
 
-				Assert.NotEqual(Guid.Empty, id);
+                var id = await CreateFileItemAsync(filesLogic);
 
-				var file = await filesLogic.TryGetByIdAsync(id);
-				Assert.NotNull(file);
+                await filesLogic.DeleteAsync(id);
 
-				Assert.Equal(fileName,file.FileName);
-				Assert.Equal(filePath,file.FilePath);
-				Assert.Equal(fileExtension, file.Extension);
-				Assert.Equal(DateTime.Today, file.DateAdded.Date);
-			});
-		}
+                var file = await filesLogic.TryGetByIdAsync(id);
 
-		[Fact]
-		public async Task UpdateFileTest()
-		{
-			await ExecuteWithContextAsync(async context =>
-			{
-				var filesLogic = new FilesLogic(context);
+                Assert.Null(file);
+            });
+        }
 
-				const string fileName = "test-file-name-new";
-				const string filePath = "test-file-path-new";
-				const string fileExtension = "test-file-extension-new";
+        [Fact]
+        public async Task TryGet_Found()
+        {
+            await ExecuteWithContextAsync(async context =>
+            {
+                var filesLogic = new FilesLogic(context);
 
-				var id = await CreateFileItemAsync(filesLogic);
+                var id = await CreateFileItemAsync(filesLogic);
 
-				await filesLogic.UpdateAsync(id, fileName, filePath, fileExtension);
+                var file = await filesLogic.TryGetByIdAsync(id);
 
-				var file = await filesLogic.TryGetByIdAsync(id);
+                Assert.NotNull(file);
+            });
+        }
 
-				Assert.NotNull(file);
+        [Fact]
+        public async Task TryGet_NotFound()
+        {
+            var id = Guid.NewGuid();
 
-				Assert.Equal(fileName, file.FileName);
-				Assert.Equal(filePath, file.FilePath);
-				Assert.Equal(fileExtension, file.Extension);
-			});
-		}
+            await ExecuteWithContextAsync(async context =>
+            {
+                var filesLogic = new FilesLogic(context);
+                var file = await filesLogic.TryGetByIdAsync(id);
 
-		[Fact]
-		public async Task DeleteFileTest()
-		{
-			await ExecuteWithContextAsync(async context =>
-			{
-				var filesLogic = new FilesLogic(context);
+                Assert.Null(file);
+            });
+        }
 
-				var id = await CreateFileItemAsync(filesLogic);
+        [Fact]
+        public async Task UpdateFileTest()
+        {
+            await ExecuteWithContextAsync(async context =>
+            {
+                var filesLogic = new FilesLogic(context);
 
-				await filesLogic.DeleteAsync(id);
+                const string fileName = "test-file-name-new";
+                const string filePath = "test-file-path-new";
+                const string fileExtension = "test-file-extension-new";
 
-				var file = await filesLogic.TryGetByIdAsync(id);
+                var id = await CreateFileItemAsync(filesLogic);
 
-				Assert.Null(file);
-			});
-		}
+                await filesLogic.UpdateAsync(id, fileName, filePath, fileExtension);
 
-		private async Task<Guid> CreateFileItemAsync(IFilesLogic logic, string name = null, string path = null, string extension = null)
-		{
-			var salt = Guid.NewGuid();
+                var file = await filesLogic.TryGetByIdAsync(id);
 
-			var fileName = name ?? $"test-file-name-{salt}";
-			var filePath = path ?? $"test-file-path-{salt}";
-			var fileExtension = extension ?? $"test-file-extension-{salt}";
+                Assert.NotNull(file);
 
-			return await logic.CreateAsync(fileName, filePath, fileExtension);
-		}
-	}
+                Assert.Equal(fileName, file.FileName);
+                Assert.Equal(filePath, file.FilePath);
+                Assert.Equal(fileExtension, file.Extension);
+            });
+        }
+    }
 }

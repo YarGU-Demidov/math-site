@@ -1,23 +1,23 @@
 ﻿@model MathSite.ViewModels.Account.LoginFormViewModel
 @{
-	ViewBag.Title = "Test";
-	Layout = "_Layout";
+    ViewBag.Title = "Test";
+    Layout = "_Layout";
 }
 
 <h2>Test login form</h2>
 
 <form method="post" class="login-form" asp-action="Login" asp-controller="Account" asp-route-returnUrl="@Model.ReturnUrl" asp-antiforgery="true">
-	<div class="form-group">
-		<span asp-validation-for="Login" class="text-danger"></span>
-		<label asp-for="Login"></label>
-		<input asp-for="Login" class="form-control"/>
-	</div>
+    <div class="form-group">
+        <span asp-validation-for="Login" class="text-danger"></span>
+        <label asp-for="Login"></label>
+        <input asp-for="Login" class="form-control"/>
+    </div>
 
-	<div class="form-group">
-		<span asp-validation-for="Password" class="text-danger"></span>
-		<label asp-for="Password"></label>
-		<input asp-for="Password" class="form-control"/>
-	</div>
+    <div class="form-group">
+        <span asp-validation-for="Password" class="text-danger"></span>
+        <label asp-for="Password"></label>
+        <input asp-for="Password" class="form-control"/>
+    </div>
 
-	<button type="submit" class="btn btn-default">Submit</button>
+    <button type="submit" class="btn btn-default">Submit</button>
 </form>

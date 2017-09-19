@@ -6,57 +6,57 @@ using Microsoft.Extensions.Logging;
 
 namespace MathSite.Db.DataSeeding.Seeders
 {
-	public class PostGroupsAllowedSeeder : AbstractSeeder<PostGroupsAllowed>
-	{
-		/// <inheritdoc />
-		public PostGroupsAllowedSeeder(ILogger logger, MathSiteDbContext context) : base(logger, context)
-		{
-		}
+    public class PostGroupsAllowedSeeder : AbstractSeeder<PostGroupsAllowed>
+    {
+        /// <inheritdoc />
+        public PostGroupsAllowedSeeder(ILogger logger, MathSiteDbContext context) : base(logger, context)
+        {
+        }
 
-		/// <inheritdoc />
-		public override string SeedingObjectName { get; } = nameof(PostGroupsAllowed);
+        /// <inheritdoc />
+        public override string SeedingObjectName { get; } = nameof(PostGroupsAllowed);
 
-		/// <inheritdoc />
-		protected override void SeedData()
-		{
-			var firstPostGroupsAllowed = CreatePostGroupsAllowed(
-				GetPostByTitle(PostAliases.FirstPost),
-				GetGroupByGroupTypeAlias(GroupTypeAliases.Employee)
-			);
+        /// <inheritdoc />
+        protected override void SeedData()
+        {
+            var firstPostGroupsAllowed = CreatePostGroupsAllowed(
+                GetPostByTitle(PostAliases.FirstPost),
+                GetGroupByGroupTypeAlias(GroupTypeAliases.Employee)
+            );
 
-			var secondPostGroupsAllowed = CreatePostGroupsAllowed(
-				GetPostByTitle(PostAliases.SecondPost),
-				GetGroupByGroupTypeAlias(GroupTypeAliases.User)
-			);
+            var secondPostGroupsAllowed = CreatePostGroupsAllowed(
+                GetPostByTitle(PostAliases.SecondPost),
+                GetGroupByGroupTypeAlias(GroupTypeAliases.User)
+            );
 
-			var postGroupsAlloweds = new[]
-			{
-				firstPostGroupsAllowed,
-				secondPostGroupsAllowed
-			};
+            var postGroupsAlloweds = new[]
+            {
+                firstPostGroupsAllowed,
+                secondPostGroupsAllowed
+            };
 
-			Context.PostGroupsAlloweds.AddRange(postGroupsAlloweds);
-		}
+            Context.PostGroupsAlloweds.AddRange(postGroupsAlloweds);
+        }
 
-		private Group GetGroupByGroupTypeAlias(string alias)
-		{
-			return Context.Groups
-				.Include(group => group.GroupType)
-				.First(group => group.GroupType.Alias == alias);
-		}
+        private Group GetGroupByGroupTypeAlias(string alias)
+        {
+            return Context.Groups
+                .Include(group => group.GroupType)
+                .First(group => group.GroupType.Alias == alias);
+        }
 
-		private Post GetPostByTitle(string title)
-		{
-			return Context.Posts.First(post => post.Title == title);
-		}
+        private Post GetPostByTitle(string title)
+        {
+            return Context.Posts.First(post => post.Title == title);
+        }
 
-		private static PostGroupsAllowed CreatePostGroupsAllowed(Post post, Group group)
-		{
-			return new PostGroupsAllowed
-			{
-				Post = post,
-				Group = group
-			};
-		}
-	}
+        private static PostGroupsAllowed CreatePostGroupsAllowed(Post post, Group group)
+        {
+            return new PostGroupsAllowed
+            {
+                Post = post,
+                Group = group
+            };
+        }
+    }
 }

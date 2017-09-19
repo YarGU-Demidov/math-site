@@ -8,198 +8,201 @@ using Xunit;
 
 namespace MathSite.Tests.Domain.Logic
 {
-	public class GroupsLogicTests : DomainTestsBase
-	{
-		[Fact]
-		public async Task TryGet_Found()
-		{
-			await ExecuteWithContextAsync(async context =>
-			{
-				var filesLogic = new GroupsLogic(context);
+    public class GroupsLogicTests : DomainTestsBase
+    {
+        private void TryGet_WithUsers_Assertions(Group group)
+        {
+            Assert.NotNull(group);
+            Assert.NotNull(group.Users);
+            Assert.NotEmpty(group.Users);
+        }
 
-				var id = await CreateGroupAsync(filesLogic);
+        private void TryGet_WithUsers_WithRights_Assertions(Group group)
+        {
+            TryGet_WithUsers_Assertions(group);
 
-				var group = await filesLogic.TryGetByIdAsync(id);
+            var user = group.Users.First();
+            var rights = user.UserRights;
+            var groupRights = group.GroupsRights;
 
-				Assert.NotNull(group);
-			});
-		}
+            Assert.NotNull(rights);
+            Assert.NotNull(groupRights);
 
-		[Fact]
-		public async Task TryGet_NotFound()
-		{
-			var id = Guid.NewGuid();
+            Assert.NotEmpty(rights);
+            Assert.NotEmpty(groupRights);
+        }
 
-			await ExecuteWithContextAsync(async context =>
-			{
-				var filesLogic = new GroupsLogic(context);
-				var group = await filesLogic.TryGetByIdAsync(id);
+        private async Task<Guid> CreateGroupAsync(IGroupsLogic logic, string name = null, string description = null,
+            string alias = null, Guid? parentGroup = null, bool isAdmin = false)
+        {
+            var salt = Guid.NewGuid();
 
-				Assert.Null(group);
-			});
-		}
+            var groupName = name ?? $"test-group-name-{salt}";
+            var groupDesc = description ?? $"test-group-description-{salt}";
+            var groupAlias = alias ?? $"test-group-alias-{salt}";
 
-		[Fact]
-		public async Task CreateGroupTest()
-		{
-			await ExecuteWithContextAsync(async context =>
-			{
-				var groupsLogic = new GroupsLogic(context);
+            return await logic.CreateAsync(groupName, groupDesc, groupAlias, GroupTypeAliases.User, isAdmin,
+                parentGroup);
+        }
 
-				const string groupName = "test-group-name";
-				const string description = "test-group-description";
-				const string alias = "test-group-alias";
-				const bool isAdmin = true;
+        [Fact]
+        public async Task CreateGroupTest()
+        {
+            await ExecuteWithContextAsync(async context =>
+            {
+                var groupsLogic = new GroupsLogic(context);
 
-				var testGroupId = await CreateGroupAsync(groupsLogic);
+                const string groupName = "test-group-name";
+                const string description = "test-group-description";
+                const string alias = "test-group-alias";
+                const bool isAdmin = true;
 
-				var id = await CreateGroupAsync(groupsLogic, groupName, description, alias, testGroupId, isAdmin);
+                var testGroupId = await CreateGroupAsync(groupsLogic);
 
-				Assert.NotEqual(Guid.Empty, id);
+                var id = await CreateGroupAsync(groupsLogic, groupName, description, alias, testGroupId, isAdmin);
 
-				var group = await groupsLogic.TryGetByIdAsync(id);
-				Assert.NotNull(group);
+                Assert.NotEqual(Guid.Empty, id);
 
-				Assert.Equal(groupName, group.Name);
-				Assert.Equal(description, group.Description);
-				Assert.Equal(alias, group.Alias);
-				Assert.Equal(testGroupId, group.ParentGroupId);
-				Assert.Equal(isAdmin, group.IsAdmin);
-			});
-		}
+                var group = await groupsLogic.TryGetByIdAsync(id);
+                Assert.NotNull(group);
 
-		[Fact]
-		public async Task UpdateGroupTest()
-		{
-			await ExecuteWithContextAsync(async context =>
-			{
-				var groupsLogic = new GroupsLogic(context);
+                Assert.Equal(groupName, group.Name);
+                Assert.Equal(description, group.Description);
+                Assert.Equal(alias, group.Alias);
+                Assert.Equal(testGroupId, group.ParentGroupId);
+                Assert.Equal(isAdmin, group.IsAdmin);
+            });
+        }
 
-				const string groupName = "test-group-name-new";
-				const string groupDescription = "test-group-description-new";
-				const bool isAdmin = false;
+        [Fact]
+        public async Task DeleteGroupTest()
+        {
+            await ExecuteWithContextAsync(async context =>
+            {
+                var groupsLogic = new GroupsLogic(context);
 
-				var testGroupId = await CreateGroupAsync(groupsLogic);
+                var id = await CreateGroupAsync(groupsLogic);
 
-				var id = await CreateGroupAsync(groupsLogic, isAdmin: true);
+                await groupsLogic.DeleteAsync(id);
 
-				await groupsLogic.UpdateAsync(id, groupName, groupDescription, GroupTypeAliases.Employee, isAdmin, testGroupId);
+                var file = await groupsLogic.TryGetByIdAsync(id);
 
-				var group = await groupsLogic.TryGetByIdAsync(id);
+                Assert.Null(file);
+            });
+        }
 
-				Assert.NotNull(group);
+        [Fact]
+        public async Task TryGet_Found()
+        {
+            await ExecuteWithContextAsync(async context =>
+            {
+                var filesLogic = new GroupsLogic(context);
 
-				Assert.Equal(groupName, group.Name);
-				Assert.Equal(groupDescription, group.Description);
-				Assert.Equal(testGroupId, group.ParentGroupId);
-				Assert.Equal(isAdmin, group.IsAdmin);
-			});
-		}
+                var id = await CreateGroupAsync(filesLogic);
 
-		[Fact]
-		public async Task DeleteGroupTest()
-		{
-			await ExecuteWithContextAsync(async context =>
-			{
-				var groupsLogic = new GroupsLogic(context);
+                var group = await filesLogic.TryGetByIdAsync(id);
 
-				var id = await CreateGroupAsync(groupsLogic);
+                Assert.NotNull(group);
+            });
+        }
 
-				await groupsLogic.DeleteAsync(id);
+        [Fact]
+        public async Task TryGet_NotFound()
+        {
+            var id = Guid.NewGuid();
 
-				var file = await groupsLogic.TryGetByIdAsync(id);
+            await ExecuteWithContextAsync(async context =>
+            {
+                var filesLogic = new GroupsLogic(context);
+                var group = await filesLogic.TryGetByIdAsync(id);
 
-				Assert.Null(file);
-			});
-		}
+                Assert.Null(group);
+            });
+        }
 
-		[Fact]
-		public async Task TryGet_WithUsers_ById()
-		{
-			await ExecuteWithContextAsync(async context =>
-			{
-				var groupsLogic = new GroupsLogic(context);
+        [Fact]
+        public async Task TryGet_WithUsers_ByAlias()
+        {
+            await ExecuteWithContextAsync(async context =>
+            {
+                var groupsLogic = new GroupsLogic(context);
 
-				var adminsGroup = await groupsLogic.TryGetByAliasAsync(GroupAliases.Admin);
+                var groupWithUsers = await groupsLogic.TryGetGroupWithUsersByAliasAsync(GroupAliases.Admin);
 
-				var groupWithUsers = await groupsLogic.TryGetGroupWithUsersByIdAsync(adminsGroup.Id);
+                TryGet_WithUsers_Assertions(groupWithUsers);
+            });
+        }
 
-				TryGet_WithUsers_Assertions(groupWithUsers);
-			});
-		}
+        [Fact]
+        public async Task TryGet_WithUsers_ById()
+        {
+            await ExecuteWithContextAsync(async context =>
+            {
+                var groupsLogic = new GroupsLogic(context);
 
-		[Fact]
-		public async Task TryGet_WithUsers_ByAlias()
-		{
-			await ExecuteWithContextAsync(async context =>
-			{
-				var groupsLogic = new GroupsLogic(context);
+                var adminsGroup = await groupsLogic.TryGetByAliasAsync(GroupAliases.Admin);
 
-				var groupWithUsers = await groupsLogic.TryGetGroupWithUsersByAliasAsync(GroupAliases.Admin);
+                var groupWithUsers = await groupsLogic.TryGetGroupWithUsersByIdAsync(adminsGroup.Id);
 
-				TryGet_WithUsers_Assertions(groupWithUsers);
-			});
-		}
+                TryGet_WithUsers_Assertions(groupWithUsers);
+            });
+        }
 
-		[Fact]
-		public async Task TryGet_WithUsers_WithRights_ById()
-		{
-			await ExecuteWithContextAsync(async context =>
-			{
-				var groupsLogic = new GroupsLogic(context);
+        [Fact]
+        public async Task TryGet_WithUsers_WithRights_ByAlias()
+        {
+            await ExecuteWithContextAsync(async context =>
+            {
+                var groupsLogic = new GroupsLogic(context);
 
-				var adminsGroup = await groupsLogic.TryGetByAliasAsync(GroupAliases.Admin);
+                var groupWithUsers = await groupsLogic.TryGetGroupWithUsersWithRightsByAliasAsync(GroupAliases.Admin);
 
-				var groupWithUsers = await groupsLogic.TryGetGroupWithUsersWithRightsByIdAsync(adminsGroup.Id);
+                TryGet_WithUsers_WithRights_Assertions(groupWithUsers);
+            });
+        }
 
-				TryGet_WithUsers_WithRights_Assertions(groupWithUsers);
-			});
-		}
+        [Fact]
+        public async Task TryGet_WithUsers_WithRights_ById()
+        {
+            await ExecuteWithContextAsync(async context =>
+            {
+                var groupsLogic = new GroupsLogic(context);
 
-		[Fact]
-		public async Task TryGet_WithUsers_WithRights_ByAlias()
-		{
-			await ExecuteWithContextAsync(async context =>
-			{
-				var groupsLogic = new GroupsLogic(context);
+                var adminsGroup = await groupsLogic.TryGetByAliasAsync(GroupAliases.Admin);
 
-				var groupWithUsers = await groupsLogic.TryGetGroupWithUsersWithRightsByAliasAsync(GroupAliases.Admin);
+                var groupWithUsers = await groupsLogic.TryGetGroupWithUsersWithRightsByIdAsync(adminsGroup.Id);
 
-				TryGet_WithUsers_WithRights_Assertions(groupWithUsers);
-			});
-		}
+                TryGet_WithUsers_WithRights_Assertions(groupWithUsers);
+            });
+        }
 
-		private void TryGet_WithUsers_Assertions(Group group)
-		{
-			Assert.NotNull(group);
-			Assert.NotNull(group.Users);
-			Assert.NotEmpty(group.Users);
-		}
+        [Fact]
+        public async Task UpdateGroupTest()
+        {
+            await ExecuteWithContextAsync(async context =>
+            {
+                var groupsLogic = new GroupsLogic(context);
 
-		private void TryGet_WithUsers_WithRights_Assertions(Group group)
-		{
-			TryGet_WithUsers_Assertions(group);
+                const string groupName = "test-group-name-new";
+                const string groupDescription = "test-group-description-new";
+                const bool isAdmin = false;
 
-			var user = group.Users.First();
-			var rights = user.UserRights;
-			var groupRights = group.GroupsRights;
+                var testGroupId = await CreateGroupAsync(groupsLogic);
 
-			Assert.NotNull(rights);
-			Assert.NotNull(groupRights);
+                var id = await CreateGroupAsync(groupsLogic, isAdmin: true);
 
-			Assert.NotEmpty(rights);
-			Assert.NotEmpty(groupRights);
-		}
+                await groupsLogic.UpdateAsync(id, groupName, groupDescription, GroupTypeAliases.Employee, isAdmin,
+                    testGroupId);
 
-		private async Task<Guid> CreateGroupAsync(IGroupsLogic logic, string name = null, string description = null, string alias = null, Guid? parentGroup = null, bool isAdmin = false)
-		{
-			var salt = Guid.NewGuid();
+                var group = await groupsLogic.TryGetByIdAsync(id);
 
-			var groupName = name ?? $"test-group-name-{salt}";
-			var groupDesc = description ?? $"test-group-description-{salt}";
-			var groupAlias = alias ?? $"test-group-alias-{salt}";
+                Assert.NotNull(group);
 
-			return await logic.CreateAsync(groupName, groupDesc, groupAlias, GroupTypeAliases.User, isAdmin, parentGroup);
-		}
-	}
+                Assert.Equal(groupName, group.Name);
+                Assert.Equal(groupDescription, group.Description);
+                Assert.Equal(testGroupId, group.ParentGroupId);
+                Assert.Equal(isAdmin, group.IsAdmin);
+            });
+        }
+    }
 }

@@ -1,22 +1,15 @@
 ﻿.header {
-	background-color: #4347aa;
-	box-shadow: 0 0.5rem 1rem #000000, inset 0 -1px 0 #000000;
-	box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, .05), inset 0 -1px 0 rgba(0, 0, 0, .1);
-	min-height: 4rem;
+    background-color: #4347aa;
+    box-shadow: 0 0.5rem 1rem #000000, inset 0 -1px 0 #000000;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, .05), inset 0 -1px 0 rgba(0, 0, 0, .1);
+    min-height: 4rem;
 }
 
-.sidebar {
-	
-}
+.sidebar { }
 
-.sidebar li {
-	list-style: none;
-}
+.sidebar li { list-style: none; }
 
-.sidebar .menu-link {
-	padding: 5px 10px;
-}
+.sidebar .menu-link { padding: 5px 10px; }
 
 
-.sidebar-link {
-}
+.sidebar-link { }

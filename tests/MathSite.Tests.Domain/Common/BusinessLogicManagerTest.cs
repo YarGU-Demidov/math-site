@@ -1,6 +1,6 @@
 ﻿namespace MathSite.Tests.Domain.Common
 {
-	public class BusinessLogicManagerTest : DomainTestsBase
-	{
-	}
+    public class BusinessLogicManagerTest : DomainTestsBase
+    {
+    }
 }
