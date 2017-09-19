@@ -1,12 +1,17 @@
 ﻿@{
-	ViewBag.Title = "Forbidden";
-	Layout = "_Layout";
+	Layout = "ErrorLayout";
+	ViewData["Title"] = "Ууупс, вы попали не туда: 404 ошибка";
+	ViewData["Description"] = "404 ошибка";
+	ViewData["BackgroundColor"] = "rgba(109, 9, 9, 0.75)";
 }
 
-<h2>Forbidden</h2>
-<p>Sorry... Access denied!</p>
-@if (ViewBag.ReturnUrl != null)
-{
-	<text>You cannot access page </text>
-	@ViewBag.ReturnUrl
-}
+<div id="content">
+	<h1>Доступ запрещен</h1>
+	<article>
+		Кажется, вы потерялись
+	</article>
+	<nav>
+		<a href="javascript:window.history.back();" class="btn back">Вернуться назад</a>
+		<a href="@Url.Action("Index", "Home")" class="btn home">На главную</a>
+	</nav>
+</div>

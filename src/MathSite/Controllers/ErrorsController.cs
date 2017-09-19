@@ -21,6 +21,7 @@ namespace MathSite.Controllers
 
 		[AllowAnonymous]
 		[Route("/error/403")]
+		[Route("/error/forbidden")]
 		public IActionResult Forbidden(string returnUrl)
 		{
 			Response.StatusCode = 403;

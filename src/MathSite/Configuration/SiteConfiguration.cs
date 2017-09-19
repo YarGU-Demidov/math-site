@@ -64,6 +64,13 @@ namespace MathSite
 					template: "{controller=Home}/{action=Index}/{id?}"
 				);
 
+				routes.MapAreaRoute(
+					name: "PersonalPageRoutes",
+					areaName: "personal-page",
+					template: "personal-page/{*pageAdress}",
+					defaults: new { controller = "Home", action = "Index" }
+				);
+
 				// новости
 				routes.MapRoute(
 					name: "News",
@@ -76,13 +83,6 @@ namespace MathSite
 					name: "Pages",
 					template: "{*query}",
 					defaults: new {controller = "Pages", action = "Index"}
-				);
-
-				routes.MapAreaRoute(
-					name: "PersonalPageRoutes",
-					areaName: "personal-page",
-					template: "personal-page/{*pageAdress}",
-					defaults: new {controller = "Home", action = "Index"}
 				);
 			});
 		}
