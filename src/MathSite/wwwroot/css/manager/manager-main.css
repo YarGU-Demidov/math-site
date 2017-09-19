@@ -11,8 +11,12 @@
 
 .sidebar li {
 	list-style: none;
+}
+
+.sidebar .menu-link {
 	padding: 5px 10px;
 }
+
 
 .sidebar-link {
 }

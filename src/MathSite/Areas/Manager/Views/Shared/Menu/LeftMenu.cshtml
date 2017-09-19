@@ -6,7 +6,7 @@
 		@foreach (var model in Model)
 		{
 			<li>
-				@Html.Partial("Menu/MenuLink", model, new ViewDataDictionary(ViewData) {{"classLink", "sidebar-link"}})
+				@Html.Partial("Menu/MenuLink", model, new ViewDataDictionary(ViewData) {{"classLink", "sidebar-link"}, {"InternalDiv", true}})
 			</li>
 		}
 	</ul>
