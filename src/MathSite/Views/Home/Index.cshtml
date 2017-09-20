@@ -1,18 +1,18 @@
 ﻿@model HomeIndexViewModel
 @{
-	Layout = "MainLayout";
+    Layout = "MainLayout";
 }
 
 <div class="features">
-	<div class="features__container container">
-		<div class="features__head">
-			<h2 class="features__title">
-				У нас творится история
-			</h2>
-			<div class="features__link">
-				<a class="button button_palette_blue button__news" href="@Url.Action("Index", "News")">НОВОСТИ &nbsp;►</a>
-			</div>
-		</div>
-		@Html.Partial("Partials/Featured", Model.Posts)
-	</div>
+    <div class="container">
+        <div class="features__head">
+            <h2 class="features__title">
+                У нас творится история
+            </h2>
+            <div class="features__link">
+                <a class="button button_palette_blue button__news" href="@Url.Action("Index", "News")">НОВОСТИ &nbsp;►</a>
+            </div>
+        </div>
+        @Html.Partial("Partials/Featured", Model.Posts)
+    </div>
 </div>

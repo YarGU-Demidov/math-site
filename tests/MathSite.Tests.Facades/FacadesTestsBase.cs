@@ -17,53 +17,50 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace MathSite.Tests.Facades
 {
-	public class FacadesTestsBase
-	{
-		private readonly ITestDatabaseFactory _databaseFactory;
+    public class FacadesTestsBase
+    {
+        private readonly ITestDatabaseFactory _databaseFactory;
 
-		public FacadesTestsBase()
-			: this(TestSqliteDatabaseFactory.UseDefault())
-		{
-			MemoryCache = new MemoryCache(new MemoryCacheOptions());
-		}
+        public FacadesTestsBase()
+            : this(TestSqliteDatabaseFactory.UseDefault())
+        {
+            MemoryCache = new MemoryCache(new MemoryCacheOptions());
+        }
 
-		public IMemoryCache MemoryCache { get; }
+        public FacadesTestsBase(ITestDatabaseFactory databaseFactory)
+        {
+            _databaseFactory = databaseFactory;
+        }
 
-		public FacadesTestsBase(ITestDatabaseFactory databaseFactory)
-		{
-			_databaseFactory = databaseFactory;
-		}
+        public IMemoryCache MemoryCache { get; }
 
-		protected void WithLogic(Action<IBusinessLogicManager> actions)
-		{
-			_databaseFactory.ExecuteWithContext(context =>
-			{
-				actions(CreateBusinessLogicManger(context));
-			});
-		}
+        protected void WithLogic(Action<IBusinessLogicManager> actions)
+        {
+            _databaseFactory.ExecuteWithContext(context => { actions(CreateBusinessLogicManger(context)); });
+        }
 
-		protected async Task WithLogicAsync(Func<IBusinessLogicManager, Task> actions)
-		{
-			await _databaseFactory.ExecuteWithContextAsync(async context =>
-			{
-				await actions(CreateBusinessLogicManger(context));
-			});
-		}
+        protected async Task WithLogicAsync(Func<IBusinessLogicManager, Task> actions)
+        {
+            await _databaseFactory.ExecuteWithContextAsync(async context =>
+            {
+                await actions(CreateBusinessLogicManger(context));
+            });
+        }
 
-		private IBusinessLogicManager CreateBusinessLogicManger(MathSiteDbContext context)
-		{
-			return new BusinessLogicManager(
-				new GroupsLogic(context),
-				new PersonsLogic(context),
-				new UsersLogic(context),
-				new FilesLogic(context),
-				new SiteSettingsLogic(context),
-				new RightsLogic(context),
-				new PostsLogic(context),
-				new PostSeoSettingsLogic(context),
-				new PostSettingLogic(context),
-				new PostTypeLogic(context)
-			);
-		}
-	}
+        private IBusinessLogicManager CreateBusinessLogicManger(MathSiteDbContext context)
+        {
+            return new BusinessLogicManager(
+                new GroupsLogic(context),
+                new PersonsLogic(context),
+                new UsersLogic(context),
+                new FilesLogic(context),
+                new SiteSettingsLogic(context),
+                new RightsLogic(context),
+                new PostsLogic(context),
+                new PostSeoSettingsLogic(context),
+                new PostSettingLogic(context),
+                new PostTypeLogic(context)
+            );
+        }
+    }
 }

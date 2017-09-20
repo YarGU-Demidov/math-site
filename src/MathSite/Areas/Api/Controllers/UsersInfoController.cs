@@ -16,103 +16,100 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MathSite.Areas.Api.Controllers
 {
-	[Area("Api")]
-	public class UsersInfoController : BaseController, IDataTableApi<UserInfo, UsersSortData>
-	{
-		private readonly IUsersLogic _usersLogic;
-		public MathSiteDbContext DbContext { get; }
+    [Area("Api")]
+    public class UsersInfoController : BaseController, IDataTableApi<UserInfo, UsersSortData>
+    {
+        private readonly IUsersLogic _usersLogic;
 
-		public UsersInfoController(IUserValidationFacade userValidationFacade, MathSiteDbContext dbContext, IUsersLogic usersLogic)
-			: base(userValidationFacade)
-		{
-			_usersLogic = usersLogic;
-			DbContext = dbContext;
-		}
+        public UsersInfoController(IUserValidationFacade userValidationFacade, MathSiteDbContext dbContext,
+            IUsersLogic usersLogic)
+            : base(userValidationFacade)
+        {
+            _usersLogic = usersLogic;
+            DbContext = dbContext;
+        }
 
-		public async Task<UserInfo> GetCurrentUserInfo()
-		{
-			return CurrentUserId == null
-				? new UserInfo(null, null, null, null, null)
-				: new UserInfo(await _usersLogic.TryGetByIdAsync(CurrentUserId.Value));
-		}
+        public MathSiteDbContext DbContext { get; }
 
-		public IActionResult GetUserInfo(string id)
-		{
-			if (!Guid.TryParse(id, out Guid uId))
-			{
-				return NotFound(id);
-			}
+        [HttpGet]
+        public GetCountResponse GetCount()
+        {
+            try
+            {
+                return new GetCountResponse(new SuccessResponseType(), null, DbContext.Users.Count());
+            }
+            catch (Exception exception)
+            {
+                return new GetCountResponse(new ErrorResponseType(), exception.Message);
+            }
+        }
 
-			var user = DbContext.Users
-				.Where(u => u.Id == uId)
-				.Include(u => u.Person)
-				.Include(u => u.Group)
-				.FirstOrDefault();
+        [HttpPost]
+        public GetAllResponse<UserInfo> GetAll(int offset = 0, int count = 50,
+            [FromBody] FilterAndSortData<UsersSortData> filterAndSortData = null)
+        {
+            try
+            {
+                var usersDbRequest = DbContext.Users
+                    .Include(u => u.Person)
+                    .Include(u => u.Group);
 
-			if (user == null)
-			{
-				return NotFound();
-			}
+                if (filterAndSortData?.SortData != null)
+                    if (filterAndSortData.SortData.GroupSort != SortDirection.Default)
+                    {
+                        var isAscending = filterAndSortData.SortData.GroupSort == SortDirection.Ascending;
+                        usersDbRequest = usersDbRequest.OrderBy(user => user.Group.Name, isAscending)
+                            .Include(user => user.Group);
+                    }
 
-			return Json(new UserInfo(user));
-		}
+                // TODO: избавиться от костыля, EF7 делает не корректный запрос с Include,
+                // а делать подзапросы отдельно не хочется.
+                // Утверждается, что ко 2й версии может появится возможность делать запросы вручную.
+                var users = usersDbRequest
+                    .Skip(offset)
+                    .ToArray()
+                    .Take(count)
+                    .ToArray();
 
-		[HttpGet]
-		public GetCountResponse GetCount()
-		{
-			try
-			{
-				return new GetCountResponse(new SuccessResponseType(), null, DbContext.Users.Count());
-			}
-			catch (Exception exception)
-			{
-				return new GetCountResponse(new ErrorResponseType(), exception.Message);
-			}
-		}
+                var data = users.Length > 0
+                    ? users.Select(u => new UserInfo(u)).ToArray()
+                    : new UserInfo[0];
 
-		[HttpPost]
-		public GetAllResponse<UserInfo> GetAll(int offset = 0, int count = 50, [FromBody] FilterAndSortData<UsersSortData> filterAndSortData = null)
-		{
-			try
-			{
-				var usersDbRequest = DbContext.Users
-					.Include(u => u.Person)
-					.Include(u => u.Group);
+                return new GetAllResponse<UserInfo>(new SuccessResponseType(), data);
+            }
+            catch (Exception exception)
+            {
+                return new GetAllResponse<UserInfo>(new ErrorResponseType(), null, exception.Message);
+            }
+        }
 
-				if (filterAndSortData?.SortData != null)
-				{
-					if (filterAndSortData.SortData.GroupSort != SortDirection.Default)
-					{
-						var isAscending = filterAndSortData.SortData.GroupSort == SortDirection.Ascending;
-						usersDbRequest = usersDbRequest.OrderBy(user => user.Group.Name, isAscending)
-							.Include(user => user.Group);
-					}
-				}
+        public async Task<UserInfo> GetCurrentUserInfo()
+        {
+            return CurrentUserId == null
+                ? new UserInfo(null, null, null, null, null)
+                : new UserInfo(await _usersLogic.TryGetByIdAsync(CurrentUserId.Value));
+        }
 
-				// TODO: избавиться от костыля, EF7 делает не корректный запрос с Include,
-				// а делать подзапросы отдельно не хочется.
-				// Утверждается, что ко 2й версии может появится возможность делать запросы вручную.
-				var users = usersDbRequest
-					.Skip(offset)
-					.ToArray()
-					.Take(count)
-					.ToArray();
+        public IActionResult GetUserInfo(string id)
+        {
+            if (!Guid.TryParse(id, out var uId))
+                return NotFound(id);
 
-				var data = users.Length > 0
-					? users.Select(u => new UserInfo(u)).ToArray()
-					: new UserInfo[0];
+            var user = DbContext.Users
+                .Where(u => u.Id == uId)
+                .Include(u => u.Person)
+                .Include(u => u.Group)
+                .FirstOrDefault();
 
-				return new GetAllResponse<UserInfo>(new SuccessResponseType(), data);
-			}
-			catch (Exception exception)
-			{
-				return new GetAllResponse<UserInfo>(new ErrorResponseType(), null, exception.Message);
-			}
-		}
+            if (user == null)
+                return NotFound();
 
-		public IActionResult SaveAll(IEnumerable<UserInfo> items)
-		{
-			throw new NotImplementedException();
-		}
-	}
+            return Json(new UserInfo(user));
+        }
+
+        public IActionResult SaveAll(IEnumerable<UserInfo> items)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

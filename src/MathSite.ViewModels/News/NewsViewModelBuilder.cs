@@ -12,76 +12,76 @@ using MathSite.ViewModels.SharedModels.SecondaryPage;
 
 namespace MathSite.ViewModels.News
 {
-	public class NewsViewModelBuilder : SecondaryViewModelBuilder, INewsViewModelBuilder
-	{
-		public NewsViewModelBuilder(ISiteSettingsFacade siteSettingsFacade, IPostsFacade postsFacade,
-			IPostPreviewViewModelBuilder postPreviewViewModelBuilder)
-			: base(siteSettingsFacade, postsFacade, postPreviewViewModelBuilder)
-		{
-		}
+    public class NewsViewModelBuilder : SecondaryViewModelBuilder, INewsViewModelBuilder
+    {
+        public NewsViewModelBuilder(ISiteSettingsFacade siteSettingsFacade, IPostsFacade postsFacade,
+            IPostPreviewViewModelBuilder postPreviewViewModelBuilder)
+            : base(siteSettingsFacade, postsFacade, postPreviewViewModelBuilder)
+        {
+        }
 
-		protected override string PageTitle { get; set; }
+        protected override string PageTitle { get; set; }
 
-		public async Task<NewsIndexViewModel> BuildIndexViewModelAsync(int page = 1)
-		{
-			await FillIndexPageNameAsync();
+        public async Task<NewsIndexViewModel> BuildIndexViewModelAsync(int page = 1)
+        {
+            await FillIndexPageNameAsync();
 
-			var model = await BuildSecondaryViewModel<NewsIndexViewModel>();
+            var model = await BuildSecondaryViewModel<NewsIndexViewModel>();
 
-			await BuildPosts(model, page);
+            await BuildPosts(model, page);
 
-			model.Paginator = await GetPaginator(page);
+            model.Paginator = await GetPaginator(page);
 
-			return model;
-		}
+            return model;
+        }
 
-		private async Task<PaginatorViewModel> GetPaginator(int page)
-		{
-			return new PaginatorViewModel
-			{
-				CurrentPage = page,
-				PagesCount = await PostsFacade.GetNewsPagesCountAsync()
-			};
-		}
+        public async Task<NewsItemViewModel> BuildNewsItemViewModelAsync(string query, int page = 1)
+        {
+            var model = await BuildSecondaryViewModel<NewsItemViewModel>();
 
-		public async Task<NewsItemViewModel> BuildNewsItemViewModelAsync(string query, int page = 1)
-		{
-			var model = await BuildSecondaryViewModel<NewsItemViewModel>();
+            var post = await BuildPostData(query, page);
 
-			var post = await BuildPostData(query, page);
+            if (post == null)
+                throw new PostNotFoundException();
 
-			if (post == null)
-				throw new PostNotFoundException();
+            model.Content = post.Content;
+            model.PageTitle.Title = post.Title;
 
-			model.Content = post.Content;
-			model.PageTitle.Title = post.Title;
+            return model;
+        }
 
-			return model;
-		}
+        private async Task<PaginatorViewModel> GetPaginator(int page)
+        {
+            return new PaginatorViewModel
+            {
+                CurrentPage = page,
+                PagesCount = await PostsFacade.GetNewsPagesCountAsync()
+            };
+        }
 
 
-		private async Task FillIndexPageNameAsync()
-		{
-			var title = await SiteSettingsFacade[SiteSettingsNames.DefaultNewsPageTitle];
+        private async Task FillIndexPageNameAsync()
+        {
+            var title = await SiteSettingsFacade[SiteSettingsNames.DefaultNewsPageTitle];
 
-			PageTitle = title ?? "Новости нашего факультета";
-		}
+            PageTitle = title ?? "Новости нашего факультета";
+        }
 
-		private async Task BuildPosts(NewsIndexViewModel model, int page)
-		{
-			var posts = (await PostsFacade.GetNewsAsync(page)).ToArray();
+        private async Task BuildPosts(NewsIndexViewModel model, int page)
+        {
+            var posts = (await PostsFacade.GetNewsAsync(page)).ToArray();
 
-			model.Posts = GetPosts(posts);
-		}
+            model.Posts = GetPosts(posts);
+        }
 
-		private IEnumerable<PostPreviewViewModel> GetPosts(IEnumerable<Post> posts)
-		{
-			return posts.Select(PostPreviewViewModelBuilder.Build);
-		}
+        private IEnumerable<PostPreviewViewModel> GetPosts(IEnumerable<Post> posts)
+        {
+            return posts.Select(PostPreviewViewModelBuilder.Build);
+        }
 
-		private async Task<Post> BuildPostData(string query, int page = 1)
-		{
-			return await PostsFacade.GetNewsPostByUrlAsync(query);
-		}
-	}
+        private async Task<Post> BuildPostData(string query, int page = 1)
+        {
+            return await PostsFacade.GetNewsPostByUrlAsync(query);
+        }
+    }
 }

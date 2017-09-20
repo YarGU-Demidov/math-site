@@ -2,9 +2,9 @@
 
 namespace MathSite.ViewModels.Pages
 {
-	public class PageItemViewModel : SecondaryViewModel
-	{
-		public string Content { get; set; }
-		public string Title { get; set; }
-	}
+    public class PageItemViewModel : SecondaryViewModel
+    {
+        public string Content { get; set; }
+        public string Title { get; set; }
+    }
 }

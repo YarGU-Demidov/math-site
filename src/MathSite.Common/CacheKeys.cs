@@ -1,7 +1,6 @@
 ﻿namespace MathSite.Common
 {
-	public static class CacheKeys
-	{
-		
-	}
+    public static class CacheKeys
+    {
+    }
 }

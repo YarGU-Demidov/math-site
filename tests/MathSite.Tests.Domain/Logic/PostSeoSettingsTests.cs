@@ -5,148 +5,148 @@ using Xunit;
 
 namespace MathSite.Tests.Domain.Logic
 {
-	public class PostSeoSettingsTests : DomainTestsBase
-	{
-		[Fact]
-		public async Task TryGet_ById_Found()
-		{
-			await ExecuteWithContextAsync(async context =>
-			{
-				var postSeoSettingsLogic = new PostSeoSettingsLogic(context);
+    public class PostSeoSettingsTests : DomainTestsBase
+    {
+        private async Task<Guid> CreateSeoSettingAsync(
+            IPostSeoSettingsLogic logic,
+            string url = null,
+            string title = null,
+            string description = null
+        )
+        {
+            var salt = Guid.NewGuid();
 
-				var id = await CreateSeoSettingAsync(postSeoSettingsLogic);
+            url = url ?? $"test-seo-setting-url-{salt}";
+            title = title ?? $"test-seo-setting-title-{salt}";
+            description = description ?? $"test-seo-setting-description-{salt}";
 
-				var seoSetting = await postSeoSettingsLogic.TryGetByIdAsync(id);
+            return await logic.CreateAsync(url, title, description);
+        }
 
-				Assert.NotNull(seoSetting);
-			});
-		}
+        [Fact]
+        public async Task CreatePersonTest()
+        {
+            await ExecuteWithContextAsync(async context =>
+            {
+                var postSeoSettingsLogic = new PostSeoSettingsLogic(context);
 
-		[Fact]
-		public async Task TryGet_ById_NotFound()
-		{
-			var id = Guid.NewGuid();
+                var url = "test-seo-setting-url-new";
+                var title = "test-seo-setting-title-new";
+                var description = "test-seo-setting-description-new";
 
-			await ExecuteWithContextAsync(async context =>
-			{
-				var postSeoSettingsLogic = new PostSeoSettingsLogic(context);
-				var seoSetting = await postSeoSettingsLogic.TryGetByIdAsync(id);
+                var id = await CreateSeoSettingAsync(
+                    postSeoSettingsLogic,
+                    url,
+                    title,
+                    description
+                );
 
-				Assert.Null(seoSetting);
-			});
-		}
+                var seoSetting = await postSeoSettingsLogic.TryGetByIdAsync(id);
 
-		[Fact]
-		public async Task TryGet_ByUrl_Found()
-		{
-			await ExecuteWithContextAsync(async context =>
-			{
-				var postSeoSettingsLogic = new PostSeoSettingsLogic(context);
+                Assert.NotNull(seoSetting);
+                Assert.Equal(url, seoSetting.Url);
+                Assert.Equal(title, seoSetting.Title);
+                Assert.Equal(description, seoSetting.Description);
+            });
+        }
 
-				const string url = "test-url-for-by-url-find";
+        [Fact]
+        public async Task DeletePersonTest()
+        {
+            await ExecuteWithContextAsync(async context =>
+            {
+                var postSeoSettingsLogic = new PostSeoSettingsLogic(context);
 
-				await CreateSeoSettingAsync(postSeoSettingsLogic, url);
+                var id = await CreateSeoSettingAsync(postSeoSettingsLogic);
 
-				var seoSetting = await postSeoSettingsLogic.TryGetByUrlAsync(url);
+                await postSeoSettingsLogic.DeleteAsync(id);
 
-				Assert.NotNull(seoSetting);
-			});
-		}
+                var seoSetting = await postSeoSettingsLogic.TryGetByIdAsync(id);
 
-		[Fact]
-		public async Task TryGet_ByUrl_NotFound()
-		{
-			await ExecuteWithContextAsync(async context =>
-			{
-				var postSeoSettingsLogic = new PostSeoSettingsLogic(context);
-				var seoSetting = await postSeoSettingsLogic.TryGetByUrlAsync("wrong-url-tasdkfasdfaskfjhaslkf");
+                Assert.Null(seoSetting);
+            });
+        }
 
-				Assert.Null(seoSetting);
-			});
-		}
+        [Fact]
+        public async Task TryGet_ById_Found()
+        {
+            await ExecuteWithContextAsync(async context =>
+            {
+                var postSeoSettingsLogic = new PostSeoSettingsLogic(context);
 
-		[Fact]
-		public async Task CreatePersonTest()
-		{
-			await ExecuteWithContextAsync(async context =>
-			{
-				var postSeoSettingsLogic = new PostSeoSettingsLogic(context);
+                var id = await CreateSeoSettingAsync(postSeoSettingsLogic);
 
-				var url = "test-seo-setting-url-new";
-				var title = "test-seo-setting-title-new";
-				var description = "test-seo-setting-description-new";
-				
-				var id = await CreateSeoSettingAsync(
-					postSeoSettingsLogic,
-					url,
-					title,
-					description
-				);
+                var seoSetting = await postSeoSettingsLogic.TryGetByIdAsync(id);
 
-				var seoSetting = await postSeoSettingsLogic.TryGetByIdAsync(id);
+                Assert.NotNull(seoSetting);
+            });
+        }
 
-				Assert.NotNull(seoSetting);
-				Assert.Equal(url, seoSetting.Url);
-				Assert.Equal(title, seoSetting.Title);
-				Assert.Equal(description, seoSetting.Description);
-			});
-		}
+        [Fact]
+        public async Task TryGet_ById_NotFound()
+        {
+            var id = Guid.NewGuid();
 
-		[Fact]
-		public async Task UpdatePersonTest()
-		{
-			await ExecuteWithContextAsync(async context =>
-			{
-				var postSeoSettingsLogic = new PostSeoSettingsLogic(context);
+            await ExecuteWithContextAsync(async context =>
+            {
+                var postSeoSettingsLogic = new PostSeoSettingsLogic(context);
+                var seoSetting = await postSeoSettingsLogic.TryGetByIdAsync(id);
 
-				var url = "test-seo-setting-url-new";
-				var title = "test-seo-setting-title-new";
-				var description = "test-seo-setting-description-new";
+                Assert.Null(seoSetting);
+            });
+        }
 
-				var id = await CreateSeoSettingAsync(postSeoSettingsLogic);
+        [Fact]
+        public async Task TryGet_ByUrl_Found()
+        {
+            await ExecuteWithContextAsync(async context =>
+            {
+                var postSeoSettingsLogic = new PostSeoSettingsLogic(context);
 
-				await postSeoSettingsLogic.UpdateAsync(id, url, title, description);
+                const string url = "test-url-for-by-url-find";
 
-				var seoSetting = await postSeoSettingsLogic.TryGetByIdAsync(id);
+                await CreateSeoSettingAsync(postSeoSettingsLogic, url);
 
-				Assert.NotNull(seoSetting);
-				Assert.Equal(url, seoSetting.Url);
-				Assert.Equal(title, seoSetting.Title);
-				Assert.Equal(description, seoSetting.Description);
-			});
-		}
+                var seoSetting = await postSeoSettingsLogic.TryGetByUrlAsync(url);
 
-		[Fact]
-		public async Task DeletePersonTest()
-		{
-			await ExecuteWithContextAsync(async context =>
-			{
-				var postSeoSettingsLogic = new PostSeoSettingsLogic(context);
+                Assert.NotNull(seoSetting);
+            });
+        }
 
-				var id = await CreateSeoSettingAsync(postSeoSettingsLogic);
+        [Fact]
+        public async Task TryGet_ByUrl_NotFound()
+        {
+            await ExecuteWithContextAsync(async context =>
+            {
+                var postSeoSettingsLogic = new PostSeoSettingsLogic(context);
+                var seoSetting = await postSeoSettingsLogic.TryGetByUrlAsync("wrong-url-tasdkfasdfaskfjhaslkf");
 
-				await postSeoSettingsLogic.DeleteAsync(id);
+                Assert.Null(seoSetting);
+            });
+        }
 
-				var seoSetting = await postSeoSettingsLogic.TryGetByIdAsync(id);
+        [Fact]
+        public async Task UpdatePersonTest()
+        {
+            await ExecuteWithContextAsync(async context =>
+            {
+                var postSeoSettingsLogic = new PostSeoSettingsLogic(context);
 
-				Assert.Null(seoSetting);
-			});
-		}
+                var url = "test-seo-setting-url-new";
+                var title = "test-seo-setting-title-new";
+                var description = "test-seo-setting-description-new";
 
-		private async Task<Guid> CreateSeoSettingAsync(
-			IPostSeoSettingsLogic logic,
-			string url = null,
-			string title = null,
-			string description = null
-		)
-		{
-			var salt = Guid.NewGuid();
+                var id = await CreateSeoSettingAsync(postSeoSettingsLogic);
 
-			url = url ?? $"test-seo-setting-url-{salt}";
-			title = title ?? $"test-seo-setting-title-{salt}";
-			description = description ?? $"test-seo-setting-description-{salt}";
+                await postSeoSettingsLogic.UpdateAsync(id, url, title, description);
 
-			return await logic.CreateAsync(url, title, description);
-		}
-	}
+                var seoSetting = await postSeoSettingsLogic.TryGetByIdAsync(id);
+
+                Assert.NotNull(seoSetting);
+                Assert.Equal(url, seoSetting.Url);
+                Assert.Equal(title, seoSetting.Title);
+                Assert.Equal(description, seoSetting.Description);
+            });
+        }
+    }
 }

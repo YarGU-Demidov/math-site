@@ -1,34 +1,32 @@
 ﻿@model PageItemViewModel
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    @Html.Partial("Partials/Headers")
-</head>
+    <head>
+        @Html.Partial("Partials/Headers")
+    </head>
 
-<body>
+    <body>
 
-<div class="secondary">
-    <div class="container secondary__container">
-        <!-- Header -->
-        @Html.Partial("Partials/Header")
+        <div class="secondary">
+            <div class="container">
+                <!-- Header -->
+                @Html.Partial("Partials/Header")
 
-        <!-- Breadcrumbs -->
-        <nav class="secondary__path">
-            <ul class="breadcrumbs">
-                <li class="breadcrumbs__item">
-                    <a class="button button_palette_darkblue" href="/">ГЛАВНАЯ &nbsp;►</a>
-                </li>
-            </ul>
-        </nav>
+                <!-- Breadcrumbs -->
+                <nav class="secondary__path">
+                    <ul class="breadcrumbs">
+                        <li class="breadcrumbs__item">
+                            <a class="button button_palette_darkblue" href=@Url.Action("Index", "Home")>ГЛАВНАЯ &nbsp;►</a>
+                        </li>
+                    </ul>
+                </nav>
 
-        <main class="secondary__body">
-            <div class="secondary__body_news">
-                <h1 class="secondary__body_news_title">
-                    @Model.Title
-                </h1>
-                <div class="secondary__news">
-                    <div class="secondary__item">
-                        <div class="secondary__item_body">
+                <main class="secondary__body">
+                    <div class="secondary__body_news">
+                        <h1 class="secondary__body_news_title">
+                            @Model.Title
+                        </h1>
+                        <div class="secondary__news">
                             <div class="news__description">
                                 <article class="content">
                                     @RenderBody()
@@ -36,23 +34,21 @@
                             </div>
                         </div>
                     </div>
-                </div>
+
+                    @Html.Partial("Partials/Sidebar")
+                </main>
             </div>
-
-            @Html.Partial("Partials/Sidebar")
-        </main>
-    </div>
-</div>
+        </div>
 
 
-<!-- Featured -->
-@Html.Partial("Partials/Featured")
+        <!-- Featured -->
+        @Html.Partial("Partials/Featured")
 
-<!-- Footer -->
-@Html.Partial("Partials/Footer")
+        <!-- Footer -->
+        @Html.Partial("Partials/Footer")
 
-<!-- Scripts -->
-@Html.Partial("Partials/Scripts")
+        <!-- Scripts -->
+        @Html.Partial("Partials/Scripts")
 
-</body>
+    </body>
 </html>

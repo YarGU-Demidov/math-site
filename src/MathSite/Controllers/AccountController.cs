@@ -11,86 +11,86 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MathSite.Controllers
 {
-	public class AccountController : BaseController
-	{
-		public AccountController(IUserValidationFacade userValidationFacade) : base(userValidationFacade)
-		{
-		}
+    public class AccountController : BaseController
+    {
+        public AccountController(IUserValidationFacade userValidationFacade) : base(userValidationFacade)
+        {
+        }
 
-		[HttpGet("/login")]
-		public IActionResult Login(string returnUrl)
-		{
-			if (string.IsNullOrWhiteSpace(returnUrl))
-				returnUrl = "/";
+        [HttpGet("/login")]
+        public IActionResult Login(string returnUrl)
+        {
+            if (string.IsNullOrWhiteSpace(returnUrl))
+                returnUrl = "/";
 
-			if (HttpContext.User.Identity.IsAuthenticated)
-				if (!string.IsNullOrWhiteSpace(returnUrl))
-					return Redirect(returnUrl);
-				else
-					return RedirectToAction("Index", "Home");
+            if (HttpContext.User.Identity.IsAuthenticated)
+                if (!string.IsNullOrWhiteSpace(returnUrl))
+                    return Redirect(returnUrl);
+                else
+                    return RedirectToAction("Index", "Home");
 
-			return View(new LoginFormViewModel {ReturnUrl = returnUrl});
-		}
+            return View(new LoginFormViewModel {ReturnUrl = returnUrl});
+        }
 
-		[HttpPost("/login")]
-		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Login(LoginFormViewModel model)
-		{
-			var valid = TryValidateModel(model);
+        [HttpPost("/login")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginFormViewModel model)
+        {
+            var valid = TryValidateModel(model);
 
-			if (!valid)
-				return View(model);
+            if (!valid)
+                return View(model);
 
-			var ourUser = await UserValidationFacade.GetUserByLoginAndPasswordAsync(model.Login, model.Password);
+            var ourUser = await UserValidationFacade.GetUserByLoginAndPasswordAsync(model.Login, model.Password);
 
-			if (ourUser == null)
-				return View(model);
+            if (ourUser == null)
+                return View(model);
 
-			await HttpContext.SignInAsync(
-				CookieAuthenticationDefaults.AuthenticationScheme,
-				new ClaimsPrincipal(
-					new ClaimsIdentity(
-						new List<Claim>
-						{
-							new Claim("UserId", ourUser.Id.ToString())
-						},
-						"Auth"
-					)
-				),
-				new AuthenticationProperties {ExpiresUtc = DateTimeOffset.UtcNow.AddMonths(12)}
-			);
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(
+                    new ClaimsIdentity(
+                        new List<Claim>
+                        {
+                            new Claim("UserId", ourUser.Id.ToString())
+                        },
+                        "Auth"
+                    )
+                ),
+                new AuthenticationProperties {ExpiresUtc = DateTimeOffset.UtcNow.AddMonths(12)}
+            );
 
-			var returnUrl = HttpContext.Request.Query["returnUrl"].ToString();
+            var returnUrl = HttpContext.Request.Query["returnUrl"].ToString();
 
-			if (!string.IsNullOrWhiteSpace(returnUrl))
-				return Redirect(returnUrl);
+            if (!string.IsNullOrWhiteSpace(returnUrl))
+                return Redirect(returnUrl);
 
-			return RedirectToAction("Index", "Home");
-		}
+            return RedirectToAction("Index", "Home");
+        }
 
-		public async Task<IActionResult> CheckLogin(string login)
-		{
-			return await UserValidationFacade.DoesUserExistsAsync(login)
-				? Json(true)
-				: Json("Данного пользователя не существует");
-		}
+        public async Task<IActionResult> CheckLogin(string login)
+        {
+            return await UserValidationFacade.DoesUserExistsAsync(login)
+                ? Json(true)
+                : Json("Данного пользователя не существует");
+        }
 
-		public async Task<IActionResult> CheckPassword(string password, string login)
-		{
-			var user = await UserValidationFacade.GetUserByLoginAndPasswordAsync(login, password);
-			
-			return user != null
-					? Json(true)
-					: Json("Пароль неверен");
-		}
+        public async Task<IActionResult> CheckPassword(string password, string login)
+        {
+            var user = await UserValidationFacade.GetUserByLoginAndPasswordAsync(login, password);
 
-		[Authorize("logout")]
-		[HttpGet("/logout")]
-		public async Task<IActionResult> Logout()
-		{
-			await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return user != null
+                ? Json(true)
+                : Json("Пароль неверен");
+        }
 
-			return RedirectToAction("Index", "Home");
-		}
-	}
+        [Authorize("logout")]
+        [HttpGet("/logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            return RedirectToAction("Index", "Home");
+        }
+    }
 }

@@ -1,6 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-using System.Collections.Generic;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MathSite.Migrations
 {
@@ -12,13 +11,13 @@ namespace MathSite.Migrations
                 .Annotation("Npgsql:PostgresExtension:uuid-ossp", "'uuid-ossp', '', ''");
 
             migrationBuilder.CreateTable(
-                name: "Category",
-                columns: table => new
+                "Category",
+                table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Alias = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: true),
-                    Name = table.Column<string>(type: "text", nullable: false)
+                    Id = table.Column<Guid>("uuid", nullable: false),
+                    Alias = table.Column<string>("text", nullable: false),
+                    Description = table.Column<string>("text", nullable: true),
+                    Name = table.Column<string>("text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -27,40 +26,34 @@ namespace MathSite.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "File",
-                columns: table => new
+                "File",
+                table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    DateAdded = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Extension = table.Column<string>(type: "text", nullable: true),
-                    FileName = table.Column<string>(type: "text", nullable: false),
-                    FilePath = table.Column<string>(type: "text", nullable: false)
+                    Id = table.Column<Guid>("uuid", nullable: false),
+                    DateAdded = table.Column<DateTime>("timestamp", nullable: false),
+                    Extension = table.Column<string>("text", nullable: true),
+                    FileName = table.Column<string>("text", nullable: false),
+                    FilePath = table.Column<string>("text", nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_File", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_File", x => x.Id); });
 
             migrationBuilder.CreateTable(
-                name: "GroupType",
-                columns: table => new
+                "GroupType",
+                table => new
                 {
-                    Alias = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: true),
-                    Name = table.Column<string>(type: "text", nullable: false)
+                    Alias = table.Column<string>("text", nullable: false),
+                    Description = table.Column<string>("text", nullable: true),
+                    Name = table.Column<string>("text", nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_GroupType", x => x.Alias);
-                });
+                constraints: table => { table.PrimaryKey("PK_GroupType", x => x.Alias); });
 
             migrationBuilder.CreateTable(
-                name: "Keyword",
-                columns: table => new
+                "Keyword",
+                table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Alias = table.Column<string>(type: "text", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false)
+                    Id = table.Column<Guid>("uuid", nullable: false),
+                    Alias = table.Column<string>("text", nullable: false),
+                    Name = table.Column<string>("text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -69,742 +62,733 @@ namespace MathSite.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PostSeoSetting",
-                columns: table => new
+                "PostSeoSetting",
+                table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: true),
-                    Title = table.Column<string>(type: "text", nullable: true),
-                    Url = table.Column<string>(type: "text", nullable: true)
+                    Id = table.Column<Guid>("uuid", nullable: false),
+                    Description = table.Column<string>("text", nullable: true),
+                    Title = table.Column<string>("text", nullable: true),
+                    Url = table.Column<string>("text", nullable: true)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PostSeoSetting", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_PostSeoSetting", x => x.Id); });
 
             migrationBuilder.CreateTable(
-                name: "Right",
-                columns: table => new
+                "Right",
+                table => new
                 {
-                    Alias = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: true),
-                    Name = table.Column<string>(type: "text", nullable: false)
+                    Alias = table.Column<string>("text", nullable: false),
+                    Description = table.Column<string>("text", nullable: true),
+                    Name = table.Column<string>("text", nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Right", x => x.Alias);
-                });
+                constraints: table => { table.PrimaryKey("PK_Right", x => x.Alias); });
 
             migrationBuilder.CreateTable(
-                name: "SiteSetting",
-                columns: table => new
+                "SiteSetting",
+                table => new
                 {
-                    Key = table.Column<string>(type: "text", nullable: false),
-                    Value = table.Column<byte[]>(type: "bytea", nullable: false)
+                    Key = table.Column<string>("text", nullable: false),
+                    Value = table.Column<byte[]>("bytea", nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SiteSetting", x => x.Key);
-                });
+                constraints: table => { table.PrimaryKey("PK_SiteSetting", x => x.Key); });
 
             migrationBuilder.CreateTable(
-                name: "PostSetting",
-                columns: table => new
+                "PostSetting",
+                table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CanBeRated = table.Column<bool>(type: "bool", nullable: false, defaultValue: false),
-                    IsCommentsAllowed = table.Column<bool>(type: "bool", nullable: false, defaultValue: false),
-                    PostOnStartPage = table.Column<bool>(type: "bool", nullable: false, defaultValue: false),
-                    PreviewImageId = table.Column<Guid>(type: "uuid", nullable: true)
+                    Id = table.Column<Guid>("uuid", nullable: false),
+                    CanBeRated = table.Column<bool>("bool", nullable: false, defaultValue: false),
+                    IsCommentsAllowed = table.Column<bool>("bool", nullable: false, defaultValue: false),
+                    PostOnStartPage = table.Column<bool>("bool", nullable: false, defaultValue: false),
+                    PreviewImageId = table.Column<Guid>("uuid", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PostSetting", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PostSetting_File_PreviewImageId",
-                        column: x => x.PreviewImageId,
-                        principalTable: "File",
-                        principalColumn: "Id",
+                        "FK_PostSetting_File_PreviewImageId",
+                        x => x.PreviewImageId,
+                        "File",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Group",
-                columns: table => new
+                "Group",
+                table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Alias = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: true),
-                    GroupTypeAlias = table.Column<string>(type: "text", nullable: false),
-                    IsAdmin = table.Column<bool>(type: "bool", nullable: false, defaultValue: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    ParentGroupId = table.Column<Guid>(type: "uuid", nullable: true)
+                    Id = table.Column<Guid>("uuid", nullable: false),
+                    Alias = table.Column<string>("text", nullable: false),
+                    Description = table.Column<string>("text", nullable: true),
+                    GroupTypeAlias = table.Column<string>("text", nullable: false),
+                    IsAdmin = table.Column<bool>("bool", nullable: false, defaultValue: false),
+                    Name = table.Column<string>("text", nullable: false),
+                    ParentGroupId = table.Column<Guid>("uuid", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Group", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Group_GroupType_GroupTypeAlias",
-                        column: x => x.GroupTypeAlias,
-                        principalTable: "GroupType",
-                        principalColumn: "Alias",
+                        "FK_Group_GroupType_GroupTypeAlias",
+                        x => x.GroupTypeAlias,
+                        "GroupType",
+                        "Alias",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Group_Group_ParentGroupId",
-                        column: x => x.ParentGroupId,
-                        principalTable: "Group",
-                        principalColumn: "Id",
+                        "FK_Group_Group_ParentGroupId",
+                        x => x.ParentGroupId,
+                        "Group",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "PostKeyword",
-                columns: table => new
+                "PostKeyword",
+                table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    KeywordId = table.Column<Guid>(type: "uuid", nullable: false),
-                    PostSeoSettingsId = table.Column<Guid>(type: "uuid", nullable: false)
+                    Id = table.Column<Guid>("uuid", nullable: false),
+                    KeywordId = table.Column<Guid>("uuid", nullable: false),
+                    PostSeoSettingsId = table.Column<Guid>("uuid", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PostKeyword", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PostKeyword_Keyword_KeywordId",
-                        column: x => x.KeywordId,
-                        principalTable: "Keyword",
-                        principalColumn: "Id",
+                        "FK_PostKeyword_Keyword_KeywordId",
+                        x => x.KeywordId,
+                        "Keyword",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PostKeyword_PostSeoSetting_PostSeoSettingsId",
-                        column: x => x.PostSeoSettingsId,
-                        principalTable: "PostSeoSetting",
-                        principalColumn: "Id",
+                        "FK_PostKeyword_PostSeoSetting_PostSeoSettingsId",
+                        x => x.PostSeoSettingsId,
+                        "PostSeoSetting",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "PostType",
-                columns: table => new
+                "PostType",
+                table => new
                 {
-                    Alias = table.Column<string>(type: "text", nullable: false),
-                    DefaultPostsSettingsId = table.Column<Guid>(type: "uuid", nullable: false),
-                    TypeName = table.Column<string>(type: "text", nullable: false)
+                    Alias = table.Column<string>("text", nullable: false),
+                    DefaultPostsSettingsId = table.Column<Guid>("uuid", nullable: false),
+                    TypeName = table.Column<string>("text", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PostType", x => x.Alias);
                     table.ForeignKey(
-                        name: "FK_PostType_PostSetting_DefaultPostsSettingsId",
-                        column: x => x.DefaultPostsSettingsId,
-                        principalTable: "PostSetting",
-                        principalColumn: "Id",
+                        "FK_PostType_PostSetting_DefaultPostsSettingsId",
+                        x => x.DefaultPostsSettingsId,
+                        "PostSetting",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "GroupsRight",
-                columns: table => new
+                "GroupsRight",
+                table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Allowed = table.Column<bool>(type: "bool", nullable: false),
-                    GroupId = table.Column<Guid>(type: "uuid", nullable: false),
-                    RightAlias = table.Column<string>(type: "text", nullable: false)
+                    Id = table.Column<Guid>("uuid", nullable: false),
+                    Allowed = table.Column<bool>("bool", nullable: false),
+                    GroupId = table.Column<Guid>("uuid", nullable: false),
+                    RightAlias = table.Column<string>("text", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_GroupsRight", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_GroupsRight_Group_GroupId",
-                        column: x => x.GroupId,
-                        principalTable: "Group",
-                        principalColumn: "Id",
+                        "FK_GroupsRight_Group_GroupId",
+                        x => x.GroupId,
+                        "Group",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_GroupsRight_Right_RightAlias",
-                        column: x => x.RightAlias,
-                        principalTable: "Right",
-                        principalColumn: "Alias",
+                        "FK_GroupsRight_Right_RightAlias",
+                        x => x.RightAlias,
+                        "Right",
+                        "Alias",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "User",
-                columns: table => new
+                "User",
+                table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreationDate = table.Column<DateTime>(type: "timestamp", nullable: true, defaultValueSql: "NOW()"),
-                    GroupId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Login = table.Column<string>(type: "text", nullable: false),
-                    PasswordHash = table.Column<byte[]>(type: "bytea", nullable: false)
+                    Id = table.Column<Guid>("uuid", nullable: false),
+                    CreationDate = table.Column<DateTime>("timestamp", nullable: true, defaultValueSql: "NOW()"),
+                    GroupId = table.Column<Guid>("uuid", nullable: false),
+                    Login = table.Column<string>("text", nullable: false),
+                    PasswordHash = table.Column<byte[]>("bytea", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_User", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_User_Group_GroupId",
-                        column: x => x.GroupId,
-                        principalTable: "Group",
-                        principalColumn: "Id",
+                        "FK_User_Group_GroupId",
+                        x => x.GroupId,
+                        "Group",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Person",
-                columns: table => new
+                "Person",
+                table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    AdditionalPhone = table.Column<string>(type: "text", nullable: true),
-                    Birthday = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    CreationDate = table.Column<DateTime>(type: "timestamp", nullable: true, defaultValueSql: "NOW()"),
-                    MiddleName = table.Column<string>(type: "text", nullable: true),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Phone = table.Column<string>(type: "text", nullable: true),
-                    PhotoId = table.Column<Guid>(type: "uuid", nullable: true),
-                    Surname = table.Column<string>(type: "text", nullable: false),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: true)
+                    Id = table.Column<Guid>("uuid", nullable: false),
+                    AdditionalPhone = table.Column<string>("text", nullable: true),
+                    Birthday = table.Column<DateTime>("timestamp", nullable: false),
+                    CreationDate = table.Column<DateTime>("timestamp", nullable: true, defaultValueSql: "NOW()"),
+                    MiddleName = table.Column<string>("text", nullable: true),
+                    Name = table.Column<string>("text", nullable: false),
+                    Phone = table.Column<string>("text", nullable: true),
+                    PhotoId = table.Column<Guid>("uuid", nullable: true),
+                    Surname = table.Column<string>("text", nullable: false),
+                    UserId = table.Column<Guid>("uuid", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Person", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Person_File_PhotoId",
-                        column: x => x.PhotoId,
-                        principalTable: "File",
-                        principalColumn: "Id",
+                        "FK_Person_File_PhotoId",
+                        x => x.PhotoId,
+                        "File",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Person_User_UserId",
-                        column: x => x.UserId,
-                        principalTable: "User",
-                        principalColumn: "Id",
+                        "FK_Person_User_UserId",
+                        x => x.UserId,
+                        "User",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Post",
-                columns: table => new
+                "Post",
+                table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    AuthorId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Content = table.Column<string>(type: "text", nullable: false),
-                    Deleted = table.Column<bool>(type: "bool", nullable: false),
-                    Excerpt = table.Column<string>(type: "text", nullable: false),
-                    PostSeoSettingsId = table.Column<Guid>(type: "uuid", nullable: false),
-                    PostSettingsId = table.Column<Guid>(type: "uuid", nullable: true),
-                    PostTypeAlias = table.Column<string>(type: "text", nullable: false),
-                    PublishDate = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Published = table.Column<bool>(type: "bool", nullable: false),
-                    Title = table.Column<string>(type: "text", nullable: false)
+                    Id = table.Column<Guid>("uuid", nullable: false),
+                    AuthorId = table.Column<Guid>("uuid", nullable: false),
+                    Content = table.Column<string>("text", nullable: false),
+                    Deleted = table.Column<bool>("bool", nullable: false),
+                    Excerpt = table.Column<string>("text", nullable: false),
+                    PostSeoSettingsId = table.Column<Guid>("uuid", nullable: false),
+                    PostSettingsId = table.Column<Guid>("uuid", nullable: true),
+                    PostTypeAlias = table.Column<string>("text", nullable: false),
+                    PublishDate = table.Column<DateTime>("timestamp", nullable: false),
+                    Published = table.Column<bool>("bool", nullable: false),
+                    Title = table.Column<string>("text", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Post", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Post_User_AuthorId",
-                        column: x => x.AuthorId,
-                        principalTable: "User",
-                        principalColumn: "Id",
+                        "FK_Post_User_AuthorId",
+                        x => x.AuthorId,
+                        "User",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Post_PostSeoSetting_PostSeoSettingsId",
-                        column: x => x.PostSeoSettingsId,
-                        principalTable: "PostSeoSetting",
-                        principalColumn: "Id",
+                        "FK_Post_PostSeoSetting_PostSeoSettingsId",
+                        x => x.PostSeoSettingsId,
+                        "PostSeoSetting",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Post_PostSetting_PostSettingsId",
-                        column: x => x.PostSettingsId,
-                        principalTable: "PostSetting",
-                        principalColumn: "Id",
+                        "FK_Post_PostSetting_PostSettingsId",
+                        x => x.PostSettingsId,
+                        "PostSetting",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Post_PostType_PostTypeAlias",
-                        column: x => x.PostTypeAlias,
-                        principalTable: "PostType",
-                        principalColumn: "Alias",
+                        "FK_Post_PostType_PostTypeAlias",
+                        x => x.PostTypeAlias,
+                        "PostType",
+                        "Alias",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserRights",
-                columns: table => new
+                "UserRights",
+                table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Allowed = table.Column<bool>(type: "bool", nullable: false),
-                    RightAlias = table.Column<string>(type: "text", nullable: false),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false)
+                    Id = table.Column<Guid>("uuid", nullable: false),
+                    Allowed = table.Column<bool>("bool", nullable: false),
+                    RightAlias = table.Column<string>("text", nullable: false),
+                    UserId = table.Column<Guid>("uuid", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserRights", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserRights_Right_RightAlias",
-                        column: x => x.RightAlias,
-                        principalTable: "Right",
-                        principalColumn: "Alias",
+                        "FK_UserRights_Right_RightAlias",
+                        x => x.RightAlias,
+                        "Right",
+                        "Alias",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserRights_User_UserId",
-                        column: x => x.UserId,
-                        principalTable: "User",
-                        principalColumn: "Id",
+                        "FK_UserRights_User_UserId",
+                        x => x.UserId,
+                        "User",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserSetting",
-                columns: table => new
+                "UserSetting",
+                table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Key = table.Column<string>(type: "text", nullable: false),
-                    Namespace = table.Column<string>(type: "text", nullable: false),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Value = table.Column<string>(type: "text", nullable: false)
+                    Id = table.Column<Guid>("uuid", nullable: false),
+                    Key = table.Column<string>("text", nullable: false),
+                    Namespace = table.Column<string>("text", nullable: false),
+                    UserId = table.Column<Guid>("uuid", nullable: false),
+                    Value = table.Column<string>("text", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserSetting", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserSetting_User_UserId",
-                        column: x => x.UserId,
-                        principalTable: "User",
-                        principalColumn: "Id",
+                        "FK_UserSetting_User_UserId",
+                        x => x.UserId,
+                        "User",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Comment",
-                columns: table => new
+                "Comment",
+                table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Date = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Edited = table.Column<bool>(type: "bool", nullable: false),
-                    PostId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Text = table.Column<string>(type: "text", nullable: false),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false)
+                    Id = table.Column<Guid>("uuid", nullable: false),
+                    Date = table.Column<DateTime>("timestamp", nullable: false),
+                    Edited = table.Column<bool>("bool", nullable: false),
+                    PostId = table.Column<Guid>("uuid", nullable: false),
+                    Text = table.Column<string>("text", nullable: false),
+                    UserId = table.Column<Guid>("uuid", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Comment", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Comment_Post_PostId",
-                        column: x => x.PostId,
-                        principalTable: "Post",
-                        principalColumn: "Id",
+                        "FK_Comment_Post_PostId",
+                        x => x.PostId,
+                        "Post",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Comment_User_UserId",
-                        column: x => x.UserId,
-                        principalTable: "User",
-                        principalColumn: "Id",
+                        "FK_Comment_User_UserId",
+                        x => x.UserId,
+                        "User",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "PostAttachment",
-                columns: table => new
+                "PostAttachment",
+                table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Allowed = table.Column<bool>(type: "bool", nullable: false),
-                    FileId = table.Column<Guid>(type: "uuid", nullable: false),
-                    PostId = table.Column<Guid>(type: "uuid", nullable: false)
+                    Id = table.Column<Guid>("uuid", nullable: false),
+                    Allowed = table.Column<bool>("bool", nullable: false),
+                    FileId = table.Column<Guid>("uuid", nullable: false),
+                    PostId = table.Column<Guid>("uuid", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PostAttachment", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PostAttachment_File_FileId",
-                        column: x => x.FileId,
-                        principalTable: "File",
-                        principalColumn: "Id",
+                        "FK_PostAttachment_File_FileId",
+                        x => x.FileId,
+                        "File",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PostAttachment_Post_PostId",
-                        column: x => x.PostId,
-                        principalTable: "Post",
-                        principalColumn: "Id",
+                        "FK_PostAttachment_Post_PostId",
+                        x => x.PostId,
+                        "Post",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "PostCategory",
-                columns: table => new
+                "PostCategory",
+                table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CategoryId = table.Column<Guid>(type: "uuid", nullable: false),
-                    PostId = table.Column<Guid>(type: "uuid", nullable: false)
+                    Id = table.Column<Guid>("uuid", nullable: false),
+                    CategoryId = table.Column<Guid>("uuid", nullable: false),
+                    PostId = table.Column<Guid>("uuid", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PostCategory", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PostCategory_Category_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Category",
-                        principalColumn: "Id",
+                        "FK_PostCategory_Category_CategoryId",
+                        x => x.CategoryId,
+                        "Category",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PostCategory_Post_PostId",
-                        column: x => x.PostId,
-                        principalTable: "Post",
-                        principalColumn: "Id",
+                        "FK_PostCategory_Post_PostId",
+                        x => x.PostId,
+                        "Post",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "PostGroupsAllowed",
-                columns: table => new
+                "PostGroupsAllowed",
+                table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Allowed = table.Column<bool>(type: "bool", nullable: false),
-                    GroupId = table.Column<Guid>(type: "uuid", nullable: true),
-                    PostId = table.Column<Guid>(type: "uuid", nullable: true)
+                    Id = table.Column<Guid>("uuid", nullable: false),
+                    Allowed = table.Column<bool>("bool", nullable: false),
+                    GroupId = table.Column<Guid>("uuid", nullable: true),
+                    PostId = table.Column<Guid>("uuid", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PostGroupsAllowed", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PostGroupsAllowed_Group_GroupId",
-                        column: x => x.GroupId,
-                        principalTable: "Group",
-                        principalColumn: "Id",
+                        "FK_PostGroupsAllowed_Group_GroupId",
+                        x => x.GroupId,
+                        "Group",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PostGroupsAllowed_Post_PostId",
-                        column: x => x.PostId,
-                        principalTable: "Post",
-                        principalColumn: "Id",
+                        "FK_PostGroupsAllowed_Post_PostId",
+                        x => x.PostId,
+                        "Post",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "PostOwner",
-                columns: table => new
+                "PostOwner",
+                table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    PostId = table.Column<Guid>(type: "uuid", nullable: false),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false)
+                    Id = table.Column<Guid>("uuid", nullable: false),
+                    PostId = table.Column<Guid>("uuid", nullable: false),
+                    UserId = table.Column<Guid>("uuid", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PostOwner", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PostOwner_Post_PostId",
-                        column: x => x.PostId,
-                        principalTable: "Post",
-                        principalColumn: "Id",
+                        "FK_PostOwner_Post_PostId",
+                        x => x.PostId,
+                        "Post",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PostOwner_User_UserId",
-                        column: x => x.UserId,
-                        principalTable: "User",
-                        principalColumn: "Id",
+                        "FK_PostOwner_User_UserId",
+                        x => x.UserId,
+                        "User",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "PostRating",
-                columns: table => new
+                "PostRating",
+                table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Allowed = table.Column<bool>(type: "bool", nullable: false),
-                    PostId = table.Column<Guid>(type: "uuid", nullable: false),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Value = table.Column<bool>(type: "bool", nullable: false)
+                    Id = table.Column<Guid>("uuid", nullable: false),
+                    Allowed = table.Column<bool>("bool", nullable: false),
+                    PostId = table.Column<Guid>("uuid", nullable: false),
+                    UserId = table.Column<Guid>("uuid", nullable: false),
+                    Value = table.Column<bool>("bool", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PostRating", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PostRating_Post_PostId",
-                        column: x => x.PostId,
-                        principalTable: "Post",
-                        principalColumn: "Id",
+                        "FK_PostRating_Post_PostId",
+                        x => x.PostId,
+                        "Post",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PostRating_User_UserId",
-                        column: x => x.UserId,
-                        principalTable: "User",
-                        principalColumn: "Id",
+                        "FK_PostRating_User_UserId",
+                        x => x.UserId,
+                        "User",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "PostUserAllowed",
-                columns: table => new
+                "PostUserAllowed",
+                table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Allowed = table.Column<bool>(type: "bool", nullable: false),
-                    PostId = table.Column<Guid>(type: "uuid", nullable: false),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false)
+                    Id = table.Column<Guid>("uuid", nullable: false),
+                    Allowed = table.Column<bool>("bool", nullable: false),
+                    PostId = table.Column<Guid>("uuid", nullable: false),
+                    UserId = table.Column<Guid>("uuid", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PostUserAllowed", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PostUserAllowed_Post_PostId",
-                        column: x => x.PostId,
-                        principalTable: "Post",
-                        principalColumn: "Id",
+                        "FK_PostUserAllowed_Post_PostId",
+                        x => x.PostId,
+                        "Post",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PostUserAllowed_User_UserId",
-                        column: x => x.UserId,
-                        principalTable: "User",
-                        principalColumn: "Id",
+                        "FK_PostUserAllowed_User_UserId",
+                        x => x.UserId,
+                        "User",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comment_PostId",
-                table: "Comment",
-                column: "PostId");
+                "IX_Comment_PostId",
+                "Comment",
+                "PostId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comment_UserId",
-                table: "Comment",
-                column: "UserId");
+                "IX_Comment_UserId",
+                "Comment",
+                "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Group_GroupTypeAlias",
-                table: "Group",
-                column: "GroupTypeAlias");
+                "IX_Group_GroupTypeAlias",
+                "Group",
+                "GroupTypeAlias");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Group_ParentGroupId",
-                table: "Group",
-                column: "ParentGroupId");
+                "IX_Group_ParentGroupId",
+                "Group",
+                "ParentGroupId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_GroupsRight_GroupId",
-                table: "GroupsRight",
-                column: "GroupId");
+                "IX_GroupsRight_GroupId",
+                "GroupsRight",
+                "GroupId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_GroupsRight_RightAlias",
-                table: "GroupsRight",
-                column: "RightAlias");
+                "IX_GroupsRight_RightAlias",
+                "GroupsRight",
+                "RightAlias");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Person_PhotoId",
-                table: "Person",
-                column: "PhotoId",
+                "IX_Person_PhotoId",
+                "Person",
+                "PhotoId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Person_UserId",
-                table: "Person",
-                column: "UserId",
+                "IX_Person_UserId",
+                "Person",
+                "UserId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Post_AuthorId",
-                table: "Post",
-                column: "AuthorId");
+                "IX_Post_AuthorId",
+                "Post",
+                "AuthorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Post_PostSeoSettingsId",
-                table: "Post",
-                column: "PostSeoSettingsId",
+                "IX_Post_PostSeoSettingsId",
+                "Post",
+                "PostSeoSettingsId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Post_PostSettingsId",
-                table: "Post",
-                column: "PostSettingsId",
+                "IX_Post_PostSettingsId",
+                "Post",
+                "PostSettingsId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Post_PostTypeAlias",
-                table: "Post",
-                column: "PostTypeAlias");
+                "IX_Post_PostTypeAlias",
+                "Post",
+                "PostTypeAlias");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostAttachment_FileId",
-                table: "PostAttachment",
-                column: "FileId");
+                "IX_PostAttachment_FileId",
+                "PostAttachment",
+                "FileId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostAttachment_PostId",
-                table: "PostAttachment",
-                column: "PostId");
+                "IX_PostAttachment_PostId",
+                "PostAttachment",
+                "PostId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostCategory_CategoryId",
-                table: "PostCategory",
-                column: "CategoryId");
+                "IX_PostCategory_CategoryId",
+                "PostCategory",
+                "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostCategory_PostId",
-                table: "PostCategory",
-                column: "PostId");
+                "IX_PostCategory_PostId",
+                "PostCategory",
+                "PostId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostGroupsAllowed_GroupId",
-                table: "PostGroupsAllowed",
-                column: "GroupId");
+                "IX_PostGroupsAllowed_GroupId",
+                "PostGroupsAllowed",
+                "GroupId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostGroupsAllowed_PostId",
-                table: "PostGroupsAllowed",
-                column: "PostId");
+                "IX_PostGroupsAllowed_PostId",
+                "PostGroupsAllowed",
+                "PostId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostKeyword_KeywordId",
-                table: "PostKeyword",
-                column: "KeywordId");
+                "IX_PostKeyword_KeywordId",
+                "PostKeyword",
+                "KeywordId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostKeyword_PostSeoSettingsId",
-                table: "PostKeyword",
-                column: "PostSeoSettingsId");
+                "IX_PostKeyword_PostSeoSettingsId",
+                "PostKeyword",
+                "PostSeoSettingsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostOwner_PostId",
-                table: "PostOwner",
-                column: "PostId");
+                "IX_PostOwner_PostId",
+                "PostOwner",
+                "PostId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostOwner_UserId",
-                table: "PostOwner",
-                column: "UserId");
+                "IX_PostOwner_UserId",
+                "PostOwner",
+                "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostRating_PostId",
-                table: "PostRating",
-                column: "PostId");
+                "IX_PostRating_PostId",
+                "PostRating",
+                "PostId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostRating_UserId",
-                table: "PostRating",
-                column: "UserId");
+                "IX_PostRating_UserId",
+                "PostRating",
+                "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostSeoSetting_Url",
-                table: "PostSeoSetting",
-                column: "Url",
+                "IX_PostSeoSetting_Url",
+                "PostSeoSetting",
+                "Url",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostSetting_PreviewImageId",
-                table: "PostSetting",
-                column: "PreviewImageId");
+                "IX_PostSetting_PreviewImageId",
+                "PostSetting",
+                "PreviewImageId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostType_DefaultPostsSettingsId",
-                table: "PostType",
-                column: "DefaultPostsSettingsId",
+                "IX_PostType_DefaultPostsSettingsId",
+                "PostType",
+                "DefaultPostsSettingsId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostUserAllowed_PostId",
-                table: "PostUserAllowed",
-                column: "PostId");
+                "IX_PostUserAllowed_PostId",
+                "PostUserAllowed",
+                "PostId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostUserAllowed_UserId",
-                table: "PostUserAllowed",
-                column: "UserId");
+                "IX_PostUserAllowed_UserId",
+                "PostUserAllowed",
+                "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SiteSetting_Key",
-                table: "SiteSetting",
-                column: "Key");
+                "IX_SiteSetting_Key",
+                "SiteSetting",
+                "Key");
 
             migrationBuilder.CreateIndex(
-                name: "IX_User_GroupId",
-                table: "User",
-                column: "GroupId");
+                "IX_User_GroupId",
+                "User",
+                "GroupId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserRights_RightAlias",
-                table: "UserRights",
-                column: "RightAlias");
+                "IX_UserRights_RightAlias",
+                "UserRights",
+                "RightAlias");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserRights_UserId",
-                table: "UserRights",
-                column: "UserId");
+                "IX_UserRights_UserId",
+                "UserRights",
+                "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserSetting_UserId",
-                table: "UserSetting",
-                column: "UserId");
+                "IX_UserSetting_UserId",
+                "UserSetting",
+                "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Comment");
+                "Comment");
 
             migrationBuilder.DropTable(
-                name: "GroupsRight");
+                "GroupsRight");
 
             migrationBuilder.DropTable(
-                name: "Person");
+                "Person");
 
             migrationBuilder.DropTable(
-                name: "PostAttachment");
+                "PostAttachment");
 
             migrationBuilder.DropTable(
-                name: "PostCategory");
+                "PostCategory");
 
             migrationBuilder.DropTable(
-                name: "PostGroupsAllowed");
+                "PostGroupsAllowed");
 
             migrationBuilder.DropTable(
-                name: "PostKeyword");
+                "PostKeyword");
 
             migrationBuilder.DropTable(
-                name: "PostOwner");
+                "PostOwner");
 
             migrationBuilder.DropTable(
-                name: "PostRating");
+                "PostRating");
 
             migrationBuilder.DropTable(
-                name: "PostUserAllowed");
+                "PostUserAllowed");
 
             migrationBuilder.DropTable(
-                name: "SiteSetting");
+                "SiteSetting");
 
             migrationBuilder.DropTable(
-                name: "UserRights");
+                "UserRights");
 
             migrationBuilder.DropTable(
-                name: "UserSetting");
+                "UserSetting");
 
             migrationBuilder.DropTable(
-                name: "Category");
+                "Category");
 
             migrationBuilder.DropTable(
-                name: "Keyword");
+                "Keyword");
 
             migrationBuilder.DropTable(
-                name: "Post");
+                "Post");
 
             migrationBuilder.DropTable(
-                name: "Right");
+                "Right");
 
             migrationBuilder.DropTable(
-                name: "User");
+                "User");
 
             migrationBuilder.DropTable(
-                name: "PostSeoSetting");
+                "PostSeoSetting");
 
             migrationBuilder.DropTable(
-                name: "PostType");
+                "PostType");
 
             migrationBuilder.DropTable(
-                name: "Group");
+                "Group");
 
             migrationBuilder.DropTable(
-                name: "PostSetting");
+                "PostSetting");
 
             migrationBuilder.DropTable(
-                name: "GroupType");
+                "GroupType");
 
             migrationBuilder.DropTable(
-                name: "File");
+                "File");
         }
     }
 }

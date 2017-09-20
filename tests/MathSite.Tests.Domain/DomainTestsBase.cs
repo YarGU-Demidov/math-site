@@ -5,28 +5,28 @@ using MathSite.Tests.CoreThings;
 
 namespace MathSite.Tests.Domain
 {
-	public abstract class DomainTestsBase
-	{
-		private readonly ITestDatabaseFactory _databaseFactory;
+    public abstract class DomainTestsBase
+    {
+        private readonly ITestDatabaseFactory _databaseFactory;
 
-		public DomainTestsBase()
-			: this(TestSqliteDatabaseFactory.UseDefault())
-		{
-		}
+        public DomainTestsBase()
+            : this(TestSqliteDatabaseFactory.UseDefault())
+        {
+        }
 
-		public DomainTestsBase(ITestDatabaseFactory databaseFactory)
-		{
-			_databaseFactory = databaseFactory;
-		}
+        public DomainTestsBase(ITestDatabaseFactory databaseFactory)
+        {
+            _databaseFactory = databaseFactory;
+        }
 
-		protected virtual async Task ExecuteWithContextAsync(Func<MathSiteDbContext, Task> yourAction)
-		{
-			await _databaseFactory.ExecuteWithContextAsync(yourAction);
-		}
+        protected virtual async Task ExecuteWithContextAsync(Func<MathSiteDbContext, Task> yourAction)
+        {
+            await _databaseFactory.ExecuteWithContextAsync(yourAction);
+        }
 
-		protected virtual void ExecuteWithContext(Action<MathSiteDbContext> yourAction)
-		{
-			_databaseFactory.ExecuteWithContext(yourAction);
-		}
-	}
+        protected virtual void ExecuteWithContext(Action<MathSiteDbContext> yourAction)
+        {
+            _databaseFactory.ExecuteWithContext(yourAction);
+        }
+    }
 }

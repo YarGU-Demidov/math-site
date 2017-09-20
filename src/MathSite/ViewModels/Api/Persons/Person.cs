@@ -3,57 +3,57 @@ using Newtonsoft.Json;
 
 namespace MathSite.ViewModels.Api.Persons
 {
-	public class Person
-	{
-		[JsonProperty("id")]
-		public Guid Id { get; set; }
+    public class Person
+    {
+        public Person(Guid id, string name, string surname, string middleName, string phone, string additionalPhone,
+            DateTime birthday, DateTime creationDate, Guid? photoId, bool isUser)
+        {
+            Id = id;
+            Name = name;
+            Surname = surname;
+            MiddleName = middleName;
+            Phone = phone;
+            AdditionalPhone = additionalPhone;
+            Birthday = birthday;
+            CreationDate = creationDate;
+            PhotoId = photoId;
+            IsUser = isUser;
+        }
 
-		[JsonProperty("name")]
-		public string Name { get; set; }
+        public Person(Entities.Person person)
+            : this(person.Id, person.Name, person.Surname, person.MiddleName, person.Phone, person.AdditionalPhone,
+                person.Birthday, person.CreationDate ?? DateTime.UtcNow, person.PhotoId, person.UserId != null)
+        {
+        }
 
-		[JsonProperty("surname")]
-		public string Surname { get; set; }
+        [JsonProperty("id")]
+        public Guid Id { get; set; }
 
-		[JsonProperty("middleName")]
-		public string MiddleName { get; set; }
+        [JsonProperty("name")]
+        public string Name { get; set; }
 
-		[JsonProperty("phone")]
-		public string Phone { get; set; }
+        [JsonProperty("surname")]
+        public string Surname { get; set; }
 
-		[JsonProperty("additionalPhone")]
-		public string AdditionalPhone { get; set; }
+        [JsonProperty("middleName")]
+        public string MiddleName { get; set; }
 
-		[JsonProperty("birthday")]
-		public DateTime Birthday { get; set; }
+        [JsonProperty("phone")]
+        public string Phone { get; set; }
 
-		[JsonProperty("creationDate")]
-		public DateTime CreationDate { get; set; }
+        [JsonProperty("additionalPhone")]
+        public string AdditionalPhone { get; set; }
 
-		[JsonProperty("photoId")]
-		public Guid? PhotoId { get; set; }
+        [JsonProperty("birthday")]
+        public DateTime Birthday { get; set; }
 
-		[JsonProperty("isUser")]
-		public bool IsUser { get; set; }
+        [JsonProperty("creationDate")]
+        public DateTime CreationDate { get; set; }
 
-		public Person(Guid id, string name, string surname, string middleName, string phone, string additionalPhone,
-			DateTime birthday, DateTime creationDate, Guid? photoId, bool isUser)
-		{
-			Id = id;
-			Name = name;
-			Surname = surname;
-			MiddleName = middleName;
-			Phone = phone;
-			AdditionalPhone = additionalPhone;
-			Birthday = birthday;
-			CreationDate = creationDate;
-			PhotoId = photoId;
-			IsUser = isUser;
-		}
+        [JsonProperty("photoId")]
+        public Guid? PhotoId { get; set; }
 
-		public Person(Entities.Person person)
-			: this(person.Id, person.Name, person.Surname, person.MiddleName, person.Phone, person.AdditionalPhone,
-				person.Birthday, person.CreationDate ?? DateTime.UtcNow, person.PhotoId, person.UserId != null)
-		{
-		}
-	}
+        [JsonProperty("isUser")]
+        public bool IsUser { get; set; }
+    }
 }

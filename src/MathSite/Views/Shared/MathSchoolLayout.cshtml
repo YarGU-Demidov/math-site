@@ -1,0 +1,49 @@
+﻿@model PageItemViewModel
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        @Html.Partial("Partials/Headers")
+    </head>
+
+    <body>
+
+        <div class="secondary">
+            <div class="container">
+                <!-- Header -->
+                @Html.Partial("Partials/Header")
+
+                <!-- Breadcrumbs -->
+                <nav class="secondary__path">
+                    <ul class="breadcrumbs">
+                        <li class="breadcrumbs__item">
+                            <a class="button button_palette_darkblue" href="@Url.Action("Index", "Home")">ГЛАВНАЯ &nbsp;►</a>
+                        </li>
+                        <li class="breadcrumbs__item">
+                            <a class="button" href="@Url.RouteUrl("Pages", new {query = "entrants"})">Абитуриентам</a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <!-- Content -->
+                <div class="school__body">
+                    <img src="~/img/school_header.jpg" alt="" class="school__pic-view">
+                    <div class="school__description">
+                        @RenderBody()
+                    </div>
+                    <img src="~/img/school_footer.jpg" alt="" class="school__pic-view">
+                </div>
+            </div>
+        </div>
+
+        <!-- Featured -->
+        @Html.Partial("Partials/Featured")
+
+        <!-- Footer -->
+        @Html.Partial("Partials/Footer")
+
+        <!-- Scripts -->
+        @Html.Partial("Partials/Scripts")
+
+    </body>
+</html>

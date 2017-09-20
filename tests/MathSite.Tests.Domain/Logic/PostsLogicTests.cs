@@ -10,265 +10,268 @@ using Xunit;
 
 namespace MathSite.Tests.Domain.Logic
 {
-	public class PostsLogicTests : DomainTestsBase
-	{
-		[Fact]
-		public async Task TryGet_ById_Found()
-		{
-			await ExecuteWithContextAsync(async context =>
-			{
-				var postsLogic = new PostsLogic(context);
-				var usersLogic = new UsersLogic(context);
-				var seoSettingsLogic = new PostSeoSettingsLogic(context);
+    public class PostsLogicTests : DomainTestsBase
+    {
+        private async Task<Guid> CreatePostAsync(
+            IPostsLogic logic,
+            IUsersLogic usersLogic,
+            IPostSeoSettingsLogic seoSettingsLogic,
+            string title = null,
+            string excerpt = null,
+            string content = null,
+            bool published = true,
+            DateTime? publishDate = null,
+            string postTypeAlias = null,
+            Guid? authorId = null,
+            Guid? settings = null,
+            Guid? seoSettings = null
+        )
+        {
+            var salt = Guid.NewGuid();
 
-				var id = await CreatePostAsync(postsLogic, usersLogic, seoSettingsLogic);
+            title = title ?? $"test-post-title-{salt}";
+            excerpt = excerpt ?? $"test-post-excerpt-{salt}";
+            content = content ?? $"test-post-content-{salt}";
+            publishDate = publishDate ?? DateTime.Today.AddDays(-10);
+            postTypeAlias = postTypeAlias ?? PostTypeAliases.News;
+            authorId = authorId ?? (await usersLogic.TryGetByLoginAsync(UsersAliases.FirstUser)).Id;
+            seoSettings = seoSettings ?? await seoSettingsLogic.CreateAsync(
+                              $"test-post-url-{salt}",
+                              $"test-post-seo-title-{salt}",
+                              $"test-post-sep-description-{salt}"
+                          );
 
-				var post = await postsLogic.TryGetByIdAsync(id);
+            return await logic.CreateAsync(title, excerpt, content, published, publishDate.Value, postTypeAlias,
+                authorId.Value, settings, seoSettings.Value);
+        }
 
-				Assert.NotNull(post);
-			});
-		}
+        [Fact]
+        public async Task CreatePostTest()
+        {
+            await ExecuteWithContextAsync(async context =>
+            {
+                var postsLogic = new PostsLogic(context);
+                var usersLogic = new UsersLogic(context);
+                var seoSettingsLogic = new PostSeoSettingsLogic(context);
+                var postSettingsLogic = new PostSettingLogic(context);
 
-		[Fact]
-		public async Task TryGet_ById_NotFound()
-		{
-			var id = Guid.NewGuid();
+                var title = "test-post-title-new";
+                var excerpt = "test-post-excerpt-new";
+                var content = "test-post-content-new";
+                var published = true;
+                var publishDate = DateTime.Today.AddDays(-10);
+                var postTypeAlias = PostTypeAliases.StaticPage;
+                var author = await usersLogic.TryGetByLoginAsync(UsersAliases.SecondUser);
+                var settingsId = await postSettingsLogic.CreateAsync(true, false, true, null);
+                var seoSettingsId = await seoSettingsLogic.CreateAsync("test-post-url-new", "test-post-seo-title-new",
+                    "test-post-seo-description-new");
 
-			await ExecuteWithContextAsync(async context =>
-			{
-				var postsLogic = new PostsLogic(context);
-				var post = await postsLogic.TryGetByIdAsync(id);
+                var postId = await CreatePostAsync(
+                    postsLogic, usersLogic, seoSettingsLogic,
+                    title, excerpt, content, published, publishDate, postTypeAlias, author.Id, settingsId, seoSettingsId
+                );
 
-				Assert.Null(post);
-			});
-		}
+                Assert.NotEqual(Guid.Empty, postId);
 
-		[Fact]
-		public async Task TryGet_ByUrl_Found()
-		{
-			await ExecuteWithContextAsync(async context =>
-			{
-				var postsLogic = new PostsLogic(context);
-				var usersLogic = new UsersLogic(context);
-				var seoSettingsLogic = new PostSeoSettingsLogic(context);
+                var post = await postsLogic.TryGetByIdAsync(postId);
 
-				var url = "test-find-post-by-url";
+                Assert.NotNull(post);
+                Assert.Equal(title, post.Title);
+                Assert.Equal(excerpt, post.Excerpt);
+                Assert.Equal(content, post.Content);
+                Assert.Equal(published, post.Published);
+                Assert.Equal(publishDate, post.PublishDate);
+                Assert.Equal(postTypeAlias, post.PostTypeAlias);
+                Assert.Equal(author.Id, post.AuthorId);
+                Assert.Equal(settingsId, post.PostSettingsId);
+                Assert.Equal(seoSettingsId, post.PostSeoSettingsId);
+            });
+        }
 
-				var seoId = await seoSettingsLogic.CreateAsync(url, "test-title", "test-desc");
+        [Fact]
+        public async Task DeletePostTest()
+        {
+            await ExecuteWithContextAsync(async context =>
+            {
+                var postsLogic = new PostsLogic(context);
+                var usersLogic = new UsersLogic(context);
+                var seoSettingsLogic = new PostSeoSettingsLogic(context);
 
-				await CreatePostAsync(postsLogic, usersLogic, seoSettingsLogic, seoSettings: seoId);
+                var id = await CreatePostAsync(postsLogic, usersLogic, seoSettingsLogic);
 
-				var file = await postsLogic.TryGetByUrlAsync(url);
+                await postsLogic.DeleteAsync(id);
 
-				Assert.NotNull(file);
-			});
-		}
+                var person = await postsLogic.TryGetByIdAsync(id);
 
-		[Fact]
-		public async Task TryGet_ByUrl_NotFound()
-		{
-			await ExecuteWithContextAsync(async context =>
-			{
-				var postsLogic = new PostsLogic(context);
-				var post = await postsLogic.TryGetByUrlAsync(" wrong url. it doesn't exists :) ");
+                Assert.Null(person);
+            });
+        }
 
-				Assert.Null(post);
-			});
-		}
+        [Fact]
+        public async Task GetPostsCountTest()
+        {
+            await ExecuteWithContextAsync(async context =>
+            {
+                var postsLogic = new PostsLogic(context);
 
-		[Fact]
-		public async Task TryGetMainPagePostsWithAllData_Found_Test()
-		{
-			await ExecuteWithContextAsync(async context =>
-			{
-				var postsLogic = new PostsLogic(context);
+                var newsCount = await postsLogic.GetPostsCountAsync(PostTypeAliases.News);
+                var pagesCount = await postsLogic.GetPostsCountAsync(PostTypeAliases.StaticPage);
 
-				var posts = (await postsLogic.TryGetMainPagePostsWithAllDataAsync(3, PostTypeAliases.News)).ToArray();
-				
-				Assert.Equal(3, posts.Length);
+                Assert.Equal(10, newsCount);
+                Assert.Equal(1, pagesCount);
+            });
+        }
 
-				var first = posts.First();
+        [Fact]
+        public async Task TryGet_ById_Found()
+        {
+            await ExecuteWithContextAsync(async context =>
+            {
+                var postsLogic = new PostsLogic(context);
+                var usersLogic = new UsersLogic(context);
+                var seoSettingsLogic = new PostSeoSettingsLogic(context);
 
-				Assert.Equal("tenth-url", first.PostSeoSetting.Url);
+                var id = await CreatePostAsync(postsLogic, usersLogic, seoSettingsLogic);
 
-				var second = posts.Skip(1).First();
+                var post = await postsLogic.TryGetByIdAsync(id);
 
-				Assert.Equal("eighth-url", second.PostSeoSetting.Url);
+                Assert.NotNull(post);
+            });
+        }
 
-				var third = posts.Skip(2).First();
+        [Fact]
+        public async Task TryGet_ById_NotFound()
+        {
+            var id = Guid.NewGuid();
 
-				Assert.Equal("seventh-url", third.PostSeoSetting.Url);
-			});
-		}
+            await ExecuteWithContextAsync(async context =>
+            {
+                var postsLogic = new PostsLogic(context);
+                var post = await postsLogic.TryGetByIdAsync(id);
 
-		[Fact]
-		public async Task TryGetActivePostByUrlAndType_Found_Test()
-		{
-			await ExecuteWithContextAsync(async context =>
-			{
-				var postsLogic = new PostsLogic(context);
+                Assert.Null(post);
+            });
+        }
 
-				var post = await postsLogic.TryGetActivePostByUrlAndTypeAsync("tenth-url", PostTypeAliases.News);
-				
-				Assert.Equal("tenth-url", post.PostSeoSetting.Url);
-			});
-		}
+        [Fact]
+        public async Task TryGet_ByUrl_Found()
+        {
+            await ExecuteWithContextAsync(async context =>
+            {
+                var postsLogic = new PostsLogic(context);
+                var usersLogic = new UsersLogic(context);
+                var seoSettingsLogic = new PostSeoSettingsLogic(context);
 
-		[Fact]
-		public async Task TryGetActivePostByUrlAndType_NotFound_Test()
-		{
-			await ExecuteWithContextAsync(async context =>
-			{
-				var postsLogic = new PostsLogic(context);
+                var url = "test-find-post-by-url";
 
-				var post = await postsLogic.TryGetActivePostByUrlAndTypeAsync("teeeeeest", PostTypeAliases.News);
-				
-				Assert.Null(post);
-			});
-		}
+                var seoId = await seoSettingsLogic.CreateAsync(url, "test-title", "test-desc");
 
-		[Fact]
-		public async Task CreatePostTest()
-		{
-			await ExecuteWithContextAsync(async context =>
-			{
-				var postsLogic = new PostsLogic(context);
-				var usersLogic = new UsersLogic(context);
-				var seoSettingsLogic = new PostSeoSettingsLogic(context);
-				var postSettingsLogic = new PostSettingLogic(context);
+                await CreatePostAsync(postsLogic, usersLogic, seoSettingsLogic, seoSettings: seoId);
 
-				var title = "test-post-title-new";
-				var excerpt = "test-post-excerpt-new";
-				var content = "test-post-content-new";
-				var published = true;
-				var publishDate = DateTime.Today.AddDays(-10);
-				var postTypeAlias = PostTypeAliases.StaticPage;
-				var author = await usersLogic.TryGetByLoginAsync(UsersAliases.SecondUser);
-				var settingsId = await postSettingsLogic.CreateAsync(true, false, true, null);
-				var seoSettingsId = await seoSettingsLogic.CreateAsync("test-post-url-new", "test-post-seo-title-new", "test-post-seo-description-new");
+                var file = await postsLogic.TryGetByUrlAsync(url);
 
-				var postId = await CreatePostAsync(
-					postsLogic, usersLogic, seoSettingsLogic, 
-					title, excerpt, content, published, publishDate, postTypeAlias, author.Id, settingsId, seoSettingsId
-				);
+                Assert.NotNull(file);
+            });
+        }
 
-				Assert.NotEqual(Guid.Empty, postId);
+        [Fact]
+        public async Task TryGet_ByUrl_NotFound()
+        {
+            await ExecuteWithContextAsync(async context =>
+            {
+                var postsLogic = new PostsLogic(context);
+                var post = await postsLogic.TryGetByUrlAsync(" wrong url. it doesn't exists :) ");
 
-				var post = await postsLogic.TryGetByIdAsync(postId);
+                Assert.Null(post);
+            });
+        }
 
-				Assert.NotNull(post);
-				Assert.Equal(title, post.Title);
-				Assert.Equal(excerpt, post.Excerpt);
-				Assert.Equal(content, post.Content);
-				Assert.Equal(published, post.Published);
-				Assert.Equal(publishDate, post.PublishDate);
-				Assert.Equal(postTypeAlias, post.PostTypeAlias);
-				Assert.Equal(author.Id, post.AuthorId);
-				Assert.Equal(settingsId, post.PostSettingsId);
-				Assert.Equal(seoSettingsId, post.PostSeoSettingsId);
-			});
-		}
+        [Fact]
+        public async Task TryGetActivePostByUrlAndType_Found_Test()
+        {
+            await ExecuteWithContextAsync(async context =>
+            {
+                var postsLogic = new PostsLogic(context);
 
-		[Fact]
-		public async Task UpdatePostTest()
-		{
-			await ExecuteWithContextAsync(async context =>
-			{
-				var postsLogic = new PostsLogic(context);
-				var usersLogic = new UsersLogic(context);
-				var seoSettingsLogic = new PostSeoSettingsLogic(context);
+                var post = await postsLogic.TryGetActivePostByUrlAndTypeAsync("tenth-url", PostTypeAliases.News);
 
-				var title = "test-post-title-new";
-				var excerpt = "test-post-excerpt-new";
-				var content = "test-post-content-new";
-				var published = true;
-				var publishDate = DateTime.Today.AddDays(-10);
-				var postTypeAlias = PostTypeAliases.StaticPage;
-				var author = await usersLogic.TryGetByLoginAsync(UsersAliases.SecondUser);
+                Assert.Equal("tenth-url", post.PostSeoSetting.Url);
+            });
+        }
 
-				var postId = await CreatePostAsync(
-					postsLogic, usersLogic, seoSettingsLogic
-				);
+        [Fact]
+        public async Task TryGetActivePostByUrlAndType_NotFound_Test()
+        {
+            await ExecuteWithContextAsync(async context =>
+            {
+                var postsLogic = new PostsLogic(context);
 
-				await postsLogic.UpdateAsync(postId, title, excerpt, content, published, publishDate, postTypeAlias, author.Id);
+                var post = await postsLogic.TryGetActivePostByUrlAndTypeAsync("teeeeeest", PostTypeAliases.News);
 
-				var post = await postsLogic.TryGetByIdAsync(postId);
+                Assert.Null(post);
+            });
+        }
 
-				Assert.NotNull(post);
-				Assert.Equal(title, post.Title);
-				Assert.Equal(excerpt, post.Excerpt);
-				Assert.Equal(content, post.Content);
-				Assert.Equal(published, post.Published);
-				Assert.Equal(publishDate, post.PublishDate);
-				Assert.Equal(postTypeAlias, post.PostTypeAlias);
-				Assert.Equal(author.Id, post.AuthorId);
-			});
-		}
+        [Fact]
+        public async Task TryGetMainPagePostsWithAllData_Found_Test()
+        {
+            await ExecuteWithContextAsync(async context =>
+            {
+                var postsLogic = new PostsLogic(context);
 
-		[Fact]
-		public async Task DeletePostTest()
-		{
-			await ExecuteWithContextAsync(async context =>
-			{
-				var postsLogic = new PostsLogic(context);
-				var usersLogic = new UsersLogic(context);
-				var seoSettingsLogic = new PostSeoSettingsLogic(context);
+                var posts = (await postsLogic.TryGetMainPagePostsWithAllDataAsync(3, PostTypeAliases.News)).ToArray();
 
-				var id = await CreatePostAsync(postsLogic, usersLogic, seoSettingsLogic);
+                Assert.Equal(3, posts.Length);
 
-				await postsLogic.DeleteAsync(id);
+                var first = posts.First();
 
-				var person = await postsLogic.TryGetByIdAsync(id);
+                Assert.Equal("tenth-url", first.PostSeoSetting.Url);
 
-				Assert.Null(person);
-			});
-		}
+                var second = posts.Skip(1).First();
 
-		[Fact]
-		public async Task GetPostsCountTest()
-		{
-			await ExecuteWithContextAsync(async context =>
-			{
-				var postsLogic = new PostsLogic(context);
+                Assert.Equal("eighth-url", second.PostSeoSetting.Url);
 
-				var newsCount = await postsLogic.GetPostsCountAsync(PostTypeAliases.News);
-				var pagesCount = await postsLogic.GetPostsCountAsync(PostTypeAliases.StaticPage);
-				
-				Assert.Equal(10, newsCount);
-				Assert.Equal(1, pagesCount);
-			});
-		}
+                var third = posts.Skip(2).First();
 
-		private async Task<Guid> CreatePostAsync(
-			IPostsLogic logic,
-			IUsersLogic usersLogic,
-			IPostSeoSettingsLogic seoSettingsLogic,
-			string title = null,
-			string excerpt = null,
-			string content = null,
-			bool published = true, 
-			DateTime? publishDate = null,
-			string postTypeAlias = null,
-			Guid? authorId = null,
-			Guid? settings = null,
-			Guid? seoSettings = null
-		)
-		{
-			var salt = Guid.NewGuid();
+                Assert.Equal("seventh-url", third.PostSeoSetting.Url);
+            });
+        }
 
-			title = title ?? $"test-post-title-{salt}";
-			excerpt = excerpt ?? $"test-post-excerpt-{salt}";
-			content = content ?? $"test-post-content-{salt}";
-			publishDate = publishDate ?? DateTime.Today.AddDays(-10);
-			postTypeAlias = postTypeAlias ?? PostTypeAliases.News;
-			authorId = authorId ?? (await usersLogic.TryGetByLoginAsync(UsersAliases.FirstUser)).Id;
-			seoSettings = seoSettings ?? await seoSettingsLogic.CreateAsync(
-				$"test-post-url-{salt}",
-				$"test-post-seo-title-{salt}", 
-				$"test-post-sep-description-{salt}"
-			);
+        [Fact]
+        public async Task UpdatePostTest()
+        {
+            await ExecuteWithContextAsync(async context =>
+            {
+                var postsLogic = new PostsLogic(context);
+                var usersLogic = new UsersLogic(context);
+                var seoSettingsLogic = new PostSeoSettingsLogic(context);
 
-			return await logic.CreateAsync(title, excerpt, content, published, publishDate.Value, postTypeAlias, authorId.Value, settings, seoSettings.Value);
-		}
-	}
+                var title = "test-post-title-new";
+                var excerpt = "test-post-excerpt-new";
+                var content = "test-post-content-new";
+                var published = true;
+                var publishDate = DateTime.Today.AddDays(-10);
+                var postTypeAlias = PostTypeAliases.StaticPage;
+                var author = await usersLogic.TryGetByLoginAsync(UsersAliases.SecondUser);
+
+                var postId = await CreatePostAsync(
+                    postsLogic, usersLogic, seoSettingsLogic
+                );
+
+                await postsLogic.UpdateAsync(postId, title, excerpt, content, published, publishDate, postTypeAlias,
+                    author.Id);
+
+                var post = await postsLogic.TryGetByIdAsync(postId);
+
+                Assert.NotNull(post);
+                Assert.Equal(title, post.Title);
+                Assert.Equal(excerpt, post.Excerpt);
+                Assert.Equal(content, post.Content);
+                Assert.Equal(published, post.Published);
+                Assert.Equal(publishDate, post.PublishDate);
+                Assert.Equal(postTypeAlias, post.PostTypeAlias);
+                Assert.Equal(author.Id, post.AuthorId);
+            });
+        }
+    }
 }

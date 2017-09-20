@@ -1,13 +1,30 @@
 ﻿@model MenuLink
 @{
-	var activeClass = Model.IsActive ? "active" : "";
-	var classLink = ViewData["classLink"] ?? "nav-link";
+    var activeClass = Model.IsActive ? "active" : "";
+    var classLink = ViewData["classLink"] ?? "nav-link";
 }
 
-<a
-	class="@classLink @activeClass"
-	href="@Model.Url"
-	title="@Model.Alt"
-	aria-label="@Model.Alt">
-	@Model.DisplayingTitle
-</a>
+@{
+    var parsed = bool.TryParse(ViewData["InternalDiv"]?.ToString(), out var useInternalDiv);
+}
+
+@if (parsed && useInternalDiv)
+{
+    <div class="menu-link @activeClass">
+        <a class="@classLink @activeClass"
+           href="@Model.Url"
+           title="@Model.Alt"
+           aria-label="@Model.Alt">
+            @Model.DisplayingTitle
+        </a>
+    </div>
+}
+else
+{
+    <a class="@classLink @activeClass"
+       href="@Model.Url"
+       title="@Model.Alt"
+       aria-label="@Model.Alt">
+        @Model.DisplayingTitle
+    </a>
+}

@@ -7,99 +7,99 @@ using Xunit;
 
 namespace MathSite.Tests.Domain.Logic
 {
-	public class SiteSettingsLogicTests : DomainTestsBase
-	{
-		[Fact]
-		public async Task CreateSettingTest()
-		{
-			await ExecuteWithContextAsync(async context =>
-			{
-				var settingsLogic = new SiteSettingsLogic(context);
+    public class SiteSettingsLogicTests : DomainTestsBase
+    {
+        private async Task CreateSiteSetting(ISiteSettingsLogic logic, string key, byte[] value = null)
+        {
+            var salt = Guid.NewGuid();
 
-				var testingKey = "testKeyForCreating";
-				var testingValue = Encoding.UTF8.GetBytes("testValue");
+            value = value ?? Encoding.UTF8.GetBytes($"test-value-{salt}");
+            await logic.CreateAsync(key, value);
+        }
 
-				await CreateSiteSetting(settingsLogic, testingKey, testingValue);
+        [Fact]
+        public async Task CreateSettingTest()
+        {
+            await ExecuteWithContextAsync(async context =>
+            {
+                var settingsLogic = new SiteSettingsLogic(context);
 
-				var setting = await settingsLogic.TryGetByKeyAsync(testingKey);
+                var testingKey = "testKeyForCreating";
+                var testingValue = Encoding.UTF8.GetBytes("testValue");
 
-				Assert.NotNull(setting);
+                await CreateSiteSetting(settingsLogic, testingKey, testingValue);
 
-				Assert.NotNull(setting.Key);
-				Assert.NotNull(setting.Value);
+                var setting = await settingsLogic.TryGetByKeyAsync(testingKey);
 
-				Assert.Equal(testingKey, setting.Key);
-				Assert.Equal(testingValue, setting.Value);
-			});
-		}
+                Assert.NotNull(setting);
 
-		[Fact]
-		public async Task DeleteSettingTest()
-		{
-			await ExecuteWithContextAsync(async context =>
-			{
-				var settingsLogic = new SiteSettingsLogic(context);
+                Assert.NotNull(setting.Key);
+                Assert.NotNull(setting.Value);
 
-				const string testingKey = "testKeyForDeleting";
+                Assert.Equal(testingKey, setting.Key);
+                Assert.Equal(testingValue, setting.Value);
+            });
+        }
 
-				await CreateSiteSetting(settingsLogic, testingKey);
+        [Fact]
+        public async Task DeleteSettingTest()
+        {
+            await ExecuteWithContextAsync(async context =>
+            {
+                var settingsLogic = new SiteSettingsLogic(context);
 
-				var setting = await settingsLogic.TryGetByKeyAsync(testingKey);
+                const string testingKey = "testKeyForDeleting";
 
-				await settingsLogic.DeleteAsync(setting.Key);
+                await CreateSiteSetting(settingsLogic, testingKey);
 
-				var newSetting = await settingsLogic.TryGetByKeyAsync(testingKey);
+                var setting = await settingsLogic.TryGetByKeyAsync(testingKey);
 
-				Assert.Null(newSetting);
-			});
-		}
+                await settingsLogic.DeleteAsync(setting.Key);
 
-		[Fact]
-		public async Task UpdateSettingTest()
-		{
-			await ExecuteWithContextAsync(async context =>
-			{
-				var settingsLogic = new SiteSettingsLogic(context);
+                var newSetting = await settingsLogic.TryGetByKeyAsync(testingKey);
 
-				const string key = "test-key-for-update";
+                Assert.Null(newSetting);
+            });
+        }
 
-				await CreateSiteSetting(settingsLogic, key);
-				
-				var newValue = Encoding.UTF8.GetBytes("new value");
+        [Fact]
+        public async Task TryGetByKeyTest()
+        {
+            await ExecuteWithContextAsync(async context =>
+            {
+                var settingsLogic = new SiteSettingsLogic(context);
 
-				await settingsLogic.UpdateAsync(key, newValue);
+                var testingKey = "testKeyForCreating";
+                var testingValue = Encoding.UTF8.GetBytes("testValue");
 
-				var setting = await settingsLogic.TryGetByKeyAsync(key);
+                await settingsLogic.CreateAsync(testingKey, testingValue);
 
-				Assert.Equal(newValue, setting.Value);
-			});
-		}
+                var setting = await context.SiteSettings.FirstOrDefaultAsync(settings => settings.Key == testingKey);
 
-		[Fact]
-		public async Task TryGetByKeyTest()
-		{
-			await ExecuteWithContextAsync(async context =>
-			{
-				var settingsLogic = new SiteSettingsLogic(context);
+                Assert.NotNull(setting);
+                Assert.Equal(testingValue, setting.Value);
+            });
+        }
 
-				var testingKey = "testKeyForCreating";
-				var testingValue = Encoding.UTF8.GetBytes("testValue");
+        [Fact]
+        public async Task UpdateSettingTest()
+        {
+            await ExecuteWithContextAsync(async context =>
+            {
+                var settingsLogic = new SiteSettingsLogic(context);
 
-				await settingsLogic.CreateAsync(testingKey, testingValue);
+                const string key = "test-key-for-update";
 
-				var setting = await context.SiteSettings.FirstOrDefaultAsync(settings => settings.Key == testingKey);
+                await CreateSiteSetting(settingsLogic, key);
 
-				Assert.NotNull(setting);
-				Assert.Equal(testingValue, setting.Value);
-			});
-		}
+                var newValue = Encoding.UTF8.GetBytes("new value");
 
-		private async Task CreateSiteSetting(ISiteSettingsLogic logic, string key, byte[] value = null)
-		{
-			var salt = Guid.NewGuid();
-			
-			value = value ?? Encoding.UTF8.GetBytes($"test-value-{salt}");
-			await logic.CreateAsync(key, value);
-		}
-	}
+                await settingsLogic.UpdateAsync(key, newValue);
+
+                var setting = await settingsLogic.TryGetByKeyAsync(key);
+
+                Assert.Equal(newValue, setting.Value);
+            });
+        }
+    }
 }

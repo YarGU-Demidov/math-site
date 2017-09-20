@@ -2,8 +2,8 @@
 
 namespace MathSite.ViewModels.Home
 {
-	public interface IHomeViewModelBuilder
-	{
-		Task<HomeIndexViewModel> BuildIndexModel();
-	}
+    public interface IHomeViewModelBuilder
+    {
+        Task<HomeIndexViewModel> BuildIndexModel();
+    }
 }

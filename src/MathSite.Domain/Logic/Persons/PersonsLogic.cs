@@ -7,60 +7,61 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MathSite.Domain.Logic.Persons
 {
-	public class PersonsLogic : LogicBase<Person>, IPersonsLogic
-	{
-		public PersonsLogic(MathSiteDbContext contextManager)
-			: base(contextManager)
-		{
-		}
-		
-		public async Task<Guid> CreateAsync(string name, string surname, string middlename,
-			DateTime birthday, string phoneNumber, string additionalPhoneNumber, Guid? photoId)
-		{
-			var personId = Guid.Empty;
-			await UseContextAsync(async context =>
-			{
-				var person = new Person(name, surname, middlename, birthday, phoneNumber, additionalPhoneNumber, photoId);
+    public class PersonsLogic : LogicBase<Person>, IPersonsLogic
+    {
+        public PersonsLogic(MathSiteDbContext contextManager)
+            : base(contextManager)
+        {
+        }
 
-				context.Persons.Add(person);
-				await context.SaveChangesAsync();
+        public async Task<Guid> CreateAsync(string name, string surname, string middlename,
+            DateTime birthday, string phoneNumber, string additionalPhoneNumber, Guid? photoId)
+        {
+            var personId = Guid.Empty;
+            await UseContextAsync(async context =>
+            {
+                var person = new Person(name, surname, middlename, birthday, phoneNumber, additionalPhoneNumber,
+                    photoId);
 
-				personId = person.Id;
-			});
+                context.Persons.Add(person);
+                await context.SaveChangesAsync();
 
-			return personId;
-		}
-		
-		public async Task UpdateAsync(Guid personId, string name, string surname, string middlename,
-			DateTime birthday, string phoneNumber, string additionalPhoneNumber, Guid? photoId)
-		{
-			await UseContextWithSaveAsync(async context =>
-			{
-				var person = await TryGetByIdAsync(personId);
+                personId = person.Id;
+            });
 
-				person.Name = name;
-				person.Surname = surname;
-				person.MiddleName = middlename;
-				person.Birthday = birthday;
-				person.Phone = phoneNumber;
-				person.AdditionalPhone = additionalPhoneNumber;
-				person.PhotoId = photoId;
-			});
-		}
-		
-		public async Task DeleteAsync(Guid personId)
-		{
-			await UseContextWithSaveAsync(async context =>
-			{
-				var person = await TryGetByIdAsync(personId);
+            return personId;
+        }
 
-				context.Persons.Remove(person);
-			});
-		}
+        public async Task UpdateAsync(Guid personId, string name, string surname, string middlename,
+            DateTime birthday, string phoneNumber, string additionalPhoneNumber, Guid? photoId)
+        {
+            await UseContextWithSaveAsync(async context =>
+            {
+                var person = await TryGetByIdAsync(personId);
 
-		public async Task<Person> TryGetByIdAsync(Guid id)
-		{
-			return await GetFromItemsAsync(persons => persons.FirstOrDefaultAsync(p => p.Id == id));
-		}
-	}
+                person.Name = name;
+                person.Surname = surname;
+                person.MiddleName = middlename;
+                person.Birthday = birthday;
+                person.Phone = phoneNumber;
+                person.AdditionalPhone = additionalPhoneNumber;
+                person.PhotoId = photoId;
+            });
+        }
+
+        public async Task DeleteAsync(Guid personId)
+        {
+            await UseContextWithSaveAsync(async context =>
+            {
+                var person = await TryGetByIdAsync(personId);
+
+                context.Persons.Remove(person);
+            });
+        }
+
+        public async Task<Person> TryGetByIdAsync(Guid id)
+        {
+            return await GetFromItemsAsync(persons => persons.FirstOrDefaultAsync(p => p.Id == id));
+        }
+    }
 }
