@@ -1,16 +1,17 @@
 using System;
 using System.Linq.Expressions;
 
-namespace MathSite.Common.Specs
+namespace MathSite.Common.Specs.Expressions
 {
     /// <summary>
     ///     Represents the base class for specifications.
     /// </summary>
     /// <typeparam name="T">The type of the object to which the specification is applied.</typeparam>
-    public abstract class Specification<T> : ISpecification<T>
+    public abstract class ExpressionSpecification<T> : IExpressionSpecification<T>
     {
+        /// <inheritdoc />
         /// <summary>
-        ///     Returns a <see cref="bool" /> value which indicates whether the specification
+        ///     Returns a <see cref="T:System.Boolean" /> value which indicates whether the specification
         ///     is satisfied by the given object.
         /// </summary>
         /// <param name="obj">The object to which the specification is applied.</param>
@@ -20,6 +21,7 @@ namespace MathSite.Common.Specs
             return ToExpression().Compile()(obj);
         }
 
+        /// <inheritdoc />
         /// <summary>
         ///     Gets the LINQ expression which represents the current specification.
         /// </summary>
@@ -29,10 +31,10 @@ namespace MathSite.Common.Specs
         /// <summary>
         ///     Implicitly converts a specification to expression.
         /// </summary>
-        /// <param name="specification"></param>
-        public static implicit operator Expression<Func<T, bool>>(Specification<T> specification)
+        /// <param name="expressionSpecification"></param>
+        public static implicit operator Expression<Func<T, bool>>(ExpressionSpecification<T> expressionSpecification)
         {
-            return specification.ToExpression();
+            return expressionSpecification.ToExpression();
         }
     }
 }

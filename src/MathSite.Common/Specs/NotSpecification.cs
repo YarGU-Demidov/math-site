@@ -1,13 +1,11 @@
-﻿using System;
-using System.Linq.Expressions;
-
-namespace MathSite.Common.Specs
+﻿namespace MathSite.Common.Specs
 {
+    /// <inheritdoc />
     /// <summary>
     ///     Represents the specification which indicates the semantics opposite to the given specification.
     /// </summary>
     /// <typeparam name="T">The type of the object to which the specification is applied.</typeparam>
-    public class NotSpecification<T> : Specification<T>
+    public sealed class NotSpecification<T> : ISpecification<T>
     {
         private readonly ISpecification<T> _specification;
 
@@ -20,17 +18,9 @@ namespace MathSite.Common.Specs
             _specification = specification;
         }
 
-        /// <summary>
-        ///     Gets the LINQ expression which represents the current specification.
-        /// </summary>
-        /// <returns>The LINQ expression.</returns>
-        public override Expression<Func<T, bool>> ToExpression()
+        public bool IsSatisfiedBy(T obj)
         {
-            var expression = _specification.ToExpression();
-            return Expression.Lambda<Func<T, bool>>(
-                Expression.Not(expression.Body),
-                expression.Parameters
-            );
+            return !_specification.IsSatisfiedBy(obj);
         }
     }
 }

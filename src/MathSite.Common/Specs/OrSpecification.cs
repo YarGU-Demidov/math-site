@@ -1,8 +1,6 @@
-﻿using System;
-using System.Linq.Expressions;
-
-namespace MathSite.Common.Specs
+﻿namespace MathSite.Common.Specs
 {
+    /// <inheritdoc />
     /// <summary>
     ///     Represents the combined specification which indicates that either of the given
     ///     specification should be satisfied by the given object.
@@ -10,8 +8,9 @@ namespace MathSite.Common.Specs
     /// <typeparam name="T">The type of the object to which the specification is applied.</typeparam>
     public class OrSpecification<T> : CompositeSpecification<T>
     {
+        /// <inheritdoc />
         /// <summary>
-        ///     Initializes a new instance of <see cref="OrSpecification{T}" /> class.
+        ///     Initializes a new instance of <see cref="T:MathSite.Common.Specs.OrSpecification`1" /> class.
         /// </summary>
         /// <param name="left">The first specification.</param>
         /// <param name="right">The second specification.</param>
@@ -19,13 +18,9 @@ namespace MathSite.Common.Specs
         {
         }
 
-        /// <summary>
-        ///     Gets the LINQ expression which represents the current specification.
-        /// </summary>
-        /// <returns>The LINQ expression.</returns>
-        public override Expression<Func<T, bool>> ToExpression()
+        public override bool IsSatisfiedBy(T obj)
         {
-            return Left.ToExpression().Or(Right.ToExpression());
+            return Left.IsSatisfiedBy(obj) || Right.IsSatisfiedBy(obj);
         }
     }
 }

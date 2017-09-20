@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace MathSite.Common.Specs
+namespace MathSite.Common.Specs.Expressions
 {
     /// <summary>
     ///     Represents the parameter rebinder used for rebinding the parameters
