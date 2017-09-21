@@ -1,11 +1,10 @@
-﻿namespace MathSite.Common.Specs
+﻿namespace MathSite.Common.Specifications
 {
-    /// <inheritdoc />
     /// <summary>
     ///     Represents the base class for composite specifications.
     /// </summary>
     /// <typeparam name="T">The type of the object to which the specification is applied.</typeparam>
-    public abstract class CompositeSpecification<T> : ICompositeSpecification<T>
+    public abstract class CompositeSpecification<T> : Specification<T>, ICompositeSpecification<T>
     {
         /// <summary>
         ///     Constructs a new instance of <see cref="CompositeSpecification{T}" /> class.
@@ -18,18 +17,14 @@
             Right = right;
         }
 
-        /// <inheritdoc />
         /// <summary>
         ///     Gets the first specification.
         /// </summary>
         public ISpecification<T> Left { get; }
 
-        /// <inheritdoc />
         /// <summary>
         ///     Gets the second specification.
         /// </summary>
         public ISpecification<T> Right { get; }
-
-        public abstract bool IsSatisfiedBy(T obj);
     }
 }

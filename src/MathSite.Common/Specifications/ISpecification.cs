@@ -1,4 +1,7 @@
-namespace MathSite.Common.Specs
+﻿using System;
+using System.Linq.Expressions;
+
+namespace MathSite.Common.Specifications
 {
     /// <summary>
     ///     Represents that the implemented classes are specifications. For more
@@ -15,5 +18,11 @@ namespace MathSite.Common.Specs
         /// <param name="obj">The object to which the specification is applied.</param>
         /// <returns>True if the specification is satisfied, otherwise false.</returns>
         bool IsSatisfiedBy(T obj);
+
+        /// <summary>
+        ///     Gets the LINQ expression which represents the current specification.
+        /// </summary>
+        /// <returns>The LINQ expression.</returns>
+        Expression<Func<T, bool>> ToExpression();
     }
 }

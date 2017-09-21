@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace MathSite.Common.Specs.Expressions
+namespace MathSite.Common.Specifications
 {
     /// <summary>
     ///     Represents the extender for Expression[Func[T, bool]] type.

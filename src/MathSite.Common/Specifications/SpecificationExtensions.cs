@@ -1,6 +1,6 @@
-﻿namespace MathSite.Common.Specs.Expressions
+namespace MathSite.Common.Specifications
 {
-    public static class ExpressionSpecificationExtensions
+    public static class SpecificationExtensions
     {
         /// <summary>
         ///     Combines the current specification instance with another specification instance
@@ -10,9 +10,10 @@
         /// <param name="specification">The specification</param>
         /// <param name="other">The specification instance with which the current specification is combined.</param>
         /// <returns>The combined specification instance.</returns>
-        public static IExpressionSpecification<T> And<T>(this IExpressionSpecification<T> specification, IExpressionSpecification<T> other)
+        public static ISpecification<T> And<T>(this ISpecification<T> specification,
+            ISpecification<T> other)
         {
-            return new AndExpressionSpecification<T>(specification, other);
+            return new AndSpecification<T>(specification, other);
         }
 
         /// <summary>
@@ -26,9 +27,10 @@
         ///     is combined.
         /// </param>
         /// <returns>The combined specification instance.</returns>
-        public static IExpressionSpecification<T> Or<T>(this IExpressionSpecification<T> specification, IExpressionSpecification<T> other)
+        public static ISpecification<T> Or<T>(this ISpecification<T> specification,
+            ISpecification<T> other)
         {
-            return new OrExpressionSpecification<T>(specification, other);
+            return new OrSpecification<T>(specification, other);
         }
 
         /// <summary>
@@ -42,9 +44,10 @@
         ///     is combined.
         /// </param>
         /// <returns>The combined specification instance.</returns>
-        public static IExpressionSpecification<T> AndNot<T>(this IExpressionSpecification<T> specification, IExpressionSpecification<T> other)
+        public static ISpecification<T> AndNot<T>(this ISpecification<T> specification,
+            ISpecification<T> other)
         {
-            return new AndNotExpressionSpecification<T>(specification, other);
+            return new AndNotSpecification<T>(specification, other);
         }
 
         /// <summary>
@@ -52,9 +55,9 @@
         ///     the semantics opposite to the current specification.
         /// </summary>
         /// <returns>The reversed specification instance.</returns>
-        public static IExpressionSpecification<T> Not<T>(this IExpressionSpecification<T> specification)
+        public static ISpecification<T> Not<T>(this ISpecification<T> specification)
         {
-            return new NotExpressionSpecification<T>(specification);
+            return new NotSpecification<T>(specification);
         }
     }
 }
