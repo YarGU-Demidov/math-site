@@ -41,7 +41,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 
         protected File GetPreviewImageByName(string name)
         {
-            return Context.Files.First(file => file.FileName == name);
+            return Context.Files.First(file => file.Name == name);
         }
 
         protected static PostSetting CreatePostSettings(PostType postType, File previewImage,

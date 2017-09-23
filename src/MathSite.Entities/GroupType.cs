@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using MathSite.Common.Entities;
 
 namespace MathSite.Entities
 {
@@ -6,23 +7,13 @@ namespace MathSite.Entities
     ///     Тип группы.
     ///     Например: пользовательская, студенчаская, сотрудников вуза.
     /// </summary>
-    public class GroupType
+    public class GroupType : EntityWithNameAndAlias
     {
-        /// <summary>
-        ///     Имя типа группы.
-        /// </summary>
-        public string Name { get; set; }
-
         /// <summary>
         ///     Описание типа группы.
         /// </summary>
         public string Description { get; set; }
-
-        /// <summary>
-        ///     Алиас типа группы.
-        /// </summary>
-        public string Alias { get; set; }
-
+        
         /// <summary>
         ///     Список групп этого типа.
         /// </summary>

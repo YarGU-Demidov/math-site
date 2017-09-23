@@ -44,7 +44,7 @@ namespace MathSite.Db.DataSeeding.Seeders
             return new PostType
             {
                 Alias = alias,
-                TypeName = name,
+                Name = name,
                 DefaultPostsSettings = postSetting,
                 Posts = new List<Post>()
             };

@@ -5,45 +5,31 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 {
     /// <inheritdoc />
-    public class KeywordsConfiguration : AbstractEntityConfiguration<Keyword>
+    public class KeywordsConfiguration : AbstractEntityWithAliasConfiguration<Keyword>
     {
         protected override string TableName { get; } = nameof(Keyword);
-
-        /// <inheritdoc />
-        protected override void SetKeys(EntityTypeBuilder<Keyword> modelBuilder)
-        {
-            modelBuilder
-                .HasKey(keyword => keyword.Id);
-
-            modelBuilder
-                .HasAlternateKey(keyword => keyword.Alias);
-        }
-
+        
         /// <inheritdoc />
         protected override void SetFields(EntityTypeBuilder<Keyword> modelBuilder)
         {
-            modelBuilder
-                .Property(keyword => keyword.Name)
-                .IsRequired();
+            base.SetFields(modelBuilder);
 
             modelBuilder
-                .Property(keyword => keyword.Alias)
+                .Property(keyword => keyword.Name)
                 .IsRequired();
         }
 
         /// <inheritdoc />
         protected override void SetRelationships(EntityTypeBuilder<Keyword> modelBuilder)
         {
+            base.SetRelationships(modelBuilder);
+
             modelBuilder
                 .HasMany(keyword => keyword.Posts)
                 .WithOne(posts => posts.Keyword)
                 .HasForeignKey(keyword => keyword.KeywordId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
-        }
-
-        protected override void SetIndexes(EntityTypeBuilder<Keyword> modelBuilder)
-        {
         }
     }
 }

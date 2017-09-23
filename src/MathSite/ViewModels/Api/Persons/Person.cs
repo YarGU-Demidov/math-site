@@ -22,8 +22,10 @@ namespace MathSite.ViewModels.Api.Persons
 
         public Person(Entities.Person person)
             : this(person.Id, person.Name, person.Surname, person.MiddleName, person.Phone, person.AdditionalPhone,
-                person.Birthday, person.CreationDate ?? DateTime.UtcNow, person.PhotoId, person.UserId != null)
+                person.Birthday, person.CreationDate, person.PhotoId, person.UserId != null)
         {
+            if(CreationDate == default(DateTime))
+                CreationDate = DateTime.UtcNow;
         }
 
         [JsonProperty("id")]

@@ -8,32 +8,25 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
     public class UserConfiguration : AbstractEntityConfiguration<User>
     {
         protected override string TableName { get; } = nameof(User);
-
-        /// <inheritdoc />
-        protected override void SetKeys(EntityTypeBuilder<User> modelBuilder)
-        {
-            modelBuilder
-                .HasKey(u => u.Id);
-        }
-
+        
         /// <inheritdoc />
         protected override void SetFields(EntityTypeBuilder<User> modelBuilder)
         {
+            base.SetFields(modelBuilder);
+
             modelBuilder
                 .Property(u => u.Login)
                 .IsRequired();
             modelBuilder
                 .Property(u => u.PasswordHash)
                 .IsRequired();
-            modelBuilder
-                .Property(u => u.CreationDate)
-                .HasDefaultValueSql("NOW()")
-                .IsRequired(false);
         }
 
         /// <inheritdoc />
         protected override void SetRelationships(EntityTypeBuilder<User> modelBuilder)
         {
+            base.SetRelationships(modelBuilder);
+
             modelBuilder
                 .HasOne(user => user.Person)
                 .WithOne(person => person.User)
@@ -89,10 +82,6 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
                 .HasForeignKey(post => post.AuthorId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
-        }
-
-        protected override void SetIndexes(EntityTypeBuilder<User> modelBuilder)
-        {
         }
     }
 }

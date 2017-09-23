@@ -1,12 +1,12 @@
 ﻿using System;
+using MathSite.Common.Entities;
 
 namespace MathSite.Entities
 {
     /// <summary>
     /// </summary>
-    public class PostAttachment
+    public class PostAttachment : Entity
     {
-        public Guid Id { get; set; }
         public bool Allowed { get; set; }
         public Guid PostId { get; set; }
         public Post Post { get; set; }

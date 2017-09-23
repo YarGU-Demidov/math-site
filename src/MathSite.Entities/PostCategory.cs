@@ -1,10 +1,10 @@
 ﻿using System;
+using MathSite.Common.Entities;
 
 namespace MathSite.Entities
 {
-    public class PostCategory
+    public class PostCategory : Entity
     {
-        public Guid Id { get; set; }
         public Guid CategoryId { get; set; }
         public Category Category { get; set; }
         public Guid PostId { get; set; }

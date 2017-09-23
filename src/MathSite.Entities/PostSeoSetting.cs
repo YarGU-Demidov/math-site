@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using MathSite.Common.Entities;
 
 namespace MathSite.Entities
 {
     /// <summary>
     ///     SEO настройки поста.
     /// </summary>
-    public class PostSeoSetting
+    public class PostSeoSetting : Entity
     {
-        /// <summary>
-        ///     Id SEO настроек поста.
-        /// </summary>
-        public Guid Id { get; set; }
-
         /// <summary>
         ///     URL поста.
         /// </summary>

@@ -14,19 +14,19 @@ namespace MathSite.Common
         /// </summary>
         /// <typeparam name="TSource">Тип исходных данных.</typeparam>
         /// <typeparam name="TKey">Тип данных сортируемого элемента.</typeparam>
-        /// <param name="source">Исходный набор данных.</param>
+        /// <param name="query">Исходный набор данных.</param>
         /// <param name="keySelector">Ссылка на метод сортировщика.</param>
         /// <param name="isAscending">True, если по возрастанию, иначе - false.</param>
         /// <returns>Упорядоченный по возрастанию или убыванию набор данных.</returns>
-        public static IOrderedQueryable<TSource> OrderBy<TSource, TKey>(this IQueryable<TSource> source,
+        public static IOrderedQueryable<TSource> OrderBy<TSource, TKey>(this IQueryable<TSource> query,
             Expression<Func<TSource, TKey>> keySelector, bool isAscending)
         {
-            if (source == null)
+            if (query == null)
                 throw new ArgumentNullException("query");
 
             return isAscending
-                ? source.OrderBy(keySelector)
-                : source.OrderByDescending(keySelector);
+                ? query.OrderBy(keySelector)
+                : query.OrderByDescending(keySelector);
         }
 
         /// <summary>

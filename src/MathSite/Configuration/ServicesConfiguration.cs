@@ -4,20 +4,11 @@ using MathSite.Core.Auth.Handlers;
 using MathSite.Core.Auth.Requirements;
 using MathSite.Db;
 using MathSite.Db.DataSeeding.StaticData;
-using MathSite.Domain.Common;
-using MathSite.Domain.Logic.Files;
-using MathSite.Domain.Logic.Groups;
-using MathSite.Domain.Logic.Persons;
-using MathSite.Domain.Logic.Posts;
-using MathSite.Domain.Logic.PostSeoSettings;
-using MathSite.Domain.Logic.PostSettings;
-using MathSite.Domain.Logic.PostTypes;
-using MathSite.Domain.Logic.Rights;
-using MathSite.Domain.Logic.SiteSettings;
-using MathSite.Domain.Logic.Users;
 using MathSite.Facades.Posts;
 using MathSite.Facades.SiteSettings;
 using MathSite.Facades.UserValidation;
+using MathSite.Repository;
+using MathSite.Repository.Core;
 using MathSite.ViewModels.Home;
 using MathSite.ViewModels.News;
 using MathSite.ViewModels.Pages;
@@ -143,19 +134,19 @@ namespace MathSite
             services.Configure<Settings>(Configuration);
 
             services.AddScoped<IPasswordsManager, DoubleSha512HashPasswordsManager>();
-            services.AddScoped<IBusinessLogicManager, BusinessLogicManager>();
+            services.AddScoped<IRepositoryManager, RepositoryManager>();
 
             // BL
-            services.AddScoped<IGroupsLogic, GroupsLogic>();
-            services.AddScoped<IPersonsLogic, PersonsLogic>();
-            services.AddScoped<IUsersLogic, UsersLogic>();
-            services.AddScoped<IFilesLogic, FilesLogic>();
-            services.AddScoped<ISiteSettingsLogic, SiteSettingsLogic>();
-            services.AddScoped<IRightsLogic, RightsLogic>();
-            services.AddScoped<IPostsLogic, PostsLogic>();
-            services.AddScoped<IPostSeoSettingsLogic, PostSeoSettingsLogic>();
-            services.AddScoped<IPostSettingLogic, PostSettingLogic>();
-            services.AddScoped<IPostTypeLogic, PostTypeLogic>();
+            services.AddScoped<IGroupsRepository, GroupsRepository>();
+            services.AddScoped<IPersonsRepository, PersonsRepository>();
+            services.AddScoped<IUsersRepository, UsersRepository>();
+            services.AddScoped<IFilesRepository, FilesRepository>();
+            services.AddScoped<ISiteSettingsRepository, SiteSettingsRepository>();
+            services.AddScoped<IRightsRepository, RightsRepository>();
+            services.AddScoped<IPostsRepository, PostsRepository>();
+            services.AddScoped<IPostSeoSettingsRepository, PostSeoSettingsRepository>();
+            services.AddScoped<IPostSettingRepository, PostSettingRepository>();
+            services.AddScoped<IPostTypeRepository, PostTypeRepository>();
 
             // Facades
             services.AddScoped<IUserValidationFacade, UserValidationFacade>();

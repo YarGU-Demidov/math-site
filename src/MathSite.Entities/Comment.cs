@@ -1,17 +1,14 @@
 ﻿using System;
+using MathSite.Common.Entities;
 
 namespace MathSite.Entities
 {
+    /// <inheritdoc />
     /// <summary>
     ///     Комментарий
     /// </summary>
-    public class Comment
+    public class Comment : Entity
     {
-        /// <summary>
-        ///     Идентификатор.
-        /// </summary>
-        public Guid Id { get; set; }
-
         /// <summary>
         ///     Текст комментария
         /// </summary>

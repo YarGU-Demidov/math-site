@@ -44,7 +44,7 @@ namespace MathSite.Db.DataSeeding.Seeders
 
         private File GetFileByName(string name)
         {
-            return Context.Files.First(file => file.FileName == name);
+            return Context.Files.First(file => file.Name == name);
         }
 
         private static PostAttachment CreatePostAttachment(Post post, File file)

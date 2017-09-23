@@ -1,10 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using MathSite.Common.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MathSite.Db.EntityConfiguration
 {
+    public abstract class AbstractEntityConfiguration<T> : AbstractEntityConfiguration<T, Guid> where T : class, IEntity<Guid> { }
+
     /// <inheritdoc />
-    public abstract class AbstractEntityConfiguration<T> : IEntityTypeConfiguration<T> where T : class
+    public abstract class AbstractEntityConfiguration<T, TEntityKey> : IEntityTypeConfiguration<T> where T : class, IEntity<TEntityKey>
     {
         protected abstract string TableName { get; }
 
@@ -23,20 +27,29 @@ namespace MathSite.Db.EntityConfiguration
         ///     Установка первичного ключа
         /// </summary>
         /// <param name="modelBuilder">Билдер моделей</param>
-        protected abstract void SetKeys(EntityTypeBuilder<T> modelBuilder);
+        protected virtual void SetKeys(EntityTypeBuilder<T> modelBuilder)
+        {
+            modelBuilder.HasKey(model => model.Id);
+        }
 
         /// <summary>
         ///     Установка параметров полей сущностей
         /// </summary>
         /// <param name="modelBuilder">Билдер моделей</param>
-        protected abstract void SetFields(EntityTypeBuilder<T> modelBuilder);
+        protected virtual void SetFields(EntityTypeBuilder<T> modelBuilder)
+        {
+            modelBuilder.Property(model => model.CreationDate)
+                .IsRequired()
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .ValueGeneratedOnAdd();
+        }
 
         /// <summary>
         ///     Установка отношений между сущностями
         /// </summary>
         /// <param name="modelBuilder">Билдер моделей</param>
-        protected abstract void SetRelationships(EntityTypeBuilder<T> modelBuilder);
+        protected virtual void SetRelationships(EntityTypeBuilder<T> modelBuilder) { }
 
-        protected abstract void SetIndexes(EntityTypeBuilder<T> modelBuilder);
+        protected virtual void SetIndexes(EntityTypeBuilder<T> modelBuilder) { }
     }
 }

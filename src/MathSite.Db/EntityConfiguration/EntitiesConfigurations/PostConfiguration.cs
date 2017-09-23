@@ -7,17 +7,12 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
     public class PostConfiguration : AbstractEntityConfiguration<Post>
     {
         protected override string TableName { get; } = nameof(Post);
-
-        /// <inheritdoc />
-        protected override void SetKeys(EntityTypeBuilder<Post> modelBuilder)
-        {
-            modelBuilder
-                .HasKey(post => post.Id);
-        }
-
+        
         /// <inheritdoc />
         protected override void SetFields(EntityTypeBuilder<Post> modelBuilder)
         {
+            base.SetFields(modelBuilder);
+
             modelBuilder
                 .Property(post => post.Title)
                 .IsRequired();
@@ -45,10 +40,12 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
         /// <inheritdoc />
         protected override void SetRelationships(EntityTypeBuilder<Post> modelBuilder)
         {
+            base.SetRelationships(modelBuilder);
+
             modelBuilder
                 .HasOne(post => post.PostType)
                 .WithMany(postType => postType.Posts)
-                .HasForeignKey(postType => postType.PostTypeAlias)
+                .HasForeignKey(postType => postType.PostTypeId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
 
@@ -119,10 +116,6 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
                 .HasForeignKey(post => post.AuthorId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
-        }
-
-        protected override void SetIndexes(EntityTypeBuilder<Post> modelBuilder)
-        {
         }
     }
 }

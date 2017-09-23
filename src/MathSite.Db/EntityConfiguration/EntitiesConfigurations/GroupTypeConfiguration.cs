@@ -4,20 +4,15 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 {
-    public class GroupTypeConfiguration : AbstractEntityConfiguration<GroupType>
+    public class GroupTypeConfiguration : AbstractEntityWithAliasConfiguration<GroupType>
     {
         protected override string TableName { get; } = nameof(GroupType);
-
-        /// <inheritdoc />
-        protected override void SetKeys(EntityTypeBuilder<GroupType> modelBuilder)
-        {
-            modelBuilder
-                .HasKey(groupType => groupType.Alias);
-        }
-
+        
         /// <inheritdoc />
         protected override void SetFields(EntityTypeBuilder<GroupType> modelBuilder)
         {
+            base.SetFields(modelBuilder);
+
             modelBuilder
                 .Property(groupType => groupType.Name)
                 .IsRequired();
@@ -25,25 +20,19 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
             modelBuilder
                 .Property(groupType => groupType.Description)
                 .IsRequired(false);
-
-            modelBuilder
-                .Property(groupType => groupType.Alias)
-                .IsRequired();
         }
 
         /// <inheritdoc />
         protected override void SetRelationships(EntityTypeBuilder<GroupType> modelBuilder)
         {
+            base.SetRelationships(modelBuilder);
+
             modelBuilder
                 .HasMany(groupType => groupType.Groups)
                 .WithOne(group => group.GroupType)
-                .HasForeignKey(group => group.GroupTypeAlias)
+                .HasForeignKey(group => group.GroupTypeId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
-        }
-
-        protected override void SetIndexes(EntityTypeBuilder<GroupType> modelBuilder)
-        {
         }
     }
 }

@@ -7,17 +7,12 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
     public class PostGroupsAllowedConfiguration : AbstractEntityConfiguration<PostGroupsAllowed>
     {
         protected override string TableName { get; } = nameof(PostGroupsAllowed);
-
-        /// <inheritdoc />
-        protected override void SetKeys(EntityTypeBuilder<PostGroupsAllowed> modelBuilder)
-        {
-            modelBuilder
-                .HasKey(postGroupsAllowed => postGroupsAllowed.Id);
-        }
-
+        
         /// <inheritdoc />
         protected override void SetFields(EntityTypeBuilder<PostGroupsAllowed> modelBuilder)
         {
+            base.SetFields(modelBuilder);
+
             modelBuilder
                 .Property(postGroupsAllowed => postGroupsAllowed.Allowed)
                 .IsRequired();
@@ -26,6 +21,8 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
         /// <inheritdoc />
         protected override void SetRelationships(EntityTypeBuilder<PostGroupsAllowed> modelBuilder)
         {
+            base.SetRelationships(modelBuilder);
+
             modelBuilder
                 .HasOne(postGroupsAllowed => postGroupsAllowed.Post)
                 .WithMany(post => post.GroupsAllowed)
@@ -39,10 +36,6 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
                 .HasForeignKey(postGroupsAllowed => postGroupsAllowed.GroupId)
                 .IsRequired(false)
                 .OnDelete(DeleteBehavior.Cascade);
-        }
-
-        protected override void SetIndexes(EntityTypeBuilder<PostGroupsAllowed> modelBuilder)
-        {
         }
     }
 }

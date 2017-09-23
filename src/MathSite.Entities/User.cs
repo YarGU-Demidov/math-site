@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using MathSite.Common.Entities;
 
 namespace MathSite.Entities
 {
     /// <summary>
     ///     Пользователь.
     /// </summary>
-    public class User
+    public class User : Entity
     {
         public User()
         {
@@ -25,11 +26,6 @@ namespace MathSite.Entities
             GroupId = groupId;
             CreationDate = DateTime.Now;
         }
-
-        /// <summary>
-        ///     Идентификатор.
-        /// </summary>
-        public Guid Id { get; set; }
 
         /// <summary>
         ///     Логин.

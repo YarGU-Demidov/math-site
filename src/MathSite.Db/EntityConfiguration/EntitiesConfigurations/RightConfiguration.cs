@@ -5,20 +5,15 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 {
     /// <inheritdoc />
-    public class RightConfiguration : AbstractEntityConfiguration<Right>
+    public class RightConfiguration : AbstractEntityWithAliasConfiguration<Right>
     {
         protected override string TableName { get; } = nameof(Right);
-
-        /// <inheritdoc />
-        protected override void SetKeys(EntityTypeBuilder<Right> modelBuilder)
-        {
-            modelBuilder
-                .HasKey(right => right.Alias);
-        }
-
+        
         /// <inheritdoc />
         protected override void SetFields(EntityTypeBuilder<Right> modelBuilder)
         {
+            base.SetFields(modelBuilder);
+
             modelBuilder
                 .Property(right => right.Alias)
                 .IsRequired();
@@ -33,23 +28,21 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
         /// <inheritdoc />
         protected override void SetRelationships(EntityTypeBuilder<Right> modelBuilder)
         {
+            base.SetRelationships(modelBuilder);
+
             modelBuilder
                 .HasMany(right => right.GroupsRights)
                 .WithOne(groupsRights => groupsRights.Right)
-                .HasForeignKey(groupsRights => groupsRights.RightAlias)
+                .HasForeignKey(groupsRights => groupsRights.RightId)
                 .OnDelete(DeleteBehavior.Cascade)
                 .IsRequired();
 
             modelBuilder
                 .HasMany(right => right.UsersRights)
                 .WithOne(usersRights => usersRights.Right)
-                .HasForeignKey(usersRights => usersRights.RightAlias)
+                .HasForeignKey(usersRights => usersRights.RightId)
                 .OnDelete(DeleteBehavior.Cascade)
                 .IsRequired();
-        }
-
-        protected override void SetIndexes(EntityTypeBuilder<Right> modelBuilder)
-        {
         }
     }
 }

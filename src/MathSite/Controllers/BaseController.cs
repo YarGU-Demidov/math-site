@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using MathSite.Facades.UserValidation;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -35,7 +37,10 @@ namespace MathSite.Controllers
                 return;
 
             if (!await UserValidationFacade.DoesUserExistsAsync(userIdGuid))
+            {
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
                 return;
+            }
 
             CurrentUserId = userIdGuid;
         }

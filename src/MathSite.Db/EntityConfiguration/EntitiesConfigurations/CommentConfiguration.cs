@@ -7,17 +7,12 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
     public class CommentConfiguration : AbstractEntityConfiguration<Comment>
     {
         protected override string TableName { get; } = nameof(Comment);
-
-        /// <inheritdoc />
-        protected override void SetKeys(EntityTypeBuilder<Comment> modelBuilder)
-        {
-            modelBuilder
-                .HasKey(comment => comment.Id);
-        }
-
+        
         /// <inheritdoc />
         protected override void SetFields(EntityTypeBuilder<Comment> modelBuilder)
         {
+            base.SetFields(modelBuilder);
+
             modelBuilder
                 .Property(comment => comment.Text)
                 .IsRequired();
@@ -30,6 +25,8 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
         /// <inheritdoc />
         protected override void SetRelationships(EntityTypeBuilder<Comment> modelBuilder)
         {
+            base.SetRelationships(modelBuilder);
+
             modelBuilder
                 .HasOne(comment => comment.User)
                 .WithMany(user => user.Comments)
@@ -43,10 +40,6 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
                 .HasForeignKey(comment => comment.PostId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
-        }
-
-        protected override void SetIndexes(EntityTypeBuilder<Comment> modelBuilder)
-        {
         }
     }
 }

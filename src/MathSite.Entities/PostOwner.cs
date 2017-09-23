@@ -1,15 +1,10 @@
 ﻿using System;
+using MathSite.Common.Entities;
 
 namespace MathSite.Entities
 {
-    /// <summary>
-    /// </summary>
-    public class PostOwner
+    public class PostOwner : Entity
     {
-        /// <summary>
-        ///     Идентификатор.
-        /// </summary>
-        public Guid Id { get; set; }
 
         /// <summary>
         /// </summary>

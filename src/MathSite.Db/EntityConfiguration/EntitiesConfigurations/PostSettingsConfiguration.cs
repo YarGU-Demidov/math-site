@@ -7,21 +7,20 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
     public class PostSettingsConfiguration : AbstractEntityConfiguration<PostSetting>
     {
         protected override string TableName { get; } = nameof(PostSetting);
-
-        /// <inheritdoc />
-        protected override void SetKeys(EntityTypeBuilder<PostSetting> modelBuilder)
-        {
-            modelBuilder
-                .HasKey(postSettings => postSettings.Id);
-        }
-
+        
         /// <inheritdoc />
         protected override void SetFields(EntityTypeBuilder<PostSetting> modelBuilder)
         {
+            base.SetFields(modelBuilder);
+
             modelBuilder
                 .Property(postSettings => postSettings.IsCommentsAllowed)
                 .IsRequired()
                 .HasDefaultValue(false);
+
+            modelBuilder.Property(setting => setting.Layout)
+                .IsRequired()
+                .HasDefaultValue("SecondaryLayout");
 
             modelBuilder
                 .Property(postSettings => postSettings.CanBeRated)
@@ -37,6 +36,8 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
         /// <inheritdoc />
         protected override void SetRelationships(EntityTypeBuilder<PostSetting> modelBuilder)
         {
+            base.SetRelationships(modelBuilder);
+
             modelBuilder
                 .HasOne(postSettings => postSettings.PostType)
                 .WithOne(postType => postType.DefaultPostsSettings)
@@ -56,10 +57,6 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
                 .HasForeignKey(postSettings => postSettings.PreviewImageId)
                 .IsRequired(false)
                 .OnDelete(DeleteBehavior.Cascade);
-        }
-
-        protected override void SetIndexes(EntityTypeBuilder<PostSetting> modelBuilder)
-        {
         }
     }
 }

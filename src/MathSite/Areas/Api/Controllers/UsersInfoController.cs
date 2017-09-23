@@ -8,8 +8,8 @@ using MathSite.Core.DataTableApi;
 using MathSite.Core.Responses;
 using MathSite.Core.Responses.ResponseTypes;
 using MathSite.Db;
-using MathSite.Domain.Logic.Users;
 using MathSite.Facades.UserValidation;
+using MathSite.Repository;
 using MathSite.ViewModels.Api.UsersInfo;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -19,10 +19,10 @@ namespace MathSite.Areas.Api.Controllers
     [Area("Api")]
     public class UsersInfoController : BaseController, IDataTableApi<UserInfo, UsersSortData>
     {
-        private readonly IUsersLogic _usersLogic;
+        private readonly IUsersRepository _usersLogic;
 
         public UsersInfoController(IUserValidationFacade userValidationFacade, MathSiteDbContext dbContext,
-            IUsersLogic usersLogic)
+            IUsersRepository usersLogic)
             : base(userValidationFacade)
         {
             _usersLogic = usersLogic;
@@ -87,7 +87,7 @@ namespace MathSite.Areas.Api.Controllers
         {
             return CurrentUserId == null
                 ? new UserInfo(null, null, null, null, null)
-                : new UserInfo(await _usersLogic.TryGetByIdAsync(CurrentUserId.Value));
+                : new UserInfo(await _usersLogic.FirstOrDefaultAsync(CurrentUserId.Value));
         }
 
         public IActionResult GetUserInfo(string id)

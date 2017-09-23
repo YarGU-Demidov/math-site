@@ -2,8 +2,10 @@
 using System.Text;
 using System.Threading.Tasks;
 using MathSite.Db.DataSeeding.StaticData;
-using MathSite.Domain.Common;
+using MathSite.Entities;
 using MathSite.Facades.UserValidation;
+using MathSite.Repository.Core;
+using MathSite.Specifications.SiteSettings;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace MathSite.Facades.SiteSettings
@@ -13,7 +15,7 @@ namespace MathSite.Facades.SiteSettings
         private const string MemoryCachePrefix = "SiteSetting-";
         private readonly IUserValidationFacade _userValidation;
 
-        public SiteSettingsFacade(IBusinessLogicManager logicManager, IUserValidationFacade userValidation,
+        public SiteSettingsFacade(IRepositoryManager logicManager, IUserValidationFacade userValidation,
             IMemoryCache memoryCache)
             : base(logicManager, memoryCache)
         {
@@ -29,7 +31,9 @@ namespace MathSite.Facades.SiteSettings
                 entry.SetSlidingExpiration(GetCacheSpan());
                 entry.Priority = CacheItemPriority.High;
 
-                var setting = await LogicManager.SiteSettingsLogic.TryGetByKeyAsync(name);
+                var requirements = new HasKeySpecification(name);
+
+                var setting = await LogicManager.SiteSettingsRepository.FirstOrDefaultAsync(requirements.ToExpression());
 
                 return setting != null
                     ? Encoding.UTF8.GetString(setting.Value)
@@ -49,16 +53,24 @@ namespace MathSite.Facades.SiteSettings
             if (!hasRight)
                 return false;
 
-            var setting = await LogicManager.SiteSettingsLogic.TryGetByKeyAsync(name);
+            var requirements = new HasKeySpecification(name);
+
+            var setting = await LogicManager.SiteSettingsRepository.FirstOrDefaultAsync(requirements.ToExpression());
 
             var valueBytes = Encoding.UTF8.GetBytes(value);
 
             MemoryCache.Set(GetKey(name), value, GetCacheSpan());
 
             if (setting == null)
-                await LogicManager.SiteSettingsLogic.CreateAsync(name, valueBytes);
+            {
+                await LogicManager.SiteSettingsRepository.InsertAsync(new SiteSetting(name, valueBytes));
+            }
             else
-                await LogicManager.SiteSettingsLogic.UpdateAsync(name, valueBytes);
+            {
+                setting.Value = valueBytes;
+                await LogicManager.SiteSettingsRepository.UpdateAsync(setting);
+            }
+
             return true;
         }
 

@@ -45,9 +45,9 @@ namespace MathSite.Db.DataSeeding.Seeders
         {
             return new File
             {
-                FileName = name,
+                Name = name,
                 DateAdded = dateAdded,
-                FilePath = filePath,
+                Path = filePath,
                 Extension = extension,
                 PostSettings = new List<PostSetting>(),
                 PostAttachments = new List<PostAttachment>()

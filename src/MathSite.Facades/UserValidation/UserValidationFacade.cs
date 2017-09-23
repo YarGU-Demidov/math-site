@@ -2,8 +2,9 @@
 using System.Linq;
 using System.Threading.Tasks;
 using MathSite.Common.Crypto;
-using MathSite.Domain.Common;
 using MathSite.Entities;
+using MathSite.Repository.Core;
+using MathSite.Specifications.Users;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace MathSite.Facades.UserValidation
@@ -13,7 +14,7 @@ namespace MathSite.Facades.UserValidation
         private readonly IPasswordsManager _passwordHasher;
 
         public UserValidationFacade(
-            IBusinessLogicManager logicManager,
+            IRepositoryManager logicManager,
             IMemoryCache memoryCache,
             IPasswordsManager passwordHasher
         )
@@ -24,13 +25,15 @@ namespace MathSite.Facades.UserValidation
 
         public async Task<bool> DoesUserExistsAsync(Guid userId)
         {
-            var user = await LogicManager.UsersLogic.TryGetByIdAsync(userId);
+            var user = await LogicManager.UsersRepository.FirstOrDefaultAsync(userId);
             return user != null;
         }
 
         public async Task<bool> DoesUserExistsAsync(string login)
         {
-            var user = await LogicManager.UsersLogic.TryGetByLoginAsync(login);
+            var requirements = new HasLoginSpecification(login);
+            var user = await LogicManager.UsersRepository.FirstOrDefaultAsync(requirements.ToExpression());
+
             return user != null;
         }
 
@@ -39,7 +42,7 @@ namespace MathSite.Facades.UserValidation
             if (userId == Guid.Empty)
                 return false;
 
-            var user = await LogicManager.UsersLogic.TryGetUserWithRightsById(userId);
+            var user = await LogicManager.UsersRepository.FirstOrDefaultWithRightsAsync(userId);
 
             if (user == null)
                 return false;
@@ -82,7 +85,9 @@ namespace MathSite.Facades.UserValidation
 
         public async Task<User> GetUserByLoginAndPasswordAsync(string login, string password)
         {
-            var user = await LogicManager.UsersLogic.TryGetByLoginAsync(login);
+            var requirements = new HasLoginSpecification(login);
+
+            var user = await LogicManager.UsersRepository.FirstOrDefaultAsync(requirements.ToExpression());
 
             if (user == null || !_passwordHasher.PasswordsAreEqual(login, password, user.PasswordHash))
                 return null;

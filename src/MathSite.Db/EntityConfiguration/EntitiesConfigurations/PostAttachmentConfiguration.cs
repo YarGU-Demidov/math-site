@@ -7,17 +7,12 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
     public class PostAttachmentConfiguration : AbstractEntityConfiguration<PostAttachment>
     {
         protected override string TableName { get; } = nameof(PostAttachment);
-
-        /// <inheritdoc />
-        protected override void SetKeys(EntityTypeBuilder<PostAttachment> modelBuilder)
-        {
-            modelBuilder
-                .HasKey(postAttachment => postAttachment.Id);
-        }
-
+        
         /// <inheritdoc />
         protected override void SetFields(EntityTypeBuilder<PostAttachment> modelBuilder)
         {
+            base.SetFields(modelBuilder);
+
             modelBuilder
                 .Property(postAttachment => postAttachment.Allowed)
                 .IsRequired();
@@ -26,6 +21,8 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
         /// <inheritdoc />
         protected override void SetRelationships(EntityTypeBuilder<PostAttachment> modelBuilder)
         {
+            base.SetRelationships(modelBuilder);
+
             modelBuilder
                 .HasOne(postAttachment => postAttachment.Post)
                 .WithMany(posts => posts.PostAttachments)
@@ -39,10 +36,6 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
                 .HasForeignKey(postAttachment => postAttachment.FileId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
-        }
-
-        protected override void SetIndexes(EntityTypeBuilder<PostAttachment> modelBuilder)
-        {
         }
     }
 }

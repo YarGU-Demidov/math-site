@@ -8,17 +8,12 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
     public class GroupRightsConfiguration : AbstractEntityConfiguration<GroupsRight>
     {
         protected override string TableName { get; } = nameof(GroupsRight);
-
-        /// <inheritdoc />
-        protected override void SetKeys(EntityTypeBuilder<GroupsRight> modelBuilder)
-        {
-            modelBuilder
-                .HasKey(groupsRights => groupsRights.Id);
-        }
-
+        
         /// <inheritdoc />
         protected override void SetFields(EntityTypeBuilder<GroupsRight> modelBuilder)
         {
+            base.SetFields(modelBuilder);
+
             modelBuilder
                 .Property(groupsRights => groupsRights.Allowed)
                 .IsRequired();
@@ -27,6 +22,8 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
         /// <inheritdoc />
         protected override void SetRelationships(EntityTypeBuilder<GroupsRight> modelBuilder)
         {
+            base.SetRelationships(modelBuilder);
+
             modelBuilder
                 .HasOne(groupsRights => groupsRights.Group)
                 .WithMany(group => group.GroupsRights)
@@ -36,12 +33,8 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
             modelBuilder
                 .HasOne(groupsRights => groupsRights.Right)
                 .WithMany(right => right.GroupsRights)
-                .HasForeignKey(groupsRights => groupsRights.RightAlias)
+                .HasForeignKey(groupsRights => groupsRights.RightId)
                 .OnDelete(DeleteBehavior.Cascade);
-        }
-
-        protected override void SetIndexes(EntityTypeBuilder<GroupsRight> modelBuilder)
-        {
         }
     }
 }

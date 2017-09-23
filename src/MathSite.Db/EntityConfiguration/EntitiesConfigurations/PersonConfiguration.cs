@@ -8,17 +8,12 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
     public class PersonConfiguration : AbstractEntityConfiguration<Person>
     {
         protected override string TableName { get; } = nameof(Person);
-
-        /// <inheritdoc />
-        protected override void SetKeys(EntityTypeBuilder<Person> modelBuilder)
-        {
-            modelBuilder
-                .HasKey(p => p.Id);
-        }
-
+        
         /// <inheritdoc />
         protected override void SetFields(EntityTypeBuilder<Person> modelBuilder)
         {
+            base.SetFields(modelBuilder);
+
             modelBuilder
                 .Property(p => p.Name)
                 .IsRequired();
@@ -46,16 +41,13 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
             modelBuilder
                 .Property(p => p.PhotoId)
                 .IsRequired(false);
-
-            modelBuilder
-                .Property(p => p.CreationDate)
-                .HasDefaultValueSql("NOW()")
-                .IsRequired(false);
         }
 
         /// <inheritdoc />
         protected override void SetRelationships(EntityTypeBuilder<Person> modelBuilder)
         {
+            base.SetRelationships(modelBuilder);
+
             modelBuilder
                 .HasOne(person => person.User)
                 .WithOne(user => user.Person)
@@ -67,10 +59,6 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
                 .WithOne(file => file.Person)
                 .IsRequired(false)
                 .OnDelete(DeleteBehavior.Cascade);
-        }
-
-        protected override void SetIndexes(EntityTypeBuilder<Person> modelBuilder)
-        {
         }
     }
 }

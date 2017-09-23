@@ -1,18 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using MathSite.Common.Entities;
 
 namespace MathSite.Entities
 {
     /// <summary>
     ///     Пост.
     /// </summary>
-    public class Post
+    public class Post : Entity
     {
-        /// <summary>
-        ///     Идентификатор.
-        /// </summary>
-        public Guid Id { get; set; }
-
         /// <summary>
         ///     Заголовок поста.
         /// </summary>
@@ -46,7 +42,7 @@ namespace MathSite.Entities
         /// <summary>
         ///     Идентификатор типа поста.
         /// </summary>
-        public string PostTypeAlias { get; set; }
+        public Guid PostTypeId { get; set; }
 
         /// <summary>
         ///     Идентификатор автора поста.
