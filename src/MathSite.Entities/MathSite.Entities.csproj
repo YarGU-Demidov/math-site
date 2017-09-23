@@ -10,4 +10,8 @@
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MathSite.Common\MathSite.Common.csproj" />
+  </ItemGroup>
+
 </Project>

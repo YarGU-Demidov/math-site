@@ -1,17 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using MathSite.Db;
-using MathSite.Domain.Common;
-using MathSite.Domain.Logic.Files;
-using MathSite.Domain.Logic.Groups;
-using MathSite.Domain.Logic.Persons;
-using MathSite.Domain.Logic.Posts;
-using MathSite.Domain.Logic.PostSeoSettings;
-using MathSite.Domain.Logic.PostSettings;
-using MathSite.Domain.Logic.PostTypes;
-using MathSite.Domain.Logic.Rights;
-using MathSite.Domain.Logic.SiteSettings;
-using MathSite.Domain.Logic.Users;
+using MathSite.Repository;
+using MathSite.Repository.Core;
 using MathSite.Tests.CoreThings;
 using Microsoft.Extensions.Caching.Memory;
 
@@ -34,12 +25,12 @@ namespace MathSite.Tests.Facades
 
         public IMemoryCache MemoryCache { get; }
 
-        protected void WithLogic(Action<IBusinessLogicManager> actions)
+        protected void WithLogic(Action<IRepositoryManager> actions)
         {
             _databaseFactory.ExecuteWithContext(context => { actions(CreateBusinessLogicManger(context)); });
         }
 
-        protected async Task WithLogicAsync(Func<IBusinessLogicManager, Task> actions)
+        protected async Task WithLogicAsync(Func<IRepositoryManager, Task> actions)
         {
             await _databaseFactory.ExecuteWithContextAsync(async context =>
             {
@@ -47,19 +38,19 @@ namespace MathSite.Tests.Facades
             });
         }
 
-        private IBusinessLogicManager CreateBusinessLogicManger(MathSiteDbContext context)
+        private IRepositoryManager CreateBusinessLogicManger(MathSiteDbContext context)
         {
-            return new BusinessLogicManager(
-                new GroupsLogic(context),
-                new PersonsLogic(context),
-                new UsersLogic(context),
-                new FilesLogic(context),
-                new SiteSettingsLogic(context),
-                new RightsLogic(context),
-                new PostsLogic(context),
-                new PostSeoSettingsLogic(context),
-                new PostSettingLogic(context),
-                new PostTypeLogic(context)
+            return new RepositoryManager(
+                new GroupsRepository(context),
+                new PersonsRepository(context),
+                new UsersRepository(context),
+                new FilesRepository(context),
+                new SiteSettingsRepository(context),
+                new RightsRepository(context),
+                new PostsRepository(context),
+                new PostSeoSettingsRepository(context),
+                new PostSettingRepository(context),
+                new PostTypeRepository(context)
             );
         }
     }

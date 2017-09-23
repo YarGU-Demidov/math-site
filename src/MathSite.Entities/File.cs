@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using MathSite.Common.Entities;
 
 namespace MathSite.Entities
 {
     /// <summary>
     ///     Файл.
     /// </summary>
-    public class File
+    public class File : EntityWithName
     {
         public File()
             : this(null, null, null)
@@ -16,32 +17,21 @@ namespace MathSite.Entities
         /// <summary>
         ///     Создает сущность.
         /// </summary>
-        /// <param name="fileName">Название файла.</param>
-        /// <param name="filePath">Путь к файлу.</param>
+        /// <param name="name">Название файла.</param>
+        /// <param name="path">Путь к файлу.</param>
         /// <param name="extension">Расширение файла.</param>
-        /// <param name="person">Личность.</param>
-        public File(string fileName, string filePath, string extension)
+        public File(string name, string path, string extension)
         {
-            FileName = fileName;
-            FilePath = filePath;
+            Name = name;
+            Path = path;
             Extension = extension;
             DateAdded = DateTime.Now;
         }
 
         /// <summary>
-        ///     Идентификатор.
-        /// </summary>
-        public Guid Id { get; set; }
-
-        /// <summary>
-        ///     Имя файла.
-        /// </summary>
-        public string FileName { get; set; }
-
-        /// <summary>
         ///     Путь к файлу в файловой системе
         /// </summary>
-        public string FilePath { get; set; }
+        public string Path { get; set; }
 
         /// <summary>
         ///     Расширение файла

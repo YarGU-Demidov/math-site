@@ -3,16 +3,19 @@ using System.Text;
 using System.Threading.Tasks;
 using MathSite.Common.Crypto;
 using MathSite.Db.DataSeeding.StaticData;
-using MathSite.Domain.Common;
+using MathSite.Entities;
 using MathSite.Facades.SiteSettings;
 using MathSite.Facades.UserValidation;
+using MathSite.Repository.Core;
+using MathSite.Specifications.SiteSettings;
+using MathSite.Specifications.Users;
 using Xunit;
 
 namespace MathSite.Tests.Facades
 {
     public class SiteSettingsFacadeTests : FacadesTestsBase
     {
-        public IUserValidationFacade GetFacade(IBusinessLogicManager manager)
+        public IUserValidationFacade GetFacade(IRepositoryManager manager)
         {
             return new UserValidationFacade(manager, MemoryCache, new DoubleSha512HashPasswordsManager());
         }
@@ -25,7 +28,7 @@ namespace MathSite.Tests.Facades
                 var userValidationFacade = GetFacade(manager);
                 var siteSettingsFacade = new SiteSettingsFacade(manager, userValidationFacade, MemoryCache);
 
-                var user = await manager.UsersLogic.TryGetByLoginAsync(UsersAliases.FirstUser);
+                var user = await GetUserByLogin(manager, UsersAliases.FirstUser);
 
                 var testSalt = Guid.NewGuid();
                 var testKey = $"testKey-{testSalt}";
@@ -63,7 +66,7 @@ namespace MathSite.Tests.Facades
                 var userValidationFacade = GetFacade(manager);
                 var siteSettingsFacade = new SiteSettingsFacade(manager, userValidationFacade, MemoryCache);
 
-                var user = await manager.UsersLogic.TryGetByLoginAsync(UsersAliases.FirstUser);
+                var user = await GetUserByLogin(manager, UsersAliases.FirstUser);
 
                 var testSalt = Guid.NewGuid();
                 var testKey = $"testKey-{testSalt}";
@@ -84,7 +87,7 @@ namespace MathSite.Tests.Facades
             {
                 var userValidationFacade = GetFacade(manager);
                 var siteSettingsFacade = new SiteSettingsFacade(manager, userValidationFacade, MemoryCache);
-                var user = await manager.UsersLogic.TryGetByLoginAsync(UsersAliases.FirstUser);
+                var user = await GetUserByLogin(manager, UsersAliases.FirstUser);
 
                 var testSalt = Guid.NewGuid();
                 var testKey = $"testKey-{testSalt}";
@@ -94,12 +97,21 @@ namespace MathSite.Tests.Facades
 
                 Assert.True(done);
 
-                var setting = await manager.SiteSettingsLogic.TryGetByKeyAsync(testKey);
+                var requirements = new HasKeySpecification(testKey);
+
+                var setting = await manager.SiteSettingsRepository.FirstOrDefaultAsync(requirements.ToExpression());
 
                 Assert.NotNull(setting);
 
                 Assert.Equal(setting.Value, Encoding.UTF8.GetBytes(testValue));
             });
+        }
+
+        private async Task<User> GetUserByLogin(IRepositoryManager manager, string login)
+        {
+            var requirements = new HasLoginSpecification(login);
+
+            return await manager.UsersRepository.FirstOrDefaultWithRightsAsync(requirements.ToExpression());
         }
     }
 }

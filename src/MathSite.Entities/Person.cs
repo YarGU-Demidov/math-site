@@ -1,4 +1,5 @@
 ﻿using System;
+using MathSite.Common.Entities;
 
 namespace MathSite.Entities
 {
@@ -6,7 +7,7 @@ namespace MathSite.Entities
     ///     Персона, она же сущность.
     ///     Представляет собой конкретного человека с его личными данными.
     /// </summary>
-    public class Person
+    public class Person : Entity
     {
         public Person()
         {
@@ -34,12 +35,7 @@ namespace MathSite.Entities
             CreationDate = DateTime.Now;
             PhotoId = photoId;
         }
-
-        /// <summary>
-        ///     Идентификатор.
-        /// </summary>
-        public Guid Id { get; set; }
-
+        
         /// <summary>
         ///     Имя.
         /// </summary>
@@ -69,12 +65,7 @@ namespace MathSite.Entities
         ///     Дата рождения.
         /// </summary>
         public DateTime Birthday { get; set; }
-
-        /// <summary>
-        ///     Дата регистрации.
-        /// </summary>
-        public DateTime? CreationDate { get; set; }
-
+        
         /// <summary>
         ///     Идентификатор изображения личности.
         /// </summary>

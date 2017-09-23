@@ -13,7 +13,7 @@ namespace MathSite.ViewModels.SharedModels.PostPreview
     {
         public PostPreviewViewModel Build(Post post)
         {
-            switch (post.PostTypeAlias)
+            switch (post.PostType.Alias)
             {
                 case PostTypeAliases.StaticPage:
                     return BuildForStatic(post);
@@ -38,8 +38,8 @@ namespace MathSite.ViewModels.SharedModels.PostPreview
                 Url = $"{post.PostType.Alias}/{post.PostSeoSetting.Url}",
                 Content = post.Content,
                 PublishedAt = post.PublishDate.ToString("dd MMM yyyy", CultureInfo.CurrentUICulture),
-                PreviewImage = post.PostSettings?.PreviewImage?.FilePath ??
-                               post.PostType?.DefaultPostsSettings?.PreviewImage?.FilePath
+                PreviewImage = post.PostSettings?.PreviewImage?.Path ??
+                               post.PostType?.DefaultPostsSettings?.PreviewImage?.Path
             };
         }
     }

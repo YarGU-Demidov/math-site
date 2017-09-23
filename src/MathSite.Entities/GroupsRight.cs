@@ -1,16 +1,13 @@
 ﻿using System;
+using MathSite.Common.Entities;
 
 namespace MathSite.Entities
 {
     /// <summary>
     ///     Права групп.
     /// </summary>
-    public class GroupsRight
+    public class GroupsRight : Entity
     {
-        /// <summary>
-        ///     Идентификатор.
-        /// </summary>
-        public Guid Id { get; set; }
 
         /// <summary>
         ///     Разрешение для группы (true -- разрешено, false -- запрещено).
@@ -25,7 +22,7 @@ namespace MathSite.Entities
         /// <summary>
         ///     Идентификатор правила, с которым настраивается сопоставление.
         /// </summary>
-        public string RightAlias { get; set; }
+        public Guid RightId { get; set; }
 
         /// <summary>
         ///     Группа, к которой относится это правило.

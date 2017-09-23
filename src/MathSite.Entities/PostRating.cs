@@ -1,16 +1,12 @@
 ﻿using System;
+using MathSite.Common.Entities;
 
 namespace MathSite.Entities
 {
     /// <summary>
     /// </summary>
-    public class PostRating
+    public class PostRating : Entity
     {
-        /// <summary>
-        ///     Идентификатор.
-        /// </summary>
-        public Guid Id { get; set; }
-
         /// <summary>
         /// </summary>
         public bool? Value { get; set; }

@@ -7,17 +7,12 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
     public class PostSeoSettingsConfiguration : AbstractEntityConfiguration<PostSeoSetting>
     {
         protected override string TableName { get; } = nameof(PostSeoSetting);
-
-        /// <inheritdoc />
-        protected override void SetKeys(EntityTypeBuilder<PostSeoSetting> modelBuilder)
-        {
-            modelBuilder
-                .HasKey(postSeoSettings => postSeoSettings.Id);
-        }
-
+        
         /// <inheritdoc />
         protected override void SetFields(EntityTypeBuilder<PostSeoSetting> modelBuilder)
         {
+            base.SetFields(modelBuilder);
+
             modelBuilder
                 .Property(postSeoSettings => postSeoSettings.Url)
                 .IsRequired(false);
@@ -34,6 +29,8 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
         /// <inheritdoc />
         protected override void SetRelationships(EntityTypeBuilder<PostSeoSetting> modelBuilder)
         {
+            base.SetRelationships(modelBuilder);
+
             modelBuilder
                 .HasOne(postSeoSettings => postSeoSettings.Post)
                 .WithOne(post => post.PostSeoSetting)
@@ -51,6 +48,8 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 
         protected override void SetIndexes(EntityTypeBuilder<PostSeoSetting> modelBuilder)
         {
+            base.SetIndexes(modelBuilder);
+
             modelBuilder
                 .HasIndex(setting => setting.Url)
                 .IsUnique();

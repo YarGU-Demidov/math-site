@@ -7,22 +7,12 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
     public class PostUserAllowedConfiguration : AbstractEntityConfiguration<PostUserAllowed>
     {
         protected override string TableName { get; } = nameof(PostUserAllowed);
-
-        /// <inheritdoc />
-        protected override void SetKeys(EntityTypeBuilder<PostUserAllowed> modelBuilder)
-        {
-            modelBuilder
-                .HasKey(postUserAllowed => postUserAllowed.Id);
-        }
-
-        /// <inheritdoc />
-        protected override void SetFields(EntityTypeBuilder<PostUserAllowed> modelBuilder)
-        {
-        }
-
+        
         /// <inheritdoc />
         protected override void SetRelationships(EntityTypeBuilder<PostUserAllowed> modelBuilder)
         {
+            base.SetRelationships(modelBuilder);
+
             modelBuilder
                 .HasOne(postUserAllowed => postUserAllowed.User)
                 .WithMany(user => user.AllowedPosts)
@@ -34,10 +24,6 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
                 .WithMany(post => post.UsersAllowed)
                 .HasForeignKey(postUserAllowed => postUserAllowed.PostId)
                 .OnDelete(DeleteBehavior.Cascade);
-        }
-
-        protected override void SetIndexes(EntityTypeBuilder<PostUserAllowed> modelBuilder)
-        {
         }
     }
 }

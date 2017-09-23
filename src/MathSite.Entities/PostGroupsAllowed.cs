@@ -1,14 +1,10 @@
 ﻿using System;
+using MathSite.Common.Entities;
 
 namespace MathSite.Entities
 {
-    /// <summary>
-    /// </summary>
-    public class PostGroupsAllowed
+    public class PostGroupsAllowed : Entity
     {
-        /// <summary>
-        /// </summary>
-        public Guid Id { get; set; }
 
         /// <summary>
         /// </summary>

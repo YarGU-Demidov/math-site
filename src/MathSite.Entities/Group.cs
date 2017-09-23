@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using MathSite.Common.Entities;
 
 namespace MathSite.Entities
 {
     /// <summary>
     ///     Группа.
     /// </summary>
-    public class Group
+    public class Group : EntityWithNameAndAlias
     {
         public Group()
         {
@@ -18,34 +19,19 @@ namespace MathSite.Entities
         /// <param name="name">Название.</param>
         /// <param name="description">Описание.</param>
         /// <param name="alias">Alias группы.</param>
-        /// <param name="groupTypeAlias">Alias типа группы.</param>
+        /// <param name="groupTypeId">Alias типа группы.</param>
         /// <param name="parentGroupId">Идентификатор родительской группы.</param>
         /// <param name="isAdmin">Является ли группа администраторской в своем типе.</param>
-        public Group(string name, string description, string alias, string groupTypeAlias, Guid? parentGroupId,
+        public Group(string name, string description, string alias, Guid groupTypeId, Guid? parentGroupId,
             bool isAdmin = false)
         {
             Name = name;
             Description = description;
             Alias = alias;
             ParentGroupId = parentGroupId;
-            GroupTypeAlias = groupTypeAlias;
+            GroupTypeId = groupTypeId;
             IsAdmin = isAdmin;
         }
-
-        /// <summary>
-        ///     Идентификатор.
-        /// </summary>
-        public Guid Id { get; set; }
-
-        /// <summary>
-        ///     Алиас.
-        /// </summary>
-        public string Alias { get; set; }
-
-        /// <summary>
-        ///     Название.
-        /// </summary>
-        public string Name { get; set; }
 
         /// <summary>
         ///     Описание.
@@ -65,7 +51,7 @@ namespace MathSite.Entities
         /// <summary>
         ///     Идентификатор типа группы.
         /// </summary>
-        public string GroupTypeAlias { get; set; }
+        public Guid GroupTypeId { get; set; }
 
         /// <summary>
         ///     Тип группы.

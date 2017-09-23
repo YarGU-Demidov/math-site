@@ -1,15 +1,12 @@
 ﻿using System;
+using MathSite.Common.Entities;
 
 namespace MathSite.Entities
 {
     /// <summary>
     /// </summary>
-    public class UsersRight
+    public class UsersRight : Entity
     {
-        /// <summary>
-        /// </summary>
-        public Guid Id { get; set; }
-
         /// <summary>
         /// </summary>
         public bool Allowed { get; set; }
@@ -24,7 +21,7 @@ namespace MathSite.Entities
 
         /// <summary>
         /// </summary>
-        public string RightAlias { get; set; }
+        public Guid RightId { get; set; }
 
         /// <summary>
         /// </summary>

@@ -2,15 +2,18 @@ using System;
 using System.Threading.Tasks;
 using MathSite.Common.Crypto;
 using MathSite.Db.DataSeeding.StaticData;
-using MathSite.Domain.Common;
+using MathSite.Entities;
 using MathSite.Facades.UserValidation;
+using MathSite.Repository.Core;
+using MathSite.Specifications;
+using MathSite.Specifications.Users;
 using Xunit;
 
 namespace MathSite.Tests.Facades
 {
     public class UserValidationTests : FacadesTestsBase
     {
-        public IUserValidationFacade GetFacade(IBusinessLogicManager manager)
+        public IUserValidationFacade GetFacade(IRepositoryManager manager)
         {
             return new UserValidationFacade(manager, MemoryCache, new DoubleSha512HashPasswordsManager());
         }
@@ -22,9 +25,11 @@ namespace MathSite.Tests.Facades
             {
                 var rightsValidator = GetFacade(manager);
 
-                var user = await manager.UsersLogic.TryGetByLoginAsync(UsersAliases.SecondUser);
+                var user = await GetUserByLogin(manager, UsersAliases.SecondUser);
 
-                var groupRight = await manager.RightsLogic.TryGetByAliasAsync(RightAliases.AdminAccess);
+                var requirements = new SameAliasSpecification<Right>(RightAliases.AdminAccess);
+
+                var groupRight = await manager.RightsRepository.FirstOrDefaultAsync(requirements.ToExpression());
 
                 var hasRight = await rightsValidator.UserHasRightAsync(user.Id, groupRight);
                 Assert.False(hasRight);
@@ -47,9 +52,11 @@ namespace MathSite.Tests.Facades
             {
                 var rightsValidator = GetFacade(manager);
 
-                var user = await manager.UsersLogic.TryGetByLoginAsync(UsersAliases.FirstUser);
+                var user = await GetUserByLogin(manager, UsersAliases.FirstUser);
 
-                var groupRight = await manager.RightsLogic.TryGetByAliasAsync(RightAliases.PanelAccess);
+                var requirements = new SameAliasSpecification<Right>(RightAliases.AdminAccess);
+
+                var groupRight = await manager.RightsRepository.FirstOrDefaultAsync(requirements.ToExpression());
 
                 var hasRight = await rightsValidator.UserHasRightAsync(user.Id, groupRight);
                 Assert.True(hasRight);
@@ -74,7 +81,7 @@ namespace MathSite.Tests.Facades
                 do
                 {
                     var tempId = Guid.NewGuid();
-                    var tempUser = await manager.UsersLogic.TryGetByIdAsync(tempId);
+                    var tempUser = await manager.UsersRepository.FirstOrDefaultWithRightsAsync(tempId);
 
                     if (tempUser == null)
                         userId = tempId;
@@ -93,13 +100,20 @@ namespace MathSite.Tests.Facades
         {
             await WithLogicAsync(async manager =>
             {
-                var user = await manager.UsersLogic.TryGetByLoginAsync(UsersAliases.FirstUser);
+                var user = await GetUserByLogin(manager, UsersAliases.FirstUser);
                 var rightsValidator = GetFacade(manager);
 
                 var exists = await rightsValidator.DoesUserExistsAsync(user.Id);
 
                 Assert.True(exists);
             });
+        }
+
+        private async Task<User> GetUserByLogin(IRepositoryManager manager, string login)
+        {
+            var requirements = new HasLoginSpecification(login);
+
+            return await manager.UsersRepository.FirstOrDefaultWithRightsAsync(requirements.ToExpression());
         }
     }
 }

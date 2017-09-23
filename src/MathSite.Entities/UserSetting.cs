@@ -1,16 +1,13 @@
 ﻿using System;
+using MathSite.Common.Entities;
 
 namespace MathSite.Entities
 {
     /// <summary>
     ///     Настройки пользователя.
     /// </summary>
-    public class UserSetting
+    public class UserSetting : Entity
     {
-        /// <summary>
-        /// </summary>
-        public Guid Id { get; set; }
-
         /// <summary>
         /// </summary>
         public string Namespace { get; set; }

@@ -1,32 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using MathSite.Common.Entities;
 
 namespace MathSite.Entities
 {
     /// <summary>
     ///     Категория поста
     /// </summary>
-    public class Category
+    public class Category : EntityWithNameAndAlias
     {
-        /// <summary>
-        ///     Идентификатор категории
-        /// </summary>
-        public Guid Id { get; set; }
-
-        /// <summary>
-        ///     Имя категории
-        /// </summary>
-        public string Name { get; set; }
-
         /// <summary>
         ///     Описание категории
         /// </summary>
         public string Description { get; set; }
-
-        /// <summary>
-        ///     Алиас категории
-        /// </summary>
-        public string Alias { get; set; }
 
         /// <summary>
         ///     Список постов этой категории

@@ -27,6 +27,10 @@ namespace MathSite.Migrations
                 b.Property<string>("Alias")
                     .IsRequired();
 
+                b.Property<DateTime>("CreationDate")
+                    .ValueGeneratedOnAdd()
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
                 b.Property<string>("Description");
 
                 b.Property<string>("Name")
@@ -34,7 +38,8 @@ namespace MathSite.Migrations
 
                 b.HasKey("Id");
 
-                b.HasAlternateKey("Alias");
+                b.HasIndex("Alias")
+                    .IsUnique();
 
                 b.ToTable("Category");
             });
@@ -43,6 +48,10 @@ namespace MathSite.Migrations
             {
                 b.Property<Guid>("Id")
                     .ValueGeneratedOnAdd();
+
+                b.Property<DateTime>("CreationDate")
+                    .ValueGeneratedOnAdd()
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                 b.Property<DateTime>("Date");
 
@@ -69,14 +78,18 @@ namespace MathSite.Migrations
                 b.Property<Guid>("Id")
                     .ValueGeneratedOnAdd();
 
+                b.Property<DateTime>("CreationDate")
+                    .ValueGeneratedOnAdd()
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
                 b.Property<DateTime>("DateAdded");
 
                 b.Property<string>("Extension");
 
-                b.Property<string>("FileName")
+                b.Property<string>("Name")
                     .IsRequired();
 
-                b.Property<string>("FilePath")
+                b.Property<string>("Path")
                     .IsRequired();
 
                 b.HasKey("Id");
@@ -92,10 +105,13 @@ namespace MathSite.Migrations
                 b.Property<string>("Alias")
                     .IsRequired();
 
+                b.Property<DateTime>("CreationDate")
+                    .ValueGeneratedOnAdd()
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
                 b.Property<string>("Description");
 
-                b.Property<string>("GroupTypeAlias")
-                    .IsRequired();
+                b.Property<Guid>("GroupTypeId");
 
                 b.Property<bool>("IsAdmin")
                     .ValueGeneratedOnAdd()
@@ -108,7 +124,10 @@ namespace MathSite.Migrations
 
                 b.HasKey("Id");
 
-                b.HasIndex("GroupTypeAlias");
+                b.HasIndex("Alias")
+                    .IsUnique();
+
+                b.HasIndex("GroupTypeId");
 
                 b.HasIndex("ParentGroupId");
 
@@ -122,31 +141,44 @@ namespace MathSite.Migrations
 
                 b.Property<bool>("Allowed");
 
+                b.Property<DateTime>("CreationDate")
+                    .ValueGeneratedOnAdd()
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
                 b.Property<Guid>("GroupId");
 
-                b.Property<string>("RightAlias")
-                    .IsRequired();
+                b.Property<Guid>("RightId");
 
                 b.HasKey("Id");
 
                 b.HasIndex("GroupId");
 
-                b.HasIndex("RightAlias");
+                b.HasIndex("RightId");
 
                 b.ToTable("GroupsRight");
             });
 
             modelBuilder.Entity("MathSite.Entities.GroupType", b =>
             {
-                b.Property<string>("Alias")
+                b.Property<Guid>("Id")
                     .ValueGeneratedOnAdd();
+
+                b.Property<string>("Alias")
+                    .IsRequired();
+
+                b.Property<DateTime>("CreationDate")
+                    .ValueGeneratedOnAdd()
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                 b.Property<string>("Description");
 
                 b.Property<string>("Name")
                     .IsRequired();
 
-                b.HasKey("Alias");
+                b.HasKey("Id");
+
+                b.HasIndex("Alias")
+                    .IsUnique();
 
                 b.ToTable("GroupType");
             });
@@ -159,12 +191,17 @@ namespace MathSite.Migrations
                 b.Property<string>("Alias")
                     .IsRequired();
 
+                b.Property<DateTime>("CreationDate")
+                    .ValueGeneratedOnAdd()
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
                 b.Property<string>("Name")
                     .IsRequired();
 
                 b.HasKey("Id");
 
-                b.HasAlternateKey("Alias");
+                b.HasIndex("Alias")
+                    .IsUnique();
 
                 b.ToTable("Keyword");
             });
@@ -178,9 +215,9 @@ namespace MathSite.Migrations
 
                 b.Property<DateTime>("Birthday");
 
-                b.Property<DateTime?>("CreationDate")
+                b.Property<DateTime>("CreationDate")
                     .ValueGeneratedOnAdd()
-                    .HasDefaultValueSql("NOW()");
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                 b.Property<string>("MiddleName");
 
@@ -217,6 +254,10 @@ namespace MathSite.Migrations
                 b.Property<string>("Content")
                     .IsRequired();
 
+                b.Property<DateTime>("CreationDate")
+                    .ValueGeneratedOnAdd()
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
                 b.Property<bool>("Deleted");
 
                 b.Property<string>("Excerpt")
@@ -226,8 +267,7 @@ namespace MathSite.Migrations
 
                 b.Property<Guid?>("PostSettingsId");
 
-                b.Property<string>("PostTypeAlias")
-                    .IsRequired();
+                b.Property<Guid>("PostTypeId");
 
                 b.Property<DateTime>("PublishDate");
 
@@ -246,7 +286,7 @@ namespace MathSite.Migrations
                 b.HasIndex("PostSettingsId")
                     .IsUnique();
 
-                b.HasIndex("PostTypeAlias");
+                b.HasIndex("PostTypeId");
 
                 b.ToTable("Post");
             });
@@ -257,6 +297,10 @@ namespace MathSite.Migrations
                     .ValueGeneratedOnAdd();
 
                 b.Property<bool>("Allowed");
+
+                b.Property<DateTime>("CreationDate")
+                    .ValueGeneratedOnAdd()
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                 b.Property<Guid>("FileId");
 
@@ -278,6 +322,10 @@ namespace MathSite.Migrations
 
                 b.Property<Guid>("CategoryId");
 
+                b.Property<DateTime>("CreationDate")
+                    .ValueGeneratedOnAdd()
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
                 b.Property<Guid>("PostId");
 
                 b.HasKey("Id");
@@ -295,6 +343,10 @@ namespace MathSite.Migrations
                     .ValueGeneratedOnAdd();
 
                 b.Property<bool>("Allowed");
+
+                b.Property<DateTime>("CreationDate")
+                    .ValueGeneratedOnAdd()
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                 b.Property<Guid?>("GroupId");
 
@@ -314,6 +366,10 @@ namespace MathSite.Migrations
                 b.Property<Guid>("Id")
                     .ValueGeneratedOnAdd();
 
+                b.Property<DateTime>("CreationDate")
+                    .ValueGeneratedOnAdd()
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
                 b.Property<Guid>("KeywordId");
 
                 b.Property<Guid>("PostSeoSettingsId");
@@ -331,6 +387,10 @@ namespace MathSite.Migrations
             {
                 b.Property<Guid>("Id")
                     .ValueGeneratedOnAdd();
+
+                b.Property<DateTime>("CreationDate")
+                    .ValueGeneratedOnAdd()
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                 b.Property<Guid>("PostId");
 
@@ -352,6 +412,10 @@ namespace MathSite.Migrations
 
                 b.Property<bool>("Allowed");
 
+                b.Property<DateTime>("CreationDate")
+                    .ValueGeneratedOnAdd()
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
                 b.Property<Guid>("PostId");
 
                 b.Property<Guid>("UserId");
@@ -372,6 +436,10 @@ namespace MathSite.Migrations
             {
                 b.Property<Guid>("Id")
                     .ValueGeneratedOnAdd();
+
+                b.Property<DateTime>("CreationDate")
+                    .ValueGeneratedOnAdd()
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                 b.Property<string>("Description");
 
@@ -396,9 +464,18 @@ namespace MathSite.Migrations
                     .ValueGeneratedOnAdd()
                     .HasDefaultValue(false);
 
+                b.Property<DateTime>("CreationDate")
+                    .ValueGeneratedOnAdd()
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
                 b.Property<bool>("IsCommentsAllowed")
                     .ValueGeneratedOnAdd()
                     .HasDefaultValue(false);
+
+                b.Property<string>("Layout")
+                    .IsRequired()
+                    .ValueGeneratedOnAdd()
+                    .HasDefaultValue("SecondaryLayout");
 
                 b.Property<bool>("PostOnStartPage")
                     .ValueGeneratedOnAdd()
@@ -415,15 +492,25 @@ namespace MathSite.Migrations
 
             modelBuilder.Entity("MathSite.Entities.PostType", b =>
             {
-                b.Property<string>("Alias")
+                b.Property<Guid>("Id")
                     .ValueGeneratedOnAdd();
+
+                b.Property<string>("Alias")
+                    .IsRequired();
+
+                b.Property<DateTime>("CreationDate")
+                    .ValueGeneratedOnAdd()
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                 b.Property<Guid>("DefaultPostsSettingsId");
 
-                b.Property<string>("TypeName")
+                b.Property<string>("Name")
                     .IsRequired();
 
-                b.HasKey("Alias");
+                b.HasKey("Id");
+
+                b.HasIndex("Alias")
+                    .IsUnique();
 
                 b.HasIndex("DefaultPostsSettingsId")
                     .IsUnique();
@@ -437,6 +524,10 @@ namespace MathSite.Migrations
                     .ValueGeneratedOnAdd();
 
                 b.Property<bool>("Allowed");
+
+                b.Property<DateTime>("CreationDate")
+                    .ValueGeneratedOnAdd()
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                 b.Property<Guid>("PostId");
 
@@ -453,30 +544,50 @@ namespace MathSite.Migrations
 
             modelBuilder.Entity("MathSite.Entities.Right", b =>
             {
-                b.Property<string>("Alias")
+                b.Property<Guid>("Id")
                     .ValueGeneratedOnAdd();
+
+                b.Property<string>("Alias")
+                    .IsRequired();
+
+                b.Property<DateTime>("CreationDate")
+                    .ValueGeneratedOnAdd()
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                 b.Property<string>("Description");
 
                 b.Property<string>("Name")
                     .IsRequired();
 
-                b.HasKey("Alias");
+                b.HasKey("Id");
+
+                b.HasIndex("Alias")
+                    .IsUnique();
 
                 b.ToTable("Right");
             });
 
             modelBuilder.Entity("MathSite.Entities.SiteSetting", b =>
             {
-                b.Property<string>("Key")
+                b.Property<Guid>("Id")
                     .ValueGeneratedOnAdd();
+
+                b.Property<DateTime>("CreationDate")
+                    .ValueGeneratedOnAdd()
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                b.Property<string>("Key")
+                    .IsRequired();
 
                 b.Property<byte[]>("Value")
                     .IsRequired();
 
-                b.HasKey("Key");
+                b.HasKey("Id");
 
-                b.HasIndex("Key");
+                b.HasAlternateKey("Key");
+
+                b.HasIndex("Key")
+                    .IsUnique();
 
                 b.ToTable("SiteSetting");
             });
@@ -486,9 +597,9 @@ namespace MathSite.Migrations
                 b.Property<Guid>("Id")
                     .ValueGeneratedOnAdd();
 
-                b.Property<DateTime?>("CreationDate")
+                b.Property<DateTime>("CreationDate")
                     .ValueGeneratedOnAdd()
-                    .HasDefaultValueSql("NOW()");
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                 b.Property<Guid>("GroupId");
 
@@ -509,6 +620,10 @@ namespace MathSite.Migrations
             {
                 b.Property<Guid>("Id")
                     .ValueGeneratedOnAdd();
+
+                b.Property<DateTime>("CreationDate")
+                    .ValueGeneratedOnAdd()
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                 b.Property<string>("Key")
                     .IsRequired();
@@ -535,14 +650,17 @@ namespace MathSite.Migrations
 
                 b.Property<bool>("Allowed");
 
-                b.Property<string>("RightAlias")
-                    .IsRequired();
+                b.Property<DateTime>("CreationDate")
+                    .ValueGeneratedOnAdd()
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                b.Property<Guid>("RightId");
 
                 b.Property<Guid>("UserId");
 
                 b.HasKey("Id");
 
-                b.HasIndex("RightAlias");
+                b.HasIndex("RightId");
 
                 b.HasIndex("UserId");
 
@@ -566,7 +684,7 @@ namespace MathSite.Migrations
             {
                 b.HasOne("MathSite.Entities.GroupType", "GroupType")
                     .WithMany("Groups")
-                    .HasForeignKey("GroupTypeAlias")
+                    .HasForeignKey("GroupTypeId")
                     .OnDelete(DeleteBehavior.Cascade);
 
                 b.HasOne("MathSite.Entities.Group", "ParentGroup")
@@ -584,7 +702,7 @@ namespace MathSite.Migrations
 
                 b.HasOne("MathSite.Entities.Right", "Right")
                     .WithMany("GroupsRights")
-                    .HasForeignKey("RightAlias")
+                    .HasForeignKey("RightId")
                     .OnDelete(DeleteBehavior.Cascade);
             });
 
@@ -620,7 +738,7 @@ namespace MathSite.Migrations
 
                 b.HasOne("MathSite.Entities.PostType", "PostType")
                     .WithMany("Posts")
-                    .HasForeignKey("PostTypeAlias")
+                    .HasForeignKey("PostTypeId")
                     .OnDelete(DeleteBehavior.Cascade);
             });
 
@@ -751,7 +869,7 @@ namespace MathSite.Migrations
             {
                 b.HasOne("MathSite.Entities.Right", "Right")
                     .WithMany("UsersRights")
-                    .HasForeignKey("RightAlias")
+                    .HasForeignKey("RightId")
                     .OnDelete(DeleteBehavior.Cascade);
 
                 b.HasOne("MathSite.Entities.User", "User")

@@ -15,10 +15,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\MathSite.Repository\MathSite.Repository.csproj" />
+    <ProjectReference Include="..\..\src\MathSite.Specifications\MathSite.Specifications.csproj" />
     <ProjectReference Include="..\MathSite.Tests.CoreThings\MathSite.Tests.CoreThings.csproj" />
     <ProjectReference Include="..\..\src\MathSite.Common\MathSite.Common.csproj" />
     <ProjectReference Include="..\..\src\MathSite.Db\MathSite.Db.csproj" />
-    <ProjectReference Include="..\..\src\MathSite.Domain\MathSite.Domain.csproj" />
     <ProjectReference Include="..\..\src\MathSite.Entities\MathSite.Entities.csproj" />
     <ProjectReference Include="..\..\src\MathSite.Facades\MathSite.Facades.csproj" />
   </ItemGroup>

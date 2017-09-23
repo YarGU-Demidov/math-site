@@ -8,25 +8,20 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
     public class FileConfiguration : AbstractEntityConfiguration<File>
     {
         protected override string TableName { get; } = nameof(File);
-
-        /// <inheritdoc />
-        protected override void SetKeys(EntityTypeBuilder<File> modelBuilder)
-        {
-            modelBuilder
-                .HasKey(f => f.Id);
-        }
-
+        
         /// <inheritdoc />
         protected override void SetFields(EntityTypeBuilder<File> modelBuilder)
         {
+            base.SetFields(modelBuilder);
+
             modelBuilder
-                .Property(f => f.FileName)
+                .Property(f => f.Name)
                 .IsRequired();
             modelBuilder
                 .Property(f => f.DateAdded)
                 .IsRequired();
             modelBuilder
-                .Property(f => f.FilePath)
+                .Property(f => f.Path)
                 .IsRequired();
             modelBuilder
                 .Property(f => f.Extension)
@@ -36,6 +31,8 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
         /// <inheritdoc />
         protected override void SetRelationships(EntityTypeBuilder<File> modelBuilder)
         {
+            base.SetRelationships(modelBuilder);
+
             modelBuilder
                 .HasOne(file => file.Person)
                 .WithOne(person => person.Photo)
@@ -54,10 +51,6 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
                 .WithOne(postAttachments => postAttachments.File)
                 .HasForeignKey(postAttachments => postAttachments.FileId)
                 .OnDelete(DeleteBehavior.Cascade);
-        }
-
-        protected override void SetIndexes(EntityTypeBuilder<File> modelBuilder)
-        {
         }
     }
 }

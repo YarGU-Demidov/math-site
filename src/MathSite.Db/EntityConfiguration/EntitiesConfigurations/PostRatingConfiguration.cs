@@ -7,17 +7,12 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
     public class PostRatingConfiguration : AbstractEntityConfiguration<PostRating>
     {
         protected override string TableName { get; } = nameof(PostRating);
-
-        /// <inheritdoc />
-        protected override void SetKeys(EntityTypeBuilder<PostRating> modelBuilder)
-        {
-            modelBuilder
-                .HasKey(postRating => postRating.Id);
-        }
-
+        
         /// <inheritdoc />
         protected override void SetFields(EntityTypeBuilder<PostRating> modelBuilder)
         {
+            base.SetFields(modelBuilder);
+
             modelBuilder
                 .Property(postRating => postRating.Value)
                 .IsRequired();
@@ -26,6 +21,8 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
         /// <inheritdoc />
         protected override void SetRelationships(EntityTypeBuilder<PostRating> modelBuilder)
         {
+            base.SetRelationships(modelBuilder);
+
             modelBuilder
                 .HasOne(postRating => postRating.User)
                 .WithMany(user => user.PostsRatings)
@@ -37,10 +34,6 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
                 .WithMany(post => post.PostRatings)
                 .HasForeignKey(postRating => postRating.PostId)
                 .OnDelete(DeleteBehavior.Cascade);
-        }
-
-        protected override void SetIndexes(EntityTypeBuilder<PostRating> modelBuilder)
-        {
         }
     }
 }
