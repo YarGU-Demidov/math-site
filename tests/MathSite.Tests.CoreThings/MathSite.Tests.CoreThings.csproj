@@ -1,25 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\MathSite.Common\MathSite.Common.csproj" />
-    <ProjectReference Include="..\..\src\MathSite.Db\MathSite.Db.csproj" />
-    <ProjectReference Include="..\..\src\MathSite.Entities\MathSite.Entities.csproj" />
-    <ProjectReference Include="..\..\src\MathSite.Facades\MathSite.Facades.csproj" />
-    <ProjectReference Include="..\..\src\MathSite.Repository\MathSite.Repository.csproj" />
-    <ProjectReference Include="..\..\src\MathSite.Specifications\MathSite.Specifications.csproj" />
-  </ItemGroup>
-
+    <PropertyGroup>
+        <TargetFramework>netcoreapp2.0</TargetFramework>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.0.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Logging" Version="2.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.0.0" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\..\src\MathSite.Common\MathSite.Common.csproj" />
+        <ProjectReference Include="..\..\src\MathSite.Db\MathSite.Db.csproj" />
+        <ProjectReference Include="..\..\src\MathSite.Entities\MathSite.Entities.csproj" />
+        <ProjectReference Include="..\..\src\MathSite.Facades\MathSite.Facades.csproj" />
+        <ProjectReference Include="..\..\src\MathSite.Repository\MathSite.Repository.csproj" />
+        <ProjectReference Include="..\..\src\MathSite.Specifications\MathSite.Specifications.csproj" />
+    </ItemGroup>
 </Project>

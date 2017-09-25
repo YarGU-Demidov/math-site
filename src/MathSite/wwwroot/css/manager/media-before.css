@@ -1,12 +1,16 @@
 ﻿/* Extra small devices (portrait phones, less than 576px) */
 
 @media (max-width: 575px) {
+    div.sidebar-column {
+        position: relative;
+        height: auto;
+        top: 0;
+    }
 }
 
 /* Small devices (landscape phones, less than 768px) */
 
-@media (max-width: 767px) {
-}
+@media (max-width: 767px) { }
 
 /* Medium devices (tablets, less than 992px) */
 

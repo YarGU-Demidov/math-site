@@ -5,6 +5,9 @@
 /* Small devices (landscape phones, 576px and up) */
 
 @media (min-width: 576px) and (max-width: 767px) {
+    div.sidebar-column {
+        top: 100px;
+    }
 }
 
 /* Medium devices (tablets, 768px and up) */

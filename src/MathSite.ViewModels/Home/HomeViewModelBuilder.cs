@@ -21,13 +21,11 @@ namespace MathSite.ViewModels.Home
             _postsFacade = postsFacade;
             _postPreviewViewModelBuilder = postPreviewViewModelBuilder;
         }
-
-        protected override string PageTitle { get; set; }
-
+        
         public async Task<HomeIndexViewModel> BuildIndexModel()
         {
-            await FillPageNameAsync();
             var model = await BuildCommonViewModelAsync<HomeIndexViewModel>();
+            await FillPageNameAsync(model);
             await BuildPostsAsync(model);
             return model;
         }
@@ -43,11 +41,11 @@ namespace MathSite.ViewModels.Home
             return posts.Select(_postPreviewViewModelBuilder.Build);
         }
 
-        private async Task FillPageNameAsync()
+        private async Task FillPageNameAsync(CommonViewModel model)
         {
             var title = await SiteSettingsFacade[SiteSettingsNames.DefaultHomePageTitle];
 
-            PageTitle = title ?? "Главная страница";
+            model.PageTitle.Title = title ?? "Главная страница";
         }
     }
 }

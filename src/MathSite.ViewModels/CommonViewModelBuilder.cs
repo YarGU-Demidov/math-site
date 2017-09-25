@@ -16,7 +16,6 @@ namespace MathSite.ViewModels
 
         public ISiteSettingsFacade SiteSettingsFacade { get; }
 
-        protected abstract string PageTitle { get; set; }
 
         protected virtual async Task<T> BuildCommonViewModelAsync<T>()
             where T : CommonViewModel, new()
@@ -36,7 +35,7 @@ namespace MathSite.ViewModels
             where T : CommonViewModel
         {
             var pageTitle = new PageTitleViewModel(
-                PageTitle,
+                "",
                 await SiteSettingsFacade[SiteSettingsNames.TitleDelimiter],
                 await SiteSettingsFacade[SiteSettingsNames.SiteName]
             );

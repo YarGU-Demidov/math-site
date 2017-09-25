@@ -1,10 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using MathSite.BasicAdmin.ViewModels.SharedModels;
-using MathSite.BasicAdmin.ViewModels.SharedModels.Menu;
+﻿using System.Threading.Tasks;
+using MathSite.BasicAdmin.ViewModels.Home;
 using MathSite.Controllers;
-using MathSite.Db.DataSeeding.StaticData;
-using MathSite.Facades.SiteSettings;
 using MathSite.Facades.UserValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,32 +11,17 @@ namespace MathSite.Areas.Manager.Controllers
     [Authorize("admin")]
     public class HomeController : BaseController
     {
-        private readonly ISiteSettingsFacade _siteSettingsFacade;
+        private readonly IDashboardPageViewModelBuilder _modelBuilder;
 
-        public HomeController(IUserValidationFacade userValidationFacade, ISiteSettingsFacade siteSettingsFacade) :
+        public HomeController(IUserValidationFacade userValidationFacade, IDashboardPageViewModelBuilder modelBuilder) :
             base(userValidationFacade)
         {
-            _siteSettingsFacade = siteSettingsFacade;
+            _modelBuilder = modelBuilder;
         }
 
         public async Task<IActionResult> Index()
         {
-            return View(new AdminPageBaseViewModel(
-                new PageTitleViewModel(
-                    "Dashboard",
-                    await _siteSettingsFacade[SiteSettingsNames.TitleDelimiter],
-                    await _siteSettingsFacade[SiteSettingsNames.SiteName]
-                ),
-                new List<MenuLink>
-                {
-                    new MenuLink("Dashboard", "/manager", true),
-                    new MenuLink("Статьи", "/manager", false),
-                    new MenuLink("Новости", "/manager/news", false),
-                    new MenuLink("Файлы", "/manager", false),
-                    new MenuLink("Пользователи", "/manager", false),
-                    new MenuLink("Настройки", "/manager", false)
-                }
-            ));
+            return View(await _modelBuilder.BuilDashboardPageViewModel());
         }
     }
 }

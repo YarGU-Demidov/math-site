@@ -1,12 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\MathSite.Common\MathSite.Common.csproj" />
-    <ProjectReference Include="..\MathSite.Entities\MathSite.Entities.csproj" />
-  </ItemGroup>
-
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+    </PropertyGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\MathSite.Common\MathSite.Common.csproj" />
+        <ProjectReference Include="..\MathSite.Entities\MathSite.Entities.csproj" />
+        <ProjectReference Include="..\MathSite.Facades\MathSite.Facades.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+      <Reference Include="Microsoft.VisualBasic">
+        <HintPath>..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.netcore.app\2.0.0\ref\netcoreapp2.0\Microsoft.VisualBasic.dll</HintPath>
+      </Reference>
+    </ItemGroup>
 </Project>

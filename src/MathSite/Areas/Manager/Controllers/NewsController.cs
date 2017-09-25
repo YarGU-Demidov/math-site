@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using MathSite.BasicAdmin.ViewModels.News;
 using MathSite.BasicAdmin.ViewModels.SharedModels;
 using MathSite.BasicAdmin.ViewModels.SharedModels.Menu;
 using MathSite.Controllers;
 using MathSite.Db.DataSeeding.StaticData;
+using MathSite.Facades.Posts;
 using MathSite.Facades.SiteSettings;
 using MathSite.Facades.UserValidation;
 using Microsoft.AspNetCore.Authorization;
@@ -15,32 +18,34 @@ namespace MathSite.Areas.Manager.Controllers
     [Authorize("admin")]
     public class NewsController : BaseController
     {
-        private readonly ISiteSettingsFacade _siteSettingsFacade;
+        private readonly INewsManagerViewModelBuilder _modelBuilder;
+        private readonly IPostsFacade _posts;
 
-        public NewsController(IUserValidationFacade userValidationFacade, ISiteSettingsFacade siteSettingsFacade) :
-            base(userValidationFacade)
+        public NewsController(IUserValidationFacade userValidationFacade, INewsManagerViewModelBuilder modelBuilder, IPostsFacade posts) 
+            : base(userValidationFacade)
         {
-            _siteSettingsFacade = siteSettingsFacade;
+            _modelBuilder = modelBuilder;
+            _posts = posts;
         }
 
         public async Task<IActionResult> Index()
         {
-            return View(new AdminPageBaseViewModel(
-                new PageTitleViewModel(
-                    "Dashboard",
-                    await _siteSettingsFacade[SiteSettingsNames.TitleDelimiter],
-                    await _siteSettingsFacade[SiteSettingsNames.SiteName]
-                ),
-                new List<MenuLink>
-                {
-                    new MenuLink("Dashboard", "/manager", false),
-                    new MenuLink("Статьи", "/manager", false),
-                    new MenuLink("Новости", "/manager/news", true),
-                    new MenuLink("Файлы", "/manager", false),
-                    new MenuLink("Пользователи", "/manager", false),
-                    new MenuLink("Настройки", "/manager", false)
-                }
-            ));
+            return View(await _modelBuilder.BuildIndexViewModel());
+        }
+
+        public async Task<IActionResult> Create(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -11,5 +11,6 @@ namespace MathSite.Facades.Posts
         Task<Post> GetStaticPageByUrlAsync(string url);
         Task<IEnumerable<Post>> GetNewsAsync(int page);
         Task<IEnumerable<Post>> GetLastSelectedForMainPagePostsAsync(int count);
+        Task<IEnumerable<Post>> GetAllNewsAsync(int limit, int skip, bool includeDeleted = false, bool onlyDeleted = false);
     }
 }
