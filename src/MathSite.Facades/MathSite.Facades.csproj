@@ -1,16 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.0.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MathSite.Common\MathSite.Common.csproj" />
-    <ProjectReference Include="..\MathSite.Db\MathSite.Db.csproj" />
-    <ProjectReference Include="..\MathSite.Entities\MathSite.Entities.csproj" />
-    <ProjectReference Include="..\MathSite.Repository\MathSite.Repository.csproj" />
-    <ProjectReference Include="..\MathSite.Specifications\MathSite.Specifications.csproj" />
-  </ItemGroup>
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.0.0" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\MathSite.Common\MathSite.Common.csproj" />
+        <ProjectReference Include="..\MathSite.Db\MathSite.Db.csproj" />
+        <ProjectReference Include="..\MathSite.Entities\MathSite.Entities.csproj" />
+        <ProjectReference Include="..\MathSite.Repository\MathSite.Repository.csproj" />
+        <ProjectReference Include="..\MathSite.Specifications\MathSite.Specifications.csproj" />
+    </ItemGroup>
 </Project>

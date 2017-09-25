@@ -20,13 +20,10 @@ namespace MathSite.ViewModels.News
         {
         }
 
-        protected override string PageTitle { get; set; }
-
         public async Task<NewsIndexViewModel> BuildIndexViewModelAsync(int page = 1)
         {
-            await FillIndexPageNameAsync();
-
             var model = await BuildSecondaryViewModel<NewsIndexViewModel>();
+            await FillIndexPageNameAsync(model);
 
             await BuildPosts(model, page);
 
@@ -60,11 +57,11 @@ namespace MathSite.ViewModels.News
         }
 
 
-        private async Task FillIndexPageNameAsync()
+        private async Task FillIndexPageNameAsync(CommonViewModel model)
         {
             var title = await SiteSettingsFacade[SiteSettingsNames.DefaultNewsPageTitle];
 
-            PageTitle = title ?? "Новости нашего факультета";
+            model.PageTitle.Title = title ?? "Новости нашего факультета";
         }
 
         private async Task BuildPosts(NewsIndexViewModel model, int page)

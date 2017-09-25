@@ -17,8 +17,6 @@ namespace MathSite.ViewModels.Pages
         {
         }
 
-        protected override string PageTitle { get; set; }
-
         public async Task<PageItemViewModel> BuildPageItemViewModelAsync(string query)
         {
             var model = await BuildSecondaryViewModel<PageItemViewModel>();

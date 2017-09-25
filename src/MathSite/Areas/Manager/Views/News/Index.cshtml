@@ -1,7 +1,50 @@
-﻿@model AdminPageBaseViewModel
+﻿@model IndexNewsViewModel
 
-@{
-    Layout = "_ManagerLayout";
+<div class="container without-right-margin">
+    <table class="table table-hover table-responsive">
+        <thead class="thead-default">
+            <tr>
+                <th>Заголовок</th>
+                <th>Дата публикации</th>
+                <th>Комментариев</th>
+                <th>Удалено?</th>
+                <th>На главной?</th>
+                <th>Опубликовано?</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var post in Model.Posts)
+            {
+                var deletedText = post.Deleted ? "checked=\"checked\"" : "";
+                var onStartPageText = post.PostSettings.PostOnStartPage ? "checked=\"checked\"" : "";
+                var publishedText = post.Published ? "checked=\"checked\"" : "";
+
+                <tr>
+                    <th>@post.Title</th>
+                    <td>@post.PublishDate</td>
+                    <td>@post.Comments.Count</td>
+                    <td><input type="checkbox" disabled="disabled" @deletedText /></td>
+                    <td><input type="checkbox" disabled="disabled" @onStartPageText /></td>
+                    <td><input type="checkbox" disabled="disabled" @publishedText /></td>
+                    <td>
+                        <a href="@Url.Action("Edit", "News", new { id = post.Id })" title="Edit" class="btn btn-outline-success">Edit</a>
+                        <a href="@Url.Action("Delete", "News", new { id = post.Id })" title="Delete" class="btn btn-outline-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section StylesSection {
+    <style>
+        main > .container.without-right-margin {
+            /* for old browsers */
+            margin-left: 0;
+            margin-right: 0;
+            margin-left: initial;
+            margin-right: initial;
+        }
+    </style>
 }
-
-news

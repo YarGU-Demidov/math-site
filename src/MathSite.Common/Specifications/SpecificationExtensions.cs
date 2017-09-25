@@ -10,7 +10,7 @@ namespace MathSite.Common.Specifications
         /// <param name="specification">The specification</param>
         /// <param name="other">The specification instance with which the current specification is combined.</param>
         /// <returns>The combined specification instance.</returns>
-        public static ISpecification<T> And<T>(this ISpecification<T> specification,
+        public static Specification<T> And<T>(this ISpecification<T> specification,
             ISpecification<T> other)
         {
             return new AndSpecification<T>(specification, other);
@@ -27,7 +27,7 @@ namespace MathSite.Common.Specifications
         ///     is combined.
         /// </param>
         /// <returns>The combined specification instance.</returns>
-        public static ISpecification<T> Or<T>(this ISpecification<T> specification,
+        public static Specification<T> Or<T>(this ISpecification<T> specification,
             ISpecification<T> other)
         {
             return new OrSpecification<T>(specification, other);
@@ -44,7 +44,7 @@ namespace MathSite.Common.Specifications
         ///     is combined.
         /// </param>
         /// <returns>The combined specification instance.</returns>
-        public static ISpecification<T> AndNot<T>(this ISpecification<T> specification,
+        public static Specification<T> AndNot<T>(this ISpecification<T> specification,
             ISpecification<T> other)
         {
             return new AndNotSpecification<T>(specification, other);
@@ -55,7 +55,7 @@ namespace MathSite.Common.Specifications
         ///     the semantics opposite to the current specification.
         /// </summary>
         /// <returns>The reversed specification instance.</returns>
-        public static ISpecification<T> Not<T>(this ISpecification<T> specification)
+        public static Specification<T> Not<T>(this ISpecification<T> specification)
         {
             return new NotSpecification<T>(specification);
         }

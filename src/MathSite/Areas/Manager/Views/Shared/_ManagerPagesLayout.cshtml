@@ -1,4 +1,5 @@
-﻿@model AdminPageBaseViewModel
+﻿@using MathSite.BasicAdmin.ViewModels.SharedModels.AdminPagesViewModel
+@model MathSite.BasicAdmin.ViewModels.SharedModels.AdminPagesViewModel.AdminPageBaseViewModel
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -11,9 +12,9 @@
 
         <title>@Model.PageTitle</title>
 
+        <link href="~/css/manager/manager-main.css" rel="stylesheet"/>
         <link href="~/css/manager/media-before.css" rel="stylesheet"/>
         <link href="~/css/manager/media-inside.css" rel="stylesheet"/>
-        <link href="~/css/manager/manager-main.css" rel="stylesheet"/>
         <link href="~/css/manager/media-after.css" rel="stylesheet"/>
 
         <!-- Bootstrap CSS -->
@@ -24,12 +25,12 @@
 
         <div class="container-fluid">
             <div class="row">
-                <div class="col-12 col-sm-4 col-md-3 col-lg-2 col-xl-2">
-                    @Html.Partial("Menu/LeftMenu", Model.TopMenu)
+                <div class="col-12 col-sm-4 col-md-3 col-lg-2 col-xl-2 sidebar-column bg-light">
+                    @Html.Partial("Menu/LeftMenu", Model.LeftMenu)
                 </div>
-                <div class="col-12 col-sm-8 col-md-9 col-lg-10 col-xl-10">
+                <main class="ml-sm-auto col-12 col-sm-8 col-md-9 col-lg-10 col-xl-10 pages-layout">
                     @RenderBody()
-                </div>
+                </main>
             </div>
         </div>
 
@@ -38,5 +39,17 @@
         <script src="~/lib/jquery/dist/jquery.slim.min.js"></script>
         <script src="~/lib/popper.js/dist/umd/popper.min.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+        @if (Model?.LeftMenu != null)
+        {
+            <script>
+                $(function() {
+                    $('.sidebar-select > select').change(function () {
+                        location.href = this.value;
+                    });
+                });
+            </script>
+        }
+        @RenderSection("StylesSection", false)
+        @RenderSection("ScriptsSection", false)
     </body>
 </html>

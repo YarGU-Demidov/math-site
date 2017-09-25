@@ -1,53 +1,58 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-  <PropertyGroup>
-    <Copyright>mokeev1995</Copyright>
-    <AssemblyTitle>Math Faculty Site</AssemblyTitle>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
-    <PreserveCompilationContext>true</PreserveCompilationContext>
-    <AssemblyName>MathSite</AssemblyName>
-    <OutputType>Exe</OutputType>
-    <PackageId>MathSite</PackageId>
-    <RuntimeFrameworkVersion>2.0.0</RuntimeFrameworkVersion>
-    <AssetTargetFallback>$(AssetTargetFallback);netcoreapp1.1;net451;dotnet5.6;netcoreapp1.1;portable-net45+win8+wp8+wpa81;dnxcore50</AssetTargetFallback>
-    <Description>Package Description</Description>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
-  </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="Areas\PersonalPage\Views\Shared\**" />
-    <Content Remove="Areas\PersonalPage\Views\Shared\**" />
-    <EmbeddedResource Remove="Areas\PersonalPage\Views\Shared\**" />
-    <None Remove="Areas\PersonalPage\Views\Shared\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="wwwroot\**\*">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" />
-    <PackageReference Include="NETStandard.Library" Version="2.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
-    <PackageReference Include="BundlerMinifier.Core" Version="2.4.337" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.0.0" />
-  </ItemGroup>
-  <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
-    <Exec Command="bower install" />
-    <Exec Command="dotnet bundle" />
-  </Target>
-  <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MathSite.BasicAdmin.ViewModels\MathSite.BasicAdmin.ViewModels.csproj" />
-    <ProjectReference Include="..\MathSite.Common\MathSite.Common.csproj" />
-    <ProjectReference Include="..\MathSite.Db\MathSite.Db.csproj" />
-    <ProjectReference Include="..\MathSite.Entities\MathSite.Entities.csproj" />
-    <ProjectReference Include="..\MathSite.Facades\MathSite.Facades.csproj" />
-    <ProjectReference Include="..\MathSite.Repository\MathSite.Repository.csproj" />
-    <ProjectReference Include="..\MathSite.Specifications\MathSite.Specifications.csproj" />
-    <ProjectReference Include="..\MathSite.ViewModels\MathSite.ViewModels.csproj" />
-    <ProjectReference Include="..\Seeder\Seeder.csproj" />
-  </ItemGroup>
+    <PropertyGroup>
+        <Copyright>mokeev1995</Copyright>
+        <AssemblyTitle>Math Faculty Site</AssemblyTitle>
+        <TargetFramework>netcoreapp2.0</TargetFramework>
+        <PreserveCompilationContext>true</PreserveCompilationContext>
+        <AssemblyName>MathSite</AssemblyName>
+        <OutputType>Exe</OutputType>
+        <PackageId>MathSite</PackageId>
+        <RuntimeFrameworkVersion>2.0.0</RuntimeFrameworkVersion>
+        <AssetTargetFallback>$(AssetTargetFallback);netcoreapp1.1;net451;dotnet5.6;netcoreapp1.1;portable-net45+win8+wp8+wpa81;dnxcore50</AssetTargetFallback>
+        <Description>Package Description</Description>
+        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+        <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+        <RuntimeIdentifiers>win10-x64;osx.10.12-x64;ubuntu-x64</RuntimeIdentifiers>
+    </PropertyGroup>
+    <ItemGroup>
+        <Compile Remove="Areas\PersonalPage\Views\Shared\**" />
+        <Content Remove="Areas\PersonalPage\Views\Shared\**" />
+        <EmbeddedResource Remove="Areas\PersonalPage\Views\Shared\**" />
+        <None Remove="Areas\PersonalPage\Views\Shared\**" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Update="wwwroot\**\*">
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" />
+        <PackageReference Include="NETStandard.Library" Version="2.0.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.0.0" />
+    </ItemGroup>
+    <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
+        <Exec Command="bower install" />
+        <Exec Command="dotnet bundle" />
+    </Target>
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+        <Exec Command="bower install" />
+        <Exec Command="dotnet bundle" />
+    </Target>
+    <ItemGroup>
+        <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
+        <DotNetCliToolReference Include="BundlerMinifier.Core" Version="2.5.357" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\MathSite.BasicAdmin.ViewModels\MathSite.BasicAdmin.ViewModels.csproj" />
+        <ProjectReference Include="..\MathSite.Common\MathSite.Common.csproj" />
+        <ProjectReference Include="..\MathSite.Db\MathSite.Db.csproj" />
+        <ProjectReference Include="..\MathSite.Entities\MathSite.Entities.csproj" />
+        <ProjectReference Include="..\MathSite.Facades\MathSite.Facades.csproj" />
+        <ProjectReference Include="..\MathSite.Repository\MathSite.Repository.csproj" />
+        <ProjectReference Include="..\MathSite.Specifications\MathSite.Specifications.csproj" />
+        <ProjectReference Include="..\MathSite.ViewModels\MathSite.ViewModels.csproj" />
+        <ProjectReference Include="..\Seeder\Seeder.csproj" />
+    </ItemGroup>
 </Project>

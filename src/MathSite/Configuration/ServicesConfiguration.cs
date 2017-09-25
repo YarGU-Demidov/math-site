@@ -1,4 +1,6 @@
 ﻿using System;
+using MathSite.BasicAdmin.ViewModels.Home;
+using MathSite.BasicAdmin.ViewModels.News;
 using MathSite.Common.Crypto;
 using MathSite.Core.Auth.Handlers;
 using MathSite.Core.Auth.Requirements;
@@ -158,6 +160,10 @@ namespace MathSite
             services.AddScoped<INewsViewModelBuilder, NewsViewModelBuilder>();
             services.AddScoped<IPagesViewModelBuilder, PagesViewModelBuilder>();
             services.AddScoped<IPostPreviewViewModelBuilder, PostPreviewViewModelBuilder>();
+
+            // Admin View Models Builders
+            services.AddScoped<IDashboardPageViewModelBuilder, DashboardPageViewModelBuilder>();
+            services.AddScoped<INewsManagerViewModelBuilder, NewsManagerManagerViewModelBuilder>();
         }
 
         private void ConfigureEntityFramework(IServiceCollection services, bool isDevelopment)
