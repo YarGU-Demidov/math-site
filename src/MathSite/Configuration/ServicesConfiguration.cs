@@ -149,6 +149,7 @@ namespace MathSite
             services.AddScoped<IPostSeoSettingsRepository, PostSeoSettingsRepository>();
             services.AddScoped<IPostSettingRepository, PostSettingRepository>();
             services.AddScoped<IPostTypeRepository, PostTypeRepository>();
+            services.AddScoped<IGroupTypeRepository, GroupTypeRepository>();
 
             // Facades
             services.AddScoped<IUserValidationFacade, UserValidationFacade>();
