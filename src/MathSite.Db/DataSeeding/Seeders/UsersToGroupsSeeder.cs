@@ -22,17 +22,24 @@ namespace MathSite.Db.DataSeeding.Seeders
             return Context.Groups.Any();
         }
 
+        protected override bool DbContainsEntities()
+        {
+            return !Context.Set<User>().Any();
+        }
+
         /// <inheritdoc />
         protected override void SeedData()
         {
             var adminGroup = GetGroupByAlias(GroupAliases.Admin);
             var usersGroup = GetGroupByAlias(GroupAliases.User);
 
-            var firstUser = GetUserByLogin("mokeev1995");
-            var secondUser = GetUserByLogin("test");
+            var firstUser = GetUserByLogin(UsersAliases.FirstUser);
+            var secondUser = GetUserByLogin(UsersAliases.SecondUser);
+            var testUser = GetUserByLogin(UsersAliases.TestUser);
 
             firstUser.Group = adminGroup;
-            secondUser.Group = usersGroup;
+            secondUser.Group = adminGroup;
+            testUser.Group = usersGroup;
         }
 
         private Group GetGroupByAlias(string alias)

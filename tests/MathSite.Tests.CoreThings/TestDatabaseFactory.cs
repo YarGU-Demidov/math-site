@@ -1,33 +1,24 @@
 ﻿using System;
 using System.Data.Common;
 using System.Threading.Tasks;
-using MathSite.Common.Crypto;
 using MathSite.Db;
-using MathSite.Db.DataSeeding;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 namespace MathSite.Tests.CoreThings
 {
     public abstract class TestDatabaseFactory : ITestDatabaseFactory
     {
-        private readonly ILoggerFactory _loggerFactory;
-        private readonly IPasswordsManager _passwordsManager;
         protected readonly DbConnection Connection;
 
         private MathSiteDbContext _context;
 
-        public TestDatabaseFactory(DbConnection connection, IPasswordsManager passwordsManager,
-            ILoggerFactory loggerFactory)
+        protected TestDatabaseFactory()
         {
-            Connection = connection;
-            _passwordsManager = passwordsManager;
-            _loggerFactory = loggerFactory;
         }
 
-        public TestDatabaseFactory(IPasswordsManager passwordsManager, ILoggerFactory loggerFactory)
-            : this(null, passwordsManager, loggerFactory)
+        public TestDatabaseFactory(DbConnection connection)
         {
+            Connection = connection;
         }
 
         public void Dispose()
@@ -49,8 +40,6 @@ namespace MathSite.Tests.CoreThings
 
             await _context.Database.EnsureCreatedAsync();
             await _context.Database.MigrateAsync();
-
-            SeedData();
 
             return _context;
         }
@@ -79,14 +68,5 @@ namespace MathSite.Tests.CoreThings
         }
 
         protected abstract DbContextOptions GetContextOptions();
-
-        private void SeedData()
-        {
-            var dataSeederLogger = _loggerFactory.CreateLogger<IDataSeeder>();
-
-            var seeder = new DataSeeder(_context, dataSeederLogger, _passwordsManager);
-
-            seeder.Seed();
-        }
     }
 }

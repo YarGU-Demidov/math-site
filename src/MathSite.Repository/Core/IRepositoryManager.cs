@@ -1,4 +1,6 @@
-﻿namespace MathSite.Repository.Core
+﻿using MathSite.Db;
+
+namespace MathSite.Repository.Core
 {
     public interface IRepositoryManager
     {
@@ -12,5 +14,6 @@
         IPostSeoSettingsRepository PostSeoSettingsRepository { get; }
         IPostSettingRepository PostSettingRepository { get; }
         IPostTypeRepository PostTypeRepository { get; }
+        IGroupTypeRepository GroupTypeRepository { get; }
     }
 }

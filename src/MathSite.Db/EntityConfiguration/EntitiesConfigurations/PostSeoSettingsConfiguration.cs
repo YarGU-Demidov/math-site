@@ -52,7 +52,7 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 
             modelBuilder
                 .HasIndex(setting => setting.Url)
-                .IsUnique();
+                .IsUnique(false);
         }
     }
 }

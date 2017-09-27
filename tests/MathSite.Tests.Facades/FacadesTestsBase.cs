@@ -1,16 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MathSite.Db;
+using MathSite.Db.DataSeeding;
 using MathSite.Repository;
 using MathSite.Repository.Core;
 using MathSite.Tests.CoreThings;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 
 namespace MathSite.Tests.Facades
 {
     public class FacadesTestsBase
     {
         private readonly ITestDatabaseFactory _databaseFactory;
+        private readonly ILogger _logger = new LoggerFactory().CreateLogger("TestsLogger");
 
         public FacadesTestsBase()
             : this(TestSqliteDatabaseFactory.UseDefault())
@@ -25,20 +29,20 @@ namespace MathSite.Tests.Facades
 
         public IMemoryCache MemoryCache { get; }
 
-        protected void WithLogic(Action<IRepositoryManager> actions)
+        protected void WithRepository(Action<IRepositoryManager> actions)
         {
-            _databaseFactory.ExecuteWithContext(context => { actions(CreateBusinessLogicManger(context)); });
+            _databaseFactory.ExecuteWithContext(context => { actions(CreateRepositoryManger(context)); });
         }
 
-        protected async Task WithLogicAsync(Func<IRepositoryManager, Task> actions)
+        protected async Task WithRepositoryAsync(Func<IRepositoryManager, MathSiteDbContext, ILogger, Task> actions)
         {
             await _databaseFactory.ExecuteWithContextAsync(async context =>
             {
-                await actions(CreateBusinessLogicManger(context));
+                await actions(CreateRepositoryManger(context), context, _logger);
             });
         }
 
-        private IRepositoryManager CreateBusinessLogicManger(MathSiteDbContext context)
+        private IRepositoryManager CreateRepositoryManger(MathSiteDbContext context)
         {
             return new RepositoryManager(
                 new GroupsRepository(context),
@@ -50,8 +54,20 @@ namespace MathSite.Tests.Facades
                 new PostsRepository(context),
                 new PostSeoSettingsRepository(context),
                 new PostSettingRepository(context),
-                new PostTypeRepository(context)
+                new PostTypeRepository(context),
+                new GroupTypeRepository(context)
             );
+        }
+
+        protected void SeedData(IEnumerable<ISeeder> seeders)
+        {
+            foreach (var seeder in seeders)
+            {
+                using (seeder)
+                {
+                    seeder.Seed();
+                }
+            }
         }
     }
 }

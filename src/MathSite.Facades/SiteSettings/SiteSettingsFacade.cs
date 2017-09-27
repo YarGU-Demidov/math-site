@@ -15,9 +15,9 @@ namespace MathSite.Facades.SiteSettings
         private const string MemoryCachePrefix = "SiteSetting-";
         private readonly IUserValidationFacade _userValidation;
 
-        public SiteSettingsFacade(IRepositoryManager logicManager, IUserValidationFacade userValidation,
+        public SiteSettingsFacade(IRepositoryManager repositoryManager, IUserValidationFacade userValidation,
             IMemoryCache memoryCache)
-            : base(logicManager, memoryCache)
+            : base(repositoryManager, memoryCache)
         {
             _userValidation = userValidation;
         }
@@ -33,7 +33,7 @@ namespace MathSite.Facades.SiteSettings
 
                 var requirements = new HasKeySpecification(name);
 
-                var setting = await LogicManager.SiteSettingsRepository.FirstOrDefaultAsync(requirements.ToExpression());
+                var setting = await RepositoryManager.SiteSettingsRepository.FirstOrDefaultAsync(requirements.ToExpression());
 
                 return setting != null
                     ? Encoding.UTF8.GetString(setting.Value)
@@ -55,7 +55,7 @@ namespace MathSite.Facades.SiteSettings
 
             var requirements = new HasKeySpecification(name);
 
-            var setting = await LogicManager.SiteSettingsRepository.FirstOrDefaultAsync(requirements.ToExpression());
+            var setting = await RepositoryManager.SiteSettingsRepository.FirstOrDefaultAsync(requirements.ToExpression());
 
             var valueBytes = Encoding.UTF8.GetBytes(value);
 
@@ -63,12 +63,12 @@ namespace MathSite.Facades.SiteSettings
 
             if (setting == null)
             {
-                await LogicManager.SiteSettingsRepository.InsertAsync(new SiteSetting(name, valueBytes));
+                await RepositoryManager.SiteSettingsRepository.InsertAsync(new SiteSetting(name, valueBytes));
             }
             else
             {
                 setting.Value = valueBytes;
-                await LogicManager.SiteSettingsRepository.UpdateAsync(setting);
+                await RepositoryManager.SiteSettingsRepository.UpdateAsync(setting);
             }
 
             return true;

@@ -51,12 +51,7 @@ namespace MathSite.Entities
         ///     Группа, к которой относится пользователь.
         /// </summary>
         public Group Group { get; set; }
-
-        /// <summary>
-        ///     Дата создания пользователя.
-        /// </summary>
-        public DateTime? CreationDate { get; set; }
-
+        
         /// <summary>
         ///     Перечень постов пользователя.
         /// </summary>

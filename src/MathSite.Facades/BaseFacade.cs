@@ -5,13 +5,13 @@ namespace MathSite.Facades
 {
     public class BaseFacade
     {
-        public BaseFacade(IRepositoryManager logicManager, IMemoryCache memoryCache)
+        public BaseFacade(IRepositoryManager repositoryManager, IMemoryCache memoryCache)
         {
-            LogicManager = logicManager;
+            RepositoryManager = repositoryManager;
             MemoryCache = memoryCache;
         }
 
-        public IRepositoryManager LogicManager { get; }
+        public IRepositoryManager RepositoryManager { get; }
         public IMemoryCache MemoryCache { get; }
     }
 }

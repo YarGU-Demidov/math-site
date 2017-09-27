@@ -8,16 +8,19 @@ using MathSite.Facades.SiteSettings;
 using MathSite.Repository.Core;
 using MathSite.Specifications.Posts;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 
 namespace MathSite.Facades.Posts
 {
     public class PostsFacade : BaseFacade, IPostsFacade
     {
+        private readonly ILogger<IPostsFacade> _postsFacadeLogger;
         private const int CacheMinutes = 10;
 
-        public PostsFacade(IRepositoryManager logicManager, IMemoryCache memoryCache, ISiteSettingsFacade siteSettingsFacade)
-            : base(logicManager, memoryCache)
+        public PostsFacade(IRepositoryManager repositoryManager, IMemoryCache memoryCache, ISiteSettingsFacade siteSettingsFacade, ILogger<IPostsFacade> postsFacadeLogger)
+            : base(repositoryManager, memoryCache)
         {
+            _postsFacadeLogger = postsFacadeLogger;
             SiteSettingsFacade = siteSettingsFacade;
         }
 
@@ -39,27 +42,35 @@ namespace MathSite.Facades.Posts
                     .And(new PostOnStartPageSpecification())
                     .And(new PostPublishedSpecification());
 
-                return await LogicManager.PostsRepository.GetAllWithAllDataIncludedPagedAsync(
+                return await RepositoryManager.PostsRepository.GetAllWithAllDataIncludedPagedAsync(
                     requirements, 
                     count
                 );
             });
         }
 
-        public Task<IEnumerable<Post>> GetAllNewsAsync(int limit, int skip, bool includeDeleted = false, bool onlyDeleted = false)
+        public async Task<IEnumerable<Post>> GetAllNewsAsync(int page, int perPage, bool includeDeleted = false, bool onlyDeleted = false)
         {
-            Specification<Post> requirements = new PostWithTypeAliasSpecification(PostTypeAliases.News);
+            return await GetAllPostsWithDataAsync(PostTypeAliases.News, page, perPage, includeDeleted, onlyDeleted);
+        }
 
-            if (onlyDeleted)
+        public async Task<Guid> CreatePostAsync(Post post, PostSeoSetting seoSettings, PostSetting settings = null)
+        {
+            try
             {
-                requirements = requirements.And(new PostDeletedSpecification());
-            }
-            else if (!includeDeleted)
-            {
-                requirements = requirements.AndNot(new PostDeletedSpecification());
-            }
+                var seoSettingsId = await RepositoryManager.PostSeoSettingsRepository.InsertAndGetIdAsync(seoSettings);
+                var settingsId = await RepositoryManager.PostSettingRepository.InsertAndGetIdAsync(settings);
 
-            return LogicManager.PostsRepository.GetAllWithAllDataIncludedPagedAsync(requirements, limit, skip);
+                post.PostSeoSettingsId = seoSettingsId;
+                post.PostSettingsId = settingsId;
+
+                return await RepositoryManager.PostsRepository.InsertAndGetIdAsync(post);
+            }
+            catch(Exception e)
+            {
+                _postsFacadeLogger.LogError(e, "Can't create post. Exception was thrown.");
+                return Guid.Empty;
+            }
         }
 
         public async Task<Post> GetNewsPostByUrlAsync(string url)
@@ -78,7 +89,7 @@ namespace MathSite.Facades.Posts
                     .AndNot(new PostDeletedSpecification())
                     .And(new PostPublishedSpecification());
 
-                return await LogicManager.PostsRepository.FirstOrDefaultAsync(requirements.ToExpression());
+                return await RepositoryManager.PostsRepository.FirstOrDefaultAsync(requirements.ToExpression());
             });
         }
 
@@ -98,7 +109,7 @@ namespace MathSite.Facades.Posts
                     .AndNot(new PostDeletedSpecification())
                     .And(new PostPublishedSpecification());
 
-                return await LogicManager.PostsRepository.FirstOrDefaultAsync(requirements);
+                return await RepositoryManager.PostsRepository.FirstOrDefaultAsync(requirements);
             });
         }
 
@@ -114,20 +125,30 @@ namespace MathSite.Facades.Posts
             {
                 entry.Priority = cachePriority;
                 entry.SetSlidingExpiration(TimeSpan.FromMinutes(CacheMinutes));
-                
-                var requirements = new PostWithTypeAliasSpecification(PostTypeAliases.News)
-                    .AndNot(new PostDeletedSpecification())
-                    .And(new PostOnStartPageSpecification())
-                    .And(new PostPublishedSpecification());
 
-                var toSkip = perPage * (page - 1);
-
-                return await LogicManager.PostsRepository.GetAllWithAllDataIncludedPagedAsync(
-                    requirements,
-                    perPage,
-                    toSkip
-                );
+                return await GetAllPostsWithDataAsync(PostTypeAliases.News, page, perPage);
             });
+        }
+
+        private async Task<IEnumerable<Post>> GetAllPostsWithDataAsync(string postTypeAlias, int page, int perPage, bool includeDeleted = false, bool onlyDeleted = false)
+        {
+            page = page >= 1 ? page : 1;
+            perPage = perPage > 0 ? perPage : 1;
+
+            var toSkip = perPage * (page - 1);
+
+            Specification<Post> requirements = new PostWithTypeAliasSpecification(postTypeAlias);
+
+            if (onlyDeleted)
+            {
+                requirements = requirements.And(new PostDeletedSpecification());
+            }
+            else if (!includeDeleted)
+            {
+                requirements = requirements.AndNot(new PostDeletedSpecification());
+            }
+
+            return await RepositoryManager.PostsRepository.GetAllWithAllDataIncludedPagedAsync(requirements, perPage, toSkip);
         }
 
         public async Task<int> GetNewsPagesCountAsync()
@@ -145,7 +166,7 @@ namespace MathSite.Facades.Posts
                     .And(new PostOnStartPageSpecification())
                     .And(new PostPublishedSpecification());
 
-                return await LogicManager.PostsRepository.CountAsync(requirements);
+                return await RepositoryManager.PostsRepository.CountAsync(requirements);
             });
 
             var perPage = await GetPerPageCount();

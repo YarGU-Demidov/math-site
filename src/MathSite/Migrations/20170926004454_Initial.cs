@@ -737,8 +737,7 @@ namespace MathSite.Migrations
             migrationBuilder.CreateIndex(
                 "IX_PostSeoSetting_Url",
                 "PostSeoSetting",
-                "Url",
-                unique: true);
+                "Url");
 
             migrationBuilder.CreateIndex(
                 "IX_PostSetting_PreviewImageId",
