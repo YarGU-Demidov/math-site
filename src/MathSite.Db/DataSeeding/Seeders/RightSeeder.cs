@@ -39,13 +39,19 @@ namespace MathSite.Db.DataSeeding.Seeders
                 "Allowing to change site settings.",
                 RightAliases.SetSiteSettingsAccess
             );
+            var manageNewsRight = CreateRight(
+                "Manage site news",
+                "Allowing to create, delete, update site news.",
+                RightAliases.ManageNewsAccess
+            );
 
             var rights = new[]
             {
                 adminAccessRight,
                 logoutRight,
                 panelAccessRight,
-                settingsSetRight
+                settingsSetRight,
+                manageNewsRight
             };
 
             Context.Rights.AddRange(rights);

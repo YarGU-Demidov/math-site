@@ -164,7 +164,7 @@ namespace MathSite
 
             // Admin View Models Builders
             services.AddScoped<IDashboardPageViewModelBuilder, DashboardPageViewModelBuilder>();
-            services.AddScoped<INewsManagerViewModelBuilder, NewsManagerManagerViewModelBuilder>();
+            services.AddScoped<INewsManagerViewModelBuilder, NewsManagerViewModelBuilder>();
         }
 
         private void ConfigureEntityFramework(IServiceCollection services, bool isDevelopment)

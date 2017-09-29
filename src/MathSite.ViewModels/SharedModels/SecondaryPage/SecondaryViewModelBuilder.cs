@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MathSite.Common;
+using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
 using MathSite.Facades.Posts;
 using MathSite.Facades.SiteSettings;
@@ -59,7 +61,8 @@ namespace MathSite.ViewModels.SharedModels.SecondaryPage
 
         private async Task BuildFeaturedMenuAsync(SecondaryViewModel model)
         {
-            var posts = await PostsFacade.GetLastSelectedForMainPagePostsAsync(3);
+            var postType = PostTypeAliases.News;
+            var posts = await PostsFacade.GetPostsAsync(postType, 1, 3, RemovedStateRequest.Excluded, PublishStateRequest.Published, FrontPageStateRequest.Visible, true);
 
             model.Featured = GetPostsModels(posts);
         }

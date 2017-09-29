@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MathSite.Common;
 using MathSite.Common.Exceptions;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
@@ -32,11 +34,11 @@ namespace MathSite.ViewModels.News
             return model;
         }
 
-        public async Task<NewsItemViewModel> BuildNewsItemViewModelAsync(string query, int page = 1)
+        public async Task<NewsItemViewModel> BuildNewsItemViewModelAsync(Guid currentUserId, string query, int page = 1)
         {
             var model = await BuildSecondaryViewModel<NewsItemViewModel>();
 
-            var post = await BuildPostData(query, page);
+            var post = await BuildPostData(currentUserId, query, page);
 
             if (post == null)
                 throw new PostNotFoundException();
@@ -49,10 +51,11 @@ namespace MathSite.ViewModels.News
 
         private async Task<PaginatorViewModel> GetPaginator(int page)
         {
+            var newsPostType = PostTypeAliases.News;
             return new PaginatorViewModel
             {
                 CurrentPage = page,
-                PagesCount = await PostsFacade.GetNewsPagesCountAsync()
+                PagesCount = await PostsFacade.GetPostPagesCountAsync(newsPostType, RemovedStateRequest.Excluded, PublishStateRequest.Published, FrontPageStateRequest.AllVisibilityStates, true)
             };
         }
 
@@ -66,7 +69,8 @@ namespace MathSite.ViewModels.News
 
         private async Task BuildPosts(NewsIndexViewModel model, int page)
         {
-            var posts = (await PostsFacade.GetNewsAsync(page)).ToArray();
+            var postType = PostTypeAliases.News;
+            var posts = (await PostsFacade.GetPostsAsync(postType, page, true)).ToArray();
 
             model.Posts = GetPosts(posts);
         }
@@ -76,9 +80,10 @@ namespace MathSite.ViewModels.News
             return posts.Select(PostPreviewViewModelBuilder.Build);
         }
 
-        private async Task<Post> BuildPostData(string query, int page = 1)
+        private async Task<Post> BuildPostData(Guid currentUserId, string query, int page = 1)
         {
-            return await PostsFacade.GetNewsPostByUrlAsync(query);
+            var postType = PostTypeAliases.News;
+            return await PostsFacade.GetPostByUrlAndTypeAsync(currentUserId, query, postType, true);
         }
     }
 }

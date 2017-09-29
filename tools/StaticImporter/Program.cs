@@ -136,7 +136,8 @@ namespace StaticImporter
                 manager,
                 memCache,
                 settings,
-                loggerFactory.CreateLogger<IPostsFacade>()
+                loggerFactory.CreateLogger<IPostsFacade>(),
+                userValidation
             );
 
             await UpdateData(postsFacade, manager, posts);

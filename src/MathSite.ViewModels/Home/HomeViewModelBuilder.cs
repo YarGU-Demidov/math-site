@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MathSite.Common;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
 using MathSite.Facades.Posts;
@@ -32,7 +33,9 @@ namespace MathSite.ViewModels.Home
 
         private async Task BuildPostsAsync(HomeIndexViewModel model)
         {
-            var posts = await _postsFacade.GetLastSelectedForMainPagePostsAsync(6);
+            const string postType = PostTypeAliases.News;
+
+            var posts = await _postsFacade.GetPostsAsync(postType, 1, 6, RemovedStateRequest.Excluded, PublishStateRequest.Published, FrontPageStateRequest.Visible, true);
             model.Posts = GetPostsModels(posts);
         }
 

@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using MathSite.Common.Exceptions;
+using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
 using MathSite.Facades.Posts;
 using MathSite.Facades.SiteSettings;
@@ -17,11 +19,11 @@ namespace MathSite.ViewModels.Pages
         {
         }
 
-        public async Task<PageItemViewModel> BuildPageItemViewModelAsync(string query)
+        public async Task<PageItemViewModel> BuildPageItemViewModelAsync(Guid currentUserId, string query)
         {
             var model = await BuildSecondaryViewModel<PageItemViewModel>();
 
-            var post = await BuildPostData(query);
+            var post = await BuildPostData(currentUserId, query);
             if (post == null)
                 throw new PostNotFoundException(query);
 
@@ -31,9 +33,9 @@ namespace MathSite.ViewModels.Pages
             return model;
         }
 
-        private async Task<Post> BuildPostData(string query)
+        private async Task<Post> BuildPostData(Guid currentUserId, string query)
         {
-            return await PostsFacade.GetStaticPageByUrlAsync(query);
+            return await PostsFacade.GetPostByUrlAndTypeAsync(currentUserId, query, PostTypeAliases.StaticPage, true);
         }
     }
 }

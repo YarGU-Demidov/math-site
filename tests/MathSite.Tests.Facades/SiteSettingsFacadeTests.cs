@@ -50,7 +50,7 @@ namespace MathSite.Tests.Facades
 
                 await siteSettingsFacade.SetStringSettingAsync(user.Id, testKey, testValue);
 
-                var value = await siteSettingsFacade.GetStringSettingAsync(testKey);
+                var value = await siteSettingsFacade.GetStringSettingAsync(testKey, false);
 
                 Assert.Equal(testValue, value);
             });
@@ -78,7 +78,7 @@ namespace MathSite.Tests.Facades
 
                 var testKey = $"testKey-{Guid.NewGuid()}";
 
-                var value = await siteSettingsFacade.GetStringSettingAsync(testKey);
+                var value = await siteSettingsFacade.GetStringSettingAsync(testKey, false);
 
                 Assert.Null(value);
             });

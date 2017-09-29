@@ -1,18 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MathSite.Common;
 using MathSite.Entities;
 
 namespace MathSite.Facades.Posts
 {
+    public enum PublishStateRequest
+    {
+        AllPublishStates,
+        Published,
+        Unpubished
+    }
+
+    public enum FrontPageStateRequest
+    {
+        AllVisibilityStates,
+        Visible,
+        Invisible
+    }
+
     public interface IPostsFacade
     {
-        Task<int> GetNewsPagesCountAsync();
-        Task<Post> GetNewsPostByUrlAsync(string url);
-        Task<Post> GetStaticPageByUrlAsync(string url);
-        Task<IEnumerable<Post>> GetNewsAsync(int page);
-        Task<IEnumerable<Post>> GetLastSelectedForMainPagePostsAsync(int count);
-        Task<IEnumerable<Post>> GetAllNewsAsync(int page, int perPage, bool includeDeleted = false, bool onlyDeleted = false);
+        Task<int> GetPostPagesCountAsync(string postTypeAlias, RemovedStateRequest state, PublishStateRequest publishState, FrontPageStateRequest frontPageState, bool cache);
+
+        Task<Post> GetPostByUrlAndTypeAsync(Guid currentUserId, string url, string postTypeAlias, bool cache);
+
+        Task<IEnumerable<Post>> GetPostsAsync(string postTypeAlias, int page, bool cache);
+        Task<IEnumerable<Post>> GetPostsAsync(string postTypeAlias, int page, int perPage, RemovedStateRequest state, PublishStateRequest publishState, FrontPageStateRequest frontPageState, bool cache);
+
         Task<Guid> CreatePostAsync(Post post, PostSeoSetting seoSettings, PostSetting settings = null);
     }
 }
