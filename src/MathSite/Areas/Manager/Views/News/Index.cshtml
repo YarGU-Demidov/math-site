@@ -29,6 +29,10 @@
                     <td><input type="checkbox" disabled="disabled" @publishedText /></td>
                     <td>
                         <a href="@Url.Action("Edit", "News", new { id = post.Id })" title="Edit" class="btn btn-outline-success">Edit</a>
+                        @if (post.Deleted)
+                        {
+                            <a href="@Url.Action("Recover", "News", new { id = post.Id })" title="Edit" class="btn btn-outline-info">Recover</a>
+                        }
                         <a href="@Url.Action("Delete", "News", new { id = post.Id })" title="Delete" class="btn btn-outline-danger">Delete</a>
                     </td>
                 </tr>

@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using MathSite.BasicAdmin.ViewModels.SharedModels.AdminPagesViewModel;
+using MathSite.BasicAdmin.ViewModels.SharedModels.AdminPageWithPaging;
 using MathSite.Entities;
 
 namespace MathSite.BasicAdmin.ViewModels.News
 {
-    public class IndexNewsViewModel : AdminPageBaseViewModel
+    public class IndexNewsViewModel : AdminPageWithPagingViewModel
     {
         public IEnumerable<Post> Posts { get; set; }
     }

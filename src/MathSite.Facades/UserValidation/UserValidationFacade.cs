@@ -14,25 +14,25 @@ namespace MathSite.Facades.UserValidation
         private readonly IPasswordsManager _passwordHasher;
 
         public UserValidationFacade(
-            IRepositoryManager logicManager,
+            IRepositoryManager repositoryManager,
             IMemoryCache memoryCache,
             IPasswordsManager passwordHasher
         )
-            : base(logicManager, memoryCache)
+            : base(repositoryManager, memoryCache)
         {
             _passwordHasher = passwordHasher;
         }
 
         public async Task<bool> DoesUserExistsAsync(Guid userId)
         {
-            var user = await LogicManager.UsersRepository.FirstOrDefaultAsync(userId);
+            var user = await RepositoryManager.UsersRepository.FirstOrDefaultAsync(userId);
             return user != null;
         }
 
         public async Task<bool> DoesUserExistsAsync(string login)
         {
             var requirements = new HasLoginSpecification(login);
-            var user = await LogicManager.UsersRepository.FirstOrDefaultAsync(requirements.ToExpression());
+            var user = await RepositoryManager.UsersRepository.FirstOrDefaultAsync(requirements.ToExpression());
 
             return user != null;
         }
@@ -42,7 +42,7 @@ namespace MathSite.Facades.UserValidation
             if (userId == Guid.Empty)
                 return false;
 
-            var user = await LogicManager.UsersRepository.FirstOrDefaultWithRightsAsync(userId);
+            var user = await RepositoryManager.UsersRepository.FirstOrDefaultWithRightsAsync(userId);
 
             if (user == null)
                 return false;
@@ -87,7 +87,7 @@ namespace MathSite.Facades.UserValidation
         {
             var requirements = new HasLoginSpecification(login);
 
-            var user = await LogicManager.UsersRepository.FirstOrDefaultAsync(requirements.ToExpression());
+            var user = await RepositoryManager.UsersRepository.FirstOrDefaultAsync(requirements.ToExpression());
 
             if (user == null || !_passwordHasher.PasswordsAreEqual(login, password, user.PasswordHash))
                 return null;

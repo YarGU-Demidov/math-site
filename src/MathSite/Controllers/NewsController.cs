@@ -42,7 +42,7 @@ namespace MathSite.Controllers
         {
             try
             {
-                return View("NewsItem", await _viewModelBuilder.BuildNewsItemViewModelAsync(query, page));
+                return View("NewsItem", await _viewModelBuilder.BuildNewsItemViewModelAsync(CurrentUserId ?? Guid.Empty, query, page));
             }
             catch (PostNotFoundException)
             {

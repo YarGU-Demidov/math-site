@@ -36,3 +36,7 @@ div.sidebar-column .sidebar .nav-link {
 main.pages-layout {
     padding: 0;
 }
+
+main * {
+    -webkit-overflow-scrolling: touch;
+}

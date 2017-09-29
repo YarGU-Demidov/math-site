@@ -3,6 +3,7 @@ using System.Runtime.Serialization;
 
 namespace MathSite.Common.Exceptions
 {
+    [Serializable]
     public class PostNotFoundException : ApplicationException
     {
         public PostNotFoundException()

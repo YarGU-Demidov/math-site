@@ -35,6 +35,20 @@
 			"environmentVariables": {
 				"ASPNETCORE_ENVIRONMENT": "Production"
 			}
+		},
+		"MathSite.ImportNews": {
+			"commandName": "Project",
+			"commandLineArgs": "import-news",
+			"environmentVariables": {
+				"ASPNETCORE_ENVIRONMENT": "Production"
+			}
+		},
+		"MathSite.ImportStaticPages": {
+			"commandName": "Project",
+			"commandLineArgs": "import-pages",
+			"environmentVariables": {
+				"ASPNETCORE_ENVIRONMENT": "Production"
+			}
 		}
 	}
 }

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using MathSite.Common.Exceptions;
 using MathSite.Facades.UserValidation;
 using MathSite.ViewModels.Pages;
@@ -20,7 +21,7 @@ namespace MathSite.Controllers
         {
             try
             {
-                return View(await _viewModelBuilder.BuildPageItemViewModelAsync(query));
+                return View(await _viewModelBuilder.BuildPageItemViewModelAsync(CurrentUserId ?? Guid.Empty, query));
             }
             catch (PostNotFoundException)
             {

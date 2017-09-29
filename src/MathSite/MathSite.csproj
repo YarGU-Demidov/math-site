@@ -3,6 +3,7 @@
         <Copyright>mokeev1995</Copyright>
         <AssemblyTitle>Math Faculty Site</AssemblyTitle>
         <TargetFramework>netcoreapp2.0</TargetFramework>
+        <MvcRazorCompileOnPublish>true</MvcRazorCompileOnPublish>
         <PreserveCompilationContext>true</PreserveCompilationContext>
         <AssemblyName>MathSite</AssemblyName>
         <OutputType>Exe</OutputType>
@@ -45,6 +46,14 @@
         <DotNetCliToolReference Include="BundlerMinifier.Core" Version="2.5.357" />
     </ItemGroup>
     <ItemGroup>
+      <None Include="news.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Include="static-pages.json" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\..\tools\NewsImporter\NewsImporter.csproj" />
+        <ProjectReference Include="..\..\tools\StaticImporter\StaticImporter.csproj" />
         <ProjectReference Include="..\MathSite.BasicAdmin.ViewModels\MathSite.BasicAdmin.ViewModels.csproj" />
         <ProjectReference Include="..\MathSite.Common\MathSite.Common.csproj" />
         <ProjectReference Include="..\MathSite.Db\MathSite.Db.csproj" />
@@ -53,6 +62,14 @@
         <ProjectReference Include="..\MathSite.Repository\MathSite.Repository.csproj" />
         <ProjectReference Include="..\MathSite.Specifications\MathSite.Specifications.csproj" />
         <ProjectReference Include="..\MathSite.ViewModels\MathSite.ViewModels.csproj" />
-        <ProjectReference Include="..\Seeder\Seeder.csproj" />
+        <ProjectReference Include="..\..\tools\Seeder\Seeder.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+      <Content Update="news.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Update="static-pages.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 </Project>

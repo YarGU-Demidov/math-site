@@ -1,4 +1,6 @@
-﻿namespace MathSite.Repository.Core
+﻿using MathSite.Db;
+
+namespace MathSite.Repository.Core
 {
     public class RepositoryManager : IRepositoryManager
     {
@@ -12,7 +14,8 @@
             IPostsRepository postsRepository,
             IPostSeoSettingsRepository postSeoSettingsRepository,
             IPostSettingRepository postSettingRepository,
-            IPostTypeRepository postTypeRepository
+            IPostTypeRepository postTypeRepository, 
+            IGroupTypeRepository groupTypeRepository
         )
         {
             GroupsRepository = groupsRepository;
@@ -25,6 +28,7 @@
             PostSeoSettingsRepository = postSeoSettingsRepository;
             PostSettingRepository = postSettingRepository;
             PostTypeRepository = postTypeRepository;
+            GroupTypeRepository = groupTypeRepository;
         }
 
         public IGroupsRepository GroupsRepository { get; }
@@ -37,5 +41,6 @@
         public IPostSeoSettingsRepository PostSeoSettingsRepository { get; }
         public IPostSettingRepository PostSettingRepository { get; }
         public IPostTypeRepository PostTypeRepository { get; }
+        public IGroupTypeRepository GroupTypeRepository { get; }
     }
 }

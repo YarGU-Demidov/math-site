@@ -16,7 +16,7 @@
             @Model.Title
         </h3>
         <div class="teaser__description">
-            @Model.Content
+            @Html.Raw(Model.Content)
         </div>
         <time class="teaser__date">
             @Model.PublishedAt

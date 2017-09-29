@@ -11,7 +11,7 @@ using System;
 namespace MathSite.Migrations
 {
     [DbContext(typeof(MathSiteDbContext))]
-    [Migration("20170923224140_Initial")]
+    [Migration("20170926004454_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -452,8 +452,7 @@ namespace MathSite.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Url")
-                        .IsUnique();
+                    b.HasIndex("Url");
 
                     b.ToTable("PostSeoSetting");
                 });

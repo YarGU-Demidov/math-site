@@ -2,6 +2,8 @@
 using System.Text;
 using System.Threading.Tasks;
 using MathSite.Common.Crypto;
+using MathSite.Db.DataSeeding;
+using MathSite.Db.DataSeeding.Seeders;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
 using MathSite.Facades.SiteSettings;
@@ -23,8 +25,20 @@ namespace MathSite.Tests.Facades
         [Fact]
         public async Task GetSettingStringTest()
         {
-            await WithLogicAsync(async manager =>
+            await WithRepositoryAsync(async (manager, context, logger) =>
             {
+                SeedData(new ISeeder[]
+                {
+                    new GroupTypeSeeder(logger, context),
+                    new GroupSeeder(logger, context),
+                    new PersonSeeder(logger, context),
+                    new UserSeeder(logger, context, new DoubleSha512HashPasswordsManager()),
+                    new RightSeeder(logger, context),
+                    new GroupRightsSeeder(logger, context),
+                    new UsersToGroupsSeeder(logger, context),
+                    new UserRightsSeeder(logger, context),
+                });
+
                 var userValidationFacade = GetFacade(manager);
                 var siteSettingsFacade = new SiteSettingsFacade(manager, userValidationFacade, MemoryCache);
 
@@ -36,7 +50,7 @@ namespace MathSite.Tests.Facades
 
                 await siteSettingsFacade.SetStringSettingAsync(user.Id, testKey, testValue);
 
-                var value = await siteSettingsFacade.GetStringSettingAsync(testKey);
+                var value = await siteSettingsFacade.GetStringSettingAsync(testKey, false);
 
                 Assert.Equal(testValue, value);
             });
@@ -45,14 +59,26 @@ namespace MathSite.Tests.Facades
         [Fact]
         public async Task GetSettingStringTest_KeyDoesNotExists()
         {
-            await WithLogicAsync(async manager =>
+            await WithRepositoryAsync(async (manager, context, logger) =>
             {
+                SeedData(new ISeeder[]
+                {
+                    new GroupTypeSeeder(logger, context),
+                    new GroupSeeder(logger, context),
+                    new PersonSeeder(logger, context),
+                    new UserSeeder(logger, context, new DoubleSha512HashPasswordsManager()),
+                    new RightSeeder(logger, context),
+                    new GroupRightsSeeder(logger, context),
+                    new UsersToGroupsSeeder(logger, context),
+                    new UserRightsSeeder(logger, context),
+                });
+
                 var userValidationFacade = GetFacade(manager);
                 var siteSettingsFacade = new SiteSettingsFacade(manager, userValidationFacade, MemoryCache);
 
                 var testKey = $"testKey-{Guid.NewGuid()}";
 
-                var value = await siteSettingsFacade.GetStringSettingAsync(testKey);
+                var value = await siteSettingsFacade.GetStringSettingAsync(testKey, false);
 
                 Assert.Null(value);
             });
@@ -61,8 +87,20 @@ namespace MathSite.Tests.Facades
         [Fact]
         public async Task IndexerTask()
         {
-            await WithLogicAsync(async manager =>
+            await WithRepositoryAsync(async (manager, context, logger) =>
             {
+                SeedData(new ISeeder[]
+                {
+                    new GroupTypeSeeder(logger, context),
+                    new GroupSeeder(logger, context),
+                    new PersonSeeder(logger, context),
+                    new UserSeeder(logger, context, new DoubleSha512HashPasswordsManager()),
+                    new RightSeeder(logger, context),
+                    new GroupRightsSeeder(logger, context),
+                    new UsersToGroupsSeeder(logger, context),
+                    new UserRightsSeeder(logger, context),
+                });
+
                 var userValidationFacade = GetFacade(manager);
                 var siteSettingsFacade = new SiteSettingsFacade(manager, userValidationFacade, MemoryCache);
 
@@ -83,8 +121,20 @@ namespace MathSite.Tests.Facades
         [Fact]
         public async Task SetSettingStringTest()
         {
-            await WithLogicAsync(async manager =>
+            await WithRepositoryAsync(async (manager, context, logger) =>
             {
+                SeedData(new ISeeder[]
+                {
+                    new GroupTypeSeeder(logger, context),
+                    new GroupSeeder(logger, context),
+                    new PersonSeeder(logger, context),
+                    new UserSeeder(logger, context, new DoubleSha512HashPasswordsManager()),
+                    new RightSeeder(logger, context),
+                    new GroupRightsSeeder(logger, context),
+                    new UsersToGroupsSeeder(logger, context),
+                    new UserRightsSeeder(logger, context),
+                });
+
                 var userValidationFacade = GetFacade(manager);
                 var siteSettingsFacade = new SiteSettingsFacade(manager, userValidationFacade, MemoryCache);
                 var user = await GetUserByLogin(manager, UsersAliases.FirstUser);

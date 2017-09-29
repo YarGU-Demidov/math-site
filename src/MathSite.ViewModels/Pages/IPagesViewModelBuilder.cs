@@ -1,9 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace MathSite.ViewModels.Pages
 {
     public interface IPagesViewModelBuilder
     {
-        Task<PageItemViewModel> BuildPageItemViewModelAsync(string query);
+        Task<PageItemViewModel> BuildPageItemViewModelAsync(Guid currentUserId, string query);
     }
 }

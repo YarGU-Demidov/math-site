@@ -1,6 +1,8 @@
 using System;
 using System.Threading.Tasks;
 using MathSite.Common.Crypto;
+using MathSite.Db.DataSeeding;
+using MathSite.Db.DataSeeding.Seeders;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
 using MathSite.Facades.UserValidation;
@@ -21,8 +23,20 @@ namespace MathSite.Tests.Facades
         [Fact]
         public async Task CheckRights_Fail()
         {
-            await WithLogicAsync(async manager =>
+            await WithRepositoryAsync(async (manager, context, logger) =>
             {
+                SeedData(new ISeeder[]
+                {
+                    new GroupTypeSeeder(logger, context),
+                    new GroupSeeder(logger, context),
+                    new PersonSeeder(logger, context),
+                    new UserSeeder(logger, context, new DoubleSha512HashPasswordsManager()),
+                    new RightSeeder(logger, context),
+                    new GroupRightsSeeder(logger, context),
+                    new UsersToGroupsSeeder(logger, context),
+                    new UserRightsSeeder(logger, context),
+                });
+
                 var rightsValidator = GetFacade(manager);
 
                 var user = await GetUserByLogin(manager, UsersAliases.SecondUser);
@@ -48,8 +62,20 @@ namespace MathSite.Tests.Facades
         [Fact]
         public async Task CheckRights_Success()
         {
-            await WithLogicAsync(async manager =>
+            await WithRepositoryAsync(async (manager, context, logger) =>
             {
+                SeedData(new ISeeder[]
+                {
+                    new GroupTypeSeeder(logger, context),
+                    new GroupSeeder(logger, context),
+                    new PersonSeeder(logger, context),
+                    new UserSeeder(logger, context, new DoubleSha512HashPasswordsManager()),
+                    new RightSeeder(logger, context),
+                    new GroupRightsSeeder(logger, context),
+                    new UsersToGroupsSeeder(logger, context),
+                    new UserRightsSeeder(logger, context),
+                });
+
                 var rightsValidator = GetFacade(manager);
 
                 var user = await GetUserByLogin(manager, UsersAliases.FirstUser);
@@ -75,8 +101,20 @@ namespace MathSite.Tests.Facades
         [Fact]
         public async Task UserDoesNotExistsTest()
         {
-            await WithLogicAsync(async manager =>
+            await WithRepositoryAsync(async (manager, context, logger) =>
             {
+                SeedData(new ISeeder[]
+                {
+                    new GroupTypeSeeder(logger, context),
+                    new GroupSeeder(logger, context),
+                    new PersonSeeder(logger, context),
+                    new UserSeeder(logger, context, new DoubleSha512HashPasswordsManager()),
+                    new RightSeeder(logger, context),
+                    new GroupRightsSeeder(logger, context),
+                    new UsersToGroupsSeeder(logger, context),
+                    new UserRightsSeeder(logger, context),
+                });
+
                 Guid? userId = null;
                 do
                 {
@@ -98,8 +136,20 @@ namespace MathSite.Tests.Facades
         [Fact]
         public async Task UserExistsTest()
         {
-            await WithLogicAsync(async manager =>
+            await WithRepositoryAsync(async (manager, context, logger) =>
             {
+                SeedData(new ISeeder[]
+                {
+                    new GroupTypeSeeder(logger, context),
+                    new GroupSeeder(logger, context),
+                    new PersonSeeder(logger, context),
+                    new UserSeeder(logger, context, new DoubleSha512HashPasswordsManager()),
+                    new RightSeeder(logger, context),
+                    new GroupRightsSeeder(logger, context),
+                    new UsersToGroupsSeeder(logger, context),
+                    new UserRightsSeeder(logger, context),
+                });
+
                 var user = await GetUserByLogin(manager, UsersAliases.FirstUser);
                 var rightsValidator = GetFacade(manager);
 

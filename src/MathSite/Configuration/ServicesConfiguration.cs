@@ -149,6 +149,7 @@ namespace MathSite
             services.AddScoped<IPostSeoSettingsRepository, PostSeoSettingsRepository>();
             services.AddScoped<IPostSettingRepository, PostSettingRepository>();
             services.AddScoped<IPostTypeRepository, PostTypeRepository>();
+            services.AddScoped<IGroupTypeRepository, GroupTypeRepository>();
 
             // Facades
             services.AddScoped<IUserValidationFacade, UserValidationFacade>();
@@ -163,7 +164,7 @@ namespace MathSite
 
             // Admin View Models Builders
             services.AddScoped<IDashboardPageViewModelBuilder, DashboardPageViewModelBuilder>();
-            services.AddScoped<INewsManagerViewModelBuilder, NewsManagerManagerViewModelBuilder>();
+            services.AddScoped<INewsManagerViewModelBuilder, NewsManagerViewModelBuilder>();
         }
 
         private void ConfigureEntityFramework(IServiceCollection services, bool isDevelopment)

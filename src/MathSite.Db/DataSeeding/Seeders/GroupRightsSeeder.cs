@@ -26,13 +26,15 @@ namespace MathSite.Db.DataSeeding.Seeders
             var logoutAccessRight = GetRightByAlias(RightAliases.LogoutAccess);
             var panelAccessRight = GetRightByAlias(RightAliases.PanelAccess);
             var setSiteSettingAccessRight = GetRightByAlias(RightAliases.SetSiteSettingsAccess);
+            var manageNewsAccessRight = GetRightByAlias(RightAliases.ManageNewsAccess);
 
             var adminRights = new[]
             {
                 CreateGroupRights(true, adminGroup, adminAccessRight),
                 CreateGroupRights(true, adminGroup, logoutAccessRight),
                 CreateGroupRights(true, adminGroup, panelAccessRight),
-                CreateGroupRights(true, adminGroup, setSiteSettingAccessRight)
+                CreateGroupRights(true, adminGroup, setSiteSettingAccessRight),
+                CreateGroupRights(true, adminGroup, manageNewsAccessRight)
             };
 
             var usersRights = new[]
@@ -40,7 +42,8 @@ namespace MathSite.Db.DataSeeding.Seeders
                 CreateGroupRights(false, usersGroup, adminAccessRight),
                 CreateGroupRights(true, usersGroup, logoutAccessRight),
                 CreateGroupRights(true, usersGroup, panelAccessRight),
-                CreateGroupRights(false, usersGroup, setSiteSettingAccessRight)
+                CreateGroupRights(false, usersGroup, setSiteSettingAccessRight),
+                CreateGroupRights(false, usersGroup, manageNewsAccessRight)
             };
 
             Context.GroupsRights.AddRange(usersRights);
