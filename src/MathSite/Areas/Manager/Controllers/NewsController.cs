@@ -16,8 +16,7 @@ namespace MathSite.Areas.Manager.Controllers
         private readonly INewsManagerViewModelBuilder _modelBuilder;
         private readonly IPostsFacade _posts;
 
-        public NewsController(IUserValidationFacade userValidationFacade, INewsManagerViewModelBuilder modelBuilder,
-            IPostsFacade posts)
+        public NewsController(IUserValidationFacade userValidationFacade, INewsManagerViewModelBuilder modelBuilder, IPostsFacade posts)
             : base(userValidationFacade)
         {
             _modelBuilder = modelBuilder;
@@ -27,14 +26,14 @@ namespace MathSite.Areas.Manager.Controllers
         [Route("manager/news/")]
         [Route("manager/news/index")]
         [Route("manager/news/list")]
-        public async Task<IActionResult> Index([FromQuery] int page = 1)
+        public async Task<IActionResult> Index([FromQuery] int page = 1, [FromQuery] int perPage = 5)
         {
-            return View(await _modelBuilder.BuildIndexViewModel(page));
+            return View(await _modelBuilder.BuildIndexViewModel(page, perPage));
         }
 
-        public async Task<IActionResult> Removed([FromQuery] int page = 1)
+        public async Task<IActionResult> Removed([FromQuery] int page = 1, [FromQuery] int perPage = 5)
         {
-            return View("Index", await _modelBuilder.BuildRemovedViewModel(page));
+            return View("Index", await _modelBuilder.BuildRemovedViewModel(page, perPage));
         }
 
         public async Task<IActionResult> Create(Guid id)

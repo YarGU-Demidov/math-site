@@ -4,8 +4,10 @@ namespace MathSite.BasicAdmin.ViewModels.SharedModels.AdminPageWithPaging
 {
     public class AdminPageWithPagingViewModel : AdminPageBaseViewModel
     {
-        public int ItemsCount { get; set; }
+        public int PagesCount { get; set; }
 
         public int CurrentPage { get; set; }
+
+        public int PerPage { get; set; }
     }
 }

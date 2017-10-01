@@ -6,6 +6,7 @@
         "jquery": ">=3.x",
         "jquery-validation": ">=1.16.0",
         "jquery-validation-unobtrusive": ">=3.2.6",
-        "popper.js": ">=1.12.5"
+        "popper.js": ">=1.12.5",
+        "components-font-awesome": ">=4.*" 
     }
 }

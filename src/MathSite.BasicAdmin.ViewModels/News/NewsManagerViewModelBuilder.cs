@@ -11,8 +11,8 @@ namespace MathSite.BasicAdmin.ViewModels.News
 {
     public interface INewsManagerViewModelBuilder
     {
-        Task<IndexNewsViewModel> BuildIndexViewModel(int page);
-        Task<IndexNewsViewModel> BuildRemovedViewModel(int page);
+        Task<IndexNewsViewModel> BuildIndexViewModel(int page, int perPage);
+        Task<IndexNewsViewModel> BuildRemovedViewModel(int page, int perPage);
     }
 
     public class NewsManagerViewModelBuilder : AdminPageWithPagingViewModelBuilder, INewsManagerViewModelBuilder
@@ -25,7 +25,7 @@ namespace MathSite.BasicAdmin.ViewModels.News
             _postsFacade = postsFacade;
         }
 
-        public async Task<IndexNewsViewModel> BuildIndexViewModel(int page)
+        public async Task<IndexNewsViewModel> BuildIndexViewModel(int page, int perPage)
         {
             const string postType = PostTypeAliases.News;
             const RemovedStateRequest removedState = RemovedStateRequest.Excluded;
@@ -37,16 +37,17 @@ namespace MathSite.BasicAdmin.ViewModels.News
                 link => link.Alias == "News",
                 link => link.Alias == "List",
                 page,
-                await _postsFacade.GetPostPagesCountAsync(postType, removedState, publishState, frontPageState, cached)
+                await _postsFacade.GetPostPagesCountAsync(postType, perPage, removedState, publishState, frontPageState, cached),
+                perPage
             );
 
-            model.Posts = await _postsFacade.GetPostsAsync(postType, page, 5, removedState, publishState, frontPageState, cached);
+            model.Posts = await _postsFacade.GetPostsAsync(postType, page, perPage, removedState, publishState, frontPageState, cached);
             model.PageTitle.Title = "Список новостей";
 
             return model;
         }
 
-        public async Task<IndexNewsViewModel> BuildRemovedViewModel(int page)
+        public async Task<IndexNewsViewModel> BuildRemovedViewModel(int page, int perPage)
         {
             const string postType = PostTypeAliases.News;
             const RemovedStateRequest removedState = RemovedStateRequest.OnlyRemoved;
@@ -58,7 +59,8 @@ namespace MathSite.BasicAdmin.ViewModels.News
                 link => link.Alias == "News",
                 link => link.Alias == "ListRemoved",
                 page,
-                await _postsFacade.GetPostPagesCountAsync(postType, removedState, publishState, frontPageState, cached)
+                await _postsFacade.GetPostPagesCountAsync(postType, perPage, removedState, publishState, frontPageState, cached),
+                perPage
             );
 
             model.Posts = await _postsFacade.GetPostsAsync(postType, page, 5, removedState, publishState, frontPageState, cached);
