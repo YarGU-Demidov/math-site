@@ -33,7 +33,7 @@ namespace MathSite.BasicAdmin.ViewModels.SharedModels.Common
             viewModel.TopMenu = new List<MenuLink>
             {
                 new MenuLink("Dashboard", "/manager", false),
-                new MenuLink("Статьи", "/manager", false, "Управление статьями", "Articles"),
+                new MenuLink("Статьи", "/manager/pages", false, "Управление статьями", "Articles"),
                 new MenuLink("Новости", "/manager/news", false, "Управление новостями", "News"),
                 new MenuLink("Файлы", "/manager", false, "Управление файлами", "Files"),
                 new MenuLink("Пользователи", "/manager", false, "Управление пользователями", "Users"),

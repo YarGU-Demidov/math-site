@@ -1,6 +1,7 @@
 ﻿using System;
 using MathSite.BasicAdmin.ViewModels.Home;
 using MathSite.BasicAdmin.ViewModels.News;
+using MathSite.BasicAdmin.ViewModels.Pages;
 using MathSite.Common.Crypto;
 using MathSite.Core.Auth.Handlers;
 using MathSite.Core.Auth.Requirements;
@@ -165,6 +166,7 @@ namespace MathSite
             // Admin View Models Builders
             services.AddScoped<IDashboardPageViewModelBuilder, DashboardPageViewModelBuilder>();
             services.AddScoped<INewsManagerViewModelBuilder, NewsManagerViewModelBuilder>();
+            services.AddScoped<IPagesManagerViewModelBuilder, PagesManagerViewModelBuilder>();
         }
 
         private void ConfigureEntityFramework(IServiceCollection services, bool isDevelopment)
