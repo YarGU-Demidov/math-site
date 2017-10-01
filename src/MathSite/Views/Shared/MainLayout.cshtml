@@ -1,0 +1,82 @@
+﻿@model HomeIndexViewModel
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        @Html.Partial("Partials/Headers", Model)
+    </head>
+
+    <body>
+        <div class="main">
+            <div class="container">
+
+                <!-- Header -->
+                @Html.Partial("Partials/Header", Model)
+
+                <div class="stage">
+                    <h2 class="stage__title">
+                        Информационная <br> безопасность
+                    </h2>
+                    <div class="stage__action">
+                        <a class="button button__main" href="@Url.RouteUrl("Pages", new {query = "computer-security"})">УЗНАТЬ &nbsp;►</a>
+                    </div>
+                </div>
+                <div class="wizard">
+                    <a class="wizard__item" href="@Url.RouteUrl("Pages", new {query = "how-to-enter"})">
+                        <div class="card_type_beginner">
+                            <div class="card_type_begginer_pic"></div>
+                            <div class="card__text">
+                                <h3 class="card__title">
+                                    Как поступить
+                                </h3>
+                                <div class="card__description">
+                                    Пошаговое руководство.<br>
+                                    Полезные советы
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a class="wizard__item" href="@Url.RouteUrl("Pages", new {query = "how-to-learn"})">
+                        <div class="card_type_student">
+                            <div class="card_type_student_pic"></div>
+                            <div class="card__text">
+                                <h3 class="card__title">
+                                    Как учиться
+                                </h3>
+                                <div class="card__description">
+                                    Олимпиады.<br>
+                                    Наши кафедры
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a class="wizard__item" href="@Url.RouteUrl("Pages", new {query = "where-to-work"})">
+                        <div class="card_type_worker">
+                            <div class="card_type_worker_pic"></div>
+                            <div class="card__text">
+                                <h3 class="card__title">
+                                    Где трудиться
+                                </h3>
+                                <div class="card__description">
+                                    Что Вас ждет в будущем? <br>
+                                    Куда пойти работать? <br>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content -->
+        @RenderBody()
+
+        <!-- Footer -->
+        @Html.Partial("Partials/Footer", Model)
+
+        <!-- Scripts -->
+        @Html.Partial("Partials/Scripts", Model)
+
+    </body>
+</html>

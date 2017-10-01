@@ -1,21 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using MathSite.Facades.UserValidation;
+using MathSite.ViewModels.Home;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MathSite.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
-        public IActionResult Index()
+        private readonly IHomeViewModelBuilder _modelBuilder;
+
+        public HomeController(IUserValidationFacade userValidationFacade, IHomeViewModelBuilder modelBuilder)
+            : base(userValidationFacade)
         {
-            return View();
+            _modelBuilder = modelBuilder;
         }
 
-        public IActionResult Error()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View(await _modelBuilder.BuildIndexModel());
         }
     }
 }

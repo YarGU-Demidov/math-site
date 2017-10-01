@@ -1,0 +1,42 @@
+﻿.header {
+    background-color: #4347aa;
+    box-shadow: 0 0.5rem 1rem #000000, inset 0 -1px 0 #000000;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, .05), inset 0 -1px 0 rgba(0, 0, 0, .1);
+    min-height: 4rem;
+}
+
+div.sidebar-column {
+    position: fixed;
+    top: 64px;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    overflow-x: hidden;
+    overflow-y: auto;
+    border-right: 1px solid #eee;
+}
+
+div.sidebar-column .sidebar .nav-link {
+    border-radius: 0;
+}
+
+.sidebar.nav {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+}
+
+.sidebar-select,
+.sidebar-select > select {
+    width: 100%;
+}
+
+main.pages-layout {
+    padding: 0;
+}
+
+main * {
+    -webkit-overflow-scrolling: touch;
+}

@@ -1,32 +1,64 @@
-﻿using System.IO;
-using Math.Common.Logs;
+﻿using System;
+using System.IO;
+using System.Linq;
+using System.Net;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Newtonsoft.Json;
 
 namespace MathSite
 {
-	public class Program
-	{
-		public static readonly ILogger Logger;
+    public static class Program
+    {
+        public static void Main(string[] args)
+        {
+            if (args.Any(s => s == "seed"))
+                RunSeeding();
+            else if (args.Any(s => s == "import-news"))
+                RunImportNews();
+            else if (args.Any(s => s == "import-pages"))
+                RunImportStaticPages();
+            else
+                BuildWebHost(args).Run();
+        }
 
-		static Program()
-		{
-			Logger = new CompositeLogger(new ConsoleLogger());
-		}
+        public static IWebHost BuildWebHost(string[] args)
+        {
+            return WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>()
+                .UseUrls($"http://{IPAddress.Any}:5000")
+                .Build();
+        }
 
-		public static void Main(string[] args)
-		{
-			Logger.WriteInfo("Started!");
+        public static void RunSeeding()
+        {
+            var connectionString = GetCurrentConnectionString();
 
-			var host = new WebHostBuilder()
-				.UseKestrel()
-				.UseContentRoot(Directory.GetCurrentDirectory())
-				.UseIISIntegration()
-				.UseStartup<Startup>()
-				.Build();
+            Seeder.Program.Main(new[] {connectionString});
+        }
 
-			host.Run();
+        public static void RunImportNews()
+        {
+            var connectionString = GetCurrentConnectionString();
 
-			Logger.WriteInfo("Exit...");
-		}
-	}
+            NewsImporter.Program.Main(new[] {connectionString});
+        }
+
+        private static void RunImportStaticPages()
+        {
+            var connectionString = GetCurrentConnectionString();
+
+            StaticImporter.Program.Main(new[] { connectionString });
+        }
+
+        private static string GetCurrentConnectionString()
+        {
+            var appSettingsFile = Path.Combine(Environment.CurrentDirectory, "appsettings.json");
+
+            var settings = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(appSettingsFile));
+            settings.ConnectionStrings.TryGetValue("Math", out var connectionString);
+
+            return connectionString;
+        }
+    }
 }

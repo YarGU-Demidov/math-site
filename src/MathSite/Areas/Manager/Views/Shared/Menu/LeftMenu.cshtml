@@ -1,0 +1,24 @@
+﻿@model IEnumerable<MenuLink>
+
+@if (Model != null)
+{
+    <ul class="sidebar nav nav-pills flex-column d-none d-sm-block">
+        @foreach (var model in Model)
+        {
+            <li>
+                @Html.Partial("Menu/MenuLink", model)
+            </li>
+        }
+    </ul>
+
+    <div class="sidebar-select d-sm-none d-block">
+        <select required="required" class="d-block">
+            @foreach (var modelItem in Model)
+            {
+                var selectdedText = modelItem.IsActive ? " selected=\"selected\"" : "";
+
+                <!option value="@modelItem.Url"@selectdedText >@modelItem.DisplayingTitle</!option>
+            }
+        </select>
+    </div>
+}

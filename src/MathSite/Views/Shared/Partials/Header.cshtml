@@ -1,0 +1,15 @@
+﻿@model CommonViewModel
+
+<header class="header">
+    <h1 class="header__logo2">
+        <a class="logo" href="@Url.Action("Index", "Home")">
+            <span style="visibility: hidden;">Математический факультет</span>
+        </a>
+    </h1>
+    <nav class="header__nav">
+        @if (Model.MenuItems != null && Model.MenuItems.Any())
+        {
+            @Html.Partial("Partials/Menu/Menu", Model.MenuItems)
+        }
+    </nav>
+</header>

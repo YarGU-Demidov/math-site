@@ -1,0 +1,25 @@
+﻿@model PostPreviewViewModel
+@{
+    var imageUrl = !string.IsNullOrWhiteSpace(Model.PreviewImage)
+        ? Model.PreviewImage
+        : Url.Content("img/default_news.png");
+}
+
+<a class="teaser" href="@Model.Url">
+    <div class="teaser__head">
+        <div style="background-image: url(@imageUrl)"
+             class="teaser__preview">
+        </div>
+    </div>
+    <div class="teaser__body">
+        <h3 class="teaser__title">
+            @Model.Title
+        </h3>
+        <div class="teaser__description">
+            @Html.Raw(Model.Content)
+        </div>
+        <time class="teaser__date">
+            @Model.PublishedAt
+        </time>
+    </div>
+</a>

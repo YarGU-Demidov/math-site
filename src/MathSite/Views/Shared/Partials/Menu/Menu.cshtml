@@ -1,0 +1,14 @@
+﻿@model IEnumerable<MenuItemViewModel>
+
+<ul>
+    @foreach (var item in Model)
+    {
+        <li>
+            @Html.Partial("Partials/Menu/MenuLink", item)
+            @if (item.Subitems != null)
+            {
+                @Html.Partial("Partials/Menu/Menu", item.Subitems)
+            }
+        </li>
+    }
+</ul>

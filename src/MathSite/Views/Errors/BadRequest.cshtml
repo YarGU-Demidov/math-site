@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "Bad Request";
+    Layout = "_Layout";
+}
+
+<h2>Bad Request</h2>
+<p>Sorry... Your browser sent to us bad request! Try again.</p>
+@if (ViewBag.ReturnUrl != null)
+{
+    <text>You cannot access page </text>
+    @ViewBag.ReturnUrl
+}

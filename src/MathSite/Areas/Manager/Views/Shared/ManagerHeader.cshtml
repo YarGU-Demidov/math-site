@@ -1,0 +1,10 @@
+﻿@model IEnumerable<MenuLink>
+
+<header class="header navbar navbar-expand fixed-top navbar-dark flex-column flex-md-row sticky-top">
+    <a class="navbar-brand mr-0 mr-md-2" href="/" aria-label="Bootstrap">
+        Site Managment
+    </a>
+    <div class="navbar-nav-scroll">
+        @Html.Partial("Menu/TopMenu", Model)
+    </div>
+</header>
