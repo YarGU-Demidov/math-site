@@ -12,13 +12,14 @@ namespace MathSite.BasicAdmin.ViewModels.SharedModels.AdminPageWithPaging
         {
         }
 
-        protected virtual async Task<T> BuildAdminPageWithPaging<T>(Func<MenuLink, bool> markActiveLinkInTopMenu, Func<MenuLink, bool> markActiveLinkInLeftMenu, int currentPage, int itemsCount)
+        protected virtual async Task<T> BuildAdminPageWithPaging<T>(Func<MenuLink, bool> markActiveLinkInTopMenu, Func<MenuLink, bool> markActiveLinkInLeftMenu, int currentPage, int pagesCount, int perPage)
             where T : AdminPageWithPagingViewModel, new()
         {
             var model = await BuildAdminBaseViewModelAsync<T>(markActiveLinkInTopMenu, markActiveLinkInLeftMenu);
 
             model.CurrentPage = currentPage;
-            model.ItemsCount = itemsCount; 
+            model.PagesCount = pagesCount;
+            model.PerPage = perPage;
 
             return model;
         }

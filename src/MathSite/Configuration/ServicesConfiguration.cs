@@ -179,7 +179,7 @@ namespace MathSite
 
                     if (isDevelopment)
                         options.EnableSensitiveDataLogging().ConfigureWarnings(builder => builder.Log());
-                });
+                }, 500);
         }
     }
 }

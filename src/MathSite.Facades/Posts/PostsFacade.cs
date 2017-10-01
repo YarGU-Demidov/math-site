@@ -35,8 +35,13 @@ namespace MathSite.Facades.Posts
         {
             var perPage = await GetPerPageCountAsync(cache);
 
+            return await GetPostPagesCountAsync(postTypeAlias, perPage, state, publishState, frontPageState, cache);
+        }
+
+        public async Task<int> GetPostPagesCountAsync(string postTypeAlias, int perPage, RemovedStateRequest state, PublishStateRequest publishState, FrontPageStateRequest frontPageState, bool cache)
+        {
             var newsCount = await GetPostsWithTypeCount(postTypeAlias, state, publishState, frontPageState, cache);
-            
+
             return (int)Math.Ceiling(newsCount / (float)perPage);
         }
 
