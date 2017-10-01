@@ -74,9 +74,9 @@ namespace MathSite.BasicAdmin.ViewModels.Pages
             return new List<MenuLink>
             {
                 new MenuLink("Список страниц", "/manager/pages/list", false, "Список страниц", "List"),
-                new MenuLink("Список удаленных страниц", "/pages/news/removed", false, "Список удаленных страниц",
+                new MenuLink("Список удаленных страниц", "/manager/pages/removed", false, "Список удаленных страниц",
                     "ListRemoved"),
-                new MenuLink("Создать страницу", "/manager/news/create", false, "Создать новость", "Create")
+                new MenuLink("Создать страницу", "/manager/pages/create", false, "Создать новость", "Create")
             };
         }
     }

@@ -135,62 +135,6 @@
 
 </div>
 
-@section StylesSection {
-    <style>
-        .set-max-size { max-width: 1500px; }
-
-        .set-max-size > .card > .card-body {
-            padding: 0;
-            padding: initial;
-        }
-
-        .paging select.custom-select { display: inline-flex; }
-
-        .news-card { margin-top: 15px; }
-
-        .empty-text { padding: 2em; }
-    </style>
-}
-
 @section ScriptsSection{
-    <script>
-        $(function() {
-            var selectControl = $('.paging').find('select');
-
-            selectControl.change(function() {
-                var url = location.origin + location.pathname;
-                var search = location.search.replace('?', '').split('&').map(function(item) {
-                    var splited = item.split('=');
-                    var obj = {};
-
-                    obj[splited[0]] = splited[1];
-
-                    return obj;
-                });
-
-                var found = search.filter(function(item) {
-                    return item.hasOwnProperty('perPage');
-                });
-
-                if (found.length > 0) {
-                    found.every(function(item) {
-                        item['perPage'] = this.value;
-                    }.bind(this));
-                } else {
-                    search.push({ perPage: this.value });
-                }
-
-
-                var strSearch = search.map(function(item) {
-                    return Object.keys(item).map(function(key) {
-                        return key + '=' + item[key];
-                    });
-                }).reduce(function(prev, curr) {
-                    return prev + '&' + curr;
-                });
-
-                location.href = url + '?' + strSearch;
-            });
-        });
-    </script>
+    <script src="~/js/pager.js"></script>
 }
