@@ -27,7 +27,7 @@ namespace MathSite.BasicAdmin.ViewModels.Persons
                 link => link.Alias == "Persons",
                 link => link.Alias == "List",
                 page,
-                await _personsFacade.GetPersonsCountAsync(page, perPage, false),
+                await _personsFacade.GetPersonsCountAsync(perPage, false),
                 perPage
             );
 

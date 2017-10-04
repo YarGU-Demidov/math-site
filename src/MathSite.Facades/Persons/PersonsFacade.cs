@@ -17,15 +17,22 @@ namespace MathSite.Facades.Persons
         {
         }
 
-        public async Task<int> GetPersonsCountAsync(int page, int perPage, bool cache)
+        public async Task<int> GetPersonsCountAsync(int perPage, bool cache)
         {
+            perPage = perPage > 0 ? perPage : 1;
+
             var requirements = new AnySpecification<Person>();
 
-            return await GetCountAsync(requirements, RepositoryManager.PersonsRepository, cache, CacheTime);
+            var newsCount = await GetCountAsync(requirements, RepositoryManager.PersonsRepository, cache, CacheTime);
+
+            return (int)Math.Ceiling(newsCount / (float)perPage);
         }
 
         public async Task<IEnumerable<Person>> GetPersonsAsync(int page, int perPage, bool cache)
         {
+            page = page >= 1 ? page : 1;
+            perPage = perPage > 0 ? perPage : 1;
+
             var skip = (page - 1) * perPage;
 
             return await RepositoryManager.PersonsRepository.GetAllWithPagingAsync(skip, perPage);
