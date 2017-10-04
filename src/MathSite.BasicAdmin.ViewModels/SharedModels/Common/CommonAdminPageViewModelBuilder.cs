@@ -32,12 +32,13 @@ namespace MathSite.BasicAdmin.ViewModels.SharedModels.Common
         {
             viewModel.TopMenu = new List<MenuLink>
             {
-                new MenuLink("Dashboard", "/manager", false),
-                new MenuLink("Статьи", "/manager/pages", false, "Управление статьями", "Articles"),
-                new MenuLink("Новости", "/manager/news", false, "Управление новостями", "News"),
-                new MenuLink("Файлы", "/manager", false, "Управление файлами", "Files"),
-                new MenuLink("Пользователи", "/manager", false, "Управление пользователями", "Users"),
-                new MenuLink("Настройки", "/manager", false, "Управление настройками", "Settings")
+                new MenuLink("Dashboard", "/manager/", false),
+                new MenuLink("Статьи", "/manager/pages/", false, "Управление статьями", "Articles"),
+                new MenuLink("Новости", "/manager/news/", false, "Управление новостями", "News"),
+                new MenuLink("Файлы", "/manager/files/", false, "Управление файлами", "Files"),
+                new MenuLink("Лица", "/manager/persons/", false, "Управление лицами", "Persons"),
+                new MenuLink("Пользователи", "/manager/users/", false, "Управление пользователями", "Users"),
+                new MenuLink("Настройки", "/manager/settings/", false, "Управление настройками", "Settings")
             };
 
             foreach (var link in viewModel.TopMenu)

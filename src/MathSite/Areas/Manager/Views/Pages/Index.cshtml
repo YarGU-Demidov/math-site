@@ -3,7 +3,7 @@
     var postsExists = Model.Posts != null && Model.Posts.Any();
 }
 
-<div class="container-fluid set-max-size">
+<div class="container-fluid set-max-size posts">
 
     <div class="card news-card">
         <h4 class="card-header">Новости</h4>
@@ -47,7 +47,7 @@
                                         <em class="fa fa-trash"></em>
                                     </a>
                                 </td>
-                                <th>@post.Title</th>
+                                <th class="post__max-width">@post.Title</th>
                                 <td>@post.PublishDate</td>
                                 <td>
                                     <input type="checkbox" disabled="disabled" @onStartPageText/>
@@ -68,12 +68,12 @@
                         <span>На странице: </span>
                         <select class="custom-select">
                             @{
-                                var selectedText = "selected=\"selected\"";
+                                const string selectedText = "selected=\"selected\"";
 
-                                var selected5Text = Model.PerPage == 5 ? "selected=\"selected\"" : "";
-                                var selected10Text = Model.PerPage == 10 ? "selected=\"selected\"" : "";
-                                var selected20Text = Model.PerPage == 20 ? "selected=\"selected\"" : "";
-                                var selected30Text = Model.PerPage == 30 ? "selected=\"selected\"" : "";
+                                var selected5Text = Model.PerPage == 5 ? selectedText : "";
+                                var selected10Text = Model.PerPage == 10 ? selectedText : "";
+                                var selected20Text = Model.PerPage == 20 ? selectedText : "";
+                                var selected30Text = Model.PerPage == 30 ? selectedText : "";
                             }
 
                             <!option value="5" @selected5Text>5</!option>

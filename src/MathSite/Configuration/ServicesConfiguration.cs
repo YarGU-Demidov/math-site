@@ -2,13 +2,16 @@
 using MathSite.BasicAdmin.ViewModels.Home;
 using MathSite.BasicAdmin.ViewModels.News;
 using MathSite.BasicAdmin.ViewModels.Pages;
+using MathSite.BasicAdmin.ViewModels.Persons;
 using MathSite.Common.Crypto;
 using MathSite.Core.Auth.Handlers;
 using MathSite.Core.Auth.Requirements;
 using MathSite.Db;
 using MathSite.Db.DataSeeding.StaticData;
+using MathSite.Facades.Persons;
 using MathSite.Facades.Posts;
 using MathSite.Facades.SiteSettings;
+using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
 using MathSite.Repository;
 using MathSite.Repository.Core;
@@ -156,6 +159,8 @@ namespace MathSite
             services.AddScoped<IUserValidationFacade, UserValidationFacade>();
             services.AddScoped<ISiteSettingsFacade, SiteSettingsFacade>();
             services.AddScoped<IPostsFacade, PostsFacade>();
+            services.AddScoped<IPersonsFacade, PersonsFacade>();
+            services.AddScoped<IUsersFacade, UsersFacade>();
 
             // View Models Builders
             services.AddScoped<IHomeViewModelBuilder, HomeViewModelBuilder>();
@@ -167,6 +172,7 @@ namespace MathSite
             services.AddScoped<IDashboardPageViewModelBuilder, DashboardPageViewModelBuilder>();
             services.AddScoped<INewsManagerViewModelBuilder, NewsManagerViewModelBuilder>();
             services.AddScoped<IPagesManagerViewModelBuilder, PagesManagerViewModelBuilder>();
+            services.AddScoped<IPersonsManagerViewModelBuilder, PersonsManagerViewModelBuilder>();
         }
 
         private void ConfigureEntityFramework(IServiceCollection services, bool isDevelopment)
