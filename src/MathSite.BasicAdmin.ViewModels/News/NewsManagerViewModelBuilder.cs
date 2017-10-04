@@ -74,8 +74,7 @@ namespace MathSite.BasicAdmin.ViewModels.News
             return new List<MenuLink>
             {
                 new MenuLink("Список новостей", "/manager/news/list", false, "Список новостей", "List"),
-                new MenuLink("Список удаленных новостей", "/manager/news/removed", false, "Список удаленных новостей",
-                    "ListRemoved"),
+                new MenuLink("Список удаленных новостей", "/manager/news/removed", false, "Список удаленных новостей", "ListRemoved"),
                 new MenuLink("Создать новость", "/manager/news/create", false, "Создать новость", "Create")
             };
         }
