@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -22,12 +23,17 @@ namespace MathSite
                 BuildWebHost(args).Run();
         }
 
-        public static IWebHost BuildWebHost(string[] args)
-        {
-            return WebHost.CreateDefaultBuilder(args)
+        public static IWebHost BuildWebHost(string[] args) => 
+            WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
-                .UseUrls($"http://{IPAddress.Any}:5000")
+                .UseUrls(GetBindUrl(args))
                 .Build();
+
+        private static string GetBindUrl(IEnumerable<string> args)
+        {
+            var defaultUrl = $"http://{IPAddress.Any}:5000";
+
+            return args.FirstOrDefault(s => s.StartsWith("http://") || s.StartsWith("https://")) ?? defaultUrl;
         }
 
         public static void RunSeeding()
@@ -48,7 +54,7 @@ namespace MathSite
         {
             var connectionString = GetCurrentConnectionString();
 
-            StaticImporter.Program.Main(new[] { connectionString });
+            StaticImporter.Program.Main(new[] {connectionString});
         }
 
         private static string GetCurrentConnectionString()

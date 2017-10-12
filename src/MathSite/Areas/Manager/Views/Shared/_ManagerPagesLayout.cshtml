@@ -1,5 +1,10 @@
-﻿@using MathSite.BasicAdmin.ViewModels.SharedModels.AdminPagesViewModel
-@model MathSite.BasicAdmin.ViewModels.SharedModels.AdminPagesViewModel.AdminPageBaseViewModel
+﻿@using System.Reflection
+@using MathSite.BasicAdmin.ViewModels.SharedModels.AdminPagesViewModel
+@model AdminPageBaseViewModel
+
+@{
+    var version = typeof(Startup).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+}
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -7,6 +12,8 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        
+        <meta name="site-version" content="@version" />
 
         <base href="@Url.Action("Index", "Home")"/>
 
