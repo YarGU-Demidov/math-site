@@ -2,7 +2,7 @@
 @using MathSite.BasicAdmin.ViewModels.Home
 
 @{
-    var version = typeof(Startup).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+    var version = typeof(Startup).Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
 }
 
 @model DashboardPageViewModel

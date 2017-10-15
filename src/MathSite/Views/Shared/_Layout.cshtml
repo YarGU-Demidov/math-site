@@ -7,7 +7,7 @@
         user = (User) ViewBag.User;
     }
 
-    var version = typeof(Startup).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+    var version = typeof(Startup).Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
 }
 <!DOCTYPE html>
 <html>
