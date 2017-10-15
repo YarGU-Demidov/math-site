@@ -14,6 +14,6 @@ namespace MathSite.ViewModels
 
         public Tuple<IEnumerable<MenuItemViewModel>, IEnumerable<MenuItemViewModel>, IEnumerable<MenuItemViewModel>, IEnumerable<MenuItemViewModel>> FooterMenus { get; set; }
 
-        public static string AssemblyVersion { get; } = typeof(CommonViewModel).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+        public static string AssemblyVersion { get; } = typeof(CommonViewModel).Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
     }
 }
