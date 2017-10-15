@@ -18,7 +18,7 @@
         <Authors>mokeev1995</Authors>
         <Company>Yaroslavl State University</Company>
         <PackageProjectUrl>https://github.com/YarGU-Demidov/math-site</PackageProjectUrl>
-        <AssemblyVersion>0.0.2</AssemblyVersion>
+        <AssemblyVersion>0.0.2.2</AssemblyVersion>
         <PackageLicenseUrl>https://github.com/YarGU-Demidov/math-site/blob/master/LICENSE.md</PackageLicenseUrl>
         <RepositoryUrl>https://github.com/YarGU-Demidov/math-site</RepositoryUrl>
         <RepositoryType>Git</RepositoryType>
