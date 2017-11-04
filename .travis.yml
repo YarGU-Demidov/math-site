@@ -4,8 +4,6 @@ dotnet: 2.0.0
 node_js:
   - "8"
 dist: trusty
-before_script:
- - yarn install --modules-folder ./wwwroot/lib
 script:
  - dotnet restore
  - cd src && cd MathSite && dotnet build
