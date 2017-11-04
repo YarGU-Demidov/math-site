@@ -5,7 +5,7 @@ node_js:
   - "8"
 dist: trusty
 before_script:
- - npm install bower
+ - npm install -g bower
 script:
  - dotnet restore
  - cd src && cd MathSite && dotnet build
