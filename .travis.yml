@@ -1,0 +1,10 @@
+language: csharp
+mono: none
+dotnet: 1.0.3
+dist: trusty
+script:
+ - dotnet restore
+ - cd src && cd MathSite && dotnet build
+ - cd ../../tests 
+ - cd "MathSite.Tests.Common" && dotnet test && cd ..
+ - cd "MathSite.Tests.Facades" && dotnet test && cd ..
