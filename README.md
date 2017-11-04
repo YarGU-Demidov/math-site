@@ -1,5 +1,6 @@
 ![PG Demidov Yaroslavl State University](https://upload.wikimedia.org/wikipedia/ru/2/28/Logo_demidovskiy_universitet.png)
 # ЯрГУ им. П.Г.Демидова
+[![Build Status](https://travis-ci.org/YarGU-Demidov/math-site.svg?branch=rc-0.0.2)](https://travis-ci.org/YarGU-Demidov/math-site)
 ## Сайт математического факультета (обновленный)
 
 ### Info
