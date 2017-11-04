@@ -37,7 +37,7 @@ namespace MathSite.Facades.Users
 
             var skip = (page - 1) * perPage;
 
-            return await RepositoryManager.UsersRepository.GetAllWithPagingAndPersonAndGroupAsync(skip, perPage);
+            return await RepositoryManager.UsersRepository.GetAllWithPagingAndPersonAsync(skip, perPage);
         }
     }
 }
