@@ -2,6 +2,7 @@
 using MathSite.BasicAdmin.ViewModels.News;
 using MathSite.BasicAdmin.ViewModels.Pages;
 using MathSite.BasicAdmin.ViewModels.Persons;
+using MathSite.BasicAdmin.ViewModels.Users;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MathSite.BasicAdmin.ViewModels
@@ -24,7 +25,8 @@ namespace MathSite.BasicAdmin.ViewModels
             return services.AddScoped<IDashboardPageViewModelBuilder, DashboardPageViewModelBuilder>()
                 .AddScoped<INewsManagerViewModelBuilder, NewsManagerViewModelBuilder>()
                 .AddScoped<IPagesManagerViewModelBuilder, PagesManagerViewModelBuilder>()
-                .AddScoped<IPersonsManagerViewModelBuilder, PersonsManagerViewModelBuilder>();
+                .AddScoped<IPersonsManagerViewModelBuilder, PersonsManagerViewModelBuilder>()
+                .AddScoped<IUsersManagerViewModelBuilder, UsersManagerViewModelBuilder>();
         }
     }
 }

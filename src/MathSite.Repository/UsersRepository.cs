@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using MathSite.Db;
@@ -12,6 +13,7 @@ namespace MathSite.Repository
     {
         Task<User> FirstOrDefaultWithRightsAsync(Expression<Func<User, bool>> predicate);
         Task<User> FirstOrDefaultWithRightsAsync(Guid id);
+        Task<IEnumerable<User>> GetAllWithPagingAndPersonAsync(int skip, int count);
     }
 
     public class UsersRepository : EfCoreRepositoryBase<User>, IUsersRepository
@@ -31,6 +33,13 @@ namespace MathSite.Repository
         public async Task<User> FirstOrDefaultWithRightsAsync(Guid id)
         {
             return await FirstOrDefaultWithRightsAsync(user => user.Id == id);
+        }
+
+        public async Task<IEnumerable<User>> GetAllWithPagingAndPersonAsync(int skip, int count)
+        {
+            return await GetAllWithPaging(skip, count)
+                .Include(user => user.Person)
+                .ToArrayAsync();
         }
     }
 }

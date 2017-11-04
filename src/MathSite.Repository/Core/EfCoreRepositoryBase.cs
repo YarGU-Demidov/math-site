@@ -225,7 +225,7 @@ namespace MathSite.Repository.Core
         {
             return Context;
         }
-
+        
         public Task EnsureCollectionLoadedAsync<TProperty>(
             TEntity entity,
             Expression<Func<TEntity, IEnumerable<TProperty>>> propertyExpression,

@@ -17,6 +17,7 @@ namespace MathSite.Facades.Persons
         {
         }
 
+        // TODO: FIXME: Extract to classes or smth else
         public async Task<int> GetPersonsCountAsync(int perPage, bool cache)
         {
             perPage = perPage > 0 ? perPage : 1;
@@ -28,6 +29,7 @@ namespace MathSite.Facades.Persons
             return (int)Math.Ceiling(newsCount / (float)perPage);
         }
 
+        // TODO: FIXME: Extract to classes or smth else
         public async Task<IEnumerable<Person>> GetPersonsAsync(int page, int perPage, bool cache)
         {
             page = page >= 1 ? page : 1;
@@ -35,7 +37,7 @@ namespace MathSite.Facades.Persons
 
             var skip = (page - 1) * perPage;
 
-            return await RepositoryManager.PersonsRepository.GetAllWithPagingAsync(skip, perPage);
+            return await RepositoryManager.PersonsRepository.GetAllWithPagingAndUserAsync(skip, perPage);
         }
     }
 }
