@@ -1,14 +1,11 @@
 {
     "name": "math-site",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "YSU Math Site",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
-    "repository": {
-        "type": "git",
-        "url": "git+ssh://git@github.com/YarGU-Demidov/math-site.git"
-    },
+    "repository": "git+ssh://git@github.com/YarGU-Demidov/math-site.git",
     "keywords": [
         "math-site"
     ],
@@ -19,5 +16,12 @@
     },
     "homepage": "https://github.com/YarGU-Demidov/math-site#readme",
     "private": true,
-    "dependencies": {}
+    "dependencies": {
+        "bootstrap": "^4.0.0-beta.2",
+        "font-awesome": "^4.7.0",
+        "jquery": "^3.2.1",
+        "jquery-validation": "^1.17.0",
+        "jquery-validation-unobtrusive": "^3.2.6",
+        "popper.js": "^1.12.6"
+    }
 }
