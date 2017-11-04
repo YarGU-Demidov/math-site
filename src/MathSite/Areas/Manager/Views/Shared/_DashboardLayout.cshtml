@@ -1,36 +1,44 @@
-﻿@using MathSite.BasicAdmin.ViewModels.Home
-@model MathSite.BasicAdmin.ViewModels.Home.DashboardPageViewModel
+﻿@using System.Reflection
+@using MathSite.BasicAdmin.ViewModels.Home
+@model DashboardPageViewModel
+
+@{
+    var version = typeof(Startup).Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
+}
 
 <!DOCTYPE html>
 <html lang="ru">
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="site-version" content="@version"/>
 
-    <base href="@Url.Action("Index", "Home")" />
+        <base href="@Url.Action("Index", "Home")"/>
 
-    <title>@Model.PageTitle</title>
+        <title>@Model.PageTitle</title>
 
-    <link href="~/css/manager/manager-main.css" rel="stylesheet" />
-    <link href="~/css/manager/media-before.css" rel="stylesheet" />
-    <link href="~/css/manager/media-inside.css" rel="stylesheet" />
-    <link href="~/css/manager/media-after.css" rel="stylesheet" />
+        <link href="~/css/manager/manager-main.css" rel="stylesheet"/>
+        <link href="~/css/manager/media-before.css" rel="stylesheet"/>
+        <link href="~/css/manager/media-inside.css" rel="stylesheet"/>
+        <link href="~/css/manager/media-after.css" rel="stylesheet"/>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
-</head>
-<body class="d-flex flex-column">
-    @Html.Partial("ManagerHeader", Model.TopMenu)
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
+    </head>
+    <body class="d-flex flex-column">
+        @Html.Partial("ManagerHeader", Model.TopMenu)
 
-    <main class="container">
-        @RenderBody()
-    </main>
+        <main class="container">
+            @RenderBody()
+        </main>
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="~/lib/jquery/dist/jquery.slim.min.js"></script>
-    <script src="~/lib/popper.js/dist/umd/popper.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-</body>
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="~/lib/jquery/dist/jquery.slim.min.js"></script>
+        <script src="~/lib/popper.js/dist/umd/popper.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+        
+        <script src="~/js/blVersion.js"></script>
+    </body>
 </html>

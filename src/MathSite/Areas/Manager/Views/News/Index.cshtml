@@ -3,7 +3,7 @@
     var postsExists = Model.Posts != null && Model.Posts.Any();
 }
 
-<div class="container-fluid set-max-size">
+<div class="container-fluid set-max-size posts">
 
     <div class="card news-card">
         <h4 class="card-header">Новости</h4>
@@ -29,7 +29,7 @@
                     <tbody>
                         @foreach (var post in Model.Posts)
                         {
-                            var onStartPageText = post.PostSettings.PostOnStartPage ? "checked=\"checked\"" : "";
+                            var onStartPageText = post.PostSettings?.PostOnStartPage ?? post.PostType.DefaultPostsSettings.PostOnStartPage ? "checked=\"checked\"" : "";
                             var publishedText = post.Published ? "checked=\"checked\"" : "";
 
                             <tr>
@@ -68,12 +68,12 @@
                         <span>На странице: </span>
                         <select class="custom-select">
                             @{
-                                var selectedText = "selected=\"selected\"";
+                                const string selectedText = "selected=\"selected\"";
 
-                                var selected5Text = Model.PerPage == 5 ? "selected=\"selected\"" : "";
-                                var selected10Text = Model.PerPage == 10 ? "selected=\"selected\"" : "";
-                                var selected20Text = Model.PerPage == 20 ? "selected=\"selected\"" : "";
-                                var selected30Text = Model.PerPage == 30 ? "selected=\"selected\"" : "";
+                                var selected5Text = Model.PerPage == 5 ? selectedText : "";
+                                var selected10Text = Model.PerPage == 10 ? selectedText : "";
+                                var selected20Text = Model.PerPage == 20 ? selectedText : "";
+                                var selected30Text = Model.PerPage == 30 ? selectedText : "";
                             }
 
                             <!option value="5" @selected5Text>5</!option>
@@ -135,62 +135,6 @@
 
 </div>
 
-@section StylesSection {
-    <style>
-        .set-max-size { max-width: 1500px; }
-
-        .set-max-size > .card > .card-body {
-            padding: 0;
-            padding: initial;
-        }
-
-        .paging select.custom-select { display: inline-flex; }
-
-        .news-card { margin-top: 15px; }
-
-        .empty-text { padding: 2em; }
-    </style>
-}
-
 @section ScriptsSection{
-    <script>
-        $(function() {
-            var selectControl = $('.paging').find('select');
-
-            selectControl.change(function() {
-                var url = location.origin + location.pathname;
-                var search = location.search.replace('?', '').split('&').map(function(item) {
-                    var splited = item.split('=');
-                    var obj = {};
-
-                    obj[splited[0]] = splited[1];
-
-                    return obj;
-                });
-
-                var found = search.filter(function(item) {
-                    return item.hasOwnProperty('perPage');
-                });
-
-                if (found.length > 0) {
-                    found.every(function(item) {
-                        item['perPage'] = this.value;
-                    }.bind(this));
-                } else {
-                    search.push({ perPage: this.value });
-                }
-
-
-                var strSearch = search.map(function(item) {
-                    return Object.keys(item).map(function(key) {
-                        return key + '=' + item[key];
-                    });
-                }).reduce(function(prev, curr) {
-                    return prev + '&' + curr;
-                });
-
-                location.href = url + '?' + strSearch;
-            });
-        });
-    </script>
+    <script src="~/js/pager.js"></script>
 }

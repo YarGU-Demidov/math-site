@@ -40,3 +40,22 @@ main.pages-layout {
 main * {
     -webkit-overflow-scrolling: touch;
 }
+
+.set-max-size { max-width: 1500px; }
+
+.set-max-size > .card > .card-body {
+    padding: 0;
+    padding: initial;
+}
+
+.paging select.custom-select { display: inline-flex; }
+
+.news-card { margin-top: 15px; }
+
+.empty-text { padding: 2em; }
+
+.posts .post__max-width {
+    max-width: 540px;
+    position: relative;
+    height: 100%;
+}

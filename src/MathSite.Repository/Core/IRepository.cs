@@ -61,6 +61,14 @@ namespace MathSite.Repository.Core
         Task<List<TEntity>> GetAllListAsync(Expression<Func<TEntity, bool>> predicate);
 
         /// <summary>
+        ///     Used to get all entities skipping <paramref name="skip" /> entities and selecting only <paramref name="count" /> entities
+        /// </summary>
+        /// <param name="skip">Amount of entities to skip</param>
+        /// <param name="count">Amount of entities to select</param>
+        /// <returns>List of all entities with correct offset and given count</returns>
+        IQueryable<TEntity> GetAllWithPaging(int skip, int count);
+
+        /// <summary>
         ///     Used to run a query over entire entities.
         ///     if <paramref name="queryMethod" /> finishes IQueryable with ToList, FirstOrDefault etc..
         /// </summary>

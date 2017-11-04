@@ -1,5 +1,11 @@
-﻿@using MathSite.BasicAdmin.ViewModels.Home
-@model MathSite.BasicAdmin.ViewModels.Home.DashboardPageViewModel
+﻿@using System.Reflection
+@using MathSite.BasicAdmin.ViewModels.Home
+
+@{
+    var version = typeof(Startup).Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
+}
+
+@model DashboardPageViewModel
 
 @{
     Layout = "_DashboardLayout";
@@ -12,3 +18,7 @@
 <p></p>
 <p></p>
 <p>Хорошего дня!</p>
+
+<footer style="color: #ccc">
+    Текущая версия: @version
+</footer>

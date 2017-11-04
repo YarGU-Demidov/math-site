@@ -1,6 +1,11 @@
-﻿@{
+﻿@using System.Reflection
+@{
     var imageUrl = Url.Content("~/img/404bg.jpg");
     var bgColor = ViewData["BackgroundColor"];
+}
+
+@{
+    var version = typeof(Startup).Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
 }
 
 <!DOCTYPE html>
@@ -14,7 +19,9 @@
         <meta name="description" content="@ViewData["Description"]">
         <meta name="title" content="@ViewData["Title"]">
         <meta name="author" content="mokeev1995">
-
+        
+        <meta name="site-version" content="@version" />
+        
         <title>@ViewData["Title"]</title>
 
         <style>

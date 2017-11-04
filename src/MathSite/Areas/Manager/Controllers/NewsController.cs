@@ -26,12 +26,12 @@ namespace MathSite.Areas.Manager.Controllers
         [Route("manager/news/")]
         [Route("manager/news/index")]
         [Route("manager/news/list")]
-        public async Task<IActionResult> Index([FromQuery] int page = 1, [FromQuery] int perPage = 5)
+        public async Task<IActionResult> Index([FromQuery] int page = 1, [FromQuery] int perPage = 10)
         {
             return View(await _modelBuilder.BuildIndexViewModel(page, perPage));
         }
 
-        public async Task<IActionResult> Removed([FromQuery] int page = 1, [FromQuery] int perPage = 5)
+        public async Task<IActionResult> Removed([FromQuery] int page = 1, [FromQuery] int perPage = 10)
         {
             return View("Index", await _modelBuilder.BuildRemovedViewModel(page, perPage));
         }

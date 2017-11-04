@@ -1,6 +1,7 @@
-﻿@model IndexPagesViewModel
+﻿@model IndexUsersViewModel
+
 @{
-    var postsExists = Model.Posts != null && Model.Posts.Any();
+    var postsExists = Model.Users != null && Model.Users.Any();
 }
 
 <div class="container-fluid set-max-size posts">
@@ -20,41 +21,26 @@
                             <th class="text-center">
                                 <em class="fa fa-cog"></em>
                             </th>
-                            <th>Заголовок</th>
-                            <th>Дата публикации</th>
-                            <th>На главной?</th>
-                            <th>Опубликовано?</th>
+                            <th>Логин</th>
+                            <th>ФИО</th>
+                            <th>Дата создания</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var post in Model.Posts)
+                        @foreach (var post in Model.Users)
                         {
-                            var onStartPageText = post.PostSettings?.PostOnStartPage ?? post.PostType.DefaultPostsSettings.PostOnStartPage ? "checked=\"checked\"" : "";
-                            var publishedText = post.Published ? "checked=\"checked\"" : "";
-
                             <tr>
                                 <td class="text-center">
-                                    <a href="@Url.Action("Edit", "Pages", new {id = post.Id})" title="Edit" class="btn btn-outline-success">
+                                    <a href="@Url.Action("Edit", "Users", new {id = post.Id})" title="Edit" class="btn btn-outline-success">
                                         <em class="fa fa-pencil"></em>
                                     </a>
-                                    @if (post.Deleted)
-                                    {
-                                        <a href="@Url.Action("Recover", "Pages", new {id = post.Id})" title="Edit" class="btn btn-outline-info">
-                                            <em class="fa fa-repeat"></em>
-                                        </a>
-                                    }
-                                    <a href="@Url.Action("Delete", "Pages", new {id = post.Id})" title="Delete" class="btn btn-outline-danger">
+                                    <a href="@Url.Action("Delete", "Users", new {id = post.Id})" title="Delete" class="btn btn-outline-danger">
                                         <em class="fa fa-trash"></em>
                                     </a>
                                 </td>
-                                <th class="post__max-width">@post.Title</th>
-                                <td>@post.PublishDate</td>
-                                <td>
-                                    <input type="checkbox" disabled="disabled" @onStartPageText/>
-                                </td>
-                                <td>
-                                    <input type="checkbox" disabled="disabled" @publishedText/>
-                                </td>
+                                <th>@post.Login</th>
+                                <th>@post.Person.Surname @post.Person.Name @post.Person.MiddleName</th>
+                                <th>@post.CreationDate</th>
                             </tr>
                         }
                     </tbody>
@@ -92,7 +78,7 @@
                             }
 
                             <li class="page-item @disabledPrev">
-                                <a class="page-link" href="@Url.Action("Index", "Pages", new {page = Model.CurrentPage - 1, perPage = Model.PerPage})" aria-label="Previous">
+                                <a class="page-link" href="@Url.Action("Index", "Users", new {page = Model.CurrentPage - 1, perPage = Model.PerPage})" aria-label="Previous">
                                     <span aria-hidden="true">&laquo;</span>
                                     <span class="sr-only">Previous</span>
                                 </a>
@@ -114,13 +100,13 @@
                                 else
                                 {
                                     <li class="page-item">
-                                        <a class="page-link" href="@Url.Action("Index", "Pages", new {page = pageNumber, perPage = Model.PerPage})">@pageNumber</a>
+                                        <a class="page-link" href="@Url.Action("Index", "Users", new {page = pageNumber, perPage = Model.PerPage})">@pageNumber</a>
                                     </li>
                                 }
                             }
 
                             <li class="page-item @disabledNext">
-                                <a class="page-link" href="@Url.Action("Index", "Pages", new {page = Model.CurrentPage + 1, perPage = Model.PerPage})" aria-label="Next">
+                                <a class="page-link" href="@Url.Action("Index", "Users", new {page = Model.CurrentPage + 1, perPage = Model.PerPage})" aria-label="Next">
                                     <span aria-hidden="true">&raquo;</span>
                                     <span class="sr-only">Next</span>
                                 </a>

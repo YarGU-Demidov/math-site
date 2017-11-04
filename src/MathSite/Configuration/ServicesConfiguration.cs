@@ -1,21 +1,13 @@
 ﻿using System;
-using MathSite.BasicAdmin.ViewModels.Home;
-using MathSite.BasicAdmin.ViewModels.News;
-using MathSite.BasicAdmin.ViewModels.Pages;
+using MathSite.BasicAdmin.ViewModels;
 using MathSite.Common.Crypto;
 using MathSite.Core.Auth.Handlers;
 using MathSite.Core.Auth.Requirements;
 using MathSite.Db;
 using MathSite.Db.DataSeeding.StaticData;
-using MathSite.Facades.Posts;
-using MathSite.Facades.SiteSettings;
-using MathSite.Facades.UserValidation;
-using MathSite.Repository;
+using MathSite.Facades;
 using MathSite.Repository.Core;
-using MathSite.ViewModels.Home;
-using MathSite.ViewModels.News;
-using MathSite.ViewModels.Pages;
-using MathSite.ViewModels.SharedModels.PostPreview;
+using MathSite.ViewModels;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -137,36 +129,11 @@ namespace MathSite
             services.Configure<Settings>(Configuration);
 
             services.AddScoped<IPasswordsManager, DoubleSha512HashPasswordsManager>();
-            services.AddScoped<IRepositoryManager, RepositoryManager>();
 
-            // BL
-            services.AddScoped<IGroupsRepository, GroupsRepository>();
-            services.AddScoped<IPersonsRepository, PersonsRepository>();
-            services.AddScoped<IUsersRepository, UsersRepository>();
-            services.AddScoped<IFilesRepository, FilesRepository>();
-            services.AddScoped<ISiteSettingsRepository, SiteSettingsRepository>();
-            services.AddScoped<IRightsRepository, RightsRepository>();
-            services.AddScoped<IPostsRepository, PostsRepository>();
-            services.AddScoped<IPostSeoSettingsRepository, PostSeoSettingsRepository>();
-            services.AddScoped<IPostSettingRepository, PostSettingRepository>();
-            services.AddScoped<IPostTypeRepository, PostTypeRepository>();
-            services.AddScoped<IGroupTypeRepository, GroupTypeRepository>();
-
-            // Facades
-            services.AddScoped<IUserValidationFacade, UserValidationFacade>();
-            services.AddScoped<ISiteSettingsFacade, SiteSettingsFacade>();
-            services.AddScoped<IPostsFacade, PostsFacade>();
-
-            // View Models Builders
-            services.AddScoped<IHomeViewModelBuilder, HomeViewModelBuilder>();
-            services.AddScoped<INewsViewModelBuilder, NewsViewModelBuilder>();
-            services.AddScoped<IPagesViewModelBuilder, PagesViewModelBuilder>();
-            services.AddScoped<IPostPreviewViewModelBuilder, PostPreviewViewModelBuilder>();
-
-            // Admin View Models Builders
-            services.AddScoped<IDashboardPageViewModelBuilder, DashboardPageViewModelBuilder>();
-            services.AddScoped<INewsManagerViewModelBuilder, NewsManagerViewModelBuilder>();
-            services.AddScoped<IPagesManagerViewModelBuilder, PagesManagerViewModelBuilder>();
+            services.AddRepositories()
+                .AddFacades()
+                .AddViewModelBuilders()
+                .AddBasicAdminViewModelBuilders();
         }
 
         private void ConfigureEntityFramework(IServiceCollection services, bool isDevelopment)

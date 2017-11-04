@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using MathSite.Common;
 using MathSite.Common.Entities;
 using MathSite.Common.Exceptions;
 
@@ -36,6 +37,12 @@ namespace MathSite.Repository.Core
         public virtual Task<List<TEntity>> GetAllListAsync(Expression<Func<TEntity, bool>> predicate)
         {
             return Task.FromResult(GetAllList(predicate));
+        }
+
+        public virtual IQueryable<TEntity> GetAllWithPaging(int skip, int count)
+        {
+            return GetAll()
+                .PageBy(skip, count);
         }
 
         public virtual T Query<T>(Func<IQueryable<TEntity>, T> queryMethod)

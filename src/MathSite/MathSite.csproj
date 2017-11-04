@@ -10,10 +10,18 @@
         <PackageId>MathSite</PackageId>
         <RuntimeFrameworkVersion>2.0.0</RuntimeFrameworkVersion>
         <AssetTargetFallback>$(AssetTargetFallback);netcoreapp1.1;net451;dotnet5.6;netcoreapp1.1;portable-net45+win8+wp8+wpa81;dnxcore50</AssetTargetFallback>
-        <Description>Package Description</Description>
+        <Description></Description>
         <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
         <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
         <RuntimeIdentifiers>win10-x64;osx.10.12-x64;ubuntu-x64</RuntimeIdentifiers>
+        <Version>0.0.2</Version>
+        <Authors>mokeev1995</Authors>
+        <Company>Yaroslavl State University</Company>
+        <PackageProjectUrl>https://github.com/YarGU-Demidov/math-site</PackageProjectUrl>
+        <AssemblyVersion>0.0.2.2</AssemblyVersion>
+        <PackageLicenseUrl>https://github.com/YarGU-Demidov/math-site/blob/master/LICENSE.md</PackageLicenseUrl>
+        <RepositoryUrl>https://github.com/YarGU-Demidov/math-site</RepositoryUrl>
+        <RepositoryType>Git</RepositoryType>
     </PropertyGroup>
     <ItemGroup>
         <Compile Remove="Areas\PersonalPage\Views\Shared\**" />
@@ -34,11 +42,11 @@
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.0.0" />
     </ItemGroup>
     <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
-        <Exec Command="bower install" />
+        <Exec Command="yarn install --modules-folder ./wwwroot/lib/" />
         <Exec Command="dotnet bundle" />
     </Target>
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-        <Exec Command="bower install" />
+        <Exec Command="yarn install --modules-folder ./wwwroot/lib/" />
         <Exec Command="dotnet bundle" />
     </Target>
     <ItemGroup>
