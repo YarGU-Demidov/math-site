@@ -1,0 +1,28 @@
+version: 0.0.3.{build}
+
+image: Visual Studio 2017
+
+platform: Any CPU
+
+before_build:
+- cmd: dotnet restore
+
+build:
+  parallel: true
+  verbosity: minimal
+
+environment:
+  nodejs_version: "" # empty string == latest version
+  # Install scripts. (runs after repo cloning)
+install:
+  # Get the latest stable version of Node.js or io.js
+  - ps: Install-Product node $env:nodejs_version
+# Post-install test scripts.
+test_script:
+  # Output useful info for debugging.
+  - node --version
+  - npm --version
+
+dotnet_csproj:
+  patch: true
+  file: '**\*.csproj;**\*.props;**\*.fsproj;**\*.xml'
