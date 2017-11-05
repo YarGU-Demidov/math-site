@@ -10,9 +10,9 @@
         <PackageProjectUrl>https://github.com/YarGU-Demidov/math-site</PackageProjectUrl>
         <RepositoryUrl>https://github.com/YarGU-Demidov/math-site</RepositoryUrl>
         <RepositoryType>Git</RepositoryType>
-        <AssemblyVersion>0.0.2.2</AssemblyVersion>
-        <FileVersion>0.0.2.2</FileVersion>
-        <Version>0.0.2</Version>
+        <AssemblyVersion>0.0.3.0</AssemblyVersion>
+        <FileVersion>0.0.3.0</FileVersion>
+        <Version>0.0.3</Version>
     </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="..\MathSite.Common\MathSite.Common.csproj" />

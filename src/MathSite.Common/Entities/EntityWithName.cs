@@ -16,10 +16,8 @@ namespace MathSite.Common.Entities
     }
 
     [Serializable]
-    public class EntityWithName : Entity<Guid>, IEntityWithName
+    public class EntityWithName : EntityWithName<Guid>, IEntityWithName
     {
-        public string Name { get; set; }
-
         public override string ToString()
         {
             return $"{base.ToString()} | [{nameof(Name)}: {Name}]";
