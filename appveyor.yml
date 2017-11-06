@@ -10,10 +10,10 @@ pull_requests:
 max_jobs: 5
 
 before_build:
-  cmd: node --version
-  cmd: npm --version
-  cmd: dotnet --version
-  cmd: dotnet restore --verbosity m 
+ - cmd: node --version
+ - cmd: npm --version
+ - cmd: dotnet --version
+ - cmd: dotnet restore --verbosity m 
 
 build_script:
   ps: dotnet publish -c Release --output $APPVEYOR_BUILD_FOLDER/dist
