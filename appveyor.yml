@@ -14,11 +14,7 @@ before_build:
  - cmd: dotnet restore --verbosity m 
 
 build_script:
-  ps: dotnet publish -c Release --output $APPVEYOR_BUILD_FOLDER/dist
-
-build:
-  parallel: true
-  verbosity: minimal
+ - cmd: dotnet publish -c Release --output $APPVEYOR_BUILD_FOLDER/dist
 
 environment:
   nodejs_version: "" # empty string == latest version
