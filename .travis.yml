@@ -6,7 +6,10 @@ node_js:
 dist: trusty
 script:
  - dotnet restore
- - cd src && cd MathSite && dotnet build
+ - cd src && cd MathSite
+ - dotnet publish -c Release -r ubuntu-x64
+ - dotnet publish -c Release -r win10-x64
+ - dotnet publish -c Release -r osx.10.12-x64
  - cd ../../tests 
  - cd "MathSite.Tests.Common" && dotnet test && cd ..
  - cd "MathSite.Tests.Facades" && dotnet test && cd ..
