@@ -1,5 +1,8 @@
 version: 0.0.3.{build}
 
+environment:
+  nodejs_version: "" # empty string == latest version
+
 image: Visual Studio 2017
 
 pull_requests:
@@ -16,9 +19,7 @@ before_build:
 build_script:
  - cmd: dotnet publish -c Release --output $APPVEYOR_BUILD_FOLDER/dist
 
-environment:
-  nodejs_version: "" # empty string == latest version
-  # Install scripts. (runs after repo cloning)
+# Install scripts. (runs after repo cloning)
 install:
   # Get the latest stable version of Node.js or io.js
   ps: Install-Product node $env:nodejs_version
