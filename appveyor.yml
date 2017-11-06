@@ -1,28 +1,42 @@
 version: 0.0.3.{build}
 
-image: Visual Studio 2017
-
-platform: Any CPU
-
-before_build:
-- cmd: dotnet restore
-
-build:
-  parallel: true
-  verbosity: minimal
-
 environment:
   nodejs_version: "" # empty string == latest version
-  # Install scripts. (runs after repo cloning)
+
+image: Visual Studio 2017
+
+pull_requests:
+  do_not_increment_build_number: true
+
+max_jobs: 5
+
+before_build:
+ - cmd: node --version
+ - cmd: npm --version
+ - cmd: dotnet --version
+ - cmd: dotnet --info
+ - cmd: dotnet restore --verbosity m 
+
+build_script:
+ - ps: dotnet publish -c Release --output $env:APPVEYOR_BUILD_FOLDER\dist
+
+# Install scripts. (runs after repo cloning)
 install:
   # Get the latest stable version of Node.js or io.js
-  - ps: Install-Product node $env:nodejs_version
-# Post-install test scripts.
-test_script:
-  # Output useful info for debugging.
-  - node --version
-  - npm --version
+  ps: Install-Product node $env:nodejs_version
 
 dotnet_csproj:
   patch: true
   file: '**\*.csproj;**\*.props;**\*.fsproj;**\*.xml'
+  version: '{version}'
+  package_version: '{version}'
+  assembly_version: '{version}'
+  file_version: '{version}'
+  informational_version: '{version}'
+
+artifacts:
+ - path: '\dist'
+   name: Root
+   type: Zip
+
+deploy: off
