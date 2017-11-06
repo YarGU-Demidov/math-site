@@ -2,8 +2,6 @@ version: 0.0.3.{build}
 
 image: Visual Studio 2017
 
-platform: Any CPU
-
 pull_requests:
   do_not_increment_build_number: true
 
@@ -42,3 +40,5 @@ artifacts:
  - path: '\dist'
    name: Root
    type: Zip
+
+deploy: off
