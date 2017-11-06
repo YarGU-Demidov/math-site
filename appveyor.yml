@@ -17,7 +17,7 @@ before_build:
  - cmd: dotnet restore --verbosity m 
 
 build_script:
- - cmd: dotnet publish -c Release --output $env:APPVEYOR_BUILD_FOLDER\dist
+ - cmd: dotnet publish -c Release --output $env:APPVEYOR_BUILD_FOLDER + "\dist"
 
 # Install scripts. (runs after repo cloning)
 install:
