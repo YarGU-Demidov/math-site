@@ -73,6 +73,26 @@ namespace MathSite.Migrations
                 b.ToTable("Comment");
             });
 
+            modelBuilder.Entity("MathSite.Entities.Directory", b =>
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd();
+
+                b.Property<DateTime>("CreationDate")
+                    .ValueGeneratedOnAdd()
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                b.Property<string>("Name");
+
+                b.Property<Guid?>("RootDirectoryId");
+
+                b.HasKey("Id");
+
+                b.HasIndex("RootDirectoryId");
+
+                b.ToTable("Directory");
+            });
+
             modelBuilder.Entity("MathSite.Entities.File", b =>
             {
                 b.Property<Guid>("Id")
@@ -84,6 +104,8 @@ namespace MathSite.Migrations
 
                 b.Property<DateTime>("DateAdded");
 
+                b.Property<Guid?>("DirectoryId");
+
                 b.Property<string>("Extension");
 
                 b.Property<string>("Name")
@@ -93,6 +115,8 @@ namespace MathSite.Migrations
                     .IsRequired();
 
                 b.HasKey("Id");
+
+                b.HasIndex("DirectoryId");
 
                 b.ToTable("File");
             });
@@ -676,6 +700,22 @@ namespace MathSite.Migrations
                 b.HasOne("MathSite.Entities.User", "User")
                     .WithMany("Comments")
                     .HasForeignKey("UserId")
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            modelBuilder.Entity("MathSite.Entities.Directory", b =>
+            {
+                b.HasOne("MathSite.Entities.Directory", "RootDirectory")
+                    .WithMany("Directories")
+                    .HasForeignKey("RootDirectoryId")
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            modelBuilder.Entity("MathSite.Entities.File", b =>
+            {
+                b.HasOne("MathSite.Entities.Directory", "Directory")
+                    .WithMany("Files")
+                    .HasForeignKey("DirectoryId")
                     .OnDelete(DeleteBehavior.Cascade);
             });
 

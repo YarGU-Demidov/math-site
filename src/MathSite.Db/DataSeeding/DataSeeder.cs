@@ -95,6 +95,7 @@ namespace MathSite.Db.DataSeeding
                 new GroupTypeSeeder(_logger, _context),
                 new GroupSeeder(_logger, _context),
                 new PersonSeeder(_logger, _context),
+                new DirectorySeeder(_logger, _context),
                 new FileSeeder(_logger, _context),
                 new UserSeeder(_logger, _context, _passwordHasher),
                 new RightSeeder(_logger, _context),

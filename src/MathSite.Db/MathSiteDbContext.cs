@@ -20,6 +20,7 @@ namespace MathSite.Db
         public DbSet<Category> Categories { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<File> Files { get; set; }
+        public DbSet<Directory> Directories { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<GroupsRight> GroupsRights { get; set; }
         public DbSet<GroupType> GroupTypes { get; set; }
@@ -45,12 +46,11 @@ namespace MathSite.Db
         /// <summary>
         ///     Добавление конфигурации сущностей.
         /// </summary>
-        /// <param name="modelBuilder">
-        ///     <inheritdoc />
-        /// </param>
+        /// <inheritdoc />
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+            modelBuilder.ApplyConfiguration(new DirectoryConfiguration());
             modelBuilder.ApplyConfiguration(new CommentConfiguration());
             modelBuilder.ApplyConfiguration(new FileConfiguration());
             modelBuilder.ApplyConfiguration(new GroupRightsConfiguration());

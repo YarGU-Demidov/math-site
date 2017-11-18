@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using MathSite.Entities;
 using Microsoft.Extensions.Logging;
 
@@ -22,14 +23,16 @@ namespace MathSite.Db.DataSeeding.Seeders
                 "FirstFile",
                 DateTime.Now,
                 "first file path",
-                "first extension"
+                "first extension",
+                null
             );
 
             var secondFile = CreateFile(
                 "SecondFile",
                 DateTime.Now,
                 "second file path",
-                "second extension"
+                "second extension",
+                GetDirectoryByName("news")
             );
 
             var files = new[]
@@ -39,9 +42,16 @@ namespace MathSite.Db.DataSeeding.Seeders
             };
 
             Context.Files.AddRange(files);
+
+            Context.SaveChanges();
         }
 
-        private static File CreateFile(string name, DateTime dateAdded, string filePath, string extension)
+        private Directory GetDirectoryByName(string name)
+        {
+            return Context.Directories.First(d => d.Name == name);
+        }
+
+        private static File CreateFile(string name, DateTime dateAdded, string filePath, string extension, Directory dir)
         {
             return new File
             {
@@ -50,7 +60,8 @@ namespace MathSite.Db.DataSeeding.Seeders
                 Path = filePath,
                 Extension = extension,
                 PostSettings = new List<PostSetting>(),
-                PostAttachments = new List<PostAttachment>()
+                PostAttachments = new List<PostAttachment>(),
+                DirectoryId = dir?.Id
             };
         }
     }

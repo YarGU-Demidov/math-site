@@ -47,7 +47,17 @@ namespace MathSite.Entities
         ///     Личность добавившего файл.
         /// </summary>
         public Person Person { get; set; }
+        
+        /// <summary>
+        ///     Id папки этого файла.
+        /// </summary>
+        public Guid? DirectoryId { get; set; }
 
+        /// <summary>
+        ///     Папка этого файла.
+        /// </summary>
+        public Directory Directory { get; set; }
+        
         /// <summary>
         ///     Список настроек поста, к которым привязан файл.
         /// </summary>
