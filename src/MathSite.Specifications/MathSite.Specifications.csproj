@@ -18,4 +18,7 @@
         <ProjectReference Include="..\MathSite.Common\MathSite.Common.csproj" />
         <ProjectReference Include="..\MathSite.Entities\MathSite.Entities.csproj" />
     </ItemGroup>
+    <ItemGroup>
+      <Folder Include="FileSystem\" />
+    </ItemGroup>
 </Project>

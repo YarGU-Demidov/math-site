@@ -65,7 +65,8 @@ namespace NewsImporter
                 new PostSeoSettingsRepository(context),
                 new PostSettingRepository(context),
                 new PostTypeRepository(context),
-                new GroupTypeRepository(context)
+                new GroupTypeRepository(context),
+                new DirectoriesRepository(context)
             );
 
             var loggerFactory = new LoggerFactory().AddConsole();

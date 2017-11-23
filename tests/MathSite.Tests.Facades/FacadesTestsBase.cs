@@ -55,7 +55,8 @@ namespace MathSite.Tests.Facades
                 new PostSeoSettingsRepository(context),
                 new PostSettingRepository(context),
                 new PostTypeRepository(context),
-                new GroupTypeRepository(context)
+                new GroupTypeRepository(context),
+                new DirectoriesRepository(context)
             );
         }
 

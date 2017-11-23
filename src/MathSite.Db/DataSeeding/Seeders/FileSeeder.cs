@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using MathSite.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace MathSite.Db.DataSeeding.Seeders
@@ -19,26 +20,29 @@ namespace MathSite.Db.DataSeeding.Seeders
         /// <inheritdoc />
         protected override void SeedData()
         {
-            var firstFile = CreateFile(
-                "FirstFile",
-                DateTime.Now,
-                "first file path",
-                "first extension",
-                null
-            );
-
-            var secondFile = CreateFile(
-                "SecondFile",
-                DateTime.Now,
-                "second file path",
-                "second extension",
-                GetDirectoryByName("news")
-            );
-
             var files = new[]
             {
-                firstFile,
-                secondFile
+                CreateFile(
+                    "FirstFile",
+                    DateTime.UtcNow,
+                    "uploads/new-file.jpg",
+                    "jpg",
+                    GetDirectoryByPath("/")
+                ),
+                CreateFile(
+                    "SecondFile",
+                    DateTime.UtcNow,
+                    "uploads/new-file-1.png",
+                    "png",
+                    GetDirectoryByPath("/news")
+                ),
+                CreateFile(
+                    "File in path",
+                    DateTime.UtcNow,
+                    "uploads/new-file-2.docx",
+                    "docx",
+                    GetDirectoryByPath("/news/previews")
+                )
             };
 
             Context.Files.AddRange(files);
@@ -46,9 +50,23 @@ namespace MathSite.Db.DataSeeding.Seeders
             Context.SaveChanges();
         }
 
-        private Directory GetDirectoryByName(string name)
+        private Directory GetDirectoryByPath(string name)
         {
-            return Context.Directories.First(d => d.Name == name);
+            if (name == "/")
+                return null;
+            
+            var names = new Queue<string>(name.Split(new[] { "/" }, StringSplitOptions.RemoveEmptyEntries));
+
+            var tempName = names.Dequeue();
+            var dir = Context.Directories.First(d => d.Name == tempName);
+            
+            while (names.Count > 0)
+            {
+                tempName = names.Dequeue();
+                dir = dir.Directories.First(d => d.Name == tempName);
+            }
+
+            return dir;
         }
 
         private static File CreateFile(string name, DateTime dateAdded, string filePath, string extension, Directory dir)

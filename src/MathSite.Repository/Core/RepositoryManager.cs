@@ -1,9 +1,14 @@
-﻿using MathSite.Db;
+﻿using System.Collections.Generic;
+using System.Linq;
+
+// ReSharper disable SuggestBaseTypeForParameter
 
 namespace MathSite.Repository.Core
 {
     public class RepositoryManager : IRepositoryManager
     {
+        private readonly ICollection<IRepository> _repositories = new List<IRepository>();
+
         public RepositoryManager(
             IGroupsRepository groupsRepository,
             IPersonsRepository personsRepository,
@@ -14,33 +19,41 @@ namespace MathSite.Repository.Core
             IPostsRepository postsRepository,
             IPostSeoSettingsRepository postSeoSettingsRepository,
             IPostSettingRepository postSettingRepository,
-            IPostTypeRepository postTypeRepository, 
-            IGroupTypeRepository groupTypeRepository
+            IPostTypeRepository postTypeRepository,
+            IGroupTypeRepository groupTypeRepository,
+            IDirectoriesRepository directoriesRepository
         )
         {
-            GroupsRepository = groupsRepository;
-            PersonsRepository = personsRepository;
-            UsersRepository = usersRepository;
-            FilesRepository = filesRepository;
-            SiteSettingsRepository = siteSettingsRepository;
-            RightsRepository = rightsRepository;
-            PostsRepository = postsRepository;
-            PostSeoSettingsRepository = postSeoSettingsRepository;
-            PostSettingRepository = postSettingRepository;
-            PostTypeRepository = postTypeRepository;
-            GroupTypeRepository = groupTypeRepository;
+            _repositories.Add(groupsRepository);
+            _repositories.Add(personsRepository);
+            _repositories.Add(usersRepository);
+            _repositories.Add(filesRepository);
+            _repositories.Add(siteSettingsRepository);
+            _repositories.Add(rightsRepository);
+            _repositories.Add(postsRepository);
+            _repositories.Add(postSeoSettingsRepository);
+            _repositories.Add(postSettingRepository);
+            _repositories.Add(postTypeRepository);
+            _repositories.Add(groupTypeRepository);
+            _repositories.Add(directoriesRepository);
         }
 
-        public IGroupsRepository GroupsRepository { get; }
-        public IPersonsRepository PersonsRepository { get; }
-        public IUsersRepository UsersRepository { get; }
-        public IFilesRepository FilesRepository { get; }
-        public ISiteSettingsRepository SiteSettingsRepository { get; }
-        public IRightsRepository RightsRepository { get; }
-        public IPostsRepository PostsRepository { get; }
-        public IPostSeoSettingsRepository PostSeoSettingsRepository { get; }
-        public IPostSettingRepository PostSettingRepository { get; }
-        public IPostTypeRepository PostTypeRepository { get; }
-        public IGroupTypeRepository GroupTypeRepository { get; }
+        public IGroupsRepository GroupsRepository => TryGetRepository<IGroupsRepository>();
+        public IPersonsRepository PersonsRepository => TryGetRepository<IPersonsRepository>();
+        public IUsersRepository UsersRepository => TryGetRepository<IUsersRepository>();
+        public IFilesRepository FilesRepository => TryGetRepository<IFilesRepository>();
+        public IDirectoriesRepository DirectoriesRepository => TryGetRepository<IDirectoriesRepository>();
+        public ISiteSettingsRepository SiteSettingsRepository => TryGetRepository<ISiteSettingsRepository>();
+        public IRightsRepository RightsRepository => TryGetRepository<IRightsRepository>();
+        public IPostsRepository PostsRepository => TryGetRepository<IPostsRepository>();
+        public IPostSeoSettingsRepository PostSeoSettingsRepository => TryGetRepository<IPostSeoSettingsRepository>();
+        public IPostSettingRepository PostSettingRepository => TryGetRepository<IPostSettingRepository>();
+        public IPostTypeRepository PostTypeRepository => TryGetRepository<IPostTypeRepository>();
+        public IGroupTypeRepository GroupTypeRepository => TryGetRepository<IGroupTypeRepository>();
+
+        public T TryGetRepository<T>() where T : class, IRepository
+        {
+            return _repositories.First(repository => repository is T) as T;
+        }
     }
 }

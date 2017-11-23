@@ -1,0 +1,45 @@
+﻿using System.Threading.Tasks;
+using MathSite.Common.Specifications;
+using MathSite.Db.DataSeeding.Seeders;
+using MathSite.Entities;
+using MathSite.Facades;
+using MathSite.Repository.Core;
+using Microsoft.Extensions.Caching.Memory;
+using Xunit;
+
+namespace MathSite.Tests.Facades
+{
+    public class PersonBaseFacadeTestClass : BaseFacade
+    {
+        public PersonBaseFacadeTestClass(IRepositoryManager repositoryManager, IMemoryCache memoryCache)
+            : base(repositoryManager, memoryCache)
+        {
+        }
+
+        public async Task<int> GetCountWithoutCacheAsync()
+        {
+            return await GetCountAsync(new AnySpecification<Person>(), RepositoryManager.PersonsRepository, false);
+        }
+    }
+
+    public class BaseFacadeTests : FacadesTestsBase
+    {
+        [Fact]
+        public async Task TestCount()
+        {
+            await WithRepositoryAsync(async (manager, context, logger) =>
+            {
+                SeedData(new[]
+                {
+                    new PersonSeeder(logger, context)
+                });
+
+                var testClass = new PersonBaseFacadeTestClass(manager, MemoryCache);
+
+                var personsCount = await testClass.GetCountWithoutCacheAsync();
+
+                Assert.Equal(3, personsCount);
+            });
+        }
+    }
+}

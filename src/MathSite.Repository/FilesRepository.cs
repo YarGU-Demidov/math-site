@@ -1,6 +1,8 @@
-﻿using MathSite.Db;
+﻿using System.Linq;
+using MathSite.Db;
 using MathSite.Entities;
 using MathSite.Repository.Core;
+using Microsoft.EntityFrameworkCore;
 
 namespace MathSite.Repository
 {
@@ -12,6 +14,14 @@ namespace MathSite.Repository
     {
         public FilesRepository(MathSiteDbContext dbContext) : base(dbContext)
         {
+        }
+
+        public override IQueryable<File> GetAll()
+        {
+            return base.GetAll()
+                .Include(file => file.Directory).ThenInclude(d => d.Directories)
+                .Include(file => file.Directory).ThenInclude(d => d.RootDirectory)
+                .Include(file => file.Directory).ThenInclude(d => d.Files);
         }
     }
 }

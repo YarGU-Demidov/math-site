@@ -1,6 +1,4 @@
-﻿using MathSite.Db;
-
-namespace MathSite.Repository.Core
+﻿namespace MathSite.Repository.Core
 {
     public interface IRepositoryManager
     {
@@ -8,6 +6,7 @@ namespace MathSite.Repository.Core
         IPersonsRepository PersonsRepository { get; }
         IUsersRepository UsersRepository { get; }
         IFilesRepository FilesRepository { get; }
+        IDirectoriesRepository DirectoriesRepository { get; }
         ISiteSettingsRepository SiteSettingsRepository { get; }
         IRightsRepository RightsRepository { get; }
         IPostsRepository PostsRepository { get; }
@@ -15,5 +14,8 @@ namespace MathSite.Repository.Core
         IPostSettingRepository PostSettingRepository { get; }
         IPostTypeRepository PostTypeRepository { get; }
         IGroupTypeRepository GroupTypeRepository { get; }
+
+        T TryGetRepository<T>() 
+            where T: class, IRepository;
     }
 }
