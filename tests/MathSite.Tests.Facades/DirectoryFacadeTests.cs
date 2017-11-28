@@ -6,6 +6,7 @@ using MathSite.Db;
 using MathSite.Db.DataSeeding;
 using MathSite.Db.DataSeeding.Seeders;
 using MathSite.Facades.FileSystem;
+using MathSite.Repository.Core;
 using Microsoft.Extensions.Logging;
 using Xunit;
 
@@ -30,14 +31,19 @@ namespace MathSite.Tests.Facades
             seeders.AddRange(last);
         }
 
+        private DirectoryFacade GetFacade(IRepositoryManager manager, ILogger logger, MathSiteDbContext context, List<ISeeder> seeders = null)
+        {
+            SeedDirData(logger, context);
+
+            return new DirectoryFacade(manager, MemoryCache);
+        }
+
         [Fact]
         public async Task FolderNotFoundTest()
         {
             await WithRepositoryAsync(async (manager, context, logger) =>
             {
-                SeedDirData(logger, context);
-
-                var facade = new DirectoryFacade(manager, MemoryCache);
+                var facade = GetFacade(manager, logger, context);
 
                 await Assert.ThrowsAsync<DirectoryNotFoundException>(async () =>
                 {
@@ -51,9 +57,7 @@ namespace MathSite.Tests.Facades
         {
             await WithRepositoryAsync(async (manager, context, logger) =>
             {
-                SeedDirData(logger, context);
-
-                var facade = new DirectoryFacade(manager, MemoryCache);
+                var facade = GetFacade(manager, logger, context);
 
                 var prevDir = await facade.GetDirectoryWithPathAsync("/news");
                 var dir = await facade.GetDirectoryWithPathAsync("/news/previews");
@@ -69,9 +73,7 @@ namespace MathSite.Tests.Facades
         {
             await WithRepositoryAsync(async (manager, context, logger) =>
             {
-                SeedDirData(logger, context);
-
-                var facade = new DirectoryFacade(manager, MemoryCache);
+                var facade = GetFacade(manager, logger, context);
 
                 var dir = await facade.GetDirectoryWithPathAsync("/news");
 
@@ -86,9 +88,7 @@ namespace MathSite.Tests.Facades
         {
             await WithRepositoryAsync(async (manager, context, logger) =>
             {
-                SeedDirData(logger, context);
-
-                var facade = new DirectoryFacade(manager, MemoryCache);
+                var facade = GetFacade(manager, logger, context);
 
                 var dir = await facade.GetDirectoryWithPathAsync("/");
 
@@ -104,15 +104,25 @@ namespace MathSite.Tests.Facades
         {
             await WithRepositoryAsync(async (manager, context, logger) =>
             {
-                SeedDirData(logger, context);
-
-                var facade = new DirectoryFacade(manager, MemoryCache);
+                var facade = GetFacade(manager, logger, context);
 
                 await Assert.ThrowsAsync<DirectoryNotFoundException>(async () =>
                 {
                     await facade.GetDirectoryWithPathAsync(
                         "/news/previews/does-not-exists/and-this-doesnot-exists-too");
                 });
+            });
+        }
+
+        [Fact]
+        public async Task SendEmptyPathTest()
+        {
+            await WithRepositoryAsync(async (manager, context, logger) =>
+            {
+                var facade = GetFacade(manager, logger, context);
+
+                await Assert.ThrowsAsync<ArgumentException>(async () => await facade.GetDirectoryWithPathAsync(null));
+                await Assert.ThrowsAsync<ArgumentException>(async () => await facade.GetDirectoryWithPathAsync(""));
             });
         }
     }

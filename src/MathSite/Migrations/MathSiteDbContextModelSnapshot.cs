@@ -17,7 +17,7 @@ namespace MathSite.Migrations
             modelBuilder
                 .HasAnnotation("Npgsql:PostgresExtension:uuid-ossp", "'uuid-ossp', '', ''")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "2.0.0-rtm-26452");
+                .HasAnnotation("ProductVersion", "2.0.1-rtm-125");
 
             modelBuilder.Entity("MathSite.Entities.Category", b =>
             {
@@ -108,6 +108,9 @@ namespace MathSite.Migrations
 
                 b.Property<string>("Extension");
 
+                b.Property<string>("Hash")
+                    .IsRequired();
+
                 b.Property<string>("Name")
                     .IsRequired();
 
@@ -117,6 +120,8 @@ namespace MathSite.Migrations
                 b.HasKey("Id");
 
                 b.HasIndex("DirectoryId");
+
+                b.HasIndex("Hash");
 
                 b.ToTable("File");
             });

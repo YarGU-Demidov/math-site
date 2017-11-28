@@ -1,4 +1,5 @@
-﻿using MathSite.Facades.UserValidation;
+﻿using MathSite.Facades.Users;
+using MathSite.Facades.UserValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,7 +7,8 @@ namespace MathSite.Controllers
 {
     public class ErrorsController : BaseController
     {
-        public ErrorsController(IUserValidationFacade userValidationFacade) : base(userValidationFacade)
+        public ErrorsController(IUserValidationFacade userValidationFacade, IUsersFacade usersFacade) 
+            : base(userValidationFacade, usersFacade)
         {
         }
 

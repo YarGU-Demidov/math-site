@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using MathSite.Controllers;
+using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
 using MathSite.ViewModels.Api.MenuItems;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +10,8 @@ namespace MathSite.Areas.Api.Controllers
     [Area("Api")]
     public class MenuItemsController : BaseController
     {
-        public MenuItemsController(IUserValidationFacade userValidationFacade) : base(userValidationFacade)
+        public MenuItemsController(IUserValidationFacade userValidationFacade, IUsersFacade usersFacade) 
+            : base(userValidationFacade, usersFacade)
         {
         }
 

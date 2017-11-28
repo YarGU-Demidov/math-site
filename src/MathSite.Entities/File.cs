@@ -10,7 +10,7 @@ namespace MathSite.Entities
     public class File : EntityWithName
     {
         public File()
-            : this(null, null, null)
+            : this(null, null, null, null)
         {
         }
 
@@ -20,16 +20,18 @@ namespace MathSite.Entities
         /// <param name="name">Название файла.</param>
         /// <param name="path">Путь к файлу.</param>
         /// <param name="extension">Расширение файла.</param>
-        public File(string name, string path, string extension)
+        /// <param name="hash">Хэш файла.</param>
+        public File(string name, string path, string extension, string hash)
         {
             Name = name;
             Path = path;
             Extension = extension;
+            Hash = hash;
             DateAdded = DateTime.Now;
         }
 
         /// <summary>
-        ///     Путь к файлу в файловой системе
+        ///     Путь к файлу в файловой системе.
         /// </summary>
         public string Path { get; set; }
 
@@ -38,6 +40,11 @@ namespace MathSite.Entities
         /// </summary>
         public string Extension { get; set; }
 
+        /// <summary>
+        ///     Хэш файла.
+        /// </summary>
+        public string Hash { get; set; }
+        
         /// <summary>
         ///     Дата добавления файла.
         /// </summary>

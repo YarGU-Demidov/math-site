@@ -8,5 +8,7 @@ namespace MathSite.Facades.Users
     {
         Task<int> GetUsersCountAsync(int perPage, bool cache);
         Task<IEnumerable<User>> GetUsersAsync(int page, int perPage, bool cache);
+
+        Task<User> GetCurrentUserAsync();
     }
 }

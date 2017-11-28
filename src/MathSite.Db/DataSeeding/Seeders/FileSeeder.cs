@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using MathSite.Entities;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace MathSite.Db.DataSeeding.Seeders
@@ -25,22 +25,25 @@ namespace MathSite.Db.DataSeeding.Seeders
                 CreateFile(
                     "FirstFile",
                     DateTime.UtcNow,
-                    "uploads/new-file.jpg",
+                    "new-file.jpg",
                     "jpg",
+                    GetFileHash(new byte[] {1, 2, 3, 4, 5, 6}),
                     GetDirectoryByPath("/")
                 ),
                 CreateFile(
                     "SecondFile",
                     DateTime.UtcNow,
-                    "uploads/new-file-1.png",
+                    "new-file-1.png",
                     "png",
+                    GetFileHash(new byte[] {7, 8, 9, 10, 11, 12, 13, 15}),
                     GetDirectoryByPath("/news")
                 ),
                 CreateFile(
                     "File in path",
                     DateTime.UtcNow,
-                    "uploads/new-file-2.docx",
+                    "new-file-2.docx",
                     "docx",
+                    GetFileHash(new byte[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}),
                     GetDirectoryByPath("/news/previews")
                 )
             };
@@ -69,7 +72,18 @@ namespace MathSite.Db.DataSeeding.Seeders
             return dir;
         }
 
-        private static File CreateFile(string name, DateTime dateAdded, string filePath, string extension, Directory dir)
+        private static string GetFileHash(byte[] data)
+        {
+            byte[] hash;
+            using (var sha = new SHA512Managed())
+            {
+                hash = sha.ComputeHash(data);
+            }
+
+            return hash.Select(b => b.ToString("X2")).Aggregate((f, s) => $"{f}{s}");
+        }
+
+        private static File CreateFile(string name, DateTime dateAdded, string filePath, string extension, string hash, Directory dir)
         {
             return new File
             {
@@ -79,7 +93,8 @@ namespace MathSite.Db.DataSeeding.Seeders
                 Extension = extension,
                 PostSettings = new List<PostSetting>(),
                 PostAttachments = new List<PostAttachment>(),
-                DirectoryId = dir?.Id
+                DirectoryId = dir?.Id,
+                Hash = hash
             };
         }
     }

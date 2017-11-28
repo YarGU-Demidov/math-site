@@ -1,5 +1,4 @@
-﻿using System;
-using MathSite.Entities;
+﻿using MathSite.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -33,6 +32,9 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
             
             modelBuilder.Property(f => f.DirectoryId)
                 .IsRequired(false);
+
+            modelBuilder.Property(f => f.Hash)
+                .IsRequired();
         }
 
         /// <inheritdoc />
@@ -65,6 +67,13 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
                 .HasForeignKey(file => file.DirectoryId)
                 .IsRequired(false)
                 .OnDelete(DeleteBehavior.Cascade);
+        }
+
+        protected override void SetIndexes(EntityTypeBuilder<File> modelBuilder)
+        {
+            base.SetIndexes(modelBuilder);
+
+            modelBuilder.HasIndex(f => f.Hash);
         }
     }
 }

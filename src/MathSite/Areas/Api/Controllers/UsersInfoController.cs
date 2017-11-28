@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MathSite.Common;
+using MathSite.Common.Extensions;
 using MathSite.Controllers;
 using MathSite.Core.DataTableApi;
 using MathSite.Core.Responses;
 using MathSite.Core.Responses.ResponseTypes;
 using MathSite.Db;
+using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
 using MathSite.Repository;
 using MathSite.ViewModels.Api.UsersInfo;
@@ -21,9 +22,13 @@ namespace MathSite.Areas.Api.Controllers
     {
         private readonly IUsersRepository _usersLogic;
 
-        public UsersInfoController(IUserValidationFacade userValidationFacade, MathSiteDbContext dbContext,
-            IUsersRepository usersLogic)
-            : base(userValidationFacade)
+        public UsersInfoController(
+            IUserValidationFacade userValidationFacade, 
+            MathSiteDbContext dbContext,
+            IUsersRepository usersLogic, 
+            IUsersFacade usersFacade
+        )
+            : base(userValidationFacade, usersFacade)
         {
             _usersLogic = usersLogic;
             DbContext = dbContext;
@@ -75,11 +80,11 @@ namespace MathSite.Areas.Api.Controllers
                     ? users.Select(u => new UserInfo(u)).ToArray()
                     : new UserInfo[0];
 
-                return new GetAllResponse<UserInfo>(new SuccessResponseType(), data);
+                return new GetAllResponse<UserInfo>(new SuccessResponseType(), null, data);
             }
             catch (Exception exception)
             {
-                return new GetAllResponse<UserInfo>(new ErrorResponseType(), null, exception.Message);
+                return new GetAllResponse<UserInfo>(new ErrorResponseType(), exception.Message);
             }
         }
 

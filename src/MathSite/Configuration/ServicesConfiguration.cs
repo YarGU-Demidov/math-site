@@ -1,6 +1,9 @@
 ﻿using System;
 using MathSite.BasicAdmin.ViewModels;
+using MathSite.Common.ActionResults;
 using MathSite.Common.Crypto;
+using MathSite.Common.FileFormats;
+using MathSite.Common.FileStorage;
 using MathSite.Core.Auth.Handlers;
 using MathSite.Core.Auth.Requirements;
 using MathSite.Db;
@@ -11,10 +14,12 @@ using MathSite.ViewModels;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Newtonsoft.Json;
 
 namespace MathSite
@@ -130,10 +135,22 @@ namespace MathSite
 
             services.AddScoped<IPasswordsManager, DoubleSha512HashPasswordsManager>();
 
+            services.AddSingleton<FileFormatBuilder>();
+            
             services.AddRepositories()
                 .AddFacades()
                 .AddViewModelBuilders()
                 .AddBasicAdminViewModelBuilders();
+
+            services.AddStorage<LocalFileSystemStorage>();
+
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient<FileContentInlineResultExecutor>();
+
+            services.Configure<FormOptions>(options =>
+            {
+                options.MultipartBodyLengthLimit = long.MaxValue;
+            });
         }
 
         private void ConfigureEntityFramework(IServiceCollection services, bool isDevelopment)

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using MathSite.BasicAdmin.ViewModels.Pages;
 using MathSite.Controllers;
+using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +15,8 @@ namespace MathSite.Areas.Manager.Controllers
     {
         private readonly IPagesManagerViewModelBuilder _modelBuilder;
 
-        public PagesController(IUserValidationFacade userValidationFacade, IPagesManagerViewModelBuilder modelBuilder) : base(userValidationFacade)
+        public PagesController(IUserValidationFacade userValidationFacade, IPagesManagerViewModelBuilder modelBuilder, IUsersFacade usersFacade) 
+            : base(userValidationFacade, usersFacade)
         {
             _modelBuilder = modelBuilder;
         }

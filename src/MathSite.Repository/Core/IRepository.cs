@@ -132,6 +132,104 @@ namespace MathSite.Repository.Core
         Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate);
 
         /// <summary>
+        ///     Gets an entity with given given predicate or null if not found with ordering by chosen field.
+        /// </summary>
+        /// <typeparam name="TKey">Chosen field type.</typeparam>
+        /// <param name="id">Primary key of the entity to get.</param>
+        /// <param name="keySelector">Lambda or Expression with field selector.</param>
+        /// <param name="isAscending">TRUE if ASC, FALSE if DESC</param>
+        TEntity FirstOrDefaultOrderedBy<TKey>(TPrimaryKey id, Expression<Func<TEntity, TKey>> keySelector, bool isAscending);
+
+        /// <summary>
+        ///     Gets an entity with given given predicate or null if not found with ordering by chosen field.
+        /// </summary>
+        /// <typeparam name="TKey">Chosen field type.</typeparam>
+        /// <param name="predicate">Predicate to filter entities.</param>
+        /// <param name="keySelector">Lambda or Expression with field selector.</param>
+        /// <param name="isAscending">TRUE if ASC, FALSE if DESC</param>
+        TEntity FirstOrDefaultOrderedBy<TKey>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TKey>> keySelector, bool isAscending);
+
+        /// <summary>
+        ///     Gets an entity with given given predicate or null if not found with ordering by chosen field.
+        /// </summary>
+        /// <typeparam name="TKey">Chosen field type.</typeparam>
+        /// <param name="id">Primary key of the entity to get.</param>
+        /// <param name="keySelector">Lambda or Expression with field selector.</param>
+        /// <param name="isAscending">TRUE if ASC, FALSE if DESC</param>
+        Task<TEntity> FirstOrDefaultOrderedByAsync<TKey>(TPrimaryKey id, Expression<Func<TEntity, TKey>> keySelector, bool isAscending);
+
+        /// <summary>
+        ///     Gets an entity with given given predicate or null if not found with ordering by chosen field.
+        /// </summary>
+        /// <typeparam name="TKey">Chosen field type.</typeparam>
+        /// <param name="predicate">Predicate to filter entities.</param>
+        /// <param name="keySelector">Lambda or Expression with field selector.</param>
+        /// <param name="isAscending">TRUE if ASC, FALSE if DESC</param>
+        Task<TEntity> FirstOrDefaultOrderedByAsync<TKey>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TKey>> keySelector, bool isAscending);
+
+        /// <summary>
+        ///     Gets an entity with given primary key or null if not found.
+        /// </summary>
+        /// <param name="id">Primary key of the entity to get</param>
+        /// <returns>Entity or null</returns>
+        TEntity LastOrDefault(TPrimaryKey id);
+
+        /// <summary>
+        ///     Gets an entity with given primary key or null if not found.
+        /// </summary>
+        /// <param name="id">Primary key of the entity to get</param>
+        /// <returns>Entity or null</returns>
+        Task<TEntity> LastOrDefaultAsync(TPrimaryKey id);
+
+        /// <summary>
+        ///     Gets an entity with given given predicate or null if not found.
+        /// </summary>
+        /// <param name="predicate">Predicate to filter entities</param>
+        TEntity LastOrDefault(Expression<Func<TEntity, bool>> predicate);
+
+        /// <summary>
+        ///     Gets an entity with given given predicate or null if not found.
+        /// </summary>
+        /// <param name="predicate">Predicate to filter entities</param>
+        Task<TEntity> LastOrDefaultAsync(Expression<Func<TEntity, bool>> predicate);
+
+        /// <summary>
+        ///     Gets an entity with given given predicate or null if not found with ordering by chosen field.
+        /// </summary>
+        /// <typeparam name="TKey">Chosen field type.</typeparam>
+        /// <param name="id">Primary key of the entity to get.</param>
+        /// <param name="keySelector">Lambda or Expression with field selector.</param>
+        /// <param name="isAscending">TRUE if ASC, FALSE if DESC</param>
+        TEntity LastOrDefaultOrderedBy<TKey>(TPrimaryKey id, Expression<Func<TEntity, TKey>> keySelector, bool isAscending);
+
+        /// <summary>
+        ///     Gets an entity with given given predicate or null if not found with ordering by chosen field.
+        /// </summary>
+        /// <typeparam name="TKey">Chosen field type.</typeparam>
+        /// <param name="predicate">Predicate to filter entities.</param>
+        /// <param name="keySelector">Lambda or Expression with field selector.</param>
+        /// <param name="isAscending">TRUE if ASC, FALSE if DESC</param>
+        TEntity LastOrDefaultOrderedBy<TKey>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TKey>> keySelector, bool isAscending);
+
+        /// <summary>
+        ///     Gets an entity with given given predicate or null if not found with ordering by chosen field.
+        /// </summary>
+        /// <typeparam name="TKey">Chosen field type.</typeparam>
+        /// <param name="id">Primary key of the entity to get.</param>
+        /// <param name="keySelector">Lambda or Expression with field selector.</param>
+        /// <param name="isAscending">TRUE if ASC, FALSE if DESC</param>
+        Task<TEntity> LastOrDefaultOrderedByAsync<TKey>(TPrimaryKey id, Expression<Func<TEntity, TKey>> keySelector, bool isAscending);
+
+        /// <summary>
+        ///     Gets an entity with given given predicate or null if not found with ordering by chosen field.
+        /// </summary>
+        /// <typeparam name="TKey">Chosen field type.</typeparam>
+        /// <param name="predicate">Predicate to filter entities.</param>
+        /// <param name="keySelector">Lambda or Expression with field selector.</param>
+        /// <param name="isAscending">TRUE if ASC, FALSE if DESC</param>
+        Task<TEntity> LastOrDefaultOrderedByAsync<TKey>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TKey>> keySelector, bool isAscending);
+
+        /// <summary>
         ///     Creates an entity with given primary key without database access.
         /// </summary>
         /// <param name="id">Primary key of the entity to load</param>

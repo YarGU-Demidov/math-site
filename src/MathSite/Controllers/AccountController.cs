@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
 using MathSite.ViewModels.Account;
 using Microsoft.AspNetCore.Authentication;
@@ -13,7 +14,8 @@ namespace MathSite.Controllers
 {
     public class AccountController : BaseController
     {
-        public AccountController(IUserValidationFacade userValidationFacade) : base(userValidationFacade)
+        public AccountController(IUserValidationFacade userValidationFacade, IUsersFacade usersFacade)
+            : base(userValidationFacade, usersFacade)
         {
         }
 
