@@ -1,5 +1,6 @@
 ﻿using System;
 using MathSite.BasicAdmin.ViewModels;
+using MathSite.Common;
 using MathSite.Common.ActionResults;
 using MathSite.Common.Crypto;
 using MathSite.Common.FileFormats;
@@ -19,7 +20,6 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Newtonsoft.Json;
 
 namespace MathSite
@@ -129,6 +129,9 @@ namespace MathSite
             services.AddLogging();
 
             services.AddOptions();
+
+            services.AddLazyProvider();
+
             services.AddSingleton(Configuration);
             services.AddSingleton<IConfiguration>(Configuration);
             services.Configure<Settings>(Configuration);
@@ -144,9 +147,9 @@ namespace MathSite
 
             services.AddStorage<LocalFileSystemStorage>();
 
-            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddTransient<FileContentInlineResultExecutor>();
+            services.AddActionResultExecutors();
 
+            // for uploading really large files.
             services.Configure<FormOptions>(options =>
             {
                 options.MultipartBodyLengthLimit = long.MaxValue;

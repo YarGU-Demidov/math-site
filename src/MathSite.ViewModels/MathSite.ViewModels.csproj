@@ -14,6 +14,9 @@
         <FileVersion>1.0.0.1</FileVersion>
         <Version>1.0.0</Version>
     </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+      <LangVersion>latest</LangVersion>
+    </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="..\MathSite.Db\MathSite.Db.csproj" />
         <ProjectReference Include="..\MathSite.Entities\MathSite.Entities.csproj" />

@@ -4,20 +4,8 @@ using MathSite.Entities;
 
 namespace MathSite.Facades.UserValidation
 {
-    public interface IUserValidationFacade
+    public interface IUserValidationFacade : IFacade
     {
-        /// <summary>
-        ///     Выполняет проверку существования текущего пользователя.
-        /// </summary>
-        /// <param name="userId">Идентификатор текущего пользователя.</param>
-        Task<bool> DoesUserExistsAsync(Guid userId);
-
-        /// <summary>
-        ///     Выполняет проверку существования текущего пользователя.
-        /// </summary>
-        /// <param name="login">Логин текущего пользователя.</param>
-        Task<bool> DoesUserExistsAsync(string login);
-
         /// <summary>
         ///     Асинхронно выполняет проверку прав пользователя.
         /// </summary>

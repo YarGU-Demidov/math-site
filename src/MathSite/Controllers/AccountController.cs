@@ -72,7 +72,7 @@ namespace MathSite.Controllers
 
         public async Task<IActionResult> CheckLogin(string login)
         {
-            return await UserValidationFacade.DoesUserExistsAsync(login)
+            return await UsersFacade.DoesUserExistsAsync(login)
                 ? Json(true)
                 : Json("Данного пользователя не существует");
         }

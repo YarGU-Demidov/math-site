@@ -23,14 +23,14 @@ namespace MathSite.Db.DataSeeding.Seeders
                 "My best comment",
                 DateTime.Now,
                 GetPostByTitle(PostAliases.FirstPost),
-                GetUserByLogin(UsersAliases.FirstUser)
+                GetUserByLogin(UsersAliases.Mokeev1995)
             );
 
             var secondComment = CreateComment(
                 "Oh-la-la (edited comment)",
                 DateTime.Now,
                 GetPostByTitle(PostAliases.SecondPost),
-                GetUserByLogin(UsersAliases.SecondUser),
+                GetUserByLogin(UsersAliases.AndreyDevyatkin),
                 true
             );
 

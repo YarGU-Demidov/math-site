@@ -19,10 +19,6 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
                 .IsRequired();
             
             modelBuilder
-                .Property(f => f.DateAdded)
-                .IsRequired();
-            
-            modelBuilder
                 .Property(f => f.Path)
                 .IsRequired();
             

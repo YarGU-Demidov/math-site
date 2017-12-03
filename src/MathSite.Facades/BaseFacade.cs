@@ -40,7 +40,7 @@ namespace MathSite.Facades
         }
     }
 
-    public class BaseFacade
+    public abstract class BaseFacade: IFacade
     {
         public BaseFacade(IRepositoryManager repositoryManager, IMemoryCache memoryCache)
         {

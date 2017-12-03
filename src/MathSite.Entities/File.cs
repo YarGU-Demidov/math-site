@@ -27,7 +27,6 @@ namespace MathSite.Entities
             Path = path;
             Extension = extension;
             Hash = hash;
-            DateAdded = DateTime.Now;
         }
 
         /// <summary>
@@ -45,11 +44,6 @@ namespace MathSite.Entities
         /// </summary>
         public string Hash { get; set; }
         
-        /// <summary>
-        ///     Дата добавления файла.
-        /// </summary>
-        public DateTime DateAdded { get; set; }
-
         /// <summary>
         ///     Личность добавившего файл.
         /// </summary>

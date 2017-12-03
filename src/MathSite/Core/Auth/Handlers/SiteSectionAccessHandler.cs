@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using MathSite.Core.Auth.Requirements;
+using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
 using Microsoft.AspNetCore.Authorization;
 
@@ -10,10 +11,12 @@ namespace MathSite.Core.Auth.Handlers
     public class SiteSectionAccessHandler : AuthorizationHandler<SiteSectionAccess>
     {
         private readonly IUserValidationFacade _userValidationFacade;
+        private readonly IUsersFacade _usersFacade;
 
-        public SiteSectionAccessHandler(IUserValidationFacade userValidationFacade)
+        public SiteSectionAccessHandler(IUserValidationFacade userValidationFacade, IUsersFacade usersFacade)
         {
             _userValidationFacade = userValidationFacade;
+            _usersFacade = usersFacade;
         }
 
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context,
@@ -35,7 +38,7 @@ namespace MathSite.Core.Auth.Handlers
 
             var userId = Guid.Parse(userIdGuidString);
 
-            if (!await _userValidationFacade.DoesUserExistsAsync(userId))
+            if (!await _usersFacade.DoesUserExistsAsync(userId))
             {
                 context.Fail();
                 return;

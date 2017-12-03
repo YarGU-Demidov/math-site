@@ -10,6 +10,7 @@ using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
 using MathSite.Facades.Posts;
 using MathSite.Facades.SiteSettings;
+using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
 using MathSite.Repository;
 using MathSite.Repository.Core;
@@ -128,10 +129,13 @@ namespace StaticImporter
                 new DoubleSha512HashPasswordsManager()
             );
 
+            var usersFacade = new UsersFacade(manager, memCache);
+
             var settings = new SiteSettingsFacade(
                 manager,
                 userValidation,
-                memCache
+                memCache,
+                usersFacade
             );
 
             var postsFacade = new PostsFacade(
@@ -139,7 +143,8 @@ namespace StaticImporter
                 memCache,
                 settings,
                 loggerFactory.CreateLogger<IPostsFacade>(),
-                userValidation
+                userValidation,
+                usersFacade
             );
 
             await UpdateData(postsFacade, manager, posts);
@@ -165,7 +170,7 @@ namespace StaticImporter
         {
             return new Post
             {
-                AuthorId = (await usersRepository.FirstOrDefaultAsync(user => user.Login == UsersAliases.FirstUser)).Id,
+                AuthorId = (await usersRepository.FirstOrDefaultAsync(user => user.Login == UsersAliases.Mokeev1995)).Id,
                 Content = oldPost.Content,
                 Excerpt = oldPost.Content.Length > 50 ? $"{oldPost.Content.Substring(0, 47)}..." : oldPost.Content,
                 Title = oldPost.Title,

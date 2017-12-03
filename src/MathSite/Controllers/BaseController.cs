@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using MathSite.Common.ActionResults;
 using MathSite.Common.Extensions;
@@ -29,7 +31,14 @@ namespace MathSite.Controllers
         [NonAction]
         private async Task TrySetUser(ActionContext context)
         {
-            CurrentUser = await UsersFacade.GetCurrentUserAsync();
+
+            if (!context.HttpContext.User.Identity.IsAuthenticated)
+                return;
+
+            var userId = context.HttpContext.User?.Claims?.FirstOrDefault(claim => claim.Type == "UserId")
+                ?.Value;
+
+            CurrentUser = await UsersFacade.GetCurrentUserAsync(userId);
 
             if (CurrentUser.IsNull())
                 await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -38,6 +47,11 @@ namespace MathSite.Controllers
         protected FileContentInlineResult FileInline(byte[] fileContents, string contentType, string fileDownloadName)
         {
             return new FileContentInlineResult(fileContents, contentType) {FileDownloadName = fileDownloadName};
+        }
+
+        protected FileStreamInlineResult FileInline(Stream fileStream, string contentType, string fileDownloadName)
+        {
+            return new FileStreamInlineResult(fileStream, contentType) {FileDownloadName = fileDownloadName};
         }
 
         [NonAction]

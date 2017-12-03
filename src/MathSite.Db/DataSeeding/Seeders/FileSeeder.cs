@@ -24,7 +24,6 @@ namespace MathSite.Db.DataSeeding.Seeders
             {
                 CreateFile(
                     "FirstFile",
-                    DateTime.UtcNow,
                     "new-file.jpg",
                     "jpg",
                     GetFileHash(new byte[] {1, 2, 3, 4, 5, 6}),
@@ -32,7 +31,6 @@ namespace MathSite.Db.DataSeeding.Seeders
                 ),
                 CreateFile(
                     "SecondFile",
-                    DateTime.UtcNow,
                     "new-file-1.png",
                     "png",
                     GetFileHash(new byte[] {7, 8, 9, 10, 11, 12, 13, 15}),
@@ -40,7 +38,6 @@ namespace MathSite.Db.DataSeeding.Seeders
                 ),
                 CreateFile(
                     "File in path",
-                    DateTime.UtcNow,
                     "new-file-2.docx",
                     "docx",
                     GetFileHash(new byte[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}),
@@ -83,18 +80,18 @@ namespace MathSite.Db.DataSeeding.Seeders
             return hash.Select(b => b.ToString("X2")).Aggregate((f, s) => $"{f}{s}");
         }
 
-        private static File CreateFile(string name, DateTime dateAdded, string filePath, string extension, string hash, Directory dir)
+        private static File CreateFile(string name, string filePath, string extension, string hash, Directory dir)
         {
             return new File
             {
                 Name = name,
-                DateAdded = dateAdded,
                 Path = filePath,
                 Extension = extension,
                 PostSettings = new List<PostSetting>(),
                 PostAttachments = new List<PostAttachment>(),
                 DirectoryId = dir?.Id,
-                Hash = hash
+                Hash = hash,
+                CreationDate = DateTime.UtcNow
             };
         }
     }

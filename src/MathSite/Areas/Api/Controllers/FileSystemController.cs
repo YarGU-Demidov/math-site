@@ -12,6 +12,7 @@ using MathSite.Facades.FileSystem;
 using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
 using MathSite.ViewModels.Api.FileSystem;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,15 +25,20 @@ namespace MathSite.Areas.Api.Controllers
 
     [Produces("application/json")]
     [Route("api/fs")]
-    //[Authorize("admin")]
+    [Authorize("admin")]
     public class FileSystemController : BaseController
     {
         private readonly IDirectoryFacade _directoryFacade;
         private readonly IFileFacade _fileFacade;
         private readonly FileFormatBuilder _formatBuilder;
 
-        public FileSystemController(IUserValidationFacade userValidationFacade, IDirectoryFacade directoryFacade,
-            IFileFacade fileFacade, FileFormatBuilder formatBuilder, IUsersFacade usersFacade)
+        public FileSystemController(
+            IUserValidationFacade userValidationFacade, 
+            IDirectoryFacade directoryFacade,
+            IFileFacade fileFacade, 
+            FileFormatBuilder formatBuilder, 
+            IUsersFacade usersFacade
+        )
             : base(userValidationFacade, usersFacade)
         {
             _directoryFacade = directoryFacade;
@@ -56,8 +62,8 @@ namespace MathSite.Areas.Api.Controllers
                 if (file.IsNull())
                     return NotFound();
 
-                var format = _formatBuilder.GetFileFormatForExtension(Path.GetExtension(file.Item1));
-                return File(file.FileStream, format.ContentType, file.FileName);
+                var format = _formatBuilder.GetFileFormatForExtension(Path.GetExtension(file.FileName));
+                return FileInline(file.FileStream, format.ContentType, file.FileName);
             }
             catch (DirectoryNotFoundException)
             {
@@ -83,7 +89,7 @@ namespace MathSite.Areas.Api.Controllers
                 if (file.Length <= 0)
                     continue;
 
-                fileIds.Add(await _fileFacade.SaveFileAsync(file.FileName, file.OpenReadStream()));
+                fileIds.Add(await _fileFacade.SaveFileAsync(CurrentUser, file.FileName, file.OpenReadStream()));
             }
 
             var result =

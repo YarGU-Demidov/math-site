@@ -11,7 +11,7 @@ using File = MathSite.Entities.File;
 
 namespace MathSite.Facades.FileSystem
 {
-    public interface IDirectoryFacade
+    public interface IDirectoryFacade: IFacade
     {
         Task<Directory> GetDirectoryWithPathAsync(string path);
         Task<Directory> TryGetDirectoryWithPathAsync(string path);

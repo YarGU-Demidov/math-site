@@ -24,6 +24,9 @@
         <RepositoryType>Git</RepositoryType>
         <FileVersion>1.0.0.1</FileVersion>
     </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+      <LangVersion>latest</LangVersion>
+    </PropertyGroup>
     <ItemGroup>
         <Compile Remove="Areas\PersonalPage\Views\Shared\**" />
         <Content Remove="Areas\PersonalPage\Views\Shared\**" />

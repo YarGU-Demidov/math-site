@@ -33,8 +33,8 @@ namespace MathSite.Db.DataSeeding.Seeders
             var adminGroup = GetGroupByAlias(GroupAliases.Admin);
             var usersGroup = GetGroupByAlias(GroupAliases.User);
 
-            var firstUser = GetUserByLogin(UsersAliases.FirstUser);
-            var secondUser = GetUserByLogin(UsersAliases.SecondUser);
+            var firstUser = GetUserByLogin(UsersAliases.Mokeev1995);
+            var secondUser = GetUserByLogin(UsersAliases.AndreyDevyatkin);
             var testUser = GetUserByLogin(UsersAliases.TestUser);
 
             firstUser.Group = adminGroup;

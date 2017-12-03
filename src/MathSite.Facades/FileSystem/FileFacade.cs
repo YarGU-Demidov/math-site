@@ -1,11 +1,14 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Security.Authentication;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using MathSite.Common.Extensions;
 using MathSite.Common.FileStorage;
+using MathSite.Entities;
 using MathSite.Facades.Users;
+using MathSite.Facades.UserValidation;
 using MathSite.Repository;
 using MathSite.Repository.Core;
 using Microsoft.Extensions.Caching.Memory;
@@ -13,24 +16,42 @@ using File = MathSite.Entities.File;
 
 namespace MathSite.Facades.FileSystem
 {
-    public interface IFileFacade
+    public interface IFileFacade : IFacade
     {
-        Task<Guid> SaveFileAsync(string name, Stream data);
+        /// <summary></summary>
+        /// <param name="currentUser"></param>
+        /// <param name="name"></param>
+        /// <param name="data"></param>
+        /// <param name="dirPath"></param>
+        /// <exception cref="AuthenticationException">You must be authenticated and authorized for this action!</exception>
+        /// <returns></returns>
+        Task<Guid> SaveFileAsync(User currentUser, string name, Stream data, string dirPath = default);
+
         Task<(string FileName, Stream FileStream)> GetFileAsync(Guid id);
     }
 
 
     public class FileFacade : BaseFacade<IFilesRepository, File>, IFileFacade
     {
+        private readonly Lazy<IDirectoryFacade> _directoryFacade;
         private readonly IFileStorage _fileStorage;
         private readonly IUsersFacade _usersFacade;
+        private readonly IUserValidationFacade _userValidationFacade;
 
-        public FileFacade(IRepositoryManager repositoryManager, IMemoryCache memoryCache, IFileStorage fileStorage,
-            IUsersFacade usersFacade)
+        public FileFacade(
+            IRepositoryManager repositoryManager,
+            IMemoryCache memoryCache,
+            IFileStorage fileStorage,
+            IUsersFacade usersFacade,
+            IUserValidationFacade userValidationFacade,
+            Lazy<IDirectoryFacade> directoryFacade
+        )
             : base(repositoryManager, memoryCache)
         {
             _fileStorage = fileStorage;
             _usersFacade = usersFacade;
+            _userValidationFacade = userValidationFacade;
+            _directoryFacade = directoryFacade;
         }
 
         public async Task<(string FileName, Stream FileStream)> GetFileAsync(Guid id)
@@ -41,12 +62,12 @@ namespace MathSite.Facades.FileSystem
                 : (file.Name, _fileStorage.GetFileStream(file.Path));
         }
 
-        public async Task<Guid> SaveFileAsync(string name, Stream data)
+        public async Task<Guid> SaveFileAsync(User currentUser, string name, Stream data, string dirPath = default)
         {
             var hash = GetFileHashString(data);
 
             var alreadyExistsFile =
-                await Repository.FirstOrDefaultOrderedByAsync(f => f.Hash == hash, f => f.DateAdded, false);
+                await Repository.FirstOrDefaultOrderedByAsync(f => f.Hash == hash, f => f.CreationDate, false);
 
             using (data)
             {
@@ -57,7 +78,24 @@ namespace MathSite.Facades.FileSystem
                     ? alreadyExistsFile.Path
                     : await _fileStorage.SaveFileAsync(name, data);
 
-                var file = new File(GetFileName(name, alreadyExistsFile), pathId, Path.GetExtension(name), hash);
+                var user = await _usersFacade.GetCurrentUserAsync(currentUser?.Id ?? Guid.Empty);
+
+                var hasRight = await _userValidationFacade.UserHasRightAsync(user, "admin");
+
+                if (!hasRight)
+                    throw new AuthenticationException("You must be authenticated and authorized for this action!");
+
+                var file = new File
+                {
+                    Hash = hash,
+                    Person = user.Person,
+                    Extension = Path.GetExtension(name),
+                    Name = GetFileName(name, alreadyExistsFile),
+                    Path = pathId,
+                    DirectoryId = !string.IsNullOrWhiteSpace(dirPath) 
+                        ? (await _directoryFacade.Value.TryGetDirectoryWithPathAsync(dirPath)).Id
+                        : null as Guid?
+                };
 
                 return await Repository.InsertAndGetIdAsync(file);
             }

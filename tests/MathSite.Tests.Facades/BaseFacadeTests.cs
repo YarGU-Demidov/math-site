@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using MathSite.Common.Specifications;
-using MathSite.Db.DataSeeding.Seeders;
 using MathSite.Entities;
 using MathSite.Facades;
 using MathSite.Repository.Core;
@@ -29,11 +28,6 @@ namespace MathSite.Tests.Facades
         {
             await WithRepositoryAsync(async (manager, context, logger) =>
             {
-                SeedData(new[]
-                {
-                    new PersonSeeder(logger, context)
-                });
-
                 var testClass = new PersonBaseFacadeTestClass(manager, MemoryCache);
 
                 var personsCount = await testClass.GetCountWithoutCacheAsync();

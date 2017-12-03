@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1B5AA2C7-A40E-46C8-9FA1-10615BE120BF}"
 EndProject
@@ -32,11 +32,18 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MathSite.Repository", "src\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MathSite.Specifications", "src\MathSite.Specifications\MathSite.Specifications.csproj", "{55F4B64E-31F7-424B-A092-721CAC31D08F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsImporter", "tools\NewsImporter\NewsImporter.csproj", "{1901E1F4-5723-4DFC-83C7-48B2C8917D7F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewsImporter", "tools\NewsImporter\NewsImporter.csproj", "{1901E1F4-5723-4DFC-83C7-48B2C8917D7F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StaticImporter", "tools\StaticImporter\StaticImporter.csproj", "{ED684301-CF23-4C7A-A4E5-22DE9061AA39}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StaticImporter", "tools\StaticImporter\StaticImporter.csproj", "{ED684301-CF23-4C7A-A4E5-22DE9061AA39}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{8035A078-5C3D-4DA2-B469-EC127B95F5AE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B16D3691-25D2-49D8-BC7E-E38CFE15312C}"
+	ProjectSection(SolutionItems) = preProject
+		.travis.yml = .travis.yml
+		appveyor.yml = appveyor.yml
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

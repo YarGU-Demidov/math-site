@@ -102,8 +102,6 @@ namespace MathSite.Migrations
                     .ValueGeneratedOnAdd()
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-                b.Property<DateTime>("DateAdded");
-
                 b.Property<Guid?>("DirectoryId");
 
                 b.Property<string>("Extension");

@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using MathSite.Common.Crypto;
 using MathSite.Db;
 using MathSite.Db.DataSeeding;
+using MathSite.Facades;
 using MathSite.Repository;
 using MathSite.Repository.Core;
 using MathSite.Tests.CoreThings;
@@ -11,15 +12,24 @@ using Microsoft.Extensions.Logging;
 
 namespace MathSite.Tests.Facades
 {
+    public abstract class FacadesTestsBase<T> : FacadesTestsBase
+        where T: class, IFacade
+    {
+        protected abstract T GetFacade(MathSiteDbContext context, IRepositoryManager manager);
+    }
+
     public class FacadesTestsBase
     {
         private readonly ITestDatabaseFactory _databaseFactory;
-        private readonly ILogger _logger = new LoggerFactory().CreateLogger("TestsLogger");
+        private readonly ILoggerFactory _loggerFactory;
+        private readonly ILogger _logger;
 
         public FacadesTestsBase()
             : this(TestSqliteDatabaseFactory.UseDefault())
         {
             MemoryCache = new MemoryCache(new MemoryCacheOptions());
+            _loggerFactory = new LoggerFactory().AddDebug();
+            _logger = _loggerFactory.CreateLogger("TestsLogger");
         }
 
         public FacadesTestsBase(ITestDatabaseFactory databaseFactory)
@@ -31,18 +41,23 @@ namespace MathSite.Tests.Facades
 
         protected void WithRepository(Action<IRepositoryManager> actions)
         {
-            _databaseFactory.ExecuteWithContext(context => { actions(CreateRepositoryManger(context)); });
+            _databaseFactory.ExecuteWithContext(context =>
+            {
+                SeedData(context);
+                actions(CreateRepositoryManger(context));
+            });
         }
 
         protected async Task WithRepositoryAsync(Func<IRepositoryManager, MathSiteDbContext, ILogger, Task> actions)
         {
             await _databaseFactory.ExecuteWithContextAsync(async context =>
             {
+                SeedData(context);
                 await actions(CreateRepositoryManger(context), context, _logger);
             });
         }
 
-        private IRepositoryManager CreateRepositoryManger(MathSiteDbContext context)
+        private static IRepositoryManager CreateRepositoryManger(MathSiteDbContext context)
         {
             return new RepositoryManager(
                 new GroupsRepository(context),
@@ -60,15 +75,10 @@ namespace MathSite.Tests.Facades
             );
         }
 
-        protected void SeedData(IEnumerable<ISeeder> seeders)
+        protected void SeedData(MathSiteDbContext context)
         {
-            foreach (var seeder in seeders)
-            {
-                using (seeder)
-                {
-                    seeder.Seed();
-                }
-            }
+            var seeder = new DataSeeder(context, _loggerFactory.CreateLogger<IDataSeeder>(), new DoubleSha512HashPasswordsManager());
+            seeder.Seed();
         }
     }
 }

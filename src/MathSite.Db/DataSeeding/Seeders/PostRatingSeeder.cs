@@ -20,13 +20,13 @@ namespace MathSite.Db.DataSeeding.Seeders
         {
             var firstPostRating = CreatePostRating(
                 GetPostByTitle(PostAliases.FirstPost),
-                GetUserByLogin(UsersAliases.FirstUser),
+                GetUserByLogin(UsersAliases.Mokeev1995),
                 true
             );
 
             var secondPostRating = CreatePostRating(
                 GetPostByTitle(PostAliases.SecondPost),
-                GetUserByLogin(UsersAliases.SecondUser),
+                GetUserByLogin(UsersAliases.AndreyDevyatkin),
                 false
             );
 
