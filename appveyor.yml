@@ -1,5 +1,6 @@
 version: 1.0.0.{build}
 
+
 environment:
   nodejs_version: "" # empty string == latest version
 
@@ -38,7 +39,7 @@ dotnet_csproj:
 
 artifacts:
  - path: '\dist'
-   name: Root-0.0.3
+   name: Root-0.0.4
    type: Zip
 
 deploy: off
