@@ -1,5 +1,9 @@
 language: csharp
 mono: none
+notifications:
+  email:
+    on_success: never
+    on_failure: never
 before_install:
  - uname -a
  - curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
