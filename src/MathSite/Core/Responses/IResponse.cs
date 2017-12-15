@@ -2,7 +2,7 @@
 
 namespace MathSite.Core.Responses
 {
-    public interface IResponse<T>
+    public interface IResponse<out T>
     {
         [JsonProperty("error")]
         string Error { get; }

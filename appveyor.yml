@@ -18,9 +18,9 @@ before_build:
  - cmd: dotnet restore --verbosity m 
 
 build_script:
- - ps: dotnet publish -c Release -r win10-x64
- - ps: dotnet publish -c Release -r osx.10.12-x64
  - ps: dotnet publish -c Release --output $env:APPVEYOR_BUILD_FOLDER\dist -r ubuntu-x64
+ - cmd: cd .\tests\MathSite.Tests.Common && dotnet test
+ - cmd: cd ..\MathSite.Tests.Facades && dotnet test
 
 # Install scripts. (runs after repo cloning)
 install:
@@ -38,7 +38,7 @@ dotnet_csproj:
 
 artifacts:
  - path: '\dist'
-   name: Root
+   name: Root-0.0.3
    type: Zip
 
 deploy: off

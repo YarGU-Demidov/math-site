@@ -24,6 +24,11 @@ namespace MathSite
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
+                .UseKestrel(options =>
+                {
+                    options.Limits.MaxConcurrentConnections = 5000;
+                    options.Limits.MaxConcurrentUpgradedConnections = 5000;
+                })
                 .Build();
 
         public static void RunSeeding()

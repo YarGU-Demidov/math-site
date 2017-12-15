@@ -1,6 +1,10 @@
 ﻿using System;
 using MathSite.BasicAdmin.ViewModels;
+using MathSite.Common;
+using MathSite.Common.ActionResults;
 using MathSite.Common.Crypto;
+using MathSite.Common.FileFormats;
+using MathSite.Common.FileStorage;
 using MathSite.Core.Auth.Handlers;
 using MathSite.Core.Auth.Requirements;
 using MathSite.Db;
@@ -11,6 +15,7 @@ using MathSite.ViewModels;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -124,16 +129,31 @@ namespace MathSite
             services.AddLogging();
 
             services.AddOptions();
+
+            services.AddLazyProvider();
+
             services.AddSingleton(Configuration);
             services.AddSingleton<IConfiguration>(Configuration);
             services.Configure<Settings>(Configuration);
 
             services.AddScoped<IPasswordsManager, DoubleSha512HashPasswordsManager>();
 
+            services.AddSingleton<FileFormatBuilder>();
+            
             services.AddRepositories()
                 .AddFacades()
                 .AddViewModelBuilders()
                 .AddBasicAdminViewModelBuilders();
+
+            services.AddStorage<LocalFileSystemStorage>();
+
+            services.AddActionResultExecutors();
+
+            // for uploading really large files.
+            services.Configure<FormOptions>(options =>
+            {
+                options.MultipartBodyLengthLimit = long.MaxValue;
+            });
         }
 
         private void ConfigureEntityFramework(IServiceCollection services, bool isDevelopment)

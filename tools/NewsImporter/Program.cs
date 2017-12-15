@@ -10,6 +10,7 @@ using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
 using MathSite.Facades.Posts;
 using MathSite.Facades.SiteSettings;
+using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
 using MathSite.Repository;
 using MathSite.Repository.Core;
@@ -65,7 +66,8 @@ namespace NewsImporter
                 new PostSeoSettingsRepository(context),
                 new PostSettingRepository(context),
                 new PostTypeRepository(context),
-                new GroupTypeRepository(context)
+                new GroupTypeRepository(context),
+                new DirectoriesRepository(context)
             );
 
             var loggerFactory = new LoggerFactory().AddConsole();
@@ -78,10 +80,13 @@ namespace NewsImporter
                 new DoubleSha512HashPasswordsManager()
             );
 
+            var usersFacade = new UsersFacade(manager, memCache);
+
             var settings = new SiteSettingsFacade(
                 manager,
                 userValidation,
-                memCache
+                memCache,
+                usersFacade
             );
 
             var postsFacade = new PostsFacade(
@@ -89,7 +94,8 @@ namespace NewsImporter
                 memCache,
                 settings,
                 loggerFactory.CreateLogger<IPostsFacade>(),
-                userValidation
+                userValidation,
+                usersFacade
             );
 
             await UpdateData(postsFacade, manager, posts);
@@ -114,7 +120,7 @@ namespace NewsImporter
         {
             return new Post
             {
-                AuthorId = (await usersRepository.FirstOrDefaultAsync(user => user.Login == UsersAliases.FirstUser)).Id,
+                AuthorId = (await usersRepository.FirstOrDefaultAsync(user => user.Login == UsersAliases.Mokeev1995)).Id,
                 Content = oldPost.ContentHtml,
                 Excerpt = oldPost.Excerpt,
                 Title = oldPost.Title,

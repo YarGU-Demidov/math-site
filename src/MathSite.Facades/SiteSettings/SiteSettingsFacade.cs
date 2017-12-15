@@ -3,6 +3,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
+using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
 using MathSite.Repository.Core;
 using MathSite.Specifications.SiteSettings;
@@ -14,12 +15,18 @@ namespace MathSite.Facades.SiteSettings
     {
         private const string MemoryCachePrefix = "SiteSetting-";
         private readonly IUserValidationFacade _userValidation;
+        private readonly IUsersFacade _usersFacade;
 
-        public SiteSettingsFacade(IRepositoryManager repositoryManager, IUserValidationFacade userValidation,
-            IMemoryCache memoryCache)
+        public SiteSettingsFacade(
+            IRepositoryManager repositoryManager, 
+            IUserValidationFacade userValidation,
+            IMemoryCache memoryCache,
+            IUsersFacade usersFacade
+        )
             : base(repositoryManager, memoryCache)
         {
             _userValidation = userValidation;
+            _usersFacade = usersFacade;
         }
 
         public Task<string> this[string name] => GetStringSettingAsync(name, true);
@@ -43,7 +50,7 @@ namespace MathSite.Facades.SiteSettings
 
         public async Task<bool> SetStringSettingAsync(Guid userId, string name, string value)
         {
-            var userExists = await _userValidation.DoesUserExistsAsync(userId);
+            var userExists = await _usersFacade.DoesUserExistsAsync(userId);
             if (!userExists)
                 return false;
 

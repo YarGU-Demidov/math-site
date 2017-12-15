@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MathSite.Common;
 using MathSite.Common.Entities;
+using MathSite.Common.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace MathSite.Repository.Core
@@ -93,6 +94,44 @@ namespace MathSite.Repository.Core
         public override async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
         {
             return await GetAll().FirstOrDefaultAsync(predicate);
+        }
+
+        public override async Task<TEntity> LastOrDefaultAsync(TPrimaryKey id)
+        {
+            return await GetAll().LastOrDefaultAsync(CreateEqualityExpressionForId(id));
+        }
+
+        public override async Task<TEntity> LastOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            return await GetAll().LastOrDefaultAsync(predicate);
+        }
+
+        public override Task<TEntity> FirstOrDefaultOrderedByAsync<TKey>(TPrimaryKey id, Expression<Func<TEntity, TKey>> keySelector, bool isAscending)
+        {
+            return GetAll()
+                .OrderBy(keySelector, isAscending)
+                .FirstOrDefaultAsync(CreateEqualityExpressionForId(id));
+        }
+
+        public override Task<TEntity> FirstOrDefaultOrderedByAsync<TKey>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TKey>> keySelector, bool isAscending)
+        {
+            return GetAll()
+                .OrderBy(keySelector, isAscending)
+                .FirstOrDefaultAsync(predicate);
+        }
+
+        public override Task<TEntity> LastOrDefaultOrderedByAsync<TKey>(TPrimaryKey id, Expression<Func<TEntity, TKey>> keySelector, bool isAscending)
+        {
+            return GetAll()
+                .OrderBy(keySelector, isAscending)
+                .LastOrDefaultAsync(CreateEqualityExpressionForId(id));
+        }
+
+        public override Task<TEntity> LastOrDefaultOrderedByAsync<TKey>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TKey>> keySelector, bool isAscending)
+        {
+            return GetAll()
+                .OrderBy(keySelector, isAscending)
+                .LastOrDefaultAsync(predicate);
         }
 
         public override TEntity Insert(TEntity entity)

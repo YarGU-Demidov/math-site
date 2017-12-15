@@ -1,21 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MathSite.Common.Extensions;
 using MathSite.Common.Specifications;
 using MathSite.Entities;
+using MathSite.Repository;
 using MathSite.Repository.Core;
+using MathSite.Specifications.Users;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace MathSite.Facades.Users
 {
-    public class UsersFacade : BaseFacade, IUsersFacade
+    public class UsersFacade : BaseFacade<IUsersRepository, User>, IUsersFacade
     {
-        private TimeSpan CacheTime { get; } = TimeSpan.FromMinutes(5);
-
-        public UsersFacade(IRepositoryManager repositoryManager, IMemoryCache memoryCache) 
+        public UsersFacade(
+            IRepositoryManager repositoryManager,
+            IMemoryCache memoryCache
+        )
             : base(repositoryManager, memoryCache)
         {
         }
+
+        private TimeSpan CacheTime { get; } = TimeSpan.FromMinutes(5);
 
         // TODO: FIXME: Extract to classes or smth else
         public async Task<int> GetUsersCountAsync(int perPage, bool cache)
@@ -24,9 +30,9 @@ namespace MathSite.Facades.Users
 
             var requirements = new AnySpecification<User>();
 
-            var newsCount = await GetCountAsync(requirements, RepositoryManager.UsersRepository, cache, CacheTime);
+            var newsCount = await GetCountAsync(requirements, cache, CacheTime);
 
-            return (int)Math.Ceiling(newsCount / (float)perPage);
+            return (int) Math.Ceiling(newsCount / (float) perPage);
         }
 
         // TODO: FIXME: Extract to classes or smth else
@@ -37,7 +43,38 @@ namespace MathSite.Facades.Users
 
             var skip = (page - 1) * perPage;
 
-            return await RepositoryManager.UsersRepository.GetAllWithPagingAndPersonAsync(skip, perPage);
+            return await Repository.WithPerson().GetAllWithPagingAsync(skip, perPage);
+        }
+
+        public async Task<User> GetCurrentUserAsync(string possibleUserId)
+        {
+            if (possibleUserId.IsNullOrWhiteSpace())
+                return null;
+
+            var userIdGuid = Guid.Parse(possibleUserId);
+
+            return await GetCurrentUserAsync(userIdGuid);
+        }
+
+        public async Task<User> GetCurrentUserAsync(Guid possibleUserId)
+        {
+            if (possibleUserId == default)
+                return null;
+
+            return await Repository
+                .WithPerson()
+                .FirstOrDefaultAsync(possibleUserId);
+        }
+
+        public async Task<bool> DoesUserExistsAsync(Guid userId)
+        {
+            return await Repository.FirstOrDefaultAsync(userId) != null;
+        }
+        public async Task<bool> DoesUserExistsAsync(string login)
+        {
+            var requirements = new HasLoginSpecification(login);
+
+            return await RepositoryManager.UsersRepository.FirstOrDefaultAsync(requirements) != null;
         }
     }
 }

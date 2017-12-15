@@ -1,4 +1,5 @@
 ﻿using MathSite.Controllers;
+using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +10,8 @@ namespace MathSite.Areas.PersonalPage.Controllers
     [Authorize("peronal-page")]
     public class HomeController : BaseController
     {
-        public HomeController(IUserValidationFacade userValidationFacade) : base(userValidationFacade)
+        public HomeController(IUserValidationFacade userValidationFacade, IUsersFacade usersFacade)
+            : base(userValidationFacade, usersFacade)
         {
         }
 

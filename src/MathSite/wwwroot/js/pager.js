@@ -5,11 +5,17 @@
         var url = location.origin + location.pathname;
         var search = location.search.replace('?', '').split('&').map(function (item) {
             var splited = item.split('=');
+
+            if (!splited[0] || !splited[1])
+                return null;
+
             var obj = {};
 
             obj[splited[0]] = splited[1];
 
             return obj;
+        }).filter(function(item) {
+            return item !== null;
         });
 
         var found = search.filter(function (item) {

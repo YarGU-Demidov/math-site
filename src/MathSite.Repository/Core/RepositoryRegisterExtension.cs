@@ -23,6 +23,7 @@ namespace MathSite.Repository.Core
                 .AddScoped<IPersonsRepository, PersonsRepository>()
                 .AddScoped<IUsersRepository, UsersRepository>()
                 .AddScoped<IFilesRepository, FilesRepository>()
+                .AddScoped<IDirectoriesRepository, DirectoriesRepository>()
                 .AddScoped<ISiteSettingsRepository, SiteSettingsRepository>()
                 .AddScoped<IRightsRepository, RightsRepository>()
                 .AddScoped<IPostsRepository, PostsRepository>()

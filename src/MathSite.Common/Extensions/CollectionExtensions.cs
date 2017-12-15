@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MathSite.Common
+namespace MathSite.Common.Extensions
 {
     /// <summary>
     ///     Extension methods for Collections.

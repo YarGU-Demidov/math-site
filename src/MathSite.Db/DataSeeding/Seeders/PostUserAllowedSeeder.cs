@@ -21,12 +21,12 @@ namespace MathSite.Db.DataSeeding.Seeders
         {
             var firstPostUsersAllowed = CreatePostUsersAllowed(
                 GetPostByTitle(PostAliases.FirstPost),
-                GetUserByLogin(UsersAliases.FirstUser)
+                GetUserByLogin(UsersAliases.Mokeev1995)
             );
 
             var secondPostUsersAllowed = CreatePostUsersAllowed(
                 GetPostByTitle(PostAliases.SecondPost),
-                GetUserByLogin(UsersAliases.SecondUser)
+                GetUserByLogin(UsersAliases.AndreyDevyatkin)
             );
 
             var postsUsersAlloweds = new[]

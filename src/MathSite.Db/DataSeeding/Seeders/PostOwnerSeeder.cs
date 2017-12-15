@@ -20,12 +20,12 @@ namespace MathSite.Db.DataSeeding.Seeders
         {
             var firstPostOwner = CreatePostOwner(
                 GetPostByTitle(PostAliases.FirstPost),
-                GetUserByLogin(UsersAliases.FirstUser)
+                GetUserByLogin(UsersAliases.Mokeev1995)
             );
 
             var secondPostOwner = CreatePostOwner(
                 GetPostByTitle(PostAliases.SecondPost),
-                GetUserByLogin(UsersAliases.SecondUser)
+                GetUserByLogin(UsersAliases.AndreyDevyatkin)
             );
 
 

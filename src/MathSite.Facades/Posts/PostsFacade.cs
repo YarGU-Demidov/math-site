@@ -6,7 +6,9 @@ using MathSite.Common.Specifications;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
 using MathSite.Facades.SiteSettings;
+using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
+using MathSite.Repository;
 using MathSite.Repository.Core;
 using MathSite.Specifications.Posts;
 using Microsoft.Extensions.Caching.Memory;
@@ -14,18 +16,24 @@ using Microsoft.Extensions.Logging;
 
 namespace MathSite.Facades.Posts
 {
-    public class PostsFacade : BaseFacade, IPostsFacade
+    public class PostsFacade : BaseFacade<IPostsRepository, Post>, IPostsFacade
     {
         private TimeSpan CacheMinutes { get; } = TimeSpan.FromMinutes(10);
         private readonly ILogger<IPostsFacade> _postsFacadeLogger;
         private readonly IUserValidationFacade _userValidation;
+        private readonly IUsersFacade _usersFacade;
 
         public PostsFacade(IRepositoryManager repositoryManager, IMemoryCache memoryCache,
-            ISiteSettingsFacade siteSettingsFacade, ILogger<IPostsFacade> postsFacadeLogger, IUserValidationFacade userValidation)
+            ISiteSettingsFacade siteSettingsFacade, 
+            ILogger<IPostsFacade> postsFacadeLogger, 
+            IUserValidationFacade userValidation,
+            IUsersFacade usersFacade
+        )
             : base(repositoryManager, memoryCache)
         {
             _postsFacadeLogger = postsFacadeLogger;
             _userValidation = userValidation;
+            _usersFacade = usersFacade;
             SiteSettingsFacade = siteSettingsFacade;
         }
 
@@ -51,7 +59,7 @@ namespace MathSite.Facades.Posts
             var requirements = new PostWithTypeAliasSpecification(postTypeAlias)
                 .And(new PostWithSpecifiedUrlSpecification(url));
 
-            var userExists = await _userValidation.DoesUserExistsAsync(currentUserId);
+            var userExists = await _usersFacade.DoesUserExistsAsync(currentUserId);
             var hasRightToViewRemovedAndUnpublished = await _userValidation.UserHasRightAsync(currentUserId, RightAliases.ManageNewsAccess);
 
             if (!userExists || !hasRightToViewRemovedAndUnpublished)
@@ -135,7 +143,7 @@ namespace MathSite.Facades.Posts
         {
             var requirements = CreateRequirements(postTypeAlias, state, publishState, frontPageState);
 
-            return await GetCountAsync(requirements, RepositoryManager.PostsRepository, cache, CacheMinutes);
+            return await GetCountAsync(requirements, cache, CacheMinutes);
         }
 
         private static Specification<Post> CreateRequirements(string postTypeAlias, RemovedStateRequest state,

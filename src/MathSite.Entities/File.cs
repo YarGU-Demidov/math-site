@@ -10,7 +10,7 @@ namespace MathSite.Entities
     public class File : EntityWithName
     {
         public File()
-            : this(null, null, null)
+            : this(null, null, null, null)
         {
         }
 
@@ -20,16 +20,17 @@ namespace MathSite.Entities
         /// <param name="name">Название файла.</param>
         /// <param name="path">Путь к файлу.</param>
         /// <param name="extension">Расширение файла.</param>
-        public File(string name, string path, string extension)
+        /// <param name="hash">Хэш файла.</param>
+        public File(string name, string path, string extension, string hash)
         {
             Name = name;
             Path = path;
             Extension = extension;
-            DateAdded = DateTime.Now;
+            Hash = hash;
         }
 
         /// <summary>
-        ///     Путь к файлу в файловой системе
+        ///     Путь к файлу в файловой системе.
         /// </summary>
         public string Path { get; set; }
 
@@ -39,15 +40,25 @@ namespace MathSite.Entities
         public string Extension { get; set; }
 
         /// <summary>
-        ///     Дата добавления файла.
+        ///     Хэш файла.
         /// </summary>
-        public DateTime DateAdded { get; set; }
-
+        public string Hash { get; set; }
+        
         /// <summary>
         ///     Личность добавившего файл.
         /// </summary>
         public Person Person { get; set; }
+        
+        /// <summary>
+        ///     Id папки этого файла.
+        /// </summary>
+        public Guid? DirectoryId { get; set; }
 
+        /// <summary>
+        ///     Папка этого файла.
+        /// </summary>
+        public Directory Directory { get; set; }
+        
         /// <summary>
         ///     Список настроек поста, к которым привязан файл.
         /// </summary>
