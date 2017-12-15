@@ -35,7 +35,7 @@ namespace MathSite.Common.Entities
         /// <returns>True, if this entity is transient</returns>
         public virtual bool IsTransient()
         {
-            if (EqualityComparer<TPrimaryKey>.Default.Equals(Id, default(TPrimaryKey)))
+            if (EqualityComparer<TPrimaryKey>.Default.Equals(Id, default))
                 return true;
 
             //Workaround for EF Core since it sets int/long to min value when attaching to dbcontext
@@ -51,7 +51,7 @@ namespace MathSite.Common.Entities
             return false;
         }
 
-        public DateTime CreationDate { get; set; }
+        public DateTime CreationDate { get; set; } = DateTime.UtcNow;
 
         public bool Equals(Entity<TPrimaryKey> other)
         {
@@ -104,7 +104,7 @@ namespace MathSite.Common.Entities
         /// <inheritdoc />
         public override string ToString()
         {
-            return $"[{GetType().Name} {Id} {CreationDate}]";
+            return $"[{GetType().Name} {Id} {CreationDate:F}:{CreationDate.Millisecond}]";
         }
     }
 }

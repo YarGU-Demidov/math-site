@@ -67,7 +67,7 @@ namespace MathSite.Facades.FileSystem
             var hash = GetFileHashString(data);
 
             var alreadyExistsFile =
-                await Repository.FirstOrDefaultOrderedByAsync(f => f.Hash == hash, f => f.CreationDate, false);
+                await Repository.LastOrDefaultOrderedByAsync(f => f.Hash == hash, f => f.CreationDate, true);
 
             using (data)
             {
@@ -92,7 +92,7 @@ namespace MathSite.Facades.FileSystem
                     Extension = Path.GetExtension(name),
                     Name = GetFileName(name, alreadyExistsFile),
                     Path = pathId,
-                    DirectoryId = !string.IsNullOrWhiteSpace(dirPath) 
+                    DirectoryId = !dirPath.IsNullOrWhiteSpace()
                         ? (await _directoryFacade.Value.TryGetDirectoryWithPathAsync(dirPath)).Id
                         : null as Guid?
                 };

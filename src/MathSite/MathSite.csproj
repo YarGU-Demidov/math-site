@@ -24,18 +24,6 @@
         <RepositoryType>Git</RepositoryType>
         <FileVersion>1.0.0.1</FileVersion>
     </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-      <LangVersion>latest</LangVersion>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-      <LangVersion>latest</LangVersion>
-    </PropertyGroup>
-    <ItemGroup>
-        <Compile Remove="Areas\PersonalPage\Views\Shared\**" />
-        <Content Remove="Areas\PersonalPage\Views\Shared\**" />
-        <EmbeddedResource Remove="Areas\PersonalPage\Views\Shared\**" />
-        <None Remove="Areas\PersonalPage\Views\Shared\**" />
-    </ItemGroup>
     <ItemGroup>
         <None Update="wwwroot\**\*">
             <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
@@ -48,27 +36,15 @@
         <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.0.0" />
     </ItemGroup>
-    <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
-        <Exec Command="yarn install --modules-folder ./wwwroot/lib/" />
-        <Exec Command="dotnet bundle" />
-    </Target>
+    <ItemGroup>
+        <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
+        <DotNetCliToolReference Include="BundlerMinifier.Core" Version="2.5.357" />
+    </ItemGroup>
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
         <Exec Command="yarn install --modules-folder ./wwwroot/lib/" />
         <Exec Command="dotnet bundle" />
     </Target>
     <ItemGroup>
-        <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
-        <DotNetCliToolReference Include="BundlerMinifier.Core" Version="2.5.357" />
-    </ItemGroup>
-    <ItemGroup>
-      <None Include="news.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Include="static-pages.json" />
-    </ItemGroup>
-    <ItemGroup>
-        <ProjectReference Include="..\..\tools\NewsImporter\NewsImporter.csproj" />
-        <ProjectReference Include="..\..\tools\StaticImporter\StaticImporter.csproj" />
         <ProjectReference Include="..\MathSite.BasicAdmin.ViewModels\MathSite.BasicAdmin.ViewModels.csproj" />
         <ProjectReference Include="..\MathSite.Common\MathSite.Common.csproj" />
         <ProjectReference Include="..\MathSite.Db\MathSite.Db.csproj" />
@@ -78,13 +54,24 @@
         <ProjectReference Include="..\MathSite.Specifications\MathSite.Specifications.csproj" />
         <ProjectReference Include="..\MathSite.ViewModels\MathSite.ViewModels.csproj" />
         <ProjectReference Include="..\..\tools\Seeder\Seeder.csproj" />
+        <ProjectReference Include="..\..\tools\NewsImporter\NewsImporter.csproj" />
+        <ProjectReference Include="..\..\tools\StaticImporter\StaticImporter.csproj" />
     </ItemGroup>
     <ItemGroup>
-      <Content Update="news.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
-      <Content Update="static-pages.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
+        <Content Update="news.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Update="static-pages.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
+    
+    <!-- C# Lang Version -->
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+    <!-- END C# Lang Version -->
 </Project>

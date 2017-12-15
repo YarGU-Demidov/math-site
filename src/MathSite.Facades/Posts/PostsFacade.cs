@@ -8,6 +8,7 @@ using MathSite.Entities;
 using MathSite.Facades.SiteSettings;
 using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
+using MathSite.Repository;
 using MathSite.Repository.Core;
 using MathSite.Specifications.Posts;
 using Microsoft.Extensions.Caching.Memory;
@@ -15,7 +16,7 @@ using Microsoft.Extensions.Logging;
 
 namespace MathSite.Facades.Posts
 {
-    public class PostsFacade : BaseFacade, IPostsFacade
+    public class PostsFacade : BaseFacade<IPostsRepository, Post>, IPostsFacade
     {
         private TimeSpan CacheMinutes { get; } = TimeSpan.FromMinutes(10);
         private readonly ILogger<IPostsFacade> _postsFacadeLogger;
@@ -142,7 +143,7 @@ namespace MathSite.Facades.Posts
         {
             var requirements = CreateRequirements(postTypeAlias, state, publishState, frontPageState);
 
-            return await GetCountAsync(requirements, RepositoryManager.PostsRepository, cache, CacheMinutes);
+            return await GetCountAsync(requirements, cache, CacheMinutes);
         }
 
         private static Specification<Post> CreateRequirements(string postTypeAlias, RemovedStateRequest state,

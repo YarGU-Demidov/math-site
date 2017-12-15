@@ -26,7 +26,7 @@ namespace MathSite.Areas.Manager.Controllers
         [Route("manager/pages/list")]
         public async Task<IActionResult> Index([FromQuery] int page = 1, [FromQuery] int perPage = 10)
         {
-            return View(await _modelBuilder.BuildIndexViewModel(page, perPage));
+            return View("Index", await _modelBuilder.BuildIndexViewModel(page, perPage));
         }
 
         public async Task<IActionResult> Removed([FromQuery] int page = 1, [FromQuery] int perPage = 10)

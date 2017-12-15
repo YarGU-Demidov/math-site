@@ -36,8 +36,8 @@ namespace MathSite.Facades.FileSystem
                 {
                     CreationDate = DateTime.UtcNow,
                     RootDirectoryId = null,
-                    Directories = await GetRootDirectories(),
-                    Files = await GetRootFiles(),
+                    Directories = await GetRootDirectoriesAsync(),
+                    Files = await GetRootFilesAsync(),
                     Id = Guid.Empty,
                     Name = "/",
                     RootDirectory = null
@@ -73,12 +73,12 @@ namespace MathSite.Facades.FileSystem
             }
         }
 
-        private async Task<ICollection<Directory>> GetRootDirectories()
+        private async Task<ICollection<Directory>> GetRootDirectoriesAsync()
         {
             return await Repository.GetAllListAsync(d => d.RootDirectoryId == null);
         }
 
-        private async Task<ICollection<File>> GetRootFiles()
+        private async Task<ICollection<File>> GetRootFilesAsync()
         {
             return await RepositoryManager.FilesRepository.GetAllListAsync(f => f.DirectoryId == null);
         }

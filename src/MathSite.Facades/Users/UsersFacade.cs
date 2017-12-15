@@ -30,7 +30,7 @@ namespace MathSite.Facades.Users
 
             var requirements = new AnySpecification<User>();
 
-            var newsCount = await GetCountAsync(requirements, Repository, cache, CacheTime);
+            var newsCount = await GetCountAsync(requirements, cache, CacheTime);
 
             return (int) Math.Ceiling(newsCount / (float) perPage);
         }

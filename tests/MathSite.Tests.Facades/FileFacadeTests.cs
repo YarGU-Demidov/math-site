@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Security.Authentication;
 using System.Threading.Tasks;
 using MathSite.Common.Crypto;
 using MathSite.Db;
-using MathSite.Db.DataSeeding;
-using MathSite.Db.DataSeeding.Seeders;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
 using MathSite.Facades.FileSystem;
@@ -15,7 +13,6 @@ using MathSite.Facades.UserValidation;
 using MathSite.Repository.Core;
 using MathSite.Tests.Facades.TestStuff;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using Xunit;
 
 namespace MathSite.Tests.Facades
@@ -33,12 +30,12 @@ namespace MathSite.Tests.Facades
             return (usersFacade, directoryFacade, validationFacade);
         }
 
-        private static async Task<User> GetUserByLogin(MathSiteDbContext context, string login)
+        private static async Task<User> GetUserByLoginAsync(MathSiteDbContext context, string login)
         {
             return await context.Users.FirstAsync(user => user.Login == login);
         }
 
-        private FileFacade GetFacadeWithRead(IRepositoryManager repositoryManager, string pathId, byte[] data)
+        private FileFacade GetFacade(IRepositoryManager repositoryManager, string pathId, byte[] data)
         {
             var fileStorage = new TestFileStorage(pathId, data);
 
@@ -47,7 +44,7 @@ namespace MathSite.Tests.Facades
             return new FileFacade(repositoryManager, MemoryCache, fileStorage, usersFacade, userValidationFacade, directoryFacade);
         }
 
-        private FileFacade GetFacadeWithWrite(IRepositoryManager repositoryManager, string pathId)
+        private FileFacade GetFacade(IRepositoryManager repositoryManager, string pathId)
         {
             var fileStorage = new TestFileStorage(pathId);
 
@@ -64,10 +61,13 @@ namespace MathSite.Tests.Facades
                 var data = new byte[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
                 const string fileName = "test-filename";
 
-                var facade = GetFacadeWithWrite(manager, fileName);
+                var facade = GetFacade(manager, fileName);
 
-                var id = await facade.SaveFileAsync(await GetUserByLogin(context, UsersAliases.Mokeev1995), fileName,
-                    new MemoryStream(data));
+                var id = await facade.SaveFileAsync(
+                    await GetUserByLoginAsync(context, UsersAliases.Mokeev1995),
+                    fileName,
+                    new MemoryStream(data)
+                );
 
                 Assert.NotEqual(default, id);
 
@@ -90,7 +90,7 @@ namespace MathSite.Tests.Facades
                 var data = new byte[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
                 const string fileName = "test-filename";
 
-                var facade = GetFacadeWithWrite(manager, fileName);
+                var facade = GetFacade(manager, fileName);
 
                 await Assert.ThrowsAsync<AuthenticationException>(async () =>
                 {
@@ -111,12 +111,12 @@ namespace MathSite.Tests.Facades
                 var data = new byte[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
                 const string fileName = "test-filename";
 
-                var facade = GetFacadeWithWrite(manager, fileName);
+                var facade = GetFacade(manager, fileName);
 
                 await Assert.ThrowsAsync<AuthenticationException>(async () =>
                 {
                     await facade.SaveFileAsync(
-                        await GetUserByLogin(
+                        await GetUserByLoginAsync(
                             context,
                             UsersAliases.TestUser
                         ),
@@ -124,6 +124,71 @@ namespace MathSite.Tests.Facades
                         new MemoryStream(data)
                     );
                 });
+            });
+        }
+
+        [Fact]
+        public async Task SaveFile_TheSameFile()
+        {
+            await WithRepositoryAsync(async (manager, context, logger) =>
+            {
+                var data = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+                const string fileName = "test-filename";
+
+                var facade = GetFacade(manager, fileName);
+
+                await facade.SaveFileAsync(
+                    await GetUserByLoginAsync(context, UsersAliases.Mokeev1995), 
+                    fileName,
+                    new MemoryStream(data.ToArray())
+                );
+
+                var id = await facade.SaveFileAsync(
+                    await GetUserByLoginAsync(context, UsersAliases.Mokeev1995), 
+                    fileName,
+                    new MemoryStream(data.ToArray())
+                );
+
+                Assert.NotEqual(default, id);
+
+                var downloaded = await facade.GetFileAsync(id);
+
+                Assert.Equal($"{fileName}_1", downloaded.FileName);
+            });
+        }
+        [Fact]
+        public async Task SaveFile_TheSameFileThirdTime()
+        {
+            await WithRepositoryAsync(async (manager, context, logger) =>
+            {
+                var data = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+                const string fileName = "test-filename";
+
+                var facade = GetFacade(manager, fileName);
+
+                await facade.SaveFileAsync(
+                    await GetUserByLoginAsync(context, UsersAliases.Mokeev1995), 
+                    fileName,
+                    new MemoryStream(data.ToArray())
+                );
+
+                await facade.SaveFileAsync(
+                    await GetUserByLoginAsync(context, UsersAliases.Mokeev1995), 
+                    fileName,
+                    new MemoryStream(data.ToArray())
+                );
+
+                var id = await facade.SaveFileAsync(
+                    await GetUserByLoginAsync(context, UsersAliases.Mokeev1995), 
+                    fileName,
+                    new MemoryStream(data.ToArray())
+                );
+
+                Assert.NotEqual(default, id);
+
+                var downloaded = await facade.GetFileAsync(id);
+
+                Assert.Equal($"{fileName}_2", downloaded.FileName);
             });
         }
     }
