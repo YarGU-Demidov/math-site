@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
 using MathSite.ViewModels.Home;
 using Microsoft.AspNetCore.Mvc;
@@ -9,8 +10,8 @@ namespace MathSite.Controllers
     {
         private readonly IHomeViewModelBuilder _modelBuilder;
 
-        public HomeController(IUserValidationFacade userValidationFacade, IHomeViewModelBuilder modelBuilder)
-            : base(userValidationFacade)
+        public HomeController(IUserValidationFacade userValidationFacade, IHomeViewModelBuilder modelBuilder, IUsersFacade usersFacade)
+            : base(userValidationFacade, usersFacade)
         {
             _modelBuilder = modelBuilder;
         }

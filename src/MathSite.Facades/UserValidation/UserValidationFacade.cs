@@ -23,23 +23,9 @@ namespace MathSite.Facades.UserValidation
             _passwordHasher = passwordHasher;
         }
 
-        public async Task<bool> DoesUserExistsAsync(Guid userId)
-        {
-            var user = await RepositoryManager.UsersRepository.FirstOrDefaultAsync(userId);
-            return user != null;
-        }
-
-        public async Task<bool> DoesUserExistsAsync(string login)
-        {
-            var requirements = new HasLoginSpecification(login);
-            var user = await RepositoryManager.UsersRepository.FirstOrDefaultAsync(requirements.ToExpression());
-
-            return user != null;
-        }
-
         public async Task<bool> UserHasRightAsync(Guid userId, string rightAlias)
         {
-            if (userId == Guid.Empty)
+            if (userId == default)
                 return false;
 
             var user = await RepositoryManager.UsersRepository.FirstOrDefaultWithRightsAsync(userId);
@@ -70,7 +56,7 @@ namespace MathSite.Facades.UserValidation
 
         public async Task<bool> UserHasRightAsync(User user, string rightAlias)
         {
-            return await UserHasRightAsync(user.Id, rightAlias);
+            return await UserHasRightAsync(user?.Id ?? default, rightAlias);
         }
 
         public async Task<bool> UserHasRightAsync(Guid userId, Right right)
@@ -80,7 +66,7 @@ namespace MathSite.Facades.UserValidation
 
         public async Task<bool> UserHasRightAsync(User user, Right right)
         {
-            return await UserHasRightAsync(user.Id, right.Alias);
+            return await UserHasRightAsync(user?.Id ?? default, right.Alias);
         }
 
         public async Task<User> GetUserByLoginAndPasswordAsync(string login, string password)

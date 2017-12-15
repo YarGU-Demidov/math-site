@@ -26,7 +26,7 @@ namespace MathSite.Db.DataSeeding.Seeders
         /// <inheritdoc />
         protected override void SeedData()
         {
-            const string firstLogin = UsersAliases.FirstUser;
+            const string firstLogin = UsersAliases.Mokeev1995;
             var firstUser = CreateUser(
                 firstLogin,
                 GetPasswordHash(firstLogin, "test"),
@@ -35,7 +35,7 @@ namespace MathSite.Db.DataSeeding.Seeders
                 DateTime.Now
             );
 
-            const string secondLogin = UsersAliases.SecondUser;
+            const string secondLogin = UsersAliases.AndreyDevyatkin;
             var secondUser = CreateUser(
                 secondLogin,
                 GetPasswordHash(secondLogin, "qwerty"),

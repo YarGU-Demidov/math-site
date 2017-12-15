@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using MathSite.BasicAdmin.ViewModels.News;
 using MathSite.Controllers;
 using MathSite.Facades.Posts;
+using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,8 +17,8 @@ namespace MathSite.Areas.Manager.Controllers
         private readonly INewsManagerViewModelBuilder _modelBuilder;
         private readonly IPostsFacade _posts;
 
-        public NewsController(IUserValidationFacade userValidationFacade, INewsManagerViewModelBuilder modelBuilder, IPostsFacade posts)
-            : base(userValidationFacade)
+        public NewsController(IUserValidationFacade userValidationFacade, INewsManagerViewModelBuilder modelBuilder, IPostsFacade posts, IUsersFacade usersFacade)
+            : base(userValidationFacade, usersFacade)
         {
             _modelBuilder = modelBuilder;
             _posts = posts;

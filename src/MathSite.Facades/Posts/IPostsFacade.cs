@@ -20,7 +20,7 @@ namespace MathSite.Facades.Posts
         Invisible
     }
 
-    public interface IPostsFacade
+    public interface IPostsFacade : IFacade
     {
         Task<int> GetPostPagesCountAsync(string postTypeAlias, RemovedStateRequest state, PublishStateRequest publishState, FrontPageStateRequest frontPageState, bool cache);
         Task<int> GetPostPagesCountAsync(string postTypeAlias, int perPage, RemovedStateRequest state, PublishStateRequest publishState, FrontPageStateRequest frontPageState, bool cache);

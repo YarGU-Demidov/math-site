@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using MathSite.Common.Exceptions;
+using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
 using MathSite.ViewModels.News;
 using Microsoft.AspNetCore.Mvc;
@@ -11,8 +12,8 @@ namespace MathSite.Controllers
     {
         private readonly INewsViewModelBuilder _viewModelBuilder;
 
-        public NewsController(IUserValidationFacade userValidationFacade, INewsViewModelBuilder viewModelBuilder) :
-            base(userValidationFacade)
+        public NewsController(IUserValidationFacade userValidationFacade, INewsViewModelBuilder viewModelBuilder, IUsersFacade usersFacade)
+            : base(userValidationFacade, usersFacade)
         {
             _viewModelBuilder = viewModelBuilder;
         }

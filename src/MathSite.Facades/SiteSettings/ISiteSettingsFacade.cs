@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace MathSite.Facades.SiteSettings
 {
-    public interface ISiteSettingsFacade
+    public interface ISiteSettingsFacade : IFacade
     {
         Task<string> this[string name] { get; }
         Task<string> GetStringSettingAsync(string name, bool cache);

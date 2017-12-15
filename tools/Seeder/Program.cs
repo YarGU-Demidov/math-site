@@ -10,9 +10,9 @@ namespace Seeder
     public class Program
     {
         /// <summary>
-        ///     Запуск сидера с первым аргументом - connection string
+        ///     Запуск сидера с первым(нулевым) аргументом - connection string
         /// </summary>
-        /// <param name="args">нулевой аргумент - connection string</param>
+        /// <param name="args">Нулевой аргумент - connection string</param>
         public static void Main(string[] args)
         {
             var loggerFactory = new LoggerFactory()

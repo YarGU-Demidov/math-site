@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using MathSite.Common;
+using MathSite.Common.Extensions;
 using MathSite.Db;
 using MathSite.Entities;
 using MathSite.Repository.Core;

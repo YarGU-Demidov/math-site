@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace MathSite.Common
+namespace MathSite.Common.Extensions
 {
     /// <summary>
     ///     Дополнительные методы для LINQ

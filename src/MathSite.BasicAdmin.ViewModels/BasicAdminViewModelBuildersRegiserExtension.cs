@@ -1,4 +1,5 @@
-﻿using MathSite.BasicAdmin.ViewModels.Home;
+﻿using MathSite.BasicAdmin.ViewModels.Files;
+using MathSite.BasicAdmin.ViewModels.Home;
 using MathSite.BasicAdmin.ViewModels.News;
 using MathSite.BasicAdmin.ViewModels.Pages;
 using MathSite.BasicAdmin.ViewModels.Persons;
@@ -26,6 +27,7 @@ namespace MathSite.BasicAdmin.ViewModels
                 .AddScoped<INewsManagerViewModelBuilder, NewsManagerViewModelBuilder>()
                 .AddScoped<IPagesManagerViewModelBuilder, PagesManagerViewModelBuilder>()
                 .AddScoped<IPersonsManagerViewModelBuilder, PersonsManagerViewModelBuilder>()
+                .AddScoped<IFilesManagerViewModelBuilder, FilesManagerViewModelBuilder>()
                 .AddScoped<IUsersManagerViewModelBuilder, UsersManagerViewModelBuilder>();
         }
     }

@@ -2,17 +2,11 @@
 
 namespace MathSite.Core.Responses
 {
-    public class GetAllResponse<T> : IResponse<T[]>
+    public class GetAllResponse<T> : BaseResponse<T[]>
     {
-        public GetAllResponse(IResponseType result, T[] data = null, string error = null)
+        public GetAllResponse(IResponseType result, string error = null, T[] data = null)
+            : base(result, error, data)
         {
-            Error = error;
-            Result = result.TypeName;
-            Data = data;
         }
-
-        public string Error { get; }
-        public string Result { get; }
-        public T[] Data { get; }
     }
 }

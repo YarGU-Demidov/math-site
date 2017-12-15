@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using MathSite.Common.Specifications;
 using MathSite.Entities;
+using MathSite.Repository;
 using MathSite.Repository.Core;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace MathSite.Facades.Persons
 {
-    public class PersonsFacade : BaseFacade, IPersonsFacade
+    public class PersonsFacade : BaseFacade<IPersonsRepository, Person>, IPersonsFacade
     {
         private TimeSpan CacheTime { get; } = TimeSpan.FromMinutes(5);
 
@@ -24,7 +25,7 @@ namespace MathSite.Facades.Persons
 
             var requirements = new AnySpecification<Person>();
 
-            var newsCount = await GetCountAsync(requirements, RepositoryManager.PersonsRepository, cache, CacheTime);
+            var newsCount = await GetCountAsync(requirements, cache, CacheTime);
 
             return (int)Math.Ceiling(newsCount / (float)perPage);
         }

@@ -17,7 +17,7 @@ namespace MathSite.Migrations
             modelBuilder
                 .HasAnnotation("Npgsql:PostgresExtension:uuid-ossp", "'uuid-ossp', '', ''")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "2.0.0-rtm-26452");
+                .HasAnnotation("ProductVersion", "2.0.1-rtm-125");
 
             modelBuilder.Entity("MathSite.Entities.Category", b =>
             {
@@ -73,6 +73,26 @@ namespace MathSite.Migrations
                 b.ToTable("Comment");
             });
 
+            modelBuilder.Entity("MathSite.Entities.Directory", b =>
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd();
+
+                b.Property<DateTime>("CreationDate")
+                    .ValueGeneratedOnAdd()
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                b.Property<string>("Name");
+
+                b.Property<Guid?>("RootDirectoryId");
+
+                b.HasKey("Id");
+
+                b.HasIndex("RootDirectoryId");
+
+                b.ToTable("Directory");
+            });
+
             modelBuilder.Entity("MathSite.Entities.File", b =>
             {
                 b.Property<Guid>("Id")
@@ -82,9 +102,12 @@ namespace MathSite.Migrations
                     .ValueGeneratedOnAdd()
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-                b.Property<DateTime>("DateAdded");
+                b.Property<Guid?>("DirectoryId");
 
                 b.Property<string>("Extension");
+
+                b.Property<string>("Hash")
+                    .IsRequired();
 
                 b.Property<string>("Name")
                     .IsRequired();
@@ -93,6 +116,10 @@ namespace MathSite.Migrations
                     .IsRequired();
 
                 b.HasKey("Id");
+
+                b.HasIndex("DirectoryId");
+
+                b.HasIndex("Hash");
 
                 b.ToTable("File");
             });
@@ -676,6 +703,22 @@ namespace MathSite.Migrations
                 b.HasOne("MathSite.Entities.User", "User")
                     .WithMany("Comments")
                     .HasForeignKey("UserId")
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            modelBuilder.Entity("MathSite.Entities.Directory", b =>
+            {
+                b.HasOne("MathSite.Entities.Directory", "RootDirectory")
+                    .WithMany("Directories")
+                    .HasForeignKey("RootDirectoryId")
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            modelBuilder.Entity("MathSite.Entities.File", b =>
+            {
+                b.HasOne("MathSite.Entities.Directory", "Directory")
+                    .WithMany("Files")
+                    .HasForeignKey("DirectoryId")
                     .OnDelete(DeleteBehavior.Cascade);
             });
 

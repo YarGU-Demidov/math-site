@@ -18,8 +18,8 @@ namespace MathSite.Db.DataSeeding.Seeders
         /// <inheritdoc />
         protected override void SeedData()
         {
-            var firstUser = GetUserByLogin(UsersAliases.FirstUser);
-            var secondUser = GetUserByLogin(UsersAliases.SecondUser);
+            var firstUser = GetUserByLogin(UsersAliases.Mokeev1995);
+            var secondUser = GetUserByLogin(UsersAliases.AndreyDevyatkin);
 
             var adminAccess = GetRightByAlias(RightAliases.AdminAccess);
             var logoutAccess = GetRightByAlias(RightAliases.LogoutAccess);

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using MathSite.BasicAdmin.ViewModels.Pages;
 using MathSite.Controllers;
+using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +15,8 @@ namespace MathSite.Areas.Manager.Controllers
     {
         private readonly IPagesManagerViewModelBuilder _modelBuilder;
 
-        public PagesController(IUserValidationFacade userValidationFacade, IPagesManagerViewModelBuilder modelBuilder) : base(userValidationFacade)
+        public PagesController(IUserValidationFacade userValidationFacade, IPagesManagerViewModelBuilder modelBuilder, IUsersFacade usersFacade) 
+            : base(userValidationFacade, usersFacade)
         {
             _modelBuilder = modelBuilder;
         }
@@ -24,7 +26,7 @@ namespace MathSite.Areas.Manager.Controllers
         [Route("manager/pages/list")]
         public async Task<IActionResult> Index([FromQuery] int page = 1, [FromQuery] int perPage = 10)
         {
-            return View(await _modelBuilder.BuildIndexViewModel(page, perPage));
+            return View("Index", await _modelBuilder.BuildIndexViewModel(page, perPage));
         }
 
         public async Task<IActionResult> Removed([FromQuery] int page = 1, [FromQuery] int perPage = 10)
