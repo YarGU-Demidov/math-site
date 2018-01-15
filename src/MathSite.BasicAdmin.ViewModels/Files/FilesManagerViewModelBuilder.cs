@@ -66,8 +66,8 @@ namespace MathSite.BasicAdmin.ViewModels.Files
             {
                 CreationDate = GetDateString(file.CreationDate),
                 Id = file.Id.ToString(),
-                Title = $"{file.Name}.{file.Extension}",
-                FullFilePath = Path.Combine(path, $"{file.Name}.{file.Extension}")
+                Title = $"{file.Name}{file.Extension}",
+                FullFilePath = Path.Combine(path, $"{file.Name}{file.Extension}")
             });
 
             return (dirsWithBackDir, files);

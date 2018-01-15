@@ -1,25 +1,33 @@
 ﻿@model PostPreviewViewModel
 @{
-    var imageUrl = !string.IsNullOrWhiteSpace(Model.PreviewImage)
-        ? Model.PreviewImage
-        : Url.Content("img/default_news.png");
+    var defaultImageUrl = Url.Content("images/default_post_preview@2x.png");
+
+    var imageUrl = !string.IsNullOrWhiteSpace(Model.PreviewImageId)
+        ? Url.Action("Get", "File", new {id = Model.PreviewImageId })
+        : defaultImageUrl;
+
+    var imageUrl2X = !string.IsNullOrWhiteSpace(Model.PreviewImageId2X)
+        ? Url.Action("Get", "File", new { id = Model.PreviewImageId2X })
+        : defaultImageUrl;
 }
 
-<a class="teaser" href="@Model.Url">
-    <div class="teaser__head">
-        <div style="background-image: url(@imageUrl)"
-             class="teaser__preview">
+<article class="feed__item">
+    <div class="teaser">
+        <a class="teaser__preview" href="@Model.Url">
+            <img class="teaser__image"
+                 srcset="@imageUrl2X 2x"
+                 src="@imageUrl"
+                 alt="@Model.Title"
+                 title="@Model.Title"
+                 width="496"
+                 height="346">
+        </a>
+        <div class="teaser__info">
+            <span class="teaser__category">@Model.PostTypeName</span>
+            <time class="event-thumb__time" datetime="2017-12-31T19:59+04:00">@Model.PublishedAt</time>
+        </div>
+        <div class="teaser__heading">
+            <a class="teaser__link" href="#">@Model.Title</a>
         </div>
     </div>
-    <div class="teaser__body">
-        <h3 class="teaser__title">
-            @Model.Title
-        </h3>
-        <div class="teaser__description">
-            @Html.Raw(Model.Content)
-        </div>
-        <time class="teaser__date">
-            @Model.PublishedAt
-        </time>
-    </div>
-</a>
+</article>

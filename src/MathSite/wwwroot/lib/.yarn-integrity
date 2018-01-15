@@ -1,0 +1,29 @@
+{
+  "nodeVersion": "v9.2.0",
+  "modulesFolders": [
+    "wwwroot\\lib"
+  ],
+  "flags": [],
+  "linkedModules": [],
+  "topLevelPatterns": [
+    "bootstrap@^4.0.0-beta.2",
+    "font-awesome@^4.7.0",
+    "jquery-validation-unobtrusive@^3.2.6",
+    "jquery-validation@^1.17.0",
+    "jquery@^3.2.1",
+    "popper.js@^1.12.6"
+  ],
+  "lockfileEntries": {
+    "bootstrap@^4.0.0-beta.2": "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.0.0-beta.2.tgz#4d67d2aa2219f062cd90bc1247e6747b9e8fd051",
+    "font-awesome@^4.7.0": "https://registry.yarnpkg.com/font-awesome/-/font-awesome-4.7.0.tgz#8fa8cf0411a1a31afd07b06d2902bb9fc815a133",
+    "jquery-validation-unobtrusive@^3.2.6": "https://registry.yarnpkg.com/jquery-validation-unobtrusive/-/jquery-validation-unobtrusive-3.2.6.tgz#0f8767c5462e30b4a5743d12461e8057da7572e5",
+    "jquery-validation@>=1.8": "https://registry.yarnpkg.com/jquery-validation/-/jquery-validation-1.17.0.tgz#ab66b6b583d7740b9bbd148993e50e8ac041f35b",
+    "jquery-validation@^1.17.0": "https://registry.yarnpkg.com/jquery-validation/-/jquery-validation-1.17.0.tgz#ab66b6b583d7740b9bbd148993e50e8ac041f35b",
+    "jquery@>=1.8": "https://registry.yarnpkg.com/jquery/-/jquery-3.2.1.tgz#5c4d9de652af6cd0a770154a631bba12b015c787",
+    "jquery@^1.7 || ^2.0 || ^3.1": "https://registry.yarnpkg.com/jquery/-/jquery-3.2.1.tgz#5c4d9de652af6cd0a770154a631bba12b015c787",
+    "jquery@^3.2.1": "https://registry.yarnpkg.com/jquery/-/jquery-3.2.1.tgz#5c4d9de652af6cd0a770154a631bba12b015c787",
+    "popper.js@^1.12.6": "https://registry.yarnpkg.com/popper.js/-/popper.js-1.12.6.tgz#91e12a97b07815258b76915d64044e8ac053d426"
+  },
+  "files": [],
+  "artifacts": {}
+}

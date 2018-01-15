@@ -5,7 +5,7 @@ using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
 using MathSite.Facades.Posts;
 using MathSite.Facades.SiteSettings;
-using MathSite.ViewModels.SharedModels.PostPreview;
+using MathSite.ViewModels.Home.PostPreview;
 using MathSite.ViewModels.SharedModels.SecondaryPage;
 
 namespace MathSite.ViewModels.Pages

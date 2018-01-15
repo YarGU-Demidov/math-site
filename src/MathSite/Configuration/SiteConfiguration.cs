@@ -23,7 +23,6 @@ namespace MathSite
                 app.UseDatabaseErrorPage();
                 app.UseBrowserLink();
 
-
                 app.UseCors(builder =>
                 {
                     builder.AllowAnyOrigin();

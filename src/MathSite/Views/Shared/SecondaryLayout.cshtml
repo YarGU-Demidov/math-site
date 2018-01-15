@@ -7,128 +7,12 @@
 
     <body>
 
-        <div class="secondary">
-            <div class="container">
-                <!-- Header -->
-                @Html.Partial("Partials/Header")
-
-                <!-- Breadcrumbs -->
-                <nav class="secondary__path">
-                    <ul class="breadcrumbs">
-                        <li class="breadcrumbs__item">
-                            <a class="button button_palette_darkblue" href="@Url.Action("Index", "Home")">ГЛАВНАЯ &nbsp;►</a>
-                        </li>
-                        <li class="breadcrumbs__item">
-                            <a class="button" href="@Url.Action("Index", "News")">НОВОСТИ</a>
-                        </li>
-                    </ul>
-                </nav>
-
-                <!-- Content -->
-                <main class="secondary__body">
-                    <div class="secondary__body_news">
-                        <h1 class="secondary__body_news_title">
-                            @Model.PageTitle.Title
-                        </h1>
-                        <div class="secondary__news">
-                            @RenderBody()
-
-                            <script type="text/javascript">
-                                (function(w, doc) {
-                                    if (!w.__utlWdgt) {
-                                        w.__utlWdgt = true;
-                                        var d = doc;
-                                        var s = d.createElement('script');
-                                        var g = 'getElementsByTagName';
-                                        s.type = 'text/javascript';
-                                        s.charset = 'UTF-8';
-                                        s.async = true;
-                                        s.src = ('https:' === w.location.protocol ? 'https' : 'http') +
-                                            '://w.uptolike.com/widgets/v1/uptolike.js';
-                                        var h = d[g]('body')[0];
-                                        h.appendChild(s);
-                                    }
-                                })(window, document);
-                            </script>
-                            <div data-background-alpha="0.0" data-buttons-color="#ffffff"
-                                 data-counter-background-color="#ffffff" data-share-counter-size="15"
-                                 data-top-button="false" data-share-counter-type="disable" data-share-style="11"
-                                 data-mode="share" data-like-text-enable="false" data-hover-effect="rotate-cw"
-                                 data-mobile-view="true" data-icon-color="#ffffff" data-orientation="horizontal"
-                                 data-text-color="#000000" data-share-shape="round"
-                                 data-sn-ids="tw.fb.vk.lj.ok.ln.gp.mr.ps." data-share-size="40"
-                                 data-background-color="#ffffff" data-preview-mobile="false"
-                                 data-mobile-sn-ids="fb.vk.tw.wh.ok.vb." data-pid="1519698"
-                                 data-counter-background-alpha="1.0" data-following-enable="false"
-                                 data-exclude-show-more="true" data-selection-enable="false">
-                            </div>
-
-                            <div class="contacts_news">
-                                <h3>
-                                    Контакты
-                                </h3>
-                                <section>
-                                    <ul>
-                                        <li>
-                                            150007, Ярославль, ул.Союзная, 144
-                                        </li>
-                                        <li>
-                                            Математический факультет
-                                        </li>
-                                    </ul>
-                                    <ul>
-                                        <li>
-                                            +7 (4852) 78-85-91
-                                        </li>
-                                        <li>
-                                            Деканат
-                                        </li>
-                                    </ul>
-                                </section>
-                            </div>
-                        </div>
-                    </div>
-
-                    @Html.Partial("Partials/Sidebar")
-                    <div id="YMapsID" style="height: 400px; width: 876px;"></div>
-                </main>
-            </div>
-        </div>
-
-        <!-- Featured -->
-        <div class="features__news features_type_simple">
-            <div class="container">
-                <div class="features__head">
-                    <h2 class="features__title">
-                        У нас творится история
-                    </h2>
-                    <div class="features__link">
-                        <a class="button button_palette_blue button__news" href="/news">НОВОСТИ ►</a>
-                    </div>
-                </div>
-                @Html.Partial("Partials/Featured", Model.Featured)
-            </div>
-        </div>
-
+        @RenderBody()
         <!-- Footer -->
         @Html.Partial("Partials/Footer")
 
         <!-- Scripts -->
         @Html.Partial("Partials/Scripts")
 
-        <script src="https://api-maps.yandex.ru/1.1/index.xml" type="text/javascript"></script>
-        <script type="text/javascript">
-            // Создает обработчик события window.onLoad
-            YMaps.jQuery(function() {
-                // Создает экземпляр карты и привязывает его к созданному контейнеру
-                var map = new YMaps.Map(YMaps.jQuery("#YMapsID")[0]);
-                map.addControl(new YMaps.SmallZoom());
-                // Устанавливает начальные параметры отображения карты: центр карты и коэффициент масштабирования
-                map.setCenter(new YMaps.GeoPoint(39.926, 57.621426), 16);
-                // Создает метку в центре Москвы
-                var placemark = new YMaps.Placemark(new YMaps.GeoPoint(39.926, 57.621426));
-                map.addOverlay(placemark);
-            });
-        </script>
     </body>
 </html>

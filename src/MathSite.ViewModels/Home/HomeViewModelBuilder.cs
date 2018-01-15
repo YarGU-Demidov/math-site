@@ -6,21 +6,28 @@ using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
 using MathSite.Facades.Posts;
 using MathSite.Facades.SiteSettings;
-using MathSite.ViewModels.SharedModels.PostPreview;
+using MathSite.ViewModels.Home.EventPreview;
+using MathSite.ViewModels.Home.PostPreview;
 
 namespace MathSite.ViewModels.Home
 {
     public class HomeViewModelBuilder : CommonViewModelBuilder, IHomeViewModelBuilder
     {
         private readonly IPostPreviewViewModelBuilder _postPreviewViewModelBuilder;
+        private readonly IEventPreviewViewModelBuilder _eventPreviewViewModelBuilder;
         private readonly IPostsFacade _postsFacade;
 
-        public HomeViewModelBuilder(ISiteSettingsFacade siteSettingsFacade, IPostsFacade postsFacade,
-            IPostPreviewViewModelBuilder postPreviewViewModelBuilder)
+        public HomeViewModelBuilder(
+            ISiteSettingsFacade siteSettingsFacade, 
+            IPostsFacade postsFacade,
+            IPostPreviewViewModelBuilder postPreviewViewModelBuilder,
+            IEventPreviewViewModelBuilder eventPreviewViewModelBuilder
+        )
             : base(siteSettingsFacade)
         {
             _postsFacade = postsFacade;
             _postPreviewViewModelBuilder = postPreviewViewModelBuilder;
+            _eventPreviewViewModelBuilder = eventPreviewViewModelBuilder;
         }
         
         public async Task<HomeIndexViewModel> BuildIndexModel()
@@ -35,8 +42,33 @@ namespace MathSite.ViewModels.Home
         {
             const string postType = PostTypeAliases.News;
 
-            var posts = await _postsFacade.GetPostsAsync(postType, 1, 6, RemovedStateRequest.Excluded, PublishStateRequest.Published, FrontPageStateRequest.Visible, true);
+            var posts = await _postsFacade.GetPostsAsync(
+                postTypeAlias: postType, 
+                page: 1, 
+                perPage: 6, 
+                state: RemovedStateRequest.Excluded, 
+                publishState: PublishStateRequest.Published, 
+                frontPageState: FrontPageStateRequest.Visible, 
+                cache: true
+            );
+
+            var events = await _postsFacade.GetPostsAsync(
+                PostTypeAliases.Event,
+                1,
+                3,
+                RemovedStateRequest.Excluded,
+                PublishStateRequest.Published,
+                FrontPageStateRequest.AllVisibilityStates,
+                true
+            );
+
             model.Posts = GetPostsModels(posts);
+            model.Events = GetEventsModels(events);
+        }
+
+        private IEnumerable<EventPreviewViewModel> GetEventsModels(IEnumerable<Post> events)
+        {
+            return events.Select(_eventPreviewViewModelBuilder.Build);
         }
 
         private IEnumerable<PostPreviewViewModel> GetPostsModels(IEnumerable<Post> posts)

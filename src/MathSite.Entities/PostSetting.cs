@@ -13,5 +13,7 @@ namespace MathSite.Entities
         public PostType PostType { get; set; }
         public Guid? PreviewImageId { get; set; }
         public File PreviewImage { get; set; }
+        public DateTime? EventTime { get; set; }
+        public string EventLocation { get; set; }
     }
 }

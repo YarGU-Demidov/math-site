@@ -1,18 +1,339 @@
 ﻿@model HomeIndexViewModel
-@{
-    Layout = "MainLayout";
-}
-
-<div class="features">
-    <div class="container">
-        <div class="features__head">
-            <h2 class="features__title">
-                У нас творится история
-            </h2>
-            <div class="features__link">
-                <a class="button button_palette_blue button__news" href="@Url.Action("Index", "News")">НОВОСТИ &nbsp;►</a>
+<div class="jumbotron">
+    <div class="jumbotron__wrap container">
+        <div class="jumbotron__head section-head">
+            <div class="section-head__title heading heading_inverted">
+                Информационные технологии
             </div>
         </div>
-        @Html.Partial("Partials/Featured", Model.Posts)
+        <div class="jumbotron__content">
+            Сферы науки, техники и&nbsp;технологии, охватывающие совокупность проблем,<br> связанных с&nbsp;обеспечением защищенности объектов информатизации в <br> условиях существования угроз в&nbsp;информационной сфере
+        </div>
+        <a class="jumbotron__action button button_big button_inverted button_sparse" href="#">
+            Узнать, что нужно для поступления
+        </a>
+    </div>
+</div>
+
+<div class="info">
+    <div class="info__wrap container">
+        <div class="info__list">
+            <a class="info__item" href="#">
+                <div class="feature feature_entering">
+                    <div class="feature__heading">Как поступить?</div>
+                    <div class="feature__content">Пошаговое руководство. <br> Полезные советы.</div>
+                </div>
+            </a>
+            <a class="info__item" href="#">
+                <div class="feature feature_study">
+                    <div class="feature__heading">Как учиться?</div>
+                    <div class="feature__content">Олимпиады. <br> Какие классные кафедры. <br> Что если не&nbsp;понятно?</div>
+                </div>
+            </a>
+            <a class="info__item" href="#">
+                <div class="feature feature_work">
+                    <div class="feature__heading">Где трудиться?</div>
+                    <div class="feature__content">Что Вас ждет в&nbsp;будущем? <br> Куда пойти работать.<br> Есть&nbsp;ли смысл в&nbsp;этой жизни?</div>
+                </div>
+            </a>
+        </div>
+
+    </div>
+</div>
+
+<div class="feed">
+    <div class="feed__wrap container">
+        <div class="feed__head section-head">
+            <div class="section-head__title section-head__title-small heading heading_medium">
+                У&nbsp;нас творится история
+            </div>
+            <a class="section-head__details button" href="@Url.Action("Index", "News")">
+                Все новости
+            </a>
+        </div>
+        <div class="feed__list">
+            @foreach (var postModel in Model.Posts)
+            {
+                @Html.Partial("Partials/Posts/PostPreview", postModel)
+            }
+        </div>
+    </div>
+</div>
+
+<div class="events">
+    <div class="events__wrap container">
+        <div class="events__head section-head">
+            <div class="section-head__title heading heading_medium">
+                Не&nbsp;пропустите
+            </div>
+            <a class="section-head__details button" href="@Url.Action("Index", "Events")">
+                Все события
+            </a>
+        </div>
+        <div class="events__list">
+            @foreach (var eventModel in Model.Events)
+            {
+                <article class="events__item">
+                    <a class="event-thumb" href="@eventModel.Url">
+                        <div class="events__heading">
+                            @eventModel.Title
+                        </div>
+                        <div class="event-thumb__note">
+                            <time class="event-thumb__time" datetime="@eventModel.DateAndTime.ToString("O")">
+                                @eventModel.DateAndTime.ToString("dd MMMM yyyy г.")
+                            </time>
+                            <div class="event-thumb__place">
+                                @eventModel.Location
+                            </div>
+                        </div>
+                    </a>
+                </article>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="success">
+    <div class="success__wrap container">
+        <div class="success__head section-head">
+            <div class="section-head__title heading heading_inverted heading_medium">
+                Истории успеха
+            </div>
+            <a class="section-head__details button" href="#">
+                Все сразу
+            </a>
+        </div>
+        <div class="success__body">
+            <div class="success__author">
+                <div class="success__sub-title">
+                    Говорит студент
+                </div>
+                <div class="success__student">
+                    <img class="success__photo" src="images/vadim-nikulin.png">
+                    <div class="success__name">
+                        Вадим Никулин
+                    </div>
+                    <div class="success__note">
+                        Студент кафедры дифференциальных уравнений, год выпуска 2005
+                    </div>
+                </div>
+            </div>
+            <div class="success__message">
+                <div class="success-head">
+                    <div class="success-head__title heading success__message-title">
+                        Знания по&nbsp;математике&nbsp;&mdash; важнее!
+                    </div>
+                </div>
+                <div class="success__message-title">
+
+                </div>
+                <div class="success__text">
+                    При поступлении в&nbsp;университет передо мной стоял выбор&nbsp;&mdash; идти на&nbsp;ИВТ или на&nbsp;математический факультет. Я&nbsp;остановился на&nbsp;втором, посчитал, что знания по&nbsp;математике важнее, а&nbsp;недостающие знания по&nbsp;компьютерным дисциплинам я&nbsp;смогу освоить самостоятельно. На&nbsp;деле оказалось, что и&nbsp;Computer science у&nbsp;нас преподавали не&nbsp;хуже. <br /> Математический факультет&nbsp;&mdash; это самостоятельность, знания, олимпиады. <br /> Определяющее событие моей жизни произошло именно в&nbsp;студенчестве&nbsp;&mdash; участие в&nbsp;олимпиадах ACM и&nbsp;поездка на&nbsp;финал ACM&nbsp;ICPC в&nbsp;США&nbsp;&mdash; это крупнейшая студенческая олимпиада по&nbsp;программированию.&quot;
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="pros">
+    <div class="pros__wrap container">
+        <div class="pros__list">
+            <div class="pros__item opportunity opportunity_world">
+                <a class="pros__preview" href="#">
+                    <div class="opportunity__heading">Работа по&nbsp;всему миру</div>
+                    <div class="opportunity__content">Наши выпускники работают в&nbsp;ведущих мировых IT-компаниях</div>
+                </a>
+            </div>
+            <div class="pros__item opportunity opportunity_universe">
+                <a class="pros__preview" href="#">
+                    <div class="opportunity__heading">Вселенная для тебя</div>
+                    <div class="opportunity__content">Понимание законов Вселенной&nbsp;&mdash; это к&nbsp;нам!</div>
+                </a>
+            </div>
+            <div class="pros__item opportunity opportunity_deserving">
+                <a class="pros__preview" href="#">
+                    <div class="opportunity__heading">Ты&nbsp;этого достоен</div>
+                    <div class="opportunity__content">Средняя зарплата выпускника 35&nbsp;т.р.&nbsp;в&nbsp;первый год после выпуска</div>
+                </a>
+            </div>
+            <div class="pros__item opportunity opportunity_internship">
+                <a class="pros__preview" href="#">
+                    <div class="opportunity__heading">Стажировки</div>
+                    <div class="opportunity__content">Возможность стажировок за&nbsp;границей</div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="life">
+    <div class="life__wrap container">
+        <div class="life__head section-head">
+            <div class="section-head__title heading heading_inverted heading_medium">
+                Студенческая жизнь
+            </div>
+            <a class="section-head__details button" href="#">
+                Все сразу
+            </a>
+        </div>
+        <div class="life__list">
+            <div class="life__item article-thumb">
+                <a class="article-thumb__preview" href="#">
+                    <img class="article-thumb__image" srcset="images/default_post_preview@2x.png 2x" src="images/default_post_preview@2x.png" width="408" height="272">
+                </a>
+                <div class="article-thumb__heading">
+                    <a class="article-thumb__link" href="#">Студвесна 2017</a>
+                </div>
+            </div>
+            <div class="life__item article-thumb">
+                <a class="article-thumb__preview" href="#">
+                    <img class="article-thumb__image" srcset="images/default_post_preview@2x.png 2x" src="images/default_post_preview@2x.png" width="408" height="272">
+                </a>
+                <div class="article-thumb__heading">
+                    <a class="article-thumb__link" href="#">ИТ-команда ЯрГУ завоевала диплом&nbsp;II степени</a>
+                </div>
+            </div>
+            <div class="life__item article-thumb">
+                <a class="article-thumb__preview" href="#">
+                    <img class="article-thumb__image" srcset="images/default_post_preview@2x.png 2x" src="images/default_post_preview@2x.png" width="408" height="272">
+                </a>
+                <div class="article-thumb__heading">
+                    <a class="article-thumb__link" href="#">Успехи наших первокурсников на&nbsp;олимпиаде в&nbsp;Вологде</a>
+                </div>
+            </div>
+            <div class="life__item article-thumb">
+                <a class="article-thumb__preview" href="#">
+                    <img class="article-thumb__image" srcset="images/default_post_preview@2x.png 2x" src="images/default_post_preview@2x.png" width="408" height="272">
+                </a>
+                <div class="article-thumb__heading">
+                    <a class="article-thumb__link" href="#">Интеллектуальные игры</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="leaders">
+    <div class="leaders__wrap container">
+        <div class="leaders__head">
+            <div class="leaders__title section-head">
+                <div class="section-head__title heading heading_medium">
+                    Руководство
+                </div>
+            </div>
+            <div class="leaders-head__actions">
+                <a class="leaders-head__link" href="#">Деканат</a>
+                <a class="leaders-head__link" href="#">Приемная комиссия</a>
+            </div>
+        </div>
+        <div class="leaders__list">
+            <div class="leaders__item person-thumb">
+                <a class="person-thumb__preview" href="#">
+                    <img class="person-thumb__image" src="content/nesterov.jpg" width="408" height="352" alt="">
+                </a>
+                <div class="person-thumb__heading">
+                    <a class="person-thumb__link" href="#">Нестеров <br> Павел Николаевич</a>
+                </div>
+                <div class="person-thumb__note">
+                    декан <br> математического факультета
+                </div>
+            </div>
+            <div class="leaders__item person-thumb">
+                <a class="person-thumb__preview" href="#">
+                    <img class="person-thumb__image" src="content/bykova.jpg" width="408" height="352" alt="">
+                </a>
+                <div class="person-thumb__heading">
+                    <a class="person-thumb__link" href="#">Быкова <br> Надежда Дмитриевна</a>
+                </div>
+                <div class="person-thumb__note">
+                    заместитель декана по&nbsp;учебной работе
+                </div>
+            </div>
+            <div class="leaders__item person-thumb">
+                <a class="person-thumb__preview" href="#">
+                    <img class="person-thumb__image" src="content/karandoshova.jpg" width="408" height="352" alt="">
+                </a>
+                <div class="person-thumb__heading">
+                    <a class="person-thumb__link" href="#">Карандашова <br> Дарья Анатольевна</a>
+                </div>
+                <div class="person-thumb__note">
+                    ведущий документовед деканата
+                </div>
+            </div>
+            <div class="leaders__item person-thumb">
+                <a class="person-thumb__preview" href="#">
+                    <img class="person-thumb__image" src="content/kachshenko.jpg" width="408" height="352" alt="">
+                </a>
+                <div class="person-thumb__heading">
+                    <a class="person-thumb__link" href="#">Кащенко <br> Илья Сергеевич</a>
+                </div>
+                <div class="person-thumb__note">
+                    заместитель декана по&nbsp;научной работе
+                </div>
+            </div>
+            <div class="leaders__item person-thumb">
+                <div class="contacts-preview">
+                    <div class="contacts-preview__section">
+                        <div class="contacts-preview__heading">
+                            Деканат:
+                        </div>
+                        <div class="contacts-preview__content">
+                            <div class="contacts-preview__channel">
+                                150008,<br> г. Ярославль, <span class="nobr"> ул. Союзная, 144 </span>
+                            </div>
+                            <div class="contacts-preview__channel">
+                                Телефон деканата: <span class="nobr"> 78-85-91 </span>
+                            </div>
+                            <div class="contacts-preview__channel">
+                                Email: math@uniyar.ac.ru
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contacts-preview__section">
+                        <div class="contacts-preview__heading">
+                            Приемная комиссия:
+                        </div>
+                        <div class="contacts-preview__content">
+                            <div class="contacts-preview__channel">
+                                г. Ярославль, <span class="nobr"> ул. Кирова 8/10 </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="leaders__item person-thumb">
+                <a class="person-thumb__preview" href="#">
+                    <img class="person-thumb__image" src="content/trostin.jpg" width="204" height="176" alt="">
+                </a>
+                <div class="person-thumb__heading">
+                    <a class="person-thumb__link" href="#">Тростин <br> Алексей Сергеевич</a>
+                </div>
+                <div class="person-thumb__note">
+                    секретарь приемной комиссии ЯрГУ
+                </div>
+            </div>
+            <div class="leaders__item person-thumb">
+                <a class="person-thumb__preview" href="#">
+                    <img class="person-thumb__image" src="content/surikova.jpg" width="204" height="176" alt="">
+                </a>
+                <div class="person-thumb__heading">
+                    <a class="person-thumb__link" href="#">Сурикова <br> Наталья Сергеевна</a>
+                </div>
+                <div class="person-thumb__note">
+                    документовед
+                </div>
+            </div>
+            <div class="leaders__item person-thumb">
+                <a class="person-thumb__preview" href="#">
+                    <img class="person-thumb__image" src="content/vlasova.jpg" width="204" height="176" alt="">
+                </a>
+                <div class="person-thumb__heading">
+                    <a class="person-thumb__link" href="#">Власова <br> Ольга Владимировна</a>
+                </div>
+                <div class="person-thumb__note">
+                    отв. секретарь технической комиссии математического ф‑та
+                </div>
+            </div>
+        </div>
     </div>
 </div>

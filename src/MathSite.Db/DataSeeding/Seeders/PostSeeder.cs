@@ -23,12 +23,35 @@ namespace MathSite.Db.DataSeeding.Seeders
             var newsPosts = CreateNewsPosts();
 
             var staticPages = CreateStaticPages();
+            
+            var events = CreateEvents();
 
-            var posts = new List<Post>(newsPosts);
+            var posts = new List<Post>();
 
+            posts.AddRange(newsPosts);
             posts.AddRange(staticPages);
+            posts.AddRange(events);
 
             Context.Posts.AddRange(posts);
+        }
+
+        private IEnumerable<Post> CreateEvents()
+        {
+            return new[]
+            {
+                CreatePost(
+                    title: "День открытых дверей",
+                    excerpt: "День открытых дверей в ЯрГУ им. П.Г.Демидова",
+                    content: "Мы приглашаем всех школьников на День открытых дверей в ЯрГУ. Больше инфы будет тут потом. Может быть.",
+                    publishDate: DateTime.UtcNow,
+                    author: GetUserByLogin(UsersAliases.Mokeev1995),
+                    isPublished: true,
+                    isDeleted: false,
+                    postType: GetPostTypeByAlias(PostTypeAliases.Event),
+                    postSetting: CreateSetting(true, true, true, default, DateTime.UtcNow.AddDays(20), "Ярославль, ул. Советская, д.14, ауд. 201"),
+                    postSeoSetting: GetPostSeoSettingsByUrl("open-doors-2017")
+                )
+            };
         }
 
         private IEnumerable<Post> CreateStaticPages()
@@ -45,7 +68,7 @@ namespace MathSite.Db.DataSeeding.Seeders
                     false,
                     GetPostTypeByAlias(PostTypeAliases.StaticPage),
                     null,
-                    GetPostSeoSettingsByType("static-page-url")
+                    GetPostSeoSettingsByUrl("static-page-url")
                 )
             };
         }
@@ -64,7 +87,7 @@ namespace MathSite.Db.DataSeeding.Seeders
                     false,
                     GetPostTypeByAlias(PostTypeAliases.News),
                     CreateSetting(true),
-                    GetPostSeoSettingsByType("first-url")
+                    GetPostSeoSettingsByUrl("first-url")
                 ),
                 CreatePost(
                     "Second post",
@@ -76,7 +99,7 @@ namespace MathSite.Db.DataSeeding.Seeders
                     false,
                     GetPostTypeByAlias(PostTypeAliases.News),
                     CreateSetting(true),
-                    GetPostSeoSettingsByType("second-url")
+                    GetPostSeoSettingsByUrl("second-url")
                 ),
                 CreatePost(
                     "Third post",
@@ -88,7 +111,7 @@ namespace MathSite.Db.DataSeeding.Seeders
                     false,
                     GetPostTypeByAlias(PostTypeAliases.News),
                     CreateSetting(true),
-                    GetPostSeoSettingsByType("third-url")
+                    GetPostSeoSettingsByUrl("third-url")
                 ),
                 CreatePost(
                     "Fourth post",
@@ -100,7 +123,7 @@ namespace MathSite.Db.DataSeeding.Seeders
                     false,
                     GetPostTypeByAlias(PostTypeAliases.News),
                     CreateSetting(true),
-                    GetPostSeoSettingsByType("fourth-url")
+                    GetPostSeoSettingsByUrl("fourth-url")
                 ),
                 CreatePost(
                     "Fifth post",
@@ -112,7 +135,7 @@ namespace MathSite.Db.DataSeeding.Seeders
                     false,
                     GetPostTypeByAlias(PostTypeAliases.News),
                     CreateSetting(true),
-                    GetPostSeoSettingsByType("fifth-url")
+                    GetPostSeoSettingsByUrl("fifth-url")
                 ),
                 CreatePost(
                     "Sixth post",
@@ -124,7 +147,7 @@ namespace MathSite.Db.DataSeeding.Seeders
                     false,
                     GetPostTypeByAlias(PostTypeAliases.News),
                     CreateSetting(true),
-                    GetPostSeoSettingsByType("sixth-url")
+                    GetPostSeoSettingsByUrl("sixth-url")
                 ),
                 CreatePost(
                     "Seventh post",
@@ -136,7 +159,7 @@ namespace MathSite.Db.DataSeeding.Seeders
                     false,
                     GetPostTypeByAlias(PostTypeAliases.News),
                     CreateSetting(true),
-                    GetPostSeoSettingsByType("seventh-url")
+                    GetPostSeoSettingsByUrl("seventh-url")
                 ),
                 CreatePost(
                     "Eighth post",
@@ -148,7 +171,7 @@ namespace MathSite.Db.DataSeeding.Seeders
                     false,
                     GetPostTypeByAlias(PostTypeAliases.News),
                     CreateSetting(true),
-                    GetPostSeoSettingsByType("eighth-url")
+                    GetPostSeoSettingsByUrl("eighth-url")
                 ),
                 CreatePost(
                     "Ninth post",
@@ -160,7 +183,7 @@ namespace MathSite.Db.DataSeeding.Seeders
                     false,
                     GetPostTypeByAlias(PostTypeAliases.News),
                     CreateSetting(),
-                    GetPostSeoSettingsByType("ninth-url")
+                    GetPostSeoSettingsByUrl("ninth-url")
                 ),
                 CreatePost(
                     "Tenth post",
@@ -172,7 +195,7 @@ namespace MathSite.Db.DataSeeding.Seeders
                     false,
                     GetPostTypeByAlias(PostTypeAliases.News),
                     CreateSetting(true),
-                    GetPostSeoSettingsByType("tenth-url")
+                    GetPostSeoSettingsByUrl("tenth-url")
                 )
             };
         }
@@ -187,7 +210,7 @@ namespace MathSite.Db.DataSeeding.Seeders
             return Context.Users.First(user => user.Login == login);
         }
 
-        private PostSeoSetting GetPostSeoSettingsByType(string url)
+        private PostSeoSetting GetPostSeoSettingsByUrl(string url)
         {
             return Context.PostSeoSettings.First(postSeoSettings => postSeoSettings.Url == url);
         }
@@ -217,16 +240,23 @@ namespace MathSite.Db.DataSeeding.Seeders
             };
         }
 
-        public static PostSetting CreateSetting(bool onMainPage = false, bool canBeRated = false,
+        public static PostSetting CreateSetting(
+            bool onMainPage = false, 
+            bool canBeRated = false,
             bool commentsAllowed = true,
-            File previewImage = null)
+            File previewImage = null,
+            DateTime? eventTime = null,
+            string eventLocation= null
+        )
         {
             return new PostSetting
             {
                 PostOnStartPage = onMainPage,
                 CanBeRated = canBeRated,
                 IsCommentsAllowed = commentsAllowed,
-                PreviewImage = previewImage
+                PreviewImage = previewImage,
+                EventTime = eventTime,
+                EventLocation = eventLocation
             };
         }
     }

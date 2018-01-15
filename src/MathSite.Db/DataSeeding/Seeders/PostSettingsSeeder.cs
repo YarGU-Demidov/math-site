@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
 using Microsoft.Extensions.Logging;
@@ -33,6 +34,13 @@ namespace MathSite.Db.DataSeeding.Seeders
                     false,
                     false,
                     false
+                ),
+                CreatePostSettings(
+                    null,
+                    null,
+                    false,
+                    false,
+                    false
                 )
             };
 
@@ -45,7 +53,7 @@ namespace MathSite.Db.DataSeeding.Seeders
         }
 
         protected static PostSetting CreatePostSettings(PostType postType, File previewImage,
-            bool isCommentsAllowed, bool canBeRated, bool isPostOnStartPage)
+            bool isCommentsAllowed, bool canBeRated, bool isPostOnStartPage, DateTime? eventDate = null)
         {
             return new PostSetting
             {
@@ -53,7 +61,8 @@ namespace MathSite.Db.DataSeeding.Seeders
                 CanBeRated = canBeRated,
                 PostOnStartPage = isPostOnStartPage,
                 PostType = postType,
-                PreviewImage = previewImage
+                PreviewImage = previewImage,
+                EventTime = eventDate
             };
         }
     }
