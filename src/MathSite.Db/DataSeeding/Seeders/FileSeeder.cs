@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
+using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
 using Microsoft.Extensions.Logging;
 
@@ -23,21 +24,21 @@ namespace MathSite.Db.DataSeeding.Seeders
             var files = new[]
             {
                 CreateFile(
-                    "FirstFile.jpg",
+                    FileAliases.FirstFile,
                     "new-file.jpg",
                     ".jpg",
                     GetFileHash(new byte[] {1, 2, 3, 4, 5, 6}),
                     GetDirectoryByPath("/")
                 ),
                 CreateFile(
-                    "SecondFile.png",
+                    FileAliases.SecondFile,
                     "new-file-1.png",
                     ".png",
                     GetFileHash(new byte[] {7, 8, 9, 10, 11, 12, 13, 15}),
                     GetDirectoryByPath("/news")
                 ),
                 CreateFile(
-                    "File in path.docx",
+                    FileAliases.FileInPath,
                     "new-file-2.docx",
                     ".docx",
                     GetFileHash(new byte[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}),
