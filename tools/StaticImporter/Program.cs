@@ -156,10 +156,7 @@ namespace StaticImporter
             foreach (var post in posts)
             {
                 var newPostId = await postsFacade.CreatePostAsync(
-                    await ConvertToPost(post, manager.UsersRepository, manager.PostTypeRepository),
-                    ConvertToPostSeoSettings(post),
-                    ConvertToPostSetting(post)
-                );
+                    await ConvertToPost(post, manager.UsersRepository, manager.PostTypeRepository));
 
                 if (newPostId == Guid.Empty)
                     throw new ApplicationException("Something went wrong. Check exception above.");

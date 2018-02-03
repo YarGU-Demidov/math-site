@@ -30,8 +30,7 @@ namespace MathSite.Controllers
 
         [NonAction]
         private async Task TrySetUser(ActionContext context)
-        {
-
+		{
             if (!context.HttpContext.User.Identity.IsAuthenticated)
                 return;
 
@@ -54,11 +53,17 @@ namespace MathSite.Controllers
             return new FileStreamInlineResult(fileStream, contentType) {FileDownloadName = fileDownloadName};
         }
 
-        [NonAction]
-        public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
-        {
-            await base.OnActionExecutionAsync(context, next);
-            await TrySetUser(context);
-        }
-    }
+		//[NonAction]
+		//public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+		//{
+		//	await base.OnActionExecutionAsync(context, next);
+		//	await next();
+		//}
+
+	    public override void OnActionExecuting(ActionExecutingContext context)
+	    {
+		    base.OnActionExecuting(context);
+		    TrySetUser(context).Wait();
+	    }
+	}
 }
