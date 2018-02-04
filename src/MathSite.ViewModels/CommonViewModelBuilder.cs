@@ -97,7 +97,7 @@ namespace MathSite.ViewModels
                         new MenuItemViewModel("Кружки", "#"),
                         new MenuItemViewModel("Кафедры", "#"),
                         new MenuItemViewModel("Семинары", "#"),
-                        new MenuItemViewModel("Курсовые и&nbsp;дипломные", "#"),
+                        new MenuItemViewModel("Курсовые и дипломные", "#"),
                         new MenuItemViewModel("Важные даты", "#"),
                         new MenuItemViewModel("Трудоустройство", "#"),
                         new MenuItemViewModel("Студенческая жизнь", "#")
@@ -109,7 +109,7 @@ namespace MathSite.ViewModels
                         new MenuItemViewModel("Кафедры", "#", true),
                         new MenuItemViewModel("Сотрудники", "#", true),
                         new MenuItemViewModel("Выпускники", "#", true),
-                        new MenuItemViewModel("Партнеры/работодатели", "#", true),
+                        new MenuItemViewModel("Партнеры / работодатели", "#", true),
                         new MenuItemViewModel("Библиотека", "#", true),
                         new MenuItemViewModel("Видеотека", "#", true),
                         new MenuItemViewModel("Школа", "for-scholars", true),

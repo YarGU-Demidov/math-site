@@ -8,13 +8,11 @@
         <!-- Header -->
         @Html.Partial("Partials/Header", Model)
 
+        <!-- Content -->
         @RenderBody()
 
         <!-- Information -->
         @Html.Partial("Partials/Information", Model)
-
-        <!-- Content -->
-        @RenderBody()
 
         <!-- Footer -->
         @Html.Partial("Partials/Footer", Model)

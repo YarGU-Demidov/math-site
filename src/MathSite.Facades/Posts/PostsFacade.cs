@@ -91,15 +91,20 @@ namespace MathSite.Facades.Posts
 
             var postCacheKey = $"{postTypeAlias}:PostData:{url}";
 
+            async Task<Post> GetPost(Specification<Post> specifications)
+            {
+                return await Repository.WithPostSetttings().FirstOrDefaultAsync(specifications);
+            }
+
             return cache
                 ? await MemoryCache.GetOrCreateAsync(postCacheKey, async entry =>
                 {
                     entry.Priority = cachePriority;
                     entry.SetSlidingExpiration(CacheMinutes);
 
-                    return await Repository.FirstOrDefaultAsync(requirements);
+                    return await GetPost(requirements);
                 })
-                : await Repository.FirstOrDefaultAsync(requirements);
+                : await GetPost(requirements);
         }
 
 
@@ -177,7 +182,7 @@ namespace MathSite.Facades.Posts
 
         private async Task<int> GetPerPageCountAsync(bool cache)
         {
-            return int.Parse(await SiteSettingsFacade.GetStringSettingAsync(SiteSettingsNames.PerPage, cache) ?? "5");
+            return int.Parse(await SiteSettingsFacade.GetStringSettingAsync(SiteSettingsNames.PerPage, cache) ?? "18");
         }
 
         private async Task<int> GetPostsWithTypeCount(
@@ -189,8 +194,9 @@ namespace MathSite.Facades.Posts
         )
         {
             var requirements = CreateRequirements(postTypeAlias, state, publishState, frontPageState);
+            var cacheKey = $"PostType={postTypeAlias};Count";
 
-            return await GetCountAsync(requirements, cache, CacheMinutes);
+            return await GetCountAsync(requirements, cache, CacheMinutes, cacheKey);
         }
 
         private static Specification<Post> CreateRequirements(

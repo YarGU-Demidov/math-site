@@ -77,6 +77,13 @@ namespace MathSite
                     defaults: new {controller = "News", action = "Index"}
                 );
 
+                // события
+                routes.MapRoute(
+                    name: "Events",
+                    template: "event/{*query}",
+                    defaults: new {controller = "Events", action = "Index"}
+                );
+
                 // статические страницы
                 routes.MapRoute(
                     name: "Pages",

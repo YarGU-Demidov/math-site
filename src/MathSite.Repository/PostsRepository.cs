@@ -97,15 +97,13 @@ namespace MathSite.Repository
         {
             _query = GetCurrentQuery().Where(predicate);
 
-            var query = GetAllWithPaging(skip, limit);
-
             Expression<Func<Post, DateTime>> orderBy = post => post.PublishDate;
 
-            query = desc 
-                ? query.OrderByDescending(orderBy) 
-                : query.OrderBy(orderBy);
+            _query = desc 
+                ? _query.OrderByDescending(orderBy) 
+                : _query.OrderBy(orderBy);
 
-            return await query.ToArrayAsync();
+            return await GetAllWithPaging(skip, limit).ToArrayAsync();
         }
     }
 }

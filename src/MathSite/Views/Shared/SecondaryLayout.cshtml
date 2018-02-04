@@ -4,15 +4,20 @@
     <head>
         @Html.Partial("Partials/Headers")
     </head>
-
-    <body>
+    <body class="body">
+        <!-- Header -->
+        @Html.Partial("Partials/Header", Model)
 
         @RenderBody()
+        
+        <!-- Information -->
+        @Html.Partial("Partials/Information", Model)
+
         <!-- Footer -->
-        @Html.Partial("Partials/Footer")
+        @Html.Partial("Partials/Footer", Model)
 
         <!-- Scripts -->
-        @Html.Partial("Partials/Scripts")
+        @Html.Partial("Partials/Scripts", Model)
 
     </body>
 </html>
