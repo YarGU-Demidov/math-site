@@ -9,7 +9,7 @@
         <div class="jumbotron__content">
             Сферы науки, техники и&nbsp;технологии, охватывающие совокупность проблем,<br> связанных с&nbsp;обеспечением защищенности объектов информатизации в <br> условиях существования угроз в&nbsp;информационной сфере
         </div>
-        <a class="jumbotron__action button button_big button_inverted button_sparse" href="#">
+        <a class="jumbotron__action button button_big button_inverted button_sparse" href="/computer-security">
             Узнать, что нужно для поступления
         </a>
     </div>
@@ -18,19 +18,19 @@
 <div class="info">
     <div class="info__wrap container">
         <div class="info__list">
-            <a class="info__item" href="#">
+            <a class="info__item" href="/how-to-enter">
                 <div class="feature feature_entering">
                     <div class="feature__heading">Как поступить?</div>
                     <div class="feature__content">Пошаговое руководство. <br> Полезные советы.</div>
                 </div>
             </a>
-            <a class="info__item" href="#">
+            <a class="info__item" href="/how-to-learn">
                 <div class="feature feature_study">
                     <div class="feature__heading">Как учиться?</div>
                     <div class="feature__content">Олимпиады. <br> Какие классные кафедры. <br> Что если не&nbsp;понятно?</div>
                 </div>
             </a>
-            <a class="info__item" href="#">
+            <a class="info__item" href="/where-to-work">
                 <div class="feature feature_work">
                     <div class="feature__heading">Где трудиться?</div>
                     <div class="feature__content">Что Вас ждет в&nbsp;будущем? <br> Куда пойти работать.<br> Есть&nbsp;ли смысл в&nbsp;этой жизни?</div>
@@ -73,21 +73,7 @@
         <div class="events__list">
             @foreach (var eventModel in Model.Events)
             {
-                <article class="events__item">
-                    <a class="event-thumb" href="@eventModel.Url">
-                        <div class="events__heading">
-                            @eventModel.Title
-                        </div>
-                        <div class="event-thumb__note">
-                            <time class="event-thumb__time" datetime="@eventModel.DateAndTime.ToString("O")">
-                                @eventModel.DateAndTime.ToString("dd MMMM yyyy г.")
-                            </time>
-                            <div class="event-thumb__place">
-                                @eventModel.Location
-                            </div>
-                        </div>
-                    </a>
-                </article>
+                @Html.Partial("Partials/Posts/EventPreview", eventModel)
             }
         </div>
     </div>

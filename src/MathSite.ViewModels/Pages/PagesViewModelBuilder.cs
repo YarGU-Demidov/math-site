@@ -28,6 +28,7 @@ namespace MathSite.ViewModels.Pages
                 throw new PostNotFoundException(query);
 
             model.PageTitle.Title = post.Title;
+            model.Title = post.Title;
             model.Content = post.Content;
 
             return model;
