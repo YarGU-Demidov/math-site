@@ -14,6 +14,7 @@
         IPostSettingRepository PostSettingRepository { get; }
         IPostTypeRepository PostTypeRepository { get; }
         IGroupTypeRepository GroupTypeRepository { get; }
+        ICategoryRepository CategoryRepository { get; }
 
         T TryGetRepository<T>() 
             where T: class, IRepository;

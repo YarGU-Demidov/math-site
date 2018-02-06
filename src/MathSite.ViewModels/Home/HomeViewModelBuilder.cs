@@ -2,34 +2,43 @@
 using System.Linq;
 using System.Threading.Tasks;
 using MathSite.Common;
+using MathSite.Common.Extensions;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
+using MathSite.Facades.Categories;
 using MathSite.Facades.Posts;
 using MathSite.Facades.SiteSettings;
 using MathSite.ViewModels.Home.EventPreview;
 using MathSite.ViewModels.Home.PostPreview;
+using MathSite.ViewModels.Home.StudentActivityPreview;
 
 namespace MathSite.ViewModels.Home
 {
     public class HomeViewModelBuilder : CommonViewModelBuilder, IHomeViewModelBuilder
     {
-        private readonly IPostPreviewViewModelBuilder _postPreviewViewModelBuilder;
         private readonly IEventPreviewViewModelBuilder _eventPreviewViewModelBuilder;
+        private readonly IStudentActivityPreviewViewModelBuilder _activityPreviewViewModelBuilder;
+        private readonly ICategoryFacade _categoryFacade;
+        private readonly IPostPreviewViewModelBuilder _postPreviewViewModelBuilder;
         private readonly IPostsFacade _postsFacade;
 
         public HomeViewModelBuilder(
-            ISiteSettingsFacade siteSettingsFacade, 
+            ISiteSettingsFacade siteSettingsFacade,
             IPostsFacade postsFacade,
             IPostPreviewViewModelBuilder postPreviewViewModelBuilder,
-            IEventPreviewViewModelBuilder eventPreviewViewModelBuilder
+            IEventPreviewViewModelBuilder eventPreviewViewModelBuilder,
+            IStudentActivityPreviewViewModelBuilder activityPreviewViewModelBuilder,
+            ICategoryFacade categoryFacade
         )
             : base(siteSettingsFacade)
         {
             _postsFacade = postsFacade;
             _postPreviewViewModelBuilder = postPreviewViewModelBuilder;
             _eventPreviewViewModelBuilder = eventPreviewViewModelBuilder;
+            _activityPreviewViewModelBuilder = activityPreviewViewModelBuilder;
+            _categoryFacade = categoryFacade;
         }
-        
+
         public async Task<HomeIndexViewModel> BuildIndexModel()
         {
             var model = await BuildCommonViewModelAsync<HomeIndexViewModel>();
@@ -43,27 +52,46 @@ namespace MathSite.ViewModels.Home
             const string postType = PostTypeAliases.News;
 
             var posts = await _postsFacade.GetPostsAsync(
-                postTypeAlias: postType, 
-                page: 1, 
-                perPage: 6, 
-                state: RemovedStateRequest.Excluded, 
-                publishState: PublishStateRequest.Published, 
-                frontPageState: FrontPageStateRequest.Visible, 
+                postTypeAlias: postType,
+                page: 1,
+                perPage: 6,
+                state: RemovedStateRequest.Excluded,
+                publishState: PublishStateRequest.Published,
+                frontPageState: FrontPageStateRequest.Visible,
                 cache: true
             );
 
             var events = await _postsFacade.GetPostsAsync(
-                PostTypeAliases.Event,
-                1,
-                3,
-                RemovedStateRequest.Excluded,
-                PublishStateRequest.Published,
-                FrontPageStateRequest.AllVisibilityStates,
-                true
+                postTypeAlias: PostTypeAliases.Event,
+                page: 1,
+                perPage: 3,
+                state: RemovedStateRequest.Excluded,
+                publishState: PublishStateRequest.Published,
+                frontPageState: FrontPageStateRequest.AllVisibilityStates,
+                cache: true
             );
+
+            IEnumerable<Post> studentActivities = new List<Post>();
+
+            var category = await _categoryFacade.GetByAliasAsync("students-activities");
+
+            if (category.IsNotNull())
+            {
+                studentActivities = await _postsFacade.GetPostsAsync(
+                    categoryId: category.Id,
+                    postTypeAlias: PostTypeAliases.News,
+                    page: 1,
+                    perPage: 4,
+                    state: RemovedStateRequest.Excluded,
+                    publishState: PublishStateRequest.Published,
+                    frontPageState: FrontPageStateRequest.AllVisibilityStates,
+                    cache: true
+                );
+            }
 
             model.Posts = GetPostsModels(posts);
             model.Events = GetEventsModels(events);
+            model.StudentsActivities = GetStudentActivityModels(studentActivities);
         }
 
         private IEnumerable<EventPreviewViewModel> GetEventsModels(IEnumerable<Post> events)
@@ -75,10 +103,14 @@ namespace MathSite.ViewModels.Home
         {
             return posts.Select(_postPreviewViewModelBuilder.Build);
         }
+        private IEnumerable<StudentActivityViewModel> GetStudentActivityModels(IEnumerable<Post> posts)
+        {
+            return posts.Select(_activityPreviewViewModelBuilder.Build);
+        }
 
         private async Task FillPageNameAsync(CommonViewModel model)
         {
-            var title = await SiteSettingsFacade[SiteSettingsNames.DefaultHomePageTitle];
+            var title = await SiteSettingsFacade.GetDefaultHomePageTitle();
 
             model.PageTitle.Title = title ?? "Главная страница";
         }

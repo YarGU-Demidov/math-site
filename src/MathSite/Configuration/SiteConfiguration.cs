@@ -72,6 +72,13 @@ namespace MathSite
 
                 // новости
                 routes.MapRoute(
+                    name: "Categories",
+                    template: "category/{*query}",
+                    defaults: new {controller = "News", action = "ByCategory"}
+                );
+
+                // новости
+                routes.MapRoute(
                     name: "News",
                     template: "news/{*query}",
                     defaults: new {controller = "News", action = "Index"}

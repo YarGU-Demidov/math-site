@@ -2,6 +2,7 @@
 using MathSite.ViewModels.Home;
 using MathSite.ViewModels.Home.EventPreview;
 using MathSite.ViewModels.Home.PostPreview;
+using MathSite.ViewModels.Home.StudentActivityPreview;
 using MathSite.ViewModels.News;
 using MathSite.ViewModels.Pages;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,6 +28,7 @@ namespace MathSite.ViewModels
                 .AddScoped<INewsViewModelBuilder, NewsViewModelBuilder>()
                 .AddScoped<IEventsViewModelBuilder, EventsViewModelBuilder>()
                 .AddScoped<IPagesViewModelBuilder, PagesViewModelBuilder>()
+                .AddScoped<IStudentActivityPreviewViewModelBuilder, StudentActivityViewModelBuilder>()
                 .AddScoped<IPostPreviewViewModelBuilder, PostPreviewViewModelBuilder>()
                 .AddScoped<IEventPreviewViewModelBuilder, EventPreviewViewModelBuilder>();
         }

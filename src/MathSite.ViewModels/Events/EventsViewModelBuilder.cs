@@ -34,7 +34,8 @@ namespace MathSite.ViewModels.Events
             return model;
         }
 
-        public async Task<EventItemViewModel> BuildNewsItemViewModelAsync(Guid currentUserId, string query, int page = 1)
+        public async Task<EventItemViewModel> BuildNewsItemViewModelAsync(Guid currentUserId, string query,
+            int page = 1)
         {
             var model = await BuildSecondaryViewModel<EventItemViewModel>();
 
@@ -61,7 +62,8 @@ namespace MathSite.ViewModels.Events
             return new PaginatorViewModel
             {
                 CurrentPage = page,
-                PagesCount = await PostsFacade.GetPostPagesCountAsync(postType, RemovedStateRequest.Excluded, PublishStateRequest.Published, FrontPageStateRequest.AllVisibilityStates, true),
+                PagesCount = await PostsFacade.GetPostPagesCountAsync(postType, RemovedStateRequest.Excluded,
+                    PublishStateRequest.Published, FrontPageStateRequest.AllVisibilityStates, true),
                 Controller = "Events"
             };
         }
@@ -69,15 +71,25 @@ namespace MathSite.ViewModels.Events
 
         private async Task FillIndexPageNameAsync(CommonViewModel model)
         {
-            var title = await SiteSettingsFacade[SiteSettingsNames.DefaultNewsPageTitle];
+            var title = await SiteSettingsFacade.GetDefaultNewsPageTitle();
 
             model.PageTitle.Title = title ?? "Новости нашего факультета";
         }
 
         private async Task BuildPosts(EventsIndexViewModel model, int page)
         {
-            var postType = PostTypeAliases.Event;
-            var posts = (await PostsFacade.GetPostsAsync(postType, page, true)).ToArray();
+            const string postType = PostTypeAliases.Event;
+            const bool cache = true;
+
+            var posts = await PostsFacade.GetPostsAsync(
+                postType,
+                page,
+                await SiteSettingsFacade.GetPerPageCountAsync(cache),
+                RemovedStateRequest.Excluded,
+                PublishStateRequest.Published,
+                FrontPageStateRequest.AllVisibilityStates,
+                cache: cache
+            );
 
             model.Posts = GetPosts(posts);
         }

@@ -25,6 +25,22 @@ namespace MathSite.Controllers
                 : await ShowNewsItem(query, page);
         }
 
+        public async Task<IActionResult> ByCategory(string query, [FromQuery] int page = 1)
+        {
+            try
+            {
+                return View("ByCategory", await _viewModelBuilder.BuildByCategoryViewModelAsync(query, page));
+            }
+            catch (PostNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (CategoryDoesNotExists)
+            {
+                return NotFound();
+            }
+        }
+
         [NonAction]
         private async Task<IActionResult> ShowAllNews(int page)
         {

@@ -35,8 +35,8 @@ namespace MathSite.ViewModels
         {
             var pageTitle = new PageTitleViewModel(
                 "",
-                await SiteSettingsFacade[SiteSettingsNames.TitleDelimiter],
-                await SiteSettingsFacade[SiteSettingsNames.SiteName]
+                await SiteSettingsFacade.GetTitleDelimiter(),
+                await SiteSettingsFacade.GetSiteName()
             );
 
             viewModel.PageTitle = pageTitle;

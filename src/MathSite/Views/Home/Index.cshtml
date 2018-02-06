@@ -1,4 +1,5 @@
-﻿@model HomeIndexViewModel
+﻿@using MathSite.Common.Extensions
+@model HomeIndexViewModel
 <div class="jumbotron">
     <div class="jumbotron__wrap container">
         <div class="jumbotron__head section-head">
@@ -112,52 +113,27 @@
     </div>
 </div>
 
-<div class="life">
-    <div class="life__wrap container">
-        <div class="life__head section-head">
-            <div class="section-head__title heading heading_inverted heading_medium">
-                Студенческая жизнь
-            </div>
-            <a class="section-head__details button" href="#">
-                Все сразу
-            </a>
-        </div>
-        <div class="life__list">
-            <div class="life__item article-thumb">
-                <a class="article-thumb__preview" href="#">
-                    <img class="article-thumb__image" srcset="images/default_post_preview@2x.png 2x" src="images/default_post_preview@2x.png" width="408" height="272">
-                </a>
-                <div class="article-thumb__heading">
-                    <a class="article-thumb__link" href="#">Студвесна 2017</a>
+@if (Model.StudentsActivities.IsNotNull() && Model.StudentsActivities.Any())
+{
+    <div class="life">
+        <div class="life__wrap container">
+            <div class="life__head section-head">
+                <div class="section-head__title heading heading_inverted heading_medium">
+                    Студенческая жизнь
                 </div>
-            </div>
-            <div class="life__item article-thumb">
-                <a class="article-thumb__preview" href="#">
-                    <img class="article-thumb__image" srcset="images/default_post_preview@2x.png 2x" src="images/default_post_preview@2x.png" width="408" height="272">
+                <a class="section-head__details button" href="/category/students-activities">
+                    Все сразу
                 </a>
-                <div class="article-thumb__heading">
-                    <a class="article-thumb__link" href="#">ИТ-команда ЯрГУ завоевала диплом&nbsp;II степени</a>
-                </div>
             </div>
-            <div class="life__item article-thumb">
-                <a class="article-thumb__preview" href="#">
-                    <img class="article-thumb__image" srcset="images/default_post_preview@2x.png 2x" src="images/default_post_preview@2x.png" width="408" height="272">
-                </a>
-                <div class="article-thumb__heading">
-                    <a class="article-thumb__link" href="#">Успехи наших первокурсников на&nbsp;олимпиаде в&nbsp;Вологде</a>
-                </div>
-            </div>
-            <div class="life__item article-thumb">
-                <a class="article-thumb__preview" href="#">
-                    <img class="article-thumb__image" srcset="images/default_post_preview@2x.png 2x" src="images/default_post_preview@2x.png" width="408" height="272">
-                </a>
-                <div class="article-thumb__heading">
-                    <a class="article-thumb__link" href="#">Интеллектуальные игры</a>
-                </div>
+            <div class="life__list">
+                @foreach (var activity in Model.StudentsActivities)
+                {
+                    @Html.Partial("StudentsActivitiesPreview", activity)
+                }
             </div>
         </div>
     </div>
-</div>
+}
 
 <div class="leaders">
     <div class="leaders__wrap container">
