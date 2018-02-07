@@ -15,8 +15,15 @@ namespace MathSite.Db.DbExtensions
             }
             catch (Exception e) when (e.GetType().Name == "SqliteException")
             {
-                var sql = $"DELETE FROM \"{tableName ?? typeof(TEntity).Name}\"";
-                await context.Database.ExecuteSqlCommandAsync(sql);
+                try
+                {
+                    var sql = $"DELETE FROM \"{tableName ?? typeof(TEntity).Name}\"";
+                    await context.Database.ExecuteSqlCommandAsync(sql);
+                }
+                catch (Exception)
+                {
+                    context.Set<TEntity>().RemoveRange(context.Set<TEntity>());
+                }
             }
         }
     }
