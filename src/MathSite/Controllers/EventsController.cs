@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using MathSite.Common.Exceptions;
+using MathSite.Common.Extensions;
 using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
 using MathSite.ViewModels.Events;
@@ -20,7 +21,7 @@ namespace MathSite.Controllers
 
         public async Task<IActionResult> Index(string query, [FromQuery] int page = 1)
         {
-            return string.IsNullOrWhiteSpace(query)
+            return query.IsNullOrWhiteSpace()
                 ? await ShowAllNews(page)
                 : await ShowNewsItem(query, page);
         }

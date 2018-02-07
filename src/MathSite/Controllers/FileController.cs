@@ -39,6 +39,10 @@ namespace MathSite.Controllers
         public async Task<IActionResult> Download(Guid id)
         {
             var (fileName, fileStream, extension) = await _fileFacade.GetFileAsync(id);
+            
+            if(fileStream.IsNull())
+                return NotFound();
+
             var fileFormat = _fileFormatBuilder.GetFileFormatForExtension(extension);
             return File(fileStream, fileFormat.ContentType, fileName);
         }

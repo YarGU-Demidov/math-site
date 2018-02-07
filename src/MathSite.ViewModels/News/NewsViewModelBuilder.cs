@@ -48,9 +48,14 @@ namespace MathSite.ViewModels.News
             var model = await BuildSecondaryViewModel<NewsByCategoryViewModel>();
             await FillIndexPageNameAsync(model);
 
-            await BuildPosts(model, page);
+            var category = await GetCategoryAsync(categoryQuery);
 
-            model.Paginator = await GetPaginator(page);
+            await BuildPosts(model, page, category, true);
+
+            model.Paginator = await GetPaginator(page, category);
+
+            model.CategoryAlias = category?.Alias;
+            model.CategoryName = category?.Name;
 
             return model;
         }
@@ -73,13 +78,24 @@ namespace MathSite.ViewModels.News
             return model;
         }
 
-        private async Task<PaginatorViewModel> GetPaginator(int page)
+        private async Task<PaginatorViewModel> GetPaginator(int page, Category category = null)
         {
             var newsPostType = PostTypeAliases.News;
+
+            var postCount = await PostsFacade.GetPostPagesCountAsync(
+                category?.Id,
+                newsPostType,
+                await SiteSettingsFacade.GetPerPageCountAsync(),
+                RemovedStateRequest.Excluded,
+                PublishStateRequest.Published, 
+                FrontPageStateRequest.AllVisibilityStates, 
+                cache: true
+            );
+
             return new PaginatorViewModel
             {
                 CurrentPage = page,
-                PagesCount = await PostsFacade.GetPostPagesCountAsync(newsPostType, RemovedStateRequest.Excluded, PublishStateRequest.Published, FrontPageStateRequest.AllVisibilityStates, true),
+                PagesCount = postCount,
                 Controller = "News"
             };
         }
@@ -92,20 +108,20 @@ namespace MathSite.ViewModels.News
             model.PageTitle.Title = title ?? "Новости нашего факультета";
         }
 
-        private async Task BuildPosts(NewsIndexViewModel model, int page, string categoryAlias = null)
+        private async Task BuildPosts(NewsIndexViewModel model, int page, Category category = null, bool forceCategory = false)
         {
             const string postType = PostTypeAliases.News;
             const bool cache = true;
 
-            var category = await GetCategoryAsync(categoryAlias);
+            
 
-            if (category.IsNull())
+            if (category.IsNull() && forceCategory)
             {
-                throw new CategoryDoesNotExists(categoryAlias);
+                throw new CategoryDoesNotExists();
             }
 
             var posts = await PostsFacade.GetPostsAsync(
-                category.Id,
+                category?.Id,
                 postType,
                 page,
                 await SiteSettingsFacade.GetPerPageCountAsync(cache),

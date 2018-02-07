@@ -70,7 +70,7 @@ namespace MathSite
                     defaults: new {controller = "Home", action = "Index"}
                 );
 
-                // новости
+                // новости по категориям
                 routes.MapRoute(
                     name: "Categories",
                     template: "category/{*query}",

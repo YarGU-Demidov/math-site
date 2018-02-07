@@ -62,8 +62,13 @@ namespace MathSite.ViewModels.Events
             return new PaginatorViewModel
             {
                 CurrentPage = page,
-                PagesCount = await PostsFacade.GetPostPagesCountAsync(postType, RemovedStateRequest.Excluded,
-                    PublishStateRequest.Published, FrontPageStateRequest.AllVisibilityStates, true),
+                PagesCount = await PostsFacade.GetPostPagesCountAsync(
+                    postType, 
+                    await SiteSettingsFacade.GetPerPageCountAsync(),
+                    RemovedStateRequest.Excluded,
+                    PublishStateRequest.Published, 
+                    FrontPageStateRequest.AllVisibilityStates, 
+                    true),
                 Controller = "Events"
             };
         }

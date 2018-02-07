@@ -40,20 +40,7 @@ namespace MathSite.Facades.Posts
         private TimeSpan CacheMinutes { get; } = TimeSpan.FromMinutes(10);
 
         public ISiteSettingsFacade SiteSettingsFacade { get; }
-
-        public async Task<int> GetPostPagesCountAsync(
-            string postTypeAlias, 
-            RemovedStateRequest state,
-            PublishStateRequest publishState, 
-            FrontPageStateRequest frontPageState, 
-            bool cache
-        )
-        {
-            var perPage = await SiteSettingsFacade.GetPerPageCountAsync(cache);
-
-            return await GetPostPagesCountAsync(postTypeAlias, perPage, state, publishState, frontPageState, cache);
-        }
-
+        
         public async Task<int> GetPostPagesCountAsync(
             string postTypeAlias, 
             int perPage, 
@@ -63,7 +50,20 @@ namespace MathSite.Facades.Posts
             bool cache
         )
         {
-            var newsCount = await GetPostsWithTypeCount(postTypeAlias, state, publishState, frontPageState, cache);
+            return await GetPostPagesCountAsync(null, postTypeAlias, perPage, state, publishState, frontPageState, cache);
+        }
+
+        public async Task<int> GetPostPagesCountAsync(
+            Guid? categoryId, 
+            string postTypeAlias, 
+            int perPage, 
+            RemovedStateRequest state,
+            PublishStateRequest publishState, 
+            FrontPageStateRequest frontPageState, 
+            bool cache
+        )
+        {
+            var newsCount = await GetPostsWithTypeCount(postTypeAlias, categoryId, state, publishState, frontPageState, cache);
 
             return (int) Math.Ceiling(newsCount / (float) perPage);
         }
@@ -157,7 +157,7 @@ namespace MathSite.Facades.Posts
             var cacheKey =
                 $"Post={postTypeAlias ?? "ALL"}:Page={page}:PerPage={perPage}:Removed={state}:Published={publishState}:FrontPage={frontPageState}";
 
-            if (categoryId.IsNotNull())
+            if (categoryId.HasValue)
                 cacheKey += $":Category={categoryId.ToString()}";
 
             async Task<IEnumerable<Post>> GetPosts(Specification<Post> specification, int perPageCount, int toSkipCount)
@@ -183,15 +183,19 @@ namespace MathSite.Facades.Posts
         }
 
         private async Task<int> GetPostsWithTypeCount(
-            string postTypeAlias, 
+            string postTypeAlias,
+            Guid? categoryId,
             RemovedStateRequest state,
             PublishStateRequest publishState, 
             FrontPageStateRequest frontPageState, 
             bool cache
         )
         {
-            var requirements = CreateRequirements(postTypeAlias, state, publishState, frontPageState);
+            var requirements = CreateRequirements(postTypeAlias, state, publishState, frontPageState, categoryId);
             var cacheKey = $"PostType={postTypeAlias};Count";
+
+            if (categoryId.HasValue)
+                cacheKey += $";CategoryId={categoryId}";
 
             return await GetCountAsync(requirements, cache, CacheMinutes, cacheKey);
         }
