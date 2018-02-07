@@ -33,10 +33,11 @@ namespace MathSite.Facades
         protected async Task<int> GetCountAsync(
             Expression<Func<TEntity, bool>> requirements, 
             bool cache, 
-            TimeSpan? expirationTime = null
+            TimeSpan? expirationTime = null,
+            string cacheKey = null
         )
         {
-            return await GetCountAsync(requirements, Repository, cache, expirationTime);
+            return await GetCountAsync(requirements, Repository, cache, expirationTime, cacheKey);
         }
     }
 
@@ -56,7 +57,8 @@ namespace MathSite.Facades
             Expression<Func<TEntity, bool>> requirements,
             IRepository<TEntity, TKey> repo,
             bool cache,
-            TimeSpan? expirationTime = null
+            TimeSpan? expirationTime = null,
+            string cacheKey = null
         )
             where TEntity : class, IEntity<TKey>
         {
@@ -65,7 +67,7 @@ namespace MathSite.Facades
 
             return cache
                 ? await MemoryCache.GetOrCreateAsync(
-                    $"{typeof(TEntity).Namespace}.{typeof(TEntity).Name}:Count",
+                    cacheKey ?? $"{typeof(TEntity).Namespace}.{typeof(TEntity).Name}:Count",
                     async entry =>
                     {
                         entry.SetSlidingExpiration(expirationTime.Value);

@@ -4,13 +4,21 @@ using System.Runtime.Serialization;
 namespace MathSite.Common.Exceptions
 {
     [Serializable]
-    public class NoMorePosts : ApplicationException
+    public class NoMorePosts : EntityNotFoundException
     {
         public NoMorePosts()
         {
         }
 
-        protected NoMorePosts(SerializationInfo info, StreamingContext context) : base(info, context)
+        public NoMorePosts(SerializationInfo serializationInfo, StreamingContext context) : base(serializationInfo, context)
+        {
+        }
+
+        public NoMorePosts(Type entityType, object id) : base(entityType, id)
+        {
+        }
+
+        public NoMorePosts(Type entityType, object id, Exception innerException) : base(entityType, id, innerException)
         {
         }
 

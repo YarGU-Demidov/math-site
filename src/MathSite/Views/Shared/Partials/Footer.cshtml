@@ -1,43 +1,13 @@
 ﻿@model CommonViewModel
 
 <footer class="footer">
-    <div class="container">
-        <div class="footer__nav">
-            <nav class="column-nav">
-                <section>
-                    <ul>
-                        @Html.Partial("Partials/Menu/Menu", Model.FooterMenus.Item1)
-                    </ul>
-                </section>
-                <section>
-                    <ul>
-                        @Html.Partial("Partials/Menu/Menu", Model.FooterMenus.Item2)
-                    </ul>
-                </section>
-                <section>
-                    <ul>
-                        @Html.Partial("Partials/Menu/Menu", Model.FooterMenus.Item3)
-                    </ul>
-                </section>
-                <section>
-                    <ul>
-                        @Html.Partial("Partials/Menu/Menu", Model.FooterMenus.Item4)
-                    </ul>
-                </section>
-            </nav>
+    <div class="footer__wrap container">
+        <div class="footer__info">
+            &copy;&nbsp;Математический факультет ЯрГУ им. П.Г. Демидова, 2017<br>
+            &copy;&nbsp;Ярославский государственный университет&nbsp;им. П.Г. Демидова
         </div>
-        <div class="footer__secondary_line"></div>
-
-        <div class="footer__secondary">
-            <div class="footer__secondary_logo"></div>
-            <div class="footer__secondary_description">
-                <div class="footer__secondary_title">
-                    &copy; Математический факультет ЯрГУ им.П.Г.Демидова, 2016
-                </div>
-                <div class="footer__secondary_title">
-                    &copy; Ярославский государственный университет им.П.Г.Демидова
-                </div>
-            </div>
-        </div>
+        <a class="footer__support developer" href="http://akvelon-ivanovo.ru/about">
+            Сайт сделан при поддержке компании
+        </a>
     </div>
 </footer>

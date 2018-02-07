@@ -1,0 +1,27 @@
+﻿@model StudentActivityViewModel
+@{
+    var defaultImageUrl = Url.Content("images/default_post_preview@2x.png");
+
+    var imageUrl = !string.IsNullOrWhiteSpace(Model.PreviewImageId)
+        ? Url.Action("Get", "File", new {id = Model.PreviewImageId })
+        : defaultImageUrl;
+
+    var imageUrl2X = !string.IsNullOrWhiteSpace(Model.PreviewImageId2X)
+        ? Url.Action("Get", "File", new { id = Model.PreviewImageId2X })
+        : defaultImageUrl;
+}
+
+<div class="life__item article-thumb">
+    <a class="article-thumb__preview" href="#">
+        <img class="article-thumb__image"
+             srcset="@imageUrl2X 2x"
+             src="@imageUrl"
+             alt="@Model.Title"
+             title="@Model.Title"
+             width="408" 
+             height="272">
+    </a>
+    <div class="article-thumb__heading">
+        <a class="article-thumb__link" href="@Model.Url">@Model.Title</a>
+    </div>
+</div>

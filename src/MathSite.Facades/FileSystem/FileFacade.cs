@@ -27,7 +27,7 @@ namespace MathSite.Facades.FileSystem
         /// <returns></returns>
         Task<Guid> SaveFileAsync(User currentUser, string name, Stream data, string dirPath = default);
 
-        Task<(string FileName, Stream FileStream)> GetFileAsync(Guid id);
+        Task<(string FileName, Stream FileStream, string Extension)> GetFileAsync(Guid id);
     }
 
 
@@ -54,12 +54,12 @@ namespace MathSite.Facades.FileSystem
             _directoryFacade = directoryFacade;
         }
 
-        public async Task<(string FileName, Stream FileStream)> GetFileAsync(Guid id)
+        public async Task<(string FileName, Stream FileStream, string Extension)> GetFileAsync(Guid id)
         {
             var file = await Repository.FirstOrDefaultAsync(id);
             return file.IsNull()
-                ? (null, null)
-                : (file.Name, _fileStorage.GetFileStream(file.Path));
+                ? (null, null, null)
+                : (file.Name, _fileStorage.GetFileStream(file.Path), file.Extension);
         }
 
         public async Task<Guid> SaveFileAsync(User currentUser, string name, Stream data, string dirPath = default)

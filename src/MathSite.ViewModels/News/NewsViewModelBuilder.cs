@@ -4,27 +4,48 @@ using System.Linq;
 using System.Threading.Tasks;
 using MathSite.Common;
 using MathSite.Common.Exceptions;
+using MathSite.Common.Extensions;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
+using MathSite.Facades.Categories;
 using MathSite.Facades.Posts;
 using MathSite.Facades.SiteSettings;
+using MathSite.ViewModels.Home.PostPreview;
 using MathSite.ViewModels.SharedModels;
-using MathSite.ViewModels.SharedModels.PostPreview;
 using MathSite.ViewModels.SharedModels.SecondaryPage;
 
 namespace MathSite.ViewModels.News
 {
     public class NewsViewModelBuilder : SecondaryViewModelBuilder, INewsViewModelBuilder
     {
-        public NewsViewModelBuilder(ISiteSettingsFacade siteSettingsFacade, IPostsFacade postsFacade,
-            IPostPreviewViewModelBuilder postPreviewViewModelBuilder)
+        private readonly ICategoryFacade _categoryFacade;
+
+        public NewsViewModelBuilder(
+            ISiteSettingsFacade siteSettingsFacade, 
+            IPostsFacade postsFacade,
+            IPostPreviewViewModelBuilder postPreviewViewModelBuilder,
+            ICategoryFacade categoryFacade
+        )
             : base(siteSettingsFacade, postsFacade, postPreviewViewModelBuilder)
         {
+            _categoryFacade = categoryFacade;
         }
 
         public async Task<NewsIndexViewModel> BuildIndexViewModelAsync(int page = 1)
         {
             var model = await BuildSecondaryViewModel<NewsIndexViewModel>();
+            await FillIndexPageNameAsync(model);
+
+            await BuildPosts(model, page);
+
+            model.Paginator = await GetPaginator(page);
+
+            return model;
+        }
+
+        public async Task<NewsByCategoryViewModel> BuildByCategoryViewModelAsync(string categoryQuery, int page)
+        {
+            var model = await BuildSecondaryViewModel<NewsByCategoryViewModel>();
             await FillIndexPageNameAsync(model);
 
             await BuildPosts(model, page);
@@ -44,6 +65,9 @@ namespace MathSite.ViewModels.News
                 throw new PostNotFoundException();
 
             model.Content = post.Content;
+            model.Title = post.Title;
+            model.PreviewImageId = post.PostSettings.PreviewImage?.Id.ToString();
+            model.PreviewImage2XId = post.PostSettings.PreviewImage?.Id.ToString();
             model.PageTitle.Title = post.Title;
 
             return model;
@@ -55,24 +79,48 @@ namespace MathSite.ViewModels.News
             return new PaginatorViewModel
             {
                 CurrentPage = page,
-                PagesCount = await PostsFacade.GetPostPagesCountAsync(newsPostType, RemovedStateRequest.Excluded, PublishStateRequest.Published, FrontPageStateRequest.AllVisibilityStates, true)
+                PagesCount = await PostsFacade.GetPostPagesCountAsync(newsPostType, RemovedStateRequest.Excluded, PublishStateRequest.Published, FrontPageStateRequest.AllVisibilityStates, true),
+                Controller = "News"
             };
         }
 
 
         private async Task FillIndexPageNameAsync(CommonViewModel model)
         {
-            var title = await SiteSettingsFacade[SiteSettingsNames.DefaultNewsPageTitle];
+            var title = await SiteSettingsFacade.GetDefaultNewsPageTitle();
 
             model.PageTitle.Title = title ?? "Новости нашего факультета";
         }
 
-        private async Task BuildPosts(NewsIndexViewModel model, int page)
+        private async Task BuildPosts(NewsIndexViewModel model, int page, string categoryAlias = null)
         {
-            var postType = PostTypeAliases.News;
-            var posts = (await PostsFacade.GetPostsAsync(postType, page, true)).ToArray();
+            const string postType = PostTypeAliases.News;
+            const bool cache = true;
+
+            var category = await GetCategoryAsync(categoryAlias);
+
+            if (category.IsNull())
+            {
+                throw new CategoryDoesNotExists(categoryAlias);
+            }
+
+            var posts = await PostsFacade.GetPostsAsync(
+                category.Id,
+                postType,
+                page,
+                await SiteSettingsFacade.GetPerPageCountAsync(cache),
+                RemovedStateRequest.Excluded,
+                PublishStateRequest.Published,
+                FrontPageStateRequest.AllVisibilityStates,
+                cache: cache
+            );
 
             model.Posts = GetPosts(posts);
+        }
+
+        private async Task<Category> GetCategoryAsync(string categoryAlias)
+        {
+            return await _categoryFacade.GetByAliasAsync(categoryAlias);
         }
 
         private IEnumerable<PostPreviewViewModel> GetPosts(IEnumerable<Post> posts)

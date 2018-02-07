@@ -1,0 +1,8 @@
+﻿@model IEnumerable<MenuItemViewModel>
+
+<div class="nav__section">
+    @foreach (var linkModel in Model)
+    {
+        @Html.Partial("Partials/MainMenu/MenuItem", linkModel)
+    }
+</div>

@@ -20,7 +20,7 @@
     @foreach (var dir in Model.Directories)
     {
         <li title="@dir.FullPath">
-            <a href="@Url.Action("Index", new {path = dir.FullPath})">@dir.Title</a>
+            <a href="@Url.Action("Index", new {path = dir.FullPath})" class="folder-line"><i class="material-icons">folder</i> @dir.Title</a>
         </li>
     }
 </ul>
@@ -28,8 +28,17 @@
     @foreach (var file in Model.Files)
     {
         <li title="@file.FullFilePath">
-            @file.Title<br/>
+            @file.Title 
+            <span class="download-icon" data-file-id="@file.Id"><i class="material-icons">file_download</i></span>
+            <span class="preivew-icon" data-file-id="@file.Id"><i class="material-icons">airplay</i></span>
+            <br/>
             Created at: @file.CreationDate
         </li>
     }
 </ol>
+@section ScriptsSection
+{
+    <script>
+        
+    </script>
+}

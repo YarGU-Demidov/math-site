@@ -65,8 +65,8 @@ namespace MathSite.Common.FileFormats
 
         public IFileFormat GetFileFormatForExtension(string extension)
         {
-            return _fileFormats.FirstOrDefault(format => format.Extensions.Any(formatExt => formatExt == extension)) ??
-                   UnknownFileFormat;
+            return _fileFormats.FirstOrDefault(format => format.Extensions.Any(formatExt => formatExt == extension)) 
+                   ?? UnknownFileFormat;
         }
     }
 }
