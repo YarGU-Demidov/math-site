@@ -49,7 +49,16 @@
                                         </a>
                                     </td>
                                     <th class="post__max-width">@post.Title</th>
-                                    <td>@post.PublishDate</td>
+                                    <td>@{
+                                        if(publishedText == String.Empty)
+                                        {
+                                            <p>Страница не опубликована</p>
+                                        }
+                                        else
+                                        {
+                                            <p>@post.PublishDate</p>
+                                        }
+                                    }</td>
                                     <td>
                                         <input type="checkbox" disabled="disabled" @onStartPageText/>
                                     </td>

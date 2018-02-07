@@ -11,13 +11,6 @@ using MathSite.Facades.SiteSettings;
 
 namespace MathSite.BasicAdmin.ViewModels.Pages
 {
-    public interface IPagesManagerViewModelBuilder
-    {
-        Task<IndexPagesViewModel> BuildIndexViewModel(int page, int perPage);
-		Task<IndexPagesViewModel> BuildRemovedViewModel(int page, int perPage);
-	    Task<CreatePageViewModel> BuildCreatedViewModel(Post post = null);
-	}
-
     public class PagesManagerViewModelBuilder : AdminPageWithPagingViewModelBuilder, IPagesManagerViewModelBuilder
     {
         private readonly IPostsFacade _postsFacade;
@@ -72,11 +65,11 @@ namespace MathSite.BasicAdmin.ViewModels.Pages
             return model;
         }
 
-		public async Task<CreatePageViewModel> BuildCreatedViewModel(Post post = null)
+		public async Task<CreatePageViewModel> BuildCreateViewModel(Post post = null)
 		{
 			var model = await BuildAdminBaseViewModelAsync<CreatePageViewModel>(
 				link => link.Alias == "Articles",
-				link => link.Alias == "Created"
+				link => link.Alias == "Create"
 			);
 
 			if (post != null)
@@ -85,6 +78,18 @@ namespace MathSite.BasicAdmin.ViewModels.Pages
 
 				await _postsFacade.CreatePostAsync(post);
 			}
+
+			return model;
+		}
+
+		public async Task<IndexPagesViewModel> BuildDeleteViewModel(Guid id)
+		{
+			var model = await BuildAdminBaseViewModelAsync<IndexPagesViewModel>(
+				link => link.Alias == "Articles",
+				link => link.Alias == "Delete"
+			);
+
+			await _postsFacade.DeletePostAsync(id);
 
 			return model;
 		}

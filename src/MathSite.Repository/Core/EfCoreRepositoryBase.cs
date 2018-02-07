@@ -213,6 +213,7 @@ namespace MathSite.Repository.Core
         {
             AttachIfNot(entity);
             Table.Remove(entity);
+	        Context.SaveChanges();
         }
 
         public override void Delete(TPrimaryKey id)
@@ -228,8 +229,10 @@ namespace MathSite.Repository.Core
             if (entity != null)
                 Delete(entity);
 
-            //Could not found the entity, do nothing.
-        }
+			Context.SaveChanges();
+
+			//Could not found the entity, do nothing.
+		}
 
         public override async Task<int> CountAsync()
         {

@@ -43,7 +43,7 @@ namespace MathSite.Areas.Manager.Controllers
 		[Route("manager/pages/create")]
 		public async Task<IActionResult> Create()
         {
-			return View("Create", await _modelBuilder.BuildCreatedViewModel());
+			return View("Create", await _modelBuilder.BuildCreateViewModel());
 		}
 
 		[HttpPost]
@@ -72,22 +72,25 @@ namespace MathSite.Areas.Manager.Controllers
 				PostSeoSetting = new PostSeoSetting()
 			};
 
-			await _modelBuilder.BuildCreatedViewModel(post);
+			await _modelBuilder.BuildCreateViewModel(post);
 
 			return View("Index", await _modelBuilder.BuildIndexViewModel(1, 10));
 		}
 
-		public async Task<IActionResult> EditPage(Guid id)
+		[HttpDelete("{id}")]
+		[Route("manager/pages/delete")]
+		public async Task<IActionResult> Delete([FromQuery] Guid id)
+		{
+			await _modelBuilder.BuildDeleteViewModel(id);
+			return View("Index", await _modelBuilder.BuildIndexViewModel(1, 10));
+		}
+
+		public async Task<IActionResult> Edit(Guid id)
         {
             throw new NotImplementedException();
         }
 
         public async Task<IActionResult> Recover(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<IActionResult> DeletePage(Guid id)
         {
             throw new NotImplementedException();
         }

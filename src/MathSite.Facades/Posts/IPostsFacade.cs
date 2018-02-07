@@ -31,5 +31,6 @@ namespace MathSite.Facades.Posts
         Task<IEnumerable<Post>> GetPostsAsync(string postTypeAlias, int page, int perPage, RemovedStateRequest state, PublishStateRequest publishState, FrontPageStateRequest frontPageState, bool cache);
 
         Task<Guid> CreatePostAsync(Post post);
-    }
+		Task DeletePostAsync(Guid id);
+	}
 }
