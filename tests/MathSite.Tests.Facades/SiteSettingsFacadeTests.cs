@@ -46,7 +46,7 @@ namespace MathSite.Tests.Facades
             await WithRepositoryAsync(async (manager, context, logger) =>
             {
                 var siteSettingsFacade = GetFacade(context, manager);
-                await context.SiteSettings.Clear();
+                await context.Clear<SiteSetting>();
                 
                 var value = await siteSettingsFacade.GetDefaultNewsPageTitle(false);
 
