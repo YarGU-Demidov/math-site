@@ -1,0 +1,9 @@
+﻿@model MenuItemViewModel
+    
+@{
+    var additionalClass = Model.IsHeading ? "nav__link_heading" : "";
+}    
+
+<div class="nav__item">
+    <a class="nav__link @additionalClass" href="@Model.Href" title="@Model.Title">@Model.Name</a>
+</div>

@@ -1,4 +1,5 @@
-﻿using MathSite.Facades.FileSystem;
+﻿using MathSite.Facades.Categories;
+using MathSite.Facades.FileSystem;
 using MathSite.Facades.Persons;
 using MathSite.Facades.Posts;
 using MathSite.Facades.SiteSettings;
@@ -29,6 +30,7 @@ namespace MathSite.Facades
                 .AddScoped<IPersonsFacade, PersonsFacade>()
                 .AddScoped<IFileFacade, FileFacade>()
                 .AddScoped<IDirectoryFacade, DirectoryFacade>()
+                .AddScoped<ICategoryFacade, CategoryFacade>()
                 .AddScoped<IUsersFacade, UsersFacade>();
         }
     }

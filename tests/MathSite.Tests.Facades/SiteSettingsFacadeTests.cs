@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using MathSite.Common.Crypto;
 using MathSite.Db;
 using MathSite.Db.DataSeeding.StaticData;
+using MathSite.Db.DbExtensions;
 using MathSite.Entities;
 using MathSite.Facades.SiteSettings;
 using MathSite.Facades.Users;
@@ -11,6 +12,7 @@ using MathSite.Facades.UserValidation;
 using MathSite.Repository.Core;
 using MathSite.Specifications.SiteSettings;
 using MathSite.Specifications.Users;
+using Microsoft.EntityFrameworkCore;
 using Xunit;
 
 namespace MathSite.Tests.Facades
@@ -28,15 +30,13 @@ namespace MathSite.Tests.Facades
 
                 var user = await GetUserByLogin(manager, UsersAliases.Mokeev1995);
 
-                var testSalt = Guid.NewGuid();
-                var testKey = $"testKey-{testSalt}";
-                var testValue = $"testValue-{testSalt}";
+                var testTitle = $"testTitle-{Guid.NewGuid()}";
 
-                await siteSettingsFacade.SetStringSettingAsync(user.Id, testKey, testValue);
+                await siteSettingsFacade.SetDefaultHomePageTitle(user.Id, testTitle);
 
-                var value = await siteSettingsFacade.GetStringSettingAsync(testKey, false);
+                var value = await siteSettingsFacade.GetDefaultHomePageTitle(false);
 
-                Assert.Equal(testValue, value);
+                Assert.Equal(testTitle, value);
             });
         }
 
@@ -46,33 +46,11 @@ namespace MathSite.Tests.Facades
             await WithRepositoryAsync(async (manager, context, logger) =>
             {
                 var siteSettingsFacade = GetFacade(context, manager);
-
-                var testKey = $"testKey-{Guid.NewGuid()}";
-
-                var value = await siteSettingsFacade.GetStringSettingAsync(testKey, false);
+                await context.Clear<SiteSetting>();
+                
+                var value = await siteSettingsFacade.GetDefaultNewsPageTitle(false);
 
                 Assert.Null(value);
-            });
-        }
-
-        [Fact]
-        public async Task IndexerTask()
-        {
-            await WithRepositoryAsync(async (manager, context, logger) =>
-            {
-                var siteSettingsFacade = GetFacade(context, manager);
-
-                var user = await GetUserByLogin(manager, UsersAliases.Mokeev1995);
-
-                var testSalt = Guid.NewGuid();
-                var testKey = $"testKey-{testSalt}";
-                var testValue = $"testValue-{testSalt}";
-
-                await siteSettingsFacade.SetStringSettingAsync(user.Id, testKey, testValue);
-
-                var value = await siteSettingsFacade[testKey];
-
-                Assert.Equal(testValue, value);
             });
         }
 
@@ -83,16 +61,14 @@ namespace MathSite.Tests.Facades
             {
                 var siteSettingsFacade = GetFacade(context, manager);
                 var user = await GetUserByLogin(manager, UsersAliases.Mokeev1995);
+                
+                var testValue = $"testValue-{Guid.NewGuid()}";
 
-                var testSalt = Guid.NewGuid();
-                var testKey = $"testKey-{testSalt}";
-                var testValue = $"testValue-{testSalt}";
-
-                var done = await siteSettingsFacade.SetStringSettingAsync(user.Id, testKey, testValue);
+                var done = await siteSettingsFacade.SetSiteName(user.Id, testValue);
 
                 Assert.True(done);
 
-                var requirements = new HasKeySpecification(testKey);
+                var requirements = new HasKeySpecification(SiteSettingsNames.SiteName);
 
                 var setting = await manager.SiteSettingsRepository.FirstOrDefaultAsync(requirements.ToExpression());
 

@@ -5,8 +5,16 @@ namespace MathSite.Facades.SiteSettings
 {
     public interface ISiteSettingsFacade : IFacade
     {
-        Task<string> this[string name] { get; }
-        Task<string> GetStringSettingAsync(string name, bool cache);
-        Task<bool> SetStringSettingAsync(Guid userId, string name, string value);
+        Task<int> GetPerPageCountAsync(bool cache = true, int defaultCount = 18);
+        Task<string> GetTitleDelimiter(bool cache = true);
+        Task<string> GetDefaultHomePageTitle(bool cache = true);
+        Task<string> GetDefaultNewsPageTitle(bool cache = true);
+        Task<string> GetSiteName(bool cache = true);
+
+        Task<bool> SetPerPageCountAsync(Guid userId, string perPageCount);
+        Task<bool> SetTitleDelimiter(Guid userId, string titleDelimiter);
+        Task<bool> SetDefaultHomePageTitle(Guid userId, string defaultHomePageTitle);
+        Task<bool> SetDefaultNewsPageTitle(Guid userId, string defaultNewsPageTitle);
+        Task<bool> SetSiteName(Guid userId, string siteName);
     }
 }

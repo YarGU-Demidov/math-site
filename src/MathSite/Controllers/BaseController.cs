@@ -31,6 +31,8 @@ namespace MathSite.Controllers
         [NonAction]
         private async Task TrySetUser(ActionContext context)
         {
+            if(CurrentUser != null && CurrentUserId != null)
+                return;
 
             if (!context.HttpContext.User.Identity.IsAuthenticated)
                 return;
@@ -57,8 +59,8 @@ namespace MathSite.Controllers
         [NonAction]
         public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            await base.OnActionExecutionAsync(context, next);
             await TrySetUser(context);
+            await next();
         }
     }
 }

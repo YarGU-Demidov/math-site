@@ -22,14 +22,15 @@ namespace MathSite.Facades.Posts
 
     public interface IPostsFacade : IFacade
     {
-        Task<int> GetPostPagesCountAsync(string postTypeAlias, RemovedStateRequest state, PublishStateRequest publishState, FrontPageStateRequest frontPageState, bool cache);
         Task<int> GetPostPagesCountAsync(string postTypeAlias, int perPage, RemovedStateRequest state, PublishStateRequest publishState, FrontPageStateRequest frontPageState, bool cache);
+        Task<int> GetPostPagesCountAsync(Guid? categoryId, string postTypeAlias, int perPage, RemovedStateRequest state, PublishStateRequest publishState, FrontPageStateRequest frontPageState, bool cache);
 
         Task<Post> GetPostByUrlAndTypeAsync(Guid currentUserId, string url, string postTypeAlias, bool cache);
-
-        Task<IEnumerable<Post>> GetPostsAsync(string postTypeAlias, int page, bool cache);
+        
+        Task<IEnumerable<Post>> GetPostsAsync(Guid? categoryId, string postTypeAlias, int page, int perPage, RemovedStateRequest state, PublishStateRequest publishState, FrontPageStateRequest frontPageState, bool cache);
         Task<IEnumerable<Post>> GetPostsAsync(string postTypeAlias, int page, int perPage, RemovedStateRequest state, PublishStateRequest publishState, FrontPageStateRequest frontPageState, bool cache);
 
-        Task<Guid> CreatePostAsync(Post post, PostSeoSetting seoSettings, PostSetting settings = null);
+        Task<Guid> CreatePostAsync(Post post);
+        Task DeletePostAsync(Guid id);
     }
 }

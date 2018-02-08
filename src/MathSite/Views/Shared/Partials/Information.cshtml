@@ -1,0 +1,47 @@
+﻿@model CommonViewModel
+
+<div class="information">
+    <div class="information__wrap container">
+        <div class="information__head">
+            <div class="section-head section-head_app">
+                <div class="section-head__title heading heading_inverted heading_app ">
+                    Узнай о&nbsp;нас больше
+                </div>
+            </div>
+            <div class="information__social media">
+                <a class="media__item channel channel_twitter" href="#">
+                    Твиттер
+                </a>
+                <a class="media__item channel channel_facebook" href="#">
+                    Фейсбук
+                </a>
+                <a class="media__item channel channel_vkontakte" href="#">
+                    Вконтакте
+                </a>
+                <a class="media__item channel channel_live-journal" href="#">
+                    Живой Журнал
+                </a>
+                <a class="media__item channel channel_odnoklassniki" href="#">
+                    Одноклассники
+                </a>
+                <a class="media__item channel channel_linked-in" href="#">
+                    Линкд Ин
+                </a>
+                <a class="media__item channel channel_google-plus" href="#">
+                    Гугл Плюс
+                </a>
+                <a class="media__item channel channel_yandex" href="#">
+                    Яндекс
+                </a>
+                <a class="media__item channel channel_mail" href="#">
+                    Мейл Ру
+                </a>
+            </div>
+        </div>
+        <nav class="information__body nav">
+            <div class="nav__wrap">
+                @Html.Partial("Partials/MainMenu", Model.MainMenuLinks)
+            </div>
+        </nav>
+    </div>
+</div>

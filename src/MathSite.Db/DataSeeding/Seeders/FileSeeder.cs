@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
+using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
 using Microsoft.Extensions.Logging;
 
@@ -23,23 +24,23 @@ namespace MathSite.Db.DataSeeding.Seeders
             var files = new[]
             {
                 CreateFile(
-                    "FirstFile",
+                    FileAliases.FirstFile,
                     "new-file.jpg",
-                    "jpg",
+                    ".jpg",
                     GetFileHash(new byte[] {1, 2, 3, 4, 5, 6}),
                     GetDirectoryByPath("/")
                 ),
                 CreateFile(
-                    "SecondFile",
+                    FileAliases.SecondFile,
                     "new-file-1.png",
-                    "png",
+                    ".png",
                     GetFileHash(new byte[] {7, 8, 9, 10, 11, 12, 13, 15}),
                     GetDirectoryByPath("/news")
                 ),
                 CreateFile(
-                    "File in path",
+                    FileAliases.FileInPath,
                     "new-file-2.docx",
-                    "docx",
+                    ".docx",
                     GetFileHash(new byte[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}),
                     GetDirectoryByPath("/news/previews")
                 )
@@ -62,8 +63,8 @@ namespace MathSite.Db.DataSeeding.Seeders
             
             while (names.Count > 0)
             {
-                tempName = names.Dequeue();
-                dir = dir.Directories.First(d => d.Name == tempName);
+                var tempNameCycle = names.Dequeue();
+                dir = dir.Directories.First(d => d.Name == tempNameCycle);
             }
 
             return dir;

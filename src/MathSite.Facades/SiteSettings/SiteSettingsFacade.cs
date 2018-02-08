@@ -29,9 +29,57 @@ namespace MathSite.Facades.SiteSettings
             _usersFacade = usersFacade;
         }
 
-        public Task<string> this[string name] => GetStringSettingAsync(name, true);
+        public async Task<int> GetPerPageCountAsync(bool cache, int defaultCount = 18)
+        {
+            return int.Parse(await GetStringSettingAsync(SiteSettingsNames.PerPage, cache) ?? defaultCount.ToString());
+        }
 
-        public async Task<string> GetStringSettingAsync(string name, bool cache)
+        public Task<string> GetTitleDelimiter(bool cache = true)
+        {
+            return GetStringSettingAsync(SiteSettingsNames.TitleDelimiter, cache);
+        }
+
+        public Task<string> GetDefaultHomePageTitle(bool cache = true)
+        {
+            return GetStringSettingAsync(SiteSettingsNames.DefaultHomePageTitle, cache);
+        }
+
+        public Task<string> GetDefaultNewsPageTitle(bool cache = true)
+        {
+            return GetStringSettingAsync(SiteSettingsNames.DefaultNewsPageTitle, cache);
+        }
+
+        public Task<string> GetSiteName(bool cache = true)
+        {
+            return GetStringSettingAsync(SiteSettingsNames.SiteName, cache);
+        }
+
+        public Task<bool> SetPerPageCountAsync(Guid userId, string perPageCount)
+        {
+            return SetStringSettingAsync(userId, SiteSettingsNames.PerPage, perPageCount);
+        }
+
+        public Task<bool> SetTitleDelimiter(Guid userId, string titleDelimiter)
+        {
+            return SetStringSettingAsync(userId, SiteSettingsNames.TitleDelimiter, titleDelimiter);
+        }
+
+        public Task<bool> SetDefaultHomePageTitle(Guid userId, string defaultHomePageTitle)
+        {
+            return SetStringSettingAsync(userId, SiteSettingsNames.DefaultHomePageTitle, defaultHomePageTitle);
+        }
+
+        public Task<bool> SetDefaultNewsPageTitle(Guid userId, string defaultNewsPageTitle)
+        {
+            return SetStringSettingAsync(userId, SiteSettingsNames.DefaultNewsPageTitle, defaultNewsPageTitle);
+        }
+
+        public Task<bool> SetSiteName(Guid userId, string siteName)
+        {
+            return SetStringSettingAsync(userId, SiteSettingsNames.SiteName, siteName);
+        }
+
+        private async Task<string> GetStringSettingAsync(string name, bool cache)
         {
             var settingValue = cache
                 ? await MemoryCache.GetOrCreateAsync(
@@ -48,7 +96,7 @@ namespace MathSite.Facades.SiteSettings
             return settingValue;
         }
 
-        public async Task<bool> SetStringSettingAsync(Guid userId, string name, string value)
+        private async Task<bool> SetStringSettingAsync(Guid userId, string name, string value)
         {
             var userExists = await _usersFacade.DoesUserExistsAsync(userId);
             if (!userExists)

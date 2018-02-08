@@ -6,5 +6,9 @@
         {
             return string.IsNullOrWhiteSpace(str);
         }
+        public static bool IsNotNullOrWhiteSpace(this string str)
+        {
+            return !str.IsNullOrWhiteSpace();
+        }
     }
 }

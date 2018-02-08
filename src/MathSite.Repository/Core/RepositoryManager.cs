@@ -21,7 +21,8 @@ namespace MathSite.Repository.Core
             IPostSettingRepository postSettingRepository,
             IPostTypeRepository postTypeRepository,
             IGroupTypeRepository groupTypeRepository,
-            IDirectoriesRepository directoriesRepository
+            IDirectoriesRepository directoriesRepository,
+            ICategoryRepository categoryRepository
         )
         {
             _repositories.Add(groupsRepository);
@@ -36,6 +37,7 @@ namespace MathSite.Repository.Core
             _repositories.Add(postTypeRepository);
             _repositories.Add(groupTypeRepository);
             _repositories.Add(directoriesRepository);
+            _repositories.Add(categoryRepository);
         }
 
         public IGroupsRepository GroupsRepository => TryGetRepository<IGroupsRepository>();
@@ -50,6 +52,7 @@ namespace MathSite.Repository.Core
         public IPostSettingRepository PostSettingRepository => TryGetRepository<IPostSettingRepository>();
         public IPostTypeRepository PostTypeRepository => TryGetRepository<IPostTypeRepository>();
         public IGroupTypeRepository GroupTypeRepository => TryGetRepository<IGroupTypeRepository>();
+        public ICategoryRepository CategoryRepository => TryGetRepository<ICategoryRepository>();
 
         public T TryGetRepository<T>() where T : class, IRepository
         {

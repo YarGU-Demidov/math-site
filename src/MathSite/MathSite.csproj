@@ -20,9 +20,9 @@
         <PackageLicenseUrl>https://github.com/YarGU-Demidov/math-site/blob/master/LICENSE.md</PackageLicenseUrl>
         <RepositoryUrl>https://github.com/YarGU-Demidov/math-site</RepositoryUrl>
         <RepositoryType>Git</RepositoryType>
-        <AssemblyVersion>0.0.4.1</AssemblyVersion>
-        <FileVersion>0.0.4.1</FileVersion>
-        <Version>0.0.4.1</Version>
+        <AssemblyVersion>1.0.0.1</AssemblyVersion>
+        <FileVersion>1.0.0.1</FileVersion>
+        <Version>1.0.0.1</Version>
     </PropertyGroup>
     <ItemGroup>
         <None Update="wwwroot\**\*">
@@ -30,11 +30,12 @@
         </None>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
-        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.1" />
+        <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.2" />
+        <PackageReference Include="ckeditor-full" Version="4.7.3" />
         <PackageReference Include="NETStandard.Library" Version="2.0.1" />
         <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
-        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.0.0" />
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.0.1" />
     </ItemGroup>
     <ItemGroup>
         <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
@@ -45,6 +46,16 @@
         <Exec Command="dotnet bundle" />
     </Target>
     <ItemGroup>
+      <None Include="news.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Include="static-pages.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\..\tools\NewsImporter\NewsImporter.csproj" />
+        <ProjectReference Include="..\..\tools\StaticImporter\StaticImporter.csproj" />
         <ProjectReference Include="..\MathSite.BasicAdmin.ViewModels\MathSite.BasicAdmin.ViewModels.csproj" />
         <ProjectReference Include="..\MathSite.Common\MathSite.Common.csproj" />
         <ProjectReference Include="..\MathSite.Db\MathSite.Db.csproj" />
@@ -64,6 +75,14 @@
         <Content Update="static-pages.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
+    </ItemGroup>
+    <ItemGroup>
+      <None Update="run-it.cmd">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="run-it.sh">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
     
     <!-- C# Lang Version -->

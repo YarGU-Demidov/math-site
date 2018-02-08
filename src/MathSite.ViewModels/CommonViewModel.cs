@@ -10,9 +10,9 @@ namespace MathSite.ViewModels
         public PageTitleViewModel PageTitle { get; set; }
         public string Description { get; set; }
         public string Keywords { get; set; }
-        public IEnumerable<MenuItemViewModel> MenuItems { get; set; } = new List<MenuItemViewModel>();
+        public IEnumerable<MenuItemViewModel> TopMenuLinks { get; set; } = new List<MenuItemViewModel>();
 
-        public Tuple<IEnumerable<MenuItemViewModel>, IEnumerable<MenuItemViewModel>, IEnumerable<MenuItemViewModel>, IEnumerable<MenuItemViewModel>> FooterMenus { get; set; }
+        public IEnumerable<IEnumerable<MenuItemViewModel>> MainMenuLinks { get; set; }
 
         public static string AssemblyVersion { get; } = typeof(CommonViewModel).Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
     }

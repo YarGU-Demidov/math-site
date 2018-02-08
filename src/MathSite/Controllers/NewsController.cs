@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using MathSite.Common.Exceptions;
+using MathSite.Common.Extensions;
 using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
 using MathSite.ViewModels.News;
@@ -20,9 +21,25 @@ namespace MathSite.Controllers
 
         public async Task<IActionResult> Index(string query, [FromQuery] int page = 1)
         {
-            return string.IsNullOrWhiteSpace(query)
+            return query.IsNullOrWhiteSpace()
                 ? await ShowAllNews(page)
                 : await ShowNewsItem(query, page);
+        }
+
+        public async Task<IActionResult> ByCategory(string query, [FromQuery] int page = 1)
+        {
+            try
+            {
+                return View("ByCategory", await _viewModelBuilder.BuildByCategoryViewModelAsync(query, page));
+            }
+            catch (PostNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (CategoryDoesNotExists)
+            {
+                return NotFound();
+            }
         }
 
         [NonAction]

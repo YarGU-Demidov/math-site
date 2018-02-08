@@ -23,7 +23,6 @@ namespace MathSite
                 app.UseDatabaseErrorPage();
                 app.UseBrowserLink();
 
-
                 app.UseCors(builder =>
                 {
                     builder.AllowAnyOrigin();
@@ -71,11 +70,25 @@ namespace MathSite
                     defaults: new {controller = "Home", action = "Index"}
                 );
 
+                // новости по категориям
+                routes.MapRoute(
+                    name: "Categories",
+                    template: "category/{*query}",
+                    defaults: new {controller = "News", action = "ByCategory"}
+                );
+
                 // новости
                 routes.MapRoute(
                     name: "News",
                     template: "news/{*query}",
                     defaults: new {controller = "News", action = "Index"}
+                );
+
+                // события
+                routes.MapRoute(
+                    name: "Events",
+                    template: "event/{*query}",
+                    defaults: new {controller = "Events", action = "Index"}
                 );
 
                 // статические страницы

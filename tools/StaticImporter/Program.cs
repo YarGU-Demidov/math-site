@@ -33,7 +33,8 @@ namespace StaticImporter
 
         private static StaticPageModel ConvertFileToModel(string fileContent)
         {
-            var splitedValues = fileContent.Split("==", StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()).ToArray();
+            var splitedValues = fileContent.Split("==", StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim())
+                .ToArray();
 
             var model = new StaticPageModel();
 
@@ -55,7 +56,7 @@ namespace StaticImporter
         {
             var dir = $"{Environment.CurrentDirectory}/static-pages";
 
-            if(!Directory.Exists(dir))
+            if (!Directory.Exists(dir))
                 throw new DirectoryNotFoundException($"Directory '{dir}' not found!");
 
             var models = GetFilesContent(dir)
@@ -116,7 +117,8 @@ namespace StaticImporter
                 new PostSettingRepository(context),
                 new PostTypeRepository(context),
                 new GroupTypeRepository(context),
-                new DirectoriesRepository(context)
+                new DirectoriesRepository(context),
+                new CategoryRepository(context)
             );
 
             var loggerFactory = new LoggerFactory().AddConsole();
@@ -151,33 +153,34 @@ namespace StaticImporter
         }
 
 
-        private static async Task UpdateData(IPostsFacade postsFacade, IRepositoryManager manager, IEnumerable<StaticPageModel> posts)
+        private static async Task UpdateData(IPostsFacade postsFacade, IRepositoryManager manager,
+            IEnumerable<StaticPageModel> posts)
         {
             foreach (var post in posts)
             {
                 var newPostId = await postsFacade.CreatePostAsync(
-                    await ConvertToPost(post, manager.UsersRepository, manager.PostTypeRepository),
-                    ConvertToPostSeoSettings(post),
-                    ConvertToPostSetting(post)
-                );
+                    await ConvertToPost(post, manager.UsersRepository, manager.PostTypeRepository));
 
                 if (newPostId == Guid.Empty)
                     throw new ApplicationException("Something went wrong. Check exception above.");
             }
         }
 
-        private static async Task<Post> ConvertToPost(StaticPageModel oldPost, IUsersRepository usersRepository, IPostTypeRepository postTypeRepository)
+        private static async Task<Post> ConvertToPost(StaticPageModel oldPost, IUsersRepository usersRepository,
+            IPostTypeRepository postTypeRepository)
         {
             return new Post
             {
-                AuthorId = (await usersRepository.FirstOrDefaultAsync(user => user.Login == UsersAliases.Mokeev1995)).Id,
+                AuthorId =
+                    (await usersRepository.FirstOrDefaultAsync(user => user.Login == UsersAliases.Mokeev1995)).Id,
                 Content = oldPost.Content,
                 Excerpt = oldPost.Content.Length > 50 ? $"{oldPost.Content.Substring(0, 47)}..." : oldPost.Content,
                 Title = oldPost.Title,
                 Published = true,
                 PublishDate = new DateTime(2017, 03, 01),
                 CreationDate = new DateTime(2017, 03, 01),
-                PostType = await postTypeRepository.FirstOrDefaultAsync(new SameAliasSpecification<PostType>(PostTypeAliases.StaticPage))
+                PostType = await postTypeRepository.FirstOrDefaultAsync(
+                    new SameAliasSpecification<PostType>(PostTypeAliases.StaticPage))
             };
         }
 
