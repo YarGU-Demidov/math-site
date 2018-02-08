@@ -6,11 +6,11 @@
 <div class="container-fluid set-max-size posts">
 
     <div class="card news-card">
-        <h4 class="card-header">Новости</h4>
+        <h4 class="card-header">Статьи</h4>
         <div class="card-body">
             @if (!postsExists)
             {
-                <h5 class="empty-text text-center">Новостей не обнаружено!</h5>
+                <h5 class="empty-text text-center">Статей не обнаружено!</h5>
             }
             else
             {
@@ -49,7 +49,16 @@
                                         </a>
                                     </td>
                                     <th class="post__max-width">@post.Title</th>
-                                    <td>@post.PublishDate</td>
+                                    <td>@{
+                                        if(publishedText == String.Empty)
+                                        {
+                                            <p>Страница не опубликована</p>
+                                        }
+                                        else
+                                        {
+                                            <p>@post.PublishDate</p>
+                                        }
+                                    }</td>
                                     <td>
                                         <input type="checkbox" disabled="disabled" @onStartPageText/>
                                     </td>
