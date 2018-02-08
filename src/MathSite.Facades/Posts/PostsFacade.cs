@@ -115,12 +115,15 @@ namespace MathSite.Facades.Posts
         }
 
 
-        public async Task<Guid> CreatePostAsync(Post post, PostSeoSetting seoSettings, PostSetting settings = null)
+        public async Task<Guid> CreatePostAsync(Post post)
         {
             try
             {
-                var seoSettingsId = await RepositoryManager.PostSeoSettingsRepository.InsertAndGetIdAsync(seoSettings);
-                var settingsId = await RepositoryManager.PostSettingRepository.InsertAndGetIdAsync(settings);
+                var postType = await GetPostTypeAsync(post.PostType.Alias);  
+                var seoSettingsId = await RepositoryManager.PostSeoSettingsRepository.InsertAndGetIdAsync(post.PostSeoSetting);
+                var settingsId = await RepositoryManager.PostSettingRepository.InsertAndGetIdAsync(post.PostSettings);
+
+                post.PostType = postType;
 
                 post.PostSeoSettingsId = seoSettingsId;
                 post.PostSettingsId = settingsId;
@@ -180,6 +183,23 @@ namespace MathSite.Facades.Posts
                         return await GetPosts(requirements, perPage, toSkip);
                     })
                 : await GetPosts(requirements, perPage, toSkip);
+        }
+
+        public async Task DeletePostAsync(Guid id)
+        {
+            try
+            {
+                await RepositoryManager.PostsRepository.DeleteAsync(id);
+            }
+            catch (Exception e)
+            {
+                _postsFacadeLogger.LogError(e, "Can't delete post. Exception was thrown.");
+            }
+        }
+
+        private async Task<PostType> GetPostTypeAsync(string postType)
+        {
+            return await RepositoryManager.PostTypeRepository.SingleAsync(type => type.Alias == postType);
         }
 
         private async Task<int> GetPostsWithTypeCount(
