@@ -30,6 +30,7 @@ namespace MathSite.Db.DataSeeding.Seeders
             var firstUser = CreateUser(
                 firstLogin,
                 GetPasswordHash(firstLogin, "test"),
+                GetKeyHash(),
                 GetPersonByNames("Андрей", "Мокеев", "Александрович"),
                 GetGroupByAlias(GroupAliases.Admin),
                 DateTime.Now
@@ -39,6 +40,7 @@ namespace MathSite.Db.DataSeeding.Seeders
             var secondUser = CreateUser(
                 secondLogin,
                 GetPasswordHash(secondLogin, "qwerty"),
+                GetKeyHash(),
                 GetPersonByNames("Андрей", "Девяткин", "Вячеславович"),
                 GetGroupByAlias(GroupAliases.User),
                 DateTime.Now
@@ -48,6 +50,7 @@ namespace MathSite.Db.DataSeeding.Seeders
             var testUser = CreateUser(
                 testLogin,
                 GetPasswordHash(testLogin, "test"),
+                GetKeyHash(),
                 GetPersonByNames("Тест", "Тестов", "Тестович"),
                 GetGroupByAlias(GroupAliases.User),
                 DateTime.Now
@@ -64,6 +67,7 @@ namespace MathSite.Db.DataSeeding.Seeders
             Context.Users.AddRange(users);
         }
 
+
         private Group GetGroupByAlias(string alias)
         {
             return Context.Groups.First(group => group.Alias == alias);
@@ -72,6 +76,10 @@ namespace MathSite.Db.DataSeeding.Seeders
         private byte[] GetPasswordHash(string login, string password)
         {
             return PasswordManager.CreatePassword(login, password);
+        }
+        private byte[] GetKeyHash()
+        {
+            return new byte[]{0};
         }
 
         private Person GetPersonByNames(string name, string surname, string middlename)
@@ -83,12 +91,13 @@ namespace MathSite.Db.DataSeeding.Seeders
             );
         }
 
-        private static User CreateUser(string login, byte[] password, Person person, Group group, DateTime creationDate)
+        private static User CreateUser(string login, byte[] password, byte[] key, Person person, Group group, DateTime creationDate)
         {
             return new User
             {
                 Login = login,
                 PasswordHash = password,
+                TwoFactorAutentificationHash = key,
                 Person = person,
                 Group = group,
                 CreationDate = creationDate,
