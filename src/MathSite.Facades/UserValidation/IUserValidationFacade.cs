@@ -34,6 +34,6 @@ namespace MathSite.Facades.UserValidation
         /// <param name="right">Право.</param>
         Task<bool> UserHasRightAsync(User user, Right right);
 
-		Task<User> GetUserByLoginAndPasswordAsync(string login, string password);
+        Task<User> GetUserByLoginAndPasswordAsync(string login, string password);
     }
 }

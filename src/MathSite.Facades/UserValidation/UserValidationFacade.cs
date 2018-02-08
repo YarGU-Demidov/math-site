@@ -69,7 +69,7 @@ namespace MathSite.Facades.UserValidation
             return await UserHasRightAsync(user?.Id ?? default, right.Alias);
         }
 
-		public async Task<User> GetUserByLoginAndPasswordAsync(string login, string password)
+        public async Task<User> GetUserByLoginAndPasswordAsync(string login, string password)
         {
             var requirements = new HasLoginSpecification(login);
 

@@ -38,7 +38,7 @@ namespace NewsImporter
                 Path.Combine(Environment.CurrentDirectory, "..", "..", "..", "NewsImporter", "news.json")
             }.Where(File.Exists).FirstOrDefault();
 
-            if(string.IsNullOrWhiteSpace(filePath))
+            if (string.IsNullOrWhiteSpace(filePath))
                 throw new FileNotFoundException("Need file with data.");
 
             var posts = JsonConvert.DeserializeObject<ICollection<RainlabBlogPost>>(File.ReadAllText(filePath));
@@ -101,30 +101,34 @@ namespace NewsImporter
             await UpdateData(postsFacade, manager, posts);
         }
 
-        private static async Task UpdateData(IPostsFacade postsFacade, IRepositoryManager manager, ICollection<RainlabBlogPost> posts)
+        private static async Task UpdateData(IPostsFacade postsFacade, IRepositoryManager manager,
+            ICollection<RainlabBlogPost> posts)
         {
             foreach (var post in posts)
             {
                 var newPostId = await postsFacade.CreatePostAsync(
-					await ConvertToPost(post, manager.UsersRepository, manager.PostTypeRepository));
+                    await ConvertToPost(post, manager.UsersRepository, manager.PostTypeRepository));
 
-                if(newPostId == Guid.Empty)
+                if (newPostId == Guid.Empty)
                     throw new ApplicationException("Something went wrong. Check exception above.");
             }
         }
 
-        private static async Task<Post> ConvertToPost(RainlabBlogPost oldPost, IUsersRepository usersRepository, IPostTypeRepository postTypeRepository)
+        private static async Task<Post> ConvertToPost(RainlabBlogPost oldPost, IUsersRepository usersRepository,
+            IPostTypeRepository postTypeRepository)
         {
             return new Post
             {
-                AuthorId = (await usersRepository.FirstOrDefaultAsync(user => user.Login == UsersAliases.Mokeev1995)).Id,
+                AuthorId =
+                    (await usersRepository.FirstOrDefaultAsync(user => user.Login == UsersAliases.Mokeev1995)).Id,
                 Content = oldPost.ContentHtml,
                 Excerpt = oldPost.Excerpt,
                 Title = oldPost.Title,
                 Published = oldPost.Published,
                 PublishDate = oldPost.PublishedAt?.UtcDateTime ?? DateTime.UtcNow,
                 CreationDate = oldPost.CreatedAt?.UtcDateTime ?? DateTime.UtcNow,
-                PostType = await postTypeRepository.FirstOrDefaultAsync(new SameAliasSpecification<PostType>(PostTypeAliases.News))
+                PostType = await postTypeRepository.FirstOrDefaultAsync(
+                    new SameAliasSpecification<PostType>(PostTypeAliases.News))
             };
         }
 
