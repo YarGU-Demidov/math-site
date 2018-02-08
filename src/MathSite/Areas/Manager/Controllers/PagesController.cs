@@ -1,8 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MathSite.BasicAdmin.ViewModels.Pages;
 using MathSite.Controllers;
+using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Facades.Users;
+using MathSite.Entities;
+using MathSite.Facades.Posts;
 using MathSite.Facades.UserValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,7 +20,8 @@ namespace MathSite.Areas.Manager.Controllers
     {
         private readonly IPagesManagerViewModelBuilder _modelBuilder;
 
-        public PagesController(IUserValidationFacade userValidationFacade, IPagesManagerViewModelBuilder modelBuilder, IUsersFacade usersFacade) 
+        public PagesController(IUserValidationFacade userValidationFacade, IPagesManagerViewModelBuilder modelBuilder,
+            IUsersFacade usersFacade)
             : base(userValidationFacade, usersFacade)
         {
             _modelBuilder = modelBuilder;
@@ -34,9 +40,50 @@ namespace MathSite.Areas.Manager.Controllers
             return View("Index", await _modelBuilder.BuildRemovedViewModel(page, perPage));
         }
 
-        public async Task<IActionResult> Create(Guid id)
+        [HttpGet]
+        [Route("manager/pages/create")]
+        public async Task<IActionResult> Create()
         {
-            throw new NotImplementedException();
+            return View("Create", await _modelBuilder.BuildCreateViewModel());
+        }
+
+        [HttpPost]
+        [Route("manager/pages/create")]
+        public async Task<IActionResult> Create(CreatePageViewModel page)
+        {
+            if (CurrentUser.Id == null)
+                throw new NotImplementedException();
+
+            var postType = new PostType
+            {
+                Alias = PostTypeAliases.StaticPage
+            };
+            var postExcerpt = page.Content.Length > 50 ? $"{page.Content.Substring(0, 47)}..." : page.Content;
+            var post = new Post
+            {
+                Id = Guid.NewGuid(),
+                Title = page.Title,
+                Excerpt = postExcerpt,
+                Content = page.Content,
+                Author = CurrentUser,
+                Published = false,
+                Deleted = false,
+                PostType = postType,
+                PostSettings = new PostSetting(),
+                PostSeoSetting = new PostSeoSetting()
+            };
+
+            await _modelBuilder.BuildCreateViewModel(post);
+
+            return View("Index", await _modelBuilder.BuildIndexViewModel(1, 10));
+        }
+
+        [HttpDelete("{id}")]
+        [Route("manager/pages/delete")]
+        public async Task<IActionResult> Delete([FromQuery] Guid id)
+        {
+            await _modelBuilder.BuildDeleteViewModel(id);
+            return View("Index", await _modelBuilder.BuildIndexViewModel(1, 10));
         }
 
         public async Task<IActionResult> Edit(Guid id)
@@ -45,11 +92,6 @@ namespace MathSite.Areas.Manager.Controllers
         }
 
         public async Task<IActionResult> Recover(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<IActionResult> Delete(Guid id)
         {
             throw new NotImplementedException();
         }

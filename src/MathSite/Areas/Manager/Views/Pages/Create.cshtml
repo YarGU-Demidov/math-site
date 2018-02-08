@@ -1,0 +1,24 @@
+﻿@model CreatePageViewModel
+
+<div class="container-fluid set-max-size posts">
+    <form method="post" asp-action="Create" asp-controller="Pages">
+        <div class="card news-card">
+            <h4 class="card-header">Статьи</h4>
+            <div class="card-body">
+                @Html.LabelFor(m => m.Title, "Заголовок статьи")
+                @Html.TextBoxFor(model => model.Title)
+            </div>
+            <div class="card-body">
+                @Html.LabelFor(m => m.Content, "Контент")
+                @Html.TextAreaFor(model => model.Content, new {@class = "ckeditor"})
+            </div>
+
+            <button type="submit" class="btn btn-outline-success">Create</button>
+        </div>
+    </form>
+</div>
+
+@section ScriptsSection{
+    <script src="~/js/pager.js"></script>
+    <script src="~/lib/ckeditor/ckeditor.js"></script>
+}
