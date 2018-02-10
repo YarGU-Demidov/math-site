@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using MathSite.BasicAdmin.ViewModels.Pages;
 using MathSite.Controllers;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Facades.Users;
 using MathSite.Entities;
-using MathSite.Facades.Posts;
 using MathSite.Facades.UserValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -51,14 +48,13 @@ namespace MathSite.Areas.Manager.Controllers
         [Route("manager/pages/create")]
         public async Task<IActionResult> Create(CreatePageViewModel page)
         {
-            if (CurrentUser.Id == null)
-                throw new NotImplementedException();
-
             var postType = new PostType
             {
                 Alias = PostTypeAliases.StaticPage
             };
+            
             var postExcerpt = page.Content.Length > 50 ? $"{page.Content.Substring(0, 47)}..." : page.Content;
+
             var post = new Post
             {
                 Id = Guid.NewGuid(),
@@ -75,7 +71,7 @@ namespace MathSite.Areas.Manager.Controllers
 
             await _modelBuilder.BuildCreateViewModel(post);
 
-            return View("Index", await _modelBuilder.BuildIndexViewModel(1, 10));
+            return RedirectToActionPermanent("Index");
         }
 
         [HttpDelete("{id}")]
@@ -83,7 +79,8 @@ namespace MathSite.Areas.Manager.Controllers
         public async Task<IActionResult> Delete([FromQuery] Guid id)
         {
             await _modelBuilder.BuildDeleteViewModel(id);
-            return View("Index", await _modelBuilder.BuildIndexViewModel(1, 10));
+
+            return RedirectToActionPermanent("Index");
         }
 
         public async Task<IActionResult> Edit(Guid id)

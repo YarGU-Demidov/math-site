@@ -27,7 +27,7 @@ namespace MathSite.Controllers
 
             if (HttpContext.User.Identity.IsAuthenticated)
                 if (!string.IsNullOrWhiteSpace(returnUrl))
-                    return Redirect(returnUrl);
+                    return LocalRedirect(returnUrl);
                 else
                     return RedirectToAction("Index", "Home");
 
@@ -47,6 +47,7 @@ namespace MathSite.Controllers
 
             if (ourUser == null)
                 return View(model);
+
 
             if (ourUser.TwoFactorAutentificationHash == null)
             {
@@ -103,7 +104,7 @@ namespace MathSite.Controllers
             var returnUrl = HttpContext.Request.Query["returnUrl"].ToString();
 
             if (!string.IsNullOrWhiteSpace(returnUrl))
-                return Redirect(returnUrl);
+                return LocalRedirect(returnUrl);
 
             return RedirectToAction("Index", "Home");
         }
