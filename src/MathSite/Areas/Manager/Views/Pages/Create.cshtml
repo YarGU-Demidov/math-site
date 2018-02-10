@@ -10,7 +10,7 @@
             </div>
             <div class="card-body">
                 @Html.LabelFor(m => m.Content, "Контент")
-                @Html.TextAreaFor(model => model.Content, new {@class = "ckeditor content-textarea"})
+                @Html.TextAreaFor(model => model.Content, new {@class = "ckeditor content-textarea", @required  = "required"})
             </div>
 
             <button type="submit" class="btn btn-outline-success">Create</button>
