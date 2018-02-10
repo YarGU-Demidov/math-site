@@ -92,5 +92,6 @@ namespace MathSite.Entities
         ///     Перечень прав пользователя.
         /// </summary>
         public ICollection<UsersRight> UserRights { get; set; } = new List<UsersRight>();
+        
     }
 }
