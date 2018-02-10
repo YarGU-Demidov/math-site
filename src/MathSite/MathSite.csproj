@@ -69,14 +69,6 @@
         <ProjectReference Include="..\..\tools\StaticImporter\StaticImporter.csproj" />
     </ItemGroup>
     <ItemGroup>
-        <Content Update="news.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <Content Update="static-pages.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-    </ItemGroup>
-    <ItemGroup>
       <None Update="run-it.cmd">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
