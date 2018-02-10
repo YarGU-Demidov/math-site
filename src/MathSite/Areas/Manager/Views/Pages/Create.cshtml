@@ -10,7 +10,7 @@
             </div>
             <div class="card-body">
                 @Html.LabelFor(m => m.Content, "Контент")
-                @Html.TextAreaFor(model => model.Content, new {@class = "ckeditor"})
+                @Html.TextAreaFor(model => model.Content, new {@class = "ckeditor content-textarea"})
             </div>
 
             <button type="submit" class="btn btn-outline-success">Create</button>
@@ -21,4 +21,13 @@
 @section ScriptsSection{
     <script src="~/js/pager.js"></script>
     <script src="~/js/manager/ckeditor/ckeditor.js"></script>
+    <script>
+        $(document).ready(() => {
+            var editor = CKEDITOR.instances.Content;
+            var textArea = $('.content-textarea');
+            editor.on( 'change', function( evt ) {
+                textArea.val(evt.editor.getData());
+            });
+        });
+    </script>
 }
