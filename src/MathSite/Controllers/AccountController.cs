@@ -47,27 +47,13 @@ namespace MathSite.Controllers
 
             if (ourUser == null)
                 return View(model);
-
-            await HttpContext.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(
-                    new ClaimsIdentity(
-                        new List<Claim>
-                        {
-                            new Claim("UserId", ourUser.Id.ToString())
-                        },
-                        "Auth"
-                    )
-                ),
-                new AuthenticationProperties {ExpiresUtc = DateTimeOffset.UtcNow.AddMonths(12)}
-            );
-
-            var returnUrl = HttpContext.Request.Query["returnUrl"].ToString();
-
-            if (!string.IsNullOrWhiteSpace(returnUrl))
-                return LocalRedirect(returnUrl);
-
-            return RedirectToAction("Index", "Home");
+            if (ourUser.TwoFactorAutentificationHash == null)
+            {
+                ViewBag.HasTwoFactorAutentification = false;
+                return View(model);
+            }
+            ViewBag.HasTwoFactorAutentification = true;
+            return View(model);
         }
 
         public async Task<IActionResult> CheckLogin(string login)
@@ -93,6 +79,38 @@ namespace MathSite.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost("/continuelogin")]
+        public async Task<IActionResult> ContinueLogin(LoginFormViewModel model)
+        {
+            var ourUser = await UserValidationFacade.GetUserByLoginAndPasswordAsync(model.Login, model.Password);
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(
+                    new ClaimsIdentity(
+                        new List<Claim>
+                        {
+                            new Claim("UserId", ourUser.Id.ToString())
+                        },
+                        "Auth"
+                    )
+                ),
+                new AuthenticationProperties {ExpiresUtc = DateTimeOffset.UtcNow.AddMonths(12)}
+            );
+
+            var returnUrl = HttpContext.Request.Query["returnUrl"].ToString();
+
+            if (!string.IsNullOrWhiteSpace(returnUrl))
+                return LocalRedirect(returnUrl);
+
+            return RedirectToAction("Index", "Home");
+        }
+        [HttpPost("/Add2FA")]
+        public async void Add2Fa(LoginFormViewModel model)
+        {
+            //some code to add two factor autorization
+            await ContinueLogin(model);
         }
     }
 }
