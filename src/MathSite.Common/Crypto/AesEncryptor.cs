@@ -25,13 +25,13 @@ namespace MathSite.Common.Crypto
                 throw new ArgumentNullException("Key is 0 length");
             if (_veсtor == null || _veсtor.Length <= 0)
                 throw new ArgumentNullException("Vector is zero length");
+                
             byte[] encrypted;
             using (var aesAlg = Aes.Create())
             {
                 aesAlg.Key = _key;
                 aesAlg.IV = _veсtor;
                 var encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
-                
                 using (var msEncrypt = new MemoryStream())
                 {
                     using (var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
@@ -44,6 +44,7 @@ namespace MathSite.Common.Crypto
                     }
                 }
             }
+            
             return Task.FromResult(encrypted);
         }
 
@@ -55,6 +56,7 @@ namespace MathSite.Common.Crypto
                 throw new ArgumentNullException("Key is 0 length");
             if (_veсtor == null || _veсtor.Length <= 0)
                 throw new ArgumentNullException("Vector is zero length");
+                
             string decrypted = null;
             using (Aes aesAlg = Aes.Create())
             {
@@ -71,7 +73,6 @@ namespace MathSite.Common.Crypto
                         }
                     }
                 }
-
             }
 
             return decrypted;
