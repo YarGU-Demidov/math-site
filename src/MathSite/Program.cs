@@ -18,7 +18,7 @@ namespace MathSite
                 await RunImportNews();
             else if (args.Any(s => s == "import-pages"))
                 await RunImportStaticPages();
-            else if (args.Any(s => s == "KeyGenerate"))
+            else if (args.Any(s => s == "key-generate"))
                 await RunKeyGenerator();
             else
                 BuildWebHost(args).Run();
@@ -69,5 +69,4 @@ namespace MathSite
 
             return connectionString;
         }
-    }
-}
+    }}
