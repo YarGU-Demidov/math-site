@@ -84,7 +84,7 @@ namespace MathSite.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        [HttpPost("/continuelogin")]
+        [HttpPost("/continue-login")]
         public async Task<IActionResult> ContinueLogin(LoginFormViewModel model)
         {
             var ourUser = await UserValidationFacade.GetUserByLoginAndPasswordAsync(model.Login, model.Password);
@@ -109,7 +109,7 @@ namespace MathSite.Controllers
 
             return RedirectToAction("Index", "Home");
         }
-        [HttpPost("/add2fa")]
+        [HttpPost("/add-two-factor-authentication")]
         public async void Add2Fa(LoginFormViewModel model)
         {
             var userName = model.Login;
