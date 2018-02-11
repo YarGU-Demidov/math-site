@@ -16,6 +16,7 @@ namespace MathSite.ViewModels.Account
         [Remote(controller: "Account", action: "CheckPassword", AdditionalFields = "Login")]
         public string Password { get; set; }
 
+        public bool HasTwoFactorAutentification { get; set; }
         public string ReturnUrl { get; set; } = "/";
     }
 }

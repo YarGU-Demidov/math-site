@@ -30,6 +30,7 @@
         </None>
     </ItemGroup>
     <ItemGroup>
+        <PackageReference Include="GoogleAuthenticator" Version="1.2.1" />
         <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
         <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.2" />
         <PackageReference Include="ckeditor-full" Version="4.7.3" />
@@ -54,6 +55,7 @@
       </None>
     </ItemGroup>
     <ItemGroup>
+        <ProjectReference Include="..\..\KeyGenerator\KeyGenerator.csproj" />
         <ProjectReference Include="..\..\tools\NewsImporter\NewsImporter.csproj" />
         <ProjectReference Include="..\..\tools\StaticImporter\StaticImporter.csproj" />
         <ProjectReference Include="..\MathSite.BasicAdmin.ViewModels\MathSite.BasicAdmin.ViewModels.csproj" />

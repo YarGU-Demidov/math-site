@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Google.Authenticator;
+using MathSite.Common.Crypto;
 using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
 using MathSite.ViewModels.Account;
@@ -51,10 +53,11 @@ namespace MathSite.Controllers
             if (ourUser.TwoFactorAutentificationHash == null)
             {
                 ViewBag.HasTwoFactorAutentification = false;
-                return View(model);
+                return View("~/Views/Account/TwoFactorAuthentication.cshtml", model);
             }
             ViewBag.HasTwoFactorAutentification = true;
-            return View(model);        }
+            return View("~/Views/Account/TwoFactorAuthentication.cshtml", model);
+        }
 
         public async Task<IActionResult> CheckLogin(string login)
         {
@@ -106,10 +109,11 @@ namespace MathSite.Controllers
 
             return RedirectToAction("Index", "Home");
         }
-        [HttpPost("/Add2FA")]
+        [HttpPost("/add2fa")]
         public async void Add2Fa(LoginFormViewModel model)
         {
-            //some code to add two factor autorization
+            var userName = model.Login;
+            TwoFactorAuthenticator tfa = new TwoFactorAuthenticator();
             await ContinueLogin(model);
         }
     }

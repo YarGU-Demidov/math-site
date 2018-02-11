@@ -141,6 +141,8 @@ namespace MathSite
 
             services.AddScoped<IPasswordsManager, DoubleSha512HashPasswordsManager>();
             services.AddSingleton<IActionDescriptorCollectionProvider, ActionDescriptorCollectionProvider>();
+            services.AddScoped<IKeyVectorReader, KeyVectorReader>();
+            services.AddScoped<IEncryptor, AesEncryptor>();
 
             services.AddSingleton<FileFormatBuilder>();
             

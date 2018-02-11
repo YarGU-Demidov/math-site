@@ -6,8 +6,6 @@
 }
 
 <h2>Test login form</h2>
-@if (ViewBag.HasTwoFactorAutentification == null )
-{
     <form method="post" class="login-form" asp-action="Login" asp-controller="Account" asp-route-returnUrl="@Model.ReturnUrl" asp-antiforgery="true">
         <div class="form-group">
             <span asp-validation-for="Login" class="text-danger"></span>
@@ -23,26 +21,3 @@
 
         <button type="submit" class="btn btn-default">Submit</button>
     </form>
-}
-else if (!ViewBag.HasTwoFactorAutentification)
-{
-    <div>Добавить двух факторную авторизацию?</div>
-    <div>
-        @using (Html.BeginForm("Add2Fa", "Account",Model, FormMethod.Post))
-        {
-            <input type="submit" value="ДА" class="btn btn-default" />
-        }
-    </div>
-    <div>
-        @using (Html.BeginForm("ContinueLogin", "Account",Model, FormMethod.Post))
-        {
-            <input type="submit" value="Нет" class="btn btn-default" />
-        }
-    </div>
-}
-else if (ViewBag.HasTwoFactorAutentification)
-{
-    /*
-     * Здесь форма для ввода кода аутентификатора и проверки его по адресу account/Check2FA
-    */
-}
