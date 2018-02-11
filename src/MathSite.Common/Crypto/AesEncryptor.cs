@@ -7,8 +7,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace MathSite.Common.Crypto
 {
-    public class AesEncryptor:IEncryptor
-
+    public class AesEncryptor: IEncryptor
     {
         private readonly byte[] _key;
         private readonly byte[] _veсtor;
