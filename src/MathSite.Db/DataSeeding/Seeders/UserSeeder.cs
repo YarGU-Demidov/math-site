@@ -84,7 +84,7 @@ namespace MathSite.Db.DataSeeding.Seeders
             );
         }
 
-        private static User CreateUser(string login, byte[] password,Person person, Group group, DateTime creationDate)
+        private static User CreateUser(string login, byte[] password, Person person, Group group, DateTime creationDate)
         {
             return new User
             {
