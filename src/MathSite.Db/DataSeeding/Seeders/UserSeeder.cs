@@ -74,10 +74,6 @@ namespace MathSite.Db.DataSeeding.Seeders
         {
             return PasswordManager.CreatePassword(login, password);
         }
-        private byte[] GetKeyHash()
-        {
-            return new byte[]{0};
-        }
 
         private Person GetPersonByNames(string name, string surname, string middlename)
         {
