@@ -54,7 +54,7 @@
         },
         "MathSite.GenerateKeyVectorPair": {
             "commandName": "Project",
-            "commandLineArgs": "KeyGenerate",
+            "commandLineArgs": "key-generate",
             "environmentVariables": {
                 "ASPNETCORE_ENVIRONMENT": "Production"
             }
