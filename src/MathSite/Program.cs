@@ -17,8 +17,15 @@ namespace MathSite
                 RunImportNews();
             else if (args.Any(s => s == "import-pages"))
                 RunImportStaticPages();
+            else if (args.Any(s => s == "KeyGenerate"))
+                RunKeyGenerator();
             else
                 BuildWebHost(args).Run();
+        }
+
+        private static void RunKeyGenerator()
+        {
+            KeyGenerator.Program.Main(new string[0]);
         }
 
         public static IWebHost BuildWebHost(string[] args) =>

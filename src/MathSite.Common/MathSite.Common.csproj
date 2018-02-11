@@ -36,4 +36,9 @@
         <PackageReference Include="System.Linq" Version="4.3.0" />
         <PackageReference Include="System.Linq.Queryable" Version="4.3.0" />
     </ItemGroup>
+    <ItemGroup>
+      <Reference Include="Google.Authenticator">
+        <HintPath>..\..\..\..\..\..\.nuget\packages\googleauthenticator\1.2.1\lib\net45\Google.Authenticator.dll</HintPath>
+      </Reference>
+    </ItemGroup>
 </Project>

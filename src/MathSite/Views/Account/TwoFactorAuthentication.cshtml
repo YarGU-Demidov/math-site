@@ -1,0 +1,30 @@
+﻿@using MathSite.Areas.Api.Heplers.Auth
+@model MathSite.ViewModels.Account.LoginFormViewModel
+@{
+    ViewData["Title"] = "TwoFactorAuthentication";
+}
+
+<h2>TwoFactorAuthentication</h2>
+
+@if (!Model.HasTwoFactorAutentification)
+{
+<div>Добавить двух факторную авторизацию?</div>
+<div>
+    @using (Html.BeginForm("Add2Fa", "Account",Model, FormMethod.Post))
+    {
+        <input type="submit" value="ДА" class="btn btn-default" />
+    }
+</div>
+<div>
+    @using (Html.BeginForm("ContinueLogin", "Account",Model, FormMethod.Post))
+    {
+        <input type="submit" value="Нет" class="btn btn-default" />
+    }
+</div>
+}
+else if (Model.HasTwoFactorAutentification)
+{
+/*
+* Здесь форма для ввода кода аутентификатора и проверки его по адресу account/Check2FA
+*/
+}
