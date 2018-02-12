@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Google.Authenticator;
 using MathSite.Common.Crypto;
 using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
@@ -113,7 +112,6 @@ namespace MathSite.Controllers
         public async void Add2Fa(LoginFormViewModel model)
         {
             var userName = model.Login;
-            TwoFactorAuthenticator tfa = new TwoFactorAuthenticator();
             await ContinueLogin(model);
         }
     }
