@@ -110,7 +110,7 @@ namespace MathSite.Controllers
         [HttpPost("/add-two-factor-authentication")]
         public async void Add2Fa(LoginFormViewModel model)
         {
-            var userName = model.Login;
+            var key = await UserValidationFacade.KeyManager.CreateEncryptedKey();
             await ContinueLogin(model);
         }
     }

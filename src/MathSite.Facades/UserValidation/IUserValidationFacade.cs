@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using MathSite.Common.Crypto;
 using MathSite.Entities;
 
 namespace MathSite.Facades.UserValidation
@@ -35,5 +36,6 @@ namespace MathSite.Facades.UserValidation
         Task<bool> UserHasRightAsync(User user, Right right);
 
         Task<User> GetUserByLoginAndPasswordAsync(string login, string password);
+        IKeyManager KeyManager { get; set; }
     }
 }

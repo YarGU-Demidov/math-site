@@ -14,7 +14,7 @@ namespace MathSite.Tests.Facades
     {
         public IUserValidationFacade GetFacade(IRepositoryManager manager)
         {
-            return new UserValidationFacade(manager, MemoryCache, new DoubleSha512HashPasswordsManager());
+            return new UserValidationFacade(manager, MemoryCache, new DoubleSha512HashPasswordsManager(), new TwoFactorAuthenticationKeyManager(new AesEncryptor(new KeyVectorReader())));
         }
 
         [Fact]

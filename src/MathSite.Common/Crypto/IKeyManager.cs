@@ -15,6 +15,6 @@ namespace MathSite.Common.Crypto
         /// </summary>
         /// <param name="keyForVerification">Введенный пользователем код</param>
         /// <param name="encryptedUserUniqueKey">Хранящийся в базе данный зашифрованный ключ</param>
-        bool KeysAreEqual(string keyForVerification, byte[] encryptedUserUniqueKey);
+        Task<bool> KeysAreEqual(string keyForVerification, byte[] encryptedUserUniqueKey);
     }
 }

@@ -78,7 +78,8 @@ namespace NewsImporter
             var userValidation = new UserValidationFacade(
                 manager,
                 memCache,
-                new DoubleSha512HashPasswordsManager()
+                new DoubleSha512HashPasswordsManager(),
+                new TwoFactorAuthenticationKeyManager(new AesEncryptor(new KeyVectorReader()))
             );
 
             var usersFacade = new UsersFacade(manager, memCache);

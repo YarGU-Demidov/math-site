@@ -21,18 +21,18 @@ namespace MathSite.Common.Crypto
             return await _aesEncryptor.EncryptStringToBytes(userUniqueKey);
         }
         
-        public bool KeysAreEqual(string keyForVerification, byte[] encryptedUserUniqueKey)
+        public async Task<bool> KeysAreEqual(string keyForVerification, byte[] encryptedUserUniqueKey)
         {
             var tfa = new TwoFactorAuthenticator();
-            var userUniqueKey = _aesEncryptor.DecryptStringFromBytes(encryptedUserUniqueKey);
+            var userUniqueKey = await _aesEncryptor.DecryptStringFromBytes(encryptedUserUniqueKey);
             var isValid = tfa.ValidateTwoFactorPIN(userUniqueKey, keyForVerification);
-            return isValid;
+            return await Task.FromResult(isValid);
         }
 
         private static string CreateKeyForUser()
         {
             var rnd = new Random();
-            var key = new string(Enumerable.Repeat(rnd, 12).Select(x => (char) x.Next(33, 123)).ToArray());
+            var key = new string(Enumerable.Repeat(rnd, 10).Select(x => (char) x.Next(33, 123)).ToArray());
             return key;
         }
     }

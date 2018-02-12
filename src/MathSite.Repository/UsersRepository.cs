@@ -54,6 +54,9 @@ namespace MathSite.Repository
                 .ToArrayAsync();
         }
 
+        public async void SetUserKey(string login)
+        {
+        }
         public IUsersRepository WithPerson()
         {
             _loadPerson = true;

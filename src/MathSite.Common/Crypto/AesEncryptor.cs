@@ -48,7 +48,7 @@ namespace MathSite.Common.Crypto
             return Task.FromResult(encrypted);
         }
 
-        public string DecryptStringFromBytes(byte[] encryptedMessage)
+        public Task<string> DecryptStringFromBytes(byte[] encryptedMessage)
         {
             if (encryptedMessage == null || encryptedMessage.Length <= 0)
                 throw new ArgumentNullException("No message to decrypt");
@@ -75,7 +75,7 @@ namespace MathSite.Common.Crypto
                 }
             }
 
-            return decrypted;
+            return Task.FromResult(decrypted);
         }
     }
 }

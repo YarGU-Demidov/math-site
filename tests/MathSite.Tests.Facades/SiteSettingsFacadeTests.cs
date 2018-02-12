@@ -87,7 +87,7 @@ namespace MathSite.Tests.Facades
 
         protected override SiteSettingsFacade GetFacade(MathSiteDbContext context, IRepositoryManager manager)
         {
-            var userValidationFacade = new UserValidationFacade(manager, MemoryCache, new DoubleSha512HashPasswordsManager());
+            var userValidationFacade = new UserValidationFacade(manager, MemoryCache, new DoubleSha512HashPasswordsManager(),new TwoFactorAuthenticationKeyManager(new AesEncryptor(new KeyVectorReader())));
             var usersFacade = new UsersFacade(manager, MemoryCache);
             return new SiteSettingsFacade(manager, userValidationFacade, MemoryCache, usersFacade);
         }
