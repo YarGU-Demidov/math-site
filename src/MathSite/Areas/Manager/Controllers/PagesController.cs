@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MathSite.BasicAdmin.ViewModels.Pages;
 using MathSite.Controllers;
@@ -38,36 +40,61 @@ namespace MathSite.Areas.Manager.Controllers
         }
 
         [HttpGet("[area]/[controller]/create")]
-        public async Task<IActionResult> Create()
+        [Route("manager/pages/edit")]
+        public async Task<IActionResult> Create(Guid id)
         {
-            return View("Create", await _modelBuilder.BuildCreateViewModel());
+            return id != Guid.Empty
+                ? View("Create", await _modelBuilder.BuildEditViewModel(id))
+                : View("Create", await _modelBuilder.BuildCreateViewModel());
         }
 
         [HttpPost("[area]/[controller]/create")]
-        public async Task<IActionResult> Create(CreatePageViewModel page)
+        [Route("manager/pages/edit")]
+        public async Task<IActionResult> Create(PageViewModel page)
         {
-            var postType = new PostType
+            if (page.Id != Guid.Empty)
             {
-                Alias = PostTypeAliases.StaticPage
-            };
-            
-            var postExcerpt = page.Content.Length > 50 ? $"{page.Content.Substring(0, 47)}..." : page.Content;
-
-            var post = new Post
+                var post = new Post
+                {
+                    Id = page.Id,
+                    Title = page.Title,
+                    Excerpt = page.Content.Length > 50 ? $"{page.Content.Substring(0, 47)}..." : page.Content,
+                    Content = page.Content,
+                    Published = page.Published,
+                    Deleted = page.Deleted,
+                    PublishDate = page.PublishDate,
+                    Author = page.CurrentAuthor,
+                    PostType = page.PostType,
+                    PostSettings = page.PostSettings,
+                    PostSeoSetting = page.PostSeoSetting,
+                    PostCategories = page.PostCategories?.ToList()
+                };
+                await _modelBuilder.BuildEditViewModel(post);
+            }
+            else
             {
-                Id = Guid.NewGuid(),
-                Title = page.Title,
-                Excerpt = postExcerpt,
-                Content = page.Content,
-                Author = CurrentUser,
-                Published = false,
-                Deleted = false,
-                PostType = postType,
-                PostSettings = new PostSetting(),
-                PostSeoSetting = new PostSeoSetting()
-            };
+                var postType = new PostType
+                {
+                    Alias = PostTypeAliases.StaticPage
+                };
 
-            await _modelBuilder.BuildCreateViewModel(post);
+                var post = new Post
+                {
+                    Id = Guid.NewGuid(),
+                    Title = page.Title,
+                    Excerpt = page.Content.Length > 50 ? $"{page.Content.Substring(0, 47)}..." : page.Content,
+                    Content = page.Content,
+                    Author = CurrentUser,
+                    Published = false,
+                    Deleted = false,
+                    PostType = postType,
+                    PostSettings = new PostSetting(),
+                    PostSeoSetting = new PostSeoSetting(),
+                    PostCategories = new List<PostCategory>()
+                };
+
+                await _modelBuilder.BuildCreateViewModel(post);
+            }
 
             return RedirectToActionPermanent("Index");
         }
@@ -79,11 +106,6 @@ namespace MathSite.Areas.Manager.Controllers
             await _modelBuilder.BuildDeleteViewModel(id);
 
             return RedirectToActionPermanent("Index");
-        }
-
-        public async Task<IActionResult> Edit(Guid id)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<IActionResult> Recover(Guid id)

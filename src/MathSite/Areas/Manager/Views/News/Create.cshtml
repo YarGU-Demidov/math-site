@@ -1,17 +1,16 @@
-﻿@model PageViewModel
+﻿@model NewsViewModel
 
 <div class="container-fluid set-max-size posts">
-    <form method="post" asp-action="Create" asp-controller="Pages">
+    <form method="post" asp-action="Create" asp-controller="News">
         @Html.HiddenFor(model => model.Id)
         <div class="card news-card">
-            <h4 class="card-header">Статьи</h4>
+            <h4 class="card-header">Новости</h4>
             <div class="card-body">
-                @Html.LabelFor(m => m.Title, "Заголовок статьи")
+                @Html.LabelFor(m => m.Title, "Заголовок новости")
                 @Html.TextBoxFor(m => m.Title, new { @required = "required" })
             </div>
             <div class="card-body">
                 @Html.LabelFor(m => m.Content, "Контент")
-                @Html.TextAreaFor(model => model.Content, new { @class = "ckeditor", @id = "content-textarea", @required = "required" })
                 @Html.TextAreaFor(m => m.Content, new { @class = "ckeditor content-textarea", @required = "required" })
             </div>
             <div class="card-body">
@@ -41,7 +40,7 @@
                 @Html.DropDownListFor(model => model.SelectedAuthor, new SelectList(Model.Authors, "Список авторов", "Text"), "- Выберите автора -", new {@required = "required"})
             </div>*@
             <div class="card-body">
-                @Html.LabelFor(m => m.PostCategories, "Каиегории")
+                @Html.LabelFor(m => m.PostCategories, "Категории")
                 @{
                     if (Model.PostCategories != null && Model.PostCategories.Any())
                     {
@@ -60,32 +59,16 @@
     </form>
 </div>
 
-
-@section StylesSection
-    {
-    <!-- Include external CSS. -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.css">
-
-    <!-- Include Editor style. -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.5/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.5/css/froala_style.min.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.5/css/plugins/table.min.css">
-}
-
-@section ScriptsSection
-    {
+@section ScriptsSection{
     <script src="~/js/pager.js"></script>
-    @*<script src="~/js/manager/ckeditor/ckeditor.js"></script>*@
-
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/mode/xml/xml.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.5/js/froala_editor.pkgd.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.5/js/languages/ru.js"></script>
-
-    <script type="text/javascript" src="~/js/manager/editor.js"></script>
+    <script src="~/js/manager/ckeditor/ckeditor.js"></script>
     <script>
-        var editor = new EditorConfig();
-        editor.initArea('static-pages');
+        $(document).ready(() => {
+            var editor = CKEDITOR.instances.Content;
+            var textArea = $('.content-textarea');
+            editor.on( 'change', function( evt ) {
+                textArea.val(evt.editor.getData());
+            });
+        });
     </script>
 }

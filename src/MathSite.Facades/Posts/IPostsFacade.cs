@@ -26,11 +26,13 @@ namespace MathSite.Facades.Posts
         Task<int> GetPostPagesCountAsync(Guid? categoryId, string postTypeAlias, int perPage, RemovedStateRequest state, PublishStateRequest publishState, FrontPageStateRequest frontPageState, bool cache);
 
         Task<Post> GetPostByUrlAndTypeAsync(Guid currentUserId, string url, string postTypeAlias, bool cache);
-        
+
+        Task<Post> GetPostAsync(Guid id);
         Task<IEnumerable<Post>> GetPostsAsync(Guid? categoryId, string postTypeAlias, int page, int perPage, RemovedStateRequest state, PublishStateRequest publishState, FrontPageStateRequest frontPageState, bool cache);
         Task<IEnumerable<Post>> GetPostsAsync(string postTypeAlias, int page, int perPage, RemovedStateRequest state, PublishStateRequest publishState, FrontPageStateRequest frontPageState, bool cache);
 
         Task<Guid> CreatePostAsync(Post post);
+        Task<Guid> UpdatePostAsync(Post post);
         Task DeletePostAsync(Guid id);
     }
 }

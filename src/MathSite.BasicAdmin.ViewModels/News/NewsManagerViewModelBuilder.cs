@@ -1,28 +1,27 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MathSite.BasicAdmin.ViewModels.SharedModels.AdminPageWithPaging;
 using MathSite.BasicAdmin.ViewModels.SharedModels.Menu;
 using MathSite.Common;
 using MathSite.Db.DataSeeding.StaticData;
+using MathSite.Entities;
 using MathSite.Facades.Posts;
 using MathSite.Facades.SiteSettings;
+using MathSite.Facades.Users;
 
 namespace MathSite.BasicAdmin.ViewModels.News
 {
-    public interface INewsManagerViewModelBuilder
-    {
-        Task<IndexNewsViewModel> BuildIndexViewModel(int page, int perPage);
-        Task<IndexNewsViewModel> BuildRemovedViewModel(int page, int perPage);
-    }
-
     public class NewsManagerViewModelBuilder : AdminPageWithPagingViewModelBuilder, INewsManagerViewModelBuilder
     {
         private readonly IPostsFacade _postsFacade;
+        private readonly IUsersFacade _usersFacade;
 
-        public NewsManagerViewModelBuilder(ISiteSettingsFacade siteSettingsFacade, IPostsFacade postsFacade) :
+        public NewsManagerViewModelBuilder(ISiteSettingsFacade siteSettingsFacade, IPostsFacade postsFacade, IUsersFacade usersFacade) :
             base(siteSettingsFacade)
         {
             _postsFacade = postsFacade;
+            _usersFacade = usersFacade;
         }
 
         public async Task<IndexNewsViewModel> BuildIndexViewModel(int page, int perPage)
@@ -65,6 +64,88 @@ namespace MathSite.BasicAdmin.ViewModels.News
 
             model.Posts = await _postsFacade.GetPostsAsync(postType, page, 5, removedState, publishState, frontPageState, cached);
             model.PageTitle.Title = "Список удаленных новостей";
+
+            return model;
+        }
+
+        public async Task<NewsViewModel> BuildCreateViewModel(Post post = null)
+        {
+            var model = await BuildAdminBaseViewModelAsync<NewsViewModel>(
+                link => link.Alias == "News",
+                link => link.Alias == "Create"
+            );
+
+            if (post != null)
+            {
+                model.PageTitle.Title = post.Title;
+
+                await _postsFacade.CreatePostAsync(post);
+            }
+
+            return model;
+        }
+
+        public async Task<NewsViewModel> BuildEditViewModel(Guid id)
+        {
+            var model = await BuildAdminBaseViewModelAsync<NewsViewModel>(
+                link => link.Alias == "News",
+                link => link.Alias == "Edit"
+            );
+
+            var post = await _postsFacade.GetPostAsync(id);
+
+            model.Id = post.Id;
+            model.Title = post.Title;
+            model.Excerpt = post.Excerpt;
+            model.Content = post.Content;
+            model.Published = post.Published;
+            model.Deleted = post.Deleted;
+            model.PublishDate = post.PublishDate;
+            model.CurrentAuthor = post.Author;
+            model.SelectedAuthor = string.Empty;
+            model.Authors = _usersFacade.GetUsers();
+            model.PostType = post.PostType;
+            model.PostSettings = post.PostSettings;
+            model.PostSeoSetting = post.PostSeoSetting;
+            model.PostCategories = post.PostCategories;
+
+            return model;
+        }
+
+        public async Task<NewsViewModel> BuildEditViewModel(Post post)
+        {
+            var model = await BuildAdminBaseViewModelAsync<NewsViewModel>(
+                link => link.Alias == "News",
+                link => link.Alias == "Edit"
+            );
+
+            model.Id = post.Id;
+            model.Title = post.Title;
+            model.Excerpt = post.Excerpt;
+            model.Content = post.Content;
+            model.Published = post.Published;
+            model.Deleted = post.Deleted;
+            model.PublishDate = post.PublishDate;
+            model.CurrentAuthor = post.Author;
+            model.Authors = _usersFacade.GetUsers();
+            model.PostType = post.PostType;
+            model.PostSettings = post.PostSettings;
+            model.PostSeoSetting = post.PostSeoSetting;
+            model.PostCategories = post.PostCategories;
+
+            await _postsFacade.UpdatePostAsync(post);
+
+            return model;
+        }
+
+        public async Task<IndexNewsViewModel> BuildDeleteViewModel(Guid id)
+        {
+            var model = await BuildAdminBaseViewModelAsync<IndexNewsViewModel>(
+                link => link.Alias == "News",
+                link => link.Alias == "Delete"
+            );
+
+            await _postsFacade.DeletePostAsync(id);
 
             return model;
         }

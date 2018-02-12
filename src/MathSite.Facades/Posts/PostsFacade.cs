@@ -40,38 +40,40 @@ namespace MathSite.Facades.Posts
         private TimeSpan CacheMinutes { get; } = TimeSpan.FromMinutes(10);
 
         public ISiteSettingsFacade SiteSettingsFacade { get; }
-        
+
         public async Task<int> GetPostPagesCountAsync(
-            string postTypeAlias, 
-            int perPage, 
+            string postTypeAlias,
+            int perPage,
             RemovedStateRequest state,
-            PublishStateRequest publishState, 
-            FrontPageStateRequest frontPageState, 
+            PublishStateRequest publishState,
+            FrontPageStateRequest frontPageState,
             bool cache
         )
         {
-            return await GetPostPagesCountAsync(null, postTypeAlias, perPage, state, publishState, frontPageState, cache);
+            return await GetPostPagesCountAsync(null, postTypeAlias, perPage, state, publishState, frontPageState,
+                cache);
         }
 
         public async Task<int> GetPostPagesCountAsync(
-            Guid? categoryId, 
-            string postTypeAlias, 
-            int perPage, 
+            Guid? categoryId,
+            string postTypeAlias,
+            int perPage,
             RemovedStateRequest state,
-            PublishStateRequest publishState, 
-            FrontPageStateRequest frontPageState, 
+            PublishStateRequest publishState,
+            FrontPageStateRequest frontPageState,
             bool cache
         )
         {
-            var newsCount = await GetPostsWithTypeCount(postTypeAlias, categoryId, state, publishState, frontPageState, cache);
+            var newsCount =
+                await GetPostsWithTypeCount(postTypeAlias, categoryId, state, publishState, frontPageState, cache);
 
             return (int) Math.Ceiling(newsCount / (float) perPage);
         }
 
 
         public async Task<Post> GetPostByUrlAndTypeAsync(
-            Guid currentUserId, 
-            string url, 
+            Guid currentUserId,
+            string url,
             string postTypeAlias,
             bool cache
         )
@@ -106,7 +108,12 @@ namespace MathSite.Facades.Posts
                 })
                 : await GetPost(requirements);
         }
-        
+
+        public async Task<Post> GetPostAsync(Guid id)
+        {
+            return await Repository.FirstOrDefaultAsync(p => p.Id == id);
+        }
+
         public Task<IEnumerable<Post>> GetPostsAsync(string postTypeAlias, int page, int perPage,
             RemovedStateRequest state, PublishStateRequest publishState, FrontPageStateRequest frontPageState,
             bool cache)
@@ -114,36 +121,13 @@ namespace MathSite.Facades.Posts
             return GetPostsAsync(null, postTypeAlias, page, perPage, state, publishState, frontPageState, cache);
         }
 
-
-        public async Task<Guid> CreatePostAsync(Post post)
-        {
-            try
-            {
-                var postType = await GetPostTypeAsync(post.PostType.Alias);  
-                var seoSettingsId = await RepositoryManager.PostSeoSettingsRepository.InsertAndGetIdAsync(post.PostSeoSetting);
-                var settingsId = await RepositoryManager.PostSettingRepository.InsertAndGetIdAsync(post.PostSettings);
-
-                post.PostType = postType;
-
-                post.PostSeoSettingsId = seoSettingsId;
-                post.PostSettingsId = settingsId;
-
-                return await Repository.InsertAndGetIdAsync(post);
-            }
-            catch (Exception e)
-            {
-                _postsFacadeLogger.LogError(e, "Can't create post. Exception was thrown.");
-                return Guid.Empty;
-            }
-        }
-
         public async Task<IEnumerable<Post>> GetPostsAsync(
-            Guid? categoryId, 
-            string postTypeAlias, 
-            int page, 
+            Guid? categoryId,
+            string postTypeAlias,
+            int page,
             int perPage,
-            RemovedStateRequest state, 
-            PublishStateRequest publishState, 
+            RemovedStateRequest state,
+            PublishStateRequest publishState,
             FrontPageStateRequest frontPageState,
             bool cache
         )
@@ -185,6 +169,42 @@ namespace MathSite.Facades.Posts
                 : await GetPosts(requirements, perPage, toSkip);
         }
 
+        public async Task<Guid> CreatePostAsync(Post post)
+        {
+            try
+            {
+                var postType = await GetPostTypeAsync(post.PostType.Alias);
+                var seoSettingsId =
+                    await RepositoryManager.PostSeoSettingsRepository.InsertAndGetIdAsync(post.PostSeoSetting);
+                var settingsId = await RepositoryManager.PostSettingRepository.InsertAndGetIdAsync(post.PostSettings);
+
+                post.PostType = postType;
+
+                post.PostSeoSettingsId = seoSettingsId;
+                post.PostSettingsId = settingsId;
+
+                return await Repository.InsertAndGetIdAsync(post);
+            }
+            catch (Exception e)
+            {
+                _postsFacadeLogger.LogError(e, "Can't create post. Exception was thrown.");
+                return Guid.Empty;
+            }
+        }
+
+        public async Task<Guid> UpdatePostAsync(Post post)
+        {
+            try
+            {
+                return await Repository.InsertOrUpdateAndGetIdAsync(post);
+            }
+            catch (Exception e)
+            {
+                _postsFacadeLogger.LogError(e, "Can't update post. Exception was thrown.");
+                return Guid.Empty;
+            }
+        }
+
         public async Task DeletePostAsync(Guid id)
         {
             try
@@ -206,8 +226,8 @@ namespace MathSite.Facades.Posts
             string postTypeAlias,
             Guid? categoryId,
             RemovedStateRequest state,
-            PublishStateRequest publishState, 
-            FrontPageStateRequest frontPageState, 
+            PublishStateRequest publishState,
+            FrontPageStateRequest frontPageState,
             bool cache
         )
         {

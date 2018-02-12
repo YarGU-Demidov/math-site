@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MathSite.Common.Crypto;
 using MathSite.Common.Extensions;
@@ -50,6 +51,11 @@ namespace MathSite.Facades.Users
             return await GetCountAsync(requirements, cache, CacheTime);
         }
 
+
+        public IList<User> GetUsers()
+        {
+            return Repository.GetAll().ToList();
+        }
 
         // TODO: FIXME: Extract to classes or smth else
         public async Task<IEnumerable<User>> GetUsersAsync(int page, int perPage, bool cache)
