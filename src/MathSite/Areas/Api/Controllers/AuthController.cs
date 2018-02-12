@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MathSite.Areas.Api.Controllers
 {
-    [Area("Api")]
+    [Area("api")]
     public class AuthController : BaseController
     {
         public AuthController(IUserValidationFacade userValidationFacade, IUsersFacade usersFacade)

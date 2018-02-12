@@ -38,5 +38,7 @@ namespace MathSite.Common.FileStorage
         /// <returns>Binary representation of file.</returns>
         /// <exception cref="System.IO.FileNotFoundException">Will be thrown when file not found in storage.</exception>
         Stream GetFileStream(string fileId);
+
+        Task Remove(string filePath);
     }
 }

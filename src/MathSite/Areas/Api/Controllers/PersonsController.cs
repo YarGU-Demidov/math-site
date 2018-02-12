@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using MathSite.Controllers;
 using MathSite.Core.DataTableApi;
 using MathSite.Core.Responses;
@@ -21,7 +22,7 @@ namespace MathSite.Areas.Api.Controllers
             DbContext = dbContext;
         }
 
-        public MathSiteDbContext DbContext { get; }
+        private MathSiteDbContext DbContext { get; }
 
         [HttpPost]
         public GetAllResponse<Person> GetAll(int offset = 0, int count = 50,
@@ -63,11 +64,11 @@ namespace MathSite.Areas.Api.Controllers
         }
 
         [HttpGet]
-        public GetCountResponse GetCount()
+        public async Task<GetCountResponse> GetCount()
         {
             try
             {
-                return new GetCountResponse(new SuccessResponseType(), null, DbContext.Persons.Count());
+                return new GetCountResponse(new SuccessResponseType(), null, await UsersFacade.GetUsersCountAsync(cache: false));
             }
             catch (Exception exception)
             {

@@ -69,5 +69,10 @@ namespace MathSite.Tests.Facades.TestStuff
 
             return new MemoryStream(Data);
         }
+
+        public Task Remove(string filePath)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

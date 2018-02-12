@@ -19,6 +19,8 @@ CKEDITOR.editorConfig = function( config ) {
     config.defaultLanguage = 'ru';
 
 	config.colorButton_enableMore = true;
+
+	config.extraPlugins = 'filetools,uploadwidget,uploadimage';
 	
 	config.mathJaxLib = '//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML';
 };

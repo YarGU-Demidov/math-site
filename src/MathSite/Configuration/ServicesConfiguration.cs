@@ -16,6 +16,9 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Internal;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -132,15 +135,16 @@ namespace MathSite
 
             services.AddLazyProvider();
 
+            services.AddSingleton<FileFormatBuilder>();
             services.AddSingleton(Configuration);
             services.AddSingleton<IConfiguration>(Configuration);
+            services.AddSingleton<IActionDescriptorCollectionProvider, ActionDescriptorCollectionProvider>();
             services.Configure<Settings>(Configuration);
 
             services.AddScoped<IPasswordsManager, DoubleSha512HashPasswordsManager>();
             services.AddScoped<IKeyVectorReader, KeyVectorReader>();
             services.AddScoped<IEncryptor, AesEncryptor>();
 
-            services.AddSingleton<FileFormatBuilder>();
             
             services.AddRepositories()
                 .AddFacades()
