@@ -247,7 +247,7 @@ namespace MathSite.Facades.Posts
             else if (frontPageState == FrontPageStateRequest.Invisible)
                 requirements = requirements.AndNot(new PostOnStartPageSpecification());
 
-            if (categoryId.IsNotNull())
+            if (categoryId.HasValue)
                 requirements = requirements.And(new PostHasCategoriesSpecification(categoryId.Value));
 
             return requirements;

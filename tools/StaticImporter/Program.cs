@@ -67,7 +67,7 @@ namespace StaticImporter
             File.WriteAllText(Path.Combine(Environment.CurrentDirectory, "static-pages.json"), json);
         }
 
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             if (args.Any(s => s.ToLower() == "generate"))
             {
@@ -99,7 +99,7 @@ namespace StaticImporter
 
             using (var context = new MathSiteDbContext(options))
             {
-                Process(context, posts).Wait();
+                await Process(context, posts);
             }
         }
 
@@ -180,7 +180,9 @@ namespace StaticImporter
                 PublishDate = new DateTime(2017, 03, 01),
                 CreationDate = new DateTime(2017, 03, 01),
                 PostType = await postTypeRepository.FirstOrDefaultAsync(
-                    new SameAliasSpecification<PostType>(PostTypeAliases.StaticPage))
+                    new SameAliasSpecification<PostType>(PostTypeAliases.StaticPage)),
+                PostSettings = ConvertToPostSetting(oldPost),
+                PostSeoSetting = ConvertToPostSeoSettings(oldPost)
             };
         }
 
