@@ -16,6 +16,9 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Internal;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -137,6 +140,7 @@ namespace MathSite
             services.Configure<Settings>(Configuration);
 
             services.AddScoped<IPasswordsManager, DoubleSha512HashPasswordsManager>();
+            services.AddSingleton<IActionDescriptorCollectionProvider, ActionDescriptorCollectionProvider>();
 
             services.AddSingleton<FileFormatBuilder>();
             

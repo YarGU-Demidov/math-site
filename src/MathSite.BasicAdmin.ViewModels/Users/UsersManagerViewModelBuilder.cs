@@ -28,7 +28,7 @@ namespace MathSite.BasicAdmin.ViewModels.Users
                 link => link.Alias == "Users",
                 link => link.Alias == "List",
                 page,
-                await _usersFacade.GetUsersCountAsync(perPage, false),
+                await _usersFacade.GetUsersPagesCountAsync(perPage, false),
                 perPage
             );
 
