@@ -41,77 +41,9 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.5/js/froala_editor.pkgd.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.5/js/languages/ru.js"></script>
 
+    <script type="text/javascript" src="~/js/manager/editor.js"></script>
     <script>
-        $(document).ready(() => {
-            /*var editor = CKEDITOR.instances.Content;
-            var textArea = $('#content-textarea');
-            editor.on('change', function (evt) {
-                textArea.val(evt.editor.getData());
-            });*/
-
-            $('#content-textarea').froalaEditor({
-                // https://www.froala.com/wysiwyg-editor/docs/concepts/image/manager
-                imageManagerLoadURL: location.origin + '/api/froala/get-images',
-                imageManagerPageSize: 30,
-                imageManagerLoadMethod: "GET",
-                imageManagerDeleteURL: '/api/froala/delete-image',
-                imageManagerDeleteMethod: "POST",
-
-                // https://www.froala.com/wysiwyg-editor/docs/concepts/image/upload
-                imageUploadParam: 'image',
-                imageUploadURL: location.origin + '/api/froala/upload-image/static-pages',
-                imageUploadMethod: 'POST',
-                imageMaxSize: 50 * 1024 * 1024, // Set max image size to 50MB.
-                imageAllowedTypes: ['jpeg', 'jpg', 'png', 'gif'],
-
-                language: 'ru',
-
-                toolbarButtons: [
-                    'fullscreen',
-                    '|',
-                    'undo',
-                    'redo',
-                    '|',
-                    'bold',
-                    'italic',
-                    'underline',
-                    'strikeThrough',
-                    'subscript',
-                    'superscript',
-                    '|',
-                    'fontFamily',
-                    'fontSize',
-                    'color',
-                    'inlineStyle',
-                    'paragraphStyle',
-                    '|',
-                    'paragraphFormat',
-                    'align',
-                    'formatOL',
-                    'formatUL',
-                    'outdent',
-                    'indent',
-                    'quote',
-                    '-',
-                    'insertLink',
-                    'insertImage',
-                    'insertVideo',
-                    'embedly',
-                    //'insertFile',
-                    'insertTable',
-                    '|',
-                    'emoticons',
-                    'specialCharacters',
-                    'insertHR',
-                    'selectAll',
-                    'clearFormatting',
-                    '|',
-                    'print',
-                    'spellChecker',
-                    'help',
-                    'html',
-                ]
-            });
-        });
+        var editor = new EditorConfig();
+        editor.initArea('static-pages');
     </script>
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using MathSite.Common.Extensions;
 using MathSite.Controllers;
 using MathSite.Facades.FileSystem;
 using MathSite.Facades.Users;
@@ -34,10 +35,13 @@ namespace MathSite.Areas.Api.Controllers
             return Json(files.Select(file => new {id = file.Id, url = Url.Action("Get", "File", new {id = file.Id})}));
         }
 
-        [HttpPost("[area]/[controller]/upload-image/{dirName}")]
-        public async Task<IActionResult> UploadImage([FromForm] IFormFile image, string dirName)
+        [HttpPost("[area]/[controller]/upload-file/{dirName?}")]
+        public async Task<IActionResult> UploadFile([FromForm] IFormFile file, string dirName = null)
         {
-            var fileId = await _fileFacade.SaveFileAsync(CurrentUser, image.FileName, image.OpenReadStream(), dirName);
+            if (file.IsNull())
+                return Json(new {error = "You didn't sent a file."});
+
+            var fileId = await _fileFacade.SaveFileAsync(CurrentUser, file.FileName, file.OpenReadStream(), dirName);
 
             return Json(new
             {
