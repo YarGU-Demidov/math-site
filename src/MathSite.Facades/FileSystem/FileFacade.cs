@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Authentication;
@@ -11,6 +12,7 @@ using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
 using MathSite.Repository;
 using MathSite.Repository.Core;
+using MathSite.Specifications.Files;
 using Microsoft.Extensions.Caching.Memory;
 using File = MathSite.Entities.File;
 
@@ -27,7 +29,10 @@ namespace MathSite.Facades.FileSystem
         /// <returns></returns>
         Task<Guid> SaveFileAsync(User currentUser, string name, Stream data, string dirPath = default);
 
+        Task<IEnumerable<File>> GetFilesByExtensions(IEnumerable<string> extensions);
+
         Task<(string FileName, Stream FileStream, string Extension)> GetFileAsync(Guid id);
+        Task Remove(Guid id);
     }
 
 
@@ -54,12 +59,30 @@ namespace MathSite.Facades.FileSystem
             _directoryFacade = directoryFacade;
         }
 
+        public async Task<IEnumerable<File>> GetFilesByExtensions(IEnumerable<string> extensions)
+        {
+            var spec = new FileExtensionsSpecification(extensions);
+            return await Repository.GetAllListAsync(spec);
+        }
+
         public async Task<(string FileName, Stream FileStream, string Extension)> GetFileAsync(Guid id)
         {
             var file = await Repository.FirstOrDefaultAsync(id);
             return file.IsNull()
                 ? (null, null, null)
                 : (file.Name, _fileStorage.GetFileStream(file.Path), file.Extension);
+        }
+
+        public async Task Remove(Guid id)
+        {
+            var file = Repository.Get(id);
+            var tasks = new[]
+            {
+                Repository.DeleteAsync(id),
+                _fileStorage.Remove(file.Path)
+            };
+
+            await Task.WhenAll(tasks);
         }
 
         public async Task<Guid> SaveFileAsync(User currentUser, string name, Stream data, string dirPath = default)

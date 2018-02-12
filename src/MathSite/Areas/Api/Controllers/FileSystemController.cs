@@ -24,8 +24,9 @@ namespace MathSite.Areas.Api.Controllers
     }
 
     [Produces("application/json")]
-    [Route("api/fs")]
     [Authorize("admin")]
+    [Area("api")]
+    [Route("api/fs")]
     public class FileSystemController : BaseController
     {
         private readonly IDirectoryFacade _directoryFacade;

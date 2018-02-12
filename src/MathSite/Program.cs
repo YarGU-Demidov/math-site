@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Newtonsoft.Json;
@@ -9,12 +10,12 @@ namespace MathSite
 {
     public static class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             if (args.Any(s => s == "seed"))
                 RunSeeding();
             else if (args.Any(s => s == "import-news"))
-                RunImportNews();
+                await RunImportNews();
             else if (args.Any(s => s == "import-pages"))
                 RunImportStaticPages();
             else if (args.Any(s => s == "key-generate"))
@@ -45,18 +46,18 @@ namespace MathSite
             Seeder.Program.Main(new[] {connectionString});
         }
 
-        public static void RunImportNews()
+        public static async Task RunImportNews()
         {
             var connectionString = GetCurrentConnectionString();
 
-            NewsImporter.Program.Main(new[] {connectionString});
+            await NewsImporter.Program.Main(new[] {connectionString});
         }
 
-        private static void RunImportStaticPages()
+        private static async Task RunImportStaticPages()
         {
             var connectionString = GetCurrentConnectionString();
 
-            StaticImporter.Program.Main(new[] {connectionString});
+            await StaticImporter.Program.Main(new[] {connectionString});
         }
 
         private static string GetCurrentConnectionString()

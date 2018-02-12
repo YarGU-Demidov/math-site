@@ -37,11 +37,11 @@ namespace MathSite.Areas.Api.Controllers
         public MathSiteDbContext DbContext { get; }
 
         [HttpGet]
-        public GetCountResponse GetCount()
+        public async Task<GetCountResponse> GetCount()
         {
             try
             {
-                return new GetCountResponse(new SuccessResponseType(), null, DbContext.Users.Count());
+                return new GetCountResponse(new SuccessResponseType(), null, await UsersFacade.GetUsersCountAsync(false));
             }
             catch (Exception exception)
             {

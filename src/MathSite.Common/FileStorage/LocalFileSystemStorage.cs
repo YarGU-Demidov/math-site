@@ -59,6 +59,12 @@ namespace MathSite.Common.FileStorage
             return new FileStream(Path.Combine(SavePath, fileId), FileMode.Open, FileAccess.Read);
         }
 
+        public Task Remove(string filePath)
+        {
+            File.Delete(Path.Combine(SavePath, filePath));
+            return Task.CompletedTask;
+        }
+
         private static string GetFileDate()
         {
             var now = DateTime.UtcNow;

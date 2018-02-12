@@ -24,16 +24,21 @@ namespace MathSite.Facades.Users
         private TimeSpan CacheTime { get; } = TimeSpan.FromMinutes(5);
 
         // TODO: FIXME: Extract to classes or smth else
-        public async Task<int> GetUsersCountAsync(int perPage, bool cache)
+        public async Task<int> GetUsersPagesCountAsync(int perPage, bool cache)
         {
             perPage = perPage > 0 ? perPage : 1;
 
-            var requirements = new AnySpecification<User>();
+            var usersCount = await GetUsersCountAsync(cache);
 
-            var newsCount = await GetCountAsync(requirements, cache, CacheTime);
-
-            return (int) Math.Ceiling(newsCount / (float) perPage);
+            return (int) Math.Ceiling(usersCount / (float) perPage);
         }
+
+        public async Task<int> GetUsersCountAsync(bool cache)
+        {
+            var requirements = new AnySpecification<User>();
+            return await GetCountAsync(requirements, cache, CacheTime);
+        }
+
 
         // TODO: FIXME: Extract to classes or smth else
         public async Task<IEnumerable<User>> GetUsersAsync(int page, int perPage, bool cache)

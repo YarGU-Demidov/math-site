@@ -25,7 +25,7 @@ namespace NewsImporter
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public async static Task Main(string[] args)
         {
             if (args.Length != 1)
                 throw new ArgumentException("You should pass only 1 argument: connection string!", nameof(args));
@@ -49,7 +49,7 @@ namespace NewsImporter
 
             using (var context = new MathSiteDbContext(options))
             {
-                Process(context, posts).Wait();
+                await Process(context, posts);
             }
         }
 
@@ -108,7 +108,8 @@ namespace NewsImporter
             foreach (var post in posts)
             {
                 var newPostId = await postsFacade.CreatePostAsync(
-                    await ConvertToPost(post, manager.UsersRepository, manager.PostTypeRepository));
+                    await ConvertToPost(post, manager.UsersRepository, manager.PostTypeRepository)
+                );
 
                 if (newPostId == Guid.Empty)
                     throw new ApplicationException("Something went wrong. Check exception above.");
@@ -129,7 +130,9 @@ namespace NewsImporter
                 PublishDate = oldPost.PublishedAt?.UtcDateTime ?? DateTime.UtcNow,
                 CreationDate = oldPost.CreatedAt?.UtcDateTime ?? DateTime.UtcNow,
                 PostType = await postTypeRepository.FirstOrDefaultAsync(
-                    new SameAliasSpecification<PostType>(PostTypeAliases.News))
+                    new SameAliasSpecification<PostType>(PostTypeAliases.News)),
+                PostSettings = ConvertToPostSetting(oldPost),
+                PostSeoSetting = ConvertToPostSeoSettings(oldPost)
             };
         }
 
