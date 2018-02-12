@@ -32,7 +32,7 @@ namespace MathSite.Common.Crypto
         private static string CreateKeyForUser()
         {
             var rnd = new Random();
-            var key = new String(Enumerable.Repeat(rnd, 12).Select(x => (char) x.Next(33, 123)).ToArray());
+            var key = new string(Enumerable.Repeat(rnd, 12).Select(x => (char) x.Next(33, 123)).ToArray());
             return key;
         }
     }
