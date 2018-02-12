@@ -27,6 +27,7 @@
       <LangVersion>latest</LangVersion>
     </PropertyGroup>
     <ItemGroup>
+        <PackageReference Include="GoogleAuthenticator" Version="1.2.0" />
         <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.0.1" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.2" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.0.2" />
@@ -35,10 +36,5 @@
         <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
         <PackageReference Include="System.Linq" Version="4.3.0" />
         <PackageReference Include="System.Linq.Queryable" Version="4.3.0" />
-    </ItemGroup>
-    <ItemGroup>
-      <Reference Include="Google.Authenticator">
-        <HintPath>..\..\..\..\..\..\.nuget\packages\googleauthenticator\1.2.1\lib\net45\Google.Authenticator.dll</HintPath>
-      </Reference>
     </ItemGroup>
 </Project>
