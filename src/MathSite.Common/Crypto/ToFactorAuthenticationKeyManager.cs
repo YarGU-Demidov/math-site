@@ -29,6 +29,12 @@ namespace MathSite.Common.Crypto
             return await Task.FromResult(isValid);
         }
 
+        public async Task<string> GetDecryptedString(byte[] encryptedBytes)
+        {
+            var keyString = await _aesEncryptor.DecryptStringFromBytes(encryptedBytes);
+           return await Task.FromResult(keyString);
+        }
+
         private static string CreateKeyForUser()
         {
             var rnd = new Random();

@@ -17,7 +17,7 @@ namespace MathSite
             else if (args.Any(s => s == "import-news"))
                 await RunImportNews();
             else if (args.Any(s => s == "import-pages"))
-                RunImportStaticPages();
+                await RunImportStaticPages();
             else if (args.Any(s => s == "key-generate"))
                 RunKeyGenerator();
             else
