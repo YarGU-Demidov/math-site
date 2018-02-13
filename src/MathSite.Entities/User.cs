@@ -19,11 +19,11 @@ namespace MathSite.Entities
         /// <param name="login">Логин.</param>
         /// <param name="passwordHash">Пароль.</param>
         /// <param name="groupId">Идентификатор группы.</param>
-        public User(string login, byte[] passwordHash, byte[] twoFactorAutentificationHash, Guid groupId)
+        public User(string login, byte[] passwordHash, byte[] twoFactorAutentificationKey, Guid groupId)
         {
             Login = login;
             PasswordHash = passwordHash;
-            TwoFactorAutentificationHash = twoFactorAutentificationHash;
+            TwoFactorAutentificationKey = twoFactorAutentificationKey;
             GroupId = groupId;
             CreationDate = DateTime.Now;
         }
@@ -39,9 +39,9 @@ namespace MathSite.Entities
         public byte[] PasswordHash { get; set; }
 
         /// <summary>
-        ///     Хэш кюча для двухфакторной авторизации.
+        ///     Зашифрованный кюч для двухфакторной авторизации.
         /// </summary>
-        public byte[] TwoFactorAutentificationHash { get; set; }
+        public byte[] TwoFactorAutentificationKey { get; set; }
 
         /// <summary>
         ///     Личность.

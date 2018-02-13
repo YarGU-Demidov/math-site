@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Google.Authenticator;
 using MathSite.Common.Crypto;
 using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
@@ -51,10 +52,10 @@ namespace MathSite.Controllers
 
             if (ourUser.TwoFactorAutentificationHash == null)
             {
-                ViewBag.HasTwoFactorAutentification = false;
+                model.HasTwoFactorAutentification = false;
                 return View("~/Views/Account/TwoFactorAuthentication.cshtml", model);
             }
-            ViewBag.HasTwoFactorAutentification = true;
+            model.HasTwoFactorAutentification = true;
             return View("~/Views/Account/TwoFactorAuthentication.cshtml", model);
         }
 
@@ -109,10 +110,23 @@ namespace MathSite.Controllers
             return RedirectToAction("Index", "Home");
         }
         [HttpPost("/add-two-factor-authentication")]
-        public async void Add2Fa(LoginFormViewModel model)
+        public async Task<IActionResult> Add2Fa(LoginFormViewModel model)
         {
+            var tfa = new TwoFactorAuthenticator();
             var key = await UserValidationFacade.KeyManager.CreateEncryptedKey();
+            var keyString = await UserValidationFacade.KeyManager.GetDecryptedString(key);
+            await UserValidationFacade.SetUserKey(model.Login, key);
+
+            var setupInfo = tfa.GenerateSetupCode("Math site", model.Login, keyString, 300, 300);
+            model.BarcodeImageUrl = setupInfo.QrCodeSetupImageUrl;
+            model.SetupCode = setupInfo.ManualEntryKey;
+            return View(model);
             await ContinueLogin(model);
         }
+
+        //public async Task<ActionResult> VerifyTwoActionAutentication()
+        //{
+        //    return View();
+        //}
     }
 }

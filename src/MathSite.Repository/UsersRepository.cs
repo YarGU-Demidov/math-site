@@ -10,6 +10,7 @@ namespace MathSite.Repository
     public interface IUsersRepository : IRepository<User>
     {
         Task<IEnumerable<User>> GetAllWithPagingAsync(int skip, int count);
+        Task SetUserKey(string login, byte[] key);
         IUsersRepository WithPerson();
         IUsersRepository WithRights();
     }
@@ -27,8 +28,11 @@ namespace MathSite.Repository
                 .ToArrayAsync();
         }
 
-        public async void SetUserKey(string login)
+        public async Task SetUserKey(string login, byte[] key)
         {
+            var user =await Context.Users.Where(u => u.Login == login).FirstOrDefaultAsync();
+            user.TwoFactorAutentificationKey = key;
+            Context.SaveChanges();
         }
         public IUsersRepository WithPerson()
         {

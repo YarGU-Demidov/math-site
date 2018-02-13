@@ -5,4 +5,17 @@
 }
 
 <h2>Adding two factor autentification</h2>
+<div>
+    <img src="@Model.BarcodeImageUrl"/>
+</div>
+<div>
+    Manual Setup Code: @Model.SetupCode
+</div>
+<div>
+    @*@using (Html.BeginForm("Verify2FA", "Home", FormMethod.Post))
+    {
+        <input type="text" name="password"/>
+        <input type="submit" class="btn btn-default"/>
+    }*@
+</div>
 

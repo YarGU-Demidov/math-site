@@ -11,6 +11,7 @@ namespace MathSite.Facades.UserValidation
 {
     public class UserValidationFacade : BaseFacade, IUserValidationFacade
     {
+
         public IKeyManager KeyManager { get; set; }
         private readonly IPasswordsManager _passwordHasher;
 
@@ -83,6 +84,10 @@ namespace MathSite.Facades.UserValidation
 
             return user;
         }
-        
+
+        public async Task SetUserKey(string login, byte[] key)
+        {
+           await RepositoryManager.UsersRepository.SetUserKey(login, key);
+        }
     }
 }
