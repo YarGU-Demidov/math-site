@@ -91,7 +91,7 @@ namespace MathSite.Facades.UserValidation
             var user = await RepositoryManager.UsersRepository.FirstOrDefaultAsync(u => u.Login == login);
             if (user.IsNull())
             {
-                throw new NullReferenceException("юзер ноль");
+                throw new NullReferenceException("Не удалось получить юзера при добавлении к нему ключа двухфакторной авторизации");
             }
             user.TwoFactorAuthenticationKey = key;
             await RepositoryManager.UsersRepository.UpdateAsync(user);
