@@ -20,14 +20,6 @@ namespace MathSite.Common.Crypto
             var userUniqueKey = CreateKeyForUser();
             return await _aesEncryptor.EncryptStringToBytes(userUniqueKey);
         }
-        
-        public async Task<bool> KeysAreEqual(string keyForVerification, byte[] encryptedUserUniqueKey)
-        {
-            var tfa = new TwoFactorAuthenticator();
-            var userUniqueKey = await _aesEncryptor.DecryptStringFromBytes(encryptedUserUniqueKey);
-            var isValid = tfa.ValidateTwoFactorPIN(userUniqueKey, keyForVerification);
-            return isValid;
-        }
 
         public async Task<string> GetDecryptedString(byte[] encryptedBytes)
         {

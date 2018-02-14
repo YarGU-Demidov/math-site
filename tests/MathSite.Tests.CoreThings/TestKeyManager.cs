@@ -15,11 +15,6 @@ namespace MathSite.Tests.CoreThings
             return Task.FromResult(Enumerable.Range(0, 12).Select(i => (byte) rnd.Next(0, 255)).ToArray());
         }
 
-        public Task<bool> KeysAreEqual(string keyForVerification, byte[] encryptedUserUniqueKey)
-        {
-            return Task.FromResult(true);
-        }
-
         public Task<string> GetDecryptedString(byte[] encryptedBytes)
         {
             return Task.FromResult("Hello world");

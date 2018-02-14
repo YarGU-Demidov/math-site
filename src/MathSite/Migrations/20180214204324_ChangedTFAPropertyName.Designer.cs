@@ -11,9 +11,10 @@ using System;
 namespace MathSite.Migrations
 {
     [DbContext(typeof(MathSiteDbContext))]
-    partial class MathSiteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180214204324_ChangedTFAPropertyName")]
+    partial class ChangedTFAPropertyName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -260,9 +261,14 @@ namespace MathSite.Migrations
                     b.Property<string>("Surname")
                         .IsRequired();
 
+                    b.Property<Guid?>("UserId");
+
                     b.HasKey("Id");
 
                     b.HasIndex("PhotoId")
+                        .IsUnique();
+
+                    b.HasIndex("UserId")
                         .IsUnique();
 
                     b.ToTable("Person");
@@ -633,16 +639,11 @@ namespace MathSite.Migrations
                     b.Property<byte[]>("PasswordHash")
                         .IsRequired();
 
-                    b.Property<Guid>("PersonId");
-
                     b.Property<byte[]>("TwoFactorAuthenticationKey");
 
                     b.HasKey("Id");
 
                     b.HasIndex("GroupId");
-
-                    b.HasIndex("PersonId")
-                        .IsUnique();
 
                     b.ToTable("User");
                 });
@@ -758,6 +759,11 @@ namespace MathSite.Migrations
                     b.HasOne("MathSite.Entities.File", "Photo")
                         .WithOne("Person")
                         .HasForeignKey("MathSite.Entities.Person", "PhotoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MathSite.Entities.User", "User")
+                        .WithOne("Person")
+                        .HasForeignKey("MathSite.Entities.Person", "UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -897,11 +903,6 @@ namespace MathSite.Migrations
                         .WithMany("Users")
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("MathSite.Entities.Person", "Person")
-                        .WithOne("User")
-                        .HasForeignKey("MathSite.Entities.User", "PersonId")
-                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("MathSite.Entities.UserSetting", b =>
