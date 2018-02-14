@@ -11,9 +11,10 @@ using System;
 namespace MathSite.Migrations
 {
     [DbContext(typeof(MathSiteDbContext))]
-    partial class MathSiteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180214204324_ChangedTFAPropertyName")]
+    partial class ChangedTFAPropertyName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

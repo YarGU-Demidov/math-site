@@ -93,7 +93,7 @@ namespace MathSite.Facades.UserValidation
             {
                 throw new NullReferenceException("юзер ноль");
             }
-            user.TwoFactorAutentificationKey = key;
+            user.TwoFactorAuthenticationKey = key;
             await RepositoryManager.UsersRepository.UpdateAsync(user);
         }
     }

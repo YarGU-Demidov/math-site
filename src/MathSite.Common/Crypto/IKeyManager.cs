@@ -11,12 +11,8 @@ namespace MathSite.Common.Crypto
         Task<byte[]> CreateEncryptedKey();
 
         /// <summary>
-        /// Проверяет правилен ли введенный пользователем 6-ти циферный код.
+        /// Расшифровывает массив байт из таблицы бд юзера.
         /// </summary>
-        /// <param name="keyForVerification">Введенный пользователем код</param>
-        /// <param name="encryptedUserUniqueKey">Хранящийся в базе данный зашифрованный ключ</param>
-        Task<bool> KeysAreEqual(string keyForVerification, byte[] encryptedUserUniqueKey);
-
         Task<string> GetDecryptedString(byte[] encryptedBytes);
     }
 }

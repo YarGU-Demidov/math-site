@@ -49,7 +49,7 @@ namespace MathSite.Controllers
 
             if (ourUser == null)
                 return View(model);
-            if (ourUser.TwoFactorAutentificationKey == null)
+            if (ourUser.TwoFactorAuthenticationKey == null)
             {
                 model.HasTwoFactorAutentification = false;
                 return View("~/Views/Account/TwoFactorAuthentication.cshtml", model);
@@ -127,7 +127,7 @@ namespace MathSite.Controllers
             var token = model.Token;
             var ourUser = await UserValidationFacade.GetUserByLoginAndPasswordAsync(model.Login, model.Password);
             var userUniqueKey =
-                await UserValidationFacade.KeyManager.GetDecryptedString(ourUser.TwoFactorAutentificationKey);
+                await UserValidationFacade.KeyManager.GetDecryptedString(ourUser.TwoFactorAuthenticationKey);
             var isValid = tfa.ValidateTwoFactorPIN(userUniqueKey, token);
             if (isValid)
             {
