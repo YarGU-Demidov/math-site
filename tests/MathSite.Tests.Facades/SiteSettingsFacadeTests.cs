@@ -13,6 +13,7 @@ using MathSite.Facades.UserValidation;
 using MathSite.Repository.Core;
 using MathSite.Specifications.SiteSettings;
 using MathSite.Specifications.Users;
+using MathSite.Tests.CoreThings;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
 

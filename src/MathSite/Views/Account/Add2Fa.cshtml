@@ -2,9 +2,10 @@
 @model MathSite.ViewModels.Account.LoginFormViewModel
 @{
     ViewData["Title"] = "Add2Fa";
+    Layout = null;
 }
 
-<h2>Adding two factor autentification</h2>
+<h2>Adding two factor autentication</h2>
 <div>
     <img src="@Model.BarcodeImageUrl"/>
 </div>
@@ -12,10 +13,10 @@
     Manual Setup Code: @Model.SetupCode
 </div>
 <div>
-    @*@using (Html.BeginForm("Verify2FA", "Home", FormMethod.Post))
+    @using (Html.BeginForm("VerifyTwoActionAutentication", "Account",Model, FormMethod.Post))
     {
-        <input type="text" name="password"/>
+        <input type="text" name="Token"/>
         <input type="submit" class="btn btn-default"/>
-    }*@
+    }
 </div>
 

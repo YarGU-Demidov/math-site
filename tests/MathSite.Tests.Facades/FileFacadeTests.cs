@@ -14,6 +14,7 @@ using MathSite.Facades.Persons;
 using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
 using MathSite.Repository.Core;
+using MathSite.Tests.CoreThings;
 using MathSite.Tests.Facades.TestStuff;
 using Microsoft.EntityFrameworkCore;
 using Xunit;

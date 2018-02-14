@@ -19,5 +19,6 @@ namespace MathSite.ViewModels.Account
         public string SetupCode { get; set; }
         public bool HasTwoFactorAutentification { get; set; }
         public string ReturnUrl { get; set; } = "/";
+        public string Token { get; set; }
     }
 }
