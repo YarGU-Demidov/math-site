@@ -12,6 +12,7 @@ using MathSite.Facades.UserValidation;
 using MathSite.Repository.Core;
 using MathSite.Specifications.SiteSettings;
 using MathSite.Specifications.Users;
+using MathSite.Tests.CoreThings;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
 
@@ -87,7 +88,7 @@ namespace MathSite.Tests.Facades
 
         protected override SiteSettingsFacade GetFacade(MathSiteDbContext context, IRepositoryManager manager)
         {
-            var userValidationFacade = new UserValidationFacade(manager, MemoryCache, new DoubleSha512HashPasswordsManager(),new TwoFactorAuthenticationKeyManager(new AesEncryptor(new KeyVectorReader())));
+            var userValidationFacade = new UserValidationFacade(manager, MemoryCache, new DoubleSha512HashPasswordsManager(),new TestKeyManager());
             var usersFacade = new UsersFacade(manager, MemoryCache);
             return new SiteSettingsFacade(manager, userValidationFacade, MemoryCache, usersFacade);
         }

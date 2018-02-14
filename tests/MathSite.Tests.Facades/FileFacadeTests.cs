@@ -11,6 +11,7 @@ using MathSite.Facades.FileSystem;
 using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
 using MathSite.Repository.Core;
+using MathSite.Tests.CoreThings;
 using MathSite.Tests.Facades.TestStuff;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
@@ -24,7 +25,7 @@ namespace MathSite.Tests.Facades
         )
         {
             var usersFacade = new UsersFacade(repositoryManager, MemoryCache);
-            var validationFacade = new UserValidationFacade(repositoryManager, MemoryCache, new DoubleSha512HashPasswordsManager(), new TwoFactorAuthenticationKeyManager(new AesEncryptor(new KeyVectorReader())));
+            var validationFacade = new UserValidationFacade(repositoryManager, MemoryCache, new DoubleSha512HashPasswordsManager(), new TestKeyManager());
             var directoryFacade = new Lazy<IDirectoryFacade>(() => new DirectoryFacade(repositoryManager, MemoryCache));
 
             return (usersFacade, directoryFacade, validationFacade);

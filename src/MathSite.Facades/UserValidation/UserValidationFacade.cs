@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using MathSite.Common.Crypto;
+using MathSite.Common.Extensions;
 using MathSite.Entities;
 using MathSite.Repository.Core;
 using MathSite.Specifications.Users;
@@ -87,7 +88,13 @@ namespace MathSite.Facades.UserValidation
 
         public async Task SetUserKey(string login, byte[] key)
         {
-           await RepositoryManager.UsersRepository.SetUserKey(login, key);
+            var user = await RepositoryManager.UsersRepository.FirstOrDefaultAsync(u => u.Login == login);
+            if (user.IsNull())
+            {
+                throw new NullReferenceException("юзер ноль");
+            }
+            user.TwoFactorAutentificationKey = key;
+            await RepositoryManager.UsersRepository.UpdateAsync(user);
         }
     }
 }

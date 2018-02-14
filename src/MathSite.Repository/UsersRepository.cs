@@ -15,7 +15,6 @@ namespace MathSite.Repository
         Task<User> FirstOrDefaultWithRightsAsync(Expression<Func<User, bool>> predicate);
         Task<User> FirstOrDefaultWithRightsAsync(Guid id);
         Task<IEnumerable<User>> GetAllWithPagingAsync(int skip, int count);
-        Task SetUserKey(string login, byte[] key);
         IUsersRepository WithPerson();
     }
 
@@ -53,13 +52,6 @@ namespace MathSite.Repository
             return await WithPerson()
                 .GetAllWithPaging(skip, count)
                 .ToArrayAsync();
-        }
-
-        public async Task SetUserKey(string login, byte[] key)
-        {
-            var user =await Context.Users.Where(u => u.Login == login).FirstOrDefaultAsync();
-            user.TwoFactorAutentificationKey = key;
-            Context.SaveChanges();
         }
         public IUsersRepository WithPerson()
         {

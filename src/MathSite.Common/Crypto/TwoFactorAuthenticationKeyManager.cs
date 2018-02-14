@@ -26,7 +26,7 @@ namespace MathSite.Common.Crypto
             var tfa = new TwoFactorAuthenticator();
             var userUniqueKey = await _aesEncryptor.DecryptStringFromBytes(encryptedUserUniqueKey);
             var isValid = tfa.ValidateTwoFactorPIN(userUniqueKey, keyForVerification);
-            return await Task.FromResult(isValid);
+            return isValid;
         }
 
         public async Task<string> GetDecryptedString(byte[] encryptedBytes)

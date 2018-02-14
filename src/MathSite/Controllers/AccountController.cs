@@ -67,7 +67,7 @@ namespace MathSite.Controllers
 
         public async Task<IActionResult> CheckPassword(string password, string login)
         {
-            var user = await UserValidationFacade.GetUserByLoginAndPasswordAsync(login, password);
+          var user = await UserValidationFacade.GetUserByLoginAndPasswordAsync(login, password);
 
             return user != null
                 ? Json(true)
@@ -115,17 +115,25 @@ namespace MathSite.Controllers
             var key = await UserValidationFacade.KeyManager.CreateEncryptedKey();
             var keyString = await UserValidationFacade.KeyManager.GetDecryptedString(key);
             await UserValidationFacade.SetUserKey(model.Login, key);
-
             var setupInfo = tfa.GenerateSetupCode("Math site", model.Login, keyString, 300, 300);
             model.BarcodeImageUrl = setupInfo.QrCodeSetupImageUrl;
             model.SetupCode = setupInfo.ManualEntryKey;
             return View(model);
-            await ContinueLogin(model);
         }
 
-        //public async Task<ActionResult> VerifyTwoActionAutentication()
-        //{
-        //    return View();
-        //}
+        public async Task<ActionResult> VerifyTwoActionAutentication(LoginFormViewModel model)
+        {
+            var tfa = new TwoFactorAuthenticator();
+            var token = model.Token;
+            var ourUser = await UserValidationFacade.GetUserByLoginAndPasswordAsync(model.Login, model.Password);
+            var userUniqueKey =
+                await UserValidationFacade.KeyManager.GetDecryptedString(ourUser.TwoFactorAutentificationKey);
+            var isValid = tfa.ValidateTwoFactorPIN(userUniqueKey, token);
+            if (isValid)
+            {
+                await ContinueLogin(model);
+            }
+            return RedirectToAction("Login", "Account");
+        }
     }
 }
