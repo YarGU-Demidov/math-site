@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using MathSite.Common.Extensions;
 using MathSite.Common.FileFormats;
+using MathSite.Common.Responses;
 using MathSite.Controllers;
-using MathSite.Core.Responses;
-using MathSite.Core.Responses.ResponseTypes;
 using MathSite.Facades.FileSystem;
 using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
@@ -26,7 +23,7 @@ namespace MathSite.Areas.Api.Controllers
     [Produces("application/json")]
     [Authorize("admin")]
     [Area("api")]
-    [Route("api/fs")]
+    [Route("[area]/fs")]
     public class FileSystemController : BaseController
     {
         private readonly IDirectoryFacade _directoryFacade;
@@ -50,38 +47,17 @@ namespace MathSite.Areas.Api.Controllers
         [Route("get-root-dir")]
         public async Task<DirectoryViewModel> GetRootDirectory()
         {
+            throw new NotImplementedException();
             return DirectoryViewModel.FromData(await _directoryFacade.GetDirectoryWithPathAsync("/"), _formatBuilder);
         }
 
-        [Route("download/{id}")]
-        public async Task<IActionResult> Download(Guid id)
-        {
-            try
-            {
-                var file = await _fileFacade.GetFileAsync(id);
-
-                if (file.IsNull())
-                    return NotFound();
-
-                var format = _formatBuilder.GetFileFormatForExtension(Path.GetExtension(file.FileName));
-                return FileInline(file.FileStream, format.ContentType, file.FileName);
-            }
-            catch (DirectoryNotFoundException)
-            {
-                return NotFound();
-            }
-            catch (FileNotFoundException)
-            {
-                return NotFound();
-            }
-        }
-
         [HttpPost("upload")]
-        [DisableRequestSizeLimit]
-        public async Task<BaseResponse<string>> Upload(UploadFormViewModel model)
+        [RequestSizeLimit(2 * 1024 * 1024 * 1024L/*Bytes == 2GB*/)]
+        public async Task<IResponse> Upload(UploadFormViewModel model)
         {
+            throw new NotImplementedException();
             if (model.Files == null || model.Files.All(file => file.Length <= 0))
-                return new BaseResponse<string>(new ErrorResponseType(), "No files");
+                return new ErrorResponse("No files");
 
             var fileIds = new List<Guid>();
 
@@ -99,11 +75,7 @@ namespace MathSite.Areas.Api.Controllers
 
             GC.Collect();
 
-            return new BaseResponse<string>(
-                new SuccessResponseType(),
-                null,
-                result
-            );
+            return new SuccessResponse<string>(result);
         }
     }
 }

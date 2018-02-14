@@ -21,9 +21,9 @@ namespace MathSite.Areas.Manager.Controllers
             _viewModelBuilder = viewModelBuilder;
         }
 
-        [Route("manager/persons/")]
-        [Route("manager/persons/index")]
-        [Route("manager/persons/list")]
+        [Route("[area]/[controller]/")]
+        [Route("[area]/[controller]/index")]
+        [Route("[area]/[controller]/list")]
         public async Task<IActionResult> Index([FromQuery] int page = 1, [FromQuery] int perPage = 10)
         {
             return View(await _viewModelBuilder.BuildIndexViewModelAsync(page, perPage));

@@ -1,0 +1,6 @@
+﻿@model UploadedFilesViewModel
+
+
+<h2>Файл "<a href="@Url.Action("Download", "File", new {id = Model.FileId})">@Model.FileName</a>" успешно загружен.</h2>
+
+<a href="@Url.Action("Index", "Files")"><< Вернуться в список</a>

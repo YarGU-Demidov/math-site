@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MathSite.BasicAdmin.ViewModels.SharedModels.AdminPagesViewModel;
 using MathSite.BasicAdmin.ViewModels.SharedModels.Menu;
 using MathSite.Common.Extensions;
+using MathSite.Entities;
 using MathSite.Facades.FileSystem;
 using MathSite.Facades.SiteSettings;
 
@@ -14,29 +15,49 @@ namespace MathSite.BasicAdmin.ViewModels.Files
     public interface IFilesManagerViewModelBuilder
     {
         Task<IndexFilesViewModel> BuildIndexViewModelAsync(string directory = "/");
+        Task<UploadedFilesViewModel> BuildUploadedViewModelAsync(User currentUser, string fileName, Stream fileStream, string directory = "/");
     }
 
     public class FilesManagerViewModelBuilder : AdminPageBaseViewModelBuilder, IFilesManagerViewModelBuilder
     {
+        private readonly IFileFacade _fileFacade;
         private readonly IDirectoryFacade _directoryFacade;
 
-        public FilesManagerViewModelBuilder(ISiteSettingsFacade siteSettingsFacade, IDirectoryFacade directoryFacade) :
-            base(siteSettingsFacade)
+        public FilesManagerViewModelBuilder(
+            ISiteSettingsFacade siteSettingsFacade, 
+            IFileFacade fileFacade, 
+            IDirectoryFacade directoryFacade
+        ) : base(siteSettingsFacade)
         {
+            _fileFacade = fileFacade;
             _directoryFacade = directoryFacade;
         }
 
         public async Task<IndexFilesViewModel> BuildIndexViewModelAsync(string directory = "/")
         {
             var model = await BuildAdminBaseViewModelAsync<IndexFilesViewModel>(
-                link => link.Alias == "Files",
-                link => link.Alias == "List"
+                link => link.Alias == "Files"
             );
 
             var (directories, files) = await GetAllItemsInDirectoryAsync(directory);
 
             model.Directories = directories;
             model.Files = files;
+            model.CurrentDirectory = directory;
+
+            return model;
+        }
+
+        public async Task<UploadedFilesViewModel> BuildUploadedViewModelAsync(User currentUser, string fileName, Stream fileStream, string directory = "/")
+        {
+            var model = await BuildAdminBaseViewModelAsync<UploadedFilesViewModel>(
+                link => link.Alias == "Files"
+            );
+
+            var fileId = await _fileFacade.SaveFileAsync(currentUser, fileName, fileStream);
+
+            model.FileName = fileName;
+            model.FileId = fileId.ToString();
 
             return model;
         }
@@ -105,9 +126,9 @@ namespace MathSite.BasicAdmin.ViewModels.Files
             return date.ToString("F");
         }
 
-        protected override async Task<IEnumerable<MenuLink>> GetLeftMenuLinks()
+        protected override Task<IEnumerable<MenuLink>> GetLeftMenuLinks()
         {
-            return new List<MenuLink>();
+            return Task.FromResult(Enumerable.Empty<MenuLink>());
         }
     }
 }

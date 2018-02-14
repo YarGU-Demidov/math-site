@@ -24,9 +24,9 @@ namespace MathSite.Areas.Manager.Controllers
             _modelBuilder = modelBuilder;
         }
 
-        [Route("manager/pages/")]
-        [Route("manager/pages/index")]
-        [Route("manager/pages/list")]
+        [Route("[area]/[controller]/")]
+        [Route("[area]/[controller]/index")]
+        [Route("[area]/[controller]/list")]
         public async Task<IActionResult> Index([FromQuery] int page = 1, [FromQuery] int perPage = 10)
         {
             return View("Index", await _modelBuilder.BuildIndexViewModel(page, perPage));
@@ -37,15 +37,13 @@ namespace MathSite.Areas.Manager.Controllers
             return View("Index", await _modelBuilder.BuildRemovedViewModel(page, perPage));
         }
 
-        [HttpGet]
-        [Route("manager/pages/create")]
+        [HttpGet("[area]/[controller]/create")]
         public async Task<IActionResult> Create()
         {
             return View("Create", await _modelBuilder.BuildCreateViewModel());
         }
 
-        [HttpPost]
-        [Route("manager/pages/create")]
+        [HttpPost("[area]/[controller]/create")]
         public async Task<IActionResult> Create(CreatePageViewModel page)
         {
             var postType = new PostType

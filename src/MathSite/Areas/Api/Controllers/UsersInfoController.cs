@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MathSite.Common.Extensions;
+using MathSite.Common.Responses;
 using MathSite.Controllers;
 using MathSite.Core.DataTableApi;
-using MathSite.Core.Responses;
-using MathSite.Core.Responses.ResponseTypes;
 using MathSite.Db;
 using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
@@ -17,8 +16,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MathSite.Areas.Api.Controllers
 {
-    [Area("Api")]
-    public class UsersInfoController : BaseController, IDataTableApi<UserInfo, UsersSortData>
+    [Area("api")]
+    public class UsersInfoController : BaseController, IDataTableApi<UsersSortData>
     {
         private readonly IUsersRepository _usersLogic;
 
@@ -37,20 +36,20 @@ namespace MathSite.Areas.Api.Controllers
         public MathSiteDbContext DbContext { get; }
 
         [HttpGet]
-        public async Task<GetCountResponse> GetCount()
+        public async Task<IResponse> GetCount()
         {
             try
             {
-                return new GetCountResponse(new SuccessResponseType(), null, await UsersFacade.GetUsersCountAsync(false));
+                return new SuccessResponse<int>(await UsersFacade.GetUsersCountAsync(false));
             }
             catch (Exception exception)
             {
-                return new GetCountResponse(new ErrorResponseType(), exception.Message);
+                return new ErrorResponse(exception.Message);
             }
         }
 
         [HttpPost]
-        public GetAllResponse<UserInfo> GetAll(int offset = 0, int count = 50,
+        public IResponse GetAll(int offset = 0, int count = 50,
             [FromBody] FilterAndSortData<UsersSortData> filterAndSortData = null)
         {
             try
@@ -80,11 +79,11 @@ namespace MathSite.Areas.Api.Controllers
                     ? users.Select(u => new UserInfo(u)).ToArray()
                     : new UserInfo[0];
 
-                return new GetAllResponse<UserInfo>(new SuccessResponseType(), null, data);
+                return new SuccessResponse<UserInfo[]>(data);
             }
             catch (Exception exception)
             {
-                return new GetAllResponse<UserInfo>(new ErrorResponseType(), exception.Message);
+                return new ErrorResponse(exception.Message);
             }
         }
 

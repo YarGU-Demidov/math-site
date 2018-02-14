@@ -1,10 +1,9 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using MathSite.Common.Responses;
 using MathSite.Controllers;
 using MathSite.Core.DataTableApi;
-using MathSite.Core.Responses;
-using MathSite.Core.Responses.ResponseTypes;
 using MathSite.Db;
 using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
@@ -14,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace MathSite.Areas.Api.Controllers
 {
     [Area("Api")]
-    public class PersonsController : BaseController, IDataTableApi<Person, PersonsSortData>
+    public class PersonsController : BaseController, IDataTableApi<PersonsSortData>
     {
         public PersonsController(IUserValidationFacade userValidationFacade, MathSiteDbContext dbContext, IUsersFacade usersFacade) 
             : base(userValidationFacade, usersFacade)
@@ -25,7 +24,7 @@ namespace MathSite.Areas.Api.Controllers
         private MathSiteDbContext DbContext { get; }
 
         [HttpPost]
-        public GetAllResponse<Person> GetAll(int offset = 0, int count = 50,
+        public IResponse GetAll(int offset = 0, int count = 50,
             [FromBody] FilterAndSortData<PersonsSortData> filterAndSortData = null)
         {
             try
@@ -55,24 +54,24 @@ namespace MathSite.Areas.Api.Controllers
                     ? persons.Select(u => new Person(u)).ToArray()
                     : new Person[0];
 
-                return new GetAllResponse<Person>(new SuccessResponseType(), null, data);
+                return new SuccessResponse<Person[]>(data);
             }
             catch (Exception exception)
             {
-                return new GetAllResponse<Person>(new ErrorResponseType(), exception.Message);
+                return new ErrorResponse(exception.Message);
             }
         }
 
         [HttpGet]
-        public async Task<GetCountResponse> GetCount()
+        public async Task<IResponse> GetCount()
         {
             try
             {
-                return new GetCountResponse(new SuccessResponseType(), null, await UsersFacade.GetUsersCountAsync(cache: false));
+                return new SuccessResponse<int>(await UsersFacade.GetUsersCountAsync(cache: false));
             }
             catch (Exception exception)
             {
-                return new GetCountResponse(new ErrorResponseType(), exception.Message);
+                return new ErrorResponse(exception.Message);
             }
         }
     }

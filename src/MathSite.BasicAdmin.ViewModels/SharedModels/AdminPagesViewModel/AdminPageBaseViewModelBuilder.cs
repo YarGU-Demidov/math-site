@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using MathSite.BasicAdmin.ViewModels.SharedModels.Common;
 using MathSite.BasicAdmin.ViewModels.SharedModels.Menu;
+using MathSite.Common.Extensions;
 using MathSite.Facades.SiteSettings;
 
 namespace MathSite.BasicAdmin.ViewModels.SharedModels.AdminPagesViewModel
@@ -13,7 +14,7 @@ namespace MathSite.BasicAdmin.ViewModels.SharedModels.AdminPagesViewModel
         {
         }
 
-        protected virtual async Task<T> BuildAdminBaseViewModelAsync<T>(Func<MenuLink, bool> markActiveLinkInTopMenu, Func<MenuLink, bool> markActiveLinkInLeftMenu)
+        protected virtual async Task<T> BuildAdminBaseViewModelAsync<T>(Func<MenuLink, bool> markActiveLinkInTopMenu, Func<MenuLink, bool> markActiveLinkInLeftMenu = null)
             where T : AdminPageBaseViewModel, new()
         {
             var viewModel = await BuildCommonViewModelAsync<T>(markActiveLinkInTopMenu);
@@ -33,7 +34,7 @@ namespace MathSite.BasicAdmin.ViewModels.SharedModels.AdminPagesViewModel
 
             foreach (var link in viewModel.LeftMenu)
             {
-                link.IsActive = markActiveLink(link);
+                link.IsActive = markActiveLink.IsNotNull() && markActiveLink(link);
 
                 if (link.IsActive)
                     break;

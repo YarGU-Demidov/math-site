@@ -23,5 +23,6 @@ namespace MathSite.BasicAdmin.ViewModels.Files
     {
         public IEnumerable<DirectoryViewModel> Directories { get; set; }
         public IEnumerable<FileViewModel> Files { get; set; }
+        public string CurrentDirectory { get; set; }
     }
 }
