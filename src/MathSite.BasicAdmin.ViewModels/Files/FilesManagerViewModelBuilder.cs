@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using MathSite.BasicAdmin.ViewModels.SharedModels.AdminPagesViewModel;
 using MathSite.BasicAdmin.ViewModels.SharedModels.Menu;
@@ -62,8 +63,13 @@ namespace MathSite.BasicAdmin.ViewModels.Files
             return model;
         }
 
-        private async Task<(IEnumerable<DirectoryViewModel> Directories, IEnumerable<FileViewModel>)> GetAllItemsInDirectoryAsync(string path)
+        private async Task<(IEnumerable<DirectoryViewModel> Directories, IEnumerable<FileViewModel> Files)> GetAllItemsInDirectoryAsync(string path)
         {
+            if (path.IsNotNullOrWhiteSpace() && path[0] != Path.DirectorySeparatorChar)
+            {
+                path = new StringBuilder(path).Replace(path[0], Path.DirectorySeparatorChar, 0, 1).ToString();
+            }
+
             var all = await _directoryFacade.GetDirectoryWithPathAsync(path);
 
             var backdir = GetBackDirectoryModel(all, path);
@@ -76,8 +82,8 @@ namespace MathSite.BasicAdmin.ViewModels.Files
             var dirs = all.Directories.Select(directory => new DirectoryViewModel
             {
                 CreationDate = GetDateString(directory.CreationDate),
-                Title = directory.Name,
                 Id = directory.Id.ToString(),
+                Title = directory.Name,
                 FullPath = Path.Combine(path, directory.Name)
             });
 
@@ -87,8 +93,8 @@ namespace MathSite.BasicAdmin.ViewModels.Files
             {
                 CreationDate = GetDateString(file.CreationDate),
                 Id = file.Id.ToString(),
-                Title = $"{file.Name}",
-                FullFilePath = Path.Combine(path, $"{file.Name}")
+                Title = file.Name,
+                FullFilePath = Path.Combine(path, file.Name)
             });
 
             return (dirsWithBackDir, files);
@@ -103,7 +109,7 @@ namespace MathSite.BasicAdmin.ViewModels.Files
 
             var paths = new List<string>{ "" };
 
-            var backdirPathSections = realPath.Split(new []{ '/' }, StringSplitOptions.RemoveEmptyEntries)
+            var backdirPathSections = realPath.Split(new []{ '/', '\\' }, StringSplitOptions.RemoveEmptyEntries)
                 .Where(s => s != currenetDirectory.Name)
                 .ToArray();
             

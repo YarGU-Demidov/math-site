@@ -1,14 +1,11 @@
-﻿@using MathSite.Common.Extensions
-@model MathSite.BasicAdmin.ViewModels.Files.IndexFilesViewModel
+﻿@model IndexFilesViewModel
 
 @{
     var hasDirectories = Model.Directories.Any();
     var hasFiles = Model.Files.Any();
     var hasOneFolder = Model.Directories.Count() == 1;
     var directory = Model.Directories.FirstOrDefault();
-    var folderIsBack = directory.IsNotNull() 
-        ? directory.Title == ".."
-        : false;
+    var folderIsBack = directory.IsNotNull() && directory?.Title == "..";
 }    
 
 @if (!hasDirectories && !hasFiles || !hasFiles && hasOneFolder && folderIsBack)
@@ -29,16 +26,10 @@
     {
         <li title="@file.FullFilePath">
             @file.Title 
-            <span class="download-icon" data-file-id="@file.Id"><i class="material-icons">file_download</i></span>
-            <span class="preivew-icon" data-file-id="@file.Id"><i class="material-icons">airplay</i></span>
+            <a href="@Url.Action("Download", "File", new { id = file.Id })" target="_blank" class="download-icon" data-file-id="@file.Id"><i class="material-icons">file_download</i></a>
+            <a href="@Url.Action("Get", "File", new { id = file.Id })" target="_blank" class="preivew-icon" data-file-id="@file.Id"><i class="material-icons">airplay</i></a>
             <br/>
             Created at: @file.CreationDate
         </li>
     }
 </ol>
-@section ScriptsSection
-{
-    <script>
-        
-    </script>
-}
