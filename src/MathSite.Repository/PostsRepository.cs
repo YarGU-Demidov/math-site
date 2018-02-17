@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using MathSite.Common.Extensions;
 using MathSite.Db;
 using MathSite.Entities;
 using MathSite.Repository.Core;
@@ -24,40 +23,28 @@ namespace MathSite.Repository
         Task<IEnumerable<Post>> GetAllPagedAsync(Expression<Func<Post, bool>> predicate, int limit, int skip = 0, bool desc = true);
     }
 
-    public class PostsRepository : EfCoreRepositoryBase<Post>, IPostsRepository
+    public class PostsRepository : MathSiteEfCoreRepositoryBase<Post>, IPostsRepository
     {
-        private IQueryable<Post> _query;
-        
         public PostsRepository(MathSiteDbContext dbContext) 
             : base(dbContext)
         {
         }
 
-        public override IQueryable<Post> GetAll()
-        {
-            if (_query.IsNull()) 
-                return base.GetAll();
-
-            var tmpQuery = _query;
-            _query = null;
-            return tmpQuery;
-        }
-
         public IPostsRepository WithAuthor()
         {
-            _query = GetCurrentQuery().Include(post => post.Author).ThenInclude(user => user.Person);
+            QueryBuilder = GetCurrentQuery().Include(post => post.Author).ThenInclude(user => user.Person);
             return this;
         }
 
         public IPostsRepository WithPostSeoSettings()
         {
-            _query = GetCurrentQuery().Include(post => post.PostSeoSetting).ThenInclude(setting => setting.PostKeywords);
+            QueryBuilder = GetCurrentQuery().Include(post => post.PostSeoSetting).ThenInclude(setting => setting.PostKeywords);
             return this;
         }
 
         public IPostsRepository WithPostSetttings()
         {
-            _query = GetCurrentQuery().Include(post => post.PostSettings).ThenInclude(setting => setting.PostType)
+            QueryBuilder = GetCurrentQuery().Include(post => post.PostSettings).ThenInclude(setting => setting.PostType)
                 .Include(post => post.PostSettings).ThenInclude(setting => setting.PreviewImage);
 
             return this;
@@ -65,43 +52,38 @@ namespace MathSite.Repository
 
         public IPostsRepository WithPostType()
         {
-            _query = GetCurrentQuery().Include(post => post.PostType).ThenInclude(type => type.DefaultPostsSettings);
+            QueryBuilder = GetCurrentQuery().Include(post => post.PostType).ThenInclude(type => type.DefaultPostsSettings);
 
             return this;
         }
 
         public IPostsRepository WithComments()
         {
-            _query = GetCurrentQuery().Include(post => post.Comments);
+            QueryBuilder = GetCurrentQuery().Include(post => post.Comments);
             return this;
         }
 
         public IPostsRepository WithPostRatings()
         {
-            _query = GetCurrentQuery().Include(post => post.PostRatings);
+            QueryBuilder = GetCurrentQuery().Include(post => post.PostRatings);
             return this;
         }
 
         public IPostsRepository WithCategories()
         {
-            _query = GetCurrentQuery().Include(post => post.PostCategories).ThenInclude(category => category.Category);
+            QueryBuilder = GetCurrentQuery().Include(post => post.PostCategories).ThenInclude(category => category.Category);
             return this;
         }
-
-        private IQueryable<Post> GetCurrentQuery()
-        {
-            return _query ?? GetAll();
-        }
-
+        
         public async Task<IEnumerable<Post>> GetAllPagedAsync(Expression<Func<Post, bool>> predicate, int limit, int skip = 0, bool desc = true)
         {
-            _query = GetCurrentQuery().Where(predicate);
+            QueryBuilder = GetCurrentQuery().Where(predicate);
 
             Expression<Func<Post, DateTime>> orderBy = post => post.PublishDate;
 
-            _query = desc 
-                ? _query.OrderByDescending(orderBy) 
-                : _query.OrderBy(orderBy);
+            QueryBuilder = desc 
+                ? QueryBuilder.OrderByDescending(orderBy) 
+                : QueryBuilder.OrderBy(orderBy);
 
             return await GetAllWithPaging(skip, limit).ToArrayAsync();
         }

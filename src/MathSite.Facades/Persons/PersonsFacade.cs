@@ -38,7 +38,9 @@ namespace MathSite.Facades.Persons
 
             var skip = (page - 1) * perPage;
 
-            return await RepositoryManager.PersonsRepository.GetAllWithPagingAndUserAsync(skip, perPage);
+            return await RepositoryManager.PersonsRepository
+                .WithUser()
+                .GetAllWithPagingAsync(skip, perPage);
         }
     }
 }

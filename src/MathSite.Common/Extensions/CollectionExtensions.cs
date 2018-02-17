@@ -13,7 +13,15 @@ namespace MathSite.Common.Extensions
         /// </summary>
         public static bool IsNullOrEmpty<T>(this ICollection<T> source)
         {
-            return source == null || source.Count <= 0;
+            return source.IsNull() || source.Count <= 0;
+        }
+
+        /// <summary>
+        ///     Checks whatever given collection object is not null or has no item.
+        /// </summary>
+        public static bool IsNotNullOrEmpty<T>(this ICollection<T> source)
+        {
+            return !source.IsNullOrEmpty();
         }
 
         /// <summary>

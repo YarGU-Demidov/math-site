@@ -7,6 +7,7 @@ namespace MathSite.Tests.Facades.TestStuff
     public class TestFileStorage : IFileStorage
     {
         private readonly string _pathId;
+        private bool _removed;
 
         /// <summary>
         ///     Конструктор для сохранения.
@@ -72,7 +73,12 @@ namespace MathSite.Tests.Facades.TestStuff
 
         public Task Remove(string filePath)
         {
-            throw new System.NotImplementedException();
+            if (_removed || filePath != _pathId)
+                throw new FileNotFoundException(filePath);
+
+            _removed = true;
+
+            return Task.CompletedTask;
         }
     }
 }

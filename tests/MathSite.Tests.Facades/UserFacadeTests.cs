@@ -21,7 +21,7 @@ namespace MathSite.Tests.Facades
                 do
                 {
                     var tempId = Guid.NewGuid();
-                    var tempUser = await manager.UsersRepository.FirstOrDefaultWithRightsAsync(tempId);
+                    var tempUser = await manager.UsersRepository.WithRights().FirstOrDefaultAsync(tempId);
 
                     if (tempUser == null)
                         userId = tempId;
@@ -60,7 +60,7 @@ namespace MathSite.Tests.Facades
         {
             var requirements = new HasLoginSpecification(login);
 
-            return await manager.UsersRepository.FirstOrDefaultWithRightsAsync(requirements.ToExpression());
+            return await manager.UsersRepository.WithRights().FirstOrDefaultAsync(requirements.ToExpression());
         }
     }
 }

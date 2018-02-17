@@ -12,51 +12,34 @@ namespace MathSite.Repository
 {
     public interface IUsersRepository : IRepository<User>
     {
-        Task<User> FirstOrDefaultWithRightsAsync(Expression<Func<User, bool>> predicate);
-        Task<User> FirstOrDefaultWithRightsAsync(Guid id);
         Task<IEnumerable<User>> GetAllWithPagingAsync(int skip, int count);
         IUsersRepository WithPerson();
+        IUsersRepository WithRights();
     }
 
-    public class UsersRepository : EfCoreRepositoryBase<User>, IUsersRepository
+    public class UsersRepository : MathSiteEfCoreRepositoryBase<User>, IUsersRepository
     {
-        private bool _loadPerson;
 
         public UsersRepository(MathSiteDbContext dbContext) : base(dbContext)
         {
         }
 
-        public override IQueryable<User> GetAll()
-        {
-            return _loadPerson 
-                ? base.GetAll()
-                    .Include(user => user.Person) 
-                : base.GetAll();
-        }
-
-        public async Task<User> FirstOrDefaultWithRightsAsync(Expression<Func<User, bool>> predicate)
-        {
-            return await Table
-                .Include(u => u.UserRights).ThenInclude(ur => ur.Right)
-                .Include(u => u.Group).ThenInclude(g => g.GroupsRights).ThenInclude(gr => gr.Right)
-                .FirstOrDefaultAsync(predicate);
-        }
-
-        public async Task<User> FirstOrDefaultWithRightsAsync(Guid id)
-        {
-            return await FirstOrDefaultWithRightsAsync(user => user.Id == id);
-        }
-
         public async Task<IEnumerable<User>> GetAllWithPagingAsync(int skip, int count)
         {
-            return await WithPerson()
-                .GetAllWithPaging(skip, count)
+            return await GetAllWithPaging(skip, count)
                 .ToArrayAsync();
         }
 
         public IUsersRepository WithPerson()
         {
-            _loadPerson = true;
+            QueryBuilder = GetCurrentQuery().Include(user => user.Person);
+            return this;
+        }
+
+        public IUsersRepository WithRights()
+        {
+            QueryBuilder = GetCurrentQuery().Include(u => u.UserRights).ThenInclude(ur => ur.Right)
+                .Include(u => u.Group).ThenInclude(g => g.GroupsRights).ThenInclude(gr => gr.Right);
             return this;
         }
     }

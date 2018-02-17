@@ -8,7 +8,7 @@ namespace MathSite.Repository
     {
     }
 
-    public class SiteSettingsRepository : EfCoreRepositoryBase<SiteSetting>, ISiteSettingsRepository
+    public class SiteSettingsRepository : MathSiteEfCoreRepositoryBase<SiteSetting>, ISiteSettingsRepository
     {
         public SiteSettingsRepository(MathSiteDbContext dbContext) : base(dbContext)
         {

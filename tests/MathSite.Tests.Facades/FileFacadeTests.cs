@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Authentication;
 using System.Threading.Tasks;
 using MathSite.Common.Crypto;
+using MathSite.Common.Exceptions;
 using MathSite.Db;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
@@ -189,6 +191,79 @@ namespace MathSite.Tests.Facades
                 var downloaded = await facade.GetFileAsync(id);
 
                 Assert.Equal($"{fileName}_2", downloaded.FileName);
+            });
+        }
+
+        [Fact]
+        public async Task RemoveFileUsedWithPersonPhoto()
+        {
+            await WithRepositoryAsync(async (manager, context, logger) =>
+            {
+                const string filename = "test-file-for-remove-but-which-is-used-by-person";
+                var facade = GetFacade(manager, filename);
+                
+                var user = await GetUserByLoginAsync(context, UsersAliases.Mokeev1995);
+                var fileId = await facade.SaveFileAsync(user, filename, new MemoryStream(new byte[] {0, 1, 2, 3, 4}));
+                var file = await manager.FilesRepository.GetAsync(fileId);
+                
+                file.Person = user.Person;
+                user.Person.Photo = file;
+                user.Person.PhotoId = file.Id;
+                manager.UsersRepository.Update(user);
+                manager.FilesRepository.Update(file);
+                context.SaveChanges();
+
+                await Assert.ThrowsAsync<FileIsUsedException>(async () =>
+                {
+                    await facade.Remove(fileId);
+                });
+
+                file = await manager.FilesRepository.FirstOrDefaultAsync(fileId);
+                user = await GetUserByLoginAsync(context, UsersAliases.Mokeev1995);
+
+                Assert.NotNull(file);
+                Assert.Equal(file.Name, filename);
+
+                Assert.NotNull(user);
+                Assert.Equal(user.Person.PhotoId, fileId);
+            });
+        }
+
+        [Fact]
+        public async Task RemoveFileUsedWithPostSettings()
+        {
+            await WithRepositoryAsync(async (manager, context, logger) =>
+            {
+                const string filename = "test-file-for-remove-but-which-is-used-by-post-settings";
+                var facade = GetFacade(manager, filename);
+                
+                var user = await GetUserByLoginAsync(context, UsersAliases.Mokeev1995);
+                var fileId = await facade.SaveFileAsync(user, filename, new MemoryStream(new byte[] {0, 1, 2, 3, 4}));
+                var file = await manager.FilesRepository.GetAsync(fileId);
+
+
+                var postSetting = new PostSetting {PreviewImage = file, PreviewImageId = fileId};
+                file.PostSettings = new List<PostSetting>
+                {
+                    postSetting
+                };
+                var setting = manager.PostSettingRepository.Insert(postSetting);
+                manager.FilesRepository.Update(file);
+                context.SaveChanges();
+
+                await Assert.ThrowsAsync<FileIsUsedException>(async () =>
+                {
+                    await facade.Remove(fileId);
+                });
+
+                file = await manager.FilesRepository.FirstOrDefaultAsync(fileId);
+                postSetting = await manager.PostSettingRepository.FirstOrDefaultAsync(setting.Id);
+
+                Assert.NotNull(file);
+                Assert.Equal(file.Name, filename);
+
+                Assert.NotNull(postSetting);
+                Assert.Equal(postSetting.PreviewImageId, fileId);
             });
         }
     }

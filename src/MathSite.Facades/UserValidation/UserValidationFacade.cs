@@ -28,7 +28,7 @@ namespace MathSite.Facades.UserValidation
             if (userId == default)
                 return false;
 
-            var user = await RepositoryManager.UsersRepository.FirstOrDefaultWithRightsAsync(userId);
+            var user = await RepositoryManager.UsersRepository.WithRights().FirstOrDefaultAsync(userId);
 
             if (user == null)
                 return false;

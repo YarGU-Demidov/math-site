@@ -82,7 +82,7 @@ namespace MathSite.Tests.Facades
         {
             var requirements = new HasLoginSpecification(login);
 
-            return await manager.UsersRepository.FirstOrDefaultWithRightsAsync(requirements.ToExpression());
+            return await manager.UsersRepository.WithRights().FirstOrDefaultAsync(requirements.ToExpression());
         }
 
         protected override SiteSettingsFacade GetFacade(MathSiteDbContext context, IRepositoryManager manager)

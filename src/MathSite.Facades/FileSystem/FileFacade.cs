@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Authentication;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
+using MathSite.Common.Exceptions;
 using MathSite.Common.Extensions;
 using MathSite.Common.FileStorage;
 using MathSite.Entities;
@@ -75,7 +76,17 @@ namespace MathSite.Facades.FileSystem
 
         public async Task Remove(Guid id)
         {
-            var file = Repository.Get(id);
+            var file = await Repository
+                .WithPerson()
+                .WithPostAttachments()
+                .WithPostSetting()
+                .GetAsync(id);
+
+            if (file.Person.IsNotNull() || file.PostAttachments.IsNotNullOrEmpty() || file.PostSettings.IsNotNullOrEmpty())
+            {
+                throw new FileIsUsedException();
+            }
+
             var tasks = new[]
             {
                 Repository.DeleteAsync(id),

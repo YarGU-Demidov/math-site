@@ -36,12 +36,22 @@
 
         <div class="container-fluid">
             <div class="row">
-                <div class="col-12 col-sm-4 col-md-3 col-lg-2 col-xl-2 sidebar-column bg-light">
-                    @Html.Partial("Menu/LeftMenu", Model.LeftMenu)
-                </div>
-                <main class="ml-sm-auto col-12 col-sm-8 col-md-9 col-lg-10 col-xl-10 pages-layout">
-                    @RenderBody()
-                </main>
+                @if (Model.LeftMenu.IsNotNull() && Model.LeftMenu.Any())
+                {
+                    <div class="col-12 col-sm-4 col-md-3 col-lg-2 col-xl-2 sidebar-column bg-light">
+                        @Html.Partial("Menu/LeftMenu", Model.LeftMenu)
+                    </div>
+                    
+                    <main class="ml-sm-auto col-12 col-sm-8 col-md-9 col-lg-10 col-xl-10 pages-layout">
+                        @RenderBody()
+                    </main>
+                }
+                else
+                {
+                    <main class="ml-sm-auto col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 pages-layout">
+                        @RenderBody()
+                    </main>
+                }
             </div>
         </div>
 

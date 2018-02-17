@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using MathSite.BasicAdmin.ViewModels.Files;
 using MathSite.Common.Extensions;
 using MathSite.Controllers;
@@ -34,12 +37,16 @@ namespace MathSite.Areas.Manager.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UploadFile([FromForm] IFormFile file, [FromQuery] string path = "/")
+        [ValidateAntiForgeryToken]
+        [Route("[area]/[controller]/upload")]
+        public async Task<IActionResult> UploadFile(List<IFormFile> files, [FromQuery] string path = "/")
         {
-            if (file.IsNull())
+            if (files.IsNullOrEmpty())
                 return BadRequest("You forget to append file.");
 
-            return View("Uploaded", await _filesManagerViewModelBuilder.BuildUploadedViewModelAsync(CurrentUser, file.FileName, file.OpenReadStream(), path));
+            var filesData = files.Select(formFile => (formFile.FileName, formFile.OpenReadStream()));
+
+            return View("Uploaded", await _filesManagerViewModelBuilder.BuildUploadedViewModelAsync(CurrentUser, filesData, path));
         }
     }
 }

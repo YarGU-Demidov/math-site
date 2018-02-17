@@ -9,7 +9,7 @@ namespace MathSite.Repository
         
     }
 
-    public class GroupsRepository : EfCoreRepositoryBase<Group>, IGroupsRepository
+    public class GroupsRepository : MathSiteEfCoreRepositoryBase<Group>, IGroupsRepository
     {
         public GroupsRepository(MathSiteDbContext dbContext) : base(dbContext)
         {

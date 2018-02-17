@@ -8,7 +8,7 @@ namespace MathSite.Repository
     {
     }
 
-    public class PostTypeRepository : EfCoreRepositoryBase<PostType>, IPostTypeRepository
+    public class PostTypeRepository : MathSiteEfCoreRepositoryBase<PostType>, IPostTypeRepository
     {
         public PostTypeRepository(MathSiteDbContext dbContext) : base(dbContext)
         {

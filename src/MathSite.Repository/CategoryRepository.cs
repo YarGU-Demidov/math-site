@@ -8,7 +8,7 @@ namespace MathSite.Repository
     {
     }
 
-    public class CategoryRepository : EfCoreRepositoryBase<Category>, ICategoryRepository
+    public class CategoryRepository : MathSiteEfCoreRepositoryBase<Category>, ICategoryRepository
     {
         public CategoryRepository(MathSiteDbContext dbContext)
             : base(dbContext)

@@ -9,7 +9,7 @@ namespace MathSite.Repository
         
     }
 
-    public class PostSeoSettingsRepository : EfCoreRepositoryBase<PostSeoSetting>, IPostSeoSettingsRepository
+    public class PostSeoSettingsRepository : MathSiteEfCoreRepositoryBase<PostSeoSetting>, IPostSeoSettingsRepository
     {
         public PostSeoSettingsRepository(MathSiteDbContext dbContext) : base(dbContext)
         {

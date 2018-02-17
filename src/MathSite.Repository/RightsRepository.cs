@@ -9,7 +9,7 @@ namespace MathSite.Repository
         
     }
 
-    public class RightsRepository : EfCoreRepositoryBase<Right>, IRightsRepository
+    public class RightsRepository : MathSiteEfCoreRepositoryBase<Right>, IRightsRepository
     {
         public RightsRepository(MathSiteDbContext dbContext) : base(dbContext)
         {

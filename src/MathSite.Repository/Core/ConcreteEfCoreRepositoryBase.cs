@@ -1,24 +1,43 @@
 ﻿using System;
+using System.Linq;
 using MathSite.Common.Entities;
+using MathSite.Common.Extensions;
 using MathSite.Db;
 
 namespace MathSite.Repository.Core
 {
-    public class EfCoreRepositoryBase<TEntity> :
-        EfCoreRepositoryBase<MathSiteDbContext, TEntity, Guid>
+    public class MathSiteEfCoreRepositoryBase<TEntity> :
+        MathSiteEfCoreRepositoryBase<TEntity, Guid>
         where TEntity : class, IEntity<Guid>
     {
-        public EfCoreRepositoryBase(MathSiteDbContext dbContext) : base(dbContext)
+        public MathSiteEfCoreRepositoryBase(MathSiteDbContext dbContext) : base(dbContext)
         {
         }
     }
 
-    public class EfCoreRepositoryBase<TEntity, TPrimaryKey> :
+    public class MathSiteEfCoreRepositoryBase<TEntity, TPrimaryKey> :
         EfCoreRepositoryBase<MathSiteDbContext, TEntity, TPrimaryKey>
         where TEntity : class, IEntity<TPrimaryKey>
     {
-        public EfCoreRepositoryBase(MathSiteDbContext dbContext) : base(dbContext)
+        protected IQueryable<TEntity> QueryBuilder;
+
+        public MathSiteEfCoreRepositoryBase(MathSiteDbContext dbContext) : base(dbContext)
         {
+        }
+
+        public override IQueryable<TEntity> GetAll()
+        {
+            if (QueryBuilder.IsNull()) 
+                return base.GetAll();
+
+            var tmpQuery = QueryBuilder;
+            QueryBuilder = null;
+            return tmpQuery;
+        }
+
+        protected IQueryable<TEntity> GetCurrentQuery()
+        {
+            return QueryBuilder ?? GetAll();
         }
     }
 }
