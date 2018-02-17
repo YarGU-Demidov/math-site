@@ -28,7 +28,7 @@ namespace MathSite.Facades.FileSystem
         /// <param name="dirPath"></param>
         /// <exception cref="AuthenticationException">You must be authenticated and authorized for this action!</exception>
         /// <returns></returns>
-        Task<Guid> SaveFileAsync(User currentUser, string name, Stream data, string dirPath = default);
+        Task<Guid> SaveFileAsync(User currentUser, string name, Stream data, string dirPath = "/");
 
         Task<IEnumerable<File>> GetFilesByExtensions(IEnumerable<string> extensions);
 
@@ -100,7 +100,7 @@ namespace MathSite.Facades.FileSystem
             await Task.WhenAll(tasks);
         }
 
-        public async Task<Guid> SaveFileAsync(User currentUser, string name, Stream data, string dirPath = default)
+        public async Task<Guid> SaveFileAsync(User currentUser, string name, Stream data, string dirPath = "/")
         {
             var hash = GetFileHashString(data);
 
