@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using MathSite.BasicAdmin.ViewModels.Files;
+using MathSite.Common.Exceptions;
 using MathSite.Common.Extensions;
 using MathSite.Controllers;
+using MathSite.Facades.FileSystem;
 using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
 using Microsoft.AspNetCore.Authorization;
@@ -17,14 +20,17 @@ namespace MathSite.Areas.Manager.Controllers
     [Area("manager")]
     public class FilesController : BaseController
     {
+        private readonly IFileFacade _fileFacade;
         private readonly IFilesManagerViewModelBuilder _filesManagerViewModelBuilder;
 
         public FilesController(
             IUserValidationFacade userValidationFacade, 
             IUsersFacade usersFacade,
+            IFileFacade fileFacade,
             IFilesManagerViewModelBuilder filesManagerViewModelBuilder
         ) : base(userValidationFacade, usersFacade)
         {
+            _fileFacade = fileFacade;
             _filesManagerViewModelBuilder = filesManagerViewModelBuilder;
         }
 
@@ -47,6 +53,21 @@ namespace MathSite.Areas.Manager.Controllers
             var filesData = files.Select(formFile => (formFile.FileName, formFile.OpenReadStream()));
 
             return View("Uploaded", await _filesManagerViewModelBuilder.BuildUploadedViewModelAsync(CurrentUser, filesData, path));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(Guid id, string path = "/")
+        {
+            try
+            {
+                await _fileFacade.Remove(id);
+                return RedirectToActionPermanent("Index", new {path});
+            }
+            catch (FileIsUsedException)
+            {
+                return Unauthorized();
+            }
         }
     }
 }

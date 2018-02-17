@@ -87,10 +87,14 @@ namespace MathSite.Facades.FileSystem
                 throw new FileIsUsedException();
             }
 
+            var deleteFileTask = await RepositoryManager.FilesRepository.CountAsync(f => f.Path == file.Path) <= 1
+                ? _fileStorage.Remove(file.Path)
+                : Task.CompletedTask;
+
             var tasks = new[]
             {
-                Repository.DeleteAsync(id),
-                _fileStorage.Remove(file.Path)
+                deleteFileTask,
+                Repository.DeleteAsync(id)
             };
 
             await Task.WhenAll(tasks);
@@ -119,6 +123,8 @@ namespace MathSite.Facades.FileSystem
                 if (!hasRight)
                     throw new AuthenticationException("You must be authenticated and authorized for this action!");
 
+                var dir = await _directoryFacade.Value.TryGetDirectoryWithPathAsync(dirPath);
+
                 var file = new File
                 {
                     Hash = hash,
@@ -126,8 +132,8 @@ namespace MathSite.Facades.FileSystem
                     Extension = Path.GetExtension(name),
                     Name = GetFileName(name, alreadyExistsFile),
                     Path = pathId,
-                    DirectoryId = !dirPath.IsNullOrWhiteSpace()
-                        ? (await _directoryFacade.Value.TryGetDirectoryWithPathAsync(dirPath)).Id
+                    DirectoryId = !dirPath.IsNullOrWhiteSpace() && dir.Id != Guid.Empty
+                        ? dir.Id
                         : null as Guid?
                 };
 

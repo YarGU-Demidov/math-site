@@ -38,6 +38,11 @@
                 @file.Title
                 <a href="@Url.Action("Download", "File", new { id = file.Id })" target="_blank" class="download-icon" data-file-id="@file.Id"><i class="material-icons">file_download</i></a>
                 <a href="@Url.Action("Get", "File", new { id = file.Id })" target="_blank" class="preivew-icon" data-file-id="@file.Id"><i class="material-icons">airplay</i></a>
+                <form class="delete-form" asp-area="Manager" asp-controller="Files" asp-action="Delete" asp-route-id="@file.Id" asp-route-path="@Model.CurrentDirectory" method="post" asp-antiforgery="true">
+                    <button type="submit">
+                        <i class="material-icons">delete_forever</i>
+                    </button>
+                </form>
                 <br />
                 Created at: @file.CreationDate
             </li>
@@ -58,6 +63,14 @@
         }
         .file-upload-form {
             display: block;
+            width: 100%;
+        }
+        .delete-form {
+            display: inline;
+        }
+        .delete-form button {
+            background: transparent;
+            border: none;
         }
     </style>
 }
