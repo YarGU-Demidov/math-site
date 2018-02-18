@@ -3,6 +3,7 @@ using MathSite.BasicAdmin.ViewModels.Home;
 using MathSite.BasicAdmin.ViewModels.News;
 using MathSite.BasicAdmin.ViewModels.Pages;
 using MathSite.BasicAdmin.ViewModels.Persons;
+using MathSite.BasicAdmin.ViewModels.Settings;
 using MathSite.BasicAdmin.ViewModels.Users;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -28,7 +29,8 @@ namespace MathSite.BasicAdmin.ViewModels
                 .AddScoped<IPagesManagerViewModelBuilder, PagesManagerViewModelBuilder>()
                 .AddScoped<IPersonsManagerViewModelBuilder, PersonsManagerViewModelBuilder>()
                 .AddScoped<IFilesManagerViewModelBuilder, FilesManagerViewModelBuilder>()
-                .AddScoped<IUsersManagerViewModelBuilder, UsersManagerViewModelBuilder>();
+                .AddScoped<IUsersManagerViewModelBuilder, UsersManagerViewModelBuilder>()
+                .AddScoped<ISettingsViewModelBuilder, SettingsViewModelBuilder>();
         }
     }
 }

@@ -9,10 +9,12 @@
 }    
 
 <div class="row">
-    <h2>Upload File</h2>
-    <form class="file-upload-form" asp-controller="Files" asp-action="UploadFile" asp-route-path="@Model.CurrentDirectory" asp-area="Manager"  method="post" enctype="multipart/form-data" asp-antiforgery="true" >
-        <input type="file" name="files" multiple="multiple" />
-        <button type="submit">Upload</button>
+    <form class="form-inline" asp-controller="Files" asp-action="UploadFile" asp-route-path="@Model.CurrentDirectory" asp-area="Manager"  method="post" enctype="multipart/form-data" asp-antiforgery="true" style="width: 100%; padding-top: 10px;">
+        <label for="files">
+            <span style="font-size: 1.2em; padding: 0 15px;">Upload File</span>
+        </label>
+        <input type="file" id="files" name="files" multiple="multiple" />
+        <button class="btn btn-primary mb-2" type="submit">Upload</button>
     </form>
 </div>
 
@@ -60,10 +62,6 @@
         }
         main.pages-layout {
             padding: 0 15px;
-        }
-        .file-upload-form {
-            display: block;
-            width: 100%;
         }
         .delete-form {
             display: inline;
