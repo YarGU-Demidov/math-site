@@ -72,8 +72,7 @@ namespace MathSite.BasicAdmin.ViewModels.Persons
         public async Task<EditPersonsViewModel> BuildEditViewModelAsync(Guid id)
         {
             var model = await BuildAdminBaseViewModelAsync<EditPersonsViewModel>(
-                link => link.Alias == "Persons",
-                link => link.Alias == "Create"
+                link => link.Alias == "Persons"
             );
 
             var person = await _personsFacade.GetPersonAsync(id);

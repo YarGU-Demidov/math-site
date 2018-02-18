@@ -1,8 +1,29 @@
 ﻿@model PersonEditViewModel
+    
 
-<input type="text" asp-for="SecondName" />
-<input type="text" asp-for="FirstName" />
-<input type="text" asp-for="MiddleName" />
-<input type="text" asp-for="Phone" />
-<input type="date" asp-for="BirthDate" />
-<button type="submit">Сохранить</button>
+<div class="container" style="padding-top: 15px;">
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <label for="secondName">Фамилия*</label>
+            <input required="required" type="text" id="secondName" asp-for="SecondName" class="form-control" placeholder="Фамилия*" />
+        </div>
+        <div class="form-group col-md-4">
+            <label for="firstName">Имя*</label>
+            <input required="required" id="firstName" type="text" asp-for="FirstName" class="form-control" placeholder="Имя*"/>
+        </div>
+        <div class="form-group col-md-4">
+            <label for="thirdName">Отчество</label>
+            <input type="text" id="thirdName" asp-for="MiddleName" class="form-control" placeholder="Отчество" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="phone">Телефон</label>
+        <input type="text" id="phone" asp-for="Phone" class="form-control" placeholder="Телефон" />
+    </div>
+    <div class="form-group">
+        <label for="birthdate">День рождения*</label>
+        <input required="required" id="birthdate" type="date" asp-for="BirthDate" class="form-control" />
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+</div>
