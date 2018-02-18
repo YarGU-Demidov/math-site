@@ -1,0 +1,5 @@
+﻿@model EditPersonsViewModel
+
+<form asp-action="Edit" method="post" asp-route-id="@Model.Id" asp-antiforgery="true">
+    @Html.Partial("Shared/PersonEditFormContent", Model)
+</form>

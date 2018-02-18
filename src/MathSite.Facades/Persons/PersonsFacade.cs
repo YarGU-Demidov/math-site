@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MathSite.Common.Exceptions;
+using MathSite.Common.Extensions;
 using MathSite.Common.Specifications;
 using MathSite.Entities;
 using MathSite.Repository;
@@ -41,6 +43,41 @@ namespace MathSite.Facades.Persons
             return await RepositoryManager.PersonsRepository
                 .WithUser()
                 .GetAllWithPagingAsync(skip, perPage);
+        }
+
+        public async Task<Guid> CreatePersonAsync(Person person, File photo = null)
+        {
+            if (photo.IsNotNull())
+                person.PhotoId = photo?.Id;
+
+            return await Repository.InsertAndGetIdAsync(person);
+        }
+
+        public Task<Person> GetPersonAsync(Guid id)
+        {
+            return Repository.WithUser().GetAsync(id);
+        }
+
+        public async Task UpdatePersonAsync(Person person)
+        {
+            await Repository.UpdateAsync(person);
+        }
+
+        public async Task DeletePersonAsync(Person person, bool force = false)
+        {
+            if (person.IsNull())
+                throw new ArgumentNullException(nameof(person));
+
+            if (!force)
+            {
+                var hasUser = person.UserId != null && person.UserId != Guid.Empty;
+
+                // TODO: дописать проверку на использование персоны!!!
+                if (hasUser)
+                    throw new PersonIsUsedException();
+            }
+
+            await Repository.DeleteAsync(person.Id);
         }
     }
 }

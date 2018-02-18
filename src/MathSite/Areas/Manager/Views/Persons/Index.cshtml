@@ -33,16 +33,18 @@
                         <tbody>
                             @foreach (var post in Model.Persons)
                             {
-                                var userExistsText = post.UserId != Guid.Empty ? "checked=\"checked\"" : "";
+                                var userExistsText = post.UserId != null && post.UserId != Guid.Empty ? "checked=\"checked\"" : "";
 
                                 <tr>
                                     <td class="text-center">
                                         <a href="@Url.Action("Edit", "Persons", new {id = post.Id})" title="Edit" class="btn btn-outline-success">
                                             <em class="fa fa-pencil"></em>
                                         </a>
-                                        <a href="@Url.Action("Delete", "Persons", new {id = post.Id})" title="Delete" class="btn btn-outline-danger">
-                                            <em class="fa fa-trash"></em>
-                                        </a>
+                                        <form class="delete-person-form" asp-action="Delete" asp-route-id="@post.Id" method="post" asp-antiforgery="true">
+                                            <button type="submit" title="Delete" class="btn btn-outline-danger">
+                                                <em class="fa fa-trash"></em>
+                                            </button>
+                                        </form>
                                     </td>
                                     <td>@post.Surname</td>
                                     <td>@post.Name</td>
@@ -135,4 +137,12 @@
 
 @section ScriptsSection{
     <script src="~/js/pager.js"></script>
+}
+@section StylesSection
+{
+    <style>
+        .delete-person-form {
+            display: inline-block;
+        }
+    </style>
 }

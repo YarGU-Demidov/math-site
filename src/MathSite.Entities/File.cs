@@ -45,7 +45,7 @@ namespace MathSite.Entities
         public string Hash { get; set; }
         
         /// <summary>
-        ///     Личность добавившего файл.
+        ///     Персона, которой принадлежит фото.
         /// </summary>
         public Person Person { get; set; }
         

@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using MathSite.BasicAdmin.ViewModels.SharedModels.AdminPageWithPaging;
+using MathSite.BasicAdmin.ViewModels.SharedModels.AdminPagesViewModel;
 
 namespace MathSite.BasicAdmin.ViewModels.Settings
 {
-    public class IndexSettingsViewModel : AdminPageWithPagingViewModel
+    public class IndexSettingsViewModel : AdminPageBaseViewModel
     {
         [Required]
         public string SiteName { get; set; }

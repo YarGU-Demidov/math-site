@@ -10,6 +10,7 @@ namespace MathSite.Repository
     public interface IPersonsRepository : IRepository<Person>
     {
         IPersonsRepository WithUser();
+        IPersonsRepository WithPhoto();
         Task<IEnumerable<Person>> GetAllWithPagingAsync(int skip, int count);
     }
 
@@ -22,6 +23,12 @@ namespace MathSite.Repository
         public IPersonsRepository WithUser()
         {
             QueryBuilder = GetCurrentQuery().Include(person => person.User);
+            return this;
+        }
+
+        public IPersonsRepository WithPhoto()
+        {
+            QueryBuilder = GetCurrentQuery().Include(person => person.Photo);
             return this;
         }
 
