@@ -1,4 +1,5 @@
 ﻿using System;
+using AutoMapper;
 using MathSite.BasicAdmin.ViewModels;
 using MathSite.Common;
 using MathSite.Common.ActionResults;
@@ -71,7 +72,7 @@ namespace MathSite
                 .AddJsonOptions(options =>
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
             services.AddRouting(options => { options.LowercaseUrls = true; });
-
+            services.AddAutoMapper();
             services.AddMemoryCache();
 
             ConfigureEntityFramework(services, isDevelopment);

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using MathSite.BasicAdmin.ViewModels.Pages;
 using MathSite.Controllers;
-using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Facades.Users;
 using MathSite.Entities;
+using MathSite.Entities.Dtos;
 using MathSite.Facades.UserValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -39,22 +39,43 @@ namespace MathSite.Areas.Manager.Controllers
             return View("Index", await _modelBuilder.BuildRemovedViewModel(page, perPage));
         }
 
-        [HttpGet("[area]/[controller]/create")]
-        [Route("manager/pages/edit")]
+        [HttpGet]
+        [Route("[area]/[controller]/create")]
+        [Route("[area]/[controller]/edit")]
         public async Task<IActionResult> Create(Guid id)
         {
-            return id != Guid.Empty
-                ? View("Create", await _modelBuilder.BuildEditViewModel(id))
-                : View("Create", await _modelBuilder.BuildCreateViewModel());
+            return id == Guid.Empty
+                ? View("Create", await _modelBuilder.BuildCreateViewModel())
+                : View("Create", await _modelBuilder.BuildEditViewModel(id));
         }
 
-        [HttpPost("[area]/[controller]/create")]
-        [Route("manager/pages/edit")]
+        [HttpPost]
+        [Route("[area]/[controller]/create")]
+        [Route("[area]/[controller]/edit")]
         public async Task<IActionResult> Create(PageViewModel page)
         {
-            if (page.Id != Guid.Empty)
+            if (page.Id == Guid.Empty)
             {
-                var post = new Post
+                var postExcerpt = page.Content.Length > 50 ? $"{page.Content.Substring(0, 47)}..." : page.Content;
+                var post = new PostDto
+                {
+                    Id = Guid.NewGuid(),
+                    Title = page.Title,
+                    Excerpt = postExcerpt,
+                    Content = page.Content,
+                    AuthorId = CurrentUser.Id,
+                    Published = false,
+                    Deleted = false,
+                    PostSettings = new PostSetting(),
+                    PostSeoSetting = new PostSeoSetting(),
+                    PostCategory = page.PostCategory
+                };
+
+                await _modelBuilder.BuildCreateViewModel(post);
+            }
+            else
+            {
+                var post = new PostDto
                 {
                     Id = page.Id,
                     Title = page.Title,
@@ -63,44 +84,21 @@ namespace MathSite.Areas.Manager.Controllers
                     Published = page.Published,
                     Deleted = page.Deleted,
                     PublishDate = page.PublishDate,
-                    Author = page.CurrentAuthor,
-                    PostType = page.PostType,
-                    PostSettings = page.PostSettings,
-                    PostSeoSetting = page.PostSeoSetting,
-                    PostCategories = page.PostCategories?.ToList()
+                    AuthorId = page.AuthorId,
+                    PostTypeId = page.PostTypeId,
+                    PostSettingsId = page.PostSettingsId,
+                    PostSeoSettingsId = page.PostSeoSettingsId,
+                    PostCategories = page.CurrentPostCategories
                 };
+
                 await _modelBuilder.BuildEditViewModel(post);
-            }
-            else
-            {
-                var postType = new PostType
-                {
-                    Alias = PostTypeAliases.StaticPage
-                };
-
-                var post = new Post
-                {
-                    Id = Guid.NewGuid(),
-                    Title = page.Title,
-                    Excerpt = page.Content.Length > 50 ? $"{page.Content.Substring(0, 47)}..." : page.Content,
-                    Content = page.Content,
-                    Author = CurrentUser,
-                    Published = false,
-                    Deleted = false,
-                    PostType = postType,
-                    PostSettings = new PostSetting(),
-                    PostSeoSetting = new PostSeoSetting(),
-                    PostCategories = new List<PostCategory>()
-                };
-
-                await _modelBuilder.BuildCreateViewModel(post);
             }
 
             return RedirectToActionPermanent("Index");
         }
 
         [HttpDelete("{id}")]
-        [Route("manager/pages/delete")]
+        [Route("[area]/[controller]/delete")]
         public async Task<IActionResult> Delete([FromQuery] Guid id)
         {
             await _modelBuilder.BuildDeleteViewModel(id);

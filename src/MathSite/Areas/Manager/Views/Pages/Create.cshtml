@@ -2,7 +2,11 @@
 
 <div class="container-fluid set-max-size posts">
     <form method="post" asp-action="Create" asp-controller="Pages">
-        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(m => m.Id)
+        @Html.HiddenFor(m => m.AuthorId)
+        @Html.HiddenFor(m => m.PostTypeId)
+        @Html.HiddenFor(m => m.PostSettingsId)
+        @Html.HiddenFor(m => m.PostSeoSettingsId)
         <div class="card news-card">
             <h4 class="card-header">Статьи</h4>
             <div class="card-body">
@@ -11,8 +15,7 @@
             </div>
             <div class="card-body">
                 @Html.LabelFor(m => m.Content, "Контент")
-                @Html.TextAreaFor(model => model.Content, new { @class = "ckeditor", @id = "content-textarea", @required = "required" })
-                @Html.TextAreaFor(m => m.Content, new { @class = "ckeditor content-textarea", @required = "required" })
+                @Html.TextAreaFor(m => m.Content, new { @class = "ckeditor", @id = "content-textarea", @required = "required" })
             </div>
             <div class="card-body">
                 @Html.LabelFor(m => m.Published, "Опубликовать?")
@@ -41,17 +44,13 @@
                 @Html.DropDownListFor(model => model.SelectedAuthor, new SelectList(Model.Authors, "Список авторов", "Text"), "- Выберите автора -", new {@required = "required"})
             </div>*@
             <div class="card-body">
-                @Html.LabelFor(m => m.PostCategories, "Каиегории")
                 @{
                     if (Model.PostCategories != null && Model.PostCategories.Any())
                     {
-                        foreach (var category in Model.PostCategories)
-                        {
-                            <div>
-                                @Html.LabelFor(m => category, category.Category.Name)
-                                @Html.CheckBoxFor(m => category.IsChecked)
-                            </div>
-                        }
+                        @Html.LabelFor(m => m.PostCategories, "Категории")
+                        <div class="card-body">
+                            @Html.DropDownListFor(model => model.SelectedCategory, new SelectList(Model.PostCategories, "Список категорий", "Text"), "- Выберите категорию -", new {@required = "required"})
+                        </div>
                     }
                 }
             </div>

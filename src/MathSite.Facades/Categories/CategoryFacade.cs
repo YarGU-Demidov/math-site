@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MathSite.Entities;
 using MathSite.Repository;
@@ -20,6 +21,11 @@ namespace MathSite.Facades.Categories
             var spec = new CategoryAliasSpecification(categoryAlias);
 
             return Repository.FirstOrDefaultAsync(spec);
+        }
+
+        public async Task<IEnumerable<Category>> GetCategoriesAsync()
+        {
+            return await RepositoryManager.CategoryRepository.GetAllListAsync(c => c.PostCategories != null);
         }
     }
 }

@@ -6,12 +6,14 @@ using MathSite.Common.Extensions;
 using MathSite.Common.Specifications;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
+using MathSite.Entities.Dtos;
 using MathSite.Facades.SiteSettings;
 using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
 using MathSite.Repository;
 using MathSite.Repository.Core;
 using MathSite.Specifications.Posts;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 
@@ -121,6 +123,25 @@ namespace MathSite.Facades.Posts
             return GetPostsAsync(null, postTypeAlias, page, perPage, state, publishState, frontPageState, cache);
         }
 
+        public async Task<Guid> CreatePostAsync(Post post)
+        {
+            try
+            {
+                var seoSettingsId = await RepositoryManager.PostSeoSettingsRepository.InsertAndGetIdAsync(post.PostSeoSetting);
+                var settingsId = await RepositoryManager.PostSettingRepository.InsertAndGetIdAsync(post.PostSettings);
+
+                post.PostSeoSettingsId = seoSettingsId;
+                post.PostSettingsId = settingsId;
+
+                return await Repository.InsertAndGetIdAsync(post);
+            }
+            catch (Exception e)
+            {
+                _postsFacadeLogger.LogError(e, "Can't create post. Exception was thrown.");
+                return Guid.Empty;
+            }
+        }
+
         public async Task<IEnumerable<Post>> GetPostsAsync(
             Guid? categoryId,
             string postTypeAlias,
@@ -169,29 +190,6 @@ namespace MathSite.Facades.Posts
                 : await GetPosts(requirements, perPage, toSkip);
         }
 
-        public async Task<Guid> CreatePostAsync(Post post)
-        {
-            try
-            {
-                var postType = await GetPostTypeAsync(post.PostType.Alias);
-                var seoSettingsId =
-                    await RepositoryManager.PostSeoSettingsRepository.InsertAndGetIdAsync(post.PostSeoSetting);
-                var settingsId = await RepositoryManager.PostSettingRepository.InsertAndGetIdAsync(post.PostSettings);
-
-                post.PostType = postType;
-
-                post.PostSeoSettingsId = seoSettingsId;
-                post.PostSettingsId = settingsId;
-
-                return await Repository.InsertAndGetIdAsync(post);
-            }
-            catch (Exception e)
-            {
-                _postsFacadeLogger.LogError(e, "Can't create post. Exception was thrown.");
-                return Guid.Empty;
-            }
-        }
-
         public async Task<Guid> UpdatePostAsync(Post post)
         {
             try
@@ -217,9 +215,19 @@ namespace MathSite.Facades.Posts
             }
         }
 
-        private async Task<PostType> GetPostTypeAsync(string postType)
+        public async Task<PostType> GetPostTypeAsync(string alias)
         {
-            return await RepositoryManager.PostTypeRepository.SingleAsync(type => type.Alias == postType);
+            return await RepositoryManager.PostTypeRepository.SingleAsync(postType => postType.Alias == alias);
+        }
+
+        public async Task<PostSetting> GetPostSettingsAsync(Guid? id)
+        {
+            return await RepositoryManager.PostSettingRepository.SingleAsync(s => s.Id == id);
+        }
+
+        public async Task<PostSeoSetting> GetPostSeoSettingsAsync(Guid id)
+        {
+            return await RepositoryManager.PostSeoSettingsRepository.SingleAsync(s => s.Id == id);
         }
 
         private async Task<int> GetPostsWithTypeCount(
