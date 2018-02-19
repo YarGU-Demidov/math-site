@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using MathSite.BasicAdmin.ViewModels.Pages;
 using MathSite.Controllers;
@@ -68,7 +67,7 @@ namespace MathSite.Areas.Manager.Controllers
                     Deleted = false,
                     PostSettings = new PostSetting(),
                     PostSeoSetting = new PostSeoSetting(),
-                    PostCategory = page.PostCategory
+                    PostCategories = new List<PostCategory>()
                 };
 
                 await _modelBuilder.BuildCreateViewModel(post);
@@ -88,7 +87,7 @@ namespace MathSite.Areas.Manager.Controllers
                     PostTypeId = page.PostTypeId,
                     PostSettingsId = page.PostSettingsId,
                     PostSeoSettingsId = page.PostSeoSettingsId,
-                    PostCategories = page.CurrentPostCategories
+                    PostCategories = page.PostCategories
                 };
 
                 await _modelBuilder.BuildEditViewModel(post);

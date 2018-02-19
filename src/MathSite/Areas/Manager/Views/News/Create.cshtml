@@ -2,7 +2,11 @@
 
 <div class="container-fluid set-max-size posts">
     <form method="post" asp-action="Create" asp-controller="News">
-        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(m => m.Id)
+        @Html.HiddenFor(m => m.AuthorId)
+        @Html.HiddenFor(m => m.PostTypeId)
+        @Html.HiddenFor(m => m.PostSettingsId)
+        @Html.HiddenFor(m => m.PostSeoSettingsId)
         <div class="card news-card">
             <h4 class="card-header">Новости</h4>
             <div class="card-body">
@@ -11,7 +15,7 @@
             </div>
             <div class="card-body">
                 @Html.LabelFor(m => m.Content, "Контент")
-                @Html.TextAreaFor(m => m.Content, new { @class = "ckeditor content-textarea", @required = "required" })
+                @Html.TextAreaFor(m => m.Content, new { @class = "ckeditor", @id = "content-textarea", @required = "required" })
             </div>
             <div class="card-body">
                 @Html.LabelFor(m => m.Published, "Опубликовать?")
@@ -39,7 +43,7 @@
                 @Html.LabelFor(model => model.Authors, "Автор")
                 @Html.DropDownListFor(model => model.SelectedAuthor, new SelectList(Model.Authors, "Список авторов", "Text"), "- Выберите автора -", new {@required = "required"})
             </div>*@
-            <div class="card-body">
+            @*<div class="card-body">
                 @Html.LabelFor(m => m.PostCategories, "Категории")
                 @{
                     if (Model.PostCategories != null && Model.PostCategories.Any())
@@ -53,21 +57,104 @@
                         }
                     }
                 }
-            </div>
+            </div>*@
             <button type="submit" class="btn btn-outline-success">Create</button>
         </div>
     </form>
 </div>
 
-@section ScriptsSection{
+@section StylesSection
+    {
+    <!-- Include external CSS. -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.css">
+
+    <!-- Include Editor style. -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.5/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.5/css/froala_style.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.5/css/plugins/table.min.css">
+}
+
+@section ScriptsSection
+    {
     <script src="~/js/pager.js"></script>
-    <script src="~/js/manager/ckeditor/ckeditor.js"></script>
+    @*<script src="~/js/manager/ckeditor/ckeditor.js"></script>*@
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/mode/xml/xml.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.5/js/froala_editor.pkgd.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.5/js/languages/ru.js"></script>
+
     <script>
         $(document).ready(() => {
-            var editor = CKEDITOR.instances.Content;
-            var textArea = $('.content-textarea');
-            editor.on( 'change', function( evt ) {
+            /*var editor = CKEDITOR.instances.Content;
+            var textArea = $('#content-textarea');
+            editor.on('change', function (evt) {
                 textArea.val(evt.editor.getData());
+            });*/
+
+            $('#content-textarea').froalaEditor({
+                // https://www.froala.com/wysiwyg-editor/docs/concepts/image/manager
+                imageManagerLoadURL: location.origin + '/api/froala/get-images',
+                imageManagerPageSize: 30,
+                imageManagerLoadMethod: "GET",
+                imageManagerDeleteURL: '/api/froala/delete-image',
+                imageManagerDeleteMethod: "POST",
+
+                // https://www.froala.com/wysiwyg-editor/docs/concepts/image/upload
+                imageUploadParam: 'image',
+                imageUploadURL: location.origin + '/api/froala/upload-image/static-pages',
+                imageUploadMethod: 'POST',
+                imageMaxSize: 50 * 1024 * 1024, // Set max image size to 50MB.
+                imageAllowedTypes: ['jpeg', 'jpg', 'png', 'gif'],
+
+                language: 'ru',
+
+                toolbarButtons: [
+                    'fullscreen',
+                    '|',
+                    'undo',
+                    'redo',
+                    '|',
+                    'bold',
+                    'italic',
+                    'underline',
+                    'strikeThrough',
+                    'subscript',
+                    'superscript',
+                    '|',
+                    'fontFamily',
+                    'fontSize',
+                    'color',
+                    'inlineStyle',
+                    'paragraphStyle',
+                    '|',
+                    'paragraphFormat',
+                    'align',
+                    'formatOL',
+                    'formatUL',
+                    'outdent',
+                    'indent',
+                    'quote',
+                    '-',
+                    'insertLink',
+                    'insertImage',
+                    'insertVideo',
+                    'embedly',
+                    //'insertFile',
+                    'insertTable',
+                    '|',
+                    'emoticons',
+                    'specialCharacters',
+                    'insertHR',
+                    'selectAll',
+                    'clearFormatting',
+                    '|',
+                    'print',
+                    'spellChecker',
+                    'help',
+                    'html',
+                ]
             });
         });
     </script>

@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using MathSite.BasicAdmin.ViewModels.News;
 using MathSite.Controllers;
-using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
-using MathSite.Facades.Posts;
+using MathSite.Entities.Dtos;
 using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
 using Microsoft.AspNetCore.Authorization;
@@ -19,16 +17,15 @@ namespace MathSite.Areas.Manager.Controllers
     public class NewsController : BaseController
     {
         private readonly INewsManagerViewModelBuilder _modelBuilder;
-        private readonly IPostsFacade _posts;
 
-        public NewsController(IUserValidationFacade userValidationFacade, INewsManagerViewModelBuilder modelBuilder, IPostsFacade posts, IUsersFacade usersFacade)
+        public NewsController(IUserValidationFacade userValidationFacade, INewsManagerViewModelBuilder modelBuilder,
+            IUsersFacade usersFacade)
             : base(userValidationFacade, usersFacade)
         {
             _modelBuilder = modelBuilder;
-            _posts = posts;
         }
 
-        [Route("[area]/[controller]")]
+        [Route("[area]/[controller]/")]
         [Route("[area]/[controller]/index")]
         [Route("[area]/[controller]/list")]
         public async Task<IActionResult> Index([FromQuery] int page = 1, [FromQuery] int perPage = 10)
@@ -46,58 +43,53 @@ namespace MathSite.Areas.Manager.Controllers
         [Route("manager/news/edit")]
         public async Task<IActionResult> Create(Guid id)
         {
-            return id != Guid.Empty
-                ? View("Create", await _modelBuilder.BuildEditViewModel(id))
-                : View("Create", await _modelBuilder.BuildCreateViewModel());
+            return id == Guid.Empty
+                ? View("Create", await _modelBuilder.BuildCreateViewModel())
+                : View("Create", await _modelBuilder.BuildEditViewModel(id));
         }
 
         [HttpPost]
-        [Route("manager/news/create")]
-        [Route("manager/news/edit")]
-        public async Task<IActionResult> Create(NewsViewModel page)
+        [Route("[area]/[controller]/create")]
+        [Route("[area]/[controller]/edit")]
+        public async Task<IActionResult> Create(NewsViewModel news)
         {
-            if (page.Id != Guid.Empty)
+            if (news.Id == Guid.Empty)
             {
-                var post = new Post
-                {
-                    Id = page.Id,
-                    Title = page.Title,
-                    Excerpt = page.Content.Length > 50 ? $"{page.Content.Substring(0, 47)}..." : page.Content,
-                    Content = page.Content,
-                    Published = page.Published,
-                    Deleted = page.Deleted,
-                    PublishDate = page.PublishDate,
-                    Author = page.CurrentAuthor,
-                    PostType = page.PostType,
-                    PostSettings = page.PostSettings,
-                    PostSeoSetting = page.PostSeoSetting,
-                    PostCategories = page.PostCategories?.ToList()
-                };
-                await _modelBuilder.BuildEditViewModel(post);
-            }
-            else
-            {
-                var postType = new PostType
-                {
-                    Alias = PostTypeAliases.News
-                };
-
-                var post = new Post
+                var post = new PostDto
                 {
                     Id = Guid.NewGuid(),
-                    Title = page.Title,
-                    Excerpt = page.Content.Length > 50 ? $"{page.Content.Substring(0, 47)}..." : page.Content,
-                    Content = page.Content,
-                    Author = CurrentUser,
+                    Title = news.Title,
+                    Excerpt = news.Content.Length > 50 ? $"{news.Content.Substring(0, 47)}..." : news.Content,
+                    Content = news.Content,
+                    AuthorId = CurrentUser.Id,
                     Published = false,
                     Deleted = false,
-                    PostType = postType,
                     PostSettings = new PostSetting(),
                     PostSeoSetting = new PostSeoSetting(),
                     PostCategories = new List<PostCategory>()
                 };
 
                 await _modelBuilder.BuildCreateViewModel(post);
+            }
+            else
+            {
+                var post = new PostDto
+                {
+                    Id = news.Id,
+                    Title = news.Title,
+                    Excerpt = news.Content.Length > 50 ? $"{news.Content.Substring(0, 47)}..." : news.Content,
+                    Content = news.Content,
+                    Published = news.Published,
+                    Deleted = news.Deleted,
+                    PublishDate = news.PublishDate,
+                    AuthorId = news.AuthorId,
+                    PostTypeId = news.PostTypeId,
+                    PostSettingsId = news.PostSettingsId,
+                    PostSeoSettingsId = news.PostSeoSettingsId,
+                    PostCategories = news.PostCategories
+                };
+
+                await _modelBuilder.BuildEditViewModel(post);
             }
 
             return RedirectToActionPermanent("Index");
@@ -112,7 +104,6 @@ namespace MathSite.Areas.Manager.Controllers
             return RedirectToActionPermanent("Index");
         }
 
-        
         public async Task<IActionResult> Recover(Guid id)
         {
             throw new NotImplementedException();

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
 using MathSite.BasicAdmin.ViewModels.SharedModels.AdminPageWithPaging;
 using MathSite.BasicAdmin.ViewModels.SharedModels.Menu;
 using MathSite.Common;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
+using MathSite.Entities.Dtos;
 using MathSite.Facades.Posts;
 using MathSite.Facades.SiteSettings;
 using MathSite.Facades.Users;
@@ -14,12 +16,14 @@ namespace MathSite.BasicAdmin.ViewModels.News
 {
     public class NewsManagerViewModelBuilder : AdminPageWithPagingViewModelBuilder, INewsManagerViewModelBuilder
     {
+        private readonly IMapper _mapper;
         private readonly IPostsFacade _postsFacade;
         private readonly IUsersFacade _usersFacade;
 
-        public NewsManagerViewModelBuilder(ISiteSettingsFacade siteSettingsFacade, IPostsFacade postsFacade, IUsersFacade usersFacade) :
+        public NewsManagerViewModelBuilder(ISiteSettingsFacade siteSettingsFacade, IMapper mapper, IPostsFacade postsFacade, IUsersFacade usersFacade) :
             base(siteSettingsFacade)
         {
+            _mapper = mapper;
             _postsFacade = postsFacade;
             _usersFacade = usersFacade;
         }
@@ -68,17 +72,20 @@ namespace MathSite.BasicAdmin.ViewModels.News
             return model;
         }
 
-        public async Task<NewsViewModel> BuildCreateViewModel(Post post = null)
+        public async Task<NewsViewModel> BuildCreateViewModel(PostDto postDto = null)
         {
             var model = await BuildAdminBaseViewModelAsync<NewsViewModel>(
-                link => link.Alias == "News",
+                link => link.Alias == "Articles",
                 link => link.Alias == "Create"
             );
 
-            if (post != null)
+            if (postDto != null)
             {
-                model.PageTitle.Title = post.Title;
+                model.PageTitle.Title = postDto.Title;
 
+                postDto.PostType = await _postsFacade.GetPostTypeAsync(PostTypeAliases.News);
+
+                var post = _mapper.Map<PostDto, Post>(postDto);
                 await _postsFacade.CreatePostAsync(post);
             }
 
@@ -101,38 +108,41 @@ namespace MathSite.BasicAdmin.ViewModels.News
             model.Published = post.Published;
             model.Deleted = post.Deleted;
             model.PublishDate = post.PublishDate;
-            model.CurrentAuthor = post.Author;
+            model.AuthorId = post.AuthorId;
             model.SelectedAuthor = string.Empty;
             model.Authors = _usersFacade.GetUsers();
-            model.PostType = post.PostType;
-            model.PostSettings = post.PostSettings;
-            model.PostSeoSetting = post.PostSeoSetting;
-            model.PostCategories = post.PostCategories;
+            model.PostTypeId = post.PostTypeId;
+            model.PostSettingsId = post.PostSettingsId;
+            model.PostSeoSettingsId = post.PostSeoSettingsId;
 
             return model;
         }
 
-        public async Task<NewsViewModel> BuildEditViewModel(Post post)
+        public async Task<NewsViewModel> BuildEditViewModel(PostDto postDto)
         {
             var model = await BuildAdminBaseViewModelAsync<NewsViewModel>(
                 link => link.Alias == "News",
                 link => link.Alias == "Edit"
             );
 
-            model.Id = post.Id;
-            model.Title = post.Title;
-            model.Excerpt = post.Excerpt;
-            model.Content = post.Content;
-            model.Published = post.Published;
-            model.Deleted = post.Deleted;
-            model.PublishDate = post.PublishDate;
-            model.CurrentAuthor = post.Author;
-            model.Authors = _usersFacade.GetUsers();
-            model.PostType = post.PostType;
-            model.PostSettings = post.PostSettings;
-            model.PostSeoSetting = post.PostSeoSetting;
-            model.PostCategories = post.PostCategories;
+            postDto.PostType = await _postsFacade.GetPostTypeAsync(PostTypeAliases.News);
+            postDto.PostSettings = await _postsFacade.GetPostSettingsAsync(postDto.PostSettingsId);
+            postDto.PostSeoSetting = await _postsFacade.GetPostSeoSettingsAsync(postDto.PostSeoSettingsId);
 
+            model.Id = postDto.Id;
+            model.Title = postDto.Title;
+            model.Excerpt = postDto.Excerpt;
+            model.Content = postDto.Content;
+            model.Published = postDto.Published;
+            model.Deleted = postDto.Deleted;
+            model.PublishDate = postDto.PublishDate;
+            model.AuthorId = postDto.AuthorId;
+            model.Authors = _usersFacade.GetUsers();
+            model.PostTypeId = postDto.PostTypeId;
+            model.PostSettingsId = postDto.PostSettingsId;
+            model.PostSeoSettingsId = postDto.PostSeoSettingsId;
+
+            var post = _mapper.Map<PostDto, Post>(postDto);
             await _postsFacade.UpdatePostAsync(post);
 
             return model;

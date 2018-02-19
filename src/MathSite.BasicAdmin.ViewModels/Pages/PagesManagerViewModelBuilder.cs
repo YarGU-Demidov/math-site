@@ -87,8 +87,6 @@ namespace MathSite.BasicAdmin.ViewModels.Pages
                 link => link.Alias == "Create"
             );
 
-            model.PostCategories = await _categoriesFacade.GetCategoriesAsync();
-
             if (postDto != null)
             {
                 model.PageTitle.Title = postDto.Title;
@@ -124,7 +122,6 @@ namespace MathSite.BasicAdmin.ViewModels.Pages
             model.PostTypeId = post.PostTypeId;
             model.PostSettingsId = post.PostSettingsId;
             model.PostSeoSettingsId = post.PostSeoSettingsId;
-            model.CurrentPostCategories = post.PostCategories;
 
             return model;
         }
@@ -152,7 +149,6 @@ namespace MathSite.BasicAdmin.ViewModels.Pages
             model.PostTypeId = postDto.PostTypeId;
             model.PostSettingsId = postDto.PostSettingsId;
             model.PostSeoSettingsId = postDto.PostSeoSettingsId;
-            model.CurrentPostCategories = postDto.PostCategories;
 
             var post = _mapper.Map<PostDto, Post>(postDto);
             await _postsFacade.UpdatePostAsync(post);

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using MathSite.BasicAdmin.ViewModels.SharedModels.AdminPageWithPaging;
 using MathSite.Entities;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MathSite.BasicAdmin.ViewModels.Pages
 {
@@ -22,8 +20,6 @@ namespace MathSite.BasicAdmin.ViewModels.Pages
         public Guid PostTypeId { get; set; }
         public Guid? PostSettingsId { get; set; }
         public Guid PostSeoSettingsId { get; set; }
-        public string SelectedCategory { get; set; }
-        public Category PostCategory { get; set; }
-        public IEnumerable<Category> PostCategories { get; set; }
+        public IEnumerable<PostCategory> PostCategories { get; set; }
     }
 }

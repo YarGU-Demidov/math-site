@@ -43,7 +43,7 @@
                 @Html.LabelFor(model => model.Authors, "Автор")
                 @Html.DropDownListFor(model => model.SelectedAuthor, new SelectList(Model.Authors, "Список авторов", "Text"), "- Выберите автора -", new {@required = "required"})
             </div>*@
-            <div class="card-body">
+            @*<div class="card-body">
                 @{
                     if (Model.PostCategories != null && Model.PostCategories.Any())
                     {
@@ -53,12 +53,11 @@
                         </div>
                     }
                 }
-            </div>
+            </div>*@
             <button type="submit" class="btn btn-outline-success">Create</button>
         </div>
     </form>
 </div>
-
 
 @section StylesSection
     {
