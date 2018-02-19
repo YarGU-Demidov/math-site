@@ -128,7 +128,6 @@ namespace MathSite.Facades.FileSystem
                 var file = new File
                 {
                     Hash = hash,
-                    Person = user.Person,
                     Extension = Path.GetExtension(name),
                     Name = GetFileName(name, alreadyExistsFile),
                     Path = pathId,

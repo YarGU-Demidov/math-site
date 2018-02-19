@@ -7,49 +7,50 @@
     var directory = Model.Directories.FirstOrDefault();
     var folderIsBack = directory.IsNotNull() && directory?.Title == "..";
 }    
+<div class="container">
+    <div class="row">
+        <form class="form-inline" asp-controller="Files" asp-action="UploadFile" asp-route-path="@Model.CurrentDirectory" asp-area="Manager" method="post" enctype="multipart/form-data" asp-antiforgery="true" style="width: 100%; padding-top: 10px;">
+            <label for="files">
+                <span style="font-size: 1.2em; padding: 0 15px;">Upload File</span>
+            </label>
+            <input type="file" id="files" name="files" multiple="multiple" />
+            <button class="btn btn-primary mb-2" type="submit">Upload</button>
+        </form>
+    </div>
 
-<div class="row">
-    <form class="form-inline" asp-controller="Files" asp-action="UploadFile" asp-route-path="@Model.CurrentDirectory" asp-area="Manager"  method="post" enctype="multipart/form-data" asp-antiforgery="true" style="width: 100%; padding-top: 10px;">
-        <label for="files">
-            <span style="font-size: 1.2em; padding: 0 15px;">Upload File</span>
-        </label>
-        <input type="file" id="files" name="files" multiple="multiple" />
-        <button class="btn btn-primary mb-2" type="submit">Upload</button>
-    </form>
-</div>
+    <div class="row">
+        <ul class="files-index">
+            @foreach (var dir in Model.Directories)
+            {
+                <li title="@dir.FullPath">
+                    <a href="@Url.Action("Index", new {path = dir.FullPath})" class="folder-line"><i class="material-icons">folder</i> @dir.Title</a>
+                </li>
+            }
+        </ul>
 
-<div class="row">
-    <ul class="files-index">
-        @foreach (var dir in Model.Directories)
+        @if (!hasDirectories && !hasFiles || !hasFiles && hasOneFolder && folderIsBack)
         {
-            <li title="@dir.FullPath">
-                <a href="@Url.Action("Index", new {path = dir.FullPath})" class="folder-line"><i class="material-icons">folder</i> @dir.Title</a>
-            </li>
+            <h2>Folder is empty.</h2>
         }
-    </ul>
 
-    @if (!hasDirectories && !hasFiles || !hasFiles && hasOneFolder && folderIsBack)
-    {
-        <h2>Folder is empty.</h2>
-    }
-
-    <ol>
-        @foreach (var file in Model.Files)
-        {
-            <li title="@file.FullFilePath">
-                @file.Title
-                <a href="@Url.Action("Download", "File", new { id = file.Id })" target="_blank" class="download-icon" data-file-id="@file.Id"><i class="material-icons">file_download</i></a>
-                <a href="@Url.Action("Get", "File", new { id = file.Id })" target="_blank" class="preivew-icon" data-file-id="@file.Id"><i class="material-icons">airplay</i></a>
-                <form class="delete-form" asp-area="Manager" asp-controller="Files" asp-action="Delete" asp-route-id="@file.Id" asp-route-path="@Model.CurrentDirectory" method="post" asp-antiforgery="true">
-                    <button type="submit">
-                        <i class="material-icons">delete_forever</i>
-                    </button>
-                </form>
-                <br />
-                Created at: @file.CreationDate
-            </li>
-        }
-    </ol>
+        <ol>
+            @foreach (var file in Model.Files)
+            {
+                <li title="@file.FullFilePath">
+                    @file.Title
+                    <a href="@Url.Action("Download", "File", new { id = file.Id })" target="_blank" class="download-icon" data-file-id="@file.Id"><i class="material-icons">file_download</i></a>
+                    <a href="@Url.Action("Get", "File", new { id = file.Id })" target="_blank" class="preivew-icon" data-file-id="@file.Id"><i class="material-icons">airplay</i></a>
+                    <form class="delete-form" asp-area="Manager" asp-controller="Files" asp-action="Delete" asp-route-id="@file.Id" asp-route-path="@Model.CurrentDirectory" method="post" asp-antiforgery="true">
+                        <button type="submit">
+                            <i class="material-icons">delete_forever</i>
+                        </button>
+                    </form>
+                    <br />
+                    Created at: @file.CreationDate
+                </li>
+            }
+        </ol>
+    </div>
 </div>
 
 @section StylesSection
