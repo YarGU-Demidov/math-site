@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using MathSite.BasicAdmin.ViewModels.SharedModels.AdminPageWithPaging;
 using MathSite.Entities;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MathSite.BasicAdmin.ViewModels.Pages
 {
@@ -16,7 +17,7 @@ namespace MathSite.BasicAdmin.ViewModels.Pages
         public DateTime PublishDate { get; set; }
         public Guid AuthorId { get; set; }
         public string SelectedAuthor { get; set; }
-        public IEnumerable<User> Authors { get; set; }
+        public IEnumerable<SelectListItem> Authors { get; set; }
         public Guid PostTypeId { get; set; }
         public Guid? PostSettingsId { get; set; }
         public Guid PostSeoSettingsId { get; set; }

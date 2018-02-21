@@ -39,59 +39,64 @@ namespace MathSite.Areas.Manager.Controllers
         }
 
         [HttpGet]
-        [Route("[area]/[controller]/create")]
-        [Route("[area]/[controller]/edit")]
-        public async Task<IActionResult> Create(Guid id)
+        [Route("[area]/[controller]/create")]        
+        public async Task<IActionResult> Create()
         {
-            return id == Guid.Empty
-                ? View("Create", await _modelBuilder.BuildCreateViewModel())
-                : View("Create", await _modelBuilder.BuildEditViewModel(id));
+            return View("Create", await _modelBuilder.BuildCreateViewModel());
         }
 
         [HttpPost]
         [Route("[area]/[controller]/create")]
-        [Route("[area]/[controller]/edit")]
         public async Task<IActionResult> Create(PageViewModel page)
         {
-            if (page.Id == Guid.Empty)
+            var postExcerpt = page.Content.Length > 50 ? $"{page.Content.Substring(0, 47)}..." : page.Content;
+            var post = new PostDto
             {
-                var postExcerpt = page.Content.Length > 50 ? $"{page.Content.Substring(0, 47)}..." : page.Content;
-                var post = new PostDto
-                {
-                    Id = Guid.NewGuid(),
-                    Title = page.Title,
-                    Excerpt = postExcerpt,
-                    Content = page.Content,
-                    AuthorId = CurrentUser.Id,
-                    Published = false,
-                    Deleted = false,
-                    PostSettings = new PostSetting(),
-                    PostSeoSetting = new PostSeoSetting(),
-                    PostCategories = new List<PostCategory>()
-                };
+                Id = Guid.NewGuid(),
+                Title = page.Title,
+                Excerpt = postExcerpt,
+                Content = page.Content,
+                AuthorId = CurrentUser.Id,
+                Published = false,
+                Deleted = false,
+                PostSettings = new PostSetting(),
+                PostSeoSetting = new PostSeoSetting(),
+                PostCategories = new List<PostCategory>()
+            };
 
-                await _modelBuilder.BuildCreateViewModel(post);
-            }
-            else
+            await _modelBuilder.BuildCreateViewModel(post);
+
+            return RedirectToActionPermanent("Index");
+        }
+
+        [HttpGet]
+        [Route("[area]/[controller]/edit")]
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            return View("Edit", await _modelBuilder.BuildEditViewModel(id));
+        }
+
+        [HttpPost]
+        [Route("[area]/[controller]/edit")]
+        public async Task<IActionResult> Edit(PageViewModel page)
+        {
+            var post = new PostDto
             {
-                var post = new PostDto
-                {
-                    Id = page.Id,
-                    Title = page.Title,
-                    Excerpt = page.Content.Length > 50 ? $"{page.Content.Substring(0, 47)}..." : page.Content,
-                    Content = page.Content,
-                    Published = page.Published,
-                    Deleted = page.Deleted,
-                    PublishDate = page.PublishDate,
-                    AuthorId = page.AuthorId,
-                    PostTypeId = page.PostTypeId,
-                    PostSettingsId = page.PostSettingsId,
-                    PostSeoSettingsId = page.PostSeoSettingsId,
-                    PostCategories = page.PostCategories
-                };
+                Id = page.Id,
+                Title = page.Title,
+                Excerpt = page.Content.Length > 50 ? $"{page.Content.Substring(0, 47)}..." : page.Content,
+                Content = page.Content,
+                Published = page.Published,
+                Deleted = page.Deleted,
+                PublishDate = page.PublishDate,
+                AuthorId = page.AuthorId,
+                PostTypeId = page.PostTypeId,
+                PostSettingsId = page.PostSettingsId,
+                PostSeoSettingsId = page.PostSeoSettingsId,
+                PostCategories = page.PostCategories
+            };
 
-                await _modelBuilder.BuildEditViewModel(post);
-            }
+            await _modelBuilder.BuildEditViewModel(post);
 
             return RedirectToActionPermanent("Index");
         }

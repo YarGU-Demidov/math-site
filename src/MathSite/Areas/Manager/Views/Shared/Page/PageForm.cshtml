@@ -1,0 +1,39 @@
+﻿@model PageViewModel
+    
+
+<div class="card news-card">
+    <h4 class="card-header">Статьи</h4>
+    <div class="card-body">
+        @Html.LabelFor(m => m.Title, "Заголовок статьи")
+        @Html.TextBoxFor(m => m.Title, new { @required = "required" })
+    </div>
+    <div class="card-body">
+        @Html.LabelFor(m => m.Content, "Контент")
+        @Html.TextAreaFor(m => m.Content, new { @class = "ckeditor", @id = "content-textarea", @required = "required" })
+    </div>
+    <div class="card-body">
+        @Html.LabelFor(m => m.Published, "Опубликовать?")
+        <div>
+            @Html.LabelFor(m => m.Published, "Да")
+            @Html.RadioButtonFor(m => m.Published, true)
+        </div>
+        <div>
+            @Html.LabelFor(m => m.Published, "Нет")
+            @Html.RadioButtonFor(m => m.Published, false)
+        </div>
+    </div>
+    <div class="card-body">
+        @Html.DropDownListFor(m => m.Authors, Model.Authors as SelectList, new { @id = "search_authors", @class = "authors form-control", @multiple = "multiple", @required = "required" })
+    </div>
+            @*<div class="card-body">
+            @{
+                if (Model.PostCategories != null && Model.PostCategories.Any())
+                {
+                    @Html.LabelFor(m => m.PostCategories, "Категории")
+                    <div class="card-body">
+                        @Html.DropDownListFor(model => model.SelectedCategory, new SelectList(Model.PostCategories, "Список категорий", "Text"), "- Выберите категорию -", new {@required = "required"})
+                    </div>
+                }
+            }
+        </div>*@
+</div>

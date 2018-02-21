@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using MathSite.BasicAdmin.ViewModels.SharedModels.AdminPageWithPaging;
@@ -12,6 +13,7 @@ using MathSite.Facades.Categories;
 using MathSite.Facades.Posts;
 using MathSite.Facades.SiteSettings;
 using MathSite.Facades.Users;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MathSite.BasicAdmin.ViewModels.Pages
 {
@@ -87,6 +89,8 @@ namespace MathSite.BasicAdmin.ViewModels.Pages
                 link => link.Alias == "Create"
             );
 
+            model.Authors = GetSelectListItems(_usersFacade.GetUsers());
+
             if (postDto != null)
             {
                 model.PageTitle.Title = postDto.Title;
@@ -118,7 +122,7 @@ namespace MathSite.BasicAdmin.ViewModels.Pages
             model.PublishDate = post.PublishDate;
             model.AuthorId = post.AuthorId;
             model.SelectedAuthor = string.Empty;
-            model.Authors = _usersFacade.GetUsers();
+            model.Authors = GetSelectListItems(_usersFacade.GetUsers());
             model.PostTypeId = post.PostTypeId;
             model.PostSettingsId = post.PostSettingsId;
             model.PostSeoSettingsId = post.PostSeoSettingsId;
@@ -145,7 +149,7 @@ namespace MathSite.BasicAdmin.ViewModels.Pages
             model.Deleted = postDto.Deleted;
             model.PublishDate = postDto.PublishDate;
             model.AuthorId = postDto.AuthorId;
-            model.Authors = _usersFacade.GetUsers();
+            model.Authors = GetSelectListItems(_usersFacade.GetUsers());
             model.PostTypeId = postDto.PostTypeId;
             model.PostSettingsId = postDto.PostSettingsId;
             model.PostSeoSettingsId = postDto.PostSeoSettingsId;
@@ -179,14 +183,16 @@ namespace MathSite.BasicAdmin.ViewModels.Pages
             };
         }
 
-        //private IEnumerable<SelectListItem> GetSelectListItems(IEnumerable<User> elements)
-        //{
-        //    return elements.Select(element => new SelectListItem
-        //        {
-        //            Value = element.Id.ToString(),
-        //            Text = element.Person.Name + " " + element.Person.Surname
-        //        })
-        //        .ToList();
-        //}
+        private IEnumerable<SelectListItem> GetSelectListItems(IEnumerable<User> elements)
+        {
+            return elements
+                .Where(element => element.Person != null)
+                .Select(element => new SelectListItem
+                {
+                    Text = element.Person?.Name + " " + element.Person?.Surname,
+                    Value = element.Id.ToString()
+                })
+                .ToList();
+        }
     }
 }

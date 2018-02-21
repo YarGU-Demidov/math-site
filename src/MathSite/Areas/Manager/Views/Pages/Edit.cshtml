@@ -1,9 +1,14 @@
 ﻿@model PageViewModel
 
 <div class="container-fluid set-max-size posts">
-    <form method="post" asp-action="Create" asp-controller="Pages">
+    <form method="post" asp-action="Edit" asp-controller="Pages">
+        @Html.HiddenFor(m => m.Id)
+        @Html.HiddenFor(m => m.AuthorId)
+        @Html.HiddenFor(m => m.PostTypeId)
+        @Html.HiddenFor(m => m.PostSettingsId)
+        @Html.HiddenFor(m => m.PostSeoSettingsId)
         @Html.Partial("Page/PageForm")
-        <button type="submit" class="btn btn-outline-success">Создать</button>
+        <button type="submit" class="btn btn-outline-success">Сохранить</button>
     </form>
 </div>
 
