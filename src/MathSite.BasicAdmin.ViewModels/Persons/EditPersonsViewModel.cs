@@ -2,7 +2,7 @@
 
 namespace MathSite.BasicAdmin.ViewModels.Persons
 {
-    public class EditPersonsViewModel : PersonEditViewModel
+    public class EditPersonsViewModel : BasePersonEditViewModel
     {
         public Guid Id { get; set; }
     }

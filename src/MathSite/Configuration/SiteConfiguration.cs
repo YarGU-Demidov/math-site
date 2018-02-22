@@ -91,6 +91,12 @@ namespace MathSite
                     defaults: new {controller = "Events", action = "Index"}
                 );
 
+                routes.MapRoute(
+                    name: "SiteMap",
+                    template: "sitemap.xml",
+                    defaults: new { controller = "Home", action = "SiteMap" }
+                );
+
                 // статические страницы
                 routes.MapRoute(
                     name: "Pages",

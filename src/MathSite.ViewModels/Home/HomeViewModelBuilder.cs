@@ -47,6 +47,12 @@ namespace MathSite.ViewModels.Home
             return model;
         }
 
+        public string GenerateSiteMap()
+        {
+            // TODO: Write sitemap generator
+            throw new System.NotImplementedException();
+        }
+
         private async Task BuildPostsAsync(HomeIndexViewModel model)
         {
             const string postType = PostTypeAliases.News;

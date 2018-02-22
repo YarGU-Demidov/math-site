@@ -26,31 +26,33 @@
                                 <th>Имя</th>
                                 <th>Отчество</th>
                                 <th>Телефон</th>
+                                <th>День рождения</th>
                                 <th>Дата создания</th>
                                 <th>Есть пользователь?</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var post in Model.Persons)
+                            @foreach (var person in Model.Persons)
                             {
-                                var userExistsText = post.UserId != null && post.UserId != Guid.Empty ? "checked=\"checked\"" : "";
+                                var userExistsText = person.User != null ? "checked=\"checked\"" : "";
 
                                 <tr>
                                     <td class="text-center">
-                                        <a href="@Url.Action("Edit", "Persons", new {id = post.Id})" title="Edit" class="btn btn-outline-success">
+                                        <a href="@Url.Action("Edit", "Persons", new {id = person.Id})" title="Edit" class="btn btn-outline-success">
                                             <em class="fa fa-pencil"></em>
                                         </a>
-                                        <form class="delete-person-form" asp-action="Delete" asp-route-id="@post.Id" method="post" asp-antiforgery="true">
+                                        <form class="delete-person-form" asp-action="Delete" asp-route-id="@person.Id" method="post" asp-antiforgery="true">
                                             <button type="submit" title="Delete" class="btn btn-outline-danger">
                                                 <em class="fa fa-trash"></em>
                                             </button>
                                         </form>
                                     </td>
-                                    <td>@post.Surname</td>
-                                    <td>@post.Name</td>
-                                    <td>@post.MiddleName</td>
-                                    <td>@post.Phone</td>
-                                    <td>@post.CreationDate</td>
+                                    <td>@person.Surname</td>
+                                    <td>@person.Name</td>
+                                    <td>@person.MiddleName</td>
+                                    <td>@person.Phone</td>
+                                    <td>@person.Birthday</td>
+                                    <td>@person.CreationDate</td>
                                     <td>
                                         <input type="checkbox" disabled="disabled" @userExistsText />
                                     </td>

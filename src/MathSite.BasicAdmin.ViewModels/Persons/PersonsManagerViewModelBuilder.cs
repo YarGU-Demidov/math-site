@@ -13,8 +13,8 @@ namespace MathSite.BasicAdmin.ViewModels.Persons
     {
         Task<IndexPersonsViewModel> BuildIndexViewModelAsync(int page, int perPage);
         Task<CreatePersonsViewModel> BuildCreateViewModelAsync();
-        Task CreatePersonAsync(PersonEditViewModel model);
-        Task EditPersonAsync(Guid id, PersonEditViewModel model);
+        Task CreatePersonAsync(BasePersonEditViewModel model);
+        Task EditPersonAsync(Guid id, BasePersonEditViewModel model);
         Task<EditPersonsViewModel> BuildEditViewModelAsync(Guid id);
         Task DeletePersonAsync(Guid id);
     }
@@ -56,17 +56,16 @@ namespace MathSite.BasicAdmin.ViewModels.Persons
             return model;
         }
 
-        public async Task CreatePersonAsync(PersonEditViewModel model)
+        public async Task CreatePersonAsync(BasePersonEditViewModel model)
         {
-            var person = FillFromModel(model, new Person());
-            await _personsFacade.CreatePersonAsync(person);
+            var p = FillFromModel(model, new Person());
+            await _personsFacade.CreatePersonAsync(p.Surname, p.Name, p.MiddleName, p.Birthday, p.Phone, p.AdditionalPhone, p.PhotoId);
         }
 
-        public async Task EditPersonAsync(Guid id, PersonEditViewModel model)
+        public async Task EditPersonAsync(Guid id, BasePersonEditViewModel model)
         {
-            var person = await _personsFacade.GetPersonAsync(id);
-            var personEntity = FillFromModel(model, person);
-            await _personsFacade.UpdatePersonAsync(personEntity);
+            var p = FillFromModel(model, new Person());
+            await _personsFacade.UpdatePersonAsync(id, p.Surname, p.Name, p.MiddleName, p.Phone, p.AdditionalPhone, p.PhotoId, p.Birthday);
         }
 
         public async Task<EditPersonsViewModel> BuildEditViewModelAsync(Guid id)
@@ -89,10 +88,10 @@ namespace MathSite.BasicAdmin.ViewModels.Persons
 
         public async Task DeletePersonAsync(Guid id)
         {
-            await _personsFacade.DeletePersonAsync(await _personsFacade.GetPersonAsync(id));
+            await _personsFacade.DeletePersonAsync(id);
         }
 
-        private Person FillFromModel(PersonEditViewModel model, Person person)
+        private Person FillFromModel(BasePersonEditViewModel model, Person person)
         {
             person.Name = model.FirstName;
             person.Surname = model.SecondName;

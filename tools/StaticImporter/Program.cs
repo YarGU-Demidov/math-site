@@ -8,6 +8,7 @@ using MathSite.Common.Crypto;
 using MathSite.Db;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
+using MathSite.Facades.Persons;
 using MathSite.Facades.Posts;
 using MathSite.Facades.SiteSettings;
 using MathSite.Facades.Users;
@@ -125,13 +126,20 @@ namespace StaticImporter
 
             var memCache = new MemoryCache(new MemoryCacheOptions());
 
+            var passwordsManager = new DoubleSha512HashPasswordsManager();
+
             var userValidation = new UserValidationFacade(
                 manager,
                 memCache,
-                new DoubleSha512HashPasswordsManager()
+                passwordsManager
             );
-
-            var usersFacade = new UsersFacade(manager, memCache);
+            
+            var usersFacade = new UsersFacade(
+                manager, 
+                memCache, 
+                userValidation, 
+                passwordsManager
+            );
 
             var settings = new SiteSettingsFacade(
                 manager,

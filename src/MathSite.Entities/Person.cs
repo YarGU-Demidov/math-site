@@ -77,11 +77,6 @@ namespace MathSite.Entities
         public File Photo { get; set; }
 
         /// <summary>
-        ///     Идентификатор пользователя.
-        /// </summary>
-        public Guid? UserId { get; set; }
-
-        /// <summary>
         ///     Пользователь.
         /// </summary>
         public User User { get; set; }

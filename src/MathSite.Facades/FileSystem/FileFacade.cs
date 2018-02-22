@@ -116,7 +116,7 @@ namespace MathSite.Facades.FileSystem
                     ? alreadyExistsFile.Path
                     : await _fileStorage.SaveFileAsync(name, data);
 
-                var user = await _usersFacade.GetCurrentUserAsync(currentUser?.Id ?? Guid.Empty);
+                var user = await _usersFacade.GetUserAsync(currentUser?.Id ?? Guid.Empty);
 
                 var hasRight = await _userValidationFacade.UserHasRightAsync(user, "admin");
 

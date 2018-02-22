@@ -40,7 +40,7 @@ namespace MathSite.Controllers
             var userId = context.HttpContext.User?.Claims?.FirstOrDefault(claim => claim.Type == "UserId")
                 ?.Value;
 
-            CurrentUser = await UsersFacade.GetCurrentUserAsync(userId);
+            CurrentUser = await UsersFacade.GetUserAsync(userId);
 
             if (CurrentUser.IsNull())
                 await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);

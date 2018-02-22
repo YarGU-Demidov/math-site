@@ -10,6 +10,7 @@ using MathSite.Db;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
 using MathSite.Facades.FileSystem;
+using MathSite.Facades.Persons;
 using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
 using MathSite.Repository.Core;
@@ -25,8 +26,9 @@ namespace MathSite.Tests.Facades
             IRepositoryManager repositoryManager
         )
         {
-            var usersFacade = new UsersFacade(repositoryManager, MemoryCache);
-            var validationFacade = new UserValidationFacade(repositoryManager, MemoryCache, new DoubleSha512HashPasswordsManager());
+            var passwordsManager = new DoubleSha512HashPasswordsManager();
+            var validationFacade = new UserValidationFacade(repositoryManager, MemoryCache, passwordsManager);
+            var usersFacade = new UsersFacade(repositoryManager, MemoryCache, validationFacade, passwordsManager);
             var directoryFacade = new Lazy<IDirectoryFacade>(() => new DirectoryFacade(repositoryManager, MemoryCache));
 
             return (usersFacade, directoryFacade, validationFacade);

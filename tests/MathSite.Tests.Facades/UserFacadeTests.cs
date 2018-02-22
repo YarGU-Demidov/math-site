@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
+using MathSite.Common.Crypto;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
+using MathSite.Facades.Persons;
 using MathSite.Facades.Users;
+using MathSite.Facades.UserValidation;
 using MathSite.Repository.Core;
 using MathSite.Specifications.Users;
 using Xunit;
@@ -53,7 +56,13 @@ namespace MathSite.Tests.Facades
 
         private IUsersFacade GetFacade(IRepositoryManager manager)
         {
-            return new UsersFacade(manager, MemoryCache);
+            var passwordsManager = new DoubleSha512HashPasswordsManager();
+            return new UsersFacade(
+                manager, 
+                MemoryCache, 
+                new UserValidationFacade(manager, MemoryCache, passwordsManager), 
+                passwordsManager
+            );
         }
 
         private async Task<User> GetUserByLogin(IRepositoryManager manager, string login)

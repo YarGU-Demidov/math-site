@@ -828,3 +828,53 @@ BEGIN
     VALUES ('20171225211729_AddEventLocation', '2.0.1-rtm-125');
     END IF;
 END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20180221213004_Update-User-And-Person-Relations') THEN
+    ALTER TABLE "Person" DROP CONSTRAINT "FK_Person_User_UserId";
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20180221213004_Update-User-And-Person-Relations') THEN
+    DROP INDEX "IX_Person_UserId";
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20180221213004_Update-User-And-Person-Relations') THEN
+    ALTER TABLE "Person" DROP COLUMN "UserId";
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20180221213004_Update-User-And-Person-Relations') THEN
+    ALTER TABLE "User" ADD "PersonId" uuid NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000';
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20180221213004_Update-User-And-Person-Relations') THEN
+    CREATE UNIQUE INDEX "IX_User_PersonId" ON "User" ("PersonId");
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20180221213004_Update-User-And-Person-Relations') THEN
+    ALTER TABLE "User" ADD CONSTRAINT "FK_User_Person_PersonId" FOREIGN KEY ("PersonId") REFERENCES "Person" ("Id") ON DELETE SET NULL;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20180221213004_Update-User-And-Person-Relations') THEN
+    INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+    VALUES ('20180221213004_Update-User-And-Person-Relations', '2.0.1-rtm-125');
+    END IF;
+END $$;

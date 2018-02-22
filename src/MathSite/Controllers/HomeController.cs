@@ -10,7 +10,11 @@ namespace MathSite.Controllers
     {
         private readonly IHomeViewModelBuilder _modelBuilder;
 
-        public HomeController(IUserValidationFacade userValidationFacade, IHomeViewModelBuilder modelBuilder, IUsersFacade usersFacade)
+        public HomeController(
+            IUserValidationFacade userValidationFacade, 
+            IHomeViewModelBuilder modelBuilder, 
+            IUsersFacade usersFacade
+        )
             : base(userValidationFacade, usersFacade)
         {
             _modelBuilder = modelBuilder;
@@ -19,6 +23,13 @@ namespace MathSite.Controllers
         public async Task<IActionResult> Index()
         {
             return View(await _modelBuilder.BuildIndexModel());
+        }
+
+        public IActionResult SiteMap()
+        {
+            // TODO: REWRITE THIS!!!
+            return NotFound();
+            // return Content(_modelBuilder.GenerateSiteMap(), "text/xml", Encoding.UTF8);
         }
     }
 }

@@ -91,9 +91,7 @@ namespace MathSite.Common.Entities
 
         public static bool operator ==(Entity<TPrimaryKey> left, Entity<TPrimaryKey> right)
         {
-            return Equals(left, null)
-                ? Equals(right, null)
-                : left.Equals(right);
+            return left?.Equals(right) ?? Equals(right, null);
         }
 
         public static bool operator !=(Entity<TPrimaryKey> left, Entity<TPrimaryKey> right)

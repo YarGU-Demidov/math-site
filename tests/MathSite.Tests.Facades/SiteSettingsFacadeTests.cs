@@ -6,6 +6,7 @@ using MathSite.Db;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Db.DbExtensions;
 using MathSite.Entities;
+using MathSite.Facades.Persons;
 using MathSite.Facades.SiteSettings;
 using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
@@ -87,8 +88,9 @@ namespace MathSite.Tests.Facades
 
         protected override SiteSettingsFacade GetFacade(MathSiteDbContext context, IRepositoryManager manager)
         {
-            var userValidationFacade = new UserValidationFacade(manager, MemoryCache, new DoubleSha512HashPasswordsManager());
-            var usersFacade = new UsersFacade(manager, MemoryCache);
+            var passwordsManager = new DoubleSha512HashPasswordsManager();
+            var userValidationFacade = new UserValidationFacade(manager, MemoryCache, passwordsManager);
+            var usersFacade = new UsersFacade(manager, MemoryCache, userValidationFacade, passwordsManager);
             return new SiteSettingsFacade(manager, userValidationFacade, MemoryCache, usersFacade);
         }
     }

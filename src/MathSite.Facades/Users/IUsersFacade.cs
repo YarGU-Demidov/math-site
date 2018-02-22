@@ -11,8 +11,8 @@ namespace MathSite.Facades.Users
         Task<int> GetUsersCountAsync(bool cache);
         Task<IEnumerable<User>> GetUsersAsync(int page, int perPage, bool cache);
 
-        Task<User> GetCurrentUserAsync(string possibleUserId);
-        Task<User> GetCurrentUserAsync(Guid possibleUserId);
+        Task<User> GetUserAsync(string possibleUserId);
+        Task<User> GetUserAsync(Guid possibleUserId);
 
         /// <summary>
         ///     Выполняет проверку существования текущего пользователя.
@@ -25,5 +25,9 @@ namespace MathSite.Facades.Users
         /// </summary>
         /// <param name="login">Логин текущего пользователя.</param>
         Task<bool> DoesUserExistsAsync(string login);
+
+        Task CreateUserAsync(Guid currentUser, Guid personId, string login, string password, Guid groupId);
+        Task UpdateUserAsync(Guid currentUser, Guid id, Guid? personId = null, Guid? groupId = null, string newPassword = null);
+        Task RemoveUser(Guid currentUser, Guid id);
     }
 }

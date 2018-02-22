@@ -20,6 +20,8 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
             modelBuilder
                 .Property(u => u.PasswordHash)
                 .IsRequired();
+            modelBuilder.Property(user => user.PersonId)
+                .IsRequired();
         }
 
         /// <inheritdoc />
@@ -30,9 +32,9 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
             modelBuilder
                 .HasOne(user => user.Person)
                 .WithOne(person => person.User)
-                .HasForeignKey<Person>(person => person.UserId)
-                .IsRequired(false)
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasForeignKey<User>(person => person.PersonId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.SetNull);
 
             modelBuilder
                 .HasOne(user => user.Group)

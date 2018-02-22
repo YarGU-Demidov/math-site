@@ -7,6 +7,7 @@ using MathSite.Common.Specifications;
 using MathSite.Entities;
 using MathSite.Repository;
 using MathSite.Repository.Core;
+using MathSite.Specifications.Persons;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace MathSite.Facades.Persons
@@ -45,11 +46,34 @@ namespace MathSite.Facades.Persons
                 .GetAllWithPagingAsync(skip, perPage);
         }
 
-        public async Task<Guid> CreatePersonAsync(Person person, File photo = null)
+        public async Task<Guid> CreatePersonAsync(
+            string surname, 
+            string name, 
+            string middlename, 
+            DateTime bday,
+            string phone = null, 
+            string additionalPhone = null, 
+            Guid? photoId = null
+        )
         {
-            if (photo.IsNotNull())
-                person.PhotoId = photo?.Id;
+            var person = new Person
+            {
+                Surname = surname,
+                Name = name,
+                MiddleName = middlename,
+                Birthday = bday
+            };
 
+
+            if (phone.IsNotNull())
+                person.Phone = phone;
+            
+            if (additionalPhone.IsNotNull())
+                person.AdditionalPhone = additionalPhone;
+            
+            if (photoId.HasValue)
+                person.PhotoId = photoId.Value;
+            
             return await Repository.InsertAndGetIdAsync(person);
         }
 
@@ -58,19 +82,53 @@ namespace MathSite.Facades.Persons
             return Repository.WithUser().GetAsync(id);
         }
 
-        public async Task UpdatePersonAsync(Person person)
+        public async Task UpdatePersonAsync(
+            Guid personId, 
+            string surname = null, 
+            string name = null, 
+            string middlename = null, 
+            string phone = null, 
+            string additionalPhone = null, 
+            Guid? photoId = null, 
+            DateTime? bday = null
+        )
         {
+            var person = await GetPersonAsync(personId);
+
+            if (surname.IsNotNull())
+                person.Surname = surname;
+
+            if (name.IsNotNull())
+                person.Name = name;
+
+            if (middlename.IsNotNull())
+                person.MiddleName = middlename;
+            
+            if (phone.IsNotNull())
+                person.Phone = phone;
+            
+            if (additionalPhone.IsNotNull())
+                person.AdditionalPhone = additionalPhone;
+            
+            if (photoId.HasValue)
+                person.PhotoId = photoId.Value;
+            
+            if (bday.HasValue)
+                person.Birthday = bday.Value;
+
             await Repository.UpdateAsync(person);
         }
 
-        public async Task DeletePersonAsync(Person person, bool force = false)
+        public async Task DeletePersonAsync(Guid personId, bool force = false)
         {
+            var person = await GetPersonAsync(personId);
+
             if (person.IsNull())
                 throw new ArgumentNullException(nameof(person));
 
             if (!force)
             {
-                var hasUser = person.UserId != null && person.UserId != Guid.Empty;
+                var hasUser = person.User != null;
 
                 // TODO: дописать проверку на использование персоны!!!
                 if (hasUser)
@@ -78,6 +136,13 @@ namespace MathSite.Facades.Persons
             }
 
             await Repository.DeleteAsync(person.Id);
+        }
+
+        public async Task<IEnumerable<Person>> GetAvailablePersonsAsync()
+        {
+            var spec = new AvailablePersonSpecification();
+
+            return await Repository.WithUser().GetAllListAsync(spec);
         }
     }
 }

@@ -4,7 +4,7 @@ using MathSite.BasicAdmin.ViewModels.SharedModels.AdminPagesViewModel;
 
 namespace MathSite.BasicAdmin.ViewModels.Persons
 {
-    public class PersonEditViewModel : AdminPageBaseViewModel
+    public class BasePersonEditViewModel : AdminPageBaseViewModel
     {
         [Required]
         public string FirstName { get; set; }

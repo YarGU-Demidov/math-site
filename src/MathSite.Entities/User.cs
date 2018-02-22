@@ -41,6 +41,11 @@ namespace MathSite.Entities
         ///     Личность.
         /// </summary>
         public Person Person { get; set; }
+        
+        /// <summary>
+        ///     Идентификатор пользователя.
+        /// </summary>
+        public Guid PersonId { get; set; }
 
         /// <summary>
         ///     Идентификатор группы.
