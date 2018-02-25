@@ -48,6 +48,13 @@
             fileAllowedTypes: ['*'],
             fileUploadMethod: 'POST',
 
+            //https://www.froala.com/wysiwyg-editor/docs/concepts/video/upload
+            videoUploadParam: 'file',
+            videoUploadURL: uploadFileUrl,
+            videoUploadMethod: 'POST',
+            videoMaxSize: 500 * 1024 * 1024, // Set max image size to 500MB.
+            videoAllowedTypes: ['webm', 'mp4', 'ogg'],
+
             language: 'ru',
             heightMax: 500,
 

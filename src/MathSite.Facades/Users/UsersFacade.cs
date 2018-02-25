@@ -7,7 +7,6 @@ using MathSite.Common.Extensions;
 using MathSite.Common.Specifications;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
-using MathSite.Facades.Persons;
 using MathSite.Facades.UserValidation;
 using MathSite.Repository;
 using MathSite.Repository.Core;
