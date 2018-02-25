@@ -167,7 +167,11 @@ namespace MathSite.BasicAdmin.ViewModels.Pages
                 link => link.Alias == "Delete"
             );
 
-            await _postsFacade.DeletePostAsync(id);
+            var post = await _postsFacade.GetPostAsync(id);
+
+            post.Deleted = true;
+
+            await _postsFacade.UpdatePostAsync(post);
 
             return model;
         }

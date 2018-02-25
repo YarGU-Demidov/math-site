@@ -2,69 +2,68 @@
 
 <div class="container-fluid set-max-size posts">
     <form method="post" asp-action="Create" asp-controller="News">
-        @Html.HiddenFor(m => m.Id)
-        @Html.HiddenFor(m => m.AuthorId)
-        @Html.HiddenFor(m => m.PostTypeId)
-        @Html.HiddenFor(m => m.PostSettingsId)
-        @Html.HiddenFor(m => m.PostSeoSettingsId)
-        <div class="card news-card">
-            <h4 class="card-header">Новости</h4>
-            <div class="card-body">
+        <div class="container" style="padding-top: 15px;">
+            @Html.HiddenFor(m => m.Id)
+            @Html.HiddenFor(m => m.AuthorId)
+            @Html.HiddenFor(m => m.PostTypeId)
+            @Html.HiddenFor(m => m.PostSettingsId)
+            @Html.HiddenFor(m => m.PostSeoSettingsId)
+            <div class="form-group">
                 @Html.LabelFor(m => m.Title, "Заголовок новости")
-                @Html.TextBoxFor(m => m.Title, new { @required = "required" })
+                @Html.TextBoxFor(m => m.Title, new { @required = "required", @class = "form-control" })
             </div>
-            <div class="card-body">
+            <div class="form-group">
                 @Html.LabelFor(m => m.Content, "Контент")
                 @Html.TextAreaFor(m => m.Content, new { @class = "ckeditor", @id = "content-textarea", @required = "required" })
             </div>
-            <div class="card-body">
+            <div class="form-group">
                 @Html.LabelFor(m => m.Published, "Опубликовать?")
-                <div>
-                    @Html.LabelFor(m => m.Published, "Да")
-                    @Html.RadioButtonFor(m => m.Published, true)
+                <div class="form-check">
+                    <input type="radio" name="Published" id="published-true" value="true" asp-for="Published" class="form-check-input" />
+                    <label asp-for="Deleted" for="published-true" class="form-check-label">Да</label>
                 </div>
-                <div>
-                    @Html.LabelFor(m => m.Published, "Нет")
-                    @Html.RadioButtonFor(m => m.Published, false)
+                <div class="form-check">
+                    <input type="radio" name="Published" id="published-false" value="false" asp-for="Published" class="form-check-input" />
+                    <label asp-for="Deleted" for="published-false" class="form-check-label">Нет</label>
                 </div>
             </div>
-            <div class="card-body">
+            <div class="form-group">
                 @Html.LabelFor(m => m.Deleted, "Удалить?")
-                <div>
-                    @Html.LabelFor(m => m.Deleted, "Да")
-                    @Html.RadioButtonFor(m => m.Deleted, true)
+                <div class="form-check">
+                    <input type="radio" name="Deleted" id="deleted-true" value="true" asp-for="Deleted" class="form-check-input" />
+                    <label asp-for="Deleted" for="deleted-true" class="form-check-label">Да</label>
                 </div>
-                <div>
-                    @Html.LabelFor(m => m.Deleted, "Нет")
-                    @Html.RadioButtonFor(m => m.Deleted, false)
+                <div class="form-check">
+                    <input type="radio" name="Deleted" id="deleted-false" value="false" asp-for="Deleted" class="form-check-input" />
+                    <label asp-for="Deleted" for="deleted-false" class="form-check-label">Нет</label>
                 </div>
             </div>
-            @*<div class="card-body">
-                @Html.LabelFor(model => model.Authors, "Автор")
-                @Html.DropDownListFor(model => model.SelectedAuthor, new SelectList(Model.Authors, "Список авторов", "Text"), "- Выберите автора -", new {@required = "required"})
-            </div>*@
-            @*<div class="card-body">
-                @Html.LabelFor(m => m.PostCategories, "Категории")
-                @{
-                    if (Model.PostCategories != null && Model.PostCategories.Any())
+            @*<div class="form-group">
+            @Html.LabelFor(model => model.Authors, "Автор")
+            @Html.DropDownListFor(model => model.SelectedAuthor, new SelectList(Model.Authors, "Список авторов", "Text"), "- Выберите автора -", new {@required = "required"})
+        </div>*@
+            @*<div class="form-group">
+            @Html.LabelFor(m => m.PostCategories, "Категории")
+            @{
+                if (Model.PostCategories != null && Model.PostCategories.Any())
+                {
+                    foreach (var category in Model.PostCategories)
                     {
-                        foreach (var category in Model.PostCategories)
-                        {
-                            <div>
-                                @Html.LabelFor(m => category, category.Category.Name)
-                                @Html.CheckBoxFor(m => category.IsChecked)
-                            </div>
-                        }
+                        <div>
+                            @Html.LabelFor(m => category, category.Category.Name)
+                            @Html.CheckBoxFor(m => category.IsChecked)
+                        </div>
                     }
                 }
-            </div>*@
+            }
+        </div>*@
             <button type="submit" class="btn btn-outline-success">Create</button>
         </div>
     </form>
 </div>
 
 @section StylesSection
-    {
+{
     <!-- Include external CSS. -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.css">
@@ -76,7 +75,7 @@
 }
 
 @section ScriptsSection
-    {
+{
     <script src="~/js/pager.js"></script>
     @*<script src="~/js/manager/ckeditor/ckeditor.js"></script>*@
 
@@ -85,77 +84,9 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.5/js/froala_editor.pkgd.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.5/js/languages/ru.js"></script>
 
+    <script type="text/javascript" src="~/js/manager/editor.js"></script>
     <script>
-        $(document).ready(() => {
-            /*var editor = CKEDITOR.instances.Content;
-            var textArea = $('#content-textarea');
-            editor.on('change', function (evt) {
-                textArea.val(evt.editor.getData());
-            });*/
-
-            $('#content-textarea').froalaEditor({
-                // https://www.froala.com/wysiwyg-editor/docs/concepts/image/manager
-                imageManagerLoadURL: location.origin + '/api/froala/get-images',
-                imageManagerPageSize: 30,
-                imageManagerLoadMethod: "GET",
-                imageManagerDeleteURL: '/api/froala/delete-image',
-                imageManagerDeleteMethod: "POST",
-
-                // https://www.froala.com/wysiwyg-editor/docs/concepts/image/upload
-                imageUploadParam: 'image',
-                imageUploadURL: location.origin + '/api/froala/upload-image/static-pages',
-                imageUploadMethod: 'POST',
-                imageMaxSize: 50 * 1024 * 1024, // Set max image size to 50MB.
-                imageAllowedTypes: ['jpeg', 'jpg', 'png', 'gif'],
-
-                language: 'ru',
-
-                toolbarButtons: [
-                    'fullscreen',
-                    '|',
-                    'undo',
-                    'redo',
-                    '|',
-                    'bold',
-                    'italic',
-                    'underline',
-                    'strikeThrough',
-                    'subscript',
-                    'superscript',
-                    '|',
-                    'fontFamily',
-                    'fontSize',
-                    'color',
-                    'inlineStyle',
-                    'paragraphStyle',
-                    '|',
-                    'paragraphFormat',
-                    'align',
-                    'formatOL',
-                    'formatUL',
-                    'outdent',
-                    'indent',
-                    'quote',
-                    '-',
-                    'insertLink',
-                    'insertImage',
-                    'insertVideo',
-                    'embedly',
-                    //'insertFile',
-                    'insertTable',
-                    '|',
-                    'emoticons',
-                    'specialCharacters',
-                    'insertHR',
-                    'selectAll',
-                    'clearFormatting',
-                    '|',
-                    'print',
-                    'spellChecker',
-                    'help',
-                    'html',
-                ]
-            });
-        });
+        var editor = new EditorConfig();
+        editor.initArea('news');
     </script>
 }

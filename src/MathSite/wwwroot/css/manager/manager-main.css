@@ -88,3 +88,10 @@ main * { -webkit-overflow-scrolling: touch; }
     font-size: 12px;
     line-height: 12px;
 }
+
+.buttons-td {
+    min-width: 110px;
+}
+.buttons-td-three {
+    min-width: 155px;
+}

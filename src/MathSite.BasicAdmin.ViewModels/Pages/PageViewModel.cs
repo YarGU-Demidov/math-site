@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using MathSite.BasicAdmin.ViewModels.SharedModels.AdminPageWithPaging;
+using MathSite.BasicAdmin.ViewModels.SharedModels.AdminPagesViewModel;
 using MathSite.Entities;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MathSite.BasicAdmin.ViewModels.Pages
 {
-    public class PageViewModel : AdminPageWithPagingViewModel
+    public class PageViewModel : AdminPageBaseViewModel
     {
         public Guid Id { get; set; }
         public string Title { get; set; }

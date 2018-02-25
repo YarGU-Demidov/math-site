@@ -75,7 +75,7 @@ namespace MathSite.BasicAdmin.ViewModels.News
         public async Task<NewsViewModel> BuildCreateViewModel(PostDto postDto = null)
         {
             var model = await BuildAdminBaseViewModelAsync<NewsViewModel>(
-                link => link.Alias == "Articles",
+                link => link.Alias == "News",
                 link => link.Alias == "Create"
             );
 
@@ -155,7 +155,11 @@ namespace MathSite.BasicAdmin.ViewModels.News
                 link => link.Alias == "Delete"
             );
 
-            await _postsFacade.DeletePostAsync(id);
+            var post = await _postsFacade.GetPostAsync(id);
+
+            post.Deleted = true;
+
+            await _postsFacade.UpdatePostAsync(post);
 
             return model;
         }

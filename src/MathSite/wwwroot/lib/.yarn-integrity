@@ -1,12 +1,11 @@
 {
-  "nodeVersion": "v6.11.3",
+  "nodeVersion": "v8.9.4",
   "modulesFolders": [
     "wwwroot\\lib"
   ],
   "flags": [],
   "linkedModules": [],
   "topLevelPatterns": [
-    "bootstrap-select@^1.12.4",
     "bootstrap@^4.0.0",
     "font-awesome@^4.7.0",
     "jquery-validation-unobtrusive@^3.2.6",
@@ -15,7 +14,6 @@
     "popper.js@^1.12.6"
   ],
   "lockfileEntries": {
-    "bootstrap-select@^1.12.4": "https://registry.yarnpkg.com/bootstrap-select/-/bootstrap-select-1.12.4.tgz#7f15d3c0ce978868d9c09c70f96624f55fa02ee1",
     "bootstrap@^4.0.0": "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.0.0.tgz#ceb03842c145fcc1b9b4e15da2a05656ba68469a",
     "font-awesome@^4.7.0": "https://registry.yarnpkg.com/font-awesome/-/font-awesome-4.7.0.tgz#8fa8cf0411a1a31afd07b06d2902bb9fc815a133",
     "jquery-validation-unobtrusive@^3.2.6": "https://registry.yarnpkg.com/jquery-validation-unobtrusive/-/jquery-validation-unobtrusive-3.2.6.tgz#0f8767c5462e30b4a5743d12461e8057da7572e5",

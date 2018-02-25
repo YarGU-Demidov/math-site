@@ -1,22 +1,21 @@
 ﻿@model PageViewModel
 
-<div class="container-fluid set-max-size posts">
-    <form method="post" asp-action="Edit" asp-controller="Pages">
+<form method="post" asp-action="Edit" asp-controller="Pages" asp-antiforgery="true">
+    <div class="container" style="padding-top: 15px;">
         @Html.HiddenFor(m => m.Id)
         @Html.HiddenFor(m => m.AuthorId)
         @Html.HiddenFor(m => m.PostTypeId)
         @Html.HiddenFor(m => m.PostSettingsId)
         @Html.HiddenFor(m => m.PostSeoSettingsId)
         @Html.Partial("Page/PageForm")
-        <button type="submit" class="btn btn-outline-success">Сохранить</button>
-    </form>
-</div>
+
+        <button type="submit" class="btn btn-success">Сохранить</button>
+    </div>
+</form>
 
 @section StylesSection
     {
     <!-- Include external CSS. -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.css">
 
@@ -24,6 +23,12 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.5/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.5/css/froala_style.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.5/css/plugins/table.min.css">
+
+    <style>
+        .fr-box {
+            width: 100%;
+        }
+    </style>
 }
 
 @section ScriptsSection
@@ -35,23 +40,10 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/mode/xml/xml.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.5/js/froala_editor.pkgd.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.5/js/languages/ru.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
 
     <script type="text/javascript" src="~/js/manager/editor.js"></script>
     <script>
         var editor = new EditorConfig();
         editor.initArea('static-pages');
-    </script>
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#search_authors')
-                .attr('data-live-search', true)
-                .attr('data-show-subtext', true);
-            $('.authors').selectpicker({
-                width: '100%',
-                size: 5
-            });
-        });
     </script>
 }

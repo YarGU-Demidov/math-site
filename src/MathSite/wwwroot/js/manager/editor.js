@@ -49,6 +49,7 @@
             fileUploadMethod: 'POST',
 
             language: 'ru',
+            heightMax: 500,
 
             toolbarButtons: [
                 'fullscreen',
