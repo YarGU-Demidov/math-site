@@ -54,7 +54,7 @@ namespace MathSite.Facades.Users
 
         public IList<User> GetUsers()
         {
-            return Repository.GetAll().ToList();
+            return Repository.WithPerson().GetAll().ToList();
         }
 
         // TODO: FIXME: Extract to classes or smth else
