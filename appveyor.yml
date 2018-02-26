@@ -30,11 +30,11 @@ install:
 dotnet_csproj:
   patch: true
   file: '**\*.csproj;**\*.props;**\*.fsproj;**\*.xml'
-  version: '{build}'
-  package_version: '{build}'
-  assembly_version: '{build}'
-  file_version: '{build}'
-  informational_version: '{build}'
+  version: '1.0.0.{build}'
+  package_version: '1.0.0.{build}'
+  assembly_version: '1.0.0.{build}'
+  file_version: '1.0.0.{build}'
+  informational_version: '1.0.0.{build}'
 
 artifacts:
  - path: '\dist'
