@@ -1,6 +1,5 @@
 version: 1.0.0.{build}
 
-
 environment:
   nodejs_version: "" # empty string == latest version
 
@@ -9,6 +8,13 @@ image: Visual Studio 2017
 pull_requests:
   do_not_increment_build_number: true
 
+init:
+ - ps: echo $env:appveyor_build_version
+ - ps: echo $env:appveyor_build_number
+ - ps: $env:appveyor_build_version = $("1.0.0.") + $env:appveyor_build_number
+ - ps: echo $env:appveyor_build_version
+ - ps: appveyor UpdateBuild -Version $env:appveyor_build_version
+
 max_jobs: 5
 
 before_build:
@@ -16,7 +22,7 @@ before_build:
  - cmd: npm --version
  - cmd: dotnet --version
  - cmd: dotnet --info
- - cmd: dotnet restore --verbosity m 
+ - cmd: dotnet restore --verbosity m
 
 build_script:
  - ps: dotnet publish -c Release --output $env:APPVEYOR_BUILD_FOLDER\dist # -r ubuntu-x64
