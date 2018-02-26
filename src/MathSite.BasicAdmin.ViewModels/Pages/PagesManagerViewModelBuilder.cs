@@ -8,8 +8,8 @@ using MathSite.BasicAdmin.ViewModels.SharedModels.Menu;
 using MathSite.Common;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
-using MathSite.Entities.Dtos;
 using MathSite.Facades.Categories;
+using MathSite.Facades.PostCategories;
 using MathSite.Facades.Posts;
 using MathSite.Facades.SiteSettings;
 using MathSite.Facades.Users;
@@ -23,15 +23,18 @@ namespace MathSite.BasicAdmin.ViewModels.Pages
         private readonly IPostsFacade _postsFacade;
         private readonly IUsersFacade _usersFacade;
         private readonly ICategoryFacade _categoriesFacade;
+        private readonly IPostCategoryFacade _postCategoryFacade;
 
         public PagesManagerViewModelBuilder(ISiteSettingsFacade siteSettingsFacade, IMapper mapper,
-            IPostsFacade postsFacade, IUsersFacade usersFacade, ICategoryFacade categoriesFacade) :
+            IPostsFacade postsFacade, IUsersFacade usersFacade, ICategoryFacade categoriesFacade,
+            IPostCategoryFacade postCategoryFacade) :
             base(siteSettingsFacade)
         {
             _mapper = mapper;
             _postsFacade = postsFacade;
             _usersFacade = usersFacade;
             _categoriesFacade = categoriesFacade;
+            _postCategoryFacade = postCategoryFacade;
         }
 
         public async Task<IndexPagesViewModel> BuildIndexViewModel(int page, int perPage)
@@ -82,24 +85,40 @@ namespace MathSite.BasicAdmin.ViewModels.Pages
             return model;
         }
 
-        public async Task<PageViewModel> BuildCreateViewModel(PostDto postDto = null)
+        public async Task<PageViewModel> BuildCreateViewModel()
         {
             var model = await BuildAdminBaseViewModelAsync<PageViewModel>(
                 link => link.Alias == "Articles",
                 link => link.Alias == "Create"
             );
 
-            model.Authors = GetSelectListItems(_usersFacade.GetUsers());
+            model.Authors = GetSelectListItems(await _usersFacade.GetUsersAsync());
+            model.Categories = GetSelectListItems(await _postsFacade.GetPostCategoriesAsync());
 
-            if (postDto != null)
-            {
-                model.PageTitle.Title = postDto.Title;
+            return model;
+        }
 
-                postDto.PostType = await _postsFacade.GetPostTypeAsync(PostTypeAliases.StaticPage);
+        public async Task<PageViewModel> BuildCreateViewModel(PageViewModel page)
+        {
+            var model = await BuildAdminBaseViewModelAsync<PageViewModel>(
+                link => link.Alias == "Articles",
+                link => link.Alias == "Create"
+            );
+            model.PageTitle.Title = page.Title;
 
-                var post = _mapper.Map<PostDto, Post>(postDto);
-                await _postsFacade.CreatePostAsync(post);
-            }
+            var postType = await _postsFacade.GetPostTypeAsync(PostTypeAliases.StaticPage);
+            var categories = await _categoriesFacade.GetCategoreisByIdAsync(page.SelectedCategories);
+
+            page.Id = Guid.NewGuid();
+            page.Excerpt = page.Content.Length > 50 ? $"{page.Content.Substring(0, 47)}..." : page.Content;
+            page.PostTypeId = postType.Id;
+            page.PostSettings = new PostSetting();
+            page.PostSeoSetting = new PostSeoSetting();
+
+            var post = _mapper.Map<PageViewModel, Post>(page);
+            post.PostCategories = _postCategoryFacade.CreateRelation(post, categories).Result.ToList();
+
+            await _postsFacade.CreatePostAsync(post);
 
             return model;
         }
@@ -121,8 +140,7 @@ namespace MathSite.BasicAdmin.ViewModels.Pages
             model.Deleted = post.Deleted;
             model.PublishDate = post.PublishDate;
             model.AuthorId = post.AuthorId;
-            model.SelectedAuthor = string.Empty;
-            model.Authors = GetSelectListItems(_usersFacade.GetUsers());
+            model.Authors = GetSelectListItems(await _usersFacade.GetUsersAsync());
             model.PostTypeId = post.PostTypeId;
             model.PostSettingsId = post.PostSettingsId;
             model.PostSeoSettingsId = post.PostSeoSettingsId;
@@ -130,31 +148,30 @@ namespace MathSite.BasicAdmin.ViewModels.Pages
             return model;
         }
 
-        public async Task<PageViewModel> BuildEditViewModel(PostDto postDto)
+        public async Task<PageViewModel> BuildEditViewModel(PageViewModel page)
         {
             var model = await BuildAdminBaseViewModelAsync<PageViewModel>(
                 link => link.Alias == "Articles",
                 link => link.Alias == "Edit"
             );
 
-            postDto.PostType = await _postsFacade.GetPostTypeAsync(PostTypeAliases.StaticPage);
-            postDto.PostSettings = await _postsFacade.GetPostSettingsAsync(postDto.PostSettingsId);
-            postDto.PostSeoSetting = await _postsFacade.GetPostSeoSettingsAsync(postDto.PostSeoSettingsId);
+            var postType = await _postsFacade.GetPostTypeAsync(PostTypeAliases.StaticPage);
+            var postSettings = await _postsFacade.GetPostSettingsAsync(page.PostSettingsId);
+            var postSeoSetting = await _postsFacade.GetPostSeoSettingsAsync(page.PostSeoSettingsId);
 
-            model.Id = postDto.Id;
-            model.Title = postDto.Title;
-            model.Excerpt = postDto.Excerpt;
-            model.Content = postDto.Content;
-            model.Published = postDto.Published;
-            model.Deleted = postDto.Deleted;
-            model.PublishDate = postDto.PublishDate;
-            model.AuthorId = postDto.AuthorId;
-            model.Authors = GetSelectListItems(_usersFacade.GetUsers());
-            model.PostTypeId = postDto.PostTypeId;
-            model.PostSettingsId = postDto.PostSettingsId;
-            model.PostSeoSettingsId = postDto.PostSeoSettingsId;
+            model.Id = page.Id;
+            model.Title = page.Title;
+            model.Excerpt = page.Excerpt;
+            model.Content = page.Content;
+            model.Published = page.Published;
+            model.Deleted = page.Deleted;
+            model.PublishDate = page.PublishDate;
+            model.AuthorId = page.AuthorId;
+            model.PostTypeId = postType.Id;
+            model.PostSettingsId = postSettings.Id;
+            model.PostSeoSettingsId = postSeoSetting.Id;
 
-            var post = _mapper.Map<PostDto, Post>(postDto);
+            var post = _mapper.Map<PageViewModel, Post>(page);
             await _postsFacade.UpdatePostAsync(post);
 
             return model;
@@ -190,13 +207,21 @@ namespace MathSite.BasicAdmin.ViewModels.Pages
         private IEnumerable<SelectListItem> GetSelectListItems(IEnumerable<User> elements)
         {
             return elements
-                .Where(element => element.Person != null)
                 .Select(element => new SelectListItem
                 {
-                    Text = element.Person?.Name + " " + element.Person?.Surname,
+                    Text = element.Person.Name + " " + element.Person.Surname,
                     Value = element.Id.ToString()
-                })
-                .ToList();
+                });
+        }
+
+        private IEnumerable<SelectListItem> GetSelectListItems(IEnumerable<Category> elements)
+        {
+            return elements
+                .Select(element => new SelectListItem
+                {
+                    Text = element.Name,
+                    Value = element.Id.ToString()
+                });
         }
     }
 }

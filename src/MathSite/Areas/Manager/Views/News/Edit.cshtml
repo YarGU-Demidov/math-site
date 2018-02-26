@@ -1,9 +1,15 @@
 ﻿@model NewsViewModel
 
-<form method="post" asp-action="Create" asp-controller="News" asp-antiforgery="true">
+<form method="post" asp-action="Edit" asp-controller="News" asp-antiforgery="true">
     <div class="container" style="padding-top: 15px;">
+        @Html.HiddenFor(m => m.Id)
+        @Html.HiddenFor(m => m.AuthorId)
+        @Html.HiddenFor(m => m.PostTypeId)
+        @Html.HiddenFor(m => m.PostSettingsId)
+        @Html.HiddenFor(m => m.PostSeoSettingsId)
         @Html.Partial("News/NewsForm")
-        <button type="submit" class="btn btn-success">Создать</button>
+
+        <button type="submit" class="btn btn-success">Сохранить</button>
     </div>
 </form>
 
@@ -17,6 +23,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.5/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.5/css/froala_style.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.5/css/plugins/table.min.css">
+
     <style>
         .fr-box {
             width: 100%;

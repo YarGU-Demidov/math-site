@@ -16,11 +16,27 @@ namespace MathSite.Facades.Categories
         {
         }
 
-        public Task<Category> GetByAliasAsync(string categoryAlias)
+        public async Task<Category> GetCategoryByIdAsync(Guid id)
+        {
+            return await Repository.FirstOrDefaultAsync(c => c.Id == id);
+        }
+
+        public async Task<IEnumerable<Category>> GetCategoreisByIdAsync(IEnumerable<Guid> ids)
+        {
+            var idsList = new List<Category>();
+            foreach (var id in ids)
+            {
+                idsList.Add(await Repository.GetAsync(id));
+            }
+
+            return idsList;
+        }
+
+        public async Task<Category> GetCategoryByAliasAsync(string categoryAlias)
         {
             var spec = new CategoryAliasSpecification(categoryAlias);
 
-            return Repository.FirstOrDefaultAsync(spec);
+            return await Repository.FirstOrDefaultAsync(spec);
         }
 
         public async Task<IEnumerable<Category>> GetCategoriesAsync()

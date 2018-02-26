@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MathSite.BasicAdmin.ViewModels.Dtos;
 using MathSite.BasicAdmin.ViewModels.News;
 using MathSite.Controllers;
 using MathSite.Entities;
-using MathSite.Entities.Dtos;
 using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
 using Microsoft.AspNetCore.Authorization;
@@ -39,58 +39,37 @@ namespace MathSite.Areas.Manager.Controllers
         }
 
         [HttpGet]
-        [Route("manager/news/create")]
-        [Route("manager/news/edit")]
-        public async Task<IActionResult> Create(Guid id)
+        [Route("[area]/[controller]/create")]
+        public async Task<IActionResult> Create()
         {
-            return id == Guid.Empty
-                ? View("Create", await _modelBuilder.BuildCreateViewModel())
-                : View("Create", await _modelBuilder.BuildEditViewModel(id));
+            return View("Create", await _modelBuilder.BuildCreateViewModel());
         }
 
         [HttpPost]
         [Route("[area]/[controller]/create")]
-        [Route("[area]/[controller]/edit")]
-        public async Task<IActionResult> Create(NewsViewModel news)
+        public async Task<IActionResult> Create(NewsViewModel page)
         {
-            if (news.Id == Guid.Empty)
-            {
-                var post = new PostDto
-                {
-                    Id = Guid.NewGuid(),
-                    Title = news.Title,
-                    Excerpt = news.Content.Length > 50 ? $"{news.Content.Substring(0, 47)}..." : news.Content,
-                    Content = news.Content,
-                    AuthorId = CurrentUser.Id,
-                    Published = false,
-                    Deleted = false,
-                    PostSettings = new PostSetting(),
-                    PostSeoSetting = new PostSeoSetting(),
-                    PostCategories = new List<PostCategory>()
-                };
+            page.AuthorId = CurrentUser.Id;
 
-                await _modelBuilder.BuildCreateViewModel(post);
-            }
-            else
-            {
-                var post = new PostDto
-                {
-                    Id = news.Id,
-                    Title = news.Title,
-                    Excerpt = news.Content.Length > 50 ? $"{news.Content.Substring(0, 47)}..." : news.Content,
-                    Content = news.Content,
-                    Published = news.Published,
-                    Deleted = news.Deleted,
-                    PublishDate = news.PublishDate,
-                    AuthorId = news.AuthorId,
-                    PostTypeId = news.PostTypeId,
-                    PostSettingsId = news.PostSettingsId,
-                    PostSeoSettingsId = news.PostSeoSettingsId,
-                    PostCategories = news.PostCategories
-                };
+            await _modelBuilder.BuildCreateViewModel(page);
 
-                await _modelBuilder.BuildEditViewModel(post);
-            }
+            return RedirectToActionPermanent("Index");
+        }
+
+        [HttpGet]
+        [Route("[area]/[controller]/edit")]
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            return View("Edit", await _modelBuilder.BuildEditViewModel(id));
+        }
+
+        [HttpPost]
+        [Route("[area]/[controller]/edit")]
+        public async Task<IActionResult> Edit(NewsViewModel page)
+        {
+            page.Excerpt = page.Content.Length > 50 ? $"{page.Content.Substring(0, 47)}..." : page.Content;
+
+            await _modelBuilder.BuildEditViewModel(page);
 
             return RedirectToActionPermanent("Index");
         }

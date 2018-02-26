@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using MathSite.BasicAdmin.ViewModels.Dtos;
 using MathSite.BasicAdmin.ViewModels.SharedModels.AdminPageWithPaging;
 using MathSite.BasicAdmin.ViewModels.SharedModels.Menu;
 using MathSite.Common;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
-using MathSite.Entities.Dtos;
 using MathSite.Facades.Posts;
 using MathSite.Facades.SiteSettings;
 using MathSite.Facades.Users;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MathSite.BasicAdmin.ViewModels.News
 {
@@ -72,22 +74,39 @@ namespace MathSite.BasicAdmin.ViewModels.News
             return model;
         }
 
-        public async Task<NewsViewModel> BuildCreateViewModel(PostDto postDto = null)
+        public async Task<NewsViewModel> BuildCreateViewModel()
         {
             var model = await BuildAdminBaseViewModelAsync<NewsViewModel>(
                 link => link.Alias == "News",
                 link => link.Alias == "Create"
             );
 
-            if (postDto != null)
-            {
-                model.PageTitle.Title = postDto.Title;
+            model.Authors = GetSelectListItems(await _usersFacade.GetUsersAsync());
+            model.Categories = GetSelectListItems(await _postsFacade.GetPostCategoriesAsync());
 
-                postDto.PostType = await _postsFacade.GetPostTypeAsync(PostTypeAliases.News);
+            return model;
+        }
 
-                var post = _mapper.Map<PostDto, Post>(postDto);
-                await _postsFacade.CreatePostAsync(post);
-            }
+        public async Task<NewsViewModel> BuildCreateViewModel(NewsViewModel news)
+        {
+            var model = await BuildAdminBaseViewModelAsync<NewsViewModel>(
+                link => link.Alias == "News",
+                link => link.Alias == "Create"
+            );
+            model.PageTitle.Title = news.Title;
+
+            var postType = await _postsFacade.GetPostTypeAsync(PostTypeAliases.News);
+
+            news.Id = Guid.NewGuid();
+            news.Excerpt = news.Content.Length > 50 ? $"{news.Content.Substring(0, 47)}..." : news.Content;
+            news.PostTypeId = postType.Id;
+            news.PostSettings = new PostSetting();
+            news.PostSeoSetting = new PostSeoSetting();
+            news.PostCategories = new List<PostCategory>();
+
+            var post = _mapper.Map<NewsViewModel, Post>(news);
+
+            await _postsFacade.CreatePostAsync(post);
 
             return model;
         }
@@ -109,8 +128,7 @@ namespace MathSite.BasicAdmin.ViewModels.News
             model.Deleted = post.Deleted;
             model.PublishDate = post.PublishDate;
             model.AuthorId = post.AuthorId;
-            model.SelectedAuthor = string.Empty;
-            model.Authors = _usersFacade.GetUsers();
+            model.Authors = GetSelectListItems(await _usersFacade.GetUsersAsync());
             model.PostTypeId = post.PostTypeId;
             model.PostSettingsId = post.PostSettingsId;
             model.PostSeoSettingsId = post.PostSeoSettingsId;
@@ -118,31 +136,30 @@ namespace MathSite.BasicAdmin.ViewModels.News
             return model;
         }
 
-        public async Task<NewsViewModel> BuildEditViewModel(PostDto postDto)
+        public async Task<NewsViewModel> BuildEditViewModel(NewsViewModel news)
         {
             var model = await BuildAdminBaseViewModelAsync<NewsViewModel>(
                 link => link.Alias == "News",
                 link => link.Alias == "Edit"
             );
 
-            postDto.PostType = await _postsFacade.GetPostTypeAsync(PostTypeAliases.News);
-            postDto.PostSettings = await _postsFacade.GetPostSettingsAsync(postDto.PostSettingsId);
-            postDto.PostSeoSetting = await _postsFacade.GetPostSeoSettingsAsync(postDto.PostSeoSettingsId);
+            var postType = await _postsFacade.GetPostTypeAsync(PostTypeAliases.News);
+            var postSettings = await _postsFacade.GetPostSettingsAsync(news.PostSettingsId);
+            var postSeoSetting = await _postsFacade.GetPostSeoSettingsAsync(news.PostSeoSettingsId);
 
-            model.Id = postDto.Id;
-            model.Title = postDto.Title;
-            model.Excerpt = postDto.Excerpt;
-            model.Content = postDto.Content;
-            model.Published = postDto.Published;
-            model.Deleted = postDto.Deleted;
-            model.PublishDate = postDto.PublishDate;
-            model.AuthorId = postDto.AuthorId;
-            model.Authors = _usersFacade.GetUsers();
-            model.PostTypeId = postDto.PostTypeId;
-            model.PostSettingsId = postDto.PostSettingsId;
-            model.PostSeoSettingsId = postDto.PostSeoSettingsId;
+            model.Id = news.Id;
+            model.Title = news.Title;
+            model.Excerpt = news.Excerpt;
+            model.Content = news.Content;
+            model.Published = news.Published;
+            model.Deleted = news.Deleted;
+            model.PublishDate = news.PublishDate;
+            model.AuthorId = news.AuthorId;
+            model.PostTypeId = postType.Id;
+            model.PostSettingsId = postSettings.Id;
+            model.PostSeoSettingsId = postSeoSetting.Id;
 
-            var post = _mapper.Map<PostDto, Post>(postDto);
+            var post = _mapper.Map<NewsViewModel, Post>(news);
             await _postsFacade.UpdatePostAsync(post);
 
             return model;
@@ -172,6 +189,26 @@ namespace MathSite.BasicAdmin.ViewModels.News
                 new MenuLink("Список удаленных новостей", "/manager/news/removed", false, "Список удаленных новостей", "ListRemoved"),
                 new MenuLink("Создать новость", "/manager/news/create", false, "Создать новость", "Create")
             };
+        }
+
+        private IEnumerable<SelectListItem> GetSelectListItems(IEnumerable<User> elements)
+        {
+            return elements
+                .Select(element => new SelectListItem
+                {
+                    Text = element.Person.Name + " " + element.Person.Surname,
+                    Value = element.Id.ToString()
+                });
+        }
+
+        private IEnumerable<SelectListItem> GetSelectListItems(IEnumerable<Category> elements)
+        {
+            return elements
+                .Select(element => new SelectListItem
+                {
+                    Text = element.Name,
+                    Value = element.Id.ToString()
+                });
         }
     }
 }

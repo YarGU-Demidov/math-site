@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MathSite.Entities.Dtos;
+using MathSite.BasicAdmin.ViewModels.Dtos;
 
 namespace MathSite.BasicAdmin.ViewModels.News
 {
@@ -8,9 +8,10 @@ namespace MathSite.BasicAdmin.ViewModels.News
     {
         Task<IndexNewsViewModel> BuildIndexViewModel(int page, int perPage);
         Task<IndexNewsViewModel> BuildRemovedViewModel(int page, int perPage);
-        Task<NewsViewModel> BuildCreateViewModel(PostDto postDto = null);
+        Task<NewsViewModel> BuildCreateViewModel();
+        Task<NewsViewModel> BuildCreateViewModel(NewsViewModel news);
         Task<NewsViewModel> BuildEditViewModel(Guid id);
-        Task<NewsViewModel> BuildEditViewModel(PostDto postDto);
+        Task<NewsViewModel> BuildEditViewModel(NewsViewModel news);
         Task<IndexNewsViewModel> BuildDeleteViewModel(Guid id);
     }
 }

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MathSite.Common;
 using MathSite.Common.Extensions;
 using MathSite.Common.Specifications;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
-using MathSite.Entities.Dtos;
 using MathSite.Facades.SiteSettings;
 using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
@@ -228,6 +228,11 @@ namespace MathSite.Facades.Posts
         public async Task<PostSeoSetting> GetPostSeoSettingsAsync(Guid id)
         {
             return await RepositoryManager.PostSeoSettingsRepository.SingleAsync(s => s.Id == id);
+        }
+
+        public async Task<IEnumerable<Category>> GetPostCategoriesAsync()
+        {
+            return await RepositoryManager.CategoryRepository.GetAllListAsync();
         }
 
         private async Task<int> GetPostsWithTypeCount(

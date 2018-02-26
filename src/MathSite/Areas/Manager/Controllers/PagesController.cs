@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using MathSite.BasicAdmin.ViewModels.Pages;
 using MathSite.Controllers;
-using MathSite.Facades.Users;
 using MathSite.Entities;
-using MathSite.Entities.Dtos;
+using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -48,23 +47,10 @@ namespace MathSite.Areas.Manager.Controllers
         [HttpPost]
         [Route("[area]/[controller]/create")]
         public async Task<IActionResult> Create(PageViewModel page)
-        {
-            var postExcerpt = page.Content.Length > 50 ? $"{page.Content.Substring(0, 47)}..." : page.Content;
-            var post = new PostDto
-            {
-                Id = Guid.NewGuid(),
-                Title = page.Title,
-                Excerpt = postExcerpt,
-                Content = page.Content,
-                AuthorId = CurrentUser.Id,
-                Published = false,
-                Deleted = false,
-                PostSettings = new PostSetting(),
-                PostSeoSetting = new PostSeoSetting(),
-                PostCategories = new List<PostCategory>()
-            };
-
-            await _modelBuilder.BuildCreateViewModel(post);
+        {            
+            page.AuthorId = CurrentUser.Id;
+            
+            await _modelBuilder.BuildCreateViewModel(page);
 
             return RedirectToActionPermanent("Index");
         }
@@ -80,23 +66,9 @@ namespace MathSite.Areas.Manager.Controllers
         [Route("[area]/[controller]/edit")]
         public async Task<IActionResult> Edit(PageViewModel page)
         {
-            var post = new PostDto
-            {
-                Id = page.Id,
-                Title = page.Title,
-                Excerpt = page.Content.Length > 50 ? $"{page.Content.Substring(0, 47)}..." : page.Content,
-                Content = page.Content,
-                Published = page.Published,
-                Deleted = page.Deleted,
-                PublishDate = page.PublishDate,
-                AuthorId = page.AuthorId,
-                PostTypeId = page.PostTypeId,
-                PostSettingsId = page.PostSettingsId,
-                PostSeoSettingsId = page.PostSeoSettingsId,
-                PostCategories = page.PostCategories
-            };
+            page.Excerpt = page.Content.Length > 50 ? $"{page.Content.Substring(0, 47)}..." : page.Content;
 
-            await _modelBuilder.BuildEditViewModel(post);
+            await _modelBuilder.BuildEditViewModel(page);
 
             return RedirectToActionPermanent("Index");
         }

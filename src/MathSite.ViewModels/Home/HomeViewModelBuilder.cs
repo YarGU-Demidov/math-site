@@ -79,7 +79,7 @@ namespace MathSite.ViewModels.Home
 
             IEnumerable<Post> studentActivities = new List<Post>();
 
-            var category = await _categoryFacade.GetByAliasAsync("students-activities");
+            var category = await _categoryFacade.GetCategoryByAliasAsync("students-activities");
 
             if (category.IsNotNull())
             {

@@ -30,6 +30,7 @@ namespace MathSite.Facades.Posts
         Task<PostType> GetPostTypeAsync(string alias);
         Task<PostSetting> GetPostSettingsAsync(Guid? id);
         Task<PostSeoSetting> GetPostSeoSettingsAsync(Guid id);
+        Task<IEnumerable<Category>> GetPostCategoriesAsync();
 
         Task<IEnumerable<Post>> GetPostsAsync(Guid? categoryId, string postTypeAlias, int page, int perPage, RemovedStateRequest state, PublishStateRequest publishState, FrontPageStateRequest frontPageState, bool cache);
         Task<IEnumerable<Post>> GetPostsAsync(string postTypeAlias, int page, int perPage, RemovedStateRequest state, PublishStateRequest publishState, FrontPageStateRequest frontPageState, bool cache);

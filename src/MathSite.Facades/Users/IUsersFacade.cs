@@ -10,8 +10,8 @@ namespace MathSite.Facades.Users
     {
         Task<int> GetUsersPagesCountAsync(int perPage, bool cache);
         Task<int> GetUsersCountAsync(bool cache);
-        
-        IList<User> GetUsers();
+
+        Task<IEnumerable<User>> GetUsersAsync();
         Task<IEnumerable<User>> GetUsersAsync(int page, int perPage, bool cache);
 
         Task<User> GetUserAsync(string possibleUserId);

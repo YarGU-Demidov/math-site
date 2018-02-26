@@ -9,6 +9,5 @@ namespace MathSite.Entities
         public Category Category { get; set; }
         public Guid PostId { get; set; }
         public Post Post { get; set; }
-        public bool IsChecked { get; set; }
     }
 }

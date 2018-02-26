@@ -51,9 +51,9 @@ namespace MathSite.Facades.Users
         }
 
 
-        public IList<User> GetUsers()
+        public async Task<IEnumerable<User>> GetUsersAsync()
         {
-            return Repository.WithPerson().GetAll().ToList();
+            return await Repository.WithPerson().GetAllListAsync();
         }
 
         // TODO: FIXME: Extract to classes or smth else
