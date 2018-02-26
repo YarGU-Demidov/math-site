@@ -8,13 +8,6 @@ image: Visual Studio 2017
 pull_requests:
   do_not_increment_build_number: true
 
-init:
- - ps: echo $env:appveyor_build_version
- - ps: echo $env:appveyor_build_number
- - ps: $env:appveyor_build_version = $("1.0.0.") + $env:appveyor_build_number
- - ps: echo $env:appveyor_build_version
- - ps: appveyor UpdateBuild -Version $env:appveyor_build_version
-
 max_jobs: 5
 
 before_build:
@@ -37,11 +30,11 @@ install:
 dotnet_csproj:
   patch: true
   file: '**\*.csproj;**\*.props;**\*.fsproj;**\*.xml'
-  version: '{version}'
-  package_version: '{version}'
-  assembly_version: '{version}'
-  file_version: '{version}'
-  informational_version: '{version}'
+  version: '{build}'
+  package_version: '{build}'
+  assembly_version: '{build}'
+  file_version: '{build}'
+  informational_version: '{build}'
 
 artifacts:
  - path: '\dist'
