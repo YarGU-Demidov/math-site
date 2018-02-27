@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MathSite.BasicAdmin.ViewModels.SharedModels.Menu;
-using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Facades.SiteSettings;
 
 namespace MathSite.BasicAdmin.ViewModels.SharedModels.Common
@@ -38,6 +37,7 @@ namespace MathSite.BasicAdmin.ViewModels.SharedModels.Common
                 new MenuLink("Файлы", "/manager/files/", false, "Управление файлами", "Files"),
                 new MenuLink("Лица", "/manager/persons/", false, "Управление лицами", "Persons"),
                 new MenuLink("Пользователи", "/manager/users/", false, "Управление пользователями", "Users"),
+                new MenuLink("Категории", "/manager/categories/", false, "Управление категориями", "Categories"),
                 new MenuLink("Настройки", "/manager/settings/", false, "Управление настройками", "Settings")
             };
 

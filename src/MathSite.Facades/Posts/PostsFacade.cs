@@ -30,8 +30,7 @@ namespace MathSite.Facades.Posts
             ILogger<IPostsFacade> postsFacadeLogger,
             IUserValidationFacade userValidation,
             IUsersFacade usersFacade
-        )
-            : base(repositoryManager, memoryCache)
+        ) : base(repositoryManager, memoryCache)
         {
             _postsFacadeLogger = postsFacadeLogger;
             _userValidation = userValidation;
@@ -52,8 +51,7 @@ namespace MathSite.Facades.Posts
             bool cache
         )
         {
-            return await GetPostPagesCountAsync(null, postTypeAlias, perPage, state, publishState, frontPageState,
-                cache);
+            return await GetPostPagesCountAsync(null, postTypeAlias, perPage, state, publishState, frontPageState, cache);
         }
 
         public async Task<int> GetPostPagesCountAsync(
@@ -66,8 +64,14 @@ namespace MathSite.Facades.Posts
             bool cache
         )
         {
-            var newsCount =
-                await GetPostsWithTypeCount(postTypeAlias, categoryId, state, publishState, frontPageState, cache);
+            var newsCount = await GetPostsWithTypeCount(
+                postTypeAlias,
+                categoryId,
+                state,
+                publishState,
+                frontPageState,
+                cache
+            );
 
             return (int) Math.Ceiling(newsCount / (float) perPage);
         }

@@ -1,5 +1,5 @@
 {
-  "nodeVersion": "v6.11.3",
+  "nodeVersion": "v8.9.4",
   "modulesFolders": [
     "wwwroot\\lib"
   ],

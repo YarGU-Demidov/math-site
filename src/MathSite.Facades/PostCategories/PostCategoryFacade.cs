@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MathSite.Entities;
@@ -54,8 +53,7 @@ namespace MathSite.Facades.PostCategories
                 CategoryId = category.Id,
                 Category = category,
                 PostId = post.Id,
-                Post = post,
-                CreationDate = DateTime.UtcNow
+                Post = post
             });
         }
     }
