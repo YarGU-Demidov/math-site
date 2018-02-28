@@ -11,7 +11,7 @@
         <div class="card-body">
             @if (!categoriesExists)
             {
-                <h5 class="empty-text text-center">Статей не обнаружено!</h5>
+                <h5 class="empty-text text-center">Категорий не обнаружено!</h5>
             }
             else
             {
@@ -35,9 +35,11 @@
                                         <a href="@Url.Action("Edit", "Categories", new {id = category.Id})" title="Edit" class="btn btn-outline-success">
                                             <em class="fa fa-pencil"></em>
                                         </a>
-                                        <a href="@Url.Action("Delete", "Categories", new {id = category.Id})" title="Delete" class="btn btn-outline-danger">
-                                            <em class="fa fa-trash"></em>
-                                        </a>
+                                        <form class="delete-category-form" asp-action="Delete" asp-route-id="@category.Id" method="post" asp-antiforgery="true">
+                                            <button type="submit" title="Delete" class="btn btn-outline-danger">
+                                                <em class="fa fa-trash"></em>
+                                            </button>
+                                        </form>
                                     </td>
                                     <th class="post__max-width">@category.Name</th>
                                     <th class="post__max-width">@category.Alias</th>
@@ -125,4 +127,12 @@
 
 @section ScriptsSection{
     <script src="~/js/pager.js"></script>
+}
+@section StylesSection
+    {
+    <style>
+        .delete-category-form {
+            display: inline-block;
+        }
+    </style>
 }

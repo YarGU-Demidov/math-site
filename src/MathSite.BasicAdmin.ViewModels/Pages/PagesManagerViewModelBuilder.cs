@@ -85,7 +85,7 @@ namespace MathSite.BasicAdmin.ViewModels.Pages
         {
             var model = await BuildAdminBaseViewModelAsync<PageViewModel>(
                 link => link.Alias == "Articles",
-                link => link.Alias == "Create"
+                link => link.Alias == "CreatePage"
             );
 
             model.Authors = GetSelectListItems(await _usersFacade.GetUsersAsync());
@@ -98,7 +98,7 @@ namespace MathSite.BasicAdmin.ViewModels.Pages
         {
             var model = await BuildAdminBaseViewModelAsync<PageViewModel>(
                 link => link.Alias == "Articles",
-                link => link.Alias == "Create"
+                link => link.Alias == "CreatePage"
             );
             model.PageTitle.Title = page.Title;
 
