@@ -138,6 +138,8 @@ namespace MathSite
             services.AddSingleton(Configuration);
             services.AddSingleton<IConfiguration>(Configuration);
             services.Configure<Settings>(Configuration);
+            
+            services.Configure<Settings>(Configuration); 
 
             services.AddScoped<IPasswordsManager, DoubleSha512HashPasswordsManager>();
             services.AddSingleton<IActionDescriptorCollectionProvider, ActionDescriptorCollectionProvider>();
