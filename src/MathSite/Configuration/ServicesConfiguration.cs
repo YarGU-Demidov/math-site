@@ -139,12 +139,13 @@ namespace MathSite
             services.AddSingleton(Configuration);
             services.AddSingleton<IConfiguration>(Configuration);
             services.AddSingleton<IActionDescriptorCollectionProvider, ActionDescriptorCollectionProvider>();
-            services.Configure<Settings>(Configuration);
+            
+            services.Configure<Settings>(Configuration); 
 
             services.AddScoped<IPasswordsManager, DoubleSha512HashPasswordsManager>();
             services.AddScoped<IKeyVectorReader, KeyVectorReader>();
-            services.AddScoped<IEncryptor, AesEncryptor>();
             services.AddScoped<IKeyManager, TwoFactorAuthenticationKeyManager>();
+            services.AddScoped<IEncryptor, AesEncryptor>();
 
 
             services.AddRepositories()
