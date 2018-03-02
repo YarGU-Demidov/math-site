@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MathSite.Common.Extensions
 {
@@ -14,6 +15,24 @@ namespace MathSite.Common.Extensions
         public static bool IsNullOrEmpty<T>(this ICollection<T> source)
         {
             return source.IsNull() || source.Count <= 0;
+        }
+
+        /// <summary>
+        ///     Checks whatever given collection object is null or has no item.
+        /// </summary>
+        public static bool IsNullOrEmpty<T>(this IEnumerable<T> source)
+        {
+            var sourceArray = source as T[] ?? source?.ToArray();
+
+            return sourceArray.IsNull() || !sourceArray.Any();
+        }
+
+        /// <summary>
+        ///     Checks whatever given collection object is not null or has item.
+        /// </summary>
+        public static bool IsNotNullOrEmpty<T>(this IEnumerable<T> source)
+        {
+            return !source.IsNullOrEmpty();
         }
 
         /// <summary>
