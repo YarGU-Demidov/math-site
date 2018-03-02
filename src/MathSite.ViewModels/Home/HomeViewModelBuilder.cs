@@ -55,18 +55,16 @@ namespace MathSite.ViewModels.Home
 
         private async Task BuildPostsAsync(HomeIndexViewModel model)
         {
-            const string postType = PostTypeAliases.News;
-            
             var category = await _categoryFacade.GetCategoryByAliasAsync("students-activities");
 
             var posts = await _postsFacade.GetPostsAsync(
-                postTypeAlias: postType,
+                postTypeAlias: PostTypeAliases.News,
                 page: 1,
                 perPage: 6,
                 state: RemovedStateRequest.Excluded,
                 publishState: PublishStateRequest.Published,
                 frontPageState: FrontPageStateRequest.Visible,
-                //excludedCategories: new[] {category},
+                excludedCategories: new[] {category},
                 cache: true
             );
 
