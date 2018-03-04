@@ -105,7 +105,7 @@ namespace MathSite.Controllers
             var returnUrl = HttpContext.Request.Query["returnUrl"].ToString();
 
             if (!string.IsNullOrWhiteSpace(returnUrl))
-                return Redirect(returnUrl);
+                return LocalRedirect(returnUrl);
 
             return RedirectToAction("Index", "Home");
         }

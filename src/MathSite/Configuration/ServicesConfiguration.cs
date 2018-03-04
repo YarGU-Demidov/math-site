@@ -135,6 +135,7 @@ namespace MathSite
 
             services.AddLazyProvider();
 
+            services.AddSingleton<FileFormatBuilder>();
             services.AddSingleton(Configuration);
             services.AddSingleton<IConfiguration>(Configuration);
             services.Configure<Settings>(Configuration);
@@ -147,8 +148,7 @@ namespace MathSite
             services.AddScoped<IEncryptor, AesEncryptor>();
             services.AddScoped<IKeyManager, TwoFactorAuthenticationKeyManager>();
 
-            services.AddSingleton<FileFormatBuilder>();
-            
+
             services.AddRepositories()
                 .AddFacades()
                 .AddViewModelBuilders()
@@ -179,5 +179,4 @@ namespace MathSite
                         options.EnableSensitiveDataLogging().ConfigureWarnings(builder => builder.Log());
                 }, 500);
         }
-    }
-}
+    }}
