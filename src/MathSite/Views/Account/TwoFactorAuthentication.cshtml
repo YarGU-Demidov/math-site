@@ -7,29 +7,10 @@
 
 <h2>TwoFactorAuthentication</h2>
 
-@if (!Model.HasTwoFactorAutentification)
-{
-<div>Добавить двух факторную авторизацию?</div>
 <div>
-    @using (Html.BeginForm("Add2Fa", "Account",Model, FormMethod.Post))
+    @using (Html.BeginForm("VerifyTwoFactorAutentication", "Account",Model, FormMethod.Post))
     {
-        <input type="submit" value="ДА" class="btn btn-default" />
+        <input type="text" name="Token"/>
+        <input type="submit" class="btn btn-default"/>
     }
 </div>
-<div>
-    @using (Html.BeginForm("ContinueLogin", "Account",Model, FormMethod.Post))
-    {
-        <input type="submit" value="Нет" class="btn btn-default" />
-    }
-</div>
-}
-else if (Model.HasTwoFactorAutentification)
-{
-    <div>
-        @using (Html.BeginForm("VerifyTwoActionAutentication", "Account",Model, FormMethod.Post))
-        {
-            <input type="text" name="Token"/>
-            <input type="submit" class="btn btn-default"/>
-        }
-    </div>
-}

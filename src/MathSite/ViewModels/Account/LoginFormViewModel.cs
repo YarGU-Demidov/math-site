@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MathSite.ViewModels.Account
@@ -18,6 +19,7 @@ namespace MathSite.ViewModels.Account
         public string BarcodeImageUrl { get; set; }
         public string SetupCode { get; set; }
         public bool HasTwoFactorAutentification { get; set; }
+        public IEnumerable<byte> TemporalTwoFactorAutenticationKey { get; set; }
         public string ReturnUrl { get; set; } = "/";
         public string Token { get; set; }
     }

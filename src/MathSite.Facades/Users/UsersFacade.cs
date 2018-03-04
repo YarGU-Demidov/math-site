@@ -93,7 +93,7 @@ namespace MathSite.Facades.Users
             return await RepositoryManager.UsersRepository.FirstOrDefaultAsync(requirements) != null;
         }
 
-        public async Task CreateUserAsync(Guid currentUser, Guid personId, string login, string password, Guid groupId)
+        public async Task CreateUserAsync(Guid currentUser, Guid personId, string login, string password, Guid groupId, bool hasTwoFactorAutenticationKey)
         {
             var canCreate = await _validationFacade.UserHasRightAsync(currentUser, RightAliases.AdminAccess);
 
@@ -102,12 +102,14 @@ namespace MathSite.Facades.Users
 
             var passHash = _passwordsManager.CreatePassword(login, password);
 
-            var user = new User(login, passHash, groupId) {PersonId = personId};
+            var twoFactorAutenticationKey = hasTwoFactorAutenticationKey ? new byte[0]:null;
+
+            var user = new User(login, passHash, groupId) {PersonId = personId, TwoFactorAuthenticationKey = twoFactorAutenticationKey};
 
             await Repository.InsertAsync(user);
         }
         
-        public async Task UpdateUserAsync(Guid currentUser, Guid id, Guid? personId = null, Guid? groupId = null, string newPassword = null)
+        public async Task UpdateUserAsync(Guid currentUser, Guid id, bool hasTwoFactorAutenticationKey, Guid? personId = null, Guid? groupId = null, string newPassword = null)
         {
             var canUpdate = await _validationFacade.UserHasRightAsync(currentUser, RightAliases.AdminAccess);
 
@@ -115,6 +117,15 @@ namespace MathSite.Facades.Users
                 throw new AccessViolationException();
 
             var user = await GetUserAsync(id);
+
+            if (!hasTwoFactorAutenticationKey)
+            {
+                user.TwoFactorAuthenticationKey = null;
+            }
+            else if (user.TwoFactorAuthenticationKey.IsNullOrEmpty())
+            {
+                user.TwoFactorAuthenticationKey = new byte[0];
+            }
 
             if (newPassword.IsNotNullOrWhiteSpace())
             {

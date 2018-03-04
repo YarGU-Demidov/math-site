@@ -21,6 +21,10 @@
             <label class="form-check-label" for="passwordReset">Сбросить пароль</label>
         </div>
         <div class="form-group">
+            <input type="checkbox" id="hasTwoFactorAutentication" asp-for="HasTwoFactorAutentication" class="form-check-input" />
+            <label class="form-check-label" for="hasTwoFactorAutentication">Двухфакторная аутентификация</label>
+        </div>
+        <div class="form-group">
             <label for="userGroup">Группа пользователя*</label>
             <select required="required" class="form-control" id="userGroup" asp-for="GroupId" asp-items="@Model.Groups.Select(model => new SelectListItem { Text = model.Name, Value = model.Id })">
                 <option disabled="disabled">Выберите группу</option>

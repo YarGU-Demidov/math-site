@@ -23,6 +23,13 @@ namespace MathSite.Common.Extensions
         {
             return !source.IsNullOrEmpty();
         }
+        /// <summary>
+        ///     Checks whatever given collection object is not null and has no items.
+        /// </summary>
+        public static bool IsNotNullAndEmpty<T>(this ICollection<T> source)
+        {
+            return !source.IsNull() && source.Count == 0;
+        }
 
         /// <summary>
         ///     Adds an item to the collection if it's not already in the collection.

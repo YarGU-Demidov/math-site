@@ -22,6 +22,7 @@ namespace MathSite.BasicAdmin.ViewModels.Users
         [Required]
         [DataType(DataType.Text)]
         public string PersonId { get; set; }
+        public bool HasTwoFactorAutentication { get; set; }
 
         public IEnumerable<(string Id, string Name)> Groups { get; set; }
         public IEnumerable<(string Id, string Name)> Persons { get; set; }

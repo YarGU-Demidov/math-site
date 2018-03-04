@@ -91,6 +91,7 @@ namespace MathSite.BasicAdmin.ViewModels.Users
             model.ResetPassword = false;
             model.Id = user.Id.ToString();
             model.PersonId = user.PersonId.ToString();
+            model.HasTwoFactorAutentication = user.TwoFactorAuthenticationKey != null;
 
             await FillUserGroupsAsync(model);
             await FillPossiblePersonsAsync(model);
@@ -106,14 +107,16 @@ namespace MathSite.BasicAdmin.ViewModels.Users
                     id: id, 
                     personId: Guid.Parse(model.PersonId), 
                     groupId: Guid.Parse(model.GroupId),
-                    newPassword: model.Password
+                    newPassword: model.Password,
+                    hasTwoFactorAutenticationKey: model.HasTwoFactorAutentication
                 );
             else
                 await _usersFacade.UpdateUserAsync(
                     currentUser: currentUser, 
                     id: id, 
                     personId: Guid.Parse(model.PersonId), 
-                    groupId: Guid.Parse(model.GroupId)
+                    groupId: Guid.Parse(model.GroupId),
+                    hasTwoFactorAutenticationKey: model.HasTwoFactorAutentication
                 );
         }
 
@@ -124,7 +127,8 @@ namespace MathSite.BasicAdmin.ViewModels.Users
                 personId: Guid.Parse(model.PersonId),
                 login: model.Login, 
                 password: model.Password,
-                groupId: Guid.Parse(model.GroupId)
+                groupId: Guid.Parse(model.GroupId),
+                hasTwoFactorAutenticationKey: model.HasTwoFactorAutentication
             );
         }
 
