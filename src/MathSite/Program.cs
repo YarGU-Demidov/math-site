@@ -69,3 +69,5 @@ namespace MathSite
 
             return connectionString;
         }
+    }
+}
