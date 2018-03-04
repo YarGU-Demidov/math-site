@@ -18,13 +18,12 @@ namespace MathSite.Entities
         /// </summary>
         /// <param name="login">Логин.</param>
         /// <param name="passwordHash">Пароль.</param>
-        /// <param name="twoFactorAuthenticationKey">Ключ для доступа к двухфакторной аутентификации</param>
+        /// <param name="TwoFactorAuthenticationKey">Ключ для доступа к двухфакторной аутентификации</param>
         /// <param name="groupId">Идентификатор группы.</param>
-        public User(string login, byte[] passwordHash, byte[] twoFactorAuthenticationKey, Guid groupId)
+        public User(string login, byte[] passwordHash, Guid groupId)
         {
             Login = login;
             PasswordHash = passwordHash;
-            TwoFactorAuthenticationKey = twoFactorAuthenticationKey;
             GroupId = groupId;
             CreationDate = DateTime.Now;
         }

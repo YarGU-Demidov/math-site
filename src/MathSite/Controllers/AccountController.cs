@@ -50,7 +50,7 @@ namespace MathSite.Controllers
             if (ourUser == null)
                 return View(model);
 
-            if (ourUser.TwoFactorAutentificationHash == null)
+            if (ourUser.TwoFactorAuthenticationKey == null)
             {
                 model.HasTwoFactorAutentification = false;
                 return View("~/Views/Account/TwoFactorAuthentication.cshtml", model);

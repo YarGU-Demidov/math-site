@@ -4,22 +4,21 @@ using System.Collections.Generic;
 
 namespace MathSite.Migrations
 {
-    public partial class ChangedTFAPropertyName : Migration
+    public partial class Addmigration2FAMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.RenameColumn(
-                name: "TwoFactorAutentificationKey",
+            migrationBuilder.AddColumn<byte[]>(
+                name: "TwoFactorAuthenticationKey",
                 table: "User",
-                newName: "TwoFactorAuthenticationKey");
+                nullable: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.RenameColumn(
+            migrationBuilder.DropColumn(
                 name: "TwoFactorAuthenticationKey",
-                table: "User",
-                newName: "TwoFactorAutentificationKey");
+                table: "User");
         }
     }
 }

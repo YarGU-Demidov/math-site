@@ -8,6 +8,7 @@ using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
 using MathSite.Repository.Core;
 using MathSite.Specifications.Users;
+using MathSite.Tests.CoreThings;
 using Xunit;
 
 namespace MathSite.Tests.Facades
@@ -57,10 +58,11 @@ namespace MathSite.Tests.Facades
         private IUsersFacade GetFacade(IRepositoryManager manager)
         {
             var passwordsManager = new DoubleSha512HashPasswordsManager();
+            var testKeyManager = new TestKeyManager();
             return new UsersFacade(
                 manager, 
                 MemoryCache, 
-                new UserValidationFacade(manager, MemoryCache, passwordsManager), 
+                new UserValidationFacade(manager, MemoryCache, passwordsManager, testKeyManager), 
                 passwordsManager
             );
         }
