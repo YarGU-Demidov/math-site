@@ -9,6 +9,7 @@ using MathSite.BasicAdmin.ViewModels.SharedModels.Menu;
 using MathSite.Common;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
+using MathSite.Facades.Categories;
 using MathSite.Facades.Posts;
 using MathSite.Facades.SiteSettings;
 using MathSite.Facades.Users;
@@ -21,13 +22,16 @@ namespace MathSite.BasicAdmin.ViewModels.News
         private readonly IMapper _mapper;
         private readonly IPostsFacade _postsFacade;
         private readonly IUsersFacade _usersFacade;
+        private readonly ICategoryFacade _categoriesFacade;
 
-        public NewsManagerViewModelBuilder(ISiteSettingsFacade siteSettingsFacade, IMapper mapper, IPostsFacade postsFacade, IUsersFacade usersFacade) :
+        public NewsManagerViewModelBuilder(ISiteSettingsFacade siteSettingsFacade, IMapper mapper,
+            IPostsFacade postsFacade, IUsersFacade usersFacade, ICategoryFacade categoriesFacade) :
             base(siteSettingsFacade)
         {
             _mapper = mapper;
             _postsFacade = postsFacade;
             _usersFacade = usersFacade;
+            _categoriesFacade = categoriesFacade;
         }
 
         public async Task<IndexNewsViewModel> BuildIndexViewModel(int page, int perPage)
@@ -82,7 +86,7 @@ namespace MathSite.BasicAdmin.ViewModels.News
             );
 
             model.Authors = GetSelectListItems(await _usersFacade.GetUsersAsync());
-            model.Categories = GetSelectListItems(await _postsFacade.GetPostCategoriesAsync());
+            model.Categories = GetSelectListItems(await _categoriesFacade.GetCategoriesAsync());
 
             return model;
         }

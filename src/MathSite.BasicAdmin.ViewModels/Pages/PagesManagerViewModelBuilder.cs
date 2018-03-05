@@ -93,7 +93,7 @@ namespace MathSite.BasicAdmin.ViewModels.Pages
             );
 
             model.Authors = GetSelectListItems(await _usersFacade.GetUsersAsync());
-            model.Categories = GetSelectListItems(await _postsFacade.GetPostCategoriesAsync());
+            model.Categories = await GetSelectListItems(await _categoriesFacade.GetCategoriesAsync());
 
             return model;
         }
@@ -116,7 +116,7 @@ namespace MathSite.BasicAdmin.ViewModels.Pages
             page.PostSeoSetting = new PostSeoSetting();
 
             var post = _mapper.Map<PageViewModel, Post>(page);
-            post.PostCategories = _postCategoryFacade.CreateRelation(post, categories).Result.ToList();
+            post.PostCategories = _postCategoryFacade.CreateRelation(post, categories).ToList();
 
             await _postsFacade.CreatePostAsync(post);
 
@@ -144,6 +144,7 @@ namespace MathSite.BasicAdmin.ViewModels.Pages
             model.PostTypeId = post.PostTypeId;
             model.PostSettingsId = post.PostSettingsId;
             model.PostSeoSettingsId = post.PostSeoSettingsId;
+            model.Categories = await GetSelectListItems(await _categoriesFacade.GetCategoriesAsync(), id.ToString());
 
             return model;
         }
@@ -155,23 +156,21 @@ namespace MathSite.BasicAdmin.ViewModels.Pages
                 link => link.Alias == "Edit"
             );
 
-            var postType = await _postsFacade.GetPostTypeAsync(PostTypeAliases.StaticPage);
-            var postSettings = await _postsFacade.GetPostSettingsAsync(page.PostSettingsId);
-            var postSeoSetting = await _postsFacade.GetPostSeoSettingsAsync(page.PostSeoSettingsId);
-
-            model.Id = page.Id;
-            model.Title = page.Title;
-            model.Excerpt = page.Excerpt;
-            model.Content = page.Content;
-            model.Published = page.Published;
-            model.Deleted = page.Deleted;
-            model.PublishDate = page.PublishDate;
-            model.AuthorId = page.AuthorId;
-            model.PostTypeId = postType.Id;
-            model.PostSettingsId = postSettings.Id;
-            model.PostSeoSettingsId = postSeoSetting.Id;
+            page.PostSettings = new PostSetting();
+            page.PostSeoSetting = new PostSeoSetting();
 
             var post = _mapper.Map<PageViewModel, Post>(page);
+            var selectedCategories = await _categoriesFacade.GetCategoreisByIdAsync(page.SelectedCategories);
+
+            await _postCategoryFacade.DeletePostCategoryAsync(page.Id);
+            await _postsFacade.UpdatePostAsync(post);
+
+            var postCategories = _postCategoryFacade.CreateRelation(post, selectedCategories);
+            foreach (var postCategory in postCategories)
+            {
+                await _postCategoryFacade.CreatePostCategoryAsync(postCategory);
+            }
+
             await _postsFacade.UpdatePostAsync(post);
 
             return model;
@@ -204,24 +203,34 @@ namespace MathSite.BasicAdmin.ViewModels.Pages
             };
         }
 
-        private IEnumerable<SelectListItem> GetSelectListItems(IEnumerable<User> elements)
+        private IEnumerable<SelectListItem> GetSelectListItems(IEnumerable<User> users)
         {
-            return elements
-                .Select(element => new SelectListItem
+            return users
+                .Select(user => new SelectListItem
                 {
-                    Text = element.Person.Name + " " + element.Person.Surname,
-                    Value = element.Id.ToString()
+                    Text = user.Person.Name + " " + user.Person.Surname,
+                    Value = user.Id.ToString()
                 });
         }
 
-        private IEnumerable<SelectListItem> GetSelectListItems(IEnumerable<Category> elements)
+        private async Task<IEnumerable<SelectListItem>> GetSelectListItems(IEnumerable<Category> categories,
+            string postId = null)
         {
-            return elements
-                .Select(element => new SelectListItem
+            var selectListItems = new List<SelectListItem>();
+            foreach (var category in categories)
+            {
+                var postCategory = postId != null
+                    ? await _postCategoryFacade.GetPostCategoryAsync(Guid.Parse(postId), category.Id)
+                    : null;
+                selectListItems.Add(new SelectListItem
                 {
-                    Text = element.Name,
-                    Value = element.Id.ToString()
+                    Text = category.Name,
+                    Value = category.Id.ToString(),
+                    Selected = postCategory != null
                 });
+            }
+
+            return selectListItems;
         }
     }
 }

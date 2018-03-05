@@ -21,20 +21,9 @@
 </div>
 <div class="form-group">
     @Html.LabelFor(m => m.Authors, "Авторы")
-    <select class="form-control" asp-for="@Model.AuthorId" asp-items="@Model.Authors"></select>
+    <select class="form-control" asp-for="@Model.AuthorId" asp-items="@Model.Authors" required></select>
 </div>
 <div class="form-group">
     @Html.LabelFor(m => m.Categories, "Категории")
-    <select multiple class="form-control" asp-for="@Model.SelectedCategories" asp-items="@Model.Categories"></select>
+    <select multiple class="form-control" asp-for="@Model.SelectedCategories" asp-items="@Model.Categories" required></select>
 </div>
-@*<div class="card-body">
-    @{
-        if (Model.Categories != null && Model.PostCategories.Any())
-        {
-            @Html.LabelFor(m => m.PostCategories, "Категории")
-            <div class="card-body">
-                @Html.DropDownListFor(model => model.SelectedCategories, Model.Categories, new { @required = "required" })
-            </div>
-        }
-    }
-</div>*@
