@@ -22,18 +22,18 @@ namespace MathSite.BasicAdmin.ViewModels.Pages
         private readonly IMapper _mapper;
         private readonly IPostsFacade _postsFacade;
         private readonly IUsersFacade _usersFacade;
-        private readonly ICategoryFacade _categoriesFacade;
+        private readonly ICategoryFacade _categoryFacade;
         private readonly IPostCategoryFacade _postCategoryFacade;
 
         public PagesManagerViewModelBuilder(ISiteSettingsFacade siteSettingsFacade, IMapper mapper,
-            IPostsFacade postsFacade, IUsersFacade usersFacade, ICategoryFacade categoriesFacade,
+            IPostsFacade postsFacade, IUsersFacade usersFacade, ICategoryFacade categoryFacade,
             IPostCategoryFacade postCategoryFacade) :
             base(siteSettingsFacade)
         {
             _mapper = mapper;
             _postsFacade = postsFacade;
             _usersFacade = usersFacade;
-            _categoriesFacade = categoriesFacade;
+            _categoryFacade = categoryFacade;
             _postCategoryFacade = postCategoryFacade;
         }
 
@@ -49,13 +49,11 @@ namespace MathSite.BasicAdmin.ViewModels.Pages
                 link => link.Alias == "Articles",
                 link => link.Alias == "List",
                 page,
-                await _postsFacade.GetPostPagesCountAsync(postType, perPage, removedState, publishState, frontPageState,
-                    cached),
+                await _postsFacade.GetPostPagesCountAsync(postType, perPage, removedState, publishState, frontPageState, cached),
                 perPage
             );
 
-            model.Posts = await _postsFacade.GetPostsAsync(postType, page, perPage, removedState, publishState,
-                frontPageState, cached);
+            model.Posts = await _postsFacade.GetPostsAsync(postType, page, perPage, removedState, publishState, frontPageState, cached);
             model.PageTitle.Title = "Список статей";
 
             return model;
@@ -73,13 +71,11 @@ namespace MathSite.BasicAdmin.ViewModels.Pages
                 link => link.Alias == "Articles",
                 link => link.Alias == "ListRemoved",
                 page,
-                await _postsFacade.GetPostPagesCountAsync(postType, perPage, removedState, publishState, frontPageState,
-                    cached),
+                await _postsFacade.GetPostPagesCountAsync(postType, perPage, removedState, publishState, frontPageState, cached),
                 perPage
             );
 
-            model.Posts =
-                await _postsFacade.GetPostsAsync(postType, page, 5, removedState, publishState, frontPageState, cached);
+            model.Posts = await _postsFacade.GetPostsAsync(postType, page, 5, removedState, publishState, frontPageState, cached);
             model.PageTitle.Title = "Список удаленных статей";
 
             return model;
@@ -93,7 +89,7 @@ namespace MathSite.BasicAdmin.ViewModels.Pages
             );
 
             model.Authors = GetSelectListItems(await _usersFacade.GetUsersAsync());
-            model.Categories = await GetSelectListItems(await _categoriesFacade.GetCategoriesAsync());
+            model.Categories = await GetSelectListItems(await _categoryFacade.GetCategoriesAsync());
 
             return model;
         }
@@ -107,7 +103,7 @@ namespace MathSite.BasicAdmin.ViewModels.Pages
             model.PageTitle.Title = page.Title;
 
             var postType = await _postsFacade.GetPostTypeAsync(PostTypeAliases.StaticPage);
-            var categories = await _categoriesFacade.GetCategoreisByIdAsync(page.SelectedCategories);
+            var categories = await _categoryFacade.GetCategoreisByIdAsync(page.SelectedCategories);
 
             page.Id = Guid.NewGuid();
             page.Excerpt = page.Content.Length > 50 ? $"{page.Content.Substring(0, 47)}..." : page.Content;
@@ -144,7 +140,7 @@ namespace MathSite.BasicAdmin.ViewModels.Pages
             model.PostTypeId = post.PostTypeId;
             model.PostSettingsId = post.PostSettingsId;
             model.PostSeoSettingsId = post.PostSeoSettingsId;
-            model.Categories = await GetSelectListItems(await _categoriesFacade.GetCategoriesAsync(), id.ToString());
+            model.Categories = await GetSelectListItems(await _categoryFacade.GetCategoriesAsync(), id.ToString());
 
             return model;
         }
@@ -156,11 +152,12 @@ namespace MathSite.BasicAdmin.ViewModels.Pages
                 link => link.Alias == "Edit"
             );
 
+            page.Excerpt = page.Content.Length > 50 ? $"{page.Content.Substring(0, 47)}..." : page.Content;
             page.PostSettings = new PostSetting();
             page.PostSeoSetting = new PostSeoSetting();
 
             var post = _mapper.Map<PageViewModel, Post>(page);
-            var selectedCategories = await _categoriesFacade.GetCategoreisByIdAsync(page.SelectedCategories);
+            var selectedCategories = await _categoryFacade.GetCategoreisByIdAsync(page.SelectedCategories);
 
             await _postCategoryFacade.DeletePostCategoryAsync(page.Id);
             await _postsFacade.UpdatePostAsync(post);
@@ -170,7 +167,6 @@ namespace MathSite.BasicAdmin.ViewModels.Pages
             {
                 await _postCategoryFacade.CreatePostCategoryAsync(postCategory);
             }
-
             await _postsFacade.UpdatePostAsync(post);
 
             return model;
@@ -197,8 +193,7 @@ namespace MathSite.BasicAdmin.ViewModels.Pages
             return new List<MenuLink>
             {
                 new MenuLink("Список страниц", "/manager/pages/list", false, "Список страниц", "List"),
-                new MenuLink("Список удаленных страниц", "/manager/pages/removed", false, "Список удаленных страниц",
-                    "ListRemoved"),
+                new MenuLink("Список удаленных страниц", "/manager/pages/removed", false, "Список удаленных страниц", "ListRemoved"),
                 new MenuLink("Создать страницу", "/manager/pages/create", false, "Создать страницу", "CreatePage")
             };
         }

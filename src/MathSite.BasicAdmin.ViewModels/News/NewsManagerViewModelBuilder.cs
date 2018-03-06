@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using MathSite.BasicAdmin.ViewModels.Dtos;
 using MathSite.BasicAdmin.ViewModels.SharedModels.AdminPageWithPaging;
 using MathSite.BasicAdmin.ViewModels.SharedModels.Menu;
 using MathSite.Common;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
 using MathSite.Facades.Categories;
+using MathSite.Facades.PostCategories;
 using MathSite.Facades.Posts;
 using MathSite.Facades.SiteSettings;
 using MathSite.Facades.Users;
@@ -22,16 +22,19 @@ namespace MathSite.BasicAdmin.ViewModels.News
         private readonly IMapper _mapper;
         private readonly IPostsFacade _postsFacade;
         private readonly IUsersFacade _usersFacade;
-        private readonly ICategoryFacade _categoriesFacade;
+        private readonly ICategoryFacade _categoryFacade;
+        private readonly IPostCategoryFacade _postCategoryFacade;
 
         public NewsManagerViewModelBuilder(ISiteSettingsFacade siteSettingsFacade, IMapper mapper,
-            IPostsFacade postsFacade, IUsersFacade usersFacade, ICategoryFacade categoriesFacade) :
+            IPostsFacade postsFacade, IUsersFacade usersFacade, ICategoryFacade categoryFacade,
+            IPostCategoryFacade postCategoryFacade) :
             base(siteSettingsFacade)
         {
             _mapper = mapper;
             _postsFacade = postsFacade;
             _usersFacade = usersFacade;
-            _categoriesFacade = categoriesFacade;
+            _categoryFacade = categoryFacade;
+            _postCategoryFacade = postCategoryFacade;
         }
 
         public async Task<IndexNewsViewModel> BuildIndexViewModel(int page, int perPage)
@@ -86,7 +89,7 @@ namespace MathSite.BasicAdmin.ViewModels.News
             );
 
             model.Authors = GetSelectListItems(await _usersFacade.GetUsersAsync());
-            model.Categories = GetSelectListItems(await _categoriesFacade.GetCategoriesAsync());
+            model.Categories = await GetSelectListItems(await _categoryFacade.GetCategoriesAsync());
 
             return model;
         }
@@ -100,15 +103,16 @@ namespace MathSite.BasicAdmin.ViewModels.News
             model.PageTitle.Title = news.Title;
 
             var postType = await _postsFacade.GetPostTypeAsync(PostTypeAliases.News);
+            var categories = await _categoryFacade.GetCategoreisByIdAsync(news.SelectedCategories);
 
             news.Id = Guid.NewGuid();
             news.Excerpt = news.Content.Length > 50 ? $"{news.Content.Substring(0, 47)}..." : news.Content;
             news.PostTypeId = postType.Id;
             news.PostSettings = new PostSetting();
             news.PostSeoSetting = new PostSeoSetting();
-            news.PostCategories = new List<PostCategory>();
 
             var post = _mapper.Map<NewsViewModel, Post>(news);
+            post.PostCategories = _postCategoryFacade.CreateRelation(post, categories).ToList();
 
             await _postsFacade.CreatePostAsync(post);
 
@@ -136,6 +140,7 @@ namespace MathSite.BasicAdmin.ViewModels.News
             model.PostTypeId = post.PostTypeId;
             model.PostSettingsId = post.PostSettingsId;
             model.PostSeoSettingsId = post.PostSeoSettingsId;
+            model.Categories = await GetSelectListItems(await _categoryFacade.GetCategoriesAsync(), id.ToString());
 
             return model;
         }
@@ -147,23 +152,21 @@ namespace MathSite.BasicAdmin.ViewModels.News
                 link => link.Alias == "Edit"
             );
 
-            var postType = await _postsFacade.GetPostTypeAsync(PostTypeAliases.News);
-            var postSettings = await _postsFacade.GetPostSettingsAsync(news.PostSettingsId);
-            var postSeoSetting = await _postsFacade.GetPostSeoSettingsAsync(news.PostSeoSettingsId);
-
-            model.Id = news.Id;
-            model.Title = news.Title;
-            model.Excerpt = news.Excerpt;
-            model.Content = news.Content;
-            model.Published = news.Published;
-            model.Deleted = news.Deleted;
-            model.PublishDate = news.PublishDate;
-            model.AuthorId = news.AuthorId;
-            model.PostTypeId = postType.Id;
-            model.PostSettingsId = postSettings.Id;
-            model.PostSeoSettingsId = postSeoSetting.Id;
+            news.Excerpt = news.Content.Length > 50 ? $"{news.Content.Substring(0, 47)}..." : news.Content;
+            news.PostSettings = new PostSetting();
+            news.PostSeoSetting = new PostSeoSetting();
 
             var post = _mapper.Map<NewsViewModel, Post>(news);
+            var selectedCategories = await _categoryFacade.GetCategoreisByIdAsync(news.SelectedCategories);
+
+            await _postCategoryFacade.DeletePostCategoryAsync(news.Id);
+            await _postsFacade.UpdatePostAsync(post);
+
+            var postCategories = _postCategoryFacade.CreateRelation(post, selectedCategories);
+            foreach (var postCategory in postCategories)
+            {
+                await _postCategoryFacade.CreatePostCategoryAsync(postCategory);
+            }
             await _postsFacade.UpdatePostAsync(post);
 
             return model;
@@ -195,24 +198,34 @@ namespace MathSite.BasicAdmin.ViewModels.News
             };
         }
 
-        private IEnumerable<SelectListItem> GetSelectListItems(IEnumerable<User> elements)
+        private IEnumerable<SelectListItem> GetSelectListItems(IEnumerable<User> users)
         {
-            return elements
-                .Select(element => new SelectListItem
+            return users
+                .Select(user => new SelectListItem
                 {
-                    Text = element.Person.Name + " " + element.Person.Surname,
-                    Value = element.Id.ToString()
+                    Text = user.Person.Name + " " + user.Person.Surname,
+                    Value = user.Id.ToString()
                 });
         }
 
-        private IEnumerable<SelectListItem> GetSelectListItems(IEnumerable<Category> elements)
+        private async Task<IEnumerable<SelectListItem>> GetSelectListItems(IEnumerable<Category> categories,
+            string postId = null)
         {
-            return elements
-                .Select(element => new SelectListItem
+            var selectListItems = new List<SelectListItem>();
+            foreach (var category in categories)
+            {
+                var postCategory = postId != null
+                    ? await _postCategoryFacade.GetPostCategoryAsync(Guid.Parse(postId), category.Id)
+                    : null;
+                selectListItems.Add(new SelectListItem
                 {
-                    Text = element.Name,
-                    Value = element.Id.ToString()
+                    Text = category.Name,
+                    Value = category.Id.ToString(),
+                    Selected = postCategory != null
                 });
+            }
+
+            return selectListItems;
         }
     }
 }

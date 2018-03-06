@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using MathSite.BasicAdmin.ViewModels.Dtos;
 using MathSite.BasicAdmin.ViewModels.News;
 using MathSite.Controllers;
-using MathSite.Entities;
 using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
 using Microsoft.AspNetCore.Authorization;
@@ -47,11 +44,11 @@ namespace MathSite.Areas.Manager.Controllers
 
         [HttpPost]
         [Route("[area]/[controller]/create")]
-        public async Task<IActionResult> Create(NewsViewModel page)
+        public async Task<IActionResult> Create(NewsViewModel news)
         {
-            page.AuthorId = CurrentUser.Id;
+            news.AuthorId = CurrentUser.Id;
 
-            await _modelBuilder.BuildCreateViewModel(page);
+            await _modelBuilder.BuildCreateViewModel(news);
 
             return RedirectToActionPermanent("Index");
         }
@@ -65,17 +62,15 @@ namespace MathSite.Areas.Manager.Controllers
 
         [HttpPost]
         [Route("[area]/[controller]/edit")]
-        public async Task<IActionResult> Edit(NewsViewModel page)
+        public async Task<IActionResult> Edit(NewsViewModel news)
         {
-            page.Excerpt = page.Content.Length > 50 ? $"{page.Content.Substring(0, 47)}..." : page.Content;
-
-            await _modelBuilder.BuildEditViewModel(page);
+            await _modelBuilder.BuildEditViewModel(news);
 
             return RedirectToActionPermanent("Index");
         }
 
         [HttpDelete("{id}")]
-        [Route("manager/news/delete")]
+        [Route("[area]/[controller]/delete")]
         public async Task<IActionResult> Delete([FromQuery] Guid id)
         {
             await _modelBuilder.BuildDeleteViewModel(id);

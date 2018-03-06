@@ -1,7 +1,7 @@
 ﻿@model PageViewModel
     
 <form method="post" asp-action="Create" asp-controller="Pages"  asp-antiforgery="true">
-    <div class="container"  style="padding-top: 15px;">
+    <div class="container" style="padding-top: 15px;">
         @Html.Partial("Page/PageForm")
         <button type="submit" class="btn btn-success">Создать</button>
     </div>

@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using MathSite.BasicAdmin.ViewModels.Pages;
 using MathSite.Controllers;
-using MathSite.Entities;
 using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
 using Microsoft.AspNetCore.Authorization;
@@ -66,8 +64,6 @@ namespace MathSite.Areas.Manager.Controllers
         [Route("[area]/[controller]/edit")]
         public async Task<IActionResult> Edit(PageViewModel page)
         {
-            page.Excerpt = page.Content.Length > 50 ? $"{page.Content.Substring(0, 47)}..." : page.Content;
-
             await _modelBuilder.BuildEditViewModel(page);
 
             return RedirectToActionPermanent("Index");
