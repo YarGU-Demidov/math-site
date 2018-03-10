@@ -89,7 +89,13 @@ namespace MathSite.BasicAdmin.ViewModels.News
             );
 
             model.Authors = GetSelectListItems(await _usersFacade.GetUsersAsync());
-            model.Categories = await GetSelectListItems(await _categoryFacade.GetCategoriesAsync());
+            model.Categories = await GetSelectListItems(
+                await _categoryFacade.GetAllCategoriesAsync(
+                    page: 1, 
+                    perPage: await _categoryFacade.GetCategoriesCount(true), 
+                    cache: true
+                )
+            );
 
             return model;
         }
@@ -140,7 +146,11 @@ namespace MathSite.BasicAdmin.ViewModels.News
             model.PostTypeId = post.PostTypeId;
             model.PostSettingsId = post.PostSettingsId;
             model.PostSeoSettingsId = post.PostSeoSettingsId;
-            model.Categories = await GetSelectListItems(await _categoryFacade.GetCategoriesAsync(), id.ToString());
+            model.Categories = await GetSelectListItems(await _categoryFacade.GetAllCategoriesAsync(
+                page: 1, 
+                perPage: await _categoryFacade.GetCategoriesCount(true), 
+                cache: true
+            ));
 
             return model;
         }

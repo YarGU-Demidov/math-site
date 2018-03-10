@@ -143,5 +143,11 @@ namespace MathSite.Facades.Categories
                     })
                 : await GetPosts(requirements, perPage, toSkip);
         }
+
+        public async Task<int> GetCategoriesCount(bool cache)
+        {
+            var spec = new AnySpecification<Category>();
+            return await GetCountAsync(spec, cache);
+        }
     }
 }

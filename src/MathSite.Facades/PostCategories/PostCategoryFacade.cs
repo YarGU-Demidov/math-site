@@ -1,23 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MathSite.Entities;
 using MathSite.Repository;
 using MathSite.Repository.Core;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Logging;
 
 namespace MathSite.Facades.PostCategories
 {
     public class PostCategoryFacade : BaseFacade<IPostCategoryRepository, PostCategory>, IPostCategoryFacade
     {
-        private readonly ILogger<IPostCategoryFacade> _postCategoryFacadeLogger;
-
-        public PostCategoryFacade(IRepositoryManager repositoryManager, IMemoryCache memoryCache,
-            ILogger<IPostCategoryFacade> postCategoryFacadeLogger)
+        public PostCategoryFacade(IRepositoryManager repositoryManager, IMemoryCache memoryCache)
             : base(repositoryManager, memoryCache)
         {
-            _postCategoryFacadeLogger = postCategoryFacadeLogger;
         }
 
         public async Task<PostCategory> GetPostCategoryAsync(Guid postId)
