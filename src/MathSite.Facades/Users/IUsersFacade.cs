@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MathSite.Entities;
 
@@ -9,6 +10,8 @@ namespace MathSite.Facades.Users
     {
         Task<int> GetUsersPagesCountAsync(int perPage, bool cache);
         Task<int> GetUsersCountAsync(bool cache);
+
+        Task<IEnumerable<User>> GetUsersAsync();
         Task<IEnumerable<User>> GetUsersAsync(int page, int perPage, bool cache);
 
         Task<User> GetUserAsync(string possibleUserId);

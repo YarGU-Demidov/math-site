@@ -1,4 +1,5 @@
 ﻿using System;
+using AutoMapper;
 using MathSite.BasicAdmin.ViewModels;
 using MathSite.Common;
 using MathSite.Common.ActionResults;
@@ -71,7 +72,6 @@ namespace MathSite
                 .AddJsonOptions(options =>
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
             services.AddRouting(options => { options.LowercaseUrls = true; });
-
             services.AddMemoryCache();
 
             ConfigureEntityFramework(services, isDevelopment);
@@ -152,6 +152,8 @@ namespace MathSite
             services.AddStorage<LocalFileSystemStorage>();
 
             services.AddActionResultExecutors();
+
+            services.AddAutoMapper();
 
             // for uploading really large files.
             services.Configure<FormOptions>(options =>

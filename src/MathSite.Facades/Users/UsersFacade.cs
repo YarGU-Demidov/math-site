@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MathSite.Common.Crypto;
 using MathSite.Common.Extensions;
 using MathSite.Common.Specifications;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
-using MathSite.Facades.Persons;
 using MathSite.Facades.UserValidation;
 using MathSite.Repository;
 using MathSite.Repository.Core;
@@ -50,6 +50,11 @@ namespace MathSite.Facades.Users
             return await GetCountAsync(requirements, cache, CacheTime);
         }
 
+
+        public async Task<IEnumerable<User>> GetUsersAsync()
+        {
+            return await Repository.WithPerson().GetAllListAsync();
+        }
 
         // TODO: FIXME: Extract to classes or smth else
         public async Task<IEnumerable<User>> GetUsersAsync(int page, int perPage, bool cache)

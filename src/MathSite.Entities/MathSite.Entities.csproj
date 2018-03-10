@@ -27,6 +27,9 @@
       <LangVersion>latest</LangVersion>
     </PropertyGroup>
     <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="6.2.2" />
+    </ItemGroup>
+    <ItemGroup>
         <ProjectReference Include="..\MathSite.Common\MathSite.Common.csproj" />
     </ItemGroup>
 </Project>

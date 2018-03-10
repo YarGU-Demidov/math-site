@@ -142,9 +142,7 @@ namespace MathSite.Migrations
 
                     b.Property<Guid>("GroupTypeId");
 
-                    b.Property<bool>("IsAdmin")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(false);
+                    b.Property<bool>("IsAdmin");
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -483,9 +481,7 @@ namespace MathSite.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<bool>("CanBeRated")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(false);
+                    b.Property<bool>("CanBeRated");
 
                     b.Property<DateTime>("CreationDate")
                         .ValueGeneratedOnAdd()
@@ -495,15 +491,11 @@ namespace MathSite.Migrations
 
                     b.Property<DateTime?>("EventTime");
 
-                    b.Property<bool>("IsCommentsAllowed")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(false);
+                    b.Property<bool>("IsCommentsAllowed");
 
                     b.Property<string>("Layout");
 
-                    b.Property<bool>("PostOnStartPage")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(false);
+                    b.Property<bool>("PostOnStartPage");
 
                     b.Property<Guid?>("PreviewImageId");
 

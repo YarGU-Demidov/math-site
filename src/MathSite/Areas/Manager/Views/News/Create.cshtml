@@ -1,0 +1,42 @@
+﻿@model NewsViewModel
+
+<form method="post" asp-action="Create" asp-controller="News" asp-antiforgery="true">
+    <div class="container" style="padding-top: 15px;">
+        @Html.Partial("News/NewsForm")
+        <button type="submit" class="btn btn-success">Создать</button>
+    </div>
+</form>
+
+@section StylesSection
+    {
+    <!-- Include external CSS. -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.css">
+
+    <!-- Include Editor style. -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.5/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.5/css/froala_style.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.5/css/plugins/table.min.css">
+    <style>
+        .fr-box {
+            width: 100%;
+        }
+    </style>
+}
+
+@section ScriptsSection
+    {
+    <script src="~/js/pager.js"></script>
+    @*<script src="~/js/manager/ckeditor/ckeditor.js"></script>*@
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/mode/xml/xml.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.5/js/froala_editor.pkgd.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.5/js/languages/ru.js"></script>
+
+    <script type="text/javascript" src="~/js/manager/editor.js"></script>
+    <script>
+        var editor = new EditorConfig();
+        editor.initArea('news');
+    </script>
+}

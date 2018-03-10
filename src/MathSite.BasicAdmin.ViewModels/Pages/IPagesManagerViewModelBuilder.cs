@@ -8,7 +8,10 @@ namespace MathSite.BasicAdmin.ViewModels.Pages
     {
         Task<IndexPagesViewModel> BuildIndexViewModel(int page, int perPage);
         Task<IndexPagesViewModel> BuildRemovedViewModel(int page, int perPage);
-        Task<CreatePageViewModel> BuildCreateViewModel(Post post = null);
+        Task<PageViewModel> BuildCreateViewModel();
+        Task<PageViewModel> BuildCreateViewModel(PageViewModel page);
+        Task<PageViewModel> BuildEditViewModel(Guid id);
+        Task<PageViewModel> BuildEditViewModel(PageViewModel page);
         Task<IndexPagesViewModel> BuildDeleteViewModel(Guid id);
     }
 }

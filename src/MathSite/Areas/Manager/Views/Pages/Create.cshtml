@@ -1,23 +1,11 @@
-﻿@model CreatePageViewModel
-
-<div class="container-fluid set-max-size posts">
-    <form method="post" asp-action="Create" asp-controller="Pages">
-        <div class="card news-card">
-            <h4 class="card-header">Статьи</h4>
-            <div class="card-body">
-                @Html.LabelFor(m => m.Title, "Заголовок статьи")
-                @Html.TextBoxFor(model => model.Title)
-            </div>
-            <div class="card-body">
-                @Html.LabelFor(m => m.Content, "Контент")
-                @Html.TextAreaFor(model => model.Content, new { @class = "ckeditor", @id = "content-textarea", @required = "required" })
-            </div>
-
-            <button type="submit" class="btn btn-outline-success">Create</button>
-        </div>
-    </form>
-</div>
-
+﻿@model PageViewModel
+    
+<form method="post" asp-action="Create" asp-controller="Pages"  asp-antiforgery="true">
+    <div class="container" style="padding-top: 15px;">
+        @Html.Partial("Page/PageForm")
+        <button type="submit" class="btn btn-success">Создать</button>
+    </div>
+</form>
 
 @section StylesSection
     {
@@ -29,6 +17,11 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.5/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.5/css/froala_style.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.5/css/plugins/table.min.css">
+    <style>
+        .fr-box {
+            width: 100%;
+        }
+    </style>
 }
 
 @section ScriptsSection

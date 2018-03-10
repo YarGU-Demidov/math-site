@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using MathSite.BasicAdmin.ViewModels.Settings;
 using MathSite.Controllers;
+using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
 using Microsoft.AspNetCore.Authorization;
@@ -9,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace MathSite.Areas.Manager.Controllers
 {
     [Area("manager")]
-    [Authorize("admin")]
+    [Authorize(RightAliases.AdminAccess)]
     public class SettingsController : BaseController
     {
         private readonly ISettingsViewModelBuilder _modelBuilder;

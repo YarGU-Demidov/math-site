@@ -1,0 +1,11 @@
+﻿@model CreateCategoriesViewModel
+
+<form asp-action="Create" asp-route-id="@Model.Id" method="post" asp-antiforgery="true">
+    <input type="hidden" name="id" asp-for="Id" />
+
+    <div class="container">
+        @Html.Partial("Shared/CategoryEditView", Model)
+
+        <button type="submit" class="btn btn-primary">Создать</button>
+    </div>
+</form>

@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using MathSite.Db.DataSeeding.StaticData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace MathSite.Controllers
 {
-    [Authorize("admin")]
+    [Authorize(RightAliases.AdminAccess)]
     [Route("monitor")]
     public class MonitorController : Controller
     {
