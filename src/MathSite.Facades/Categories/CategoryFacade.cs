@@ -147,7 +147,7 @@ namespace MathSite.Facades.Categories
         public async Task<int> GetCategoriesCount(bool cache)
         {
             var spec = new AnySpecification<Category>();
-            return await GetCountAsync(spec, cache);
+            return await GetCountAsync(spec, cache, CacheMinutes);
         }
     }
 }
