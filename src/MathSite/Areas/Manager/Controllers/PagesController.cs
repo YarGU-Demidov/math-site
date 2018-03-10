@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 using MathSite.BasicAdmin.ViewModels.Pages;
 using MathSite.Controllers;
+using MathSite.Db.DataSeeding.StaticData;
+using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
 using Microsoft.AspNetCore.Authorization;
@@ -10,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace MathSite.Areas.Manager.Controllers
 {
     [Area("manager")]
-    [Authorize("admin")]
+    [Authorize(RightAliases.AdminAccess)]
     public class PagesController : BaseController
     {
         private readonly IPagesManagerViewModelBuilder _modelBuilder;
@@ -36,7 +38,7 @@ namespace MathSite.Areas.Manager.Controllers
         }
 
         [HttpGet]
-        [Route("[area]/[controller]/create")]        
+        [Route("[area]/[controller]/create")]
         public async Task<IActionResult> Create()
         {
             return View("Create", await _modelBuilder.BuildCreateViewModel());
@@ -45,9 +47,9 @@ namespace MathSite.Areas.Manager.Controllers
         [HttpPost]
         [Route("[area]/[controller]/create")]
         public async Task<IActionResult> Create(PageViewModel page)
-        {            
+        {
             page.AuthorId = CurrentUser.Id;
-            
+
             await _modelBuilder.BuildCreateViewModel(page);
 
             return RedirectToActionPermanent("Index");

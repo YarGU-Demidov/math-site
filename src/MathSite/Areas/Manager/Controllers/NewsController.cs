@@ -2,7 +2,8 @@
 using System.Threading.Tasks;
 using MathSite.BasicAdmin.ViewModels.News;
 using MathSite.Controllers;
-using MathSite.Facades.Users;
+using MathSite.Entities;
+using MathSite.Db.DataSeeding.StaticData;using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace MathSite.Areas.Manager.Controllers
 {
     [Area("manager")]
-    [Authorize("admin")]
+    [Authorize(RightAliases.AdminAccess)]
     public class NewsController : BaseController
     {
         private readonly INewsManagerViewModelBuilder _modelBuilder;

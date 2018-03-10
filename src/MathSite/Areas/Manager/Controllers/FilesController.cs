@@ -6,6 +6,7 @@ using MathSite.BasicAdmin.ViewModels.Files;
 using MathSite.Common.Exceptions;
 using MathSite.Common.Extensions;
 using MathSite.Controllers;
+using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Facades.FileSystem;
 using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
@@ -15,7 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MathSite.Areas.Manager.Controllers
 {
-    [Authorize("admin")]
+    [Authorize(RightAliases.AdminAccess)]
     [Area("manager")]
     public class FilesController : BaseController
     {

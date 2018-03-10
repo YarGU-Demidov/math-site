@@ -55,15 +55,16 @@ namespace MathSite.ViewModels.Home
 
         private async Task BuildPostsAsync(HomeIndexViewModel model)
         {
-            const string postType = PostTypeAliases.News;
+            var category = await _categoryFacade.GetCategoryByAliasAsync("students-activities");
 
             var posts = await _postsFacade.GetPostsAsync(
-                postTypeAlias: postType,
+                postTypeAlias: PostTypeAliases.News,
                 page: 1,
                 perPage: 6,
                 state: RemovedStateRequest.Excluded,
                 publishState: PublishStateRequest.Published,
                 frontPageState: FrontPageStateRequest.Visible,
+                excludedCategories: new[] {category},
                 cache: true
             );
 
@@ -73,14 +74,12 @@ namespace MathSite.ViewModels.Home
                 perPage: 3,
                 state: RemovedStateRequest.Excluded,
                 publishState: PublishStateRequest.Published,
-                frontPageState: FrontPageStateRequest.AllVisibilityStates,
+                frontPageState: FrontPageStateRequest.Visible,
                 cache: true
             );
 
             IEnumerable<Post> studentActivities = new List<Post>();
-
-            var category = await _categoryFacade.GetCategoryByAliasAsync("students-activities");
-
+            
             if (category.IsNotNull())
             {
                 studentActivities = await _postsFacade.GetPostsAsync(
@@ -90,7 +89,7 @@ namespace MathSite.ViewModels.Home
                     perPage: 4,
                     state: RemovedStateRequest.Excluded,
                     publishState: PublishStateRequest.Published,
-                    frontPageState: FrontPageStateRequest.AllVisibilityStates,
+                    frontPageState: FrontPageStateRequest.Visible,
                     cache: true
                 );
             }

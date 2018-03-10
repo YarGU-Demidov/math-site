@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using MathSite.BasicAdmin.ViewModels.Persons;
 using MathSite.Common.Exceptions;
 using MathSite.Controllers;
+using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
 using Microsoft.AspNetCore.Authorization;
@@ -11,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace MathSite.Areas.Manager.Controllers
 {
     [Area("manager")]
-    [Authorize("admin")]
+    [Authorize(RightAliases.AdminAccess)]
     public class PersonsController : BaseController
     {
         private readonly IPersonsManagerViewModelBuilder _viewModelBuilder;

@@ -32,19 +32,27 @@ namespace MathSite.Repository
 
         public IPostsRepository WithAuthor()
         {
-            QueryBuilder = GetCurrentQuery().Include(post => post.Author).ThenInclude(user => user.Person);
+            QueryBuilder = GetCurrentQuery()
+                .Include(post => post.Author)
+                .ThenInclude(user => user.Person);
+
             return this;
         }
 
         public IPostsRepository WithPostSeoSettings()
         {
-            QueryBuilder = GetCurrentQuery().Include(post => post.PostSeoSetting).ThenInclude(setting => setting.PostKeywords);
+            QueryBuilder = GetCurrentQuery()
+                .Include(post => post.PostSeoSetting)
+                // с этой припиской +1 запрос идёт (на вычитывание keywords)
+                /*.ThenInclude(setting => setting.PostKeywords)*/;
+
             return this;
         }
 
         public IPostsRepository WithPostSetttings()
         {
-            QueryBuilder = GetCurrentQuery().Include(post => post.PostSettings).ThenInclude(setting => setting.PostType)
+            QueryBuilder = GetCurrentQuery()
+                .Include(post => post.PostSettings).ThenInclude(setting => setting.PostType)
                 .Include(post => post.PostSettings).ThenInclude(setting => setting.PreviewImage);
 
             return this;
