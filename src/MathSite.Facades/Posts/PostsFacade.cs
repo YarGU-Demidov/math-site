@@ -209,7 +209,7 @@ namespace MathSite.Facades.Posts
             if (categoryId.HasValue)
                 cacheKey += $":Category={categoryId.ToString()}";
 
-            if (localExcludedCategories.IsNotNull())
+            if (localExcludedCategories.IsNotNullOrEmpty())
                 cacheKey += $":NotInCategories={localExcludedCategories.Select(category => category.Alias).Aggregate((f,s) => $"{f},{s}")}";
 
             async Task<IEnumerable<Post>> GetPosts(Specification<Post> specification, int perPageCount, int toSkipCount)

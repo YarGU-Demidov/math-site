@@ -64,7 +64,7 @@ namespace MathSite.ViewModels.Home
                 state: RemovedStateRequest.Excluded,
                 publishState: PublishStateRequest.Published,
                 frontPageState: FrontPageStateRequest.Visible,
-                excludedCategories: new[] {category},
+                excludedCategories: category.IsNotNull() ? new[] {category} : new Category[0],
                 cache: true
             );
 
