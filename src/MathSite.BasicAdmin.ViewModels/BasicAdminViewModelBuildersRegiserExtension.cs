@@ -1,4 +1,5 @@
 ﻿using MathSite.BasicAdmin.ViewModels.Categories;
+﻿using MathSite.BasicAdmin.ViewModels.Events;
 using MathSite.BasicAdmin.ViewModels.Files;
 using MathSite.BasicAdmin.ViewModels.Home;
 using MathSite.BasicAdmin.ViewModels.News;
@@ -28,6 +29,7 @@ namespace MathSite.BasicAdmin.ViewModels
             return services.AddScoped<IDashboardPageViewModelBuilder, DashboardPageViewModelBuilder>()
                 .AddScoped<INewsManagerViewModelBuilder, NewsManagerViewModelBuilder>()
                 .AddScoped<IPagesManagerViewModelBuilder, PagesManagerViewModelBuilder>()
+                .AddScoped<IEventsManagerViewModelBuilder, EventsManagerViewModelBuilder>()
                 .AddScoped<IPersonsManagerViewModelBuilder, PersonsManagerViewModelBuilder>()
                 .AddScoped<IFilesManagerViewModelBuilder, FilesManagerViewModelBuilder>()
                 .AddScoped<IUsersManagerViewModelBuilder, UsersManagerViewModelBuilder>()
