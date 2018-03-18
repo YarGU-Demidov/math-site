@@ -78,13 +78,10 @@ namespace NewsImporter
 
             var passwordsManager = new DoubleSha512HashPasswordsManager();
 
-            var keyManager = new TwoFactorAuthenticationKeyManager(new AesEncryptor(new KeyVectorReader()));
-
             var userValidation = new UserValidationFacade(
                 manager,
                 memCache,
-                passwordsManager,
-                keyManager
+                passwordsManager
             );
             
             var usersFacade = new UsersFacade(

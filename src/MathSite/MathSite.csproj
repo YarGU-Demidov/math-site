@@ -55,6 +55,7 @@
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\..\KeyGenerator\KeyGenerator.csproj" />
+        <ProjectReference Include="..\..\tests\MathSite.Tests.Common\MathSite.Tests.Common.csproj" />
         <ProjectReference Include="..\..\tools\NewsImporter\NewsImporter.csproj" />
         <ProjectReference Include="..\..\tools\StaticImporter\StaticImporter.csproj" />
         <ProjectReference Include="..\MathSite.BasicAdmin.ViewModels\MathSite.BasicAdmin.ViewModels.csproj" />

@@ -18,9 +18,9 @@ namespace MathSite.ViewModels.Account
         public string Password { get; set; }
         public string BarcodeImageUrl { get; set; }
         public string SetupCode { get; set; }
-        public bool HasTwoFactorAutentification { get; set; }
-        public IEnumerable<byte> TemporalTwoFactorAutenticationKey { get; set; }
+        public string TemporalTwoFactorAutenticationKey { get; set; }
         public string ReturnUrl { get; set; } = "/";
         public string Token { get; set; }
+        public string IsTokenCorrect { get; set; }
     }
 }

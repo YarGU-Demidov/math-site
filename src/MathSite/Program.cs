@@ -26,7 +26,7 @@ namespace MathSite
 
         private static async Task RunKeyGenerator()
         {
-            KeyGenerator.Program.Main(new string[0]);
+            await KeyGenerator.Program.Main(new string[0]);
         }
 
         public static IWebHost BuildWebHost(string[] args) =>

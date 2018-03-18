@@ -15,6 +15,7 @@
         <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
     </ItemGroup>
     <ItemGroup>
+        <ProjectReference Include="..\..\KeyGenerator\KeyGenerator.csproj" />
         <ProjectReference Include="..\..\src\MathSite.Common\MathSite.Common.csproj" />
         <ProjectReference Include="..\MathSite.Tests.CoreThings\MathSite.Tests.CoreThings.csproj" />
     </ItemGroup>

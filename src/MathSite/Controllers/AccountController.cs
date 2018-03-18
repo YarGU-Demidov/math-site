@@ -18,9 +18,11 @@ namespace MathSite.Controllers
 {
     public class AccountController : BaseController
     {
-        public AccountController(IUserValidationFacade userValidationFacade, IUsersFacade usersFacade)
+        private readonly IKeyManager _keyManager;
+        public AccountController(IUserValidationFacade userValidationFacade, IUsersFacade usersFacade, IKeyManager keyManager )
             : base(userValidationFacade, usersFacade)
         {
+            _keyManager = keyManager;
         }
 
         [HttpGet("/login")]
@@ -59,15 +61,14 @@ namespace MathSite.Controllers
             if (ourUser.TwoFactorAuthenticationKey.IsNotNullAndEmpty())
             {
                 var tfa = new TwoFactorAuthenticator();
-                var key = await UserValidationFacade.KeyManager.CreateEncryptedKey();
-                var keyString = await UserValidationFacade.KeyManager.GetDecryptedString(key);
-                model.TemporalTwoFactorAutenticationKey = key;
+                var key = await _keyManager.CreateEncryptedKey();
+                var keyString = await _keyManager.GetDecryptedString(key);
+                model.TemporalTwoFactorAutenticationKey = Convert.ToBase64String(key);
                 var setupInfo = tfa.GenerateSetupCode("Math site", model.Login, keyString, 300, 300);
                 model.BarcodeImageUrl = setupInfo.QrCodeSetupImageUrl;
                 model.SetupCode = setupInfo.ManualEntryKey;
                 return View("~/Views/Account/Add2FA.cshtml", model);
             }
-            model.HasTwoFactorAutentification = true;
             return View("~/Views/Account/TwoFactorAuthentication.cshtml", model);
         }
 
@@ -86,16 +87,6 @@ namespace MathSite.Controllers
                 ? Json(true)
                 : Json("Пароль неверен");
         }
-        public async Task<IActionResult> CheckKey(string token, byte[] temporalTwoFactorAutenticationKey)
-        {
-            var tfa = new TwoFactorAuthenticator();
-            var userUniqueKey =
-                await UserValidationFacade.KeyManager.GetDecryptedString(temporalTwoFactorAutenticationKey);
-            var isValid = tfa.ValidateTwoFactorPIN(userUniqueKey, token);
-            return isValid
-                ? Json(true)
-                : Json("Ключ неверен");
-        }
         [Authorize("logout")]
         [HttpGet("/logout")]
         public async Task<IActionResult> Logout()
@@ -109,6 +100,8 @@ namespace MathSite.Controllers
         public async Task<IActionResult> ContinueLogin(LoginFormViewModel model)
         {
             var ourUser = await UserValidationFacade.GetUserByLoginAndPasswordAsync(model.Login, model.Password);
+            if (ourUser == null)
+                return RedirectToAction("Index", "Home"); ;
             await HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(
@@ -134,22 +127,25 @@ namespace MathSite.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> VerifyTwoFactorAutentication(LoginFormViewModel model)
         {
-            var tfa = new TwoFactorAuthenticator();
-            string userUniqueKey = "";
+            string userUniqueKey;
             if (model.TemporalTwoFactorAutenticationKey == null)
             {
                 var ourUser = await UserValidationFacade.GetUserByLoginAndPasswordAsync(model.Login, model.Password);
                 userUniqueKey =
-                    await UserValidationFacade.KeyManager.GetDecryptedString(ourUser.TwoFactorAuthenticationKey);
+                    await _keyManager.GetDecryptedString(ourUser.TwoFactorAuthenticationKey);
             }
             else
                 userUniqueKey =
-                    await UserValidationFacade.KeyManager.GetDecryptedString(model.TemporalTwoFactorAutenticationKey.ToArray());
+                    await _keyManager.GetDecryptedString(Convert.FromBase64String(model.TemporalTwoFactorAutenticationKey));
+            var tfa = new TwoFactorAuthenticator();
             var isValid = tfa.ValidateTwoFactorPIN(userUniqueKey, model.Token);
             if (!isValid)
+            {
+                model.IsTokenCorrect = "Ключ не верен";
                 return View("~/Views/Account/TwoFactorAuthentication.cshtml", model);
+            }
             if (model.TemporalTwoFactorAutenticationKey.IsNotNull())
-                await UserValidationFacade.SetUserKey(model.Login, model.TemporalTwoFactorAutenticationKey.ToArray());
+                await UsersFacade.SetUserKey(model.Login, Convert.FromBase64String(model.TemporalTwoFactorAutenticationKey));
             return await ContinueLogin(model);
         }
     }

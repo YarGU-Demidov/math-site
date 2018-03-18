@@ -58,11 +58,10 @@ namespace MathSite.Tests.Facades
         private IUsersFacade GetFacade(IRepositoryManager manager)
         {
             var passwordsManager = new DoubleSha512HashPasswordsManager();
-            var testKeyManager = new TestKeyManager();
             return new UsersFacade(
                 manager, 
                 MemoryCache, 
-                new UserValidationFacade(manager, MemoryCache, passwordsManager, testKeyManager), 
+                new UserValidationFacade(manager, MemoryCache, passwordsManager), 
                 passwordsManager
             );
         }

@@ -19,13 +19,11 @@ namespace MathSite.Facades.UserValidation
         public UserValidationFacade(
             IRepositoryManager repositoryManager,
             IMemoryCache memoryCache,
-            IPasswordsManager passwordHasher,
-            IKeyManager keyManager
+            IPasswordsManager passwordHasher
         )
             : base(repositoryManager, memoryCache)
         {
             _passwordHasher = passwordHasher;
-            KeyManager = keyManager;
         }
 
         public async Task<bool> UserHasRightAsync(Guid userId, string rightAlias)
@@ -84,17 +82,6 @@ namespace MathSite.Facades.UserValidation
                 return null;
 
             return user;
-        }
-
-        public async Task SetUserKey(string login, byte[] key)
-        {
-            var user = await RepositoryManager.UsersRepository.FirstOrDefaultAsync(u => u.Login == login);
-            if (user.IsNull())
-            {
-                throw new NullReferenceException("Не удалось получить юзера при добавлении к нему ключа двухфакторной авторизации");
-            }
-            user.TwoFactorAuthenticationKey = key;
-            await RepositoryManager.UsersRepository.UpdateAsync(user);
         }
     }
 }

@@ -36,7 +36,5 @@ namespace MathSite.Facades.UserValidation
         Task<bool> UserHasRightAsync(User user, Right right);
 
         Task<User> GetUserByLoginAndPasswordAsync(string login, string password);
-        Task SetUserKey(string login, byte[] key);
-        IKeyManager KeyManager { get; set; }
     }
 }

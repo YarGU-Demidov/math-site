@@ -2,15 +2,21 @@
 @model MathSite.ViewModels.Account.LoginFormViewModel
 @{
     ViewData["Title"] = "TwoFactorAuthentication";
-    Layout = null;
+    Layout = "LoginLayout";
 }
 
 <h2>TwoFactorAuthentication</h2>
 
 <div>
-    @using (Html.BeginForm("VerifyTwoFactorAutentication", "Account",Model, FormMethod.Post))
-    {
-        <input type="text" name="Token"/>
-        <input type="submit" class="btn btn-default"/>
-    }
+    <form method="post" class="login-form" asp-action="VerifyTwoFactorAutentication" asp-controller="Account" asp-route-returnUrl="@Model.ReturnUrl" asp-antiforgery="true">
+        <div class="form-group">
+            <label>Введите ключ:</label>
+            <label class="text-danger">@Model.IsTokenCorrect</label>
+            <input asp-for="Token" class="form-control" />
+        </div>
+        <input type="hidden" asp-for="TemporalTwoFactorAutenticationKey" />
+        <input type="hidden" asp-for="Login" />
+        <input type="hidden" asp-for="Password" />
+        <button type="submit" class="btn btn-default">Submit</button>
+    </form>
 </div>

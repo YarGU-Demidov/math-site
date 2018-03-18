@@ -1,7 +1,9 @@
-﻿namespace MathSite.Common.Crypto
+﻿using System.Threading.Tasks;
+
+namespace MathSite.Common.Crypto
 {
     public interface IKeyVectorReader
     {
-        KeyVectorPair GetKeyVector();
+        Task<KeyVectorPair> GetKeyVectorAsync();
     }
 }

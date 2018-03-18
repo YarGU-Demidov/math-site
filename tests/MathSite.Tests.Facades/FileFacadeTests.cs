@@ -28,8 +28,7 @@ namespace MathSite.Tests.Facades
         )
         {
             var passwordsManager = new DoubleSha512HashPasswordsManager();
-            var testKeyManager = new TestKeyManager();
-            var validationFacade = new UserValidationFacade(repositoryManager, MemoryCache, passwordsManager,testKeyManager);
+            var validationFacade = new UserValidationFacade(repositoryManager, MemoryCache, passwordsManager);
             var usersFacade = new UsersFacade(repositoryManager, MemoryCache, validationFacade, passwordsManager);
             var directoryFacade = new Lazy<IDirectoryFacade>(() => new DirectoryFacade(repositoryManager, MemoryCache));
 

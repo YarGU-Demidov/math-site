@@ -9,12 +9,17 @@ namespace KeyGenerator
 {
     public static class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             using (Aes myAes = Aes.Create())
             {
                 var serializeObject = JsonConvert.SerializeObject(new KeyVectorPair() {Key = myAes.Key,Vector = myAes.IV});
-                File.WriteAllText($"{Environment.CurrentDirectory}/KeyVectorPair",serializeObject);
+
+                var path = args.Length == 0
+                    ? $"{Environment.CurrentDirectory}/KeyVectorPair"
+                    : args[0];
+
+                await File.WriteAllTextAsync(path,serializeObject);
             }
         }
     }
