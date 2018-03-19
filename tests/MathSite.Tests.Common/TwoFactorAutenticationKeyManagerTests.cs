@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.IO;
+using KeyGenerator;
 using MathSite.Common.Crypto;
 using MathSite.Common.Extensions;
 using Xunit;
@@ -12,6 +12,10 @@ namespace MathSite.Tests.Common
         private readonly TwoFactorAuthenticationKeyManager _twoFactorAutenticationKeyManager;
         public TwoFactorAutenticationKeyManagerTests()
         {
+            var path = $"{Environment.CurrentDirectory}/KeyVectorPair";
+
+            if (!File.Exists(path))
+                Program.Main(new[] { path }).Wait();
             _twoFactorAutenticationKeyManager = new TwoFactorAuthenticationKeyManager(new AesEncryptor(new KeyVectorReader($"{Environment.CurrentDirectory}/KeyVectorPair")));
         }
         [Fact]

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
+using KeyGenerator;
 using MathSite.Common.Crypto;
 using MathSite.Common.Extensions;
 using Xunit;
@@ -15,6 +16,11 @@ namespace MathSite.Tests.Common
 
         public AesEncryptorTests()
         {
+            var path = $"{Environment.CurrentDirectory}/KeyVectorPair";
+
+            if (!File.Exists(path))
+                Program.Main(new[] { path }).Wait();
+
             _aesEncryptor = new AesEncryptor(new KeyVectorReader($"{Environment.CurrentDirectory}/KeyVectorPair"));
         }
         [Fact]
