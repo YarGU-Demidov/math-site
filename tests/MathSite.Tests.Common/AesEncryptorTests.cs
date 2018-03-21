@@ -23,12 +23,12 @@ namespace MathSite.Tests.Common
 
             _aesEncryptor = new AesEncryptor(new KeyVectorReader(path));
         }
-        [Fact]
-        public void AesEncryptorHasKeyAndVectorToWorkWith()
-        {
-            Assert.True(_aesEncryptor.Key.IsNotNullOrEmpty());
-            Assert.True(_aesEncryptor.Vector.IsNotNullOrEmpty());
-        }
+        //[Fact]
+        //public void AesEncryptorHasKeyAndVectorToWorkWith()
+        //{
+        //    Assert.True(_aesEncryptor.Key.IsNotNullOrEmpty());
+        //    Assert.True(_aesEncryptor.Vector.IsNotNullOrEmpty());
+        //}
 
         //[Fact]
         //public async void AesEncryptorEncryptsStringIntoArrayOfBytes()
