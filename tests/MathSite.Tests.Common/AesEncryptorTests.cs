@@ -12,17 +12,17 @@ namespace MathSite.Tests.Common
     public class AesEncryptorTests
     {
 
-        private readonly AesEncryptor _aesEncryptor;
+        //private readonly AesEncryptor _aesEncryptor;
 
-        public AesEncryptorTests()
-        {
-            var path = $"{Environment.CurrentDirectory}/KeyVectorPair";
+        //public AesEncryptorTests()
+        //{
+        //    var path = $"{Environment.CurrentDirectory}/KeyVectorPair";
 
-            if (!File.Exists(path))
-                Program.Main(new[] { path }).Wait();
+        //    if (!File.Exists(path))
+        //        Program.Main(new[] { path }).Wait();
 
-            _aesEncryptor = new AesEncryptor(new KeyVectorReader(path));
-        }
+        //    _aesEncryptor = new AesEncryptor(new KeyVectorReader(path));
+        //}
         //[Fact]
         //public void AesEncryptorHasKeyAndVectorToWorkWith()
         //{
