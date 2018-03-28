@@ -34,6 +34,7 @@ namespace MathSite.BasicAdmin.ViewModels.SharedModels.Common
                 new MenuLink("Dashboard", "/manager/", false),
                 new MenuLink("Статьи", "/manager/pages/", false, "Управление статьями", "Articles"),
                 new MenuLink("Новости", "/manager/news/", false, "Управление новостями", "News"),
+                new MenuLink("События", "/manager/events/", false, "Управление событиями", "Events"),
                 new MenuLink("Файлы", "/manager/files/", false, "Управление файлами", "Files"),
                 new MenuLink("Лица", "/manager/persons/", false, "Управление лицами", "Persons"),
                 new MenuLink("Пользователи", "/manager/users/", false, "Управление пользователями", "Users"),

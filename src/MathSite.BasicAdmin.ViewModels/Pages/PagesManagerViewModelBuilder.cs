@@ -111,6 +111,7 @@ namespace MathSite.BasicAdmin.ViewModels.Pages
 
             page.Id = Guid.NewGuid();
             page.Excerpt = page.Content.Length > 50 ? $"{page.Content.Substring(0, 47)}..." : page.Content;
+            page.PublishDate = page.Published ? DateTime.UtcNow : DateTime.MinValue;
             page.PostTypeId = postType.Id;
             page.PostSettings = new PostSetting();
             page.PostSeoSetting = new PostSeoSetting();
@@ -164,6 +165,7 @@ namespace MathSite.BasicAdmin.ViewModels.Pages
             );
 
             page.Excerpt = page.Content.Length > 50 ? $"{page.Content.Substring(0, 47)}..." : page.Content;
+            page.PublishDate = page.Published ? DateTime.UtcNow : DateTime.MinValue;
             page.PostSettings = new PostSetting();
             page.PostSeoSetting = new PostSeoSetting();
 
