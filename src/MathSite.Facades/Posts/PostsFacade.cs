@@ -117,7 +117,10 @@ namespace MathSite.Facades.Posts
 
         public async Task<Post> GetPostAsync(Guid id)
         {
-            return await Repository.FirstOrDefaultAsync(p => p.Id == id);
+            return await Repository
+                .WithPostSeoSettings()
+                .WithPostSetttings()
+                .FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task<IEnumerable<Post>> GetPostsAsync(

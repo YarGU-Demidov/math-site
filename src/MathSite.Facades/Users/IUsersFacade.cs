@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using MathSite.Entities;
 
@@ -32,5 +31,6 @@ namespace MathSite.Facades.Users
         Task CreateUserAsync(Guid currentUser, Guid personId, string login, string password, Guid groupId);
         Task UpdateUserAsync(Guid currentUser, Guid id, Guid? personId = null, Guid? groupId = null, string newPassword = null);
         Task RemoveUser(Guid currentUser, Guid id);
+        Task<User> GetUserByLoginAsync(string login);
     }
 }

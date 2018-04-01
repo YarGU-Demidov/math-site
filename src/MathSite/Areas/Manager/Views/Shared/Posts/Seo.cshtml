@@ -1,0 +1,14 @@
+﻿@model PostViewModel
+
+<div class="form-group">
+    @Html.LabelFor(m => m.Title, "SEO Заголовок")
+    @Html.TextBoxFor(m => m.PostSeoSetting.Title, new { @class = "form-control" })
+</div>
+<div class="form-group">
+    @Html.LabelFor(m => m.Content, "SEO Описание страницы")
+    @Html.TextAreaFor(m => m.PostSeoSetting.Description, new { @class = "form-control" })
+</div>
+<div class="form-group">
+    @Html.LabelFor(m => m.PostSeoSetting.Url, "URL")
+    @Html.TextBoxFor(m => m.PostSeoSetting.Url, new { required = "required", @class = "form-control" })
+</div>

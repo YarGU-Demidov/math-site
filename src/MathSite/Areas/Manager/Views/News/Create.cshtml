@@ -1,42 +1,26 @@
 ﻿@model NewsViewModel
 
+@Html.Partial("Posts/PostEditors")
+
 <form method="post" asp-action="Create" asp-controller="News" asp-antiforgery="true">
-    <div class="container" style="padding-top: 15px;">
-        @Html.Partial("News/NewsForm")
+    <div class="container" style="padding-top: 15px; padding-bottom: 15px;">
+        <ul class="manager-tabs nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="main-tab" data-toggle="tab" href="#main" role="tab" aria-controls="main" aria-selected="true">Главное</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="seo-tab" data-toggle="tab" href="#seo" role="tab" aria-controls="seo" aria-selected="false">SEO</a>
+            </li>
+        </ul>
+
+        <div class="manager-tabs-content tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="main" role="tabpanel" aria-labelledby="main-tab">
+                @Html.Partial("Posts/PostCommonTab")
+            </div>
+            <div class="tab-pane fade" id="seo" role="tabpanel" aria-labelledby="seo-tab">
+                @Html.Partial("Posts/Seo")
+            </div>
+        </div>
         <button type="submit" class="btn btn-success">Создать</button>
     </div>
 </form>
-
-@section StylesSection
-    {
-    <!-- Include external CSS. -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.css">
-
-    <!-- Include Editor style. -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.5/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.5/css/froala_style.min.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.5/css/plugins/table.min.css">
-    <style>
-        .fr-box {
-            width: 100%;
-        }
-    </style>
-}
-
-@section ScriptsSection
-    {
-    <script src="~/js/pager.js"></script>
-    @*<script src="~/js/manager/ckeditor/ckeditor.js"></script>*@
-
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/mode/xml/xml.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.5/js/froala_editor.pkgd.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.5/js/languages/ru.js"></script>
-
-    <script type="text/javascript" src="~/js/manager/editor.js"></script>
-    <script>
-        var editor = new EditorConfig();
-        editor.initArea('news');
-    </script>
-}

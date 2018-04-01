@@ -3,12 +3,13 @@
      * Initialize wysiwyg
      * @param {string} folder
      */
-    initArea(folder) {
-        $(document).ready(() => {
-            const $contentArea = $('#content-textarea');
-            // this._initCkEditor($contentArea);
-            this._initFroala($contentArea, folder);
-        });
+    initArea(folder, areaSelector) {
+        areaSelector = areaSelector || '#content-textarea';
+
+        const $contentArea = $(areaSelector);
+
+        // this._initCkEditor($contentArea);
+        this._initFroala($contentArea, folder);
     }
 
     _initCkEditor($contentArea) {

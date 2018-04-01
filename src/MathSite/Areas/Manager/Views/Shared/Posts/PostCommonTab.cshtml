@@ -1,12 +1,16 @@
-﻿@model NewsViewModel
+﻿@model PostViewModel
 
 <div class="form-group">
-    @Html.LabelFor(m => m.Title, "Заголовок новости")
+    @Html.LabelFor(m => m.Title, "Заголовок")
     @Html.TextBoxFor(m => m.Title, new { required = "required", @class = "form-control" })
 </div>
 <div class="form-group">
+    @Html.LabelFor(m => m.Excerpt, "Кратко")
+    @Html.TextAreaFor(m => m.Excerpt, new { id = "excerpt-textarea", required = "required", @class = "form-control" })
+</div>
+<div class="form-group">
     @Html.LabelFor(m => m.Content, "Контент")
-    @Html.TextAreaFor(m => m.Content, new { id = "content-textarea", required = "required", @class = "ckeditor form-control" })
+    @Html.TextAreaFor(m => m.Content, new { id = "content-textarea", required = "required", @class = "form-control" })
 </div>
 <div class="form-group">
     @Html.LabelFor(m => m.Published, "Опубликовать?")
@@ -20,10 +24,26 @@
     </div>
 </div>
 <div class="form-group">
-    @Html.LabelFor(m => m.Authors, "Авторы")
+    @Html.LabelFor(m => m.Authors, "Автор")
     <select class="form-control" asp-for="@Model.AuthorId" asp-items="@Model.Authors" required></select>
 </div>
 <div class="form-group">
     @Html.LabelFor(m => m.Categories, "Категории")
     <select multiple class="form-control" asp-for="@Model.SelectedCategories" asp-items="@Model.Categories" required></select>
 </div>
+
+<script>
+    $(() => {
+        var editor = new EditorConfig();
+        @if (Model is PageViewModel)
+        {
+            @:editor.initArea('static-pages');
+            @:editor.initArea('static-pages', '#excerpt-textarea');
+        }
+        else
+        {
+            @:editor.initArea('news');
+            @:editor.initArea('news', '#excerpt-textarea');
+        }
+    });
+</script>

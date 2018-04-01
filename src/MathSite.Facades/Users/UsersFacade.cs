@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using MathSite.Common.Crypto;
 using MathSite.Common.Extensions;
@@ -144,6 +143,11 @@ namespace MathSite.Facades.Users
                 throw new AccessViolationException();
 
             await Repository.DeleteAsync(id);
+        }
+
+        public async Task<User> GetUserByLoginAsync(string login)
+        {
+            return await Repository.WithPerson().FirstOrDefaultAsync(new HasLoginSpecification(login));
         }
     }
 }

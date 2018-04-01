@@ -2,7 +2,7 @@
 
 namespace MathSite.BasicAdmin.ViewModels.Pages
 {
-    public class PageViewModel : PostViewModel
+    public class ListPagesViewModel : ListPostViewModel
     {
     }
 }

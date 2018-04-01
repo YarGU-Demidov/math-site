@@ -2,7 +2,7 @@
 
 namespace MathSite.BasicAdmin.ViewModels.News
 {
-    public class NewsViewModel : PostViewModel
+    public class ListNewsViewModel : ListPostViewModel
     {
     }
 }

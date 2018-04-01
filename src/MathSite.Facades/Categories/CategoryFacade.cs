@@ -50,11 +50,6 @@ namespace MathSite.Facades.Categories
             return await Repository.FirstOrDefaultAsync(spec);
         }
 
-        public async Task<IEnumerable<Category>> GetCategoriesWithPostRelationAsync()
-        {
-            return await RepositoryManager.CategoryRepository.GetAllListAsync(c => c.PostCategories != null);
-        }
-
         public async Task<Guid> CreateCategory(Guid currentUser, string name, string alias, string description = null)
         {
             if (!await _userValidationFacade.UserHasRightAsync(currentUser, RightAliases.AdminAccess))
