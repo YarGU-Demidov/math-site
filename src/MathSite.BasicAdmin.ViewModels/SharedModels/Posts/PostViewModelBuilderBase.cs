@@ -6,6 +6,7 @@ using AutoMapper;
 using MathSite.BasicAdmin.ViewModels.News;
 using MathSite.BasicAdmin.ViewModels.SharedModels.AdminPageWithPaging;
 using MathSite.Common;
+using MathSite.Common.Extensions;
 using MathSite.Entities;
 using MathSite.Facades.Categories;
 using MathSite.Facades.PostCategories;
@@ -125,7 +126,7 @@ namespace MathSite.BasicAdmin.ViewModels.SharedModels.Posts
             news.PostSeoSetting = new PostSeoSetting();
 
             var post = _mapper.Map<TModel, Post>(news);
-            post.PostCategories = PostCategoryFacade.CreateRelation(post, categories).ToList();
+            post.PostCategories = (await PostCategoryFacade.CreateRelation(post, categories)).ToList();
 
             await PostsFacade.CreatePostAsync(post);
 
@@ -181,15 +182,22 @@ namespace MathSite.BasicAdmin.ViewModels.SharedModels.Posts
             news.PostSeoSetting = new PostSeoSetting();
 
             var post = _mapper.Map<TModel, Post>(news);
-            var selectedCategories = await CategoryFacade.GetCategoreisByIdAsync(news.SelectedCategories);
 
             await PostCategoryFacade.DeletePostCategoryAsync(news.Id);
             await PostsFacade.UpdatePostAsync(post);
 
-            var postCategories = PostCategoryFacade.CreateRelation(post, selectedCategories);
-            foreach (var postCategory in postCategories)
-                await PostCategoryFacade.CreatePostCategoryAsync(postCategory);
-
+            if (news.SelectedCategories.IsNotNullOrEmpty())
+            {
+                var selectedCategories = await CategoryFacade.GetCategoreisByIdAsync(news.SelectedCategories);
+                var postCategories = await PostCategoryFacade.CreateRelation(post, selectedCategories);
+                foreach (var postCategory in postCategories)
+                    await PostCategoryFacade.CreatePostCategoryAsync(postCategory);
+            }
+            else
+            {
+                await PostCategoryFacade.DeleteAllRelations(post);
+            }
+            
             await PostsFacade.UpdatePostAsync(post);
 
             return model;

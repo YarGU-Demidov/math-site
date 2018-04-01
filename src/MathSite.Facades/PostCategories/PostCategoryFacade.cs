@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using MathSite.Entities;
 using MathSite.Repository;
 using MathSite.Repository.Core;
+using MathSite.Specifications.PostCategories;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace MathSite.Facades.PostCategories
@@ -41,16 +42,35 @@ namespace MathSite.Facades.PostCategories
             await RepositoryManager.PostCategoryRepository.DeleteAsync(c => c.PostId == postId);         
         }
 
-        public IEnumerable<PostCategory> CreateRelation(Post post, IEnumerable<Category> categories)
+        public async Task<IEnumerable<PostCategory>> CreateRelation(Post post, IEnumerable<Category> categories)
         {
-            return categories.Select(category => new PostCategory
+            var postCategories = categories.Select(category => new PostCategory
             {
-                Id = Guid.NewGuid(),
                 CategoryId = category.Id,
                 Category = category,
                 PostId = post.Id,
                 Post = post
-            });
+            }).ToArray();
+
+            foreach (var postCategory in postCategories)
+            {
+                // TODO: придумать метод, который будет массово такие вещи обрабатывать (удаление, обновление, создание)
+                // TODO: возможное и вероятное падение производительности тут
+                await Repository.InsertOrUpdateAsync(postCategory);
+            }
+
+            return postCategories;
+        }
+
+        public async Task DeleteAllRelations(Post post)
+        {
+            var spec = new PostCategoryWithPost(post);
+            var categories = await Repository.GetAllListAsync(spec);
+
+            foreach (var postCategory in categories)
+            {
+                await Repository.DeleteAsync(postCategory);
+            }
         }
     }
 }

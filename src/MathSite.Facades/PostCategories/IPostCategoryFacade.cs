@@ -12,6 +12,7 @@ namespace MathSite.Facades.PostCategories
         Task<Guid> CreatePostCategoryAsync(PostCategory postCategory);
         Task<PostCategory> UpdatePostCategoryAsync(PostCategory postCategory);
         Task DeletePostCategoryAsync(Guid postId);
-        IEnumerable<PostCategory> CreateRelation(Post post, IEnumerable<Category> categories);
+        Task<IEnumerable<PostCategory>> CreateRelation(Post post, IEnumerable<Category> categories);
+        Task DeleteAllRelations(Post post);
     }
 }
