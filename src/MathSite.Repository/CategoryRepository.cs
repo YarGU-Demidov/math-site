@@ -24,13 +24,15 @@ namespace MathSite.Repository
 
         public async Task<IEnumerable<Category>> GetAllPagedAsync(Expression<Func<Category, bool>> predicate, int limit, int skip = 0, bool desc = true)
         {
-            QueryBuilder = GetCurrentQuery().Where(predicate);
+            SetCurrentQuery(GetCurrentQuery().Where(predicate));
 
             Expression<Func<Category, DateTime>> orderBy = post => post.CreationDate;
 
-            QueryBuilder = desc 
-                ? QueryBuilder.OrderByDescending(orderBy) 
-                : QueryBuilder.OrderBy(orderBy);
+            var query = desc 
+                ? GetCurrentQuery().OrderByDescending(orderBy) 
+                : GetCurrentQuery().OrderBy(orderBy);
+
+            SetCurrentQuery(query);
 
             return await GetAllWithPaging(skip, limit).ToArrayAsync();
         }

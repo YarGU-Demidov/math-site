@@ -29,14 +29,18 @@ namespace MathSite.Repository
 
         public IUsersRepository WithPerson()
         {
-            QueryBuilder = GetCurrentQuery().Include(user => user.Person);
+            SetCurrentQuery(GetCurrentQuery().Include(user => user.Person));
             return this;
         }
 
         public IUsersRepository WithRights()
         {
-            QueryBuilder = GetCurrentQuery().Include(u => u.UserRights).ThenInclude(ur => ur.Right)
+            var query = GetCurrentQuery()
+                .Include(u => u.UserRights).ThenInclude(ur => ur.Right)
                 .Include(u => u.Group).ThenInclude(g => g.GroupsRights).ThenInclude(gr => gr.Right);
+
+            SetCurrentQuery(query);
+
             return this;
         }
     }

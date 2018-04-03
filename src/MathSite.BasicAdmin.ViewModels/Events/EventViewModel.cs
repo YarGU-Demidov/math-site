@@ -5,7 +5,7 @@ namespace MathSite.BasicAdmin.ViewModels.Events
 {
     public class EventViewModel : PostViewModel
     {
-        public DateTime Date { get; set; }
-        public string Location { get; set; }
+        public DateTime? EventTime { get; set; }
+        public string EventLocation { get; set; }
     }
 }

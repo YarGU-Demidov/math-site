@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using MathSite.BasicAdmin.ViewModels.News;
 using MathSite.Controllers;
-using MathSite.Entities;
-using MathSite.Db.DataSeeding.StaticData;using MathSite.Facades.Users;
+using MathSite.Db.DataSeeding.StaticData;
+using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -47,8 +47,6 @@ namespace MathSite.Areas.Manager.Controllers
         [Route("[area]/[controller]/create")]
         public async Task<IActionResult> Create(NewsViewModel news)
         {
-            news.AuthorId = CurrentUser.Id;
-
             await _modelBuilder.BuildCreateViewModel(news);
 
             return RedirectToActionPermanent("Index");

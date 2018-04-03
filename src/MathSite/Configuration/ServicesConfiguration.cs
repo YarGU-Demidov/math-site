@@ -1,5 +1,4 @@
 ﻿using System;
-using AutoMapper;
 using MathSite.BasicAdmin.ViewModels;
 using MathSite.Common;
 using MathSite.Common.ActionResults;
@@ -152,8 +151,6 @@ namespace MathSite
             services.AddStorage<LocalFileSystemStorage>();
 
             services.AddActionResultExecutors();
-
-            services.AddAutoMapper();
 
             // for uploading really large files.
             services.Configure<FormOptions>(options =>

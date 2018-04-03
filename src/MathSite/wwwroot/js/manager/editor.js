@@ -4,7 +4,7 @@
      * @param {string} folder
      */
     initArea(folder, areaSelector) {
-        areaSelector = areaSelector || '#content-textarea';
+        areaSelector = areaSelector || '#Content';
 
         const $contentArea = $(areaSelector);
 

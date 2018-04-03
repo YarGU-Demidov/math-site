@@ -7,9 +7,9 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace MathSite.Facades
 {
-    public class BaseFacade<T, TEntity> : BaseFacade<T, TEntity, Guid>
+    public class BaseFacade<TRepository, TEntity> : BaseFacade<TRepository, TEntity, Guid>
         where TEntity : class, IEntity<Guid>
-        where T : class, IRepository<TEntity, Guid>
+        where TRepository : class, IRepository<TEntity, Guid>
     {
         public BaseFacade(IRepositoryManager repositoryManager, IMemoryCache memoryCache) 
             : base(repositoryManager, memoryCache)
@@ -18,17 +18,17 @@ namespace MathSite.Facades
     }
 
 
-    public class BaseFacade<T, TEntity, TPrimaryKey> : BaseFacade 
+    public class BaseFacade<TRepository, TEntity, TPrimaryKey> : BaseFacade 
         where TEntity : class, IEntity<TPrimaryKey>
-        where T : class, IRepository<TEntity, TPrimaryKey>
+        where TRepository : class, IRepository<TEntity, TPrimaryKey>
     {
         public BaseFacade(IRepositoryManager repositoryManager, IMemoryCache memoryCache)
             : base(repositoryManager, memoryCache)
         {
-            Repository = repositoryManager.TryGetRepository<T>();
+            Repository = repositoryManager.TryGetRepository<TRepository>();
         }
 
-        protected T Repository { get; }
+        protected TRepository Repository { get; }
 
         protected async Task<int> GetCountAsync(
             Expression<Func<TEntity, bool>> requirements, 

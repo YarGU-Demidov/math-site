@@ -1,33 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
-using MathSite.BasicAdmin.ViewModels.SharedModels;
 using MathSite.BasicAdmin.ViewModels.SharedModels.Menu;
 using MathSite.BasicAdmin.ViewModels.SharedModels.Posts;
-using MathSite.Common;
 using MathSite.Db.DataSeeding.StaticData;
-using MathSite.Entities;
 using MathSite.Facades.Categories;
 using MathSite.Facades.PostCategories;
 using MathSite.Facades.Posts;
+using MathSite.Facades.PostSeoSettings;
+using MathSite.Facades.PostSettings;
 using MathSite.Facades.SiteSettings;
 using MathSite.Facades.Users;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MathSite.BasicAdmin.ViewModels.Events
 {
     public class EventsManagerViewModelBuilder : PostViewModelBuilderBase, IEventsManagerViewModelBuilder
     {
         public EventsManagerViewModelBuilder(
-            ISiteSettingsFacade siteSettingsFacade, 
-            IMapper mapper,
-            IPostsFacade postsFacade, 
-            IUsersFacade usersFacade, 
+            ISiteSettingsFacade siteSettingsFacade,
+            IPostsFacade postsFacade,
+            IUsersFacade usersFacade,
             ICategoryFacade categoryFacade,
-            IPostCategoryFacade postCategoryFacade
-        ) : base(siteSettingsFacade, mapper, postsFacade, usersFacade, categoryFacade, postCategoryFacade)
+            IPostCategoryFacade postCategoryFacade,
+            IPostSettingsFacade postSettingsFacade,
+            IPostSeoSettingsFacade postSeoSettingsFacade
+        ) : base(
+            siteSettingsFacade, 
+            postsFacade, 
+            usersFacade, 
+            categoryFacade, 
+            postCategoryFacade, 
+            postSettingsFacade, 
+            postSeoSettingsFacade
+        )
         {
         }
 
@@ -35,14 +40,16 @@ namespace MathSite.BasicAdmin.ViewModels.Events
         {
             const string postType = PostTypeAliases.Event;
 
-            return await BuildIndexViewModel<ListEventsViewModel>(page, perPage, postType, EventsTopMenuName, "List", typeOfList: "событий");
+            return await BuildIndexViewModel<ListEventsViewModel>(page, perPage, postType, EventsTopMenuName, "List",
+                typeOfList: "событий");
         }
 
         public async Task<ListEventsViewModel> BuildRemovedViewModel(int page, int perPage)
         {
             const string postType = PostTypeAliases.Event;
-            
-            return await BuildRemovedViewModel<ListEventsViewModel>(page, perPage, postType, EventsTopMenuName, "ListRemoved", typeOfList: "событий");
+
+            return await BuildRemovedViewModel<ListEventsViewModel>(page, perPage, postType, EventsTopMenuName,
+                "ListRemoved", typeOfList: "событий");
         }
 
         public async Task<EventViewModel> BuildCreateViewModel()
@@ -59,7 +66,7 @@ namespace MathSite.BasicAdmin.ViewModels.Events
 
         public async Task<EventViewModel> BuildEditViewModel(Guid id)
         {
-            return await BuildEditViewModel<EventViewModel>(id, NewsTopMenuName, "Edit", "события");
+            return await BuildEditViewModel<EventViewModel>(id, EventsTopMenuName, "Edit", "события");
         }
 
         public async Task<EventViewModel> BuildEditViewModel(EventViewModel eventViewModel)
@@ -77,7 +84,8 @@ namespace MathSite.BasicAdmin.ViewModels.Events
             return new List<MenuLink>
             {
                 new MenuLink("Список событий", "/manager/events/list", false, "Список событий", "List"),
-                new MenuLink("Список удаленных событий", "/manager/events/removed", false, "Список удаленных событий", "ListRemoved"),
+                new MenuLink("Список удаленных событий", "/manager/events/removed", false, "Список удаленных событий",
+                    "ListRemoved"),
                 new MenuLink("Создать событие", "/manager/events/create", false, "Создать событие", "CreateEvent")
             };
         }

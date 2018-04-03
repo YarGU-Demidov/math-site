@@ -31,7 +31,7 @@
                             @foreach (var post in Model.Posts)
                             {
                                 var onStartPageText = post.PostSettings?.PostOnStartPage ?? post.PostType.DefaultPostsSettings.PostOnStartPage ? "checked=\"checked\"" : "";
-                                var publishedText = post.Published ? "checked=\"checked\"" : "";
+                                var publishedText = post.Published ? "checked=\"checked\"" : String.Empty;
                                 var buttonsClass = post.Deleted ? "buttons-td-three" : "buttons-td";
 
                                 <tr>

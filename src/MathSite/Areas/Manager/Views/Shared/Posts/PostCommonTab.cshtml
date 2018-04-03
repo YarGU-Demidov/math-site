@@ -1,30 +1,46 @@
 ﻿@model PostViewModel
 
+@{
+    var contentName = Model is EventViewModel
+        ? "Описание события*"
+        : Model is PageViewModel
+            ? "Статья*"
+            : Model is NewsViewModel ? "Новость*" : "Контент*";
+}
+
 <div class="form-group">
-    @Html.LabelFor(m => m.Title, "Заголовок")
+    @Html.LabelFor(m => m.Title, "Заголовок*")
     @Html.TextBoxFor(m => m.Title, new { required = "required", @class = "form-control" })
 </div>
 <div class="form-group">
-    @Html.LabelFor(m => m.Excerpt, "Кратко")
-    @Html.TextAreaFor(m => m.Excerpt, new { id = "excerpt-textarea", required = "required", @class = "form-control" })
+    @Html.LabelFor(m => m.Excerpt, "Кратко*")
+    @Html.TextAreaFor(m => m.Excerpt, new { required = "required", @class = "form-control" })
 </div>
 <div class="form-group">
-    @Html.LabelFor(m => m.Content, "Контент")
-    @Html.TextAreaFor(m => m.Content, new { id = "content-textarea", required = "required", @class = "form-control" })
+    @Html.LabelFor(m => m.Content, contentName)
+    @Html.TextAreaFor(m => m.Content, new { required = "required", @class = "form-control" })
 </div>
 <div class="form-group">
-    @Html.LabelFor(m => m.Published, "Опубликовать?")
+    @Html.LabelFor(m => m.PublishDate, "Дата публикации")
+    <input type="datetime-local" name="PublishDate" asp-for="PublishDate" class="form-control" />
+</div>
+<div class="form-group">
     <div class="form-check">
-        <input type="radio" name="Published" id="published-true" value="true" asp-for="Published" class="form-check-input" />
-        <label asp-for="Deleted" for="published-true" class="form-check-label">Да</label>
-    </div>
-    <div class="form-check">
-        <input type="radio" name="Published" id="published-false" value="false" asp-for="Published" class="form-check-input" />
-        <label asp-for="Deleted" for="published-false" class="form-check-label">Нет</label>
+        <input class="form-check-input" type="checkbox" asp-for="Published">
+        @Html.LabelFor(m => m.Published, "Опубликовать", new { @class = "form-check-label" })
     </div>
 </div>
+@if (!(Model is PageViewModel))
+{
+    <div class="form-group">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" asp-for="PostOnStartPage">
+            @Html.LabelFor(m => m.PostOnStartPage, "Отображать на главной странице", new { @class = "form-check-label" })
+        </div>
+    </div>
+}
 <div class="form-group">
-    @Html.LabelFor(m => m.Authors, "Автор")
+    @Html.LabelFor(m => m.Authors, "Автор*")
     <select class="form-control" asp-for="@Model.AuthorId" asp-items="@Model.Authors" required></select>
 </div>
 <div class="form-group">
@@ -38,12 +54,12 @@
         @if (Model is PageViewModel)
         {
             @:editor.initArea('static-pages');
-            @:editor.initArea('static-pages', '#excerpt-textarea');
+            @:editor.initArea('static-pages', '#Excerpt');
         }
         else
         {
             @:editor.initArea('news');
-            @:editor.initArea('news', '#excerpt-textarea');
+            @:editor.initArea('news', '#Excerpt');
         }
     });
 </script>

@@ -4,6 +4,8 @@ using MathSite.Facades.Groups;
 using MathSite.Facades.Persons;
 using MathSite.Facades.PostCategories;
 using MathSite.Facades.Posts;
+using MathSite.Facades.PostSeoSettings;
+using MathSite.Facades.PostSettings;
 using MathSite.Facades.SiteSettings;
 using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
@@ -35,6 +37,8 @@ namespace MathSite.Facades
                 .AddScoped<ICategoryFacade, CategoryFacade>()
                 .AddScoped<IPostCategoryFacade, PostCategoryFacade>()
                 .AddScoped<IGroupsFacade, GroupsFacade>()
+                .AddScoped<IPostSettingsFacade, PostSettingsFacade>()
+                .AddScoped<IPostSeoSettingsFacade, PostSeoSettingsFacade>()
                 .AddScoped<IUsersFacade, UsersFacade>();
         }
     }

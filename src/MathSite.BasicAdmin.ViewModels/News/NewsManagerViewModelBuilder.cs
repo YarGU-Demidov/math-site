@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
-using MathSite.BasicAdmin.ViewModels.SharedModels;
 using MathSite.BasicAdmin.ViewModels.SharedModels.Menu;
 using MathSite.BasicAdmin.ViewModels.SharedModels.Posts;
-using MathSite.Common;
 using MathSite.Db.DataSeeding.StaticData;
-using MathSite.Entities;
 using MathSite.Facades.Categories;
 using MathSite.Facades.PostCategories;
 using MathSite.Facades.Posts;
+using MathSite.Facades.PostSeoSettings;
+using MathSite.Facades.PostSettings;
 using MathSite.Facades.SiteSettings;
 using MathSite.Facades.Users;
 
@@ -20,13 +17,22 @@ namespace MathSite.BasicAdmin.ViewModels.News
     public class NewsManagerViewModelBuilder : PostViewModelBuilderBase, INewsManagerViewModelBuilder
     {
         public NewsManagerViewModelBuilder(
-            ISiteSettingsFacade siteSettingsFacade, 
-            IMapper mapper,
-            IPostsFacade postsFacade, 
-            IUsersFacade usersFacade, 
+            ISiteSettingsFacade siteSettingsFacade,
+            IPostsFacade postsFacade,
+            IUsersFacade usersFacade,
             ICategoryFacade categoryFacade,
-            IPostCategoryFacade postCategoryFacade
-        ) : base(siteSettingsFacade, mapper, postsFacade, usersFacade, categoryFacade, postCategoryFacade)
+            IPostCategoryFacade postCategoryFacade,
+            IPostSettingsFacade postSettingsFacade,
+            IPostSeoSettingsFacade postSeoSettingsFacade
+        ) : base(
+            siteSettingsFacade, 
+            postsFacade, 
+            usersFacade, 
+            categoryFacade, 
+            postCategoryFacade, 
+            postSettingsFacade, 
+            postSeoSettingsFacade
+        )
         {
         }
 
@@ -34,15 +40,17 @@ namespace MathSite.BasicAdmin.ViewModels.News
         public async Task<ListNewsViewModel> BuildIndexViewModel(int page, int perPage)
         {
             const string postType = PostTypeAliases.News;
-            
-            return await BuildIndexViewModel<ListNewsViewModel>(page, perPage, postType, NewsTopMenuName, "List", typeOfList: "новостей");
+
+            return await BuildIndexViewModel<ListNewsViewModel>(page, perPage, postType, NewsTopMenuName, "List",
+                typeOfList: "новостей");
         }
 
         public async Task<ListNewsViewModel> BuildRemovedViewModel(int page, int perPage)
         {
             const string postType = PostTypeAliases.News;
-            
-            return await BuildRemovedViewModel<ListNewsViewModel>(page, perPage, postType, NewsTopMenuName, "ListRemoved", typeOfList: "новостей");
+
+            return await BuildRemovedViewModel<ListNewsViewModel>(page, perPage, postType, NewsTopMenuName,
+                "ListRemoved", typeOfList: "новостей");
         }
 
         public async Task<NewsViewModel> BuildCreateViewModel()
