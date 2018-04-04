@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using MathSite.Entities;
 using MathSite.Repository;
 using MathSite.Repository.Core;
@@ -10,6 +11,7 @@ namespace MathSite.Facades.PostSeoSettings
     public interface IPostSeoSettingsFacade
     {
         Task UpdateForPost(Post post, string url, string title, string description);
+        Task<Guid> CreateAsync(string url, string title, string description);
     }
 
     public class PostSeoSettingsFacade : BaseFacade<IPostSeoSettingsRepository, PostSeoSetting>, IPostSeoSettingsFacade
@@ -30,6 +32,16 @@ namespace MathSite.Facades.PostSeoSettings
             settings.Post = settings.Post ?? post;
 
             await Repository.InsertOrUpdateAsync(settings);
+        }
+
+        public async Task<Guid> CreateAsync(string url, string title, string description)
+        {
+            return await Repository.InsertAndGetIdAsync(new PostSeoSetting
+            {
+                Url = url,
+                Title = title,
+                Description = description
+            });
         }
     }
 }

@@ -1,11 +1,11 @@
 ﻿@model PostViewModel
 
 <div class="form-group">
-    @Html.LabelFor(m => m.Title, "SEO Заголовок")
+    @Html.LabelFor(m => m.SeoTitle, "SEO Заголовок")
     @Html.TextBoxFor(m => m.SeoTitle, new { @class = "form-control" })
 </div>
 <div class="form-group">
-    @Html.LabelFor(m => m.Content, "SEO Описание страницы")
+    @Html.LabelFor(m => m.SeoDescription, "SEO Описание страницы")
     @Html.TextAreaFor(m => m.SeoDescription, new { @class = "form-control" })
 </div>
 <div class="form-group">

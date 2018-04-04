@@ -166,21 +166,7 @@ namespace MathSite.Facades.Posts
 
         public async Task<Guid> CreatePostAsync(Post post)
         {
-            try
-            {
-                var seoSettingsId = await RepositoryManager.PostSeoSettingsRepository.InsertAndGetIdAsync(post.PostSeoSetting);
-                var settingsId = await RepositoryManager.PostSettingRepository.InsertAndGetIdAsync(post.PostSettings);
-
-                post.PostSeoSettingsId = seoSettingsId;
-                post.PostSettingsId = settingsId;
-
-                return await Repository.InsertAndGetIdAsync(post);
-            }
-            catch (Exception e)
-            {
-                _postsFacadeLogger.LogError(e, "Can't create post. Exception was thrown.");
-                return Guid.Empty;
-            }
+            return await Repository.InsertAndGetIdAsync(post);
         }
 
         public async Task<IEnumerable<Post>> GetPostsAsync(

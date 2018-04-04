@@ -138,20 +138,8 @@ namespace MathSite.BasicAdmin.ViewModels.SharedModels.Posts
                 AuthorId = postModel.AuthorId,
                 PostTypeId = postModel.PostTypeId,
 
-                PostSeoSetting = new PostSeoSetting
-                {
-                    Url = postModel.Url,
-                    Title = postModel.SeoTitle,
-                    Description = postModel.SeoDescription
-                },
-
-                PostSettings = new PostSetting
-                {
-                    IsCommentsAllowed = postModel.IsCommentsAllowed,
-                    CanBeRated = postModel.CanBeRated,
-                    PostOnStartPage = postModel.PostOnStartPage,
-                    PreviewImageId = postModel.PreviewImageId
-                }
+                PostSeoSettingsId = await _postSeoSettingsFacade.CreateAsync(postModel.Url, postModel.SeoTitle, postModel.SeoDescription),
+                PostSettingsId = await _postSettingsFacade.CreateAsync(postModel.IsCommentsAllowed, postModel.CanBeRated, postModel.PostOnStartPage, postModel.PreviewImageId)
             };
 
             if (postModel.SelectedCategories.IsNotNullOrEmpty())
@@ -160,7 +148,7 @@ namespace MathSite.BasicAdmin.ViewModels.SharedModels.Posts
                 post.PostCategories = (await _postCategoryFacade.CreateRelation(post, categories)).ToList();
             }
 
-            await _postsFacade.CreatePostAsync(post);
+            model.Id = await _postsFacade.CreatePostAsync(post);
 
             return model;
         }
@@ -235,7 +223,7 @@ namespace MathSite.BasicAdmin.ViewModels.SharedModels.Posts
                 PostTypeId = postModel.PostTypeId
             };
 
-            await _postSettingsFacade.UpdateForPost(
+            await _postSettingsFacade.UpdateForPostAsync(
                 post, 
                 postModel.IsCommentsAllowed, 
                 postModel.CanBeRated, 

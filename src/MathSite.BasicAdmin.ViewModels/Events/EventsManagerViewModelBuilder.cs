@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using MathSite.BasicAdmin.ViewModels.SharedModels.Menu;
 using MathSite.BasicAdmin.ViewModels.SharedModels.Posts;
 using MathSite.Db.DataSeeding.StaticData;
+using MathSite.Entities;
 using MathSite.Facades.Categories;
 using MathSite.Facades.PostCategories;
 using MathSite.Facades.Posts;
@@ -16,6 +17,8 @@ namespace MathSite.BasicAdmin.ViewModels.Events
 {
     public class EventsManagerViewModelBuilder : PostViewModelBuilderBase, IEventsManagerViewModelBuilder
     {
+        private readonly IPostSettingsFacade _postSettingsFacade;
+
         public EventsManagerViewModelBuilder(
             ISiteSettingsFacade siteSettingsFacade,
             IPostsFacade postsFacade,
@@ -34,6 +37,7 @@ namespace MathSite.BasicAdmin.ViewModels.Events
             postSeoSettingsFacade
         )
         {
+            _postSettingsFacade = postSettingsFacade;
         }
 
         public async Task<ListEventsViewModel> BuildIndexViewModel(int page, int perPage)
@@ -54,19 +58,34 @@ namespace MathSite.BasicAdmin.ViewModels.Events
 
         public async Task<EventViewModel> BuildCreateViewModel()
         {
-            return await BuildCreateViewModel<EventViewModel>(EventsTopMenuName, "Create");
+            return await BuildCreateViewModel<EventViewModel>(EventsTopMenuName, "CreateEvent");
         }
 
         public async Task<EventViewModel> BuildCreateViewModel(EventViewModel eventViewModel)
         {
             const string postType = PostTypeAliases.Event;
 
-            return await BuildCreateViewModel(eventViewModel, postType, EventsTopMenuName, "Create");
+            var model = await BuildCreateViewModel(eventViewModel, postType, EventsTopMenuName, "CreateEvent");
+
+            await _postSettingsFacade.UpdateForPostAsync(
+                model.Id,
+                eventViewModel.EventTime ?? DateTime.UtcNow,
+                eventViewModel.EventLocation
+            );
+
+            return model;
         }
 
         public async Task<EventViewModel> BuildEditViewModel(Guid id)
         {
-            return await BuildEditViewModel<EventViewModel>(id, EventsTopMenuName, "Edit", "события");
+            var model = await BuildEditViewModel<EventViewModel>(id, EventsTopMenuName, "Edit", "события");
+
+            var settings = await _postSettingsFacade.GetForPostAsync(id);
+
+            model.EventLocation = settings.EventLocation;
+            model.EventTime = settings.EventTime;
+
+            return model;
         }
 
         public async Task<EventViewModel> BuildEditViewModel(EventViewModel eventViewModel)
@@ -84,8 +103,7 @@ namespace MathSite.BasicAdmin.ViewModels.Events
             return new List<MenuLink>
             {
                 new MenuLink("Список событий", "/manager/events/list", false, "Список событий", "List"),
-                new MenuLink("Список удаленных событий", "/manager/events/removed", false, "Список удаленных событий",
-                    "ListRemoved"),
+                new MenuLink("Список удаленных событий", "/manager/events/removed", false, "Список удаленных событий", "ListRemoved"),
                 new MenuLink("Создать событие", "/manager/events/create", false, "Создать событие", "CreateEvent")
             };
         }
