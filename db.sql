@@ -878,3 +878,47 @@ BEGIN
     VALUES ('20180221213004_Update-User-And-Person-Relations', '2.0.1-rtm-125');
     END IF;
 END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20180301215907_RemoveDefaults') THEN
+    ALTER TABLE "PostSetting" ALTER COLUMN "PostOnStartPage" TYPE bool;
+    ALTER TABLE "PostSetting" ALTER COLUMN "PostOnStartPage" SET NOT NULL;
+    ALTER TABLE "PostSetting" ALTER COLUMN "PostOnStartPage" DROP DEFAULT;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20180301215907_RemoveDefaults') THEN
+    ALTER TABLE "PostSetting" ALTER COLUMN "IsCommentsAllowed" TYPE bool;
+    ALTER TABLE "PostSetting" ALTER COLUMN "IsCommentsAllowed" SET NOT NULL;
+    ALTER TABLE "PostSetting" ALTER COLUMN "IsCommentsAllowed" DROP DEFAULT;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20180301215907_RemoveDefaults') THEN
+    ALTER TABLE "PostSetting" ALTER COLUMN "CanBeRated" TYPE bool;
+    ALTER TABLE "PostSetting" ALTER COLUMN "CanBeRated" SET NOT NULL;
+    ALTER TABLE "PostSetting" ALTER COLUMN "CanBeRated" DROP DEFAULT;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20180301215907_RemoveDefaults') THEN
+    ALTER TABLE "Group" ALTER COLUMN "IsAdmin" TYPE bool;
+    ALTER TABLE "Group" ALTER COLUMN "IsAdmin" SET NOT NULL;
+    ALTER TABLE "Group" ALTER COLUMN "IsAdmin" DROP DEFAULT;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20180301215907_RemoveDefaults') THEN
+    INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+    VALUES ('20180301215907_RemoveDefaults', '2.0.1-rtm-125');
+    END IF;
+END $$;
