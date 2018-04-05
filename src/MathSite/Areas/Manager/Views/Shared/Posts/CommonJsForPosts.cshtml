@@ -25,6 +25,13 @@
 
         $(window.currentForm).submit((e) => {
             filler.fillData();
+
+            if ($('.save-image').hasClass('disabled')) {
+                return;
+            }
+            
+            e.preventDefault();
+            alert('Сначала надо сохранить картинку!');
         });
     })
 </script>

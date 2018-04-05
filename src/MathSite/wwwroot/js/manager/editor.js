@@ -59,6 +59,8 @@
             language: 'ru',
             heightMax: 500,
 
+            key: 'OEM_LICENSE_KEY',
+
             toolbarButtons: [
                 'fullscreen',
                 '|',

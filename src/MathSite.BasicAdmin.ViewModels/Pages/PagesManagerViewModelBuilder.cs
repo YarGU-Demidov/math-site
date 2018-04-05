@@ -9,6 +9,7 @@ using MathSite.Facades.PostCategories;
 using MathSite.Facades.Posts;
 using MathSite.Facades.PostSeoSettings;
 using MathSite.Facades.PostSettings;
+using MathSite.Facades.PostTypes;
 using MathSite.Facades.SiteSettings;
 using MathSite.Facades.Users;
 
@@ -23,7 +24,8 @@ namespace MathSite.BasicAdmin.ViewModels.Pages
             ICategoryFacade categoryFacade,
             IPostCategoryFacade postCategoryFacade,
             IPostSettingsFacade postSettingsFacade,
-            IPostSeoSettingsFacade postSeoSettingsFacade
+            IPostSeoSettingsFacade postSeoSettingsFacade,
+            IPostTypeFacade postTypeFacade
         ) : base(
             siteSettingsFacade, 
             postsFacade, 
@@ -31,7 +33,8 @@ namespace MathSite.BasicAdmin.ViewModels.Pages
             categoryFacade, 
             postCategoryFacade, 
             postSettingsFacade, 
-            postSeoSettingsFacade
+            postSeoSettingsFacade,
+            postTypeFacade
         )
         {
         }

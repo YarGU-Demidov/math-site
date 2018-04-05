@@ -4,12 +4,12 @@ using System.Threading.Tasks;
 using MathSite.BasicAdmin.ViewModels.SharedModels.Menu;
 using MathSite.BasicAdmin.ViewModels.SharedModels.Posts;
 using MathSite.Db.DataSeeding.StaticData;
-using MathSite.Entities;
 using MathSite.Facades.Categories;
 using MathSite.Facades.PostCategories;
 using MathSite.Facades.Posts;
 using MathSite.Facades.PostSeoSettings;
 using MathSite.Facades.PostSettings;
+using MathSite.Facades.PostTypes;
 using MathSite.Facades.SiteSettings;
 using MathSite.Facades.Users;
 
@@ -26,7 +26,8 @@ namespace MathSite.BasicAdmin.ViewModels.Events
             ICategoryFacade categoryFacade,
             IPostCategoryFacade postCategoryFacade,
             IPostSettingsFacade postSettingsFacade,
-            IPostSeoSettingsFacade postSeoSettingsFacade
+            IPostSeoSettingsFacade postSeoSettingsFacade,
+            IPostTypeFacade postTypeFacade
         ) : base(
             siteSettingsFacade, 
             postsFacade, 
@@ -34,7 +35,8 @@ namespace MathSite.BasicAdmin.ViewModels.Events
             categoryFacade, 
             postCategoryFacade, 
             postSettingsFacade, 
-            postSeoSettingsFacade
+            postSeoSettingsFacade,
+            postTypeFacade
         )
         {
             _postSettingsFacade = postSettingsFacade;

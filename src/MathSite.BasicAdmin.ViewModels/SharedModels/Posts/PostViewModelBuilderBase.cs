@@ -11,6 +11,7 @@ using MathSite.Facades.PostCategories;
 using MathSite.Facades.Posts;
 using MathSite.Facades.PostSeoSettings;
 using MathSite.Facades.PostSettings;
+using MathSite.Facades.PostTypes;
 using MathSite.Facades.SiteSettings;
 using MathSite.Facades.Users;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -25,6 +26,7 @@ namespace MathSite.BasicAdmin.ViewModels.SharedModels.Posts
         private readonly IPostCategoryFacade _postCategoryFacade;
         private readonly IPostSettingsFacade _postSettingsFacade;
         private readonly IPostSeoSettingsFacade _postSeoSettingsFacade;
+        private readonly IPostTypeFacade _postTypeFacade;
 
         public PostViewModelBuilderBase(
             ISiteSettingsFacade siteSettingsFacade,
@@ -33,7 +35,8 @@ namespace MathSite.BasicAdmin.ViewModels.SharedModels.Posts
             ICategoryFacade categoryFacade,
             IPostCategoryFacade postCategoryFacade,
             IPostSettingsFacade postSettingsFacade,
-            IPostSeoSettingsFacade postSeoSettingsFacade
+            IPostSeoSettingsFacade postSeoSettingsFacade,
+            IPostTypeFacade postTypeFacade
         ) : base(siteSettingsFacade)
         {
             _postsFacade = postsFacade;
@@ -42,6 +45,7 @@ namespace MathSite.BasicAdmin.ViewModels.SharedModels.Posts
             _postCategoryFacade = postCategoryFacade;
             _postSettingsFacade = postSettingsFacade;
             _postSeoSettingsFacade = postSeoSettingsFacade;
+            _postTypeFacade = postTypeFacade;
         }
 
         protected async Task<TModel> BuildIndexViewModel<TModel>(int page, int perPage, string postType, string activeTop, string activeLeft, string typeOfList)
@@ -162,6 +166,8 @@ namespace MathSite.BasicAdmin.ViewModels.SharedModels.Posts
             );
 
             var post = await _postsFacade.GetPostAsync(id);
+            var defaultSettings = (await _postTypeFacade.GetFromPostAsync(post)).DefaultPostsSettings;
+
             var categories = await _categoryFacade.GetAllCategoriesAsync(
                 page: 1,
                 perPage: await _categoryFacade.GetCategoriesCount(true),
@@ -182,14 +188,14 @@ namespace MathSite.BasicAdmin.ViewModels.SharedModels.Posts
             model.Authors = GetSelectListItems(await _usersFacade.GetUsersAsync());
             model.PostTypeId = post.PostTypeId;
             
-            model.SeoTitle = seoSettings.Title;
-            model.SeoDescription = seoSettings.Description;
-            model.Url = seoSettings.Url;
+            model.SeoTitle = seoSettings?.Title;
+            model.SeoDescription = seoSettings?.Description;
+            model.Url = seoSettings?.Url;
 
-            model.IsCommentsAllowed = settings.IsCommentsAllowed;
-            model.CanBeRated = settings.CanBeRated;
-            model.PostOnStartPage = settings.PostOnStartPage;
-            model.PreviewImageId = settings.PreviewImageId;
+            model.IsCommentsAllowed = settings?.IsCommentsAllowed ?? defaultSettings.IsCommentsAllowed;
+            model.CanBeRated = settings?.CanBeRated ?? defaultSettings.CanBeRated;
+            model.PostOnStartPage = settings?.PostOnStartPage ?? defaultSettings.PostOnStartPage;
+            model.PreviewImageId = settings?.PreviewImageId ?? defaultSettings.PreviewImageId;
 
             model.Categories = await GetSelectListItems(categories);
 

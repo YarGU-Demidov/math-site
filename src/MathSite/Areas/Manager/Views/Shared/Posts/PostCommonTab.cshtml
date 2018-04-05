@@ -6,6 +6,28 @@
         : Model is PageViewModel
             ? "Статья*"
             : Model is NewsViewModel ? "Новость*" : "Контент*";
+
+    var url = Model.PreviewImageId != null 
+        ? Url.Action("Get", "File", new {id = Model.PreviewImageId}) 
+        : "/images/default_post_preview@2x.png";
+}
+
+@if (!(Model is PageViewModel))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.PreviewImageId, "Картинка для поста")
+        @Html.HiddenFor(m => m.PreviewImageId)
+        <div id="image-cropper">
+            <div class="cropit-preview"></div>
+
+            <input type="range" class="cropit-image-zoom-input"/>
+
+            <!-- The actual file input will be hidden -->
+            <input type="file" class="cropit-image-input"/>
+        </div>
+
+        <div class="btn btn-primary save-image">Сохранить картинку</div>
+    </div>
 }
 
 <div class="form-group">
@@ -47,10 +69,51 @@
     @Html.LabelFor(m => m.Categories, "Категории")
     <select multiple class="form-control" asp-for="@Model.SelectedCategories" asp-items="@Model.Categories"></select>
 </div>
-
+<style>
+    .cropit-preview {
+        width: 340px;
+        height: 237px;
+        background: #eee;
+        margin: auto;
+    }
+</style>
 <script>
+    class SaveButton {
+        constructor(cfg) {
+            cfg.clickHandler = cfg.clickHandler || (() => {});
+            cfg.selector = cfg.selector || '.save-image';
+
+            this.$container = $(cfg.selector);
+            this._enabled = true;
+            this.$container.click(cfg.clickHandler.bind(this));
+            
+            this.disable();
+        }
+
+        set enabled(value) {
+            value ? this.enable() : this.disable();
+        }
+
+        get enabled() {
+            return this._enabled;
+        }
+
+        disable() {
+            this._enabled = false;
+            this.$container.addClass('disabled');
+        }
+
+        enable() {
+            this._enabled = true;
+            this.$container.removeClass('disabled');
+        }
+    }
+
     $(() => {
+        
         var editor = new EditorConfig();
+        let saveButton = null;
+
         @if (Model is PageViewModel)
         {
             @:editor.initArea('static-pages');
@@ -61,5 +124,42 @@
             @:editor.initArea('news');
             @:editor.initArea('news', '#Excerpt');
         }
+
+        const $imageContainer = $('#image-cropper').cropit({
+            smallImage: 'allow',
+            width: 340 * 2,
+            height: 237 * 2,
+            maxZoom: 2,
+            onFileChange: (e) => {
+                saveButton.enable();
+            }
+        });
+
+        saveButton = new SaveButton({
+            clickHandler: function () {
+                if (!this.enabled)
+                    return;
+
+                var self = this;
+
+                const base64Image = $imageContainer.cropit('export');
+                $.ajax({
+                    url: '/manager/files/UploadBase64Image',
+                    type: 'POST',
+                    data: { base64Image: base64Image }
+                }).done((id) => {
+                    $('#PreviewImageId').val(id);
+                    
+                    self.disable();
+
+                    swal({
+                        title: "Превьюшка загружена!",
+                        type: 'success'
+                    });
+                });
+            }
+        });
+
+        $imageContainer.cropit('imageSrc', '@url');
     });
 </script>
