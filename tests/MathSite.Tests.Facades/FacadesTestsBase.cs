@@ -72,7 +72,8 @@ namespace MathSite.Tests.Facades
                 new PostTypeRepository(context),
                 new GroupTypeRepository(context),
                 new DirectoriesRepository(context),
-                new CategoryRepository(context)
+                new CategoryRepository(context),
+                new PostCategoryRepository(context)
             );
         }
 

@@ -1,101 +1,85 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MathSite.BasicAdmin.ViewModels.SharedModels.AdminPageWithPaging;
 using MathSite.BasicAdmin.ViewModels.SharedModels.Menu;
-using MathSite.Common;
+using MathSite.BasicAdmin.ViewModels.SharedModels.Posts;
 using MathSite.Db.DataSeeding.StaticData;
-using MathSite.Entities;
+using MathSite.Facades.Categories;
+using MathSite.Facades.PostCategories;
 using MathSite.Facades.Posts;
+using MathSite.Facades.PostSeoSettings;
+using MathSite.Facades.PostSettings;
+using MathSite.Facades.PostTypes;
 using MathSite.Facades.SiteSettings;
+using MathSite.Facades.Users;
 
 namespace MathSite.BasicAdmin.ViewModels.Pages
 {
-    public class PagesManagerViewModelBuilder : AdminPageWithPagingViewModelBuilder, IPagesManagerViewModelBuilder
+    public class PagesManagerViewModelBuilder : PostViewModelBuilderBase, IPagesManagerViewModelBuilder
     {
-        private readonly IPostsFacade _postsFacade;
-
-        public PagesManagerViewModelBuilder(ISiteSettingsFacade siteSettingsFacade, IPostsFacade postsFacade) :
-            base(siteSettingsFacade)
+        public PagesManagerViewModelBuilder(
+            ISiteSettingsFacade siteSettingsFacade,
+            IPostsFacade postsFacade,
+            IUsersFacade usersFacade,
+            ICategoryFacade categoryFacade,
+            IPostCategoryFacade postCategoryFacade,
+            IPostSettingsFacade postSettingsFacade,
+            IPostSeoSettingsFacade postSeoSettingsFacade,
+            IPostTypeFacade postTypeFacade
+        ) : base(
+            siteSettingsFacade, 
+            postsFacade, 
+            usersFacade, 
+            categoryFacade, 
+            postCategoryFacade, 
+            postSettingsFacade, 
+            postSeoSettingsFacade,
+            postTypeFacade
+        )
         {
-            _postsFacade = postsFacade;
         }
 
-        public async Task<IndexPagesViewModel> BuildIndexViewModel(int page, int perPage)
+        public async Task<ListPagesViewModel> BuildIndexViewModel(int page, int perPage)
         {
             const string postType = PostTypeAliases.StaticPage;
-            const RemovedStateRequest removedState = RemovedStateRequest.Excluded;
-            const PublishStateRequest publishState = PublishStateRequest.AllPublishStates;
-            const FrontPageStateRequest frontPageState = FrontPageStateRequest.AllVisibilityStates;
-            const bool cached = false;
 
-            var model = await BuildAdminPageWithPaging<IndexPagesViewModel>(
-                link => link.Alias == "Articles",
-                link => link.Alias == "List",
-                page,
-                await _postsFacade.GetPostPagesCountAsync(postType, perPage, removedState, publishState, frontPageState,
-                    cached),
-                perPage
-            );
-
-            model.Posts = await _postsFacade.GetPostsAsync(postType, page, perPage, removedState, publishState,
-                frontPageState, cached);
-            model.PageTitle.Title = "Список статей";
-
-            return model;
+            return await BuildIndexViewModel<ListPagesViewModel>(page, perPage, postType, ArticlesTopMenuName, "List",
+                typeOfList: "статей");
         }
 
-        public async Task<IndexPagesViewModel> BuildRemovedViewModel(int page, int perPage)
+        public async Task<ListPagesViewModel> BuildRemovedViewModel(int page, int perPage)
         {
             const string postType = PostTypeAliases.StaticPage;
-            const RemovedStateRequest removedState = RemovedStateRequest.OnlyRemoved;
-            const PublishStateRequest publishState = PublishStateRequest.AllPublishStates;
-            const FrontPageStateRequest frontPageState = FrontPageStateRequest.AllVisibilityStates;
-            const bool cached = false;
 
-            var model = await BuildAdminPageWithPaging<IndexPagesViewModel>(
-                link => link.Alias == "Articles",
-                link => link.Alias == "ListRemoved",
-                page,
-                await _postsFacade.GetPostPagesCountAsync(postType, perPage, removedState, publishState, frontPageState,
-                    cached),
-                perPage
-            );
-
-            model.Posts =
-                await _postsFacade.GetPostsAsync(postType, page, 5, removedState, publishState, frontPageState, cached);
-            model.PageTitle.Title = "Список удаленных статей";
-
-            return model;
+            return await BuildRemovedViewModel<ListPagesViewModel>(page, perPage, postType, ArticlesTopMenuName,
+                "ListRemoved", typeOfList: "статей");
         }
 
-        public async Task<CreatePageViewModel> BuildCreateViewModel(Post post = null)
+        public async Task<PageViewModel> BuildCreateViewModel()
         {
-            var model = await BuildAdminBaseViewModelAsync<CreatePageViewModel>(
-                link => link.Alias == "Articles",
-                link => link.Alias == "Create"
-            );
-
-            if (post != null)
-            {
-                model.PageTitle.Title = post.Title;
-
-                await _postsFacade.CreatePostAsync(post);
-            }
-
-            return model;
+            return await BuildCreateViewModel<PageViewModel>(ArticlesTopMenuName, "CreatePage");
         }
 
-        public async Task<IndexPagesViewModel> BuildDeleteViewModel(Guid id)
+        public async Task<PageViewModel> BuildCreateViewModel(PageViewModel page)
         {
-            var model = await BuildAdminBaseViewModelAsync<IndexPagesViewModel>(
-                link => link.Alias == "Articles",
-                link => link.Alias == "Delete"
-            );
+            const string postType = PostTypeAliases.Event;
 
-            await _postsFacade.DeletePostAsync(id);
+            return await BuildCreateViewModel(page, postType, ArticlesTopMenuName, "CreatePage");
+        }
 
-            return model;
+        public async Task<PageViewModel> BuildEditViewModel(Guid id)
+        {
+            return await BuildEditViewModel<PageViewModel>(id, ArticlesTopMenuName, "Edit", "статьи");
+        }
+
+        public async Task<PageViewModel> BuildEditViewModel(PageViewModel page)
+        {
+            return await BuildEditViewModel(page, ArticlesTopMenuName, "Edit");
+        }
+
+        public async Task<ListPagesViewModel> BuildDeleteViewModel(Guid id)
+        {
+            return await BuildDeleteViewModel<ListPagesViewModel>(id, ArticlesTopMenuName, "Delete");
         }
 
         protected override async Task<IEnumerable<MenuLink>> GetLeftMenuLinks()

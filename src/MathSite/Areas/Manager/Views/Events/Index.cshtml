@@ -1,0 +1,154 @@
+﻿@model ListEventsViewModel
+@{
+    var postsExists = Model.Posts != null && Model.Posts.Any();
+}
+
+<div class="container-fluid set-max-size posts">
+
+    <div class="card news-card">
+        <h4 class="card-header">События</h4>
+        <div class="card-body">
+            @if (!postsExists)
+            {
+                <h5 class="empty-text text-center">Событий не обнаружено!</h5>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="thead-light">
+                            <tr>
+                                <th class="text-center buttons-td">
+                                    <em class="fa fa-cog"></em>
+                                </th>
+                                <th>Заголовок</th>
+                                <th>Дата публикации</th>
+                                <th>На главной?</th>
+                                <th>Опубликовано?</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var post in Model.Posts)
+                            {
+                                var onStartPageText = post.PostSettings?.PostOnStartPage ?? post.PostType.DefaultPostsSettings.PostOnStartPage ? "checked=\"checked\"" : "";
+                                var publishedText = post.Published ? "checked=\"checked\"" : "";
+                                var buttonsClass = post.Deleted ? "buttons-td-three" : "buttons-td";
+
+                                <tr>
+                                    <td class="text-center @buttonsClass">
+                                        <a href="@Url.Action("Edit", "Events", new {id = post.Id})" title="Edit" class="btn btn-outline-success">
+                                            <em class="fa fa-pencil"></em>
+                                        </a>
+                                        @if (post.Deleted)
+                                        {
+                                            <a href="@Url.Action("Recover", "Events", new {id = post.Id})" title="Edit" class="btn btn-outline-info">
+                                                <em class="fa fa-repeat"></em>
+                                            </a>
+                                        }
+                                        <a href="@Url.Action("Delete", "Events", new {id = post.Id})" title="Delete" class="btn btn-outline-danger">
+                                            <em class="fa fa-trash"></em>
+                                        </a>
+                                    </td>
+                                    <th>@post.Title</th>
+                                    <td>
+                                        @{
+                                            if (publishedText == String.Empty)
+                                            {
+                                                <p>Событие не опубликовано</p>
+                                            }
+                                            else
+                                            {
+                                                <p>@post.PublishDate</p>
+                                            }
+                                        }
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" disabled="disabled" @onStartPageText />
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" disabled="disabled" @publishedText />
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+        <div class="card-footer">
+            <div class="row">
+                <div class="col-12 col-sm-6 col-md-4">
+                    <div class="paging">
+                        <span>На странице: </span>
+                        <select class="custom-select">
+                            @{
+                                const string selectedText = "selected=\"selected\"";
+
+                                var selected5Text = Model.PerPage == 5 ? selectedText : "";
+                                var selected10Text = Model.PerPage == 10 ? selectedText : "";
+                                var selected20Text = Model.PerPage == 20 ? selectedText : "";
+                                var selected30Text = Model.PerPage == 30 ? selectedText : "";
+                            }
+
+                            <!option value="5" @selected5Text>5</!option>
+                            <!option value="10" @selected10Text>10</!option>
+                            <!option value="20" @selected20Text>20</!option>
+                            <!option value="30" @selected30Text>30</!option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-8" style="overflow: auto;">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-md-end">
+                            @{
+                                var disabledPrev = Model.CurrentPage == 1 ? "disabled" : "";
+                                var disabledNext = Model.CurrentPage == Model.PagesCount ? "disabled" : "";
+                            }
+
+                            <li class="page-item @disabledPrev">
+                                <a class="page-link" href="@Url.Action("Index", "News", new {page = Model.CurrentPage - 1, perPage = Model.PerPage})" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                            </li>
+
+                            @for (var i = 0; i < Model.PagesCount; i++)
+                            {
+                                var pageNumber = i + 1;
+
+                                if (Model.CurrentPage == pageNumber)
+                                {
+                                    <li class="page-item active">
+                                        <span class="page-link">
+                                            @pageNumber
+                                            <span class="sr-only">(current)</span>
+                                        </span>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" href="@Url.Action("Index", "News", new {page = pageNumber, perPage = Model.PerPage})">@pageNumber</a>
+                                    </li>
+                                }
+                            }
+
+                            <li class="page-item @disabledNext">
+                                <a class="page-link" href="@Url.Action("Index", "News", new {page = Model.CurrentPage + 1, perPage = Model.PerPage})" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+@section ScriptsSection{
+    <script src="~/js/pager.js"></script>
+}

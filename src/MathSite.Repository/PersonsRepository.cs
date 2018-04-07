@@ -22,13 +22,13 @@ namespace MathSite.Repository
 
         public IPersonsRepository WithUser()
         {
-            QueryBuilder = GetCurrentQuery().Include(person => person.User);
+            SetCurrentQuery(GetCurrentQuery().Include(person => person.User));
             return this;
         }
 
         public IPersonsRepository WithPhoto()
         {
-            QueryBuilder = GetCurrentQuery().Include(person => person.Photo);
+            SetCurrentQuery(GetCurrentQuery().Include(person => person.Photo));
             return this;
         }
 

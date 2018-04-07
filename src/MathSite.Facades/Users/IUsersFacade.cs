@@ -9,6 +9,8 @@ namespace MathSite.Facades.Users
     {
         Task<int> GetUsersPagesCountAsync(int perPage, bool cache);
         Task<int> GetUsersCountAsync(bool cache);
+
+        Task<IEnumerable<User>> GetUsersAsync();
         Task<IEnumerable<User>> GetUsersAsync(int page, int perPage, bool cache);
 
         Task<User> GetUserAsync(string possibleUserId);
@@ -29,6 +31,7 @@ namespace MathSite.Facades.Users
         Task CreateUserAsync(Guid currentUser, Guid personId, string login, string password, Guid groupId, bool hasTwoFactorAutenticationKey);
         Task UpdateUserAsync(Guid currentUser, Guid id, bool hasTwoFactorAutenticationKey, Guid? personId = null, Guid? groupId = null, string newPassword = null);
         Task RemoveUser(Guid currentUser, Guid id);
+        Task<User> GetUserByLoginAsync(string login);
         Task SetUserKey(string login, byte[] key);
     }
 }

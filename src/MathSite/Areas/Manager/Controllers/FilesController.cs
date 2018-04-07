@@ -6,6 +6,7 @@ using MathSite.BasicAdmin.ViewModels.Files;
 using MathSite.Common.Exceptions;
 using MathSite.Common.Extensions;
 using MathSite.Controllers;
+using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Facades.FileSystem;
 using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
@@ -15,7 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MathSite.Areas.Manager.Controllers
 {
-    [Authorize("admin")]
+    [Authorize(RightAliases.AdminAccess)]
     [Area("manager")]
     public class FilesController : BaseController
     {
@@ -67,6 +68,24 @@ namespace MathSite.Areas.Manager.Controllers
             {
                 return Unauthorized();
             }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UploadBase64Image(string base64Image)
+        {
+            var dataString = base64Image.Contains(",")
+                ? base64Image.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                : null;
+
+            if (dataString.IsNull() || dataString?.Length != 2)
+            {
+                return BadRequest(base64Image);
+            }
+
+            var data = Convert.FromBase64String(dataString[1]);
+            var fileId = await _filesManagerViewModelBuilder.BuildUploadBase64Image(CurrentUser, data);
+
+            return Json(fileId);
         }
     }
 }

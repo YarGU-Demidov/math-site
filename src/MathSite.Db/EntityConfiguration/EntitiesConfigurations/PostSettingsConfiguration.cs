@@ -15,8 +15,7 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 
             modelBuilder
                 .Property(postSettings => postSettings.IsCommentsAllowed)
-                .IsRequired()
-                .HasDefaultValue(false);
+                .IsRequired();
 
             modelBuilder.Property(setting => setting.Layout)
                 .IsRequired(false);
@@ -29,13 +28,11 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 
             modelBuilder
                 .Property(postSettings => postSettings.CanBeRated)
-                .IsRequired()
-                .HasDefaultValue(false);
+                .IsRequired();
 
             modelBuilder
                 .Property(postSettings => postSettings.PostOnStartPage)
-                .IsRequired()
-                .HasDefaultValue(false);
+                .IsRequired();
         }
 
         /// <inheritdoc />

@@ -6,9 +6,12 @@ namespace MathSite.BasicAdmin.ViewModels.Pages
 {
     public interface IPagesManagerViewModelBuilder
     {
-        Task<IndexPagesViewModel> BuildIndexViewModel(int page, int perPage);
-        Task<IndexPagesViewModel> BuildRemovedViewModel(int page, int perPage);
-        Task<CreatePageViewModel> BuildCreateViewModel(Post post = null);
-        Task<IndexPagesViewModel> BuildDeleteViewModel(Guid id);
+        Task<ListPagesViewModel> BuildIndexViewModel(int page, int perPage);
+        Task<ListPagesViewModel> BuildRemovedViewModel(int page, int perPage);
+        Task<PageViewModel> BuildCreateViewModel();
+        Task<PageViewModel> BuildCreateViewModel(PageViewModel page);
+        Task<PageViewModel> BuildEditViewModel(Guid id);
+        Task<PageViewModel> BuildEditViewModel(PageViewModel page);
+        Task<ListPagesViewModel> BuildDeleteViewModel(Guid id);
     }
 }

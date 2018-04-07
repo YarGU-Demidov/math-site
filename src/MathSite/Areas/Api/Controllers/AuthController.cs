@@ -15,8 +15,10 @@ namespace MathSite.Areas.Api.Controllers
     [Area("api")]
     public class AuthController : BaseController
     {
-        public AuthController(IUserValidationFacade userValidationFacade, IUsersFacade usersFacade)
-            : base(userValidationFacade, usersFacade)
+        public AuthController(
+            IUserValidationFacade userValidationFacade, 
+            IUsersFacade usersFacade
+        ) : base(userValidationFacade, usersFacade)
         {
         }
 

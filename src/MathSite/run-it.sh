@@ -1,3 +1,5 @@
+#!/bin/bash
+
 export ASPNETCORE_ENVIRONMENT="Production"
 export ASPNETCORE_URLS="http://*:5000"
 

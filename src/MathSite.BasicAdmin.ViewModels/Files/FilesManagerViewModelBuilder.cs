@@ -17,6 +17,7 @@ namespace MathSite.BasicAdmin.ViewModels.Files
     {
         Task<IndexFilesViewModel> BuildIndexViewModelAsync(string directory = "/");
         Task<UploadedFilesViewModel> BuildUploadedViewModelAsync(User currentUser, IEnumerable<(string Name, Stream Stream)> files, string directory = "/");
+        Task<Guid> BuildUploadBase64Image(User currentUser, byte[] image);
     }
 
     public class FilesManagerViewModelBuilder : AdminPageBaseViewModelBuilder, IFilesManagerViewModelBuilder
@@ -69,6 +70,11 @@ namespace MathSite.BasicAdmin.ViewModels.Files
             model.Files = modelFiles;
 
             return model;
+        }
+
+        public async Task<Guid> BuildUploadBase64Image(User currentUser, byte[] image)
+        {
+            return await _fileFacade.SaveFileAsync(currentUser, "PostCover.png", new MemoryStream(image));
         }
 
         private async Task<(IEnumerable<DirectoryViewModel> Directories, IEnumerable<FileViewModel> Files)> GetAllItemsInDirectoryAsync(string path)

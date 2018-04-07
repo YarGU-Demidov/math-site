@@ -20,6 +20,7 @@ namespace MathSite.Repository.Core
             return services
                 .AddScoped<IRepositoryManager, RepositoryManager>()
                 .AddScoped<ICategoryRepository, CategoryRepository>()
+                .AddScoped<IPostCategoryRepository, PostCategoryRepository>()
                 .AddScoped<IGroupsRepository, GroupsRepository>()
                 .AddScoped<IPersonsRepository, PersonsRepository>()
                 .AddScoped<IUsersRepository, UsersRepository>()

@@ -136,7 +136,7 @@ namespace MathSite.ViewModels.News
 
         private async Task<Category> GetCategoryAsync(string categoryAlias)
         {
-            return await _categoryFacade.GetByAliasAsync(categoryAlias);
+            return await _categoryFacade.GetCategoryByAliasAsync(categoryAlias);
         }
 
         private IEnumerable<PostPreviewViewModel> GetPosts(IEnumerable<Post> posts)

@@ -20,13 +20,13 @@ namespace MathSite.Repository
 
         public IDirectoriesRepository WithFiles()
         {
-            QueryBuilder = GetCurrentQuery().Include(directory => directory.Files);
+            SetCurrentQuery(GetCurrentQuery().Include(directory => directory.Files));
             return this;
         }
 
         public IDirectoriesRepository WithDirectories()
         {
-            QueryBuilder = GetCurrentQuery().Include(directory => directory.Directories);
+            SetCurrentQuery(GetCurrentQuery().Include(directory => directory.Directories));
             return this;
         }
     }

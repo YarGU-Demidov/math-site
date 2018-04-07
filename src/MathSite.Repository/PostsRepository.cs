@@ -32,58 +32,78 @@ namespace MathSite.Repository
 
         public IPostsRepository WithAuthor()
         {
-            QueryBuilder = GetCurrentQuery().Include(post => post.Author).ThenInclude(user => user.Person);
+            var query = GetCurrentQuery()
+                .Include(post => post.Author)
+                .ThenInclude(user => user.Person);
+
+            SetCurrentQuery(query);
+
             return this;
         }
 
         public IPostsRepository WithPostSeoSettings()
         {
-            QueryBuilder = GetCurrentQuery().Include(post => post.PostSeoSetting).ThenInclude(setting => setting.PostKeywords);
+            var query = GetCurrentQuery()
+                .Include(post => post.PostSeoSetting)
+                // с этой припиской +1 запрос идёт (на вычитывание keywords)
+                /*.ThenInclude(setting => setting.PostKeywords)*/;
+
+            SetCurrentQuery(query);
+
             return this;
         }
 
         public IPostsRepository WithPostSetttings()
         {
-            QueryBuilder = GetCurrentQuery().Include(post => post.PostSettings).ThenInclude(setting => setting.PostType)
+            var query = GetCurrentQuery()
+                .Include(post => post.PostSettings).ThenInclude(setting => setting.PostType)
                 .Include(post => post.PostSettings).ThenInclude(setting => setting.PreviewImage);
+
+            SetCurrentQuery(query);
 
             return this;
         }
 
         public IPostsRepository WithPostType()
         {
-            QueryBuilder = GetCurrentQuery().Include(post => post.PostType).ThenInclude(type => type.DefaultPostsSettings);
+            SetCurrentQuery(
+                GetCurrentQuery().Include(post => post.PostType).ThenInclude(type => type.DefaultPostsSettings)
+            );
 
             return this;
         }
 
         public IPostsRepository WithComments()
         {
-            QueryBuilder = GetCurrentQuery().Include(post => post.Comments);
+            SetCurrentQuery(GetCurrentQuery().Include(post => post.Comments));
             return this;
         }
 
         public IPostsRepository WithPostRatings()
         {
-            QueryBuilder = GetCurrentQuery().Include(post => post.PostRatings);
+            SetCurrentQuery(GetCurrentQuery().Include(post => post.PostRatings));
             return this;
         }
 
         public IPostsRepository WithCategories()
         {
-            QueryBuilder = GetCurrentQuery().Include(post => post.PostCategories).ThenInclude(category => category.Category);
+            SetCurrentQuery(
+                GetCurrentQuery().Include(post => post.PostCategories).ThenInclude(category => category.Category)
+            );
             return this;
         }
         
         public async Task<IEnumerable<Post>> GetAllPagedAsync(Expression<Func<Post, bool>> predicate, int limit, int skip = 0, bool desc = true)
         {
-            QueryBuilder = GetCurrentQuery().Where(predicate);
+            SetCurrentQuery(GetCurrentQuery().Where(predicate));
 
             Expression<Func<Post, DateTime>> orderBy = post => post.PublishDate;
 
-            QueryBuilder = desc 
-                ? QueryBuilder.OrderByDescending(orderBy) 
-                : QueryBuilder.OrderBy(orderBy);
+            var query = desc 
+                ? GetCurrentQuery().OrderByDescending(orderBy) 
+                : GetCurrentQuery().OrderBy(orderBy);
+
+            SetCurrentQuery(query);
 
             return await GetAllWithPaging(skip, limit).ToArrayAsync();
         }

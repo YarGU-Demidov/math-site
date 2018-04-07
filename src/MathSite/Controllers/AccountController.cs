@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using MathSite.Db.DataSeeding.StaticData;
 using Google.Authenticator;
 using MathSite.Common.Crypto;
 using MathSite.Common.Extensions;
@@ -87,7 +88,7 @@ namespace MathSite.Controllers
                 ? Json(true)
                 : Json("Пароль неверен");
         }
-        [Authorize("logout")]
+        [Authorize(RightAliases.LogoutAccess)]
         [HttpGet("/logout")]
         public async Task<IActionResult> Logout()
         {

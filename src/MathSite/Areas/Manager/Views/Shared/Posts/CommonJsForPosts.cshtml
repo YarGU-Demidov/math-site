@@ -1,0 +1,37 @@
+﻿<script>
+    $(() => {
+        const filler = new PostSeoFiller(window.currentForm);
+        $('a[data-toggle="tab"]').on('shown.bs.tab', (e) => {
+            if (e.target.id !== 'seo-tab') {
+                return;
+            }
+
+            filler.fillData();
+        });
+
+        $('a[data-toggle="tab"]').on('show.bs.tab', (e) => {
+            let hasWrong = false;
+            window.currentForm.find('.tab-pane.active').find('input,textarea,select').toArray()
+                .forEach((input) => {
+                        hasWrong = hasWrong || !input.checkValidity();
+                    }
+                );
+
+            if (hasWrong) {
+                e.preventDefault();
+                alert('Сначала надо заполнить все необходимые поля на этой вкладке!');
+            }
+        });
+
+        $(window.currentForm).submit((e) => {
+            filler.fillData();
+
+            if ($('.save-image').hasClass('disabled')) {
+                return;
+            }
+            
+            e.preventDefault();
+            alert('Сначала надо сохранить картинку!');
+        });
+    })
+</script>

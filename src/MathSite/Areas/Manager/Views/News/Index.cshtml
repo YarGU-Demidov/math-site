@@ -1,4 +1,4 @@
-﻿@model IndexNewsViewModel
+﻿@model ListNewsViewModel
 @{
     var postsExists = Model.Posts != null && Model.Posts.Any();
 }
@@ -18,7 +18,7 @@
                     <table class="table table-hover">
                         <thead class="thead-light">
                             <tr>
-                                <th class="text-center">
+                                <th class="text-center buttons-td">
                                     <em class="fa fa-cog"></em>
                                 </th>
                                 <th>Заголовок</th>
@@ -31,10 +31,11 @@
                             @foreach (var post in Model.Posts)
                             {
                                 var onStartPageText = post.PostSettings?.PostOnStartPage ?? post.PostType.DefaultPostsSettings.PostOnStartPage ? "checked=\"checked\"" : "";
-                                var publishedText = post.Published ? "checked=\"checked\"" : "";
+                                var publishedText = post.Published ? "checked=\"checked\"" : String.Empty;
+                                var buttonsClass = post.Deleted ? "buttons-td-three" : "buttons-td";
 
                                 <tr>
-                                    <td class="text-center">
+                                    <td class="text-center @buttonsClass">
                                         <a href="@Url.Action("Edit", "News", new {id = post.Id})" title="Edit" class="btn btn-outline-success">
                                             <em class="fa fa-pencil"></em>
                                         </a>
@@ -49,7 +50,18 @@
                                         </a>
                                     </td>
                                     <th>@post.Title</th>
-                                    <td>@post.PublishDate</td>
+                                    <td>
+                                        @{
+                                            if (publishedText == String.Empty)
+                                            {
+                                                <p>Страница не опубликована</p>
+                                            }
+                                            else
+                                            {
+                                                <p>@post.PublishDate</p>
+                                            }
+                                        }
+                                    </td>
                                     <td>
                                         <input type="checkbox" disabled="disabled" @onStartPageText/>
                                     </td>

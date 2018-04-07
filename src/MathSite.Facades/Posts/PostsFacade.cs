@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MathSite.Common;
 using MathSite.Common.Extensions;
@@ -12,6 +13,7 @@ using MathSite.Facades.UserValidation;
 using MathSite.Repository;
 using MathSite.Repository.Core;
 using MathSite.Specifications.Posts;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 
@@ -28,8 +30,7 @@ namespace MathSite.Facades.Posts
             ILogger<IPostsFacade> postsFacadeLogger,
             IUserValidationFacade userValidation,
             IUsersFacade usersFacade
-        )
-            : base(repositoryManager, memoryCache)
+        ) : base(repositoryManager, memoryCache)
         {
             _postsFacadeLogger = postsFacadeLogger;
             _userValidation = userValidation;
@@ -40,13 +41,13 @@ namespace MathSite.Facades.Posts
         private TimeSpan CacheMinutes { get; } = TimeSpan.FromMinutes(10);
 
         public ISiteSettingsFacade SiteSettingsFacade { get; }
-        
+
         public async Task<int> GetPostPagesCountAsync(
-            string postTypeAlias, 
-            int perPage, 
+            string postTypeAlias,
+            int perPage,
             RemovedStateRequest state,
-            PublishStateRequest publishState, 
-            FrontPageStateRequest frontPageState, 
+            PublishStateRequest publishState,
+            FrontPageStateRequest frontPageState,
             bool cache
         )
         {
@@ -54,24 +55,31 @@ namespace MathSite.Facades.Posts
         }
 
         public async Task<int> GetPostPagesCountAsync(
-            Guid? categoryId, 
-            string postTypeAlias, 
-            int perPage, 
+            Guid? categoryId,
+            string postTypeAlias,
+            int perPage,
             RemovedStateRequest state,
-            PublishStateRequest publishState, 
-            FrontPageStateRequest frontPageState, 
+            PublishStateRequest publishState,
+            FrontPageStateRequest frontPageState,
             bool cache
         )
         {
-            var newsCount = await GetPostsWithTypeCount(postTypeAlias, categoryId, state, publishState, frontPageState, cache);
+            var newsCount = await GetPostsWithTypeCount(
+                postTypeAlias,
+                categoryId,
+                state,
+                publishState,
+                frontPageState,
+                cache
+            );
 
             return (int) Math.Ceiling(newsCount / (float) perPage);
         }
 
 
         public async Task<Post> GetPostByUrlAndTypeAsync(
-            Guid currentUserId, 
-            string url, 
+            Guid currentUserId,
+            string url,
             string postTypeAlias,
             bool cache
         )
@@ -106,45 +114,70 @@ namespace MathSite.Facades.Posts
                 })
                 : await GetPost(requirements);
         }
-        
-        public Task<IEnumerable<Post>> GetPostsAsync(string postTypeAlias, int page, int perPage,
-            RemovedStateRequest state, PublishStateRequest publishState, FrontPageStateRequest frontPageState,
-            bool cache)
+
+        public async Task<Post> GetPostAsync(Guid id)
         {
-            return GetPostsAsync(null, postTypeAlias, page, perPage, state, publishState, frontPageState, cache);
-        }
-
-
-        public async Task<Guid> CreatePostAsync(Post post)
-        {
-            try
-            {
-                var postType = await GetPostTypeAsync(post.PostType.Alias);  
-                var seoSettingsId = await RepositoryManager.PostSeoSettingsRepository.InsertAndGetIdAsync(post.PostSeoSetting);
-                var settingsId = await RepositoryManager.PostSettingRepository.InsertAndGetIdAsync(post.PostSettings);
-
-                post.PostType = postType;
-
-                post.PostSeoSettingsId = seoSettingsId;
-                post.PostSettingsId = settingsId;
-
-                return await Repository.InsertAndGetIdAsync(post);
-            }
-            catch (Exception e)
-            {
-                _postsFacadeLogger.LogError(e, "Can't create post. Exception was thrown.");
-                return Guid.Empty;
-            }
+            return await Repository
+                .WithPostSeoSettings()
+                .WithPostSetttings()
+                .FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task<IEnumerable<Post>> GetPostsAsync(
             Guid? categoryId, 
             string postTypeAlias, 
             int page, 
+            int perPage, 
+            RemovedStateRequest state,
+            PublishStateRequest publishState, 
+            FrontPageStateRequest frontPageState, 
+            bool cache
+        )
+        {
+            return await GetPostsAsync(categoryId, postTypeAlias, page, perPage, state, publishState, frontPageState, null, cache);
+        }
+
+        public async Task<IEnumerable<Post>> GetPostsAsync(
+            string postTypeAlias, 
+            int page, 
+            int perPage, 
+            RemovedStateRequest state,
+            PublishStateRequest publishState, 
+            FrontPageStateRequest frontPageState, 
+            IEnumerable<Category> excludedCategories, 
+            bool cache
+        )
+        {
+            return await GetPostsAsync(null, postTypeAlias, page, perPage, state, publishState, frontPageState, excludedCategories, cache);
+        }
+
+        public Task<IEnumerable<Post>> GetPostsAsync(
+            string postTypeAlias, 
+            int page, 
             int perPage,
             RemovedStateRequest state, 
             PublishStateRequest publishState, 
             FrontPageStateRequest frontPageState,
+            bool cache
+        )
+        {
+            return GetPostsAsync(null, postTypeAlias, page, perPage, state, publishState, frontPageState, null, cache);
+        }
+
+        public async Task<Guid> CreatePostAsync(Post post)
+        {
+            return await Repository.InsertAndGetIdAsync(post);
+        }
+
+        public async Task<IEnumerable<Post>> GetPostsAsync(
+            Guid? categoryId,
+            string postTypeAlias,
+            int page,
+            int perPage,
+            RemovedStateRequest state,
+            PublishStateRequest publishState,
+            FrontPageStateRequest frontPageState,
+            IEnumerable<Category> excludedCategories,
             bool cache
         )
         {
@@ -155,13 +188,18 @@ namespace MathSite.Facades.Posts
 
             var toSkip = perPage * (page - 1);
 
-            var requirements = CreateRequirements(postTypeAlias, state, publishState, frontPageState, categoryId);
+            var localExcludedCategories = excludedCategories as Category[] ?? excludedCategories?.ToArray();
+
+            var requirements = CreateRequirements(postTypeAlias, state, publishState, frontPageState, categoryId, localExcludedCategories);
 
             var cacheKey =
                 $"Post={postTypeAlias ?? "ALL"}:Page={page}:PerPage={perPage}:Removed={state}:Published={publishState}:FrontPage={frontPageState}";
 
             if (categoryId.HasValue)
                 cacheKey += $":Category={categoryId.ToString()}";
+
+            if (localExcludedCategories.IsNotNullOrEmpty())
+                cacheKey += $":NotInCategories={localExcludedCategories.Select(category => category.Alias).Aggregate((f,s) => $"{f},{s}")}";
 
             async Task<IEnumerable<Post>> GetPosts(Specification<Post> specification, int perPageCount, int toSkipCount)
             {
@@ -185,6 +223,19 @@ namespace MathSite.Facades.Posts
                 : await GetPosts(requirements, perPage, toSkip);
         }
 
+        public async Task<Guid> UpdatePostAsync(Post post)
+        {
+            try
+            {
+                return await Repository.InsertOrUpdateAndGetIdAsync(post);
+            }
+            catch (Exception e)
+            {
+                _postsFacadeLogger.LogError(e, "Can't update post. Exception was thrown.");
+                return Guid.Empty;
+            }
+        }
+
         public async Task DeletePostAsync(Guid id)
         {
             try
@@ -197,17 +248,32 @@ namespace MathSite.Facades.Posts
             }
         }
 
-        private async Task<PostType> GetPostTypeAsync(string postType)
+        public async Task<PostType> GetPostTypeAsync(string alias)
         {
-            return await RepositoryManager.PostTypeRepository.SingleAsync(type => type.Alias == postType);
+            return await RepositoryManager.PostTypeRepository.SingleAsync(postType => postType.Alias == alias);
+        }
+
+        public async Task<PostSetting> GetPostSettingsAsync(Guid? id)
+        {
+            return await RepositoryManager.PostSettingRepository.SingleAsync(s => s.Id == id);
+        }
+
+        public async Task<PostSeoSetting> GetPostSeoSettingsAsync(Guid id)
+        {
+            return await RepositoryManager.PostSeoSettingsRepository.SingleAsync(s => s.Id == id);
+        }
+
+        public async Task<IEnumerable<Category>> GetPostCategoriesAsync()
+        {
+            return await RepositoryManager.CategoryRepository.GetAllListAsync();
         }
 
         private async Task<int> GetPostsWithTypeCount(
             string postTypeAlias,
             Guid? categoryId,
             RemovedStateRequest state,
-            PublishStateRequest publishState, 
-            FrontPageStateRequest frontPageState, 
+            PublishStateRequest publishState,
+            FrontPageStateRequest frontPageState,
             bool cache
         )
         {
@@ -220,12 +286,12 @@ namespace MathSite.Facades.Posts
             return await GetCountAsync(requirements, cache, CacheMinutes, cacheKey);
         }
 
-        private static Specification<Post> CreateRequirements(
-            string postTypeAlias,
+        private static Specification<Post> CreateRequirements(string postTypeAlias,
             RemovedStateRequest state,
             PublishStateRequest publishState,
             FrontPageStateRequest frontPageState,
-            Guid? categoryId = null
+            Guid? categoryId = null, 
+            ICollection<Category> excludedCategories = null
         )
         {
             var requirements = postTypeAlias.IsNotNull()
@@ -248,7 +314,13 @@ namespace MathSite.Facades.Posts
                 requirements = requirements.AndNot(new PostOnStartPageSpecification());
 
             if (categoryId.HasValue)
-                requirements = requirements.And(new PostHasCategoriesSpecification(categoryId.Value));
+                requirements = requirements.And(new PostHasCategorySpecification(categoryId.Value));
+
+            if (excludedCategories.IsNotNullOrEmpty()) 
+                requirements = excludedCategories.Aggregate(
+                    requirements, 
+                    (current, excludedCategory) => current.And(new PostNotInCategorySpecification(excludedCategory))
+                );
 
             return requirements;
         }

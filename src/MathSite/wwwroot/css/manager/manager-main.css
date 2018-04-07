@@ -88,3 +88,26 @@ main * { -webkit-overflow-scrolling: touch; }
     font-size: 12px;
     line-height: 12px;
 }
+
+.buttons-td {
+    min-width: 110px;
+}
+.buttons-td-three {
+    min-width: 155px;
+}
+
+.manager-tabs {
+
+}
+
+.manager-tabs .nav-tabs .nav-link:focus, .nav-tabs .nav-link:hover {
+    background: #f4f4f4;
+}
+
+.manager-tabs-content {
+    border: 1px solid rgb(222, 226, 230);
+    border-top: none;
+
+    padding: 20px;
+    margin-bottom: 20px;
+}

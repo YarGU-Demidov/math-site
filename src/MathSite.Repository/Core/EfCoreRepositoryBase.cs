@@ -61,7 +61,8 @@ namespace MathSite.Repository.Core
         }
 
         public override IQueryable<TEntity> GetAllIncluding(
-            params Expression<Func<TEntity, object>>[] propertySelectors)
+            params Expression<Func<TEntity, object>>[] propertySelectors
+        )
         {
             var query = Table.AsQueryable();
 

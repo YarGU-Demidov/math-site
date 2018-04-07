@@ -71,7 +71,6 @@ namespace MathSite
                 .AddJsonOptions(options =>
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
             services.AddRouting(options => { options.LowercaseUrls = true; });
-
             services.AddMemoryCache();
 
             ConfigureEntityFramework(services, isDevelopment);
