@@ -30,31 +30,31 @@ namespace MathSite.Tests.Common
             Assert.True(_aesEncryptor.Vector.IsNotNullOrEmpty());
         }
 
-        //[Fact]
-        //public async void AesEncryptorEncryptsStringIntoArrayOfBytes()
-        //{
-        //    var rnd = new Random();
-        //    var key = new string(Enumerable.Repeat(rnd, 10).Select(x => (char)x.Next(33, 123)).ToArray());
-        //    var encrypted = await _aesEncryptor.EncryptStringToBytes(key);
-        //    Assert.True(encrypted.IsNotNullOrEmpty());
-        //}
-        //[Fact]
-        //public async void AesEncryptorDecryptsBytesIntoString()
-        //{
-        //    var rnd = new Random();
-        //    var key = new string(Enumerable.Repeat(rnd, 10).Select(x => (char)x.Next(33, 123)).ToArray());
-        //    var encrypted = await _aesEncryptor.EncryptStringToBytes(key);
-        //    var decrypted = await _aesEncryptor.DecryptStringFromBytes(encrypted);
-        //    Assert.NotNull(decrypted);
-        //}
-        //[Fact]
-        //public async void DecryptingEncryptedStringReturnsCorrectValue()
-        //{
-        //    var rnd = new Random();
-        //    var key = new string(Enumerable.Repeat(rnd, 10).Select(x => (char)x.Next(33, 123)).ToArray());
-        //    var encrypted = await _aesEncryptor.EncryptStringToBytes(key);
-        //    var decrypted = await _aesEncryptor.DecryptStringFromBytes(encrypted);
-        //    Assert.Equal(key, decrypted);
-        //}
+        [Fact]
+        public async void AesEncryptorEncryptsStringIntoArrayOfBytes()
+        {
+            var rnd = new Random();
+            var key = new string(Enumerable.Repeat(rnd, 10).Select(x => (char)x.Next(33, 123)).ToArray());
+            var encrypted = await _aesEncryptor.EncryptStringToBytes(key);
+            Assert.True(encrypted.IsNotNullOrEmpty());
+        }
+        [Fact]
+        public async void AesEncryptorDecryptsBytesIntoString()
+        {
+            var rnd = new Random();
+            var key = new string(Enumerable.Repeat(rnd, 10).Select(x => (char)x.Next(33, 123)).ToArray());
+            var encrypted = await _aesEncryptor.EncryptStringToBytes(key);
+            var decrypted = await _aesEncryptor.DecryptStringFromBytes(encrypted);
+            Assert.NotNull(decrypted);
+        }
+        [Fact]
+        public async void DecryptingEncryptedStringReturnsCorrectValue()
+        {
+            var rnd = new Random();
+            var key = new string(Enumerable.Repeat(rnd, 10).Select(x => (char)x.Next(33, 123)).ToArray());
+            var encrypted = await _aesEncryptor.EncryptStringToBytes(key);
+            var decrypted = await _aesEncryptor.DecryptStringFromBytes(encrypted);
+            Assert.Equal(key, decrypted);
+        }
     }
 }

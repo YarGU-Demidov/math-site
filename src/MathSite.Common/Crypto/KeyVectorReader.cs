@@ -10,7 +10,7 @@ namespace MathSite.Common.Crypto
     {
         private readonly string _path;
 
-    private static readonly object SyncRoot = new object();
+        private static readonly object SyncRoot = new object();
 
         public KeyVectorReader() 
             : this($"{Environment.CurrentDirectory}/KeyVectorPair")
