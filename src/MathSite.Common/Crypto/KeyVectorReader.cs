@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
@@ -22,11 +23,20 @@ namespace MathSite.Common.Crypto
 
         public async Task<KeyVectorPair> GetKeyVectorAsync()
         {
-            using (var reader = File.OpenText(_path))
+            var readerLock = new ReaderWriterLock();
+            readerLock.AcquireReaderLock(Int32.MaxValue);
+            try
             {
-                var fileText = await reader.ReadToEndAsync();
-                var obj = JsonConvert.DeserializeObject<KeyVectorPair>(fileText);
-                return new KeyVectorPair { Key = obj.Key, Vector = obj.Vector };
+                using (var reader = File.OpenText(_path))
+                {
+                    var fileText = await reader.ReadToEndAsync();
+                    var obj = JsonConvert.DeserializeObject<KeyVectorPair>(fileText);
+                    return new KeyVectorPair {Key = obj.Key, Vector = obj.Vector};
+                }
+            }
+            finally
+            {
+                readerLock.ReleaseReaderLock();
             }
         }
     }
