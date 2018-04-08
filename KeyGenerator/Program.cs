@@ -19,16 +19,9 @@ namespace KeyGenerator
                 var path = args.Length == 0
                     ? $"{Environment.CurrentDirectory}/KeyVectorPair"
                     : args[0];
-
-                var locker = new ReaderWriterLock();
-                locker.AcquireWriterLock(int.MaxValue);
-                try
+                lock (path)
                 {
-                    await File.WriteAllTextAsync(path,serializeObject);
-                }
-                finally
-                {
-                    locker.ReleaseWriterLock();
+                    File.WriteAllTextAsync(path, serializeObject);
                 }
             }
         }
