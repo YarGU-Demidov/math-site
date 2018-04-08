@@ -9,7 +9,7 @@ namespace MathSite.Common.Crypto
     public class KeyVectorReader: IKeyVectorReader
     {
         private readonly string _path;
-
+        private KeyVectorPair _pair;
 
         public KeyVectorReader() 
             : this($"{Environment.CurrentDirectory}/KeyVectorPair")
@@ -23,21 +23,15 @@ namespace MathSite.Common.Crypto
 
         public async Task<KeyVectorPair> GetKeyVectorAsync()
         {
-            var readerLock = new ReaderWriterLock();
-            readerLock.AcquireReaderLock(Int32.MaxValue);
-            try
+            if (_pair != null)
+                return _pair;
+            using (var reader = File.OpenText(_path))
             {
-                using (var reader = File.OpenText(_path))
-                {
-                    var fileText = await reader.ReadToEndAsync();
-                    var obj = JsonConvert.DeserializeObject<KeyVectorPair>(fileText);
-                    return new KeyVectorPair {Key = obj.Key, Vector = obj.Vector};
-                }
+                var fileText = await reader.ReadToEndAsync();
+                var obj = JsonConvert.DeserializeObject<KeyVectorPair>(fileText);
+                _pair = new KeyVectorPair { Key = obj.Key, Vector = obj.Vector };
             }
-            finally
-            {
-                readerLock.ReleaseReaderLock();
-            }
+            return _pair;
         }
     }
 }
