@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Security.Cryptography;
+using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using MathSite.Common.Crypto;
@@ -9,6 +10,7 @@ namespace KeyGenerator
 {
     public static class Program
     {
+        static ReaderWriterLock locker = new ReaderWriterLock();
         public static async Task Main(string[] args)
         {
             using (Aes myAes = Aes.Create())
@@ -19,7 +21,15 @@ namespace KeyGenerator
                     ? $"{Environment.CurrentDirectory}/KeyVectorPair"
                     : args[0];
 
-                await File.WriteAllTextAsync(path,serializeObject);
+                try
+                {
+                    locker.AcquireWriterLock(int.MaxValue);
+                    await File.WriteAllTextAsync(path,serializeObject);
+                }
+                finally
+                {
+                    locker.ReleaseWriterLock();
+                }
             }
         }
     }
