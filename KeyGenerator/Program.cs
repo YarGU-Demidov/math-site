@@ -10,7 +10,6 @@ namespace KeyGenerator
 {
     public static class Program
     {
-        static ReaderWriterLock locker = new ReaderWriterLock();
         public static async Task Main(string[] args)
         {
             using (Aes myAes = Aes.Create())
@@ -21,6 +20,7 @@ namespace KeyGenerator
                     ? $"{Environment.CurrentDirectory}/KeyVectorPair"
                     : args[0];
 
+                var locker = new ReaderWriterLock();
                 locker.AcquireWriterLock(int.MaxValue);
                 try
                 {
