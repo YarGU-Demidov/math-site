@@ -12,6 +12,7 @@ namespace MathSite.Facades.PostSeoSettings
     {
         Task UpdateForPost(Post post, string url, string title, string description);
         Task<Guid> CreateAsync(string url, string title, string description);
+        Task RemoveForPostAsync(Guid postId);
     }
 
     public class PostSeoSettingsFacade : BaseFacade<IPostSeoSettingsRepository, PostSeoSetting>, IPostSeoSettingsFacade
@@ -42,6 +43,12 @@ namespace MathSite.Facades.PostSeoSettings
                 Title = title,
                 Description = description
             });
+        }
+
+        public async Task RemoveForPostAsync(Guid postId)
+        {
+            var spec = new PostSeoSettingForPostSpecification(postId);
+            await Repository.DeleteAsync(spec);
         }
     }
 }

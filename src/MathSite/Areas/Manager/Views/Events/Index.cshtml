@@ -41,18 +41,30 @@
                                         </a>
                                         @if (post.Deleted)
                                         {
-                                            <a href="@Url.Action("Recover", "Events", new {id = post.Id})" title="Edit" class="btn btn-outline-info">
-                                                <em class="fa fa-repeat"></em>
-                                            </a>
+                                            <form class="post-form" asp-action="Recover" asp-route-id="@post.Id" method="post" asp-antiforgery="true">
+                                                <button type="submit" title="Delete" class="btn btn-outline-info">
+                                                    <em class="fa fa-repeat"></em>
+                                                </button>
+                                            </form>
+                                            <form class="post-form" asp-action="ForceDelete" asp-route-id="@post.Id" method="post" asp-antiforgery="true">
+                                                <button type="submit" title="Delete" class="btn btn-outline-danger">
+                                                    <em class="fa fa-trash"></em>
+                                                </button>
+                                            </form>
                                         }
-                                        <a href="@Url.Action("Delete", "Events", new {id = post.Id})" title="Delete" class="btn btn-outline-danger">
-                                            <em class="fa fa-trash"></em>
-                                        </a>
+                                        else
+                                        {
+                                            <form class="post-form" asp-action="Delete" asp-route-id="@post.Id" method="post" asp-antiforgery="true">
+                                                <button type="submit" title="Delete" class="btn btn-outline-danger">
+                                                    <em class="fa fa-trash"></em>
+                                                </button>
+                                            </form>
+                                        }
                                     </td>
                                     <th>@post.Title</th>
                                     <td>
                                         @{
-                                            if (publishedText == String.Empty)
+                                            if (publishedText == string.Empty)
                                             {
                                                 <p>Событие не опубликовано</p>
                                             }
@@ -151,4 +163,11 @@
 
 @section ScriptsSection{
     <script src="~/js/pager.js"></script>
+}
+@section StylesSection {
+    <style>
+        .post-form {
+            display: inline-block;
+        }
+    </style>
 }

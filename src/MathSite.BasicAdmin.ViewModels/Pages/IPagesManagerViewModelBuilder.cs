@@ -13,5 +13,7 @@ namespace MathSite.BasicAdmin.ViewModels.Pages
         Task<PageViewModel> BuildEditViewModel(Guid id);
         Task<PageViewModel> BuildEditViewModel(PageViewModel page);
         Task<ListPagesViewModel> BuildDeleteViewModel(Guid id);
+        Task BuildRecoverViewModel(Guid postId);
+        Task BuildForceDeleteViewModel(Guid postId);
     }
 }

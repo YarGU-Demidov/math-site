@@ -34,13 +34,15 @@ namespace MathSite.Facades.Categories
 
         public async Task<IEnumerable<Category>> GetCategoreisByIdAsync(IEnumerable<Guid> ids)
         {
-            var idsList = new List<Category>();
+            // TODO: переписать, тут много запросов кидаться может (и будет)
+            // TODO: надо вхерачить тут конкатенацию через AND спецификаций по ID категории в GetAllListAsync
+            var categoriesIds = new List<Category>();
             foreach (var id in ids)
             {
-                idsList.Add(await Repository.GetAsync(id));
+                categoriesIds.Add(await Repository.GetAsync(id));
             }
 
-            return idsList;
+            return categoriesIds;
         }
 
         public async Task<Category> GetCategoryByAliasAsync(string categoryAlias)

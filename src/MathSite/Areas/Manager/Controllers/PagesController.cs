@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using MathSite.BasicAdmin.ViewModels.Pages;
 using MathSite.Controllers;
 using MathSite.Db.DataSeeding.StaticData;
-using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
 using Microsoft.AspNetCore.Authorization;
@@ -17,9 +16,11 @@ namespace MathSite.Areas.Manager.Controllers
     {
         private readonly IPagesManagerViewModelBuilder _modelBuilder;
 
-        public PagesController(IUserValidationFacade userValidationFacade, IPagesManagerViewModelBuilder modelBuilder,
-            IUsersFacade usersFacade)
-            : base(userValidationFacade, usersFacade)
+        public PagesController(
+            IUserValidationFacade userValidationFacade, 
+            IPagesManagerViewModelBuilder modelBuilder,
+            IUsersFacade usersFacade
+        ) : base(userValidationFacade, usersFacade)
         {
             _modelBuilder = modelBuilder;
         }
@@ -32,20 +33,19 @@ namespace MathSite.Areas.Manager.Controllers
             return View("Index", await _modelBuilder.BuildIndexViewModel(page, perPage));
         }
 
+        [HttpGet("[area]/[controller]/removed")]
         public async Task<IActionResult> Removed([FromQuery] int page = 1, [FromQuery] int perPage = 10)
         {
             return View("Index", await _modelBuilder.BuildRemovedViewModel(page, perPage));
         }
 
-        [HttpGet]
-        [Route("[area]/[controller]/create")]
+        [HttpGet("[area]/[controller]/create")]
         public async Task<IActionResult> Create()
         {
             return View("Create", await _modelBuilder.BuildCreateViewModel());
         }
 
-        [HttpPost]
-        [Route("[area]/[controller]/create")]
+        [HttpPost("[area]/[controller]/create"), ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(PageViewModel page)
         {
             page.AuthorId = CurrentUser.Id;
@@ -55,15 +55,13 @@ namespace MathSite.Areas.Manager.Controllers
             return RedirectToActionPermanent("Index");
         }
 
-        [HttpGet]
-        [Route("[area]/[controller]/edit")]
+        [HttpGet("[area]/[controller]/edit")]
         public async Task<IActionResult> Edit(Guid id)
         {
             return View("Edit", await _modelBuilder.BuildEditViewModel(id));
         }
 
-        [HttpPost]
-        [Route("[area]/[controller]/edit")]
+        [HttpPost("[area]/[controller]/edit"), ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(PageViewModel page)
         {
             await _modelBuilder.BuildEditViewModel(page);
@@ -71,8 +69,7 @@ namespace MathSite.Areas.Manager.Controllers
             return RedirectToActionPermanent("Index");
         }
 
-        [HttpDelete("{id}")]
-        [Route("[area]/[controller]/delete")]
+        [HttpPost("[area]/[controller]/delete"), ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete([FromQuery] Guid id)
         {
             await _modelBuilder.BuildDeleteViewModel(id);
@@ -80,9 +77,19 @@ namespace MathSite.Areas.Manager.Controllers
             return RedirectToActionPermanent("Index");
         }
 
+        [HttpPost("[area]/[controller]/recover/{id}"), ValidateAntiForgeryToken]
         public async Task<IActionResult> Recover(Guid id)
         {
-            throw new NotImplementedException();
+            await _modelBuilder.BuildRecoverViewModel(id);
+            return RedirectToActionPermanent("Removed");
+        }
+
+
+        [HttpPost("[area]/[controller]/forece-delete/{id}"), ValidateAntiForgeryToken]
+        public async Task<IActionResult> ForceDelete(Guid id)
+        {
+            await _modelBuilder.BuildForceDeleteViewModel(id);
+            return RedirectToActionPermanent("Removed");
         }
     }
 }
