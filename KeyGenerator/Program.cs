@@ -21,9 +21,9 @@ namespace KeyGenerator
                     ? $"{Environment.CurrentDirectory}/KeyVectorPair"
                     : args[0];
 
+                locker.AcquireWriterLock(int.MaxValue);
                 try
                 {
-                    locker.AcquireWriterLock(int.MaxValue);
                     await File.WriteAllTextAsync(path,serializeObject);
                 }
                 finally
