@@ -29,9 +29,11 @@ namespace MathSite.Common.Crypto
                 return _keyVectorPair;
             lock (SyncRoot)
             {
+                if (_keyVectorPair.IsNotNull())
+                    return _keyVectorPair;
                 using (var reader = File.OpenText(_path))
                 {
-                    var fileText =  reader.ReadToEnd();
+                    var fileText =  reader.ReadToEndAsync().Result;
                     var obj = JsonConvert.DeserializeObject<KeyVectorPair>(fileText);
                     _keyVectorPair = new KeyVectorPair { Key = obj.Key, Vector = obj.Vector };
                     return _keyVectorPair;
