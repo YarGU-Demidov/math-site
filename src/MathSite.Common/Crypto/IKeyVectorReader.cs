@@ -4,6 +4,6 @@ namespace MathSite.Common.Crypto
 {
     public interface IKeyVectorReader
     {
-        Task<KeyVectorPair> GetKeyVectorAsync();
+        KeyVectorPair GetKeyVector();
     }
 }
