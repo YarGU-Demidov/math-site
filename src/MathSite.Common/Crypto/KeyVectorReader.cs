@@ -22,7 +22,7 @@ namespace MathSite.Common.Crypto
             _path = path;
         }
 
-        public async Task<KeyVectorPair> GetKeyVectorAsync()
+        public KeyVectorPair GetKeyVector()
         {
             if (_keyVectorPair != null)
                 return _keyVectorPair;

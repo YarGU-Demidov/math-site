@@ -24,13 +24,13 @@ namespace MathSite.Tests.Common
         [Fact]
         public void KeyVectorFileExists()
         {
-            var result =  _keyVectorReader.GetKeyVectorAsync();
+            var result =  _keyVectorReader.GetKeyVector();
             Assert.NotNull(result);
         }
         [Fact]
         public  void KeyVectorIsNotNullOrEmpty()
         {
-            var result =  _keyVectorReader.GetKeyVectorAsync().Result;
+            var result =  _keyVectorReader.GetKeyVector();
             Assert.True(result.Vector.IsNotNullOrEmpty());
             Assert.True(result.Key.IsNotNullOrEmpty());
         }
