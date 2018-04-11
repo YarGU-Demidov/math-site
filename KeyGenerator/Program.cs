@@ -10,8 +10,11 @@ namespace KeyGenerator
 {
     public static class Program
     {
+        private static object SyncRoot;
         public static async Task Main(string[] args)
         {
+            if(SyncRoot==null)
+                SyncRoot = new object();
             using (Aes myAes = Aes.Create())
             {
                 var serializeObject = JsonConvert.SerializeObject(new KeyVectorPair() {Key = myAes.Key,Vector = myAes.IV});
@@ -19,9 +22,9 @@ namespace KeyGenerator
                 var path = args.Length == 0
                     ? $"{Environment.CurrentDirectory}/KeyVectorPair"
                     : args[0];
-                lock (path)
+                lock (SyncRoot)
                 {
-                    File.WriteAllTextAsync(path, serializeObject);
+                    File.WriteAllText(path, serializeObject);
                 }
             }
         }
