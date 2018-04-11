@@ -13,7 +13,7 @@ namespace MathSite.Common.Crypto
 
         public AesEncryptor(IKeyVectorReader keyVectorReader)
         {
-            var keyVectorPair = keyVectorReader.GetKeyVector();
+            var keyVectorPair = keyVectorReader.GetKeyVectorAsync().Result;
             Key = keyVectorPair.Key;
             Vector = keyVectorPair.Vector;
         }

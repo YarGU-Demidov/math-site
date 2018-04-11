@@ -22,15 +22,15 @@ namespace MathSite.Tests.Common
         }
 
         [Fact]
-        public void KeyVectorFileExists()
+        public async void KeyVectorFileExists()
         {
-            var result =  _keyVectorReader.GetKeyVector();
+            var result = await _keyVectorReader.GetKeyVectorAsync();
             Assert.NotNull(result);
         }
         [Fact]
-        public  void KeyVectorIsNotNullOrEmpty()
+        public async void KeyVectorIsNotNullOrEmpty()
         {
-            var result =  _keyVectorReader.GetKeyVector();
+            var result = await _keyVectorReader.GetKeyVectorAsync();
             Assert.True(result.Vector.IsNotNullOrEmpty());
             Assert.True(result.Key.IsNotNullOrEmpty());
         }
