@@ -2,7 +2,6 @@
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using MathSite.Common.Extensions;
 using Newtonsoft.Json;
 
 namespace MathSite.Common.Crypto
@@ -10,7 +9,7 @@ namespace MathSite.Common.Crypto
     public class KeyVectorReader: IKeyVectorReader
     {
         private readonly string _path;
-        private KeyVectorPair _keyVectorPair;
+        private KeyVectorPair _KeyVectorPair;
         private static readonly object SyncRoot = new object();
 
         public KeyVectorReader() 
@@ -23,20 +22,18 @@ namespace MathSite.Common.Crypto
             _path = path;
         }
 
-        public KeyVectorPair GetKeyVector()
+        public async Task<KeyVectorPair> GetKeyVectorAsync()
         {
-            if (_keyVectorPair.IsNotNull())
-                return _keyVectorPair;
+            if (_KeyVectorPair != null)
+                return _KeyVectorPair;
             lock (SyncRoot)
             {
-                if (_keyVectorPair.IsNotNull())
-                    return _keyVectorPair;
                 using (var reader = File.OpenText(_path))
                 {
                     var fileText =  reader.ReadToEndAsync().Result;
                     var obj = JsonConvert.DeserializeObject<KeyVectorPair>(fileText);
-                    _keyVectorPair = new KeyVectorPair { Key = obj.Key, Vector = obj.Vector };
-                    return _keyVectorPair;
+                    _KeyVectorPair = new KeyVectorPair { Key = obj.Key, Vector = obj.Vector };
+                    return _KeyVectorPair;
                 }
             }
         }
