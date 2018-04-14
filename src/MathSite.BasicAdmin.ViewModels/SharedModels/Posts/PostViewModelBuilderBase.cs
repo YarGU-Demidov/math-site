@@ -14,6 +14,9 @@ using MathSite.Facades.PostSettings;
 using MathSite.Facades.PostTypes;
 using MathSite.Facades.SiteSettings;
 using MathSite.Facades.Users;
+using MathSite.ViewModels.Home.PostPreview;
+using MathSite.ViewModels.SharedModels;
+using MathSite.ViewModels.SharedModels.SecondaryPage;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MathSite.BasicAdmin.ViewModels.SharedModels.Posts
@@ -289,6 +292,16 @@ namespace MathSite.BasicAdmin.ViewModels.SharedModels.Posts
             post.Deleted = false;
 
             await _postsFacade.UpdatePostAsync(post);
+        }
+
+        public void FillPostItemViewModel(SecondaryViewModel model)
+        {
+            model.Featured = new List<PostPreviewViewModel>();
+            model.Description = "PREVIEW";
+            model.Keywords = "PREVIEW";
+            model.MainMenuLinks = new List<IEnumerable<MenuItemViewModel>>();
+            model.PageTitle = new MathSite.ViewModels.SharedModels.PageTitleViewModel(null, " | ", "PREVIEW PAGE");
+            model.TopMenuLinks = new List<MenuItemViewModel>();
         }
 
         private IEnumerable<SelectListItem> GetSelectListItems(IEnumerable<User> users)

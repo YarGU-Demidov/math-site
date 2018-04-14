@@ -107,9 +107,15 @@
     }
 
     $(() => {
-        
+        var postPreviewButton = $('.post-preview');
         var editor = new EditorConfig();
         let saveButton = null;
+
+        var previewExecutor = new PreviewExecutor(window.postPreviewUrl);
+
+        postPreviewButton.click(() => {
+            previewExecutor.openPreview();
+        });
 
         @if (Model is PageViewModel)
         {

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
 using MathSite.BasicAdmin.ViewModels.Events;
+using MathSite.Common.Extensions;
 using MathSite.Controllers;
 using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
+using MathSite.ViewModels.Events;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -83,12 +85,22 @@ namespace MathSite.Areas.Manager.Controllers
             return RedirectToActionPermanent("Removed");
         }
 
-
         [HttpPost("[area]/[controller]/forece-delete/{id}"), ValidateAntiForgeryToken]
         public async Task<IActionResult> ForceDelete(Guid id)
         {
             await _modelBuilder.BuildForceDeleteViewModel(id);
             return RedirectToActionPermanent("Removed");
+        }
+
+        [HttpPost("[area]/[controller]/preview")]
+        public IActionResult Preview(EventItemViewModel model)
+        {
+            if (model.IsNull())
+                return BadRequest();
+
+            _modelBuilder.FillPostItemViewModel(model);
+
+            return View("EventItem", "Events", model);
         }
     }
 }

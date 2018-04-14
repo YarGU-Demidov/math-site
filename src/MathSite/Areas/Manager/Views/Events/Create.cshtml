@@ -2,6 +2,14 @@
 
 @Html.Partial("Posts/PostEditors")
 
+<script>
+    $(() => {
+        window.currentForm = $('#create-event');
+        const name = 'events';
+        window.postPreviewUrl = `/manager/${name}/preview`;
+    });
+</script>
+
 <form method="post" asp-action="Create" asp-controller="Events" asp-antiforgery="true" id="create-event">
     <div class="container" style="padding-top: 15px; padding-bottom: 15px;">
         <ul class="manager-tabs nav nav-tabs" id="myTab" role="tablist">
@@ -28,13 +36,8 @@
             </div>
         </div>
         <button type="submit" class="btn btn-success">Создать</button>
+        <div class="btn btn-info post-preview">Предпросмотр</div>
     </div>
 </form>
-
-<script>
-    $(() => {
-        window.currentForm = $('#create-event');
-    });
-</script>
 
 @Html.Partial("Posts/CommonJsForPosts")

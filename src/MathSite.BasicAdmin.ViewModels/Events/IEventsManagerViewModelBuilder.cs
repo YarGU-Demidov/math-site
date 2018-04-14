@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using MathSite.ViewModels.SharedModels.SecondaryPage;
 
 namespace MathSite.BasicAdmin.ViewModels.Events
 {
@@ -14,5 +15,6 @@ namespace MathSite.BasicAdmin.ViewModels.Events
         Task<ListEventsViewModel> BuildDeleteViewModel(Guid id);
         Task BuildRecoverViewModel(Guid postId);
         Task BuildForceDeleteViewModel(Guid postId);
+        void FillPostItemViewModel(SecondaryViewModel model);
     }
 }

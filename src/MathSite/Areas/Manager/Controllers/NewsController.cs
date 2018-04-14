@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
 using MathSite.BasicAdmin.ViewModels.News;
+using MathSite.Common.Extensions;
 using MathSite.Controllers;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
+using MathSite.ViewModels.News;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -87,6 +89,17 @@ namespace MathSite.Areas.Manager.Controllers
         {
             await _modelBuilder.BuildForceDeleteViewModel(id);
             return RedirectToActionPermanent("Removed");
+        }
+
+        [HttpPost("[area]/[controller]/preview")]
+        public IActionResult Preview(NewsItemViewModel model)
+        {
+            if (model.IsNull())
+                return BadRequest();
+
+            _modelBuilder.FillPostItemViewModel(model);
+
+            return View("NewsItem", "News", model);
         }
     }
 }

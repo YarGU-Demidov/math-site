@@ -2,6 +2,14 @@
 
 @Html.Partial("Posts/PostEditors")
 
+<script>
+    $(() => {
+        window.currentForm = $('#edit-page');
+        const name = 'pages';
+        window.postPreviewUrl = `/manager/${name}/preview`;
+    });
+</script>
+
 <form method="post" asp-action="Edit" asp-controller="Pages" asp-antiforgery="true" id="edit-page">
     <div class="container" style="padding-top: 15px; padding-bottom: 15px;">
         @Html.HiddenFor(m => m.Id)
@@ -26,13 +34,8 @@
         </div>
 
         <button type="submit" class="btn btn-success">Сохранить</button>
+        <div class="btn btn-info post-preview">Предпросмотр</div>
     </div>
 </form>
-
-<script>
-    $(() => {
-        window.currentForm = $('#edit-page');
-    });
-</script>
 
 @Html.Partial("Posts/CommonJsForPosts")
