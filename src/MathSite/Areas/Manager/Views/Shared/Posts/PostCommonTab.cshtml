@@ -111,7 +111,7 @@
         var editor = new EditorConfig();
         let saveButton = null;
 
-        var previewExecutor = new PreviewExecutor(window.postPreviewUrl);
+        var previewExecutor = new PreviewExecutor(window.postPreviewUrl, window.postWithAdditionalInfo);
 
         postPreviewButton.click(() => {
             previewExecutor.openPreview();

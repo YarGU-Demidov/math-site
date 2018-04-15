@@ -41,8 +41,8 @@
         };
 
         return this.hasAdditionalFields
-            ? defaultCfg
-            : extendedCfg;
+            ? extendedCfg
+            : defaultCfg;
     }
 
     _getTitle() {
