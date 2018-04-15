@@ -7,18 +7,13 @@ using Xunit;
 
 namespace MathSite.Tests.Common
 {
-    public class KeyVectorReaderTests
+    public class KeyVectorReaderTests : EncryptorTestsBase
     {
         private readonly KeyVectorReader _keyVectorReader;
 
         public KeyVectorReaderTests()
         {
-            var path = $"{Environment.CurrentDirectory}/KeyVectorPair";
-
-            if (!File.Exists(path))
-                Program.Main(new[] { path }).Wait();
-
-            _keyVectorReader = new KeyVectorReader(path);
+            _keyVectorReader = GetKeyVectorReader();
         }
 
         [Fact]

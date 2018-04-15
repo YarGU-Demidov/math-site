@@ -7,16 +7,12 @@ using Xunit;
 
 namespace MathSite.Tests.Common
 {
-    public class TwoFactorAutenticationKeyManagerTests
+    public class TwoFactorAutenticationKeyManagerTests:EncryptorTestsBase
     {
         private readonly TwoFactorAuthenticationKeyManager _twoFactorAutenticationKeyManager;
         public TwoFactorAutenticationKeyManagerTests()
         {
-            var path = $"{Environment.CurrentDirectory}/KeyVectorPair";
-
-            if (!File.Exists(path))
-                Program.Main(new[] { path }).Wait();
-            _twoFactorAutenticationKeyManager = new TwoFactorAuthenticationKeyManager(new AesEncryptor(new KeyVectorReader(path)));
+            _twoFactorAutenticationKeyManager = new TwoFactorAuthenticationKeyManager(new AesEncryptor(GetKeyVectorReader()));
         }
         [Fact]
         public async void CreateEncryptedKeyReturnsBytesThatAreNotNullOrEmpty()
