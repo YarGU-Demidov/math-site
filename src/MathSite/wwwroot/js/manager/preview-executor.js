@@ -58,12 +58,12 @@
     }
 
     _getDate() {
-        var dateTime = new Date($('#EventTime').val());
-        return `${dateTime.getDate()}.${Math.floor(dateTime.getMonth() / 10) !== 1 ? '0' + dateTime.getMonth() : dateTime.getMonth() }.${dateTime.getFullYear()}`;
+        const dateTime = new Date($('#EventTime').val());
+        return `${dateTime.getDate()}.${Math.floor(dateTime.getMonth() / 10) !== 1 ? `0${dateTime.getMonth()}` : dateTime.getMonth() }.${dateTime.getFullYear()}`;
     }
 
     _getTime() {
-        var dateTime = new Date($('#EventTime').val());
+        const dateTime = new Date($('#EventTime').val());
         return `${dateTime.getHours()}:${dateTime.getMinutes()}`;
     }
 
