@@ -20,14 +20,11 @@ namespace MathSite.Common.Crypto
             _path = path;
         }
 
-        public async Task<KeyVectorPair> GetKeyVectorAsync()
+        public KeyVectorPair GetKeyVector()
         {
-                using (var reader = File.OpenText(_path))
-                {
-                    var fileText =  reader.ReadToEnd();
-                    var obj = JsonConvert.DeserializeObject<KeyVectorPair>(fileText);
-                    return new KeyVectorPair { Key = obj.Key, Vector = obj.Vector };
-                }
+            var fileText = File.ReadAllText(_path);
+            var obj = JsonConvert.DeserializeObject<KeyVectorPair>(fileText);
+            return new KeyVectorPair { Key = obj.Key, Vector = obj.Vector };
         }
     }
 }
