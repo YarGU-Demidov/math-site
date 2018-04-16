@@ -14,11 +14,14 @@
 </div>
 <form method="post" class="login-form" asp-action="VerifyTwoFactorAutentication" asp-controller="Account" asp-route-returnUrl="@Model.ReturnUrl" asp-antiforgery="true">
     <div class="form-group">
-        <label asp-for="Token"></label>
+        <label>Введите ключ:</label>
+        <label class="text-danger">@Model.IsTokenCorrect</label>
         <input asp-for="Token" class="form-control" />
     </div>
     <input type="hidden" asp-for="TemporalTwoFactorAutenticationKey" />
     <input type="hidden" asp-for="Login" />
     <input type="hidden" asp-for="Password" />
+    <input type="hidden" asp-for="BarcodeImageUrl" />
+    <input type="hidden" asp-for="SetupCode" />
     <button type="submit" class="btn btn-default">Submit</button>
 </form>

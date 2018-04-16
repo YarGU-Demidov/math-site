@@ -129,7 +129,7 @@ namespace MathSite.Controllers
         public async Task<IActionResult> VerifyTwoFactorAutentication(LoginFormViewModel model)
         {
             string userUniqueKey;
-            if (model.TemporalTwoFactorAutenticationKey == null)
+            if (model.TemporalTwoFactorAutenticationKey.IsNull())
             {
                 var ourUser = await UserValidationFacade.GetUserByLoginAndPasswordAsync(model.Login, model.Password);
                 userUniqueKey =
@@ -143,7 +143,12 @@ namespace MathSite.Controllers
             if (!isValid)
             {
                 model.IsTokenCorrect = "Ключ не верен";
-                return View("~/Views/Account/TwoFactorAuthentication.cshtml", model);
+                if(model.TemporalTwoFactorAutenticationKey.IsNull())
+                    return View("~/Views/Account/TwoFactorAuthentication.cshtml", model);
+                else
+                {
+                    return View("~/Views/Account/Add2FA.cshtml", model);
+                }
             }
             if (model.TemporalTwoFactorAutenticationKey.IsNotNull())
                 await UsersFacade.SetUserKey(model.Login, Convert.FromBase64String(model.TemporalTwoFactorAutenticationKey));
