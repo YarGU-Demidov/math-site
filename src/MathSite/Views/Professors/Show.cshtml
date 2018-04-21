@@ -1,0 +1,79 @@
+﻿@model ProfessorViewModel
+
+@{
+    Layout = "SecondaryLayout";
+    Layout = null;
+
+    var fullName = $"{Model.Professor.Person.Surname} {Model.Professor.Person.Name} {Model.Professor.Person.MiddleName}";
+}
+
+<div class="teacher">
+    <div class="page__wrap container">
+        <div class="teacher__head page__head-article">
+            <div class="page__title section-head teacher__section-head">
+                <h1 class="section-head__title-article heading-article">
+                    @fullName
+                </h1>
+                <div class="teacher__info">@Model.Professor.Status</div>
+                <div class="teacher__bio">
+                    <div class="teacher__body">
+                        <div class="wysiwyg wysiwyg__teacher">
+                            @Html.Raw(Model.Professor.Description)
+
+                            <h2>Темы курсовых и дипломных работ:</h2>
+                            <ul>
+                                @foreach (var theme in Model.Professor.TermPapers)
+                                {
+                                    <li>@theme</li>
+                                }
+                            </ul>
+
+                            <h2>Библиографический указатель трудов Л. С. Казарина:</h2>
+                            <ol>
+                                @foreach (var idx in Model.Professor.BibliographicIndexOfWorks)
+                                {
+                                    <li>@idx</li>
+                                }
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page__sidebar">
+                <!-- можно убрать -->
+                @if (Model.Professor.Person.PhotoId != null)
+                {
+                    <div class="page__aside-section">
+                        <img class="teacher__image" src="@Url.Action("Get", "File", new {id = Model.Professor.Person.PhotoId})" alt="@fullName">
+                    </div>
+                }
+
+                <div class="page__aside-section">
+                    <div class="contacts-info">
+                        <div class="teacher__info teacher__short-info">
+                            @Model.Professor.ScientificTitle
+                        </div>
+                        <h4>
+                            Окончил:
+                        </h4>
+                        <ul>
+                            @foreach (var item in Model.Professor.Graduated)
+                            {
+                                <li>@item</li>
+                            }
+                        </ul>
+                        <h4>
+                            Диссертации:
+                        </h4>
+                        <ul>
+                            @foreach (var item in Model.Professor.Theses)
+                            {
+                                <li>@item</li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -32,6 +32,7 @@ namespace MathSite.Repository.Core
                 .AddScoped<IPostSeoSettingsRepository, PostSeoSettingsRepository>()
                 .AddScoped<IPostSettingRepository, PostSettingRepository>()
                 .AddScoped<IPostTypeRepository, PostTypeRepository>()
+                .AddScoped<IProfessorsRepository, ProfessorsRepository>()
                 .AddScoped<IGroupTypeRepository, GroupTypeRepository>();
         }
     }

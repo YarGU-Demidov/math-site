@@ -10,6 +10,7 @@ namespace MathSite.Repository
     public interface IPersonsRepository : IRepository<Person>
     {
         IPersonsRepository WithUser();
+        IPersonsRepository WithProfessor();
         IPersonsRepository WithPhoto();
         Task<IEnumerable<Person>> GetAllWithPagingAsync(int skip, int count);
     }
@@ -23,6 +24,12 @@ namespace MathSite.Repository
         public IPersonsRepository WithUser()
         {
             SetCurrentQuery(GetCurrentQuery().Include(person => person.User));
+            return this;
+        }
+
+        public IPersonsRepository WithProfessor()
+        {
+            SetCurrentQuery(GetCurrentQuery().Include(person => person.Professor));
             return this;
         }
 

@@ -2,12 +2,35 @@
 using System.Data.Common;
 using System.Threading.Tasks;
 using MathSite.Db;
+using MathSite.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace MathSite.Tests.CoreThings
 {
+    public class TestDbContext : MathSiteDbContext
+    {
+        private readonly bool _ignore;
+
+        public TestDbContext(DbContextOptions options, bool ignore = false) : base(options)
+        {
+            _ignore = ignore;
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            
+            if (!_ignore)
+                return;
+            
+            modelBuilder.Ignore<Professor>();
+        }
+    }
+
     public abstract class TestDatabaseFactory : ITestDatabaseFactory
     {
+        protected virtual bool IgnoreSQLiteWrongData { get; } = false;
+
         protected readonly DbConnection Connection;
 
         private MathSiteDbContext _context;
@@ -36,7 +59,7 @@ namespace MathSite.Tests.CoreThings
 
         public async Task<MathSiteDbContext> GetContext()
         {
-            _context = new MathSiteDbContext(GetContextOptions());
+            _context = new TestDbContext(GetContextOptions(), IgnoreSQLiteWrongData);
 
             await _context.Database.EnsureCreatedAsync();
             await _context.Database.MigrateAsync();

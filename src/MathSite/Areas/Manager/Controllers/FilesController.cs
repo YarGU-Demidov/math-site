@@ -18,6 +18,7 @@ namespace MathSite.Areas.Manager.Controllers
 {
     [Authorize(RightAliases.AdminAccess)]
     [Area("manager")]
+    [Route("[area]/[controller]")]
     public class FilesController : BaseController
     {
         private readonly IFileFacade _fileFacade;
@@ -35,8 +36,8 @@ namespace MathSite.Areas.Manager.Controllers
         }
 
         [Route("[area]/[controller]")]
-        [Route("[area]/[controller]/list")]
-        [Route("[area]/[controller]/index")]
+        [Route("list")]
+        [Route("index")]
         public async Task<IActionResult> Index([FromQuery] string path = "/")
         {
             return View(await _filesManagerViewModelBuilder.BuildIndexViewModelAsync(path));
@@ -44,7 +45,7 @@ namespace MathSite.Areas.Manager.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("[area]/[controller]/upload")]
+        [Route("upload")]
         public async Task<IActionResult> UploadFile(List<IFormFile> files, [FromQuery] string path = "/")
         {
             if (files.IsNullOrEmpty())

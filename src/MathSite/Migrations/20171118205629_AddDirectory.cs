@@ -18,7 +18,8 @@ namespace MathSite.Migrations
                 table => new
                 {
                     Id = table.Column<Guid>("uuid", nullable: false),
-                    CreationDate = table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    CreationDate =
+                        table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     Name = table.Column<string>("text", nullable: true),
                     RootDirectoryId = table.Column<Guid>("uuid", nullable: true)
                 },

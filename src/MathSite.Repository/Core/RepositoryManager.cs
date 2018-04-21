@@ -23,6 +23,7 @@ namespace MathSite.Repository.Core
             IGroupTypeRepository groupTypeRepository,
             IDirectoriesRepository directoriesRepository,
             ICategoryRepository categoryRepository,
+            IProfessorsRepository professorsRepository,
             IPostCategoryRepository postCategoryRepository
         )
         {
@@ -40,6 +41,7 @@ namespace MathSite.Repository.Core
             _repositories.Add(directoriesRepository);
             _repositories.Add(categoryRepository);
             _repositories.Add(postCategoryRepository);
+            _repositories.Add(professorsRepository);
         }
 
         public IGroupsRepository GroupsRepository => TryGetRepository<IGroupsRepository>();
@@ -56,6 +58,7 @@ namespace MathSite.Repository.Core
         public IGroupTypeRepository GroupTypeRepository => TryGetRepository<IGroupTypeRepository>();
         public ICategoryRepository CategoryRepository => TryGetRepository<ICategoryRepository>();
         public IPostCategoryRepository PostCategoryRepository => TryGetRepository<IPostCategoryRepository>();
+        public IProfessorsRepository ProfessorsRepository => TryGetRepository<IProfessorsRepository>();
 
         public T TryGetRepository<T>() where T : class, IRepository
         {

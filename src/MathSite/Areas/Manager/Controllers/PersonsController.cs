@@ -13,6 +13,7 @@ namespace MathSite.Areas.Manager.Controllers
 {
     [Area("manager")]
     [Authorize(RightAliases.AdminAccess)]
+    [Route("[area]/[controller]")]
     public class PersonsController : BaseController
     {
         private readonly IPersonsManagerViewModelBuilder _viewModelBuilder;
@@ -23,9 +24,9 @@ namespace MathSite.Areas.Manager.Controllers
             _viewModelBuilder = viewModelBuilder;
         }
 
-        [Route("[area]/[controller]/")]
-        [Route("[area]/[controller]/index")]
-        [Route("[area]/[controller]/list")]
+        [Route("")]
+        [Route("index")]
+        [Route("list")]
         public async Task<IActionResult> Index([FromQuery] int page = 1, [FromQuery] int perPage = 10)
         {
             return View("Index", await _viewModelBuilder.BuildIndexViewModelAsync(page, perPage));

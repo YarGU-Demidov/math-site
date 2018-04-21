@@ -1,17 +1,10 @@
-﻿using MathSite.Facades.Users;
-using MathSite.Facades.UserValidation;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MathSite.Controllers
 {
-    public class ErrorsController : BaseController
+    public class ErrorsController : Controller
     {
-        public ErrorsController(IUserValidationFacade userValidationFacade, IUsersFacade usersFacade) 
-            : base(userValidationFacade, usersFacade)
-        {
-        }
-
         [AllowAnonymous]
         [Route("/error/404")]
         public IActionResult NotFound404()

@@ -79,7 +79,10 @@ namespace MathSite.Facades.Persons
 
         public Task<Person> GetPersonAsync(Guid id)
         {
-            return Repository.WithUser().GetAsync(id);
+            return Repository
+                .WithUser()
+                .WithProfessor()
+                .GetAsync(id);
         }
 
         public async Task UpdatePersonAsync(
@@ -129,9 +132,10 @@ namespace MathSite.Facades.Persons
             if (!force)
             {
                 var hasUser = person.User != null;
+                var hasProfessor = person.Professor != null;
 
                 // TODO: дописать проверку на использование персоны!!!
-                if (hasUser)
+                if (hasUser || hasProfessor)
                     throw new PersonIsUsedException();
             }
 
@@ -142,7 +146,7 @@ namespace MathSite.Facades.Persons
         {
             var spec = new AvailablePersonSpecification();
 
-            return await Repository.WithUser().GetAllListAsync(spec);
+            return await Repository.WithUser().WithProfessor().GetAllListAsync(spec);
         }
     }
 }

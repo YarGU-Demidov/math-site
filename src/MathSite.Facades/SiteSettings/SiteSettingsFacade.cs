@@ -5,13 +5,14 @@ using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
 using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
+using MathSite.Repository;
 using MathSite.Repository.Core;
 using MathSite.Specifications.SiteSettings;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace MathSite.Facades.SiteSettings
 {
-    public class SiteSettingsFacade : BaseFacade, ISiteSettingsFacade
+    public class SiteSettingsFacade : BaseFacade<ISiteSettingsRepository, SiteSetting>, ISiteSettingsFacade
     {
         private const string MemoryCachePrefix = "SiteSetting-";
         private readonly IUserValidationFacade _userValidation;
@@ -132,8 +133,7 @@ namespace MathSite.Facades.SiteSettings
         {
             var requirements = new HasKeySpecification(name);
 
-            var setting =
-                await RepositoryManager.SiteSettingsRepository.FirstOrDefaultAsync(requirements.ToExpression());
+            var setting = await Repository.FirstOrDefaultAsync(requirements.ToExpression());
 
             return setting != null
                 ? Encoding.UTF8.GetString(setting.Value)
