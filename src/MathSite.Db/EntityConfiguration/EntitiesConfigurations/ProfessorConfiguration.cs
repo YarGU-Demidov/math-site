@@ -18,6 +18,12 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
             modelBuilder.Property(professor => professor.PersonId)
                 .IsRequired();
 
+            modelBuilder.Property(professor => professor.Department)
+                .IsRequired();
+
+            modelBuilder.Property(professor => professor.Faculty)
+                .IsRequired();
+
             modelBuilder.Property(professor => professor.BibliographicIndexOfWorks)
                 .IsRequired(false);
 

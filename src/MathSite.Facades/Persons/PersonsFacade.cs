@@ -12,7 +12,7 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace MathSite.Facades.Persons
 {
-    public class PersonsFacade : BaseFacade<IPersonsRepository, Person>, IPersonsFacade
+    public class PersonsFacade : BaseMathFacade<IPersonsRepository, Person>, IPersonsFacade
     {
         private TimeSpan CacheTime { get; } = TimeSpan.FromMinutes(5);
 
@@ -28,7 +28,7 @@ namespace MathSite.Facades.Persons
 
             var requirements = new AnySpecification<Person>();
 
-            var newsCount = await GetCountAsync(requirements, cache, CacheTime);
+            var newsCount = await GetCountAsync(requirements);
 
             return (int)Math.Ceiling(newsCount / (float)perPage);
         }
@@ -36,14 +36,7 @@ namespace MathSite.Facades.Persons
         // TODO: FIXME: Extract to classes or smth else
         public async Task<IEnumerable<Person>> GetPersonsAsync(int page, int perPage, bool cache)
         {
-            page = page >= 1 ? page : 1;
-            perPage = perPage > 0 ? perPage : 1;
-
-            var skip = (page - 1) * perPage;
-
-            return await RepositoryManager.PersonsRepository
-                .WithUser()
-                .GetAllWithPagingAsync(skip, perPage);
+            return await GetItemsForPageAsync(repository => repository.WithUser(), page, perPage);
         }
 
         public async Task<Guid> CreatePersonAsync(

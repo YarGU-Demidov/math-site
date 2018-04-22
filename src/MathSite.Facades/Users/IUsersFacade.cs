@@ -7,11 +7,11 @@ namespace MathSite.Facades.Users
 {
     public interface IUsersFacade : IFacade
     {
-        Task<int> GetUsersPagesCountAsync(int perPage, bool cache);
-        Task<int> GetUsersCountAsync(bool cache);
+        Task<int> GetUsersPagesCountAsync(int perPage);
+        Task<int> GetUsersCountAsync();
 
-        Task<IEnumerable<User>> GetUsersAsync();
-        Task<IEnumerable<User>> GetUsersAsync(int page, int perPage, bool cache);
+        Task<IEnumerable<User>> GetAllUsersAsync();
+        Task<IEnumerable<User>> GetUsersAsync(int page, int perPage);
 
         Task<User> GetUserAsync(string possibleUserId);
         Task<User> GetUserAsync(Guid possibleUserId);

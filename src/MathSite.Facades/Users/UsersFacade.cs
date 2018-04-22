@@ -14,7 +14,7 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace MathSite.Facades.Users
 {
-    public class UsersFacade : BaseFacade<IUsersRepository, User>, IUsersFacade
+    public class UsersFacade : BaseMathFacade<IUsersRepository, User>, IUsersFacade
     {
         private readonly IUserValidationFacade _validationFacade;
         private readonly IPasswordsManager _passwordsManager;
@@ -31,39 +31,30 @@ namespace MathSite.Facades.Users
             _passwordsManager = passwordsManager;
         }
 
-        private TimeSpan CacheTime { get; } = TimeSpan.FromMinutes(5);
-
         // TODO: FIXME: Extract to classes or smth else
-        public async Task<int> GetUsersPagesCountAsync(int perPage, bool cache)
+        public async Task<int> GetUsersPagesCountAsync(int perPage)
         {
-            perPage = perPage > 0 ? perPage : 1;
+            var usersCount = await GetUsersCountAsync();
 
-            var usersCount = await GetUsersCountAsync(cache);
-
-            return (int) Math.Ceiling(usersCount / (float) perPage);
+            return GetPagesCount(perPage, usersCount);
         }
 
-        public async Task<int> GetUsersCountAsync(bool cache)
+        public async Task<int> GetUsersCountAsync()
         {
             var requirements = new AnySpecification<User>();
-            return await GetCountAsync(requirements, cache, CacheTime);
+            return await GetCountAsync(requirements);
         }
 
 
-        public async Task<IEnumerable<User>> GetUsersAsync()
+        public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
             return await Repository.WithPerson().GetAllListAsync();
         }
 
         // TODO: FIXME: Extract to classes or smth else
-        public async Task<IEnumerable<User>> GetUsersAsync(int page, int perPage, bool cache)
+        public async Task<IEnumerable<User>> GetUsersAsync(int page, int perPage)
         {
-            page = page >= 1 ? page : 1;
-            perPage = perPage > 0 ? perPage : 1;
-
-            var skip = (page - 1) * perPage;
-
-            return await Repository.WithPerson().GetAllWithPagingAsync(skip, perPage);
+            return await GetItemsForPageAsync(repository => repository.WithPerson(), page, perPage);
         }
 
         public async Task<User> GetUserAsync(string possibleUserId)

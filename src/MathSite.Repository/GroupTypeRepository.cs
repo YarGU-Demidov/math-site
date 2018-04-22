@@ -4,7 +4,7 @@ using MathSite.Repository.Core;
 
 namespace MathSite.Repository
 {
-    public interface IGroupTypeRepository : IRepository<GroupType>
+    public interface IGroupTypeRepository : IMathSiteEfCoreRepository<GroupType>
     {
     }
 

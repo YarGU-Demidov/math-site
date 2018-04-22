@@ -4,7 +4,7 @@ using MathSite.Repository.Core;
 
 namespace MathSite.Repository
 {
-    public interface IPostSettingRepository : IRepository<PostSetting>
+    public interface IPostSettingRepository : IMathSiteEfCoreRepository<PostSetting>
     {
     }
 

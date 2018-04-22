@@ -18,7 +18,7 @@ namespace MathSite.Facades.PostCategories
         Task DeleteAllRelations(Post post);
     }
 
-    public class PostCategoryFacade : BaseFacade<IPostCategoryRepository, PostCategory>, IPostCategoryFacade
+    public class PostCategoryFacade : BaseMathFacade<IPostCategoryRepository, PostCategory>, IPostCategoryFacade
     {
         public PostCategoryFacade(IRepositoryManager repositoryManager, IMemoryCache memoryCache)
             : base(repositoryManager, memoryCache)

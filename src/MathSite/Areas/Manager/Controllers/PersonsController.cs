@@ -32,7 +32,7 @@ namespace MathSite.Areas.Manager.Controllers
             return View("Index", await _viewModelBuilder.BuildIndexViewModelAsync(page, perPage));
         }
 
-        [HttpGet]
+        [HttpGet("create")]
         public async Task<IActionResult> Create()
         {
             return View("Create", await _viewModelBuilder.BuildCreateViewModelAsync());
@@ -50,7 +50,7 @@ namespace MathSite.Areas.Manager.Controllers
             return RedirectToActionPermanent("Index");
         }
 
-        [HttpGet]
+        [HttpGet("edit")]
         public async Task<IActionResult> Edit(Guid id)
         {
             if (id == Guid.Empty)

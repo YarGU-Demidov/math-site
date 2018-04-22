@@ -13,7 +13,7 @@ namespace MathSite.Facades.Groups
         Task<IEnumerable<Group>> GetGroupsByTypeAsync(string users);
     }
 
-    public class GroupsFacade : BaseFacade<IGroupsRepository, Group>, IGroupsFacade
+    public class GroupsFacade : BaseMathFacade<IGroupsRepository, Group>, IGroupsFacade
     {
         public GroupsFacade(
             IRepositoryManager repositoryManager, 

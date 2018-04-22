@@ -35,7 +35,7 @@ namespace MathSite.Areas.Manager.Controllers
             _filesManagerViewModelBuilder = filesManagerViewModelBuilder;
         }
 
-        [Route("[area]/[controller]")]
+        [Route("")]
         [Route("list")]
         [Route("index")]
         public async Task<IActionResult> Index([FromQuery] string path = "/")

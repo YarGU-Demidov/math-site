@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-using MathSite.Db;
+﻿using MathSite.Db;
 using MathSite.Entities;
 using MathSite.Repository.Core;
 using Microsoft.EntityFrameworkCore;
 
 namespace MathSite.Repository
 {
-    public interface IPostsRepository : IRepository<Post>
+    public interface IPostsRepository : IMathSiteEfCoreRepository<Post>
     {
         IPostsRepository WithAuthor();
         IPostsRepository WithPostSeoSettings();
@@ -19,8 +14,6 @@ namespace MathSite.Repository
         IPostsRepository WithComments();
         IPostsRepository WithPostRatings();
         IPostsRepository WithCategories();
-
-        Task<IEnumerable<Post>> GetAllPagedAsync(Expression<Func<Post, bool>> predicate, int limit, int skip = 0, bool desc = true);
     }
 
     public class PostsRepository : MathSiteEfCoreRepositoryBase<Post>, IPostsRepository
@@ -91,21 +84,6 @@ namespace MathSite.Repository
                 GetCurrentQuery().Include(post => post.PostCategories).ThenInclude(category => category.Category)
             );
             return this;
-        }
-        
-        public async Task<IEnumerable<Post>> GetAllPagedAsync(Expression<Func<Post, bool>> predicate, int limit, int skip = 0, bool desc = true)
-        {
-            SetCurrentQuery(GetCurrentQuery().Where(predicate));
-
-            Expression<Func<Post, DateTime>> orderBy = post => post.PublishDate;
-
-            var query = desc 
-                ? GetCurrentQuery().OrderByDescending(orderBy) 
-                : GetCurrentQuery().OrderBy(orderBy);
-
-            SetCurrentQuery(query);
-
-            return await GetAllWithPaging(skip, limit).ToArrayAsync();
         }
     }
 }

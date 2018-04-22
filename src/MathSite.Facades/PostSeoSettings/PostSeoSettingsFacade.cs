@@ -15,7 +15,7 @@ namespace MathSite.Facades.PostSeoSettings
         Task RemoveForPostAsync(Guid postId);
     }
 
-    public class PostSeoSettingsFacade : BaseFacade<IPostSeoSettingsRepository, PostSeoSetting>, IPostSeoSettingsFacade
+    public class PostSeoSettingsFacade : BaseMathFacade<IPostSeoSettingsRepository, PostSeoSetting>, IPostSeoSettingsFacade
     {
         public PostSeoSettingsFacade(IRepositoryManager repositoryManager, IMemoryCache memoryCache)
             : base(repositoryManager, memoryCache)

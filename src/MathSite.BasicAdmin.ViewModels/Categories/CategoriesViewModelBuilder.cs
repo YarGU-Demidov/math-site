@@ -40,7 +40,7 @@ namespace MathSite.BasicAdmin.ViewModels.Categories
                 perPage
             );
 
-            model.Categories = await _categoryFacade.GetAllCategoriesAsync(page, perPage, false);
+            model.Categories = await _categoryFacade.GetAllCategoriesAsync(page, perPage);
             model.PageTitle.Title = "Список категорий";
             
             return model;

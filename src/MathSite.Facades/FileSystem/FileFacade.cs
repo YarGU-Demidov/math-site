@@ -37,7 +37,7 @@ namespace MathSite.Facades.FileSystem
     }
 
 
-    public class FileFacade : BaseFacade<IFilesRepository, File>, IFileFacade
+    public class FileFacade : BaseMathFacade<IFilesRepository, File>, IFileFacade
     {
         private readonly Lazy<IDirectoryFacade> _directoryFacade;
         private readonly IFileStorage _fileStorage;
@@ -145,14 +145,15 @@ namespace MathSite.Facades.FileSystem
             if (file == null)
                 return currentName;
 
-            var splitedName = Path.GetFileNameWithoutExtension(file.Name).Split(new[] {"_"}, StringSplitOptions.None)
+            var splitedName = Path.GetFileNameWithoutExtension(file.Name)?.Split(new[] {"_"}, StringSplitOptions.None)
                 .ToList();
-            if (splitedName.Count > 1 && long.TryParse(splitedName.LastOrDefault(), out var postfixValue))
+
+            if (splitedName?.Count > 1 && long.TryParse(splitedName.LastOrDefault(), out var postfixValue))
                 splitedName[splitedName.Count - 1] = $"{++postfixValue}";
             else
-                splitedName.Add("1");
+                splitedName?.Add("1");
 
-            return splitedName.Aggregate((f, s) => $"{f}_{s}") + Path.GetExtension(currentName);
+            return splitedName?.Aggregate((f, s) => $"{f}_{s}") + Path.GetExtension(currentName);
         }
 
         private static string GetFileHashString(Stream data)

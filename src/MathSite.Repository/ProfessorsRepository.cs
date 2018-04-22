@@ -1,12 +1,11 @@
-﻿using System.Linq;
-using MathSite.Db;
+﻿using MathSite.Db;
 using MathSite.Entities;
 using MathSite.Repository.Core;
 using Microsoft.EntityFrameworkCore;
 
 namespace MathSite.Repository
 {
-    public interface IProfessorsRepository : IRepository<Professor>
+    public interface IProfessorsRepository : IMathSiteEfCoreRepository<Professor>
     {
         IProfessorsRepository WithPerson();
     }

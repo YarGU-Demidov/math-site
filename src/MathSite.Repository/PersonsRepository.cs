@@ -1,18 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using MathSite.Db;
+﻿using MathSite.Db;
 using MathSite.Entities;
 using MathSite.Repository.Core;
 using Microsoft.EntityFrameworkCore;
 
 namespace MathSite.Repository
 {
-    public interface IPersonsRepository : IRepository<Person>
+    public interface IPersonsRepository : IMathSiteEfCoreRepository<Person>
     {
         IPersonsRepository WithUser();
         IPersonsRepository WithProfessor();
         IPersonsRepository WithPhoto();
-        Task<IEnumerable<Person>> GetAllWithPagingAsync(int skip, int count);
     }
 
     public class PersonsRepository : MathSiteEfCoreRepositoryBase<Person>, IPersonsRepository
@@ -37,12 +34,6 @@ namespace MathSite.Repository
         {
             SetCurrentQuery(GetCurrentQuery().Include(person => person.Photo));
             return this;
-        }
-
-        public async Task<IEnumerable<Person>> GetAllWithPagingAsync(int skip, int count)
-        {
-            return await GetAllWithPaging(skip, count)
-                .ToArrayAsync();
         }
     }
 }

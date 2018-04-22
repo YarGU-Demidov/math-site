@@ -10,7 +10,7 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace MathSite.Facades.UserValidation
 {
-    public class UserValidationFacade : BaseFacade<IUsersRepository, User>, IUserValidationFacade
+    public class UserValidationFacade : BaseMathFacade<IUsersRepository, User>, IUserValidationFacade
     {
         private readonly IPasswordsManager _passwordHasher;
 

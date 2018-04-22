@@ -105,11 +105,10 @@ namespace MathSite.BasicAdmin.ViewModels.SharedModels.Posts
 
             var categories = await _categoryFacade.GetAllCategoriesAsync(
                 page: 1,
-                perPage: await _categoryFacade.GetCategoriesCount(true),
-                cache: true
+                perPage: await _categoryFacade.GetCategoriesCount()
             );
 
-            model.Authors = GetSelectListItems(await _usersFacade.GetUsersAsync());
+            model.Authors = GetSelectListItems(await _usersFacade.GetAllUsersAsync());
             model.Categories = await GetSelectListItems(categories);
 
             return model;
@@ -176,8 +175,7 @@ namespace MathSite.BasicAdmin.ViewModels.SharedModels.Posts
 
             var categories = await _categoryFacade.GetAllCategoriesAsync(
                 page: 1,
-                perPage: await _categoryFacade.GetCategoriesCount(true),
-                cache: true
+                perPage: await _categoryFacade.GetCategoriesCount()
             );
 
             var seoSettings = post.PostSeoSetting;
@@ -191,7 +189,7 @@ namespace MathSite.BasicAdmin.ViewModels.SharedModels.Posts
             model.Deleted = post.Deleted;
             model.PublishDate = post.PublishDate;
             model.AuthorId = post.AuthorId;
-            model.Authors = GetSelectListItems(await _usersFacade.GetUsersAsync());
+            model.Authors = GetSelectListItems(await _usersFacade.GetAllUsersAsync());
             model.PostTypeId = post.PostTypeId;
             
             model.SeoTitle = seoSettings?.Title;

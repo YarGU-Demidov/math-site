@@ -20,7 +20,7 @@ namespace MathSite.Facades.FileSystem
     }
 
 
-    public class DirectoryFacade : BaseFacade<IDirectoriesRepository, Directory>, IDirectoryFacade
+    public class DirectoryFacade : BaseMathFacade<IDirectoriesRepository, Directory>, IDirectoryFacade
     {
         public DirectoryFacade(IRepositoryManager repositoryManager, IMemoryCache memoryCache) 
             : base(repositoryManager, memoryCache)

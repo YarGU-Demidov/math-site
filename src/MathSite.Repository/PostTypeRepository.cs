@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MathSite.Repository
 {
-    public interface IPostTypeRepository : IRepository<PostType>
+    public interface IPostTypeRepository : IMathSiteEfCoreRepository<PostType>
     {
         IPostTypeRepository WithDefaultPostSettings();
     }

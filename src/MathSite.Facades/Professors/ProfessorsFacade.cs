@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using MathSite.Common.Specifications;
 using MathSite.Entities;
 using MathSite.Repository;
 using MathSite.Repository.Core;
@@ -10,9 +12,11 @@ namespace MathSite.Facades.Professors
     public interface IProfessorsFacade
     {
         Task<Professor> GetProfessorAsync(Guid id);
+        Task<int> GetPagesCountAsync(int perPage);
+        Task<IEnumerable<Professor>> GetProfessorsForPage(int page, int perPage);
     }
 
-    public class ProfessorsFacade : BaseFacade<IProfessorsRepository, Professor>, IProfessorsFacade
+    public class ProfessorsFacade : BaseMathFacade<IProfessorsRepository, Professor>, IProfessorsFacade
     {
         public ProfessorsFacade(
             IRepositoryManager repositoryManager, 
@@ -25,6 +29,18 @@ namespace MathSite.Facades.Professors
         {
             return await Repository.WithPerson()
                 .FirstOrDefaultAsync(id);
+        }
+
+        public async Task<int> GetPagesCountAsync(int perPage)
+        {
+            var total = await GetCountAsync(new AnySpecification<Professor>());
+            
+            return GetPagesCount(perPage, total);
+        }
+
+        public async Task<IEnumerable<Professor>> GetProfessorsForPage(int page, int perPage)
+        {
+            return await GetItemsForPageAsync(repository => repository.WithPerson(), page, perPage);
         }
     }
 }

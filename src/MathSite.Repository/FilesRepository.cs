@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MathSite.Repository
 {
-    public interface IFilesRepository : IRepository<File>
+    public interface IFilesRepository : IMathSiteEfCoreRepository<File>
     {
         IFilesRepository WithPerson();
         IFilesRepository WithPostSetting();

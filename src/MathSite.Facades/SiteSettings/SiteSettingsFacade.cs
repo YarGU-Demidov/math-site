@@ -12,7 +12,7 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace MathSite.Facades.SiteSettings
 {
-    public class SiteSettingsFacade : BaseFacade<ISiteSettingsRepository, SiteSetting>, ISiteSettingsFacade
+    public class SiteSettingsFacade : BaseMathFacade<ISiteSettingsRepository, SiteSetting>, ISiteSettingsFacade
     {
         private const string MemoryCachePrefix = "SiteSetting-";
         private readonly IUserValidationFacade _userValidation;

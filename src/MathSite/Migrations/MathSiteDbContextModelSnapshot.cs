@@ -567,7 +567,13 @@ namespace MathSite.Migrations
                     .ValueGeneratedOnAdd()
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
+                b.Property<string>("Department")
+                    .IsRequired();
+
                 b.Property<string>("Description")
+                    .IsRequired();
+
+                b.Property<string>("Faculty")
                     .IsRequired();
 
                 b.Property<string[]>("Graduated");

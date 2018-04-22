@@ -5,6 +5,7 @@ using MathSite.BasicAdmin.ViewModels.Home;
 using MathSite.BasicAdmin.ViewModels.News;
 using MathSite.BasicAdmin.ViewModels.Pages;
 using MathSite.BasicAdmin.ViewModels.Persons;
+using MathSite.BasicAdmin.ViewModels.Professors;
 using MathSite.BasicAdmin.ViewModels.Settings;
 using MathSite.BasicAdmin.ViewModels.Users;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,6 +35,7 @@ namespace MathSite.BasicAdmin.ViewModels
                 .AddScoped<IFilesManagerViewModelBuilder, FilesManagerViewModelBuilder>()
                 .AddScoped<IUsersManagerViewModelBuilder, UsersManagerViewModelBuilder>()
                 .AddScoped<ICategoriesViewModelBuilder, CategoriesViewModelBuilder>()
+                .AddScoped<IProfessorViewModelBuilder, ProfessorViewModelBuilder>()
                 .AddScoped<ISettingsViewModelBuilder, SettingsViewModelBuilder>();
         }
     }

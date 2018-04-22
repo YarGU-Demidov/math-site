@@ -14,7 +14,7 @@ namespace MathSite.Facades.Categories
         Task UpdateCategory(Guid currentUser, Guid id, string name, string description = null);
         Task DeleteCategory(Guid currentUser, Guid id);
         Task<int> GetCategoriesPagesCountAsync(int perPage, bool cache = true);
-        Task<IEnumerable<Category>> GetAllCategoriesAsync(int page, int perPage, bool cache);
-        Task<int> GetCategoriesCount(bool cache);
+        Task<IEnumerable<Category>> GetAllCategoriesAsync(int page, int perPage);
+        Task<int> GetCategoriesCount();
     }
 }

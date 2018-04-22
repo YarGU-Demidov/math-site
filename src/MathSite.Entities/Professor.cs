@@ -9,6 +9,16 @@ namespace MathSite.Entities
         public Person Person { get; set; }
 
         /// <summary>
+        ///     Факультет
+        /// </summary>
+        public string Faculty { get; set; }
+
+        /// <summary>
+        ///     Кафедра
+        /// </summary>
+        public string Department { get; set; }
+
+        /// <summary>
         ///     Описание
         /// </summary>
         public string Description { get; set; }

@@ -4,7 +4,7 @@ using MathSite.Repository.Core;
 
 namespace MathSite.Repository
 {
-    public interface IPostCategoryRepository : IRepository<PostCategory>
+    public interface IPostCategoryRepository : IMathSiteEfCoreRepository<PostCategory>
     {
     }
 

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MathSite.Repository
 {
-    public interface IDirectoriesRepository : IRepository<Directory>
+    public interface IDirectoriesRepository : IMathSiteEfCoreRepository<Directory>
     {
         IDirectoriesRepository WithFiles();
         IDirectoriesRepository WithDirectories();

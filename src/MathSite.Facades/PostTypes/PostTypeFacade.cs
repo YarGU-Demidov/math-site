@@ -12,7 +12,7 @@ namespace MathSite.Facades.PostTypes
         Task<PostType> GetFromPostAsync(Post post);
     }
 
-    public class PostTypeFacade : BaseFacade<IPostTypeRepository, PostType>, IPostTypeFacade
+    public class PostTypeFacade : BaseMathFacade<IPostTypeRepository, PostType>, IPostTypeFacade
     {
         public PostTypeFacade(IRepositoryManager repositoryManager, IMemoryCache memoryCache) 
             : base(repositoryManager, memoryCache)
