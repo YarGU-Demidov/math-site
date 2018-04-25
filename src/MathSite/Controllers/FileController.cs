@@ -1,23 +1,20 @@
 ﻿using System;
 using System.Threading.Tasks;
+using MathSite.Common.ActionResults;
 using MathSite.Common.Extensions;
 using MathSite.Common.FileFormats;
 using MathSite.Facades.FileSystem;
-using MathSite.Facades.Users;
-using MathSite.Facades.UserValidation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MathSite.Controllers
 {
     [Route("file")]
-    public class FileController : BaseController
+    public class FileController : Controller
     {
         private readonly IFileFacade _fileFacade;
         private readonly FileFormatBuilder _fileFormatBuilder;
 
-        public FileController(IUserValidationFacade userValidationFacade, IUsersFacade usersFacade,
-             IFileFacade fileFacade, FileFormatBuilder fileFormatBuilder)
-            : base(userValidationFacade, usersFacade)
+        public FileController(IFileFacade fileFacade, FileFormatBuilder fileFormatBuilder)
         {
             _fileFacade = fileFacade;
             _fileFormatBuilder = fileFormatBuilder;
@@ -32,7 +29,8 @@ namespace MathSite.Controllers
                 return NotFound();
 
             var fileFormat = _fileFormatBuilder.GetFileFormatForExtension(extension);
-            return FileInline(fileStream, fileFormat.ContentType, fileName);
+
+            return new FileStreamInlineResult(fileStream, fileFormat.ContentType) {FileDownloadName = fileName};
         }
 
         [Route("download/{id:guid}")]

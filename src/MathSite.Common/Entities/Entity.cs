@@ -6,8 +6,7 @@ namespace MathSite.Common.Entities
 {
     /// <inheritdoc cref="Entity{TPrimaryKey}" />
     /// <summary>
-    ///     A shortcut of <see cref="T:MathSite.Common.Entities.Entity`1" /> for most used primary key type (
-    ///     <see cref="T:System.Guid" />).
+    ///     A shortcut of <see cref="T:MathSite.Common.Entities.Entity`1" /> for most used primary key type (<see cref="T:System.Guid" />).
     /// </summary>
     [Serializable]
     public abstract class Entity : Entity<Guid>, IEntity

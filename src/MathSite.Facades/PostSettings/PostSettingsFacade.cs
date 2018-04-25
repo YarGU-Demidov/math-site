@@ -25,9 +25,10 @@ namespace MathSite.Facades.PostSettings
 
         Task<PostSetting> GetForPostAsync(Guid id);
         Task<Guid> CreateAsync(bool isCommentsAllowed, bool canBeRated, bool postOnStartPage, Guid? previewImageId);
+        Task RemoveForPostAsync(Guid postId);
     }
 
-    public class PostSettingsFacade : BaseFacade<IPostSettingRepository, PostSetting>, IPostSettingsFacade
+    public class PostSettingsFacade : BaseMathFacade<IPostSettingRepository, PostSetting>, IPostSettingsFacade
     {
         public PostSettingsFacade(IRepositoryManager repositoryManager, IMemoryCache memoryCache)
             : base(repositoryManager, memoryCache)
@@ -79,6 +80,12 @@ namespace MathSite.Facades.PostSettings
                 PostOnStartPage = postOnStartPage,
                 PreviewImageId = previewImageId
             });
+        }
+
+        public async Task RemoveForPostAsync(Guid postId)
+        {
+            var spec = new PostSettingsForPostSpecification(postId);
+            await Repository.DeleteAsync(spec);
         }
     }
 }

@@ -49,12 +49,12 @@ namespace MathSite.BasicAdmin.ViewModels.Users
                 link => link.Alias == "Users",
                 link => link.Alias == "List",
                 page,
-                await _usersFacade.GetUsersPagesCountAsync(perPage, false),
+                await _usersFacade.GetUsersPagesCountAsync(perPage),
                 perPage
             );
 
             model.PageTitle.Title = "Пользователи";
-            model.Users = await _usersFacade.GetUsersAsync(page, perPage, false);
+            model.Users = await _usersFacade.GetUsersAsync(page, perPage);
 
             return model;
         }

@@ -17,7 +17,7 @@ namespace MathSite.Migrations
                     Id = table.Column<Guid>("uuid", nullable: false),
                     Alias = table.Column<string>("text", nullable: false),
                     CreationDate =
-                    table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                        table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     Description = table.Column<string>("text", nullable: true),
                     Name = table.Column<string>("text", nullable: false)
                 },
@@ -29,7 +29,7 @@ namespace MathSite.Migrations
                 {
                     Id = table.Column<Guid>("uuid", nullable: false),
                     CreationDate =
-                    table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                        table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     DateAdded = table.Column<DateTime>("timestamp", nullable: false),
                     Extension = table.Column<string>("text", nullable: true),
                     Name = table.Column<string>("text", nullable: false),
@@ -44,7 +44,7 @@ namespace MathSite.Migrations
                     Id = table.Column<Guid>("uuid", nullable: false),
                     Alias = table.Column<string>("text", nullable: false),
                     CreationDate =
-                    table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                        table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     Description = table.Column<string>("text", nullable: true),
                     Name = table.Column<string>("text", nullable: false)
                 },
@@ -57,7 +57,7 @@ namespace MathSite.Migrations
                     Id = table.Column<Guid>("uuid", nullable: false),
                     Alias = table.Column<string>("text", nullable: false),
                     CreationDate =
-                    table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                        table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     Name = table.Column<string>("text", nullable: false)
                 },
                 constraints: table => { table.PrimaryKey("PK_Keyword", x => x.Id); });
@@ -68,7 +68,7 @@ namespace MathSite.Migrations
                 {
                     Id = table.Column<Guid>("uuid", nullable: false),
                     CreationDate =
-                    table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                        table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     Description = table.Column<string>("text", nullable: true),
                     Title = table.Column<string>("text", nullable: true),
                     Url = table.Column<string>("text", nullable: true)
@@ -82,7 +82,7 @@ namespace MathSite.Migrations
                     Id = table.Column<Guid>("uuid", nullable: false),
                     Alias = table.Column<string>("text", nullable: false),
                     CreationDate =
-                    table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                        table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     Description = table.Column<string>("text", nullable: true),
                     Name = table.Column<string>("text", nullable: false)
                 },
@@ -94,7 +94,7 @@ namespace MathSite.Migrations
                 {
                     Id = table.Column<Guid>("uuid", nullable: false),
                     CreationDate =
-                    table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                        table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     Key = table.Column<string>("text", nullable: false),
                     Value = table.Column<byte[]>("bytea", nullable: false)
                 },
@@ -111,7 +111,7 @@ namespace MathSite.Migrations
                     Id = table.Column<Guid>("uuid", nullable: false),
                     CanBeRated = table.Column<bool>("bool", nullable: false, defaultValue: false),
                     CreationDate =
-                    table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                        table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     IsCommentsAllowed = table.Column<bool>("bool", nullable: false, defaultValue: false),
                     Layout = table.Column<string>("text", nullable: false, defaultValue: "SecondaryLayout"),
                     PostOnStartPage = table.Column<bool>("bool", nullable: false, defaultValue: false),
@@ -135,7 +135,7 @@ namespace MathSite.Migrations
                     Id = table.Column<Guid>("uuid", nullable: false),
                     Alias = table.Column<string>("text", nullable: false),
                     CreationDate =
-                    table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                        table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     Description = table.Column<string>("text", nullable: true),
                     GroupTypeId = table.Column<Guid>("uuid", nullable: false),
                     IsAdmin = table.Column<bool>("bool", nullable: false, defaultValue: false),
@@ -165,7 +165,7 @@ namespace MathSite.Migrations
                 {
                     Id = table.Column<Guid>("uuid", nullable: false),
                     CreationDate =
-                    table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                        table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     KeywordId = table.Column<Guid>("uuid", nullable: false),
                     PostSeoSettingsId = table.Column<Guid>("uuid", nullable: false)
                 },
@@ -193,7 +193,7 @@ namespace MathSite.Migrations
                     Id = table.Column<Guid>("uuid", nullable: false),
                     Alias = table.Column<string>("text", nullable: false),
                     CreationDate =
-                    table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                        table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     DefaultPostsSettingsId = table.Column<Guid>("uuid", nullable: false),
                     Name = table.Column<string>("text", nullable: false)
                 },
@@ -215,7 +215,7 @@ namespace MathSite.Migrations
                     Id = table.Column<Guid>("uuid", nullable: false),
                     Allowed = table.Column<bool>("bool", nullable: false),
                     CreationDate =
-                    table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                        table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     GroupId = table.Column<Guid>("uuid", nullable: false),
                     RightId = table.Column<Guid>("uuid", nullable: false)
                 },
@@ -242,7 +242,7 @@ namespace MathSite.Migrations
                 {
                     Id = table.Column<Guid>("uuid", nullable: false),
                     CreationDate =
-                    table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                        table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     GroupId = table.Column<Guid>("uuid", nullable: false),
                     Login = table.Column<string>("text", nullable: false),
                     PasswordHash = table.Column<byte[]>("bytea", nullable: false)
@@ -266,7 +266,7 @@ namespace MathSite.Migrations
                     AdditionalPhone = table.Column<string>("text", nullable: true),
                     Birthday = table.Column<DateTime>("timestamp", nullable: false),
                     CreationDate =
-                    table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                        table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     MiddleName = table.Column<string>("text", nullable: true),
                     Name = table.Column<string>("text", nullable: false),
                     Phone = table.Column<string>("text", nullable: true),
@@ -299,7 +299,7 @@ namespace MathSite.Migrations
                     AuthorId = table.Column<Guid>("uuid", nullable: false),
                     Content = table.Column<string>("text", nullable: false),
                     CreationDate =
-                    table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                        table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     Deleted = table.Column<bool>("bool", nullable: false),
                     Excerpt = table.Column<string>("text", nullable: false),
                     PostSeoSettingsId = table.Column<Guid>("uuid", nullable: false),
@@ -345,7 +345,7 @@ namespace MathSite.Migrations
                     Id = table.Column<Guid>("uuid", nullable: false),
                     Allowed = table.Column<bool>("bool", nullable: false),
                     CreationDate =
-                    table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                        table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     RightId = table.Column<Guid>("uuid", nullable: false),
                     UserId = table.Column<Guid>("uuid", nullable: false)
                 },
@@ -372,7 +372,7 @@ namespace MathSite.Migrations
                 {
                     Id = table.Column<Guid>("uuid", nullable: false),
                     CreationDate =
-                    table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                        table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     Key = table.Column<string>("text", nullable: false),
                     Namespace = table.Column<string>("text", nullable: false),
                     UserId = table.Column<Guid>("uuid", nullable: false),
@@ -395,7 +395,7 @@ namespace MathSite.Migrations
                 {
                     Id = table.Column<Guid>("uuid", nullable: false),
                     CreationDate =
-                    table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                        table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     Date = table.Column<DateTime>("timestamp", nullable: false),
                     Edited = table.Column<bool>("bool", nullable: false),
                     PostId = table.Column<Guid>("uuid", nullable: false),
@@ -426,7 +426,7 @@ namespace MathSite.Migrations
                     Id = table.Column<Guid>("uuid", nullable: false),
                     Allowed = table.Column<bool>("bool", nullable: false),
                     CreationDate =
-                    table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                        table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     FileId = table.Column<Guid>("uuid", nullable: false),
                     PostId = table.Column<Guid>("uuid", nullable: false)
                 },
@@ -454,7 +454,7 @@ namespace MathSite.Migrations
                     Id = table.Column<Guid>("uuid", nullable: false),
                     CategoryId = table.Column<Guid>("uuid", nullable: false),
                     CreationDate =
-                    table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                        table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     PostId = table.Column<Guid>("uuid", nullable: false)
                 },
                 constraints: table =>
@@ -481,7 +481,7 @@ namespace MathSite.Migrations
                     Id = table.Column<Guid>("uuid", nullable: false),
                     Allowed = table.Column<bool>("bool", nullable: false),
                     CreationDate =
-                    table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                        table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     GroupId = table.Column<Guid>("uuid", nullable: true),
                     PostId = table.Column<Guid>("uuid", nullable: true)
                 },
@@ -508,7 +508,7 @@ namespace MathSite.Migrations
                 {
                     Id = table.Column<Guid>("uuid", nullable: false),
                     CreationDate =
-                    table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                        table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     PostId = table.Column<Guid>("uuid", nullable: false),
                     UserId = table.Column<Guid>("uuid", nullable: false)
                 },
@@ -536,7 +536,7 @@ namespace MathSite.Migrations
                     Id = table.Column<Guid>("uuid", nullable: false),
                     Allowed = table.Column<bool>("bool", nullable: false),
                     CreationDate =
-                    table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                        table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     PostId = table.Column<Guid>("uuid", nullable: false),
                     UserId = table.Column<Guid>("uuid", nullable: false),
                     Value = table.Column<bool>("bool", nullable: false)
@@ -565,7 +565,7 @@ namespace MathSite.Migrations
                     Id = table.Column<Guid>("uuid", nullable: false),
                     Allowed = table.Column<bool>("bool", nullable: false),
                     CreationDate =
-                    table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                        table.Column<DateTime>("timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     PostId = table.Column<Guid>("uuid", nullable: false),
                     UserId = table.Column<Guid>("uuid", nullable: false)
                 },

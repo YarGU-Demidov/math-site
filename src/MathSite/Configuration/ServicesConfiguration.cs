@@ -83,10 +83,12 @@ namespace MathSite
         {
             services.Configure<RazorViewEngineOptions>(options =>
             {
+                options.AreaViewLocationFormats.Add("/Views/{1}/{0}.cshtml");
+                options.AreaViewLocationFormats.Add("/Areas/{2}/Views/{1}/{0}.cshtml");
+                options.AreaViewLocationFormats.Add("/Areas/{2}/Views/Shared/{0}.cshtml");
+
                 options.AreaViewLocationFormats.Add("/Areas/Manager/Views/{1}/{0}.cshtml");
                 options.AreaViewLocationFormats.Add("/Areas/Manager/Views/Shared/{0}.cshtml");
-                options.AreaViewLocationFormats.Add("/Areas/PersonalPage/Views/{1}/{0}.cshtml");
-                options.AreaViewLocationFormats.Add("/Areas/PersonalPage/Views/Shared/{0}.cshtml");
             });
         }
 

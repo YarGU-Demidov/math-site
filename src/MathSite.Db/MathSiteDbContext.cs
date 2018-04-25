@@ -42,6 +42,7 @@ namespace MathSite.Db
         public DbSet<User> Users { get; set; }
         public DbSet<UserSetting> UserSettingses { get; set; }
         public DbSet<UsersRight> UsersRights { get; set; }
+        public DbSet<Professor> Professors { get; set; }
 
         /// <summary>
         ///     Добавление конфигурации сущностей.
@@ -58,6 +59,7 @@ namespace MathSite.Db
             modelBuilder.ApplyConfiguration(new KeywordsConfiguration());
             modelBuilder.ApplyConfiguration(new GroupConfiguration());
             modelBuilder.ApplyConfiguration(new PersonConfiguration());
+            modelBuilder.ApplyConfiguration(new ProfessorConfiguration());
             modelBuilder.ApplyConfiguration(new PostAttachmentConfiguration());
             modelBuilder.ApplyConfiguration(new PostCategoryConfiguration());
             modelBuilder.ApplyConfiguration(new PostConfiguration());

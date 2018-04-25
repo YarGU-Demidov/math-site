@@ -13,6 +13,7 @@ namespace MathSite.Areas.Manager.Controllers
 {
     [Authorize(RightAliases.AdminAccess)]
     [Area("manager")]
+    [Route("[area]/[controller]")]
     public class CategoriesController : BaseController
     {
         private readonly ICategoriesViewModelBuilder _modelBuilder;
@@ -26,15 +27,15 @@ namespace MathSite.Areas.Manager.Controllers
             _modelBuilder = modelBuilder;
         }
 
-        [Route("[area]/[controller]/")]
-        [Route("[area]/[controller]/index")]
-        [Route("[area]/[controller]/list")]
+        [Route("")]
+        [Route("index")]
+        [Route("list")]
         public async Task<IActionResult> Index([FromQuery] int page = 1, [FromQuery] int perPage = 10)
         {
             return View("Index", await _modelBuilder.BuildIndexViewModelAsync(page, perPage));
         }
 
-        [HttpGet]
+        [HttpGet("create")]
         public async Task<IActionResult> Create()
         {
             return View("Create", await _modelBuilder.BuildCreateViewModelAsync());
@@ -52,7 +53,7 @@ namespace MathSite.Areas.Manager.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpGet]
+        [HttpGet("edit")]
         public async Task<IActionResult> Edit(Guid id)
         {
             return View("Edit", await _modelBuilder.BuildEditViewModelAsync(id));

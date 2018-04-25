@@ -13,13 +13,12 @@ using MathSite.Facades.UserValidation;
 using MathSite.Repository;
 using MathSite.Repository.Core;
 using MathSite.Specifications.Posts;
-using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 
 namespace MathSite.Facades.Posts
 {
-    public class PostsFacade : BaseFacade<IPostsRepository, Post>, IPostsFacade
+    public class PostsFacade : BaseMathFacade<IPostsRepository, Post>, IPostsFacade
     {
         private readonly ILogger<IPostsFacade> _postsFacadeLogger;
         private readonly IUsersFacade _usersFacade;
@@ -69,11 +68,10 @@ namespace MathSite.Facades.Posts
                 categoryId,
                 state,
                 publishState,
-                frontPageState,
-                cache
+                frontPageState
             );
 
-            return (int) Math.Ceiling(newsCount / (float) perPage);
+            return GetPagesCount(perPage, newsCount);
         }
 
 
@@ -181,12 +179,7 @@ namespace MathSite.Facades.Posts
             bool cache
         )
         {
-            page = page >= 1 ? page : 1;
-            perPage = perPage > 0 ? perPage : 1;
-
             const CacheItemPriority cachePriority = CacheItemPriority.Normal;
-
-            var toSkip = perPage * (page - 1);
 
             var localExcludedCategories = excludedCategories as Category[] ?? excludedCategories?.ToArray();
 
@@ -199,15 +192,16 @@ namespace MathSite.Facades.Posts
                 cacheKey += $":Category={categoryId.ToString()}";
 
             if (localExcludedCategories.IsNotNullOrEmpty())
-                cacheKey += $":NotInCategories={localExcludedCategories.Select(category => category.Alias).Aggregate((f,s) => $"{f},{s}")}";
+                cacheKey += $":NotInCategories={localExcludedCategories?.Select(category => category.Alias).Aggregate((f,s) => $"{f},{s}")}";
 
-            async Task<IEnumerable<Post>> GetPosts(Specification<Post> specification, int perPageCount, int toSkipCount)
+            async Task<IEnumerable<Post>> GetPosts(Specification<Post> specification)
             {
-                return await Repository
-                    .WithPostSeoSettings()
-                    .WithPostType()
-                    .WithPostSetttings()
-                    .GetAllPagedAsync(specification, perPageCount, toSkipCount);
+                return await GetItemsForPageAsync(
+                    repository => repository.WithPostSeoSettings().WithPostType().WithPostSetttings(),
+                    specification,
+                    page,
+                    perPage
+                );
             }
 
             return cache
@@ -218,9 +212,9 @@ namespace MathSite.Facades.Posts
                         entry.SetPriority(cachePriority);
                         entry.SetSlidingExpiration(CacheMinutes);
 
-                        return await GetPosts(requirements, perPage, toSkip);
+                        return await GetPosts(requirements);
                     })
-                : await GetPosts(requirements, perPage, toSkip);
+                : await GetPosts(requirements);
         }
 
         public async Task<Guid> UpdatePostAsync(Post post)
@@ -253,37 +247,17 @@ namespace MathSite.Facades.Posts
             return await RepositoryManager.PostTypeRepository.SingleAsync(postType => postType.Alias == alias);
         }
 
-        public async Task<PostSetting> GetPostSettingsAsync(Guid? id)
-        {
-            return await RepositoryManager.PostSettingRepository.SingleAsync(s => s.Id == id);
-        }
-
-        public async Task<PostSeoSetting> GetPostSeoSettingsAsync(Guid id)
-        {
-            return await RepositoryManager.PostSeoSettingsRepository.SingleAsync(s => s.Id == id);
-        }
-
-        public async Task<IEnumerable<Category>> GetPostCategoriesAsync()
-        {
-            return await RepositoryManager.CategoryRepository.GetAllListAsync();
-        }
-
         private async Task<int> GetPostsWithTypeCount(
             string postTypeAlias,
             Guid? categoryId,
             RemovedStateRequest state,
             PublishStateRequest publishState,
-            FrontPageStateRequest frontPageState,
-            bool cache
+            FrontPageStateRequest frontPageState
         )
         {
             var requirements = CreateRequirements(postTypeAlias, state, publishState, frontPageState, categoryId);
-            var cacheKey = $"PostType={postTypeAlias};Count";
 
-            if (categoryId.HasValue)
-                cacheKey += $";CategoryId={categoryId}";
-
-            return await GetCountAsync(requirements, cache, CacheMinutes, cacheKey);
+            return await GetCountAsync(requirements);
         }
 
         private static Specification<Post> CreateRequirements(string postTypeAlias,

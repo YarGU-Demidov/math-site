@@ -1,7 +1,7 @@
 ﻿@model IndexPersonsViewModel
 
 @{
-    var postsExists = Model.Persons != null && Model.Persons.Any();
+    var personsExists = Model.Persons != null && Model.Persons.Any();
 }
 
 <div class="container-fluid set-max-size posts">
@@ -9,9 +9,9 @@
     <div class="card news-card">
         <h4 class="card-header">Лица</h4>
         <div class="card-body">
-            @if (!postsExists)
+            @if (!personsExists)
             {
-                <h5 class="empty-text text-center">Новостей не обнаружено!</h5>
+            <h5 class="empty-text text-center">Лиц не обнаружено!</h5>
             }
             else
             {

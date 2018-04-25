@@ -5,6 +5,7 @@ using MathSite.ViewModels.Home.PostPreview;
 using MathSite.ViewModels.Home.StudentActivityPreview;
 using MathSite.ViewModels.News;
 using MathSite.ViewModels.Pages;
+using MathSite.ViewModels.Professors;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MathSite.ViewModels
@@ -30,6 +31,7 @@ namespace MathSite.ViewModels
                 .AddScoped<IPagesViewModelBuilder, PagesViewModelBuilder>()
                 .AddScoped<IStudentActivityPreviewViewModelBuilder, StudentActivityViewModelBuilder>()
                 .AddScoped<IPostPreviewViewModelBuilder, PostPreviewViewModelBuilder>()
+                .AddScoped<IProfessorsViewModelBuilder, ProfessorsViewModelBuilder>()
                 .AddScoped<IEventPreviewViewModelBuilder, EventPreviewViewModelBuilder>();
         }
     }

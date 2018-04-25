@@ -120,6 +120,7 @@ namespace StaticImporter
                 new GroupTypeRepository(context),
                 new DirectoriesRepository(context),
                 new CategoryRepository(context),
+                new ProfessorsRepository(context),
                 new PostCategoryRepository(context)
             );
 

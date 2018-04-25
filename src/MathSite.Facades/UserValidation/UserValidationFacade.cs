@@ -4,13 +4,14 @@ using System.Threading.Tasks;
 using MathSite.Common.Crypto;
 using MathSite.Common.Extensions;
 using MathSite.Entities;
+using MathSite.Repository;
 using MathSite.Repository.Core;
 using MathSite.Specifications.Users;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace MathSite.Facades.UserValidation
 {
-    public class UserValidationFacade : BaseFacade, IUserValidationFacade
+    public class UserValidationFacade : BaseMathFacade<IUsersRepository, User>, IUserValidationFacade
     {
 
         public IKeyManager KeyManager { get; set; }
@@ -20,8 +21,7 @@ namespace MathSite.Facades.UserValidation
             IRepositoryManager repositoryManager,
             IMemoryCache memoryCache,
             IPasswordsManager passwordHasher
-        )
-            : base(repositoryManager, memoryCache)
+        ) : base(repositoryManager, memoryCache)
         {
             _passwordHasher = passwordHasher;
         }
@@ -31,7 +31,7 @@ namespace MathSite.Facades.UserValidation
             if (userId == default)
                 return false;
 
-            var user = await RepositoryManager.UsersRepository.WithRights().FirstOrDefaultAsync(userId);
+            var user = await Repository.WithRights().FirstOrDefaultAsync(userId);
 
             if (user == null)
                 return false;
@@ -76,7 +76,7 @@ namespace MathSite.Facades.UserValidation
         {
             var requirements = new HasLoginSpecification(login);
 
-            var user = await RepositoryManager.UsersRepository.FirstOrDefaultAsync(requirements.ToExpression());
+            var user = await Repository.FirstOrDefaultAsync(requirements.ToExpression());
 
             if (user == null || !_passwordHasher.PasswordsAreEqual(login, password, user.PasswordHash))
                 return null;

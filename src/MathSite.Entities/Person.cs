@@ -9,33 +9,6 @@ namespace MathSite.Entities
     /// </summary>
     public class Person : Entity
     {
-        public Person()
-        {
-        }
-
-        /// <summary>
-        ///     Создает сущность.
-        /// </summary>
-        /// <param name="name">Имя.</param>
-        /// <param name="surname">Фамилия.</param>
-        /// <param name="middlename">Отчество.</param>
-        /// <param name="birthday">Дата рождения.</param>
-        /// <param name="phoneNumber">Телефонный номер.</param>
-        /// <param name="additionalPhoneNumber">Дополнительный телефонный номер.</param>
-        /// <param name="photoId">Идентификатор изображения личности.</param>
-        public Person(string name, string surname, string middlename,
-            DateTime birthday, string phoneNumber, string additionalPhoneNumber, Guid? photoId)
-        {
-            Name = name;
-            Surname = surname;
-            MiddleName = middlename;
-            Phone = phoneNumber;
-            AdditionalPhone = additionalPhoneNumber;
-            Birthday = birthday;
-            CreationDate = DateTime.Now;
-            PhotoId = photoId;
-        }
-        
         /// <summary>
         ///     Имя.
         /// </summary>
@@ -80,5 +53,7 @@ namespace MathSite.Entities
         ///     Пользователь.
         /// </summary>
         public User User { get; set; }
+
+        public Professor Professor { get; set; }
     }
 }

@@ -44,8 +44,7 @@ namespace MathSite.BasicAdmin.ViewModels.News
         {
             const string postType = PostTypeAliases.News;
 
-            return await BuildIndexViewModel<ListNewsViewModel>(page, perPage, postType, NewsTopMenuName, "List",
-                typeOfList: "новостей");
+            return await BuildIndexViewModel<ListNewsViewModel>(page, perPage, postType, NewsTopMenuName, "List", typeOfList: "новостей");
         }
 
         public async Task<ListNewsViewModel> BuildRemovedViewModel(int page, int perPage)

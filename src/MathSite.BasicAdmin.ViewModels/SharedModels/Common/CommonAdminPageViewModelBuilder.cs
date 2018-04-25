@@ -11,6 +11,7 @@ namespace MathSite.BasicAdmin.ViewModels.SharedModels.Common
         protected const string ArticlesTopMenuName = "Articles";
         protected const string NewsTopMenuName = "News";
         protected const string EventsTopMenuName = "Events";
+        protected const string ProfessorsTopMenuName = "Professors";
 
         protected CommonAdminPageViewModelBuilder(ISiteSettingsFacade siteSettingsFacade)
         {
@@ -43,6 +44,7 @@ namespace MathSite.BasicAdmin.ViewModels.SharedModels.Common
                 new MenuLink("Лица", "/manager/persons/", false, "Управление лицами", "Persons"),
                 new MenuLink("Пользователи", "/manager/users/", false, "Управление пользователями", "Users"),
                 new MenuLink("Категории", "/manager/categories/", false, "Управление категориями", "Categories"),
+                new MenuLink("Преподаватели", "/manager/professor/", false, "Управление преподавателями", ProfessorsTopMenuName),
                 new MenuLink("Настройки", "/manager/settings/", false, "Управление настройками", "Settings")
             };
 

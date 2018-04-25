@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MathSite.Entities;
+using MathSite.ViewModels.SharedModels.SecondaryPage;
 
 namespace MathSite.BasicAdmin.ViewModels.Pages
 {
@@ -13,5 +13,8 @@ namespace MathSite.BasicAdmin.ViewModels.Pages
         Task<PageViewModel> BuildEditViewModel(Guid id);
         Task<PageViewModel> BuildEditViewModel(PageViewModel page);
         Task<ListPagesViewModel> BuildDeleteViewModel(Guid id);
+        Task BuildRecoverViewModel(Guid postId);
+        Task BuildForceDeleteViewModel(Guid postId);
+        void FillPostItemViewModel(SecondaryViewModel model);
     }
 }

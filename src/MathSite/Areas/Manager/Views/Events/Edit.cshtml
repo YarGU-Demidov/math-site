@@ -2,6 +2,15 @@
 
 @Html.Partial("Posts/PostEditors")
 
+<script>
+    $(() => {
+        window.currentForm = $('#edit-event');
+        const name = 'events';
+        window.postPreviewUrl = `/manager/${name}/preview`;
+        window.postWithAdditionalInfo = true;
+    });
+</script>
+
 <form method="post" asp-action="Edit" asp-controller="Events" asp-antiforgery="true" id="edit-event">
     <div class="container" style="padding-top: 15px; padding-bottom: 15px;">
         @Html.HiddenFor(m => m.Id)
@@ -32,13 +41,8 @@
         </div>
 
         <button type="submit" class="btn btn-success">Сохранить</button>
+        <div class="btn btn-info post-preview">Предпросмотр</div>
     </div>
 </form>
-
-<script>
-    $(() => {
-        window.currentForm = $('#edit-event');
-    });
-</script>
 
 @Html.Partial("Posts/CommonJsForPosts")

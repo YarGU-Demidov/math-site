@@ -43,8 +43,7 @@ namespace MathSite.BasicAdmin.ViewModels.Pages
         {
             const string postType = PostTypeAliases.StaticPage;
 
-            return await BuildIndexViewModel<ListPagesViewModel>(page, perPage, postType, ArticlesTopMenuName, "List",
-                typeOfList: "статей");
+            return await BuildIndexViewModel<ListPagesViewModel>(page, perPage, postType, ArticlesTopMenuName, "List", typeOfList: "статей");
         }
 
         public async Task<ListPagesViewModel> BuildRemovedViewModel(int page, int perPage)

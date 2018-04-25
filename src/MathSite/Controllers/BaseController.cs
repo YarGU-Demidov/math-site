@@ -62,5 +62,15 @@ namespace MathSite.Controllers
             await TrySetUser(context);
             await next();
         }
+
+        protected ViewResult View(string action, string controller, object model = null)
+        {
+            return base.View($"~/Views/{controller}/{action}.cshtml", model);
+        }
+
+        protected ViewResult View(string action, string controller, string area, object model = null)
+        {
+            return base.View($"~/Areas/{area}/Views/{controller}/{action}.cshtml", model);
+        }
     }
 }

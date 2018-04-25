@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MathSite.Repository
 {
-    public interface IUsersRepository : IRepository<User>
+    public interface IUsersRepository : IMathSiteEfCoreRepository<User>
     {
         Task<IEnumerable<User>> GetAllWithPagingAsync(int skip, int count);
         IUsersRepository WithPerson();

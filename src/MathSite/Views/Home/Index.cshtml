@@ -2,9 +2,9 @@
 @model HomeIndexViewModel
 <div class="jumbotron">
     <div class="jumbotron__wrap container">
-        <div class="jumbotron__head section-head">
-            <div class="section-head__title heading heading_inverted">
-                Информационные технологии
+        <div class="jumbotron__head section-head-main">
+            <div class="section-head__title heading_jumbotron heading-main heading_inverted">
+                Информационные <br> технологии
             </div>
         </div>
         <div class="jumbotron__content">
@@ -52,7 +52,7 @@
                 Все новости
             </a>
         </div>
-        <div class="feed__list">
+        <div class="feed__list feed__list-main">
             @foreach (var postModel in Model.Posts)
             {
                 @Html.Partial("Partials/Posts/PostPreview", postModel)

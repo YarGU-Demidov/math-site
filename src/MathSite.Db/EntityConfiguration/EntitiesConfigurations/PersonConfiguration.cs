@@ -56,6 +56,13 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
                 .OnDelete(DeleteBehavior.SetNull);
 
             modelBuilder
+                .HasOne(person => person.Professor)
+                .WithOne(professor => professor.Person)
+                .HasForeignKey<Professor>(professor => professor.PersonId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder
                 .HasOne(person => person.Photo)
                 .WithOne(file => file.Person)
                 .IsRequired(false)

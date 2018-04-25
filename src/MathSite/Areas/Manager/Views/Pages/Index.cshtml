@@ -23,14 +23,12 @@
                                 </th>
                                 <th>Заголовок</th>
                                 <th>Дата публикации</th>
-                                <th>На главной?</th>
                                 <th>Опубликовано?</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var post in Model.Posts)
                             {
-                                var onStartPageText = post.PostSettings?.PostOnStartPage ?? post.PostType.DefaultPostsSettings.PostOnStartPage ? "checked=\"checked\"" : "";
                                 var publishedText = post.Published ? "checked=\"checked\"" : "";
                                 var buttonsClass = post.Deleted ? "buttons-td-three" : "buttons-td";
 
@@ -41,18 +39,31 @@
                                         </a>
                                         @if (post.Deleted)
                                         {
-                                            <a href="@Url.Action("Recover", "Pages", new {id = post.Id})" title="Edit" class="btn btn-outline-info">
-                                                <em class="fa fa-repeat"></em>
-                                            </a>
+                                            <form class="post-form" asp-action="Recover" asp-route-id="@post.Id" method="post" asp-antiforgery="true">
+                                                <button type="submit" title="Delete" class="btn btn-outline-info">
+                                                    <em class="fa fa-repeat"></em>
+                                                </button>
+                                            </form>
+                                            <form class="post-form" asp-action="ForceDelete" asp-route-id="@post.Id" method="post" asp-antiforgery="true">
+                                                <button type="submit" title="Delete" class="btn btn-outline-danger">
+                                                    <em class="fa fa-trash"></em>
+                                                </button>
+                                            </form>
                                         }
-                                        <a href="@Url.Action("Delete", "Pages", new {id = post.Id})" title="Delete" class="btn btn-outline-danger">
-                                            <em class="fa fa-trash"></em>
-                                        </a>
+                                        else
+                                        {
+                                            <form class="post-form" asp-action="Delete" asp-route-id="@post.Id" method="post" asp-antiforgery="true">
+                                                <button type="submit" title="Delete" class="btn btn-outline-danger">
+                                                    <em class="fa fa-trash"></em>
+                                                </button>
+                                            </form>
+                                        }
+                                        
                                     </td>
                                     <th class="post__max-width">@post.Title</th>
                                     <td>
                                         @{
-                                            if (publishedText == String.Empty)
+                                            if (publishedText == string.Empty)
                                             {
                                                 <p>Страница не опубликована</p>
                                             }
@@ -63,10 +74,7 @@
                                         }
                                     </td>
                                     <td>
-                                        <input type="checkbox" disabled="disabled" @onStartPageText/>
-                                    </td>
-                                    <td>
-                                        <input type="checkbox" disabled="disabled" @publishedText/>
+                                        <input type="checkbox" disabled="disabled" @publishedText />
                                     </td>
                                 </tr>
                             }
@@ -151,4 +159,11 @@
 
 @section ScriptsSection{
     <script src="~/js/pager.js"></script>
+}
+@section StylesSection {
+    <style>
+        .post-form {
+            display: inline-block;
+        }
+    </style>
 }

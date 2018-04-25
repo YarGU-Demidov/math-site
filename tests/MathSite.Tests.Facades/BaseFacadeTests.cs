@@ -9,7 +9,7 @@ using Xunit;
 
 namespace MathSite.Tests.Facades
 {
-    public class PersonBaseFacadeTestClass : BaseFacade<IPersonsRepository, Person>
+    public class PersonBaseFacadeTestClass : BaseMathFacade<IPersonsRepository, Person>
     {
         public PersonBaseFacadeTestClass(IRepositoryManager repositoryManager, IMemoryCache memoryCache)
             : base(repositoryManager, memoryCache)
@@ -18,7 +18,7 @@ namespace MathSite.Tests.Facades
 
         public async Task<int> GetCountWithoutCacheAsync()
         {
-            return await GetCountAsync(new AnySpecification<Person>(), false);
+            return await GetCountAsync(new AnySpecification<Person>());
         }
     }
 

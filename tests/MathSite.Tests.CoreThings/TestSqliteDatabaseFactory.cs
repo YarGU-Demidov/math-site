@@ -5,6 +5,8 @@ namespace MathSite.Tests.CoreThings
 {
     public class TestSqliteDatabaseFactory : TestDatabaseFactory
     {
+        protected override bool IgnoreSQLiteWrongData { get; } = true;
+
         public TestSqliteDatabaseFactory(SqliteConnection connection)
             : base(connection)
         {

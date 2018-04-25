@@ -10,36 +10,24 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace MathSite.Facades.PostCategories
 {
-    public class PostCategoryFacade : BaseFacade<IPostCategoryRepository, PostCategory>, IPostCategoryFacade
+    public interface IPostCategoryFacade : IFacade
+    {
+        Task<PostCategory> GetPostCategoryAsync(Guid postId, Guid categoryId);
+        Task<IEnumerable<PostCategory>> CreateRelation(Post post, IEnumerable<Category> categories);
+        Task UpdateRelations(Post post, IEnumerable<Category> categories);
+        Task DeleteAllRelations(Post post);
+    }
+
+    public class PostCategoryFacade : BaseMathFacade<IPostCategoryRepository, PostCategory>, IPostCategoryFacade
     {
         public PostCategoryFacade(IRepositoryManager repositoryManager, IMemoryCache memoryCache)
             : base(repositoryManager, memoryCache)
         {
         }
 
-        public async Task<PostCategory> GetPostCategoryAsync(Guid postId)
-        {
-            return await RepositoryManager.PostCategoryRepository.FirstOrDefaultAsync(c => c.PostId == postId);
-        }
-
         public async Task<PostCategory> GetPostCategoryAsync(Guid postId, Guid categoryId)
         {
-            return await RepositoryManager.PostCategoryRepository.FirstOrDefaultAsync(c => c.PostId == postId && c.CategoryId == categoryId);
-        }
-
-        public async Task<Guid> CreatePostCategoryAsync(PostCategory postCategory)
-        {
-            return await RepositoryManager.PostCategoryRepository.InsertAndGetIdAsync(postCategory);
-        }
-
-        public async Task<PostCategory> UpdatePostCategoryAsync(PostCategory postCategory)
-        {
-            return await RepositoryManager.PostCategoryRepository.UpdateAsync(postCategory);
-        }
-
-        public async Task DeletePostCategoryAsync(Guid postId)
-        {
-            await RepositoryManager.PostCategoryRepository.DeleteAsync(c => c.PostId == postId);         
+            return await Repository.FirstOrDefaultAsync(c => c.PostId == postId && c.CategoryId == categoryId);
         }
 
         public async Task<IEnumerable<PostCategory>> CreateRelation(Post post, IEnumerable<Category> categories)
@@ -47,9 +35,7 @@ namespace MathSite.Facades.PostCategories
             var postCategories = categories.Select(category => new PostCategory
             {
                 CategoryId = category.Id,
-                Category = category,
-                PostId = post.Id,
-                Post = post
+                PostId = post.Id
             }).ToArray();
 
             foreach (var postCategory in postCategories)
@@ -62,9 +48,34 @@ namespace MathSite.Facades.PostCategories
             return postCategories;
         }
 
+        public async Task UpdateRelations(Post post, IEnumerable<Category> categories)
+        {
+            var spec = new PostCategoryWithPostSpecification(post);
+            var oldCategories = await Repository.GetAllListAsync(spec);
+
+            var currentCategories = categories.ToArray();
+
+            var newCategories = currentCategories.Where(category => oldCategories.All(postCategory => postCategory.CategoryId != category.Id));
+            var deletedCategories = oldCategories.Where(category => currentCategories.All(category1 => category.Id != category1.Id));
+
+            foreach (var deletedCategory in deletedCategories)
+            {
+                await Repository.DeleteAsync(deletedCategory);
+            }
+
+            foreach (var newCategory in newCategories)
+            {
+                await Repository.InsertAsync(new PostCategory
+                {
+                    Category = newCategory,
+                    Post = post
+                });
+            }
+        }
+
         public async Task DeleteAllRelations(Post post)
         {
-            var spec = new PostCategoryWithPost(post);
+            var spec = new PostCategoryWithPostSpecification(post);
             var categories = await Repository.GetAllListAsync(spec);
 
             foreach (var postCategory in categories)

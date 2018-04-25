@@ -50,6 +50,10 @@ namespace MathSite.Db.EntityConfiguration
         /// <param name="modelBuilder">Билдер моделей</param>
         protected virtual void SetRelationships(EntityTypeBuilder<T> modelBuilder) { }
 
+        /// <summary>
+        ///     Установка индексов (в т.ч. уникальности)
+        /// </summary>
+        /// <param name="modelBuilder"></param>
         protected virtual void SetIndexes(EntityTypeBuilder<T> modelBuilder) { }
     }
 }
