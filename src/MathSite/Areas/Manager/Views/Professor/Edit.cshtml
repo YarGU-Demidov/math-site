@@ -1,0 +1,5 @@
+﻿@model EditProfessorViewModel
+
+<form asp-action="Edit" method="post" asp-antiforgery="true">
+    @Html.Partial("Shared/ProfessorEditFormContent", Model)
+</form>

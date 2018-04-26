@@ -38,7 +38,7 @@ namespace MathSite.Areas.Manager.Controllers
             return View("Create", await _viewModelBuilder.BuildCreateViewModelAsync());
         }
 
-        [HttpPost]
+        [HttpPost("create")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreatePersonsViewModel model)
         {
@@ -59,7 +59,7 @@ namespace MathSite.Areas.Manager.Controllers
             return View("Edit", await _viewModelBuilder.BuildEditViewModelAsync(id));
         }
 
-        [HttpPost]
+        [HttpPost("edit")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, EditPersonsViewModel model)
         {

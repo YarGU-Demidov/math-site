@@ -135,9 +135,16 @@ namespace MathSite.Facades.Persons
             await Repository.DeleteAsync(person.Id);
         }
 
-        public async Task<IEnumerable<Person>> GetAvailablePersonsAsync()
+        public async Task<IEnumerable<Person>> GetPersonsWithoutUsersAsync()
         {
-            var spec = new AvailablePersonSpecification();
+            var spec = new PersonWithoutUserSpecification();
+
+            return await Repository.WithUser().WithProfessor().GetAllListAsync(spec);
+        }
+
+        public async Task<IEnumerable<Person>> GetPersonsWithoutProfessorsAsync()
+        {
+            var spec = new PersonWithoutProfessorSpecification();
 
             return await Repository.WithUser().WithProfessor().GetAllListAsync(spec);
         }

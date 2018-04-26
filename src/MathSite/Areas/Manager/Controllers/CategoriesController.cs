@@ -41,7 +41,7 @@ namespace MathSite.Areas.Manager.Controllers
             return View("Create", await _modelBuilder.BuildCreateViewModelAsync());
         }
 
-        [HttpPost]
+        [HttpPost("create")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateCategoriesViewModel model)
         {
@@ -59,7 +59,7 @@ namespace MathSite.Areas.Manager.Controllers
             return View("Edit", await _modelBuilder.BuildEditViewModelAsync(id));
         }
 
-        [HttpPost]
+        [HttpPost("edit")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(EditCategoriesViewModel model)
         {
@@ -71,7 +71,7 @@ namespace MathSite.Areas.Manager.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpPost]
+        [HttpPost("delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(Guid id)
         {

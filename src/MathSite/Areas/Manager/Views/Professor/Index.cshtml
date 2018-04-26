@@ -22,9 +22,7 @@
                                 <th class="text-center">
                                     <em class="fa fa-cog"></em>
                                 </th>
-                                <th>Фамилия</th>
-                                <th>Имя</th>
-                                <th>Отчество</th>
+                                <th>ФИО</th>
                                 <th>Факультет</th>
                                 <th>Кафедра</th>
                                 <th>Дата создания</th>
@@ -38,15 +36,13 @@
                                         <a href="@Url.Action("Edit", "Professor", new {id = professor.Id})" title="Edit" class="btn btn-outline-success">
                                             <em class="fa fa-pencil"></em>
                                         </a>
-                                        <form class="delete-person-form" asp-action="Delete" asp-route-id="@professor.Id" method="post" asp-antiforgery="true">
+                                        <form class="delete-professor-form" asp-action="Delete" asp-route-id="@professor.Id" method="post" asp-antiforgery="true">
                                             <button type="submit" title="Delete" class="btn btn-outline-danger">
                                                 <em class="fa fa-trash"></em>
                                             </button>
                                         </form>
                                     </td>
-                                    <td>@professor.Person.Surname</td>
-                                    <td>@professor.Person.Name</td>
-                                    <td>@professor.Person.MiddleName</td>
+                                    <td>@professor.Person.Surname @professor.Person.Name @professor.Person.MiddleName</td>
                                     <td>@professor.Faculty</td>
                                     <td>@professor.Department</td>
                                     <td>@professor.CreationDate</td>
@@ -137,7 +133,7 @@
 @section StylesSection
     {
     <style>
-        .delete-person-form {
+        .delete-professor-form {
             display: inline-block;
         }
     </style>

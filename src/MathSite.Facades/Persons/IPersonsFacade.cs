@@ -30,6 +30,7 @@ namespace MathSite.Facades.Persons
             DateTime? bday = null
         );
         Task DeletePersonAsync(Guid personId, bool force = false);
-        Task<IEnumerable<Person>> GetAvailablePersonsAsync();
+        Task<IEnumerable<Person>> GetPersonsWithoutUsersAsync();
+        Task<IEnumerable<Person>> GetPersonsWithoutProfessorsAsync();
     }
 }
