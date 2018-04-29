@@ -37,6 +37,9 @@ namespace MathSite.Areas.Manager.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateProfessorViewModel model)
         {
+            if (model.Id == default || !TryValidateModel(model))
+                return BadRequest("Entered data is incorrect!");
+
             try
             {
                 await _modelBuilder.CreateProfessorAsync(model);
@@ -61,7 +64,7 @@ namespace MathSite.Areas.Manager.Controllers
         [HttpPost("edit")]
         public async Task<IActionResult> Edit(EditProfessorViewModel model)
         {
-            if (model.Id == default)
+            if (model.Id == default || !TryValidateModel(model))
                 return BadRequest("Entered data is incorrect!");
 
             try

@@ -1,5 +1,13 @@
 ﻿@model EditProfessorViewModel
 
-<form asp-action="Edit" method="post" asp-antiforgery="true">
+@{
+    const string formName = "edit-professor";
+}
+
+<script>
+    window['professor-form-name'] = '@formName';
+</script>
+
+<form asp-action="Edit" method="post" asp-antiforgery="true" id="@formName">
     @Html.Partial("Shared/ProfessorEditFormContent", Model)
 </form>

@@ -1,8 +1,15 @@
 ﻿@model CreateProfessorViewModel
+@{
+    const string formName = "create-professor";
+}
+
+<script>
+    window['professor-form-name'] = '@formName';
+</script>
 
 @if (Model.AvailablePersons.Any())
 {
-    <form asp-action="Create" method="post" asp-antiforgery="true">
+    <form asp-action="Create" method="post" asp-antiforgery="true" id="@formName">
         @Html.Partial("Shared/ProfessorEditFormContent", Model)
     </form>
 }

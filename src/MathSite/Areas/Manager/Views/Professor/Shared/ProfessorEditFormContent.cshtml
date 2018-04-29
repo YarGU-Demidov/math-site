@@ -7,24 +7,24 @@
 
 <input type="hidden" asp-for="Id" />
 
-<div class="container" style="padding-top: 15px;">
+<div class="container" style="padding-top: 15px; padding-bottom: 15px;">
     <div class="form-group">
         <label asp-for="PersonId">Лицо</label>
-        <select class="form-control" asp-for="PersonId" asp-items="@Model.AvailablePersons" required></select>
+        <select class="form-control" asp-for="PersonId" asp-items="@Model.AvailablePersons" required="required"></select>
     </div>
     <div class="form-row">
         <div class="form-group col-md-6">
             <label asp-for="Faculty">Факультет</label>
-            <input type="text" asp-for="Faculty" class="form-control" placeholder="Факультет" />
+            <input type="text" asp-for="Faculty" class="form-control" placeholder="Факультет" required="required"/>
         </div>
         <div class="form-group col-md-6">
             <label asp-for="Department">Кафедра</label>
-            <input type="text" asp-for="Department" class="form-control" placeholder="Кафедра" />
+            <input type="text" asp-for="Department" class="form-control" placeholder="Кафедра" required="required"/>
         </div>
     </div>
     <div class="form-group">
         <label asp-for="Description">Описание</label>
-        <textarea asp-for="Description" class="form-control" placeholder="Описание"></textarea>
+        <textarea asp-for="Description" class="form-control" placeholder="Описание" required="required"></textarea>
     </div>
     <div class="form-group">
         <label asp-for="MathNetLink">Ссылка на Mathnet</label>
@@ -32,12 +32,141 @@
     </div>
     <div class="form-group">
         <label asp-for="ScientificTitle">Научное звание</label>
-        <input type="text" asp-for="ScientificTitle" class="form-control" placeholder="Научное звание" />
+        <input type="text" asp-for="ScientificTitle" class="form-control" placeholder="Научное звание" required="required" />
     </div>
     <div class="form-group">
         <label asp-for="Status">Статус преподавателя</label>
-        <input type="text" asp-for="Status" class="form-control" placeholder="Статус преподавателя" />
+        <input type="text" asp-for="Status" class="form-control" placeholder="Статус преподавателя" required="required" />
+    </div>
+    
+    <div class="form-row multi-add Graduated__container">
+        <div class="form-group col-md-11">
+            <label asp-for="Graduated">Окончил</label>
+            <select asp-for="Graduated" asp-items="@Model.Graduated.Select(s => new SelectListItem {Value = s, Text = s, Selected = false, Disabled = false})" class="form-control"></select>
+        </div>
+        <div class="col-md-1">
+            <div class="btn btn-primary add">+</div>
+            <div class="btn btn-danger remove disabled">-</div>
+        </div>
+    </div>
+    
+    <div class="form-row multi-add BibliographicIndexOfWorks__container">
+        <div class="form-group col-md-11">
+            <label asp-for="BibliographicIndexOfWorks">Библиографический указатель трудов</label>
+            <select asp-for="BibliographicIndexOfWorks" asp-items="@Model.BibliographicIndexOfWorks.Select(s => new SelectListItem { Value = s, Text = s, Selected = false, Disabled = false})" class="form-control"></select>
+        </div>
+        <div class="col-md-1">
+            <div class="btn btn-primary add">+</div>
+            <div class="btn btn-danger remove disabled">-</div>
+        </div>
+    </div>
+    
+    <div class="form-row multi-add Theses__container">
+        <div class="form-group col-md-11">
+            <label asp-for="Theses">Диссертации</label>
+            <select asp-for="Theses" asp-items="@Model.Theses.Select(s => new SelectListItem { Value = s, Text = s, Selected = false, Disabled = false})" class="form-control"></select>
+        </div>
+        <div class="col-md-1">
+            <div class="btn btn-primary add">+</div>
+            <div class="btn btn-danger removed disabled">-</div>
+        </div>
+    </div>
+    
+    <div class="form-row multi-add TermPapers__container">
+        <div class="form-group col-md-11">
+            <label asp-for="TermPapers">Темы курсовых и дипломных работ</label>
+            <select asp-for="TermPapers" asp-items="@Model.TermPapers.Select(s => new SelectListItem { Value = s, Text = s, Selected = false, Disabled = false})" class="form-control"></select>
+        </div>
+        <div class="col-md-1">
+            <div class="btn btn-primary add">+</div>
+            <div class="btn btn-danger remove disabled">-</div>
+        </div>
     </div>
 
     <button type="submit" class="btn btn-primary">@saveText</button>
 </div>
+
+
+<!-- Include external CSS. -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.css">
+
+<!-- Include Editor style. -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.5/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.5/css/froala_style.min.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.5/css/plugins/table.min.css">
+<style>
+    .fr-box {
+        width: 100%;
+    }
+</style>
+
+<script src="~/js/pager.js"></script>
+@*<script src="~/js/manager/ckeditor/ckeditor.js"></script>*@
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/mode/xml/xml.min.js"></script>
+<script type="text/javascript" src="~/js/manager/froala.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.5/js/languages/ru.js"></script>
+
+<script type="text/javascript" src="~/js/manager/editor.js"></script>
+<script type="text/javascript" src="~/js/manager/list-controller.js"></script>
+<script type="text/javascript" src="~/js/manager/professor-form-controller.js"></script>
+<script>
+    $($ => {
+        const editor = new EditorConfig();
+        editor.initArea('static-pages', '#Description');
+
+        const listIds = [
+            "Graduated",
+            "BibliographicIndexOfWorks",
+            "Theses",
+            "TermPapers"
+        ];
+
+        listIds.map(id => new ListController(id));
+    })
+</script>
+
+<script>
+    $($ => {
+        var formName = window['professor-form-name'];
+        const formController = new ProfessorFormController(formName);
+    });
+</script>
+
+<style>
+    .multi-add {
+        margin-bottom: 20px;
+        display: flex;
+    }
+
+    .multi-add .col-md-1 {
+        padding-top: 32px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        margin-bottom: 16px;
+    }
+
+    .multi-add .col-md-1 div.btn {
+        display: block;
+    }
+
+    @@media (max-width: 768px) {
+        .multi-add .col-md-1 {
+            padding-top: 10px;
+            flex-direction: row;
+        }
+
+        .multi-add .col-md-1 div.btn {
+            display: inline-block;
+            width: 100%;
+        }
+        
+        .multi-add .col-md-1 div.btn:first-of-type {
+            margin-bottom: 0;
+            margin-right: 5px;
+        }
+    }
+</style>
