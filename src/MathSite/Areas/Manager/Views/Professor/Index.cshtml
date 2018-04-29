@@ -25,6 +25,7 @@
                                 <th>ФИО</th>
                                 <th>Факультет</th>
                                 <th>Кафедра</th>
+                                <th>Ссылка</th>
                                 <th>Дата создания</th>
                             </tr>
                         </thead>
@@ -45,6 +46,7 @@
                                     <td>@professor.Person.Surname @professor.Person.Name @professor.Person.MiddleName</td>
                                     <td>@professor.Faculty</td>
                                     <td>@professor.Department</td>
+                                    <td><a class="btn btn-info" target="_blank" href="@Url.Action("Show", "Professors", new {id = professor.Id })">Go</a></td>
                                     <td>@professor.CreationDate</td>
                                 </tr>
                             }

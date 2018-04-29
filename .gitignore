@@ -246,5 +246,5 @@ ModelManifest.xml
 MathSiteSettings.json
 .idea
 .vscode
-.yarn.lock
+yarn.lock
 .yarn-integrity
