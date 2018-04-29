@@ -56,7 +56,7 @@ namespace MathSite.Areas.Manager.Controllers
             return View("Uploaded", await _filesManagerViewModelBuilder.BuildUploadedViewModelAsync(CurrentUser, filesData, path));
         }
 
-        [HttpPost]
+        [HttpPost("delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(Guid id, string path = "/")
         {
@@ -71,7 +71,7 @@ namespace MathSite.Areas.Manager.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("UploadBase64Image")]
         public async Task<IActionResult> UploadBase64Image(string base64Image)
         {
             var dataString = base64Image.Contains(",")

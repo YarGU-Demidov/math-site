@@ -72,7 +72,7 @@ namespace MathSite.Areas.Manager.Controllers
             return RedirectToActionPermanent("Index");
         }
 
-        [HttpPost]
+        [HttpPost("delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(Guid id)
         {
