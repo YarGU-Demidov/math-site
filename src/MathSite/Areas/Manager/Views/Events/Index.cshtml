@@ -25,6 +25,7 @@
                                 <th>Дата публикации</th>
                                 <th>На главной?</th>
                                 <th>Опубликовано?</th>
+                                <th>Ссылка</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -79,6 +80,9 @@
                                     </td>
                                     <td>
                                         <input type="checkbox" disabled="disabled" @publishedText />
+                                    </td>
+                                    <td>
+                                        <a target="_blank" href="/event/@post.PostSeoSetting.Url">Go</a>
                                     </td>
                                 </tr>
                             }

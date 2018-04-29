@@ -67,16 +67,21 @@ namespace MathSite.Areas.Manager.Controllers
             }
             catch (FileIsUsedException)
             {
-                return Unauthorized();
+                return BadRequest("Файл используется, удалить нельзя!");
             }
         }
 
         [HttpPost("UploadBase64Image")]
-        public async Task<IActionResult> UploadBase64Image(string base64Image)
+        public async Task<IActionResult> UploadBase64Image(string base64Image, string pageType)
         {
             var dataString = base64Image.Contains(",")
                 ? base64Image.Split(',', StringSplitOptions.RemoveEmptyEntries)
                 : null;
+
+            if (pageType.IsNullOrWhiteSpace())
+            {
+                return BadRequest("Wrong page type!");
+            }
 
             if (dataString.IsNull() || dataString?.Length != 2)
             {
@@ -84,7 +89,7 @@ namespace MathSite.Areas.Manager.Controllers
             }
 
             var data = Convert.FromBase64String(dataString[1]);
-            var fileId = await _filesManagerViewModelBuilder.BuildUploadBase64Image(CurrentUser, data);
+            var fileId = await _filesManagerViewModelBuilder.BuildUploadBase64Image(CurrentUser, data, pageType);
 
             return Json(fileId);
         }
