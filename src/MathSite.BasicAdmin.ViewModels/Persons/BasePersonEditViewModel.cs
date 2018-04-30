@@ -14,5 +14,6 @@ namespace MathSite.BasicAdmin.ViewModels.Persons
         [Required]
         public DateTime? BirthDate {get; set; }
         public string Phone { get; set; }
+        public string PhotoId { get; set; }
     }
 }

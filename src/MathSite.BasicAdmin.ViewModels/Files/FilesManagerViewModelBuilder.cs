@@ -74,7 +74,21 @@ namespace MathSite.BasicAdmin.ViewModels.Files
 
         public async Task<Guid> BuildUploadBase64Image(User currentUser, byte[] image, string pageType)
         {
-            return await _fileFacade.SaveFileAsync(currentUser, "PostCover.png", new MemoryStream(image), $"{pageType}/previews");
+            bool IsPersonPhoto(string type)
+            {
+                return type == "person-photo";
+            }
+
+            // фотки грузим в корень
+            var path = IsPersonPhoto(pageType)
+                ? "/"
+                : $"{pageType}/previews";
+
+            var fileName = IsPersonPhoto(pageType)
+                ? "PersonPhoto.png"
+                : "PostCover.png";
+
+            return await _fileFacade.SaveFileAsync(currentUser, fileName, new MemoryStream(image), path);
         }
 
         private async Task<(IEnumerable<DirectoryViewModel> Directories, IEnumerable<FileViewModel> Files)> GetAllItemsInDirectoryAsync(string path)
