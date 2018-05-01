@@ -37,7 +37,7 @@ namespace MathSite.Areas.Manager.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateProfessorViewModel model)
         {
-            if (model.Id == default || !TryValidateModel(model))
+            if (!TryValidateModel(model))
                 return BadRequest("Entered data is incorrect!");
 
             try
