@@ -39,6 +39,7 @@ namespace MathSite.ViewModels.Professors
 
             var model = await BuildSecondaryViewModel<ProfessorViewModel>();
 
+            model.PageTitle.Title = $"{professor.Person.Surname} {professor.Person.Name} {professor.Person.MiddleName}";
             model.Professor = professor;
 
             return model;

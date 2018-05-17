@@ -27,17 +27,72 @@ namespace MathSite.Areas.Manager.Controllers
             return View(await _modelBuilder.BuildListViewModel(page, perPage));
         }
 
+        [HttpGet("create")]
+        public async Task<IActionResult> Create()
+        {
+            return View(await _modelBuilder.BuildCreateViewModelAsync());
+        }
+
+        [HttpPost("create")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(CreateProfessorViewModel model)
+        {
+            if (!TryValidateModel(model))
+                return BadRequest("Entered data is incorrect!");
+
+            try
+            {
+                await _modelBuilder.CreateProfessorAsync(model);
+
+                return RedirectToActionPermanent("Index", "Professor");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
         [HttpGet("edit")]
         public async Task<IActionResult> Edit(Guid id)
         {
-            throw new NotImplementedException();
+            if (id == default)
+                return BadRequest("Entered data is incorrect!");
+
+            return View("Edit", await _modelBuilder.BuildEditViewModelAsync(id));
         }
 
-        [HttpPost]
+        [HttpPost("edit")]
+        public async Task<IActionResult> Edit(EditProfessorViewModel model)
+        {
+            if (model.Id == default || !TryValidateModel(model))
+                return BadRequest("Entered data is incorrect!");
+
+            try
+            {
+                await _modelBuilder.EditProfessorAsync(model);
+
+                return RedirectToActionPermanent("Index", "Professor");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPost("delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(Guid id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await _modelBuilder.DeleteProfessorAsync(id);
+
+                return RedirectToActionPermanent("Index", "Professor");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }

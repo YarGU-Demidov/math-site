@@ -25,6 +25,7 @@
                                 <th>Имя</th>
                                 <th>Alias</th>
                                 <th>Описание</th>
+                                <th>Ссылка</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -44,6 +45,9 @@
                                     <td class="post__max-width">@category.Name</td>
                                     <td class="post__max-width">@category.Alias</td>
                                     <td class="post__max-width">@category.Description</td>
+                                    <td>
+                                        <a target="_blank" href="/category/@category.Alias">Go</a>
+                                    </td>
                                 </tr>
                             }
                         </tbody>

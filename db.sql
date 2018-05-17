@@ -682,7 +682,7 @@ DO $$
 BEGIN
     IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20170926004454_Initial') THEN
     INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
-    VALUES ('20170926004454_Initial', '2.0.1-rtm-125');
+    VALUES ('20170926004454_Initial', '2.0.2-rtm-10011');
     END IF;
 END $$;
 
@@ -732,7 +732,7 @@ DO $$
 BEGIN
     IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20171118205629_AddDirectory') THEN
     INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
-    VALUES ('20171118205629_AddDirectory', '2.0.1-rtm-125');
+    VALUES ('20171118205629_AddDirectory', '2.0.2-rtm-10011');
     END IF;
 END $$;
 
@@ -754,7 +754,7 @@ DO $$
 BEGIN
     IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20171125133126_AddHashToFiles') THEN
     INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
-    VALUES ('20171125133126_AddHashToFiles', '2.0.1-rtm-125');
+    VALUES ('20171125133126_AddHashToFiles', '2.0.2-rtm-10011');
     END IF;
 END $$;
 
@@ -769,7 +769,7 @@ DO $$
 BEGIN
     IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20171129011851_RemoveDeprecatedFieldFromFileEntity') THEN
     INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
-    VALUES ('20171129011851_RemoveDeprecatedFieldFromFileEntity', '2.0.1-rtm-125');
+    VALUES ('20171129011851_RemoveDeprecatedFieldFromFileEntity', '2.0.2-rtm-10011');
     END IF;
 END $$;
 
@@ -793,7 +793,7 @@ DO $$
 BEGIN
     IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20171225192144_AddEventTime_RemoveDefaultLayout') THEN
     INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
-    VALUES ('20171225192144_AddEventTime_RemoveDefaultLayout', '2.0.1-rtm-125');
+    VALUES ('20171225192144_AddEventTime_RemoveDefaultLayout', '2.0.2-rtm-10011');
     END IF;
 END $$;
 
@@ -810,7 +810,7 @@ DO $$
 BEGIN
     IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20171225204242_RemoveRequiredForLayoutSetting') THEN
     INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
-    VALUES ('20171225204242_RemoveRequiredForLayoutSetting', '2.0.1-rtm-125');
+    VALUES ('20171225204242_RemoveRequiredForLayoutSetting', '2.0.2-rtm-10011');
     END IF;
 END $$;
 
@@ -825,7 +825,7 @@ DO $$
 BEGIN
     IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20171225211729_AddEventLocation') THEN
     INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
-    VALUES ('20171225211729_AddEventLocation', '2.0.1-rtm-125');
+    VALUES ('20171225211729_AddEventLocation', '2.0.2-rtm-10011');
     END IF;
 END $$;
 
@@ -875,7 +875,7 @@ DO $$
 BEGIN
     IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20180221213004_Update-User-And-Person-Relations') THEN
     INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
-    VALUES ('20180221213004_Update-User-And-Person-Relations', '2.0.1-rtm-125');
+    VALUES ('20180221213004_Update-User-And-Person-Relations', '2.0.2-rtm-10011');
     END IF;
 END $$;
 
@@ -919,6 +919,64 @@ DO $$
 BEGIN
     IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20180301215907_RemoveDefaults') THEN
     INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
-    VALUES ('20180301215907_RemoveDefaults', '2.0.1-rtm-125');
+    VALUES ('20180301215907_RemoveDefaults', '2.0.2-rtm-10011');
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20180420222556_AddBaseProfessorInfo') THEN
+    CREATE TABLE "Professor" (
+        "Id" uuid NOT NULL,
+        "BibliographicIndexOfWorks" text[] NULL,
+        "CreationDate" timestamp NOT NULL DEFAULT (CURRENT_TIMESTAMP),
+        "Description" text NOT NULL,
+        "Graduated" text[] NULL,
+        "MathNetLink" text NULL,
+        "PersonId" uuid NOT NULL,
+        "ScientificTitle" text NULL,
+        "Status" text NOT NULL,
+        "TermPapers" text[] NULL,
+        "Theses" text[] NULL,
+        CONSTRAINT "PK_Professor" PRIMARY KEY ("Id"),
+        CONSTRAINT "FK_Professor_Person_PersonId" FOREIGN KEY ("PersonId") REFERENCES "Person" ("Id") ON DELETE SET NULL
+    );
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20180420222556_AddBaseProfessorInfo') THEN
+    CREATE UNIQUE INDEX "IX_Professor_PersonId" ON "Professor" ("PersonId");
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20180420222556_AddBaseProfessorInfo') THEN
+    INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+    VALUES ('20180420222556_AddBaseProfessorInfo', '2.0.2-rtm-10011');
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20180422182800_ExtendProfessorsInfo') THEN
+    ALTER TABLE "Professor" ADD "Department" text NOT NULL DEFAULT '';
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20180422182800_ExtendProfessorsInfo') THEN
+    ALTER TABLE "Professor" ADD "Faculty" text NOT NULL DEFAULT '';
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20180422182800_ExtendProfessorsInfo') THEN
+    INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+    VALUES ('20180422182800_ExtendProfessorsInfo', '2.0.2-rtm-10011');
     END IF;
 END $$;

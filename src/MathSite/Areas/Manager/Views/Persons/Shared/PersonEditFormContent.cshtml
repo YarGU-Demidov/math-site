@@ -1,5 +1,13 @@
 ﻿@model BasePersonEditViewModel
-    
+
+@{
+    var url = Model.PhotoId.IsNotNullOrWhiteSpace()
+        ? Url.Action("Get", "File", new { id = Model.PhotoId })
+        : null;
+
+    const int photoWidth = 200;
+    const int photoHeight = 200;
+}
 
 <div class="container" style="padding-top: 15px;">
     <div class="form-row">
@@ -9,7 +17,7 @@
         </div>
         <div class="form-group col-md-4">
             <label for="firstName">Имя*</label>
-            <input required="required" id="firstName" type="text" asp-for="FirstName" class="form-control" placeholder="Имя*"/>
+            <input required="required" id="firstName" type="text" asp-for="FirstName" class="form-control" placeholder="Имя*" />
         </div>
         <div class="form-group col-md-4">
             <label for="thirdName">Отчество</label>
@@ -24,6 +32,66 @@
         <label for="birthdate">День рождения*</label>
         <input required="required" id="birthdate" type="date" asp-for="BirthDate" class="form-control" />
     </div>
-    
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.PhotoId, "Фото лица")
+        @Html.HiddenFor(m => m.PhotoId)
+        <div id="image-cropper">
+            <div class="cropit-preview"></div>
+            <input type="range" class="cropit-image-zoom-input" />
+            <input type="file" class="cropit-image-input" />
+        </div>
+
+        <div class="btn btn-primary save-image">Сохранить картинку</div>
+    </div>
+
     <button type="submit" class="btn btn-primary">Сохранить</button>
 </div>
+<script src="~/js/manager/save-button.js"></script>
+<style>
+    .cropit-preview {
+        background: #eee;
+        margin: auto;
+    }
+</style>
+<script>
+    const imageUrl = '@url';
+    let saveButton;
+
+    const $imageContainer = $('#image-cropper').cropit({
+        smallImage: 'allow',
+        width: @photoWidth * 2,
+        height: @photoHeight * 2,
+        maxZoom: 2,
+        onFileChange: (e) => {
+            saveButton.enable();
+        }
+    });
+
+    saveButton = new SaveButton({
+        clickHandler: function () {
+            if (!this.enabled)
+                return;
+
+            var self = this;
+
+            const base64Image = $imageContainer.cropit('export');
+            $.ajax({
+                url: '@Url.Action("UploadBase64Image", "Files")',
+                type: 'POST',
+                data: { base64Image: base64Image, pageType: 'person-photo' }
+            }).done((id) => {
+                $('#PhotoId').val(id);
+
+                self.disable();
+
+                swal({
+                    title: "Фото загружено!",
+                    type: 'success'
+                });
+            });
+        }
+    });
+
+    $imageContainer.cropit('imageSrc', imageUrl);
+</script>

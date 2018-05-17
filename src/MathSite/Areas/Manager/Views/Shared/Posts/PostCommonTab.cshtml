@@ -10,6 +10,8 @@
     var url = Model.PreviewImageId != null 
         ? Url.Action("Get", "File", new {id = Model.PreviewImageId}) 
         : "/images/default_post_preview@2x.png";
+    
+    var pageType = Model is PageViewModel ? "static-pages" : "news";
 }
 
 @if (!(Model is PageViewModel))
@@ -74,38 +76,8 @@
         margin: auto;
     }
 </style>
+<script src="~/js/manager/save-button.js"></script>
 <script>
-    class SaveButton {
-        constructor(cfg) {
-            cfg.clickHandler = cfg.clickHandler || (() => {});
-            cfg.selector = cfg.selector || '.save-image';
-
-            this.$container = $(cfg.selector);
-            this._enabled = true;
-            this.$container.click(cfg.clickHandler.bind(this));
-            
-            this.disable();
-        }
-
-        set enabled(value) {
-            value ? this.enable() : this.disable();
-        }
-
-        get enabled() {
-            return this._enabled;
-        }
-
-        disable() {
-            this._enabled = false;
-            this.$container.addClass('disabled');
-        }
-
-        enable() {
-            this._enabled = true;
-            this.$container.removeClass('disabled');
-        }
-    }
-
     $(() => {
         var postPreviewButton = $('.post-preview');
         var editor = new EditorConfig();
@@ -117,16 +89,10 @@
             previewExecutor.openPreview();
         });
 
-        @if (Model is PageViewModel)
-        {
-            @:editor.initArea('static-pages');
-            @:editor.initArea('static-pages', '#Excerpt');
-        }
-        else
-        {
-            @:editor.initArea('news');
-            @:editor.initArea('news', '#Excerpt');
-        }
+        const pageType = '@pageType';
+
+        editor.initArea(pageType);
+        editor.initArea(pageType, '#Excerpt');
 
         const $imageContainer = $('#image-cropper').cropit({
             smallImage: 'allow',
@@ -147,12 +113,12 @@
 
                 const base64Image = $imageContainer.cropit('export');
                 $.ajax({
-                    url: '/manager/files/UploadBase64Image',
+                    url: '@Url.Action("UploadBase64Image", "Files")',
                     type: 'POST',
-                    data: { base64Image: base64Image }
+                    data: { base64Image: base64Image, pageType: pageType }
                 }).done((id) => {
                     $('#PreviewImageId').val(id);
-                    
+
                     self.disable();
 
                     swal({

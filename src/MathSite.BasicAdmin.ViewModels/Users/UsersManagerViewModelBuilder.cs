@@ -146,7 +146,7 @@ namespace MathSite.BasicAdmin.ViewModels.Users
 
         private async Task FillPossiblePersonsAsync(BaseUserEditViewModel model)
         {
-            var persons = (await _personsFacade.GetAvailablePersonsAsync()).ToList();
+            var persons = (await _personsFacade.GetPersonsWithoutUsersAsync()).ToList();
             
             if (model.PersonId.IsNotNullOrWhiteSpace())
             {

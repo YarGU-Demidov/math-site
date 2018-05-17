@@ -5,7 +5,7 @@ using MathSite.Entities;
 
 namespace MathSite.Specifications.Persons
 {
-    public class AvailablePersonSpecification : Specification<Person>
+    public class PersonWithoutUserSpecification : Specification<Person>
     {
         public override Expression<Func<Person, bool>> ToExpression()
         {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using MathSite.BasicAdmin.ViewModels.SharedModels.AdminPageWithPaging;
 using MathSite.BasicAdmin.ViewModels.SharedModels.Menu;
+using MathSite.Common.Extensions;
 using MathSite.Entities;
 using MathSite.Facades.Persons;
 using MathSite.Facades.SiteSettings;
@@ -82,6 +83,7 @@ namespace MathSite.BasicAdmin.ViewModels.Persons
             model.MiddleName = person.MiddleName;
             model.BirthDate = person.Birthday;
             model.Phone = person.Phone;
+            model.PhotoId = person.PhotoId?.ToString();
 
             return model;
         }
@@ -98,6 +100,10 @@ namespace MathSite.BasicAdmin.ViewModels.Persons
             person.MiddleName = model.MiddleName;
             person.Birthday = model.BirthDate ?? DateTime.Today;
             person.Phone = model.Phone;
+            
+            person.PhotoId = model.PhotoId.IsNotNullOrWhiteSpace() 
+                ? Guid.Parse(model.PhotoId) 
+                : default(Guid?);
 
             return person;
         }
