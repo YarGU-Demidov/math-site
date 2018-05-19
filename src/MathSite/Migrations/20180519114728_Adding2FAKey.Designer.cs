@@ -11,8 +11,8 @@ using System;
 namespace MathSite.Migrations
 {
     [DbContext(typeof(MathSiteDbContext))]
-    [Migration("20180208200012_2FAMigration")]
-    partial class _2FAMigration
+    [Migration("20180519114728_Adding2FAKey")]
+    partial class Adding2FAKey
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,7 +20,7 @@ namespace MathSite.Migrations
             modelBuilder
                 .HasAnnotation("Npgsql:PostgresExtension:uuid-ossp", "'uuid-ossp', '', ''")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "2.0.1-rtm-125");
+                .HasAnnotation("ProductVersion", "2.0.2-rtm-10011");
 
             modelBuilder.Entity("MathSite.Entities.Category", b =>
                 {
@@ -143,9 +143,7 @@ namespace MathSite.Migrations
 
                     b.Property<Guid>("GroupTypeId");
 
-                    b.Property<bool>("IsAdmin")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(false);
+                    b.Property<bool>("IsAdmin");
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -261,14 +259,9 @@ namespace MathSite.Migrations
                     b.Property<string>("Surname")
                         .IsRequired();
 
-                    b.Property<Guid?>("UserId");
-
                     b.HasKey("Id");
 
                     b.HasIndex("PhotoId")
-                        .IsUnique();
-
-                    b.HasIndex("UserId")
                         .IsUnique();
 
                     b.ToTable("Person");
@@ -489,9 +482,7 @@ namespace MathSite.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<bool>("CanBeRated")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(false);
+                    b.Property<bool>("CanBeRated");
 
                     b.Property<DateTime>("CreationDate")
                         .ValueGeneratedOnAdd()
@@ -501,15 +492,11 @@ namespace MathSite.Migrations
 
                     b.Property<DateTime?>("EventTime");
 
-                    b.Property<bool>("IsCommentsAllowed")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(false);
+                    b.Property<bool>("IsCommentsAllowed");
 
                     b.Property<string>("Layout");
 
-                    b.Property<bool>("PostOnStartPage")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(false);
+                    b.Property<bool>("PostOnStartPage");
 
                     b.Property<Guid?>("PreviewImageId");
 
@@ -570,6 +557,49 @@ namespace MathSite.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("PostUserAllowed");
+                });
+
+            modelBuilder.Entity("MathSite.Entities.Professor", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string[]>("BibliographicIndexOfWorks");
+
+                    b.Property<DateTime>("CreationDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<string>("Department")
+                        .IsRequired();
+
+                    b.Property<string>("Description")
+                        .IsRequired();
+
+                    b.Property<string>("Faculty")
+                        .IsRequired();
+
+                    b.Property<string[]>("Graduated");
+
+                    b.Property<string>("MathNetLink");
+
+                    b.Property<Guid>("PersonId");
+
+                    b.Property<string>("ScientificTitle");
+
+                    b.Property<string>("Status")
+                        .IsRequired();
+
+                    b.Property<string[]>("TermPapers");
+
+                    b.Property<string[]>("Theses");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PersonId")
+                        .IsUnique();
+
+                    b.ToTable("Professor");
                 });
 
             modelBuilder.Entity("MathSite.Entities.Right", b =>
@@ -639,11 +669,16 @@ namespace MathSite.Migrations
                     b.Property<byte[]>("PasswordHash")
                         .IsRequired();
 
-                    b.Property<byte[]>("TwoFactorAutentificationHash");
+                    b.Property<Guid>("PersonId");
+
+                    b.Property<byte[]>("TwoFactorAuthenticationKey");
 
                     b.HasKey("Id");
 
                     b.HasIndex("GroupId");
+
+                    b.HasIndex("PersonId")
+                        .IsUnique();
 
                     b.ToTable("User");
                 });
@@ -759,11 +794,6 @@ namespace MathSite.Migrations
                     b.HasOne("MathSite.Entities.File", "Photo")
                         .WithOne("Person")
                         .HasForeignKey("MathSite.Entities.Person", "PhotoId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("MathSite.Entities.User", "User")
-                        .WithOne("Person")
-                        .HasForeignKey("MathSite.Entities.Person", "UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -897,12 +927,25 @@ namespace MathSite.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("MathSite.Entities.Professor", b =>
+                {
+                    b.HasOne("MathSite.Entities.Person", "Person")
+                        .WithOne("Professor")
+                        .HasForeignKey("MathSite.Entities.Professor", "PersonId")
+                        .OnDelete(DeleteBehavior.SetNull);
+                });
+
             modelBuilder.Entity("MathSite.Entities.User", b =>
                 {
                     b.HasOne("MathSite.Entities.Group", "Group")
                         .WithMany("Users")
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MathSite.Entities.Person", "Person")
+                        .WithOne("User")
+                        .HasForeignKey("MathSite.Entities.User", "PersonId")
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("MathSite.Entities.UserSetting", b =>
