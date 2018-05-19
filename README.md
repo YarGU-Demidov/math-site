@@ -36,8 +36,9 @@
 * Добавить данные в БД
   * Перейти в `powershell`/`cmd`/`terminal` в каталог проекта
   * Перейти в `src/MathSite`
-  * Запустить команду `dotnet run -с Release --launch-profile MathSite.Seed`
-  
+  * Запустить команду `dotnet run seed`
+    * Можно ещё добавить реальных новостей со старой версии сайта запустив команду `dotnet run import-news`
+    * Можно ещё добавить реальных статей со старой версии сайта запустив команду `dotnet run import-pages`
 * Запустить `dotnet run`
 
 #### Вариант 2 (Автоматический, из Visual Studio)
