@@ -248,3 +248,4 @@ MathSiteSettings.json
 .vscode
 yarn.lock
 .yarn-integrity
+appsettings.Development.json

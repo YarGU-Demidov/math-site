@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using MathSite.Common.Extensions;
 using Newtonsoft.Json;
 
 namespace MathSite
@@ -12,6 +14,9 @@ namespace MathSite
     {
         public static async Task Main(string[] args)
         {
+            System.Console.WriteLine(GetCurrentConnectionString());
+            return;
+            
             if (args.Any(s => s == "seed"))
                 RunSeeding();
             else if (args.Any(s => s == "import-news"))
@@ -55,12 +60,58 @@ namespace MathSite
 
         private static string GetCurrentConnectionString()
         {
-            var appSettingsFile = Path.Combine(Environment.CurrentDirectory, "appsettings.json");
+            var postfixes = GetFilePostfixes();
+            var files = GetFilePaths(postfixes);
+            var connectionStringKeyName = "Math";
+            var connectionString = default(string);
+            
+            files.Select(GetSettingsFromFile)
+                .ToList()
+                .ForEach(settings => 
+                {
+                    if (settings.IsNull())
+                        return;
 
-            var settings = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(appSettingsFile));
-            settings.ConnectionStrings.TryGetValue("Math", out var connectionString);
+                    if (!settings.ConnectionStrings.ContainsKey(connectionStringKeyName))
+                        return;
+                    
+                    connectionString = settings.ConnectionStrings[connectionStringKeyName];
+                });
 
             return connectionString;
+        }
+
+        private static Settings GetSettingsFromFile(string path) 
+        {
+            var emptyJson = "{}";
+            var fileData = File.Exists(path) ? File.ReadAllText(path) : emptyJson;
+            
+            return JsonConvert.DeserializeObject<Settings>(fileData);
+        }
+
+        private static IEnumerable<string> GetFilePostfixes() 
+        {
+            // порядок имеет значение.
+            // чем ближе к началу списка -- тем меньше приоритет у суффикса.
+            return new []
+            {
+                "",
+                "Production",
+                "Staging",
+                "Development"
+            };
+        }
+
+        private static IEnumerable<string> GetFilePaths(IEnumerable<string> filePostfixes)
+        {
+            return filePostfixes.Select(postfix => 
+            {
+                var fileName = postfix.IsNullOrWhiteSpace() 
+                    ? "appsettings.json" 
+                    : $"appsettings.{postfix}.json";
+                
+                return Path.Combine(Environment.CurrentDirectory, fileName);
+            });
         }
     }
 }
