@@ -13,10 +13,7 @@ namespace MathSite
     public static class Program
     {
         public static async Task Main(string[] args)
-        {
-            System.Console.WriteLine(GetCurrentConnectionString());
-            return;
-            
+        {            
             if (args.Any(s => s == "seed"))
                 RunSeeding();
             else if (args.Any(s => s == "import-news"))
