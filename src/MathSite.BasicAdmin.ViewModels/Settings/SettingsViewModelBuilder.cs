@@ -49,11 +49,11 @@ namespace MathSite.BasicAdmin.ViewModels.Settings
 
         private async Task SetModelProps(IndexSettingsViewModel model)
         {
-            model.SiteName = await SiteSettingsFacade.GetSiteName(false);
-            model.DefaultTitleForNewsPage = await SiteSettingsFacade.GetDefaultNewsPageTitle(false);
-            model.DefaultTitleForHomePage = await SiteSettingsFacade.GetDefaultHomePageTitle(false);
-            model.PerPageCount = await SiteSettingsFacade.GetPerPageCountAsync(false);
-            model.TitleDelimiter = await SiteSettingsFacade.GetTitleDelimiter(false);
+            model.SiteName = await SiteSettingsFacade.GetSiteName();
+            model.DefaultTitleForNewsPage = await SiteSettingsFacade.GetDefaultNewsPageTitle();
+            model.DefaultTitleForHomePage = await SiteSettingsFacade.GetDefaultHomePageTitle();
+            model.PerPageCount = await SiteSettingsFacade.GetPerPageCountAsync();
+            model.TitleDelimiter = await SiteSettingsFacade.GetTitleDelimiter();
         }
 
         private Task SetPageTitle(CommonAdminPageViewModel model)

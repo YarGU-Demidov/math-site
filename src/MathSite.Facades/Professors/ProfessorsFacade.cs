@@ -5,7 +5,6 @@ using MathSite.Common.Specifications;
 using MathSite.Entities;
 using MathSite.Repository;
 using MathSite.Repository.Core;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace MathSite.Facades.Professors
 {
@@ -22,9 +21,8 @@ namespace MathSite.Facades.Professors
     public class ProfessorsFacade : BaseMathFacade<IProfessorsRepository, Professor>, IProfessorsFacade
     {
         public ProfessorsFacade(
-            IRepositoryManager repositoryManager, 
-            IMemoryCache memoryCache
-        ) : base(repositoryManager, memoryCache)
+            IRepositoryManager repositoryManager
+        ) : base(repositoryManager)
         {
         }
 

@@ -67,8 +67,8 @@ namespace MathSite.ViewModels.Events
                     await SiteSettingsFacade.GetPerPageCountAsync(),
                     RemovedStateRequest.Excluded,
                     PublishStateRequest.Published, 
-                    FrontPageStateRequest.AllVisibilityStates, 
-                    true),
+                    FrontPageStateRequest.AllVisibilityStates
+                ),
                 Controller = "Events"
             };
         }
@@ -84,16 +84,14 @@ namespace MathSite.ViewModels.Events
         private async Task BuildPosts(EventsIndexViewModel model, int page)
         {
             const string postType = PostTypeAliases.Event;
-            const bool cache = true;
 
             var posts = await PostsFacade.GetPostsAsync(
                 postType,
                 page,
-                await SiteSettingsFacade.GetPerPageCountAsync(cache),
+                await SiteSettingsFacade.GetPerPageCountAsync(),
                 RemovedStateRequest.Excluded,
                 PublishStateRequest.Published,
-                FrontPageStateRequest.AllVisibilityStates,
-                cache: cache
+                FrontPageStateRequest.AllVisibilityStates
             );
 
             model.Posts = GetPosts(posts);
@@ -107,7 +105,7 @@ namespace MathSite.ViewModels.Events
         private async Task<Post> BuildPostData(Guid currentUserId, string query, int page = 1)
         {
             var postType = PostTypeAliases.Event;
-            return await PostsFacade.GetPostByUrlAndTypeAsync(currentUserId, query, postType, true);
+            return await PostsFacade.GetPostByUrlAndTypeAsync(currentUserId, query, postType);
         }
     }
 }

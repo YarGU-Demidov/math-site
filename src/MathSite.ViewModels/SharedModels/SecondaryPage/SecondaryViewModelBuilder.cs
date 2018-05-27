@@ -36,8 +36,7 @@ namespace MathSite.ViewModels.SharedModels.SecondaryPage
 
         private async Task BuildFeaturedMenuAsync(SecondaryViewModel model)
         {
-            var postType = PostTypeAliases.News;
-            var posts = await PostsFacade.GetPostsAsync(postType, 1, 3, RemovedStateRequest.Excluded, PublishStateRequest.Published, FrontPageStateRequest.Visible, true);
+            var posts = await PostsFacade.GetPostsAsync(PostTypeAliases.News, 1, 3, RemovedStateRequest.Excluded, PublishStateRequest.Published, FrontPageStateRequest.Visible);
 
             model.Featured = GetPostsModels(posts);
         }

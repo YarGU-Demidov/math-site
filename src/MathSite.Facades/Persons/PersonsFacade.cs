@@ -14,10 +14,8 @@ namespace MathSite.Facades.Persons
 {
     public class PersonsFacade : BaseMathFacade<IPersonsRepository, Person>, IPersonsFacade
     {
-        private TimeSpan CacheTime { get; } = TimeSpan.FromMinutes(5);
-
         public PersonsFacade(IRepositoryManager repositoryManager, IMemoryCache memoryCache) 
-            : base(repositoryManager, memoryCache)
+            : base(repositoryManager)
         {
         }
 

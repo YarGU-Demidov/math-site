@@ -59,8 +59,7 @@ namespace MathSite.Tests.Facades
             var passwordsManager = new DoubleSha512HashPasswordsManager();
             return new UsersFacade(
                 manager, 
-                MemoryCache, 
-                new UserValidationFacade(manager, MemoryCache, passwordsManager), 
+                new UserValidationFacade(manager, passwordsManager), 
                 passwordsManager
             );
         }

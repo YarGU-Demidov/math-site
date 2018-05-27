@@ -36,7 +36,7 @@ namespace MathSite.ViewModels.Pages
 
         private async Task<Post> BuildPostData(Guid currentUserId, string query)
         {
-            return await PostsFacade.GetPostByUrlAndTypeAsync(currentUserId, query, PostTypeAliases.StaticPage, true);
+            return await PostsFacade.GetPostByUrlAndTypeAsync(currentUserId, query, PostTypeAliases.StaticPage);
         }
     }
 }

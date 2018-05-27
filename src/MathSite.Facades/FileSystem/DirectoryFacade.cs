@@ -7,7 +7,6 @@ using MathSite.Common.Specifications;
 using MathSite.Repository;
 using MathSite.Repository.Core;
 using MathSite.Specifications.Directories;
-using Microsoft.Extensions.Caching.Memory;
 using Directory = MathSite.Entities.Directory;
 using File = MathSite.Entities.File;
 
@@ -22,8 +21,8 @@ namespace MathSite.Facades.FileSystem
 
     public class DirectoryFacade : BaseMathFacade<IDirectoriesRepository, Directory>, IDirectoryFacade
     {
-        public DirectoryFacade(IRepositoryManager repositoryManager, IMemoryCache memoryCache) 
-            : base(repositoryManager, memoryCache)
+        public DirectoryFacade(IRepositoryManager repositoryManager) 
+            : base(repositoryManager)
         {
         }
 

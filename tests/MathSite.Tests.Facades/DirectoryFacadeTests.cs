@@ -12,7 +12,7 @@ namespace MathSite.Tests.Facades
 
         private DirectoryFacade GetFacade(IRepositoryManager manager)
         {
-            return new DirectoryFacade(manager, MemoryCache);
+            return new DirectoryFacade(manager);
         }
 
         [Fact]

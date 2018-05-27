@@ -20,8 +20,8 @@ namespace MathSite.Facades.PostCategories
 
     public class PostCategoryFacade : BaseMathFacade<IPostCategoryRepository, PostCategory>, IPostCategoryFacade
     {
-        public PostCategoryFacade(IRepositoryManager repositoryManager, IMemoryCache memoryCache)
-            : base(repositoryManager, memoryCache)
+        public PostCategoryFacade(IRepositoryManager repositoryManager)
+            : base(repositoryManager)
         {
         }
 

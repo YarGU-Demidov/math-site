@@ -3,7 +3,6 @@ using MathSite.Entities;
 using MathSite.Repository;
 using MathSite.Repository.Core;
 using MathSite.Specifications.PostTypes;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace MathSite.Facades.PostTypes
 {
@@ -14,8 +13,8 @@ namespace MathSite.Facades.PostTypes
 
     public class PostTypeFacade : BaseMathFacade<IPostTypeRepository, PostType>, IPostTypeFacade
     {
-        public PostTypeFacade(IRepositoryManager repositoryManager, IMemoryCache memoryCache) 
-            : base(repositoryManager, memoryCache)
+        public PostTypeFacade(IRepositoryManager repositoryManager) 
+            : base(repositoryManager)
         {
         }
 

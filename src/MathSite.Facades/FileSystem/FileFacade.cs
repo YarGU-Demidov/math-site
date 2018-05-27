@@ -14,7 +14,6 @@ using MathSite.Facades.UserValidation;
 using MathSite.Repository;
 using MathSite.Repository.Core;
 using MathSite.Specifications.Files;
-using Microsoft.Extensions.Caching.Memory;
 using File = MathSite.Entities.File;
 
 namespace MathSite.Facades.FileSystem
@@ -46,13 +45,12 @@ namespace MathSite.Facades.FileSystem
 
         public FileFacade(
             IRepositoryManager repositoryManager,
-            IMemoryCache memoryCache,
             IFileStorage fileStorage,
             IUsersFacade usersFacade,
             IUserValidationFacade userValidationFacade,
             Lazy<IDirectoryFacade> directoryFacade
         )
-            : base(repositoryManager, memoryCache)
+            : base(repositoryManager)
         {
             _fileStorage = fileStorage;
             _usersFacade = usersFacade;

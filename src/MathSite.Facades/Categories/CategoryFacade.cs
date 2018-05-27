@@ -8,7 +8,6 @@ using MathSite.Facades.UserValidation;
 using MathSite.Repository;
 using MathSite.Repository.Core;
 using MathSite.Specifications.Categories;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace MathSite.Facades.Categories
 {
@@ -17,15 +16,12 @@ namespace MathSite.Facades.Categories
         private readonly IUserValidationFacade _userValidationFacade;
 
         public CategoryFacade(
-            IRepositoryManager repositoryManager, 
-            IMemoryCache memoryCache,
+            IRepositoryManager repositoryManager,
             IUserValidationFacade userValidationFacade
-        ) : base(repositoryManager, memoryCache)
+        ) : base(repositoryManager)
         {
             _userValidationFacade = userValidationFacade;
         }
-
-        private TimeSpan CacheMinutes { get; } = TimeSpan.FromMinutes(5);
 
         public async Task<Category> GetCategoryByIdAsync(Guid id)
         {
@@ -88,19 +84,7 @@ namespace MathSite.Facades.Categories
 
         public async Task<int> GetCategoriesPagesCountAsync(int perPage, bool cache = true)
         {
-            var spec = new AnySpecification<Category>();
-            
-            var cacheKey = $"Categories:Count;PerPage={perPage}";
-
-            var count =  cache
-                ? await MemoryCache.GetOrCreateAsync($"{cacheKey};PagesCount", async entry =>
-                {
-                    entry.SetSlidingExpiration(CacheMinutes);
-                    entry.SetPriority(CacheItemPriority.Low);
-
-                    return await GetCountAsync(spec);
-                })
-                : await GetCountAsync(spec);;
+            var count = await GetCategoriesCount();
 
             return (int) Math.Ceiling(count / (float) perPage);
         }

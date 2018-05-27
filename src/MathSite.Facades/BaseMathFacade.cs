@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using MathSite.Common.Entities;
 using MathSite.Common.Specifications;
 using MathSite.Repository.Core;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace MathSite.Facades
 {
@@ -13,8 +12,8 @@ namespace MathSite.Facades
         where TEntity : class, IEntity<Guid>
         where TRepository : class, IMathSiteEfCoreRepository<TEntity, Guid>
     {
-        public BaseMathFacade(IRepositoryManager repositoryManager, IMemoryCache memoryCache)
-            : base(repositoryManager, memoryCache)
+        public BaseMathFacade(IRepositoryManager repositoryManager)
+            : base(repositoryManager)
         {
         }
     }
@@ -23,8 +22,8 @@ namespace MathSite.Facades
         where TEntity : class, IEntity<TPrimaryKey>
         where TRepository : class, IMathSiteEfCoreRepository<TEntity, TPrimaryKey>
     {
-        public BaseMathFacade(IRepositoryManager repositoryManager, IMemoryCache memoryCache)
-            : base(repositoryManager, memoryCache)
+        public BaseMathFacade(IRepositoryManager repositoryManager)
+            : base(repositoryManager)
         {
             Repository = repositoryManager.TryGetRepository<TRepository>();
         }
@@ -70,14 +69,12 @@ namespace MathSite.Facades
 
     public abstract class BaseMathFacade : IFacade
     {
-        public BaseMathFacade(IRepositoryManager repositoryManager, IMemoryCache memoryCache)
+        public BaseMathFacade(IRepositoryManager repositoryManager)
         {
             RepositoryManager = repositoryManager;
-            MemoryCache = memoryCache;
         }
 
         protected IRepositoryManager RepositoryManager { get; }
-        protected IMemoryCache MemoryCache { get; }
 
         protected async Task<int> GetCountAsync<TEntity, TKey>(
             Expression<Func<TEntity, bool>> requirements,

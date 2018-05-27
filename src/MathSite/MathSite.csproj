@@ -25,11 +25,6 @@
         <Version>1.0.0.1</Version>
     </PropertyGroup>
     <ItemGroup>
-        <None Update="wwwroot\**\*">
-            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        </None>
-    </ItemGroup>
-    <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.7" />
         <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.3" />
         <PackageReference Include="ckeditor-full" Version="4.9.2" />
@@ -46,12 +41,24 @@
         <Exec Command="dotnet bundle" />
     </Target>
     <ItemGroup>
-      <None Include="news.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Include="static-pages.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
+        <None Update="wwwroot\**\*">
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        </None>
+        <None Include="news.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Include="static-pages.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <Content Update="appsettings.Development.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Update="run-it.cmd">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="run-it.sh">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\..\tools\NewsImporter\NewsImporter.csproj" />
@@ -67,14 +74,6 @@
         <ProjectReference Include="..\..\tools\Seeder\Seeder.csproj" />
         <ProjectReference Include="..\..\tools\NewsImporter\NewsImporter.csproj" />
         <ProjectReference Include="..\..\tools\StaticImporter\StaticImporter.csproj" />
-    </ItemGroup>
-    <ItemGroup>
-      <None Update="run-it.cmd">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="run-it.sh">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
     </ItemGroup>
     
     <!-- C# Lang Version -->

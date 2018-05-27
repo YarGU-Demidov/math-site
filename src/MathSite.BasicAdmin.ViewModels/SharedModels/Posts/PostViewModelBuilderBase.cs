@@ -57,17 +57,16 @@ namespace MathSite.BasicAdmin.ViewModels.SharedModels.Posts
             const RemovedStateRequest removedState = RemovedStateRequest.Excluded;
             const PublishStateRequest publishState = PublishStateRequest.AllPublishStates;
             const FrontPageStateRequest frontPageState = FrontPageStateRequest.AllVisibilityStates;
-            const bool cached = false;
 
             var model = await BuildAdminPageWithPaging<TModel>(
                 link => link.Alias == activeTop,
                 link => link.Alias == activeLeft,
                 page,
-                await _postsFacade.GetPostPagesCountAsync(postType, perPage, removedState, publishState, frontPageState, cached),
+                await _postsFacade.GetPostPagesCountAsync(postType, perPage, removedState, publishState, frontPageState),
                 perPage
             );
 
-            model.Posts = await _postsFacade.GetPostsAsync(postType, page, perPage, removedState, publishState, frontPageState, cached);
+            model.Posts = await _postsFacade.GetPostsAsync(postType, page, perPage, removedState, publishState, frontPageState);
             model.PageTitle.Title = $"Список {typeOfList}";
 
             return model;
@@ -79,17 +78,16 @@ namespace MathSite.BasicAdmin.ViewModels.SharedModels.Posts
             const RemovedStateRequest removedState = RemovedStateRequest.OnlyRemoved;
             const PublishStateRequest publishState = PublishStateRequest.AllPublishStates;
             const FrontPageStateRequest frontPageState = FrontPageStateRequest.AllVisibilityStates;
-            const bool cached = false;
 
             var model = await BuildAdminPageWithPaging<TModel>(
                 link => link.Alias == activeTop,
                 link => link.Alias == activeLeft,
                 page,
-                await _postsFacade.GetPostPagesCountAsync(postType, perPage, removedState, publishState, frontPageState, cached),
+                await _postsFacade.GetPostPagesCountAsync(postType, perPage, removedState, publishState, frontPageState),
                 perPage
             );
 
-            model.Posts = await _postsFacade.GetPostsAsync(postType, page, perPage, removedState, publishState, frontPageState, cached);
+            model.Posts = await _postsFacade.GetPostsAsync(postType, page, perPage, removedState, publishState, frontPageState);
             model.PageTitle.Title = $"Список удаленных {typeOfList}";
 
             return model;

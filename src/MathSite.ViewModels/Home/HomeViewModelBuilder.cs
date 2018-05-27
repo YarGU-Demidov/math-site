@@ -64,8 +64,7 @@ namespace MathSite.ViewModels.Home
                 state: RemovedStateRequest.Excluded,
                 publishState: PublishStateRequest.Published,
                 frontPageState: FrontPageStateRequest.Visible,
-                excludedCategories: category.IsNotNull() ? new[] {category} : new Category[0],
-                cache: true
+                excludedCategories: category.IsNotNull() ? new[] {category} : new Category[0]
             );
 
             var events = await _postsFacade.GetPostsAsync(
@@ -74,8 +73,7 @@ namespace MathSite.ViewModels.Home
                 perPage: 3,
                 state: RemovedStateRequest.Excluded,
                 publishState: PublishStateRequest.Published,
-                frontPageState: FrontPageStateRequest.Visible,
-                cache: true
+                frontPageState: FrontPageStateRequest.Visible
             );
 
             IEnumerable<Post> studentActivities = new List<Post>();
@@ -89,8 +87,7 @@ namespace MathSite.ViewModels.Home
                     perPage: 4,
                     state: RemovedStateRequest.Excluded,
                     publishState: PublishStateRequest.Published,
-                    frontPageState: FrontPageStateRequest.Visible,
-                    cache: true
+                    frontPageState: FrontPageStateRequest.Visible
                 );
             }
 

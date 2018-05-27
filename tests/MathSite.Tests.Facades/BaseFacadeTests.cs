@@ -4,15 +4,14 @@ using MathSite.Entities;
 using MathSite.Facades;
 using MathSite.Repository;
 using MathSite.Repository.Core;
-using Microsoft.Extensions.Caching.Memory;
 using Xunit;
 
 namespace MathSite.Tests.Facades
 {
     public class PersonBaseFacadeTestClass : BaseMathFacade<IPersonsRepository, Person>
     {
-        public PersonBaseFacadeTestClass(IRepositoryManager repositoryManager, IMemoryCache memoryCache)
-            : base(repositoryManager, memoryCache)
+        public PersonBaseFacadeTestClass(IRepositoryManager repositoryManager)
+            : base(repositoryManager)
         {
         }
 
@@ -29,7 +28,7 @@ namespace MathSite.Tests.Facades
         {
             await WithRepositoryAsync(async (manager, context, logger) =>
             {
-                var testClass = new PersonBaseFacadeTestClass(manager, MemoryCache);
+                var testClass = new PersonBaseFacadeTestClass(manager);
 
                 var personsCount = await testClass.GetCountWithoutCacheAsync();
 

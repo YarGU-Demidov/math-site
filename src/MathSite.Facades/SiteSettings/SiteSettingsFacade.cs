@@ -8,51 +8,48 @@ using MathSite.Facades.UserValidation;
 using MathSite.Repository;
 using MathSite.Repository.Core;
 using MathSite.Specifications.SiteSettings;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace MathSite.Facades.SiteSettings
 {
     public class SiteSettingsFacade : BaseMathFacade<ISiteSettingsRepository, SiteSetting>, ISiteSettingsFacade
     {
-        private const string MemoryCachePrefix = "SiteSetting-";
         private readonly IUserValidationFacade _userValidation;
         private readonly IUsersFacade _usersFacade;
 
         public SiteSettingsFacade(
             IRepositoryManager repositoryManager, 
             IUserValidationFacade userValidation,
-            IMemoryCache memoryCache,
             IUsersFacade usersFacade
         )
-            : base(repositoryManager, memoryCache)
+            : base(repositoryManager)
         {
             _userValidation = userValidation;
             _usersFacade = usersFacade;
         }
 
-        public async Task<int> GetPerPageCountAsync(bool cache, int defaultCount = 18)
+        public async Task<int> GetPerPageCountAsync(int defaultCount = 18)
         {
-            return int.Parse(await GetStringSettingAsync(SiteSettingsNames.PerPage, cache) ?? defaultCount.ToString());
+            return int.Parse(await GetStringSettingAsync(SiteSettingsNames.PerPage) ?? defaultCount.ToString());
         }
 
-        public Task<string> GetTitleDelimiter(bool cache = true)
+        public Task<string> GetTitleDelimiter()
         {
-            return GetStringSettingAsync(SiteSettingsNames.TitleDelimiter, cache);
+            return GetStringSettingAsync(SiteSettingsNames.TitleDelimiter);
         }
 
-        public Task<string> GetDefaultHomePageTitle(bool cache = true)
+        public Task<string> GetDefaultHomePageTitle()
         {
-            return GetStringSettingAsync(SiteSettingsNames.DefaultHomePageTitle, cache);
+            return GetStringSettingAsync(SiteSettingsNames.DefaultHomePageTitle);
         }
 
-        public Task<string> GetDefaultNewsPageTitle(bool cache = true)
+        public Task<string> GetDefaultNewsPageTitle()
         {
-            return GetStringSettingAsync(SiteSettingsNames.DefaultNewsPageTitle, cache);
+            return GetStringSettingAsync(SiteSettingsNames.DefaultNewsPageTitle);
         }
 
-        public Task<string> GetSiteName(bool cache = true)
+        public Task<string> GetSiteName()
         {
-            return GetStringSettingAsync(SiteSettingsNames.SiteName, cache);
+            return GetStringSettingAsync(SiteSettingsNames.SiteName);
         }
 
         public Task<bool> SetPerPageCountAsync(Guid userId, string perPageCount)
@@ -80,19 +77,9 @@ namespace MathSite.Facades.SiteSettings
             return SetStringSettingAsync(userId, SiteSettingsNames.SiteName, siteName);
         }
 
-        private async Task<string> GetStringSettingAsync(string name, bool cache)
+        private async Task<string> GetStringSettingAsync(string name)
         {
-            var settingValue = cache
-                ? await MemoryCache.GetOrCreateAsync(
-                    GetKey(name),
-                    async entry =>
-                    {
-                        entry.SetSlidingExpiration(GetCacheSpan());
-                        entry.Priority = CacheItemPriority.High;
-                        return await GetValueForKey(name);
-                    }
-                )
-                : await GetValueForKey(name);
+            var settingValue = await GetValueForKey(name);
 
             return settingValue;
         }
@@ -113,9 +100,7 @@ namespace MathSite.Facades.SiteSettings
                 await RepositoryManager.SiteSettingsRepository.FirstOrDefaultAsync(requirements.ToExpression());
 
             var valueBytes = Encoding.UTF8.GetBytes(value);
-
-            MemoryCache.Set(GetKey(name), value, GetCacheSpan());
-
+            
             if (setting == null)
             {
                 await RepositoryManager.SiteSettingsRepository.InsertAsync(new SiteSetting(name, valueBytes));
@@ -138,16 +123,6 @@ namespace MathSite.Facades.SiteSettings
             return setting != null
                 ? Encoding.UTF8.GetString(setting.Value)
                 : null;
-        }
-
-        private string GetKey(string name)
-        {
-            return MemoryCachePrefix + name;
-        }
-
-        private TimeSpan GetCacheSpan()
-        {
-            return TimeSpan.FromMinutes(5);
         }
     }
 }

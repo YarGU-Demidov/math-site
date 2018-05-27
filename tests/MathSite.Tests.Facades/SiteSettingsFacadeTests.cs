@@ -35,7 +35,7 @@ namespace MathSite.Tests.Facades
 
                 await siteSettingsFacade.SetDefaultHomePageTitle(user.Id, testTitle);
 
-                var value = await siteSettingsFacade.GetDefaultHomePageTitle(false);
+                var value = await siteSettingsFacade.GetDefaultHomePageTitle();
 
                 Assert.Equal(testTitle, value);
             });
@@ -49,7 +49,7 @@ namespace MathSite.Tests.Facades
                 var siteSettingsFacade = GetFacade(context, manager);
                 await context.Clear<SiteSetting>();
                 
-                var value = await siteSettingsFacade.GetDefaultNewsPageTitle(false);
+                var value = await siteSettingsFacade.GetDefaultNewsPageTitle();
 
                 Assert.Null(value);
             });
@@ -89,9 +89,9 @@ namespace MathSite.Tests.Facades
         protected override SiteSettingsFacade GetFacade(MathSiteDbContext context, IRepositoryManager manager)
         {
             var passwordsManager = new DoubleSha512HashPasswordsManager();
-            var userValidationFacade = new UserValidationFacade(manager, MemoryCache, passwordsManager);
-            var usersFacade = new UsersFacade(manager, MemoryCache, userValidationFacade, passwordsManager);
-            return new SiteSettingsFacade(manager, userValidationFacade, MemoryCache, usersFacade);
+            var userValidationFacade = new UserValidationFacade(manager, passwordsManager);
+            var usersFacade = new UsersFacade(manager, userValidationFacade, passwordsManager);
+            return new SiteSettingsFacade(manager, userValidationFacade, usersFacade);
         }
     }
 }

@@ -6,7 +6,6 @@ using MathSite.Entities;
 using MathSite.Repository;
 using MathSite.Repository.Core;
 using MathSite.Specifications.Users;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace MathSite.Facades.UserValidation
 {
@@ -16,9 +15,8 @@ namespace MathSite.Facades.UserValidation
 
         public UserValidationFacade(
             IRepositoryManager repositoryManager,
-            IMemoryCache memoryCache,
             IPasswordsManager passwordHasher
-        ) : base(repositoryManager, memoryCache)
+        ) : base(repositoryManager)
         {
             _passwordHasher = passwordHasher;
         }

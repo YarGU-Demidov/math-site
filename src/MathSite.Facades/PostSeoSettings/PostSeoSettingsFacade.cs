@@ -4,7 +4,6 @@ using MathSite.Entities;
 using MathSite.Repository;
 using MathSite.Repository.Core;
 using MathSite.Specifications.PostSeoSettings;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace MathSite.Facades.PostSeoSettings
 {
@@ -17,8 +16,8 @@ namespace MathSite.Facades.PostSeoSettings
 
     public class PostSeoSettingsFacade : BaseMathFacade<IPostSeoSettingsRepository, PostSeoSetting>, IPostSeoSettingsFacade
     {
-        public PostSeoSettingsFacade(IRepositoryManager repositoryManager, IMemoryCache memoryCache)
-            : base(repositoryManager, memoryCache)
+        public PostSeoSettingsFacade(IRepositoryManager repositoryManager)
+            : base(repositoryManager)
         {
         }
 

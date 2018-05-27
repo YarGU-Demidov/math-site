@@ -10,7 +10,6 @@ using MathSite.Facades.UserValidation;
 using MathSite.Repository;
 using MathSite.Repository.Core;
 using MathSite.Specifications.Users;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace MathSite.Facades.Users
 {
@@ -21,11 +20,10 @@ namespace MathSite.Facades.Users
 
         public UsersFacade(
             IRepositoryManager repositoryManager,
-            IMemoryCache memoryCache,
             IUserValidationFacade validationFacade,
             IPasswordsManager passwordsManager
         )
-            : base(repositoryManager, memoryCache)
+            : base(repositoryManager)
         {
             _validationFacade = validationFacade;
             _passwordsManager = passwordsManager;

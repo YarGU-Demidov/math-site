@@ -125,20 +125,16 @@ namespace StaticImporter
             );
 
             var loggerFactory = new LoggerFactory().AddConsole();
-
-            var memCache = new MemoryCache(new MemoryCacheOptions());
-
+            
             var passwordsManager = new DoubleSha512HashPasswordsManager();
 
             var userValidation = new UserValidationFacade(
                 manager,
-                memCache,
                 passwordsManager
             );
             
             var usersFacade = new UsersFacade(
                 manager, 
-                memCache, 
                 userValidation, 
                 passwordsManager
             );
@@ -146,13 +142,11 @@ namespace StaticImporter
             var settings = new SiteSettingsFacade(
                 manager,
                 userValidation,
-                memCache,
                 usersFacade
             );
 
             var postsFacade = new PostsFacade(
                 manager,
-                memCache,
                 settings,
                 loggerFactory.CreateLogger<IPostsFacade>(),
                 userValidation,

@@ -88,8 +88,7 @@ namespace MathSite.ViewModels.News
                 await SiteSettingsFacade.GetPerPageCountAsync(),
                 RemovedStateRequest.Excluded,
                 PublishStateRequest.Published, 
-                FrontPageStateRequest.AllVisibilityStates, 
-                cache: true
+                FrontPageStateRequest.AllVisibilityStates
             );
 
             return new PaginatorViewModel
@@ -111,9 +110,6 @@ namespace MathSite.ViewModels.News
         private async Task BuildPosts(NewsIndexViewModel model, int page, Category category = null, bool forceCategory = false)
         {
             const string postType = PostTypeAliases.News;
-            const bool cache = true;
-
-            
 
             if (category.IsNull() && forceCategory)
             {
@@ -124,11 +120,10 @@ namespace MathSite.ViewModels.News
                 category?.Id,
                 postType,
                 page,
-                await SiteSettingsFacade.GetPerPageCountAsync(cache),
+                await SiteSettingsFacade.GetPerPageCountAsync(),
                 RemovedStateRequest.Excluded,
                 PublishStateRequest.Published,
-                FrontPageStateRequest.AllVisibilityStates,
-                cache: cache
+                FrontPageStateRequest.AllVisibilityStates
             );
 
             model.Posts = GetPosts(posts);
@@ -146,8 +141,7 @@ namespace MathSite.ViewModels.News
 
         private async Task<Post> BuildPostData(Guid currentUserId, string query, int page = 1)
         {
-            var postType = PostTypeAliases.News;
-            return await PostsFacade.GetPostByUrlAndTypeAsync(currentUserId, query, postType, true);
+            return await PostsFacade.GetPostByUrlAndTypeAsync(currentUserId, query, PostTypeAliases.News);
         }
     }
 }

@@ -10,7 +10,6 @@ using MathSite.Db;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
 using MathSite.Facades.FileSystem;
-using MathSite.Facades.Persons;
 using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
 using MathSite.Repository.Core;
@@ -27,9 +26,9 @@ namespace MathSite.Tests.Facades
         )
         {
             var passwordsManager = new DoubleSha512HashPasswordsManager();
-            var validationFacade = new UserValidationFacade(repositoryManager, MemoryCache, passwordsManager);
-            var usersFacade = new UsersFacade(repositoryManager, MemoryCache, validationFacade, passwordsManager);
-            var directoryFacade = new Lazy<IDirectoryFacade>(() => new DirectoryFacade(repositoryManager, MemoryCache));
+            var validationFacade = new UserValidationFacade(repositoryManager, passwordsManager);
+            var usersFacade = new UsersFacade(repositoryManager, validationFacade, passwordsManager);
+            var directoryFacade = new Lazy<IDirectoryFacade>(() => new DirectoryFacade(repositoryManager));
 
             return (usersFacade, directoryFacade, validationFacade);
         }
@@ -45,7 +44,7 @@ namespace MathSite.Tests.Facades
 
             var (usersFacade, directoryFacade, userValidationFacade) = GetRequiredFacades(repositoryManager);
 
-            return new FileFacade(repositoryManager, MemoryCache, fileStorage, usersFacade, userValidationFacade, directoryFacade);
+            return new FileFacade(repositoryManager, fileStorage, usersFacade, userValidationFacade, directoryFacade);
         }
 
         private FileFacade GetFacade(IRepositoryManager repositoryManager, string pathId)
@@ -54,7 +53,7 @@ namespace MathSite.Tests.Facades
 
             var (usersFacade, directoryFacade, userValidationFacade) = GetRequiredFacades(repositoryManager);
 
-            return new FileFacade(repositoryManager, MemoryCache, fileStorage, usersFacade, userValidationFacade, directoryFacade);
+            return new FileFacade(repositoryManager, fileStorage, usersFacade, userValidationFacade, directoryFacade);
         }
 
         [Fact]

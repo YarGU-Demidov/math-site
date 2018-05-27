@@ -4,7 +4,6 @@ using MathSite.Entities;
 using MathSite.Repository;
 using MathSite.Repository.Core;
 using MathSite.Specifications.Groups;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace MathSite.Facades.Groups
 {
@@ -16,9 +15,8 @@ namespace MathSite.Facades.Groups
     public class GroupsFacade : BaseMathFacade<IGroupsRepository, Group>, IGroupsFacade
     {
         public GroupsFacade(
-            IRepositoryManager repositoryManager, 
-            IMemoryCache memoryCache
-        ) : base(repositoryManager, memoryCache)
+            IRepositoryManager repositoryManager
+        ) : base(repositoryManager)
         {
         }
 
