@@ -10546,7 +10546,7 @@ template {
         right: 100%;
         margin-right: 8px;
         top: 0;
-        content: "—"
+        content: "â€”Â"
     }
     .wysiwyg ol {
         counter-reset: wysiwyg-ordered-list;
@@ -10683,7 +10683,7 @@ template {
         right: 100%;
         margin-right: 8px;
         top: 0;
-        content: "—"
+        content: "â€”Â"
     }
     .wysiwyg ol {
         counter-reset: wysiwyg-ordered-list;
@@ -10818,7 +10818,7 @@ template {
         right: 100%;
         margin-right: 8px;
         top: 0;
-        content: "—"
+        content: "â€”Â"
     }
     .wysiwyg ol {
         counter-reset: wysiwyg-ordered-list;
@@ -10874,8 +10874,8 @@ template {
         vertical-align: top;
         border: none;
         background-color: #666;
-        width: 621px;
-        height: 415px
+        width: 100%;
+        height: 430px;
     }
     .wysiwyg figure {
         margin-right: 45px;
@@ -10955,7 +10955,7 @@ template {
         right: 100%;
         margin-right: 8px;
         top: 0;
-        content: "—"
+        content: "â€”Â"
     }
     .wysiwyg ol {
         counter-reset: wysiwyg-ordered-list;
@@ -11086,7 +11086,7 @@ template {
         right: 100%;
         margin-right: 8px;
         top: 0;
-        content: "—"
+        content: "â€”Â"
     }
     .wysiwyg ol {
         counter-reset: wysiwyg-ordered-list;
@@ -11217,7 +11217,7 @@ template {
         right: 100%;
         margin-right: 8px;
         top: 0;
-        content: "—"
+        content: "â€”Â"
     }
     .wysiwyg ol {
         counter-reset: wysiwyg-ordered-list;
@@ -11343,7 +11343,7 @@ template {
         right: 100%;
         margin-right: 8px;
         top: 0;
-        content: "—"
+        content: "â€”Â"
     }
     .wysiwyg ol {
         counter-reset: wysiwyg-ordered-list;
@@ -13043,7 +13043,7 @@ template {
         right: 100%;
         margin-right: 5px;
         top: 0;
-        content: "—"
+        content: "â€”Â"
     }
     .wysiwyg__video-library ol {
         counter-reset: wysiwyg-ordered-list;
@@ -13167,7 +13167,7 @@ template {
         right: 100%;
         margin-right: 5px;
         top: 0;
-        content: "—"
+        content: "â€”Â"
     }
     .wysiwyg__video-library ol {
         counter-reset: wysiwyg-ordered-list;
@@ -13291,7 +13291,7 @@ template {
         right: 100%;
         margin-right: 5px;
         top: 0;
-        content: "—"
+        content: "â€”Â"
     }
     .wysiwyg__video-library ol {
         counter-reset: wysiwyg-ordered-list;
@@ -13415,7 +13415,7 @@ template {
         right: 100%;
         margin-right: 5px;
         top: 0;
-        content: "—"
+        content: "â€”Â"
     }
     .wysiwyg__video-library ol {
         counter-reset: wysiwyg-ordered-list;
@@ -13538,7 +13538,7 @@ template {
         right: 100%;
         margin-right: 5px;
         top: 0;
-        content: "—"
+        content: "â€”Â"
     }
     .wysiwyg__video-library ol {
         counter-reset: wysiwyg-ordered-list;
@@ -13661,7 +13661,7 @@ template {
         right: 100%;
         margin-right: 5px;
         top: 0;
-        content: "—"
+        content: "â€”Â"
     }
     .wysiwyg__video-library figure {
         margin-left: 0
@@ -13810,7 +13810,7 @@ template {
         right: 100%;
         margin-right: 5px;
         top: 0;
-        content: "—"
+        content: "â€”Â"
     }
     .wysiwyg ol {
         counter-reset: wysiwyg-ordered-list;
@@ -16973,7 +16973,7 @@ template {
         right: 100%;
         margin-right: 8px;
         top: 0;
-        content: "—"
+        content: "â€”Â"
     }
     .wysiwyg__teacher ol {
         counter-reset: wysiwyg__teacher-ordered-list;
@@ -17111,7 +17111,7 @@ template {
         right: 100%;
         margin-right: 8px;
         top: 0;
-        content: "—"
+        content: "â€”Â"
     }
     .wysiwyg__teacher ol {
         counter-reset: wysiwyg__teacher-ordered-list;
@@ -17246,7 +17246,7 @@ template {
         right: 100%;
         margin-right: 8px;
         top: 0;
-        content: "—"
+        content: "â€”Â"
     }
     .wysiwyg__teacher ol {
         counter-reset: wysiwyg__teacher-ordered-list;
@@ -17384,7 +17384,7 @@ template {
         right: 100%;
         margin-right: 8px;
         top: 0;
-        content: "—"
+        content: "â€”Â"
     }
     .wysiwyg__teacher ol {
         counter-reset: wysiwyg__teacher-ordered-list;
@@ -17515,7 +17515,7 @@ template {
         right: 100%;
         margin-right: 8px;
         top: 0;
-        content: "—"
+        content: "â€”"
     }
     .wysiwyg__teacher ol {
         counter-reset: wysiwyg__teacher-ordered-list;
@@ -17646,7 +17646,7 @@ template {
         right: 100%;
         margin-right: 8px;
         top: 0;
-        content: "—"
+        content: "â€”"
     }
     .wysiwyg__teacher ol {
         counter-reset: wysiwyg__teacher-ordered-list;
@@ -17772,7 +17772,7 @@ template {
         right: 100%;
         margin-right: 8px;
         top: 0;
-        content: "—"
+        content: "â€”"
     }
     .wysiwyg__teacher ol {
         counter-reset: wysiwyg__teacher-ordered-list;
