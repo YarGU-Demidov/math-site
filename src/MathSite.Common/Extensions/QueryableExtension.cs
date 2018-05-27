@@ -18,11 +18,14 @@ namespace MathSite.Common.Extensions
         /// <param name="keySelector">Ссылка на метод сортировщика.</param>
         /// <param name="isAscending">True, если по возрастанию, иначе - false.</param>
         /// <returns>Упорядоченный по возрастанию или убыванию набор данных.</returns>
-        public static IOrderedQueryable<TSource> OrderBy<TSource, TKey>(this IQueryable<TSource> query,
-            Expression<Func<TSource, TKey>> keySelector, bool isAscending)
+        public static IOrderedQueryable<TSource> OrderBy<TSource, TKey>(
+            this IQueryable<TSource> query,
+            Expression<Func<TSource, TKey>> keySelector, 
+            bool isAscending
+        )
         {
             if (query == null)
-                throw new ArgumentNullException("query");
+                throw new ArgumentNullException(nameof(query));
 
             return isAscending
                 ? query.OrderBy(keySelector)
@@ -39,7 +42,7 @@ namespace MathSite.Common.Extensions
         public static IQueryable<TSource> PageBy<TSource>(this IQueryable<TSource> query, int skipCount, int maxResultCount)
         {
             if (query == null)
-                throw new ArgumentNullException("query");
+                throw new ArgumentNullException(nameof(query));
 
             return query.Skip(skipCount).Take(maxResultCount);
         }

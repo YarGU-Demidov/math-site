@@ -158,7 +158,7 @@ namespace MathSite.Facades.Posts
             var requirements = CreateRequirements(postTypeAlias, state, publishState, frontPageState, categoryId, localExcludedCategories);
             
             return await GetItemsForPageAsync(
-                repository => repository.WithPostSeoSettings().WithPostType().WithPostSetttings(),
+                repository => repository.WithPostSeoSettings().WithPostType().WithPostSetttings().OrderBy(post => post.PublishDate, false) as IPostsRepository,
                 requirements,
                 page,
                 perPage

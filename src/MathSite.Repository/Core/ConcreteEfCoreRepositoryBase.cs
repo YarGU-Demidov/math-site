@@ -18,6 +18,8 @@ namespace MathSite.Repository.Core
     {
         Task<IEnumerable<TEntity>> GetAllPagedAsync(int skip, int count);
         Task<IEnumerable<TEntity>> GetAllPagedAsync(Expression<Func<TEntity, bool>> predicate, int limit, int skip = 0, bool desc = true);
+        
+        IMathSiteEfCoreRepository<TEntity, TPrimaryKey> OrderBy(Expression<Func<TEntity, object>> keySelector, bool isAscending);
     }
 
     public class MathSiteEfCoreRepositoryBase<TEntity> :
@@ -90,6 +92,16 @@ namespace MathSite.Repository.Core
             SetCurrentQuery(query);
 
             return await GetAllWithPaging(skip, limit).ToArrayAsync();
+        }
+
+        
+        public virtual IMathSiteEfCoreRepository<TEntity, TPrimaryKey> OrderBy(Expression<Func<TEntity, object>> keySelector, bool isAscending)
+        {
+            SetCurrentQuery(
+                GetCurrentQuery().OrderBy(keySelector, isAscending)
+            );
+
+            return this;
         }
     }
 }
