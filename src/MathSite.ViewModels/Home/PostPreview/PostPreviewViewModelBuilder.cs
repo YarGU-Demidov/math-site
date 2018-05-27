@@ -45,7 +45,7 @@ namespace MathSite.ViewModels.Home.PostPreview
                 Url = $"/{post.PostType?.Alias}/{post.PostSeoSetting.Url}",
                 Content = post.Excerpt,
                 PostTypeName = post.PostType?.Name,
-                PublishedAt = post.PublishDate.ToString("dd MMMM yyyy г.", CultureInfo.GetCultureInfo("ru-RU")),
+                PublishedAt = post.PublishDate,
                 PreviewImageId = previewId,
                 PreviewImageId2X = previewId
             };

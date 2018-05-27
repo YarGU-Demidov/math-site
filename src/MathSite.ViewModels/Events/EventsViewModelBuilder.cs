@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using MathSite.Common;
@@ -49,8 +50,9 @@ namespace MathSite.ViewModels.Events
             model.Location = post.PostSettings.EventLocation;
             model.PreviewImageId = post.PostSettings.PreviewImage?.Id.ToString();
             model.PreviewImage2XId = post.PostSettings.PreviewImage?.Id.ToString();
-            model.Date = post.PostSettings.EventTime?.ToString("dd MMMM yyyy");
-            model.Time = post.PostSettings.EventTime?.ToString("HH:mm:ss");
+            var lang = CultureInfo.GetCultureInfo("ru-ru");
+            model.Date = post.PostSettings.EventTime?.ToString("dd MMMM yyyy", lang);
+            model.Time = post.PostSettings.EventTime?.ToString("HH:mm:ss", lang);
             model.PageTitle.Title = post.Title;
 
             return model;
@@ -58,7 +60,7 @@ namespace MathSite.ViewModels.Events
 
         private async Task<PaginatorViewModel> GetPaginator(int page)
         {
-            var postType = PostTypeAliases.Event;
+            const string postType = PostTypeAliases.Event;
             return new PaginatorViewModel
             {
                 CurrentPage = page,
@@ -104,7 +106,7 @@ namespace MathSite.ViewModels.Events
 
         private async Task<Post> BuildPostData(Guid currentUserId, string query, int page = 1)
         {
-            var postType = PostTypeAliases.Event;
+            const string postType = PostTypeAliases.Event;
             return await PostsFacade.GetPostByUrlAndTypeAsync(currentUserId, query, postType);
         }
     }

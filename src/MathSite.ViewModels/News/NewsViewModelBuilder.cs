@@ -80,7 +80,7 @@ namespace MathSite.ViewModels.News
 
         private async Task<PaginatorViewModel> GetPaginator(int page, Category category = null)
         {
-            var newsPostType = PostTypeAliases.News;
+            const string newsPostType = PostTypeAliases.News;
 
             var postCount = await PostsFacade.GetPostPagesCountAsync(
                 category?.Id,

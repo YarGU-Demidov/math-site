@@ -1,4 +1,6 @@
-﻿namespace MathSite.ViewModels.Home.PostPreview
+﻿using System;
+
+namespace MathSite.ViewModels.Home.PostPreview
 {
     public class PostPreviewViewModel
     {
@@ -8,6 +10,6 @@
         public string PreviewImageId2X { get; set; }
         public string Content { get; set; }
         public string PostTypeName { get; set; }
-        public string PublishedAt { get; set; }
+        public DateTime PublishedAt { get; set; }
     }
 }

@@ -9,6 +9,8 @@
     var imageUrl2X = !string.IsNullOrWhiteSpace(Model.PreviewImageId2X)
         ? Url.Action("Get", "File", new { id = Model.PreviewImageId2X })
         : defaultImageUrl;
+
+    var lang = CultureInfo.GetCultureInfo("ru-ru");
 }
 
 <article class="feed__item-main">
@@ -25,7 +27,7 @@
         <div class="teaser__text">
             <div class="teaser__info">
                 <span class="teaser__category">@Model.PostTypeName</span>
-                <time class="event-thumb__time" datetime="2017-12-31T19:59+04:00">@Model.PublishedAt</time>
+                <time class="event-thumb__time" datetime="@Model.PublishedAt.ToString("O", lang)">@Model.PublishedAt.ToString("dd MMMM yyyy г.", lang)</time>
             </div>
             <div class="teaser__heading">
                 <a class="teaser__link" href="@Model.Url">@Model.Title</a>

@@ -1,13 +1,17 @@
 ﻿@model EventPreviewViewModel
 
+@{
+    var lang = CultureInfo.GetCultureInfo("ru-ru");
+}
+
 <article class="events__item">
     <a class="event-thumb" href="@Model.Url">
         <div class="events__heading">
             @Model.Title
         </div>
         <div class="event-thumb__note">
-            <time class="event-thumb__time" datetime="@Model.DateAndTime.ToString("O")">
-                @Model.DateAndTime.ToString("dd MMMM yyyy г.")
+            <time class="event-thumb__time" datetime="@Model.DateAndTime.ToString("O", lang)">
+                @Model.DateAndTime.ToString("dd MMMM yyyy г.", lang)
             </time>
             <div class="event-thumb__place">
                 @Model.Location
