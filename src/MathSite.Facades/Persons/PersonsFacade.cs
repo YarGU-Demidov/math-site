@@ -52,19 +52,12 @@ namespace MathSite.Facades.Persons
                 Surname = surname,
                 Name = name,
                 MiddleName = middlename,
-                Birthday = bday
+                Birthday = bday,
+                Phone = phone,
+                AdditionalPhone = additionalPhone,
+                PhotoId = photoId
             };
 
-
-            if (phone.IsNotNull())
-                person.Phone = phone;
-            
-            if (additionalPhone.IsNotNull())
-                person.AdditionalPhone = additionalPhone;
-            
-            if (photoId.HasValue)
-                person.PhotoId = photoId.Value;
-            
             return await Repository.InsertAndGetIdAsync(person);
         }
 
@@ -95,17 +88,10 @@ namespace MathSite.Facades.Persons
             if (name.IsNotNull())
                 person.Name = name;
 
-            if (middlename.IsNotNull())
-                person.MiddleName = middlename;
-            
-            if (phone.IsNotNull())
-                person.Phone = phone;
-            
-            if (additionalPhone.IsNotNull())
-                person.AdditionalPhone = additionalPhone;
-            
-            if (photoId.HasValue)
-                person.PhotoId = photoId.Value;
+            person.MiddleName = middlename;
+            person.Phone = phone;
+            person.AdditionalPhone = additionalPhone;
+            person.PhotoId = photoId;
             
             if (bday.HasValue)
                 person.Birthday = bday.Value;
