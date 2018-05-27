@@ -75,44 +75,44 @@ namespace MathSite.ViewModels
                 {
                     new List<MenuItemViewModel>
                     {
-                        new MenuItemViewModel("Абитуриентам", "for-entrants", true),
-                        new MenuItemViewModel("Поступление 2018", "admission-to-math-faculty-2018"),
-                        new MenuItemViewModel("День открытых дверей", "open-doors-day"),
-                        new MenuItemViewModel("Олимпиады", "olympics"),
-                        new MenuItemViewModel("Школа при факультете", "school-at-the-faculty"),
-                        new MenuItemViewModel("Прием иностранных граждан", "admission-of-foreign-citizens"),
-                        new MenuItemViewModel("Объявления", "math-faculty-ads"),
-                        new MenuItemViewModel("Задать вопросы", "ask-questions"),
+                        new MenuItemViewModel("Абитуриентам", "/for-entrants", true),
+                        new MenuItemViewModel("Поступление 2018", "/how-to-enter"),
+                        new MenuItemViewModel("День открытых дверей", "/news/open-doors-day"),
+                        new MenuItemViewModel("Олимпиады", "/olimpiada"),
+                        new MenuItemViewModel("Школа при факультете", "/for-scholars"),
+                        //new MenuItemViewModel("Прием иностранных граждан", "admission-of-foreign-citizens"),
+                        //new MenuItemViewModel("Объявления", "math-faculty-ads"),
+                        //new MenuItemViewModel("Задать вопросы", "ask-questions"),
                         new MenuItemViewModel("Контакты приемной комиссии", "contacts"),
-                        new MenuItemViewModel("Контакты деканата", "contacts")
+                        //new MenuItemViewModel("Контакты деканата", "contacts")
                     },
                     new List<MenuItemViewModel>
                     {
-                        new MenuItemViewModel("Студентам", "for-students", true),
-                        new MenuItemViewModel("Первокурсникам", "for-freshmen"),
-                        new MenuItemViewModel("Расписание занятий", "timetable-of-classes"),
-                        new MenuItemViewModel("Расписание сессии", "session-schedule"),
+                        new MenuItemViewModel("Студентам", "/for-students", true),
+                        //new MenuItemViewModel("Первокурсникам", "for-freshmen"),
+                        //new MenuItemViewModel("Расписание занятий", "timetable-of-classes"),
+                        //new MenuItemViewModel("Расписание сессии", "session-schedule"),
                         //new MenuItemViewModel("Библиотека", "library"),
                         //new MenuItemViewModel("Видеотека", "video-library"),
-                        new MenuItemViewModel("Кружки", "clubs"),
-                        new MenuItemViewModel("Кафедры", "departments-of-the-faculty"),
-                        new MenuItemViewModel("Семинары", "seminars"),
-                        new MenuItemViewModel("Курсовые и дипломные", "term-papers-and-thesis-papers"),
-                        new MenuItemViewModel("Важные даты", "important-dates"),
-                        new MenuItemViewModel("Трудоустройство", "employment"),
+                        new MenuItemViewModel("Кружки", "/kruzhki-dlya-studentov"),
+                        new MenuItemViewModel("Кафедры", "/departments"),
+                        new MenuItemViewModel("Семинары", "/for-students/seminary"),
+                        //new MenuItemViewModel("Курсовые и дипломные", "term-papers-and-thesis-papers"),
+                        //new MenuItemViewModel("Важные даты", "important-dates"),
+                        //new MenuItemViewModel("Трудоустройство", "employment"),
                         new MenuItemViewModel("Студенческая жизнь", "category/students-activities")
                     },
                     new List<MenuItemViewModel>
                     {
-                        new MenuItemViewModel("История", "history", true),
+                        //new MenuItemViewModel("История", "history", true),
                         new MenuItemViewModel("Новости", "news", true),
-                        new MenuItemViewModel("Кафедры", "departments-of-the-faculty", true),
-                        new MenuItemViewModel("Сотрудники", "employees", true),
-                        new MenuItemViewModel("Выпускники", "graduates", true),
-                        new MenuItemViewModel("Партнеры / работодатели", "where-to-work", true),
+                        new MenuItemViewModel("Кафедры", "/departments", true),
+                        //new MenuItemViewModel("Сотрудники", "employees", true),
+                        //new MenuItemViewModel("Выпускники", "graduates", true),
+                        //new MenuItemViewModel("Партнеры / работодатели", "where-to-work", true),
                         //new MenuItemViewModel("Библиотека", "library", true),
                         //new MenuItemViewModel("Видеотека", "video-library", true),
-                        new MenuItemViewModel("Школа", "for-scholars", true),
+                        new MenuItemViewModel("Школа", "/for-scholars", true),
                         new MenuItemViewModel("Контакты", "contacts", true)
                     }
                 };
