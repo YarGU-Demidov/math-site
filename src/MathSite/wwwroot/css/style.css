@@ -632,9 +632,9 @@ template {
         margin-top: 0;
         margin-bottom: 0;
         font-weight: 700;
-        font-size: 20px;
-        line-height: 25px;
-        color: #1D2F5D
+        font-size: 25px;
+        line-height: 27px;
+        color: #1D2F5D;
     }
     .heading-main {
         margin-top: 0;
@@ -1112,8 +1112,8 @@ template {
         padding-bottom: 10px;
         padding-left: 17px;
         padding-right: 17px;
-        font-size: 6pt;
-        border-radius: 41px
+        font-size: 9px;
+        border-radius: 41px;
     }
     .button_small {
         padding-top: 13px;
@@ -5260,12 +5260,12 @@ template {
     }
     .header__actions {
         position: absolute;
-        top: 20px;
-        right: 2px;
+        top: 89px;
+        left: -19px;
         display: -ms-flexbox;
         display: flex;
         -ms-flex-align: start;
-        align-items: flex-start
+        align-items: flex-start;
     }
     .header__navigation {
         display: -ms-flexbox;
@@ -5276,10 +5276,10 @@ template {
         font-size: 11px;
         line-height: 14px;
         color: #fff;
-        margin-top: 71px
+        /* margin-top: 71px */
     }
     .header__link {
-        padding: 9px 18px;
+        padding: 9px 23px;
         color: inherit;
         text-decoration: none;
     }
@@ -5715,8 +5715,8 @@ template {
 @media (min-width:320px) and (max-width:599px) {
     .nav {
         font-size: 15px;
-        line-height: 28px;
-        color: #fff
+        line-height: 20px;
+        color: #fff;
     }
     .nav__wrap {
         display: block;
@@ -7585,15 +7585,15 @@ template {
 @media (min-width:320px) and (max-width:599px) {
     .information {
         background-color: #1D2F5D;
-        min-height: 738px
+        min-height: 738px;
     }
     .information__wrap {
-        padding-top: 25px
+        padding-top: 25px;
     }
     .information__head {
         position: relative;
         display: block;
-        padding-bottom: 25px
+        padding-bottom: 40px;
     }
     .information__social {
         position: static;
@@ -8389,7 +8389,10 @@ template {
         align-self: flex-start
     }
     .media__item:first-child {
-        margin-left: 0
+        position: absolute;
+        width: 50px;
+        left: 50%;
+        margin-left: -28px;
     }
 }
 
@@ -8402,7 +8405,10 @@ template {
         align-self: flex-start
     }
     .media__item:first-child {
-        margin-left: 0
+        position: absolute;
+        width: 50px;
+        left: 50%;
+        margin-left: -28px;
     }
 }
 
@@ -8415,7 +8421,10 @@ template {
         align-self: flex-start
     }
     .media__item:first-child {
-        margin-left: 0
+        position: absolute;
+        width: 50px;
+        left: 50%;
+        margin-left: -32px;
     }
 }
 
@@ -8428,7 +8437,10 @@ template {
         align-self: flex-start
     }
     .media__item:first-child {
-        margin-left: 0
+        position: absolute;
+        width: 50px;
+        left: 50%;
+        margin-left: -28px;
     }
 }
 
@@ -10536,7 +10548,8 @@ template {
     }
     .wysiwyg ul {
         padding-left: 40px;
-        list-style: none
+        list-style: none;
+        list-style-type: disc;
     }
     .wysiwyg ul li {
         position: relative
@@ -10546,7 +10559,6 @@ template {
         right: 100%;
         margin-right: 8px;
         top: 0;
-        content: "•"
     }
     .wysiwyg ol {
         counter-reset: wysiwyg-ordered-list;
@@ -10673,7 +10685,8 @@ template {
     }
     .wysiwyg ul {
         padding-left: 27px;
-        list-style: none
+        list-style: none;
+        list-style-type: disc;
     }
     .wysiwyg ul li {
         position: relative
@@ -10683,7 +10696,6 @@ template {
         right: 100%;
         margin-right: 8px;
         top: 0;
-        content: "•"
     }
     .wysiwyg ol {
         counter-reset: wysiwyg-ordered-list;
@@ -10808,7 +10820,8 @@ template {
     .wysiwyg ul {
         padding-left: 60px;
         padding-right: 43px;
-        list-style: none
+        list-style: none;
+        list-style-type: disc;
     }
     .wysiwyg ul li {
         position: relative
@@ -10944,7 +10957,8 @@ template {
     .wysiwyg ul {
         padding-left: 40px;
         padding-right: 45px;
-        list-style: none
+        list-style: none;
+        list-style-type: disc;
     }
     .wysiwyg ul li {
         position: relative
@@ -10954,7 +10968,6 @@ template {
         right: 100%;
         margin-right: 8px;
         top: 0;
-        content: "•"
     }
     .wysiwyg ol {
         counter-reset: wysiwyg-ordered-list;
@@ -11075,7 +11088,8 @@ template {
     }
     .wysiwyg ul {
         padding-left: 40px;
-        list-style: none
+        list-style: none;
+        list-style-type: disc;
     }
     .wysiwyg ul li {
         position: relative
@@ -11085,12 +11099,12 @@ template {
         right: 100%;
         margin-right: 8px;
         top: 0;
-        content: "•"
     }
     .wysiwyg ol {
         counter-reset: wysiwyg-ordered-list;
         padding-left: 40px;
-        list-style: none
+        list-style: none;
+        list-style-type: disc;
     }
     .wysiwyg ol li {
         counter-increment: wysiwyg-ordered-list;
@@ -11176,7 +11190,7 @@ template {
 @media (min-width:320px) and (max-width:599px) {
     .wysiwyg {
         font-size: 12px;
-        line-height: 16px;
+        line-height: 19px;
         color: #000
     }
     .wysiwyg blockquote,
@@ -11185,7 +11199,7 @@ template {
     .wysiwyg ol,
     .wysiwyg p,
     .wysiwyg ul {
-        margin-top: 24px
+        margin-top: 12px
     }
     .wysiwyg blockquote:first-child,
     .wysiwyg figure:first-child,
@@ -11206,7 +11220,8 @@ template {
     .wysiwyg ul {
         width: 280px;
         padding-left: 15px;
-        list-style: none
+        list-style: none;
+        list-style-type: disc;
     }
     .wysiwyg ul li {
         position: relative
@@ -11216,7 +11231,6 @@ template {
         right: 100%;
         margin-right: 8px;
         top: 0;
-        content: "•"
     }
     .wysiwyg ol {
         counter-reset: wysiwyg-ordered-list;
@@ -11292,10 +11306,10 @@ template {
     }
     .wysiwyg a {
         color: #318ef5;
-        text-decoration: underline
+        text-decoration: none;
     }
     .wysiwyg a:hover {
-        text-decoration: none
+        text-decoration: underline;
     }
 }
 
@@ -11332,7 +11346,8 @@ template {
     .wysiwyg ul {
         width: 280px;
         padding-left: 15px;
-        list-style: none
+        list-style: none;
+        list-style-type: disc;
     }
     .wysiwyg ul li {
         position: relative
@@ -11342,7 +11357,6 @@ template {
         right: 100%;
         margin-right: 8px;
         top: 0;
-        content: "•"
     }
     .wysiwyg ol {
         counter-reset: wysiwyg-ordered-list;
@@ -13042,7 +13056,7 @@ template {
         right: 100%;
         margin-right: 5px;
         top: 0;
-        content: "•"
+        content: "â€¢"
     }
     .wysiwyg__video-library ol {
         counter-reset: wysiwyg-ordered-list;
@@ -13166,7 +13180,7 @@ template {
         right: 100%;
         margin-right: 5px;
         top: 0;
-        content: "•"
+        content: "â€¢"
     }
     .wysiwyg__video-library ol {
         counter-reset: wysiwyg-ordered-list;
@@ -13290,7 +13304,7 @@ template {
         right: 100%;
         margin-right: 5px;
         top: 0;
-        content: "•"
+        content: "â€¢"
     }
     .wysiwyg__video-library ol {
         counter-reset: wysiwyg-ordered-list;
@@ -13414,7 +13428,7 @@ template {
         right: 100%;
         margin-right: 5px;
         top: 0;
-        content: "•"
+        content: "â€¢"
     }
     .wysiwyg__video-library ol {
         counter-reset: wysiwyg-ordered-list;
@@ -13537,7 +13551,7 @@ template {
         right: 100%;
         margin-right: 5px;
         top: 0;
-        content: "•"
+        content: "â€¢"
     }
     .wysiwyg__video-library ol {
         counter-reset: wysiwyg-ordered-list;
@@ -13620,8 +13634,8 @@ template {
 @media (min-width:320px) and (max-width:599px) {
     .wysiwyg {
         font-size: 12px;
-        line-height: 16px;
-        color: #000
+        line-height: 15px;
+        color: #000;
     }
     .wysiwyg blockquote,
     .wysiwyg figure,
@@ -13629,7 +13643,7 @@ template {
     .wysiwyg ol,
     .wysiwyg p,
     .wysiwyg ul {
-        margin-top: 24px
+        margin-top: 12px;
     }
     .wysiwyg blockquote:first-child,
     .wysiwyg figure:first-child,
@@ -13645,12 +13659,13 @@ template {
     .wysiwyg ol:last-child,
     .wysiwyg p:last-child,
     .wysiwyg ul:last-child {
-        margin-bottom: 30px
+        margin-bottom: 20px;
     }
     .wysiwyg ul {
         width: 280px;
         padding-left: 15px;
-        list-style: none
+        list-style: none;
+        list-style-type: disc;
     }
     .wysiwyg ul li {
         position: relative
@@ -13660,7 +13675,6 @@ template {
         right: 100%;
         margin-right: 5px;
         top: 0;
-        content: "•"
     }
     .wysiwyg__video-library figure {
         margin-left: 0
@@ -13799,7 +13813,8 @@ template {
     .wysiwyg ul {
         width: 280px;
         padding-left: 15px;
-        list-style: none
+        list-style: none;
+        list-style-type: disc;
     }
     .wysiwyg ul li {
         position: relative
@@ -13809,7 +13824,6 @@ template {
         right: 100%;
         margin-right: 5px;
         top: 0;
-        content: "•"
     }
     .wysiwyg ol {
         counter-reset: wysiwyg-ordered-list;
