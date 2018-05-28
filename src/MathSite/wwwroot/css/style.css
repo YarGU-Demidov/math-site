@@ -9339,7 +9339,7 @@ template {
         -ms-flex-negative: 0;
         flex-shrink: 0;
         width: 300px;
-        margin-left: 65px;
+        margin-left: 49px;
     }
     .page__aside-section {
         margin-top: 20px
@@ -10546,7 +10546,7 @@ template {
         right: 100%;
         margin-right: 8px;
         top: 0;
-        content: "â€”Â"
+        content: "•"
     }
     .wysiwyg ol {
         counter-reset: wysiwyg-ordered-list;
@@ -10683,7 +10683,7 @@ template {
         right: 100%;
         margin-right: 8px;
         top: 0;
-        content: "â€”Â"
+        content: "•"
     }
     .wysiwyg ol {
         counter-reset: wysiwyg-ordered-list;
@@ -10818,7 +10818,6 @@ template {
         right: 100%;
         margin-right: 8px;
         top: 0;
-        content: "â€”Â"
     }
     .wysiwyg ol {
         counter-reset: wysiwyg-ordered-list;
@@ -10955,7 +10954,7 @@ template {
         right: 100%;
         margin-right: 8px;
         top: 0;
-        content: "â€”Â"
+        content: "•"
     }
     .wysiwyg ol {
         counter-reset: wysiwyg-ordered-list;
@@ -11086,7 +11085,7 @@ template {
         right: 100%;
         margin-right: 8px;
         top: 0;
-        content: "â€”Â"
+        content: "•"
     }
     .wysiwyg ol {
         counter-reset: wysiwyg-ordered-list;
@@ -11217,7 +11216,7 @@ template {
         right: 100%;
         margin-right: 8px;
         top: 0;
-        content: "â€”Â"
+        content: "•"
     }
     .wysiwyg ol {
         counter-reset: wysiwyg-ordered-list;
@@ -11343,7 +11342,7 @@ template {
         right: 100%;
         margin-right: 8px;
         top: 0;
-        content: "â€”Â"
+        content: "•"
     }
     .wysiwyg ol {
         counter-reset: wysiwyg-ordered-list;
@@ -13043,7 +13042,7 @@ template {
         right: 100%;
         margin-right: 5px;
         top: 0;
-        content: "â€”Â"
+        content: "•"
     }
     .wysiwyg__video-library ol {
         counter-reset: wysiwyg-ordered-list;
@@ -13167,7 +13166,7 @@ template {
         right: 100%;
         margin-right: 5px;
         top: 0;
-        content: "â€”Â"
+        content: "•"
     }
     .wysiwyg__video-library ol {
         counter-reset: wysiwyg-ordered-list;
@@ -13291,7 +13290,7 @@ template {
         right: 100%;
         margin-right: 5px;
         top: 0;
-        content: "â€”Â"
+        content: "•"
     }
     .wysiwyg__video-library ol {
         counter-reset: wysiwyg-ordered-list;
@@ -13415,7 +13414,7 @@ template {
         right: 100%;
         margin-right: 5px;
         top: 0;
-        content: "â€”Â"
+        content: "•"
     }
     .wysiwyg__video-library ol {
         counter-reset: wysiwyg-ordered-list;
@@ -13538,7 +13537,7 @@ template {
         right: 100%;
         margin-right: 5px;
         top: 0;
-        content: "â€”Â"
+        content: "•"
     }
     .wysiwyg__video-library ol {
         counter-reset: wysiwyg-ordered-list;
@@ -13661,7 +13660,7 @@ template {
         right: 100%;
         margin-right: 5px;
         top: 0;
-        content: "â€”Â"
+        content: "•"
     }
     .wysiwyg__video-library figure {
         margin-left: 0
@@ -13810,7 +13809,7 @@ template {
         right: 100%;
         margin-right: 5px;
         top: 0;
-        content: "â€”Â"
+        content: "•"
     }
     .wysiwyg ol {
         counter-reset: wysiwyg-ordered-list;
@@ -16963,7 +16962,8 @@ template {
     }
     .wysiwyg__teacher ul {
         padding-left: 40px;
-        list-style: none
+        list-style: none;
+        list-style-type: disc;
     }
     .wysiwyg__teacher ul li {
         position: relative
@@ -16973,7 +16973,6 @@ template {
         right: 100%;
         margin-right: 8px;
         top: 0;
-        content: "â€”Â"
     }
     .wysiwyg__teacher ol {
         counter-reset: wysiwyg__teacher-ordered-list;
@@ -17101,7 +17100,8 @@ template {
     }
     .wysiwyg__teacher ul {
         padding-left: 27px;
-        list-style: none
+        list-style: none;
+        list-style-type: disc;
     }
     .wysiwyg__teacher ul li {
         position: relative
@@ -17111,7 +17111,6 @@ template {
         right: 100%;
         margin-right: 8px;
         top: 0;
-        content: "â€”Â"
     }
     .wysiwyg__teacher ol {
         counter-reset: wysiwyg__teacher-ordered-list;
@@ -17206,8 +17205,8 @@ template {
         font-size: 16px;
         line-height: 24px;
         color: #000;
-        width: 663px;
-        padding-right: 40px
+        width: 628px;
+        padding-right: 30px;
     }
     .wysiwyg__teacher blockquote,
     .wysiwyg__teacher figure,
@@ -17236,7 +17235,8 @@ template {
     .wysiwyg__teacher ul {
         padding-left: 60px;
         padding-right: 43px;
-        list-style: none
+        list-style: none;
+        list-style-type: disc;
     }
     .wysiwyg__teacher ul li {
         position: relative
@@ -17246,7 +17246,6 @@ template {
         right: 100%;
         margin-right: 8px;
         top: 0;
-        content: "â€”Â"
     }
     .wysiwyg__teacher ol {
         counter-reset: wysiwyg__teacher-ordered-list;
@@ -17374,7 +17373,8 @@ template {
     .wysiwyg__teacher ul {
         padding-left: 40px;
         padding-right: 45px;
-        list-style: none
+        list-style: none;
+        list-style-type: disc;
     }
     .wysiwyg__teacher ul li {
         position: relative
@@ -17384,7 +17384,6 @@ template {
         right: 100%;
         margin-right: 8px;
         top: 0;
-        content: "â€”Â"
     }
     .wysiwyg__teacher ol {
         counter-reset: wysiwyg__teacher-ordered-list;
@@ -17505,7 +17504,8 @@ template {
     }
     .wysiwyg__teacher ul {
         padding-left: 40px;
-        list-style: none
+        list-style: none;
+        list-style-type: disc;
     }
     .wysiwyg__teacher ul li {
         position: relative
@@ -17515,7 +17515,6 @@ template {
         right: 100%;
         margin-right: 8px;
         top: 0;
-        content: "â€”"
     }
     .wysiwyg__teacher ol {
         counter-reset: wysiwyg__teacher-ordered-list;
@@ -17636,7 +17635,8 @@ template {
     .wysiwyg__teacher ul {
         width: 280px;
         padding-left: 15px;
-        list-style: none
+        list-style: none;
+        list-style-type: disc;
     }
     .wysiwyg__teacher ul li {
         position: relative
@@ -17646,7 +17646,6 @@ template {
         right: 100%;
         margin-right: 8px;
         top: 0;
-        content: "â€”"
     }
     .wysiwyg__teacher ol {
         counter-reset: wysiwyg__teacher-ordered-list;
@@ -17762,7 +17761,8 @@ template {
     .wysiwyg__teacher ul {
         width: 280px;
         padding-left: 15px;
-        list-style: none
+        list-style: none;
+        list-style-type: disc;
     }
     .wysiwyg__teacher ul li {
         position: relative
@@ -17772,7 +17772,6 @@ template {
         right: 100%;
         margin-right: 8px;
         top: 0;
-        content: "â€”"
     }
     .wysiwyg__teacher ol {
         counter-reset: wysiwyg__teacher-ordered-list;
