@@ -9460,7 +9460,8 @@ template {
     }
     .page__main {
         -ms-flex-align: start;
-        align-items: flex-start
+        align-items: flex-start;
+        padding-top: 35px;
     }
     .page__body {
         -ms-flex-negative: 0;
