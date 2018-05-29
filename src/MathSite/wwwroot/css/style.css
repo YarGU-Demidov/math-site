@@ -20,7 +20,7 @@ h1 {
 }
 
 h2 {
-    font-size: 1.7em;
+    font-size: 1.4em;
     line-height: 1em;
     margin: .67em 0;
 }
@@ -454,9 +454,10 @@ template {
         margin-top: 0;
         margin-bottom: 0;
         font-weight: 700;
-        font-size: 47px;
+        font-size: 42px;
         line-height: 52px;
-        color: #1D2F5D
+        color: #1D2F5D;
+        width: 668px;
     }
     .heading-main {
         margin-top: 0;
@@ -2029,12 +2030,12 @@ template {
         margin-top: 50px
     }
     .success__author {
-        width: 840px;
+        width: 565px;
         background-color: #2889F5;
         padding-top: 57px;
         padding-right: 40px;
         padding-bottom: 40px;
-        padding-left: 52px
+        padding-left: 52px;
     }
     .success__sub-title {
         position: relative;
@@ -2093,11 +2094,11 @@ template {
     }
     .success__message {
         background-color: #fff;
-        width: 840px;
+        width: 565px;
         padding-top: 65px;
         padding-right: 45px;
         padding-bottom: 75px;
-        padding-left: 45px
+        padding-left: 45px;
     }
     .success-head {
         position: relative;
@@ -2120,7 +2121,8 @@ template {
         font-size: 24px;
         line-height: 29px;
         color: #000;
-        text-transform: uppercase
+        text-transform: uppercase;
+        width: 347px;
     }
     .success__text {
         font-size: 16px;
@@ -3532,7 +3534,7 @@ template {
     .teaser__link {
         display: inline-block;
         vertical-align: top;
-        font-size: 16px;
+        font-size: 15px;
         line-height: 19px;
         text-decoration: none;
         color: #000;
@@ -5579,9 +5581,9 @@ template {
 @media (min-width:1349px) and (max-width:1919px) {
     .nav {
         padding-top: 20px;
-        padding-bottom: 86px;
-        font-size: 16px;
-        line-height: 23px;
+        padding-bottom: 88px;
+        font-size: 17px;
+        line-height: 28px;
         color: #fff;
         font-weight: 500;
     }
@@ -7819,19 +7821,19 @@ template {
     }
     .footer__info {
         position: relative;
-        padding-top: 107px;
-        margin-top: -65px;
-        margin-bottom: 59px;
-        min-height: 35px;
-        font-size: 13px;
+        padding-top: 125px;
+        margin-top: -62px;
+        margin-bottom: 80px;
+        /* min-height: 52px; */
+        font-size: 12px;
         text-align: center;
         line-height: 17px;
-        padding-left: 40px;
-        padding-right: 33px;
+        padding-left: 10px;
+        padding-right: 10px;
         background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MC44MyA2OS4wMSI+PGRlZnM+PHN0eWxlPi5jbHMtMXtmaWxsOiMyODg5ZjU7fTwvc3R5bGU+PC9kZWZzPjx0aXRsZT5sb2dvX3VuaXlhcjwvdGl0bGU+PGcgaWQ9ItCh0LvQvtC5XzIiIGRhdGEtbmFtZT0i0KHQu9C+0LkgMiI+PGcgaWQ9IkxheWVyXzEiIGRhdGEtbmFtZT0iTGF5ZXIgMSI+PGcgaWQ9ItGE0YPRgtC10YBf0L3QuNC3IiBkYXRhLW5hbWU9ItGE0YPRgtC10YAg0L3QuNC3Ij48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0yMS4zMSwwYzEuMzYsMCwzLjU0LjEsNC40OS4yM2EyNC4xMiwyNC4xMiwwLDAsMSwyLjY4LjY4LDQwLDQwLDAsMCwxLDYsMS41NCwxNC45LDE0LjksMCwwLDEsMy43OCwyLDE2Ljc0LDE2Ljc0LDAsMCwxLDEuNTMsMS42MiwxNiwxNiwwLDAsMSwxLjUzLDEuNjJjLjI1LjM4LjQuODkuNjYsMS4zMmExNi40OSwxNi40OSwwLDAsMSwxLjM4LDIuNDNjLjUyLDEuMzEsMSwyLjc2LDEuNTMsNC4xOWEyOS4wNSwyOS4wNSwwLDAsMSwxLjI0LDRBMTQuODEsMTQuODEsMCwwLDEsNDYuNDYsMjRjMCwuNjMtLjIzLDEuMzEtLjI5LDJBMTguMTEsMTguMTEsMCwwLDEsNDYsMjhjLS4yLjgtLjkzLDEuNDMtLjk1LDIuMjEsMCwuNDMuNDgsMSwuNTEsMS41NHMtLjI2LDEtLjIyLDEuNGMuMDguNjEuNjgsMS4xMS44LDEuNDdhNy45Miw3LjkyLDAsMCwxLC4yMiwzLDguNDcsOC40NywwLDAsMS0xLDMuNiwzLjI1LDMuMjUsMCwwLDAtLjUxLDFjMCwuNjguNTUsMS4wNi45NSwxLjQ3LDEsLjExLDIuMTUtLjIxLDIuOTEuMDcuNCwxLjE5LjE5LDMsLjM2LDQuNDFhMi4xOSwyLjE5LDAsMCwwLDEuNzUuNjZ2Mi40M2MtLjM0LDAtLjM1LjMzLS41OC4zNy0uNTguMS0uNzgtLjUzLTEuMjQtLjQ0LS44Ni43NS4yNywxLjg4LjM3LDIuOGE1Ljc2LDUuNzYsMCwwLDEtLjg3LDIuODdjLS4yNS40Ny0uNzEuODQtLjg3LDEuMjVzLS4wNy43OC0uMjIsMS4xYTEuNzEsMS43MSwwLDAsMS0uOTUuODhjLS40OS4wNy0xLjA2LS4zOS0xLjMxLS40NGExMy45MywxMy45MywwLDAsMC0xLjYtLjE1LDQzLjMyLDQzLjMyLDAsMCwwLTExLjM2LjY2Yy0xLjc2LjM0LTMuNS45My01LjMxLDEuNC0uNTkuMTYtMS4yMS4yNy0xLjc1LjQ0LS45My4yOS0xLjg1LjgxLTIuODQsMS4xOHMtMi4wNi41OC0zLjA2LDFBMjYuMjIsMjYuMjIsMCwwLDAsMTUuNjcsNjZjLS41My4zLTEuMTcuNjEtMS43NSwxYTguNDMsOC40MywwLDAsMS0xLjc1LDFBOS42OSw5LjY5LDAsMCwxLDkuODUsNjhjLS41MywwLTEtLjI1LTEuNDYtLjIyLS42MSwwLTEsLjU4LTEuNTMuODFhNiw2LDAsMCwxLS44Ny4yMmMtLjI2LjA2LS41NS4yNi0uODcuMDctLjQtMS4yOS0uMTYtMy44My0uMzYtNS4yOS0uMzUtLjY5LTEuNC0uNjItMi4zMy0uODgtLjI3LS4wNy0uNTEtLjI4LS43My0uMjktLjQ2LDAtLjgxLjI3LTEuMjQuMjJ2LTFhNy4yMiw3LjIyLDAsMCwwLDItMnExLjE0LTEuMzQsMi4zMy0yLjhjLjQ4LS41OC44Ny0xLjMsMS41My0xLjYyYTcsNywwLDAsMCwyLTIuMTNjLjM3LS40NiwxLjIxLTEuODIsMS43NS0xLjg0cy45LjY1LDEuMTcsMSwuNTcuOTQsMS4wOSwxYy4zMi0uNDUtLjA2LTEtLjE1LTEuNjItLjE2LTEuMTQtLjA2LTIuNDItLjE1LTMuNDZBNS42Nyw1LjY3LDAsMCwwLDkuNjMsNDhjLS42OCwwLTEuNDctLjItMi4xOC0uMjlBOC41Myw4LjUzLDAsMCwxLDQsNDYuOTRjLTEuMDYtLjY4LTEuNjEtMi0xLjI0LTQsLjExLS41Ny41OS0xLjEyLjUxLTEuNzdzLS45MS0uNy0xLTEuNGMtLjA4LS41Mi40MS0uODUuNTEtMS40LDAtLjIyLS4xLS42MS0uMDctLjg4LjA2LS40OC42MS0xLC4zNi0xLjQ3cy0uNy0uMjUtMS4yNC0uNDRhMy40NiwzLjQ2LDAsMCwxLTEuMzgtLjg4LDIuMzUsMi4zNSwwLDAsMSwwLTIuNzksMzIsMzIsMCwwLDAsNC4yOS00LjcxYy40MS0uNTUsMS4xMS0xLjMyLDEuMDktMiwwLS44OC0xLTEuMjUtMS4wOS0yLjA2YTcuNDUsNy40NSwwLDAsMSwuNDQtMi4zNWMuMTgtLjg0LjMyLTEuNjguNTEtMi4yOHMuNjItMS4xNS43My0xLjYyYy4zNy0xLjU3LS4yNy0zLjM5LjE0LTQuODVBNy41Niw3LjU2LDAsMCwxLDguMzksOS4yMmE5LjQ0LDkuNDQsMCwwLDEsMS4zMS0xYy40OC0uMzQsMS0uNzQsMS4xNi0xLjE4YTcuMTQsNy4xNCwwLDAsMCwuMDctMS41NEE1LjY4LDUuNjgsMCwwLDEsMTIuMjUsMi4zLDE0LjEzLDE0LjEzLDAsMCwxLDE2LC42MSwzMS4wOSwzMS4wOSwwLDAsMSwyMS4zMSwwIi8+PC9nPjwvZz48L2c+PC9zdmc+);
         background-repeat: no-repeat;
         background-position: center;
-        background-size: 40px 40px
+        background-size: 35px 35px;
     }
     .footer__support {
         position: absolute;
@@ -8563,11 +8565,11 @@ template {
         display: inline-block;
         vertical-align: top;
         padding-bottom: 22px;
-        padding-top: 180px;
+        padding-top: 202px;
         padding-right: 5px;
         margin-bottom: 20px;
-        right: 33px;
-        font-size: 13px;
+        right: 44px;
+        font-size: 12px;
         line-height: 19px;
         color: #000;
         text-align: right;
@@ -8575,7 +8577,7 @@ template {
         background-image: url(../images/akvelon.jpg);
         background-repeat: no-repeat;
         background-position: center bottom;
-        background-size: 157px 22px
+        background-size: 157px 22px;
     }
 }
 
@@ -9327,6 +9329,7 @@ template {
     .page__head {
         padding-top: 40px;
         padding-bottom: 40px;
+        /* width: 829px; */
     }
     .page__head-news {
         padding-top: 0;
@@ -9361,8 +9364,8 @@ template {
     .page__sidebar {
         -ms-flex-negative: 0;
         flex-shrink: 0;
-        width: 300px;
-        margin-left: 49px;
+        width: 320px;
+        margin-left: 50px;
     }
     .page__aside-section {
         margin-top: 20px
@@ -10800,10 +10803,10 @@ template {
 
 @media (min-width:1349px) and (max-width:1919px) {
     .wysiwyg {
-        font-size: 16px;
+        font-size: 15px;
         line-height: 24px;
         color: #000;
-        width: auto;
+        /* width: 760px; */
     }
     .wysiwyg blockquote,
     .wysiwyg figure,
@@ -13069,7 +13072,7 @@ template {
         right: 100%;
         margin-right: 5px;
         top: 0;
-        content: "â€¢"
+        content: "ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢"
     }
     .wysiwyg__video-library ol {
         counter-reset: wysiwyg-ordered-list;
@@ -13193,7 +13196,7 @@ template {
         right: 100%;
         margin-right: 5px;
         top: 0;
-        content: "â€¢"
+        content: "ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢"
     }
     .wysiwyg__video-library ol {
         counter-reset: wysiwyg-ordered-list;
@@ -13317,7 +13320,7 @@ template {
         right: 100%;
         margin-right: 5px;
         top: 0;
-        content: "â€¢"
+        content: "ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢"
     }
     .wysiwyg__video-library ol {
         counter-reset: wysiwyg-ordered-list;
@@ -13441,7 +13444,7 @@ template {
         right: 100%;
         margin-right: 5px;
         top: 0;
-        content: "â€¢"
+        content: "ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢"
     }
     .wysiwyg__video-library ol {
         counter-reset: wysiwyg-ordered-list;
@@ -13564,7 +13567,7 @@ template {
         right: 100%;
         margin-right: 5px;
         top: 0;
-        content: "â€¢"
+        content: "ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢"
     }
     .wysiwyg__video-library ol {
         counter-reset: wysiwyg-ordered-list;
