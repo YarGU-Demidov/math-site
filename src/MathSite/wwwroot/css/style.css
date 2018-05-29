@@ -454,10 +454,10 @@ template {
         margin-top: 0;
         margin-bottom: 0;
         font-weight: 700;
-        font-size: 42px;
-        line-height: 52px;
+        font-size: 41px;
+        line-height: 49px;
         color: #1D2F5D;
-        width: 668px;
+        /* width: 668px; */
     }
     .heading-main {
         margin-top: 0;
@@ -10106,8 +10106,6 @@ template {
         overflow: hidden
     }
     .preview__inner {
-        margin-left: -1000px;
-        margin-right: -1000px;
         text-align: center
     }
     .preview__image {
@@ -10116,6 +10114,8 @@ template {
         height: 301px;
         vertical-align: top;
         background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
     }
     .preview__inner:after {
         content: "";
@@ -10173,8 +10173,6 @@ template {
         overflow: hidden
     }
     .preview__inner {
-        margin-left: -1000px;
-        margin-right: -1000px;
         text-align: center;
         height: auto;
     }
@@ -10184,6 +10182,8 @@ template {
         height: 230px;
         vertical-align: top;
         background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
     }
     .preview-video__title {
         margin-top: -118px;
@@ -10243,16 +10243,16 @@ template {
         overflow: hidden
     }
     .preview__inner {
-        margin-left: -1000px;
-        margin-right: -1000px;
         text-align: center
     }
     .preview__image {
         background-image: url(../images/space.jpg);
         width: 100%;
-        height: 240px;
+        height: 256px;
         vertical-align: top;
         background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
     }
     .preview__inner:after {
         content: "";
@@ -10307,8 +10307,6 @@ template {
         padding-left: 115px
     }
     .preview__inner {
-        margin-left: -1000px;
-        margin-right: -991px;
         text-align: center
     }
     .preview__image {
@@ -10317,6 +10315,8 @@ template {
         height: 254px;
         vertical-align: top;
         background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
     }
     .preview__inner:after {
         content: "";
@@ -10369,8 +10369,6 @@ template {
         overflow: hidden
     }
     .preview__inner {
-        margin-left: -1000px;
-        margin-right: -1000px;
         text-align: center
     }
     .preview__image {
@@ -10379,6 +10377,8 @@ template {
         height: 429px;
         vertical-align: top;
         background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
     }
     .preview__inner:after {
         content: "";
@@ -10447,8 +10447,6 @@ template {
         top: -40px
     }
     .preview__inner {
-        margin-left: -1000px;
-        margin-right: -1000px;
         text-align: center
     }
     .preview__image {
@@ -10457,6 +10455,8 @@ template {
         height: 230px;
         vertical-align: top;
         background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
     }
     .preview__inner:after {
         content: "";
@@ -10524,8 +10524,6 @@ template {
         padding-left: 20px
     }
     .preview__inner {
-        margin-left: -1000px;
-        margin-right: -1000px;
         text-align: center
     }
     .preview__image {
@@ -10533,7 +10531,9 @@ template {
         width: 100%;
         height: auto;
         vertical-align: top;
-        background-size: cover
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
     }
     .preview__inner:after {
         content: "";
@@ -10970,7 +10970,7 @@ template {
     }
     .wysiwyg a {
         color: #2779d4;
-        text-decoration: none;
+        text-decoration: underline;
     }
     .wysiwyg a:hover {
         text-decoration: underline;
@@ -17129,10 +17129,10 @@ template {
     }
     .wysiwyg__teacher a {
         color: #318ef5;
-        text-decoration: underline
+        text-decoration: none;
     }
     .wysiwyg__teacher a:hover {
-        text-decoration: none
+        text-decoration: underline;
     }
 }
 
@@ -17264,10 +17264,10 @@ template {
     }
     .wysiwyg__teacher a {
         color: #318ef5;
-        text-decoration: underline
+        text-decoration: none;
     }
     .wysiwyg__teacher a:hover {
-        text-decoration: none
+        text-decoration: underline;
     }
 }
 
@@ -17401,10 +17401,10 @@ template {
     }
     .wysiwyg__teacher a {
         color: #318ef5;
-        text-decoration: underline
+        text-decoration: none;
     }
     .wysiwyg__teacher a:hover {
-        text-decoration: none
+        text-decoration: underline;
     }
 }
 
@@ -17536,10 +17536,10 @@ template {
     }
     .wysiwyg__teacher a {
         color: #318ef5;
-        text-decoration: underline
+        text-decoration: none;
     }
     .wysiwyg__teacher a:hover {
-        text-decoration: none
+        text-decoration: underline;
     }
 }
 
@@ -17666,10 +17666,10 @@ template {
     }
     .wysiwyg__teacher a {
         color: #318ef5;
-        text-decoration: underline
+        text-decoration: none;
     }
     .wysiwyg__teacher a:hover {
-        text-decoration: none
+        text-decoration: underline;
     }
 }
 
