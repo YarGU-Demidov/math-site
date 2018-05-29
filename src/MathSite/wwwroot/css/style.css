@@ -10970,7 +10970,7 @@ template {
     }
     .wysiwyg a {
         color: #2779d4;
-        text-decoration: none;
+        text-decoration: underline;
     }
     .wysiwyg a:hover {
         text-decoration: underline;
@@ -17129,10 +17129,10 @@ template {
     }
     .wysiwyg__teacher a {
         color: #318ef5;
-        text-decoration: underline
+        text-decoration: none;
     }
     .wysiwyg__teacher a:hover {
-        text-decoration: none
+        text-decoration: underline;
     }
 }
 
@@ -17264,10 +17264,10 @@ template {
     }
     .wysiwyg__teacher a {
         color: #318ef5;
-        text-decoration: underline
+        text-decoration: none;
     }
     .wysiwyg__teacher a:hover {
-        text-decoration: none
+        text-decoration: underline;
     }
 }
 
@@ -17401,10 +17401,10 @@ template {
     }
     .wysiwyg__teacher a {
         color: #318ef5;
-        text-decoration: underline
+        text-decoration: none;
     }
     .wysiwyg__teacher a:hover {
-        text-decoration: none
+        text-decoration: underline;
     }
 }
 
@@ -17536,10 +17536,10 @@ template {
     }
     .wysiwyg__teacher a {
         color: #318ef5;
-        text-decoration: underline
+        text-decoration: none;
     }
     .wysiwyg__teacher a:hover {
-        text-decoration: none
+        text-decoration: underline;
     }
 }
 
@@ -17666,10 +17666,10 @@ template {
     }
     .wysiwyg__teacher a {
         color: #318ef5;
-        text-decoration: underline
+        text-decoration: none;
     }
     .wysiwyg__teacher a:hover {
-        text-decoration: none
+        text-decoration: underline;
     }
 }
 
