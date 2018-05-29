@@ -10111,6 +10111,9 @@ template {
         text-align: center
     }
     .preview__image {
+        background-image: url(../images/space.jpg);
+        width: 100%;
+        height: auto;
         vertical-align: top;
         background-size: cover
     }
@@ -10176,10 +10179,11 @@ template {
         height: auto;
     }
     .preview__image {
+        background-image: url(../images/space.jpg);
+        width: 100%;
+        height: auto;
         vertical-align: top;
-        background-size: cover;
-        width: 2288px;
-        padding-left: 179px;
+        background-size: cover
     }
     .preview-video__title {
         margin-top: -118px;
@@ -10244,10 +10248,11 @@ template {
         text-align: center
     }
     .preview__image {
+        background-image: url(../images/space.jpg);
+        width: 100%;
+        height: auto;
         vertical-align: top;
-        width: 1864px;
-        padding-left: 156px;
-        /* position: absolute; */
+        background-size: cover
     }
     .preview__inner:after {
         content: "";
@@ -10307,10 +10312,11 @@ template {
         text-align: center
     }
     .preview__image {
+        background-image: url(../images/space.jpg);
+        width: 100%;
+        height: auto;
         vertical-align: top;
-        background-size: cover;
-        width: 1864px;
-        padding-left: 156px;
+        background-size: cover
     }
     .preview__inner:after {
         content: "";
@@ -10368,10 +10374,11 @@ template {
         text-align: center
     }
     .preview__image {
+        background-image: url(../images/space.jpg);
+        width: 100%;
+        height: auto;
         vertical-align: top;
-        background-size: cover;
-        width: 1864px;
-        padding-left: 156px;
+        background-size: cover
     }
     .preview__inner:after {
         content: "";
@@ -10445,10 +10452,11 @@ template {
         text-align: center
     }
     .preview__image {
+        background-image: url(../images/space.jpg);
+        width: 100%;
+        height: auto;
         vertical-align: top;
-        background-size: cover;
-        width: 1788px;
-        padding-left: 129px;
+        background-size: cover
     }
     .preview__inner:after {
         content: "";
@@ -10521,6 +10529,9 @@ template {
         text-align: center
     }
     .preview__image {
+        background-image: url(../images/space.jpg);
+        width: 100%;
+        height: auto;
         vertical-align: top;
         background-size: cover
     }
