@@ -275,8 +275,8 @@ template {
         min-width: 613px;
         margin: 0;
         font-family: Ubuntu, sans-serif;
-        font-size: 19px;
-        line-height: 21px;
+        font-size: 21px;
+        line-height: 30px;
         color: #000;
     }
 }
@@ -568,16 +568,16 @@ template {
         margin-top: 0;
         margin-bottom: 0;
         font-weight: 700;
-        font-size: 41px;
-        line-height: 48px;
+        font-size: 39px;
+        line-height: 46px;
         color: #1D2F5D;
     }
     .heading-article {
         margin-top: 0;
         margin-bottom: 0;
         font-weight: 700;
-        font-size: 41px;
-        line-height: 48px;
+        font-size: 39px;
+        line-height: 46px;
         color: #1D2F5D;
     }
     .heading_small {
@@ -1057,8 +1057,8 @@ template {
         padding-bottom: 20px;
         padding-left: 35px;
         padding-right: 35px;
-        font-size: 14pt;
-        border-radius: 41px
+        font-size: 16px;
+        border-radius: 41px;
     }
     .button_small {
         padding-top: 20px;
@@ -1583,8 +1583,8 @@ template {
         background-color: currentColor
     }
     .section-head__footer {
-        padding-left: 38px;
-        font-size: 42px
+        /* padding-left: 38px; */
+        font-size: 42px;
     }
     .section-head__details {
         position: absolute;
@@ -1593,9 +1593,10 @@ template {
     }
     .section-head_app {
         position: relative;
-        padding-left: 40px;
-        padding-right: 33px;
+        /* padding-left: 40px; */
+        /* padding-right: 33px; */
         padding-top: 5px;
+        text-align: center;
     }
 }
 
@@ -2345,9 +2346,9 @@ template {
     .success__note {
         margin-top: 16px;
         margin-right: 22px;
-        font-size: 24px;
-        line-height: 34px;
-        color: #fff
+        font-size: 21px;
+        line-height: 30px;
+        color: #fff;
     }
     .success__message {
         background-color: #fff;
@@ -2380,10 +2381,10 @@ template {
         text-transform: uppercase
     }
     .success__text {
-        font-size: 24px;
-        line-height: 34px;
+        font-size: 21px;
+        line-height: 30px;
         color: #000;
-        font-weight: 700
+        font-weight: 700;
     }
 }
 
@@ -3077,8 +3078,8 @@ template {
     .feed__navigation-inverse {
         color: #2889F5;
         padding: 7px 0;
-        margin-left: -29px;
-        margin-top: 40px
+        /* margin-left: -29px; */
+        margin-top: 20px;
     }
     .video-library__navigation {
         margin-top: 20px;
@@ -3096,9 +3097,10 @@ template {
     .feed__link-item {
         text-transform: uppercase;
         font-weight: 700;
-        padding: 0 27px;
+        /* padding: 6px; */
+        /* right: 0; */
         color: inherit;
-        font-size: 19px
+        font-size: 19px;
     }
     .feed__link-item:last-child {
         padding-right: 0
@@ -3630,15 +3632,13 @@ template {
         position: absolute;
         width: 260px;
         vertical-align: top;
-        font-size: 19px;
-        line-height: 20px;
+        font-size: 20px;
+        line-height: 25px;
         text-decoration: none;
         color: #000;
         padding-top: 27px;
         padding-right: 12px;
         padding-left: 9px;
-        /* margin-bottom: 14px; */
-        /* min-height: 200px; */
     }
     .teaser__link-videolibrary {
         display: inline-block;
@@ -4490,9 +4490,9 @@ template {
     }
     .jumbotron__content {
         margin-top: 38px;
-        font-size: 24px;
-        line-height: 38px;
-        color: #fff
+        font-size: 21px;
+        line-height: 30px;
+        color: #fff;
     }
     .jumbotron__action {
         margin-top: 33px
@@ -5154,7 +5154,7 @@ template {
     .header__actions {
         position: absolute;
         right: 0;
-        left: -7px;
+        left: -32px;
         top: 187px;
         display: -ms-flexbox;
         display: flex;
@@ -5168,13 +5168,13 @@ template {
         align-items: flex-start;
         font-weight: 700;
         font-size: 21px;
-        line-height: 23px;
+        line-height: 30px;
         color: #fff;
         /* margin-top: 147px; */
         /* margin-bottom: 40px */
     }
     .header__link {
-        padding: 0px 30px;
+        padding: 0px 37px;
         color: inherit;
         text-decoration: none;
     }
@@ -5685,8 +5685,8 @@ template {
 
 @media (min-width:600px) and (max-width:959px) {
     .nav {
-        font-size: 30px;
-        line-height: 54px;
+        font-size: 25px;
+        line-height: 35px;
         color: #fff;
     }
     .nav__wrap {
@@ -5696,8 +5696,8 @@ template {
         align-items: flex-start
     }
     .nav__section {
-        padding: 45px 2px;
-        border-bottom: 1px solid #bbbcc0
+        padding: 30px 2px;
+        border-bottom: 1px solid #bbbcc0;
     }
     .nav__link {
         display: inline-block;
@@ -6512,10 +6512,10 @@ template {
     .opportunity__heading {
         margin-top: 20px;
         font-weight: 700;
-        font-size: 20px;
-        line-height: 28px;
+        font-size: 21px;
+        line-height: 30px;
         text-align: center;
-        text-transform: uppercase
+        text-transform: uppercase;
     }
     .opportunity__heading:hover {
         color: #2889f5
@@ -6523,9 +6523,9 @@ template {
     .opportunity__content {
         margin-top: 8px;
         font-size: 21px;
-        line-height: 28px;
+        line-height: 30px;
         color: #000;
-        text-align: center
+        text-align: center;
     }
 }
 
@@ -7415,8 +7415,8 @@ template {
     }
     .person-thumb__note {
         padding: 4px 7px 0;
-        font-size: 23px;
-        line-height: 23px
+        font-size: 21px;
+        line-height: 30px;
     }
 }
 
@@ -10049,8 +10049,8 @@ template {
 
 @media (min-width:600px) and (max-width:959px) {
     .contacts-info {
-        font-size: 28px;
-        line-height: 34px
+        font-size: 21px;
+        line-height: 30px;
     }
     .contacts-info__section {
         margin-top: 14px
@@ -11171,6 +11171,7 @@ template {
         counter-reset: wysiwyg-ordered-list;
         padding-left: 40px;
         list-style: none;
+        /* list-style-type: disc; */
     }
     .wysiwyg ol li {
         counter-increment: wysiwyg-ordered-list;
@@ -16864,20 +16865,20 @@ template {
     .teacher__info {
         display: inline-block;
         vertical-align: top;
-        font-size: 24px;
+        font-size: 21px;
         line-height: 30px;
         text-decoration: none;
         color: #000;
         padding: 8px 0;
         font-style: italic;
         width: 510px;
-        font-weight: 700
+        font-weight: 700;
     }
     .teacher__short-info {
-        font-size: 24px;
+        font-size: 21px;
         line-height: 30px;
         width: 100%;
-        text-align: center
+        text-align: center;
     }
     .teacher__bio {
         display: -ms-flexbox;
@@ -17556,9 +17557,9 @@ template {
 
 @media (min-width:600px) and (max-width:959px) {
     .wysiwyg__teacher {
-        font-size: 24px;
-        line-height: 34px;
-        color: #000
+        font-size: 21px;
+        line-height: 30px;
+        color: #000;
     }
     .wysiwyg__teacher blockquote,
     .wysiwyg__teacher figure,
