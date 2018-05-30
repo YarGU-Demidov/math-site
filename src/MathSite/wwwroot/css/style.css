@@ -10333,7 +10333,7 @@ template {
         top: 0;
         bottom: 0;
         background-color: #000000;
-        background-color: rgba(0, 0, 0, .3)
+        background-color: rgba(0, 0, 0, .2);
     }
     .preview__content {
         position: absolute;
@@ -11089,9 +11089,9 @@ template {
     .wysiwyg iframe {
         vertical-align: top;
         width: 100%;
-        height: 316px;
+        height: 354px;
         border: none;
-        background-color: #666
+        background-color: #666;
     }
     .wysiwyg figure {
         margin-right: 45px;
