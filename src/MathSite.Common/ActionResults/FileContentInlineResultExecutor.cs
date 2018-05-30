@@ -29,6 +29,8 @@ namespace MathSite.Common.ActionResults
                 context.HttpContext.Response.Headers[HeaderNames.ContentDisposition] = headerValue.ToString().Replace("attachment;", "inline;");
             }
 
+            context.HttpContext.Response.Headers["Cache-Control"] = "public, max-age=31536000";
+
             return data;
         }
     }
