@@ -568,16 +568,16 @@ template {
         margin-top: 0;
         margin-bottom: 0;
         font-weight: 700;
-        font-size: 43px;
-        line-height: 49px;
+        font-size: 41px;
+        line-height: 48px;
         color: #1D2F5D;
     }
     .heading-article {
         margin-top: 0;
         margin-bottom: 0;
         font-weight: 700;
-        font-size: 43px;
-        line-height: 49px;
+        font-size: 41px;
+        line-height: 48px;
         color: #1D2F5D;
     }
     .heading_small {
@@ -11171,7 +11171,6 @@ template {
         counter-reset: wysiwyg-ordered-list;
         padding-left: 40px;
         list-style: none;
-        list-style-type: disc;
     }
     .wysiwyg ol li {
         counter-increment: wysiwyg-ordered-list;
