@@ -11,7 +11,7 @@
             </div>
             <nav class="feed__navigation-inverse">
                 <!--<a class="feed__link-item" href="#">Все</a>-->
-                <a class="feed__link-item feed__link-item-current" href="@Url.Action("ByCategory", "News", new {query = Model.CategoryAlias})">Новости: @Model.CategoryName</a>
+                <a class="feed__link-item feed__link-item-current" href="@Url.Action("ByCategory", "News", new {query = Model.CategoryAlias})">@Model.CategoryName</a>
                 <a class="feed__link-item" href="@Url.Action("Index", "News")">Новости</a>
                 <a class="feed__link-item" href="@Url.Action("Index", "Events")">События</a>
                 <!--<a class="feed__link-item" href="#">Мероприятия</a>-->
