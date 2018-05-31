@@ -16809,7 +16809,7 @@ template {
     .teacher__info {
         display: inline-block;
         vertical-align: top;
-        font-size: 13px;
+        font-size: 15px;
         line-height: 18px;
         text-decoration: none;
         color: #000;
@@ -16819,10 +16819,10 @@ template {
         font-weight: 700;
     }
     .teacher__short-info {
-        font-size: 13px;
+        font-size: 15px;
         line-height: 18px;
         width: 100%;
-        text-align: center
+        text-align: center;
     }
     .teacher__bio {
         display: -ms-flexbox;
