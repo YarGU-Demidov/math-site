@@ -11216,7 +11216,7 @@ template {
         width: 100%;
         height: auto;
         border: none;
-        background-color: #666
+        /* background-color: #666 */
     }
     .wysiwyg iframe {
         vertical-align: top;
