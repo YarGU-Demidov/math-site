@@ -784,7 +784,7 @@ template {
         border-radius: 20px;
         font-family: inherit;
         font-weight: 700;
-        font-size: 10px;
+        font-size: 11px;
         line-height: 14px;
         letter-spacing: 1.3px;
         color: #FFF;
@@ -792,7 +792,7 @@ template {
         text-decoration: none;
         text-transform: uppercase;
         white-space: nowrap;
-        cursor: pointer
+        cursor: pointer;
     }
     .button:hover {
         background-color: #fff;
@@ -1271,7 +1271,7 @@ template {
     .section-head__details {
         position: absolute;
         right: 0;
-        top: 9px
+        top: 18px;
     }
     .section-head_app {
         position: relative;
@@ -1504,7 +1504,7 @@ template {
     .section-head__details {
         position: absolute;
         right: 0;
-        top: 6px
+        top: 11px;
     }
     .section-head__title:last-child {
         /* margin-right:-200px */
@@ -1673,7 +1673,8 @@ template {
     }
     .section-head_app {
         position: relative;
-        padding-left: 24px
+        /* padding-left: 24px */
+        text-align: center;
     }
 }
 
@@ -3312,12 +3313,16 @@ template {
     }
     .events__item {
         width: 33.3333%;
-        padding: 20px
+        padding: 20px;
+        /* position: relative; */
     }
     .events__heading {
         min-height: 132px;
         font-size: 20px;
-        line-height: 29px
+        line-height: 29px;
+        position: absolute;
+        top: 0;
+        padding: 20px;
     }
 }
 
@@ -3336,12 +3341,15 @@ template {
     }
     .events__item {
         width: 33.3333%;
-        padding: 20px 38px
+        padding: 20px 38px;
     }
     .events__heading {
         min-height: 132px;
         font-size: 20px;
-        line-height: 29px
+        line-height: 29px;
+        position: absolute;
+        top: 0;
+        padding: 25px;
     }
 }
 
@@ -3379,7 +3387,8 @@ template {
     }
     .events__item {
         width: 33.3333%;
-        padding: 20px 15px
+        padding: 20px 15px;
+        position: relative;
     }
 }
 
@@ -3397,7 +3406,8 @@ template {
     }
     .events__item {
         width: 100%;
-        padding: 20px 0
+        padding: 20px 0;
+        /* position: relative; */
     }
 }
 
@@ -3814,9 +3824,10 @@ template {
         min-height: 300px;
         background-color: #F1F1F2;
         border: 1px solid #d4d6d7;
-        padding: 30px 23px;
+        /* padding: 30px 23px; */
         color: #000;
-        text-decoration: none
+        text-decoration: none;
+        position: relative;
     }
     .event-thumb:hover {
         background-color: #2889f5;
@@ -3824,8 +3835,11 @@ template {
     }
     .event-thumb__note {
         margin-top: 50px;
-        font-size: 14px;
-        line-height: 18px
+        font-size: 17px;
+        line-height: 21px;
+        position: absolute;
+        bottom: 0;
+        padding: 20px;
     }
     .event-thumb__place {
         padding-top: 6px
@@ -3862,9 +3876,11 @@ template {
         min-height: 300px;
         background-color: #F1F1F2;
         border: 1px solid #d4d6d7;
-        padding: 30px 23px;
+        /* padding: 30px 23px; */
         color: #000;
-        text-decoration: none
+        text-decoration: none;
+        position: relative;
+        padding: 0;
     }
     .event-thumb:hover {
         background-color: #2889f5;
@@ -3873,7 +3889,10 @@ template {
     .event-thumb__note {
         margin-top: 50px;
         font-size: 14px;
-        line-height: 18px
+        line-height: 18px;
+        position: absolute;
+        bottom: 0;
+        padding: 25px;
     }
     .event-thumb__place {
         padding-top: 6px
@@ -3886,9 +3905,10 @@ template {
         min-height: 300px;
         background-color: #F1F1F2;
         border: 1px solid #d4d6d7;
-        padding: 32px 30px;
+        /* padding: 32px 30px; */
         color: #000;
-        text-decoration: none
+        text-decoration: none;
+        position: relative;
     }
     .event-thumb:hover {
         background-color: #2889f5;
@@ -3898,11 +3918,17 @@ template {
         min-height: 120px;
         font-size: 23px;
         line-height: 30px;
+        position: absolute;
+        top: 0;
+        padding: 25px;
     }
     .event-thumb__note {
         margin-top: 35px;
         font-size: 18px;
-        line-height: 20px
+        line-height: 20px;
+        position: absolute;
+        bottom: 0;
+        padding: 25px;
     }
     .event-thumb__place {
         padding-top: 12px
@@ -3912,38 +3938,48 @@ template {
 @media (min-width:960px) and (max-width:1348px) {
     .event-thumb {
         display: block;
-        min-height: 300px;
+        min-height: 351px;
         background-color: #F1F1F2;
         border: 1px solid #d4d6d7;
-        padding: 23px 27px;
+        /* padding: 23px 23px; */
         color: #000;
-        text-decoration: none
+        text-decoration: none;
+        position: relative;
     }
     .event-thumb:hover {
         background-color: #2889f5;
         color: #fff
     }
     .events__heading {
-        min-height: 175px;
-        font-size: 20px;
-        line-height: 31px
+        min-height: 120px;
+        font-size: 19px;
+        line-height: 28px;
+        position: absolute;
+        top: 0;
+        padding: 20px;
     }
     .event-thumb__note {
-        margin-top: 50px;
-        font-size: 17px;
-        line-height: 25px
+        /* margin-top: 84px; */
+        font-size: 15px;
+        line-height: 21px;
+        /* font-weight: bold; */
+        position: absolute;
+        /* margin-bottom: 25px; */
+        bottom: 0px;
+        padding: 20px;
     }
 }
 
 @media (min-width:600px) and (max-width:959px) {
     .event-thumb {
         display: block;
-        min-height: 270px;
+        min-height: 300px;
         background-color: #F1F1F2;
         border: 1px solid #d4d6d7;
-        padding: 28px 35px;
+        /* padding: 20px 0; */
         color: #000;
-        text-decoration: none
+        text-decoration: none;
+        position: relative;
     }
     .event-thumb:hover {
         background-color: #2889f5;
@@ -3952,24 +3988,32 @@ template {
     .events__heading {
         min-height: 112px;
         font-size: 27px;
-        line-height: 34px
+        line-height: 34px;
+        position: absolute;
+        top: 0;
+        padding: 20px 20px;
     }
     .event-thumb__note {
-        margin-top: 40px;
+        x;
+        /* margin-top: 75px; */
         font-size: 21px;
-        line-height: 22px
+        line-height: 28px;
+        position: absolute;
+        padding: 20px 20px;
+        bottom: 0px;
     }
 }
 
 @media (min-width:320px) and (max-width:599px) {
     .event-thumb {
         display: block;
-        min-height: 150px;
+        min-height: 170px;
         background-color: #F1F1F2;
         border: 1px solid #d4d6d7;
-        padding: 6px;
+        /* padding: 6px; */
         color: #000;
-        text-decoration: none
+        text-decoration: none;
+        position: relative;
     }
     .event-thumb:hover {
         background-color: #2889f5;
@@ -3977,12 +4021,18 @@ template {
     }
     .events__heading {
         min-height: 80px;
-        font-size: 11px;
-        line-height: 14px
+        font-size: 10px;
+        line-height: 14px;
+        position: absolute;
+        top: 0;
+        padding: 7px;
     }
     .event-thumb__note {
         font-size: 9px;
-        line-height: 12px
+        line-height: 12px;
+        position: absolute;
+        bottom: 0;
+        padding: 7px;
     }
 }
 
@@ -5622,7 +5672,7 @@ template {
         text-decoration: underline
     }
     .nav__contacts {
-        margin-top: 30px
+        margin-top: 47px;
     }
     .nav__search {
         margin-bottom: 52px
@@ -5890,7 +5940,7 @@ template {
     }
     .contacts-simplified__content {
         font-size: 16px;
-        line-height: 24px;
+        line-height: 19px;
         color: #fff;
         text-decoration: none;
     }
@@ -6556,7 +6606,7 @@ template {
         margin-top: 10px;
         font-weight: 700;
         font-size: 13px;
-        line-height: 16px;
+        line-height: 20px;
         text-align: center;
         text-transform: uppercase;
     }
@@ -7827,8 +7877,8 @@ template {
 @media (min-width:320px) and (max-width:599px) {
     .footer {
         padding-top: 16px;
-        padding-bottom: 3px;
-        background-color: #fff
+        padding-bottom: 15px;
+        background-color: #fff;
     }
     .footer__wrap {
         position: relative
@@ -8579,7 +8629,7 @@ template {
     .developer {
         display: inline-block;
         vertical-align: top;
-        padding-bottom: 22px;
+        padding-bottom: 28px;
         padding-top: 202px;
         padding-right: 5px;
         margin-bottom: 20px;
