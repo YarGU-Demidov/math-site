@@ -17,7 +17,7 @@ namespace MathSite.Repository.Core
         where TEntity : class, IEntity<TPrimaryKey>
     {
         Task<IEnumerable<TEntity>> GetAllPagedAsync(int skip, int count);
-        Task<IEnumerable<TEntity>> GetAllPagedAsync(Expression<Func<TEntity, bool>> predicate, int limit, int skip = 0, bool desc = true);
+        Task<IEnumerable<TEntity>> GetAllPagedAsync(Expression<Func<TEntity, bool>> predicate, int limit, int skip = 0);
         
         IMathSiteEfCoreRepository<TEntity, TPrimaryKey> OrderBy(Expression<Func<TEntity, object>> keySelector, bool isAscending);
     }
@@ -79,17 +79,9 @@ namespace MathSite.Repository.Core
                 .ToArrayAsync();
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllPagedAsync(Expression<Func<TEntity, bool>> predicate, int limit, int skip = 0, bool desc = true)
+        public async Task<IEnumerable<TEntity>> GetAllPagedAsync(Expression<Func<TEntity, bool>> predicate, int limit, int skip = 0)
         {
             SetCurrentQuery(GetCurrentQuery().Where(predicate));
-
-            Expression<Func<TEntity, DateTime>> orderBy = post => post.CreationDate;
-
-            var query = desc 
-                ? GetCurrentQuery().OrderByDescending(orderBy) 
-                : GetCurrentQuery().OrderBy(orderBy);
-
-            SetCurrentQuery(query);
 
             return await GetAllWithPaging(skip, limit).ToArrayAsync();
         }

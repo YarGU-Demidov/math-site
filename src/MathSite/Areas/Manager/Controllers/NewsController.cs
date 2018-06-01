@@ -71,25 +71,25 @@ namespace MathSite.Areas.Manager.Controllers
         }
 
         [HttpPost("delete"), ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete([FromQuery] Guid id)
+        public async Task<IActionResult> Delete([FromQuery] Guid id, int page = 1, int perPage = 10)
         {
             await _modelBuilder.BuildDeleteViewModel(id);
 
-            return RedirectToActionPermanent("Index");
+            return RedirectToAction("Index", new { page, perPage });
         }
 
         [HttpPost("recover/{id}"), ValidateAntiForgeryToken]
-        public async Task<IActionResult> Recover(Guid id)
+        public async Task<IActionResult> Recover(Guid id, int page = 1, int perPage = 10)
         {
             await _modelBuilder.BuildRecoverViewModel(id);
-            return RedirectToActionPermanent("Removed");
+            return RedirectToAction("Removed", new { page, perPage });
         }
-        
-        [HttpPost("forece-delete/{id}"), ValidateAntiForgeryToken]
-        public async Task<IActionResult> ForceDelete(Guid id)
+
+        [HttpPost("force-delete/{id}"), ValidateAntiForgeryToken]
+        public async Task<IActionResult> ForceDelete(Guid id, int page = 1, int perPage = 10)
         {
             await _modelBuilder.BuildForceDeleteViewModel(id);
-            return RedirectToActionPermanent("Removed");
+            return RedirectToAction("Removed", new { page, perPage });
         }
 
         [HttpPost("preview")]
