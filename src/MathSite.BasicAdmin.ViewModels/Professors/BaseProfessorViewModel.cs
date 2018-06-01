@@ -42,13 +42,11 @@ namespace MathSite.BasicAdmin.ViewModels.Professors
         /// <summary>
         ///     Статус
         /// </summary>
-        [Required]
         public string Status { get; set; }
 
         /// <summary>
         ///     Научное звание
         /// </summary>
-        [Required]
         public string ScientificTitle { set; get; }
 
         /// <summary>
