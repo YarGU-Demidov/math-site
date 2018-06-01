@@ -134,6 +134,10 @@ input {
     overflow: visible
 }
 
+.fr-text-uppercase {
+    text-transform: uppercase;
+}
+
 button,
 select {
     text-transform: none
