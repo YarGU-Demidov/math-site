@@ -92,7 +92,18 @@ namespace MathSite.BasicAdmin.ViewModels.Events
 
         public async Task<EventViewModel> BuildEditViewModel(EventViewModel eventViewModel)
         {
-            return await BuildEditViewModel(eventViewModel, EventsTopMenuName, "Edit");
+            var model = await BuildEditViewModel(eventViewModel, EventsTopMenuName, "Edit");
+            
+            await _postSettingsFacade.UpdateForPostAsync(
+                eventViewModel.Id, 
+                eventViewModel.EventTime ?? DateTime.UtcNow, 
+                eventViewModel.EventLocation
+            );
+
+            model.EventLocation = eventViewModel.EventLocation;
+            model.EventTime = eventViewModel.EventTime;
+
+            return model;
         }
 
         public async Task<ListEventsViewModel> BuildDeleteViewModel(Guid id)
