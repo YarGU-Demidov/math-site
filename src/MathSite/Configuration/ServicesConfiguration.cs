@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using MathSite.BasicAdmin.ViewModels;
 using MathSite.Common;
 using MathSite.Common.ActionResults;
@@ -14,15 +15,19 @@ using MathSite.Repository.Core;
 using MathSite.ViewModels;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption;
+using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Internal;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace MathSite
@@ -159,6 +164,35 @@ namespace MathSite
             {
                 options.MultipartBodyLengthLimit = long.MaxValue;
             });
+
+            ConfigureDataProtection(services);
+        }
+
+        private void ConfigureDataProtection(IServiceCollection services)
+        {
+            var serviceProvider = services.BuildServiceProvider();
+            
+            var environment = serviceProvider.GetRequiredService<IHostingEnvironment>();
+            var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
+            
+            var logger = loggerFactory.CreateLogger("DataProtectionKey");
+
+
+            var path = Path.Combine(new DirectoryInfo($"{environment.ContentRootPath}").Parent?.FullName, "keys");
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+
+            logger.LogInformation($"Using keys from: {path}");
+
+            services.AddDataProtection()
+                .SetApplicationName("MathSite")
+                .SetDefaultKeyLifetime(TimeSpan.FromDays(28))
+                .PersistKeysToFileSystem(new DirectoryInfo(path))
+                .UseCryptographicAlgorithms(new AuthenticatedEncryptorConfiguration
+                {
+                    EncryptionAlgorithm = EncryptionAlgorithm.AES_256_CBC,
+                    ValidationAlgorithm = ValidationAlgorithm.HMACSHA512
+                });
         }
 
         private void ConfigureEntityFramework(IServiceCollection services, bool isDevelopment)
