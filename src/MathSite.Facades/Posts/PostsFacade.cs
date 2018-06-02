@@ -106,10 +106,11 @@ namespace MathSite.Facades.Posts
             int perPage, 
             RemovedStateRequest state,
             PublishStateRequest publishState, 
-            FrontPageStateRequest frontPageState
+            FrontPageStateRequest frontPageState,
+            bool sortByPublish = true
         )
         {
-            return await GetPostsAsync(categoryId, postTypeAlias, page, perPage, state, publishState, frontPageState, null);
+            return await GetPostsAsync(categoryId, postTypeAlias, page, perPage, state, publishState, frontPageState, null, sortByPublish);
         }
 
         public async Task<IEnumerable<Post>> GetPostsAsync(
@@ -119,10 +120,11 @@ namespace MathSite.Facades.Posts
             RemovedStateRequest state,
             PublishStateRequest publishState, 
             FrontPageStateRequest frontPageState, 
-            IEnumerable<Category> excludedCategories
+            IEnumerable<Category> excludedCategories,
+            bool sortByPublish = true
         )
         {
-            return await GetPostsAsync(null, postTypeAlias, page, perPage, state, publishState, frontPageState, excludedCategories);
+            return await GetPostsAsync(null, postTypeAlias, page, perPage, state, publishState, frontPageState, excludedCategories, sortByPublish);
         }
 
         public Task<IEnumerable<Post>> GetPostsAsync(
@@ -131,10 +133,11 @@ namespace MathSite.Facades.Posts
             int perPage,
             RemovedStateRequest state, 
             PublishStateRequest publishState, 
-            FrontPageStateRequest frontPageState
+            FrontPageStateRequest frontPageState,
+            bool sortByPublish = true
         )
         {
-            return GetPostsAsync(null, postTypeAlias, page, perPage, state, publishState, frontPageState, null);
+            return GetPostsAsync(null, postTypeAlias, page, perPage, state, publishState, frontPageState, null, sortByPublish);
         }
 
         public async Task<Guid> CreatePostAsync(Post post)
@@ -142,7 +145,7 @@ namespace MathSite.Facades.Posts
             return await Repository.InsertAndGetIdAsync(post);
         }
 
-        public async Task<IEnumerable<Post>> GetPostsAsync(
+        private async Task<IEnumerable<Post>> GetPostsAsync(
             Guid? categoryId,
             string postTypeAlias,
             int page,
@@ -150,7 +153,8 @@ namespace MathSite.Facades.Posts
             RemovedStateRequest state,
             PublishStateRequest publishState,
             FrontPageStateRequest frontPageState,
-            IEnumerable<Category> excludedCategories
+            IEnumerable<Category> excludedCategories,
+            bool sortByPublish
         )
         {
             var localExcludedCategories = excludedCategories as Category[] ?? excludedCategories?.ToArray();
@@ -158,7 +162,7 @@ namespace MathSite.Facades.Posts
             var requirements = CreateRequirements(postTypeAlias, state, publishState, frontPageState, categoryId, localExcludedCategories);
             
             return await GetItemsForPageAsync(
-                repository => repository.WithPostSeoSettings().WithPostType().WithPostSetttings().OrderBy(post => post.PublishDate, false) as IPostsRepository,
+                repository => repository.WithPostSeoSettings().WithPostType().WithPostSetttings().OrderBy(post => sortByPublish ? post.PublishDate : post.CreationDate, false) as IPostsRepository,
                 requirements,
                 page,
                 perPage

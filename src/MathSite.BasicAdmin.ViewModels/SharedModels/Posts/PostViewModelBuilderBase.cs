@@ -66,7 +66,7 @@ namespace MathSite.BasicAdmin.ViewModels.SharedModels.Posts
                 perPage
             );
 
-            model.Posts = await _postsFacade.GetPostsAsync(postType, page, perPage, removedState, publishState, frontPageState);
+            model.Posts = await _postsFacade.GetPostsAsync(postType, page, perPage, removedState, publishState, frontPageState, false);
             model.PageTitle.Title = $"Список {typeOfList}";
 
             return model;
@@ -87,7 +87,7 @@ namespace MathSite.BasicAdmin.ViewModels.SharedModels.Posts
                 perPage
             );
 
-            model.Posts = await _postsFacade.GetPostsAsync(postType, page, perPage, removedState, publishState, frontPageState);
+            model.Posts = await _postsFacade.GetPostsAsync(postType, page, perPage, removedState, publishState, frontPageState, false);
             model.PageTitle.Title = $"Список удаленных {typeOfList}";
 
             return model;

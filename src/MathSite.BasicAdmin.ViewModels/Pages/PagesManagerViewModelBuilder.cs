@@ -61,7 +61,7 @@ namespace MathSite.BasicAdmin.ViewModels.Pages
 
         public async Task<PageViewModel> BuildCreateViewModel(PageViewModel page)
         {
-            const string postType = PostTypeAliases.Event;
+            const string postType = PostTypeAliases.StaticPage;
 
             return await BuildCreateViewModel(page, postType, ArticlesTopMenuName, "CreatePage");
         }

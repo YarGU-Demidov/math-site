@@ -37,7 +37,7 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
                 .IsRequired(false);
 
             modelBuilder.Property(professor => professor.Status)
-                .IsRequired();
+                .IsRequired(false);
 
             modelBuilder.Property(professor => professor.TermPapers)
                 .IsRequired(false);

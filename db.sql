@@ -980,3 +980,20 @@ BEGIN
     VALUES ('20180422182800_ExtendProfessorsInfo', '2.0.2-rtm-10011');
     END IF;
 END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20180601214220_RemoveRequiredFieldFromProfessor') THEN
+    ALTER TABLE "Professor" ALTER COLUMN "Status" TYPE text;
+    ALTER TABLE "Professor" ALTER COLUMN "Status" DROP NOT NULL;
+    ALTER TABLE "Professor" ALTER COLUMN "Status" DROP DEFAULT;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20180601214220_RemoveRequiredFieldFromProfessor') THEN
+    INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+    VALUES ('20180601214220_RemoveRequiredFieldFromProfessor', '2.0.2-rtm-10011');
+    END IF;
+END $$;

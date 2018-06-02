@@ -17,7 +17,7 @@ namespace MathSite.Migrations
             modelBuilder
                 .HasAnnotation("Npgsql:PostgresExtension:uuid-ossp", "'uuid-ossp', '', ''")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "2.0.1-rtm-125");
+                .HasAnnotation("ProductVersion", "2.0.2-rtm-10011");
 
             modelBuilder.Entity("MathSite.Entities.Category", b =>
             {
@@ -584,8 +584,7 @@ namespace MathSite.Migrations
 
                 b.Property<string>("ScientificTitle");
 
-                b.Property<string>("Status")
-                    .IsRequired();
+                b.Property<string>("Status");
 
                 b.Property<string[]>("TermPapers");
 

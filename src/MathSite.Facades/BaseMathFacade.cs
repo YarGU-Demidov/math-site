@@ -95,8 +95,7 @@ namespace MathSite.Facades
             IMathSiteEfCoreRepository<TEntity, TPrimaryKey> repo,
             Expression<Func<TEntity, bool>> requirements,
             int page,
-            int perPage,
-            bool desc = true
+            int perPage
         ) where TEntity : class, IEntity<TPrimaryKey>
         {
             page = page >= 1 ? page : 1;
@@ -105,7 +104,7 @@ namespace MathSite.Facades
             var skip = (page - 1) * perPage;
 
             return await repo
-                .GetAllPagedAsync(requirements, perPage, skip, desc);
+                .GetAllPagedAsync(requirements, perPage, skip);
         }
     }
 }
