@@ -9018,7 +9018,8 @@ template {
         font-weight: 700;
         font-size: 10px;
         line-height: 11px;
-        color: #000
+        color: #000;
+        padding-top: 35px;
     }
     .pagination__item {
         position: relative;
