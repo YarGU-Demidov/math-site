@@ -1,4 +1,4 @@
-version: 1.0.0.{build}
+version: 1.1.{build}
 
 environment:
   nodejs_version: "" # empty string == latest version
@@ -30,11 +30,11 @@ install:
 dotnet_csproj:
   patch: true
   file: '**\*.csproj;**\*.props;**\*.fsproj;**\*.xml'
-  version: '1.0.0.{build}'
-  package_version: '1.0.0.{build}'
-  assembly_version: '1.0.0.{build}'
-  file_version: '1.0.0.{build}'
-  informational_version: '1.0.0.{build}'
+  version: '1.1.{build}'
+  package_version: '1.1.{build}'
+  assembly_version: '1.1.{build}'
+  file_version: '1.1.{build}'
+  informational_version: '1.1.{build}'
 
 artifacts:
  - path: '\dist'
