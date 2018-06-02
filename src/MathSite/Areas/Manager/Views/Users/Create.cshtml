@@ -23,7 +23,7 @@
             </select>
         </div>
         <div class="form-group">
-            <label for="person">Группа пользователя*</label>
+            <label for="person">Персона*</label>
             <select required="required" class="form-control" id="person" asp-for="PersonId" asp-items="@Model.Persons.Select(model => new SelectListItem { Text = model.Name, Value = model.Id })">
                 <option disabled="disabled">Выберите лицо</option>
             </select>
