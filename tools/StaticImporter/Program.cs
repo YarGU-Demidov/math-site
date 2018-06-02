@@ -8,8 +8,10 @@ using MathSite.Common.Crypto;
 using MathSite.Db;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
+using MathSite.Facades.Persons;
 using MathSite.Facades.Posts;
 using MathSite.Facades.SiteSettings;
+using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
 using MathSite.Repository;
 using MathSite.Repository.Core;
@@ -18,6 +20,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Directory = System.IO.Directory;
 using File = System.IO.File;
 
 namespace StaticImporter
@@ -31,7 +34,8 @@ namespace StaticImporter
 
         private static StaticPageModel ConvertFileToModel(string fileContent)
         {
-            var splitedValues = fileContent.Split("==", StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()).ToArray();
+            var splitedValues = fileContent.Split("==", StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim())
+                .ToArray();
 
             var model = new StaticPageModel();
 
@@ -53,7 +57,7 @@ namespace StaticImporter
         {
             var dir = $"{Environment.CurrentDirectory}/static-pages";
 
-            if(!Directory.Exists(dir))
+            if (!Directory.Exists(dir))
                 throw new DirectoryNotFoundException($"Directory '{dir}' not found!");
 
             var models = GetFilesContent(dir)
@@ -64,7 +68,7 @@ namespace StaticImporter
             File.WriteAllText(Path.Combine(Environment.CurrentDirectory, "static-pages.json"), json);
         }
 
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             if (args.Any(s => s.ToLower() == "generate"))
             {
@@ -96,7 +100,7 @@ namespace StaticImporter
 
             using (var context = new MathSiteDbContext(options))
             {
-                Process(context, posts).Wait();
+                await Process(context, posts);
             }
         }
 
@@ -113,64 +117,76 @@ namespace StaticImporter
                 new PostSeoSettingsRepository(context),
                 new PostSettingRepository(context),
                 new PostTypeRepository(context),
-                new GroupTypeRepository(context)
+                new GroupTypeRepository(context),
+                new DirectoriesRepository(context),
+                new CategoryRepository(context),
+                new ProfessorsRepository(context),
+                new PostCategoryRepository(context)
             );
 
             var loggerFactory = new LoggerFactory().AddConsole();
-
-            var memCache = new MemoryCache(new MemoryCacheOptions());
+            
+            var passwordsManager = new DoubleSha512HashPasswordsManager();
 
             var userValidation = new UserValidationFacade(
                 manager,
-                memCache,
-                new DoubleSha512HashPasswordsManager()
+                passwordsManager
+            );
+            
+            var usersFacade = new UsersFacade(
+                manager, 
+                userValidation, 
+                passwordsManager
             );
 
             var settings = new SiteSettingsFacade(
                 manager,
                 userValidation,
-                memCache
+                usersFacade
             );
 
             var postsFacade = new PostsFacade(
                 manager,
-                memCache,
                 settings,
                 loggerFactory.CreateLogger<IPostsFacade>(),
-                userValidation
+                userValidation,
+                usersFacade
             );
 
             await UpdateData(postsFacade, manager, posts);
         }
 
 
-        private static async Task UpdateData(IPostsFacade postsFacade, IRepositoryManager manager, IEnumerable<StaticPageModel> posts)
+        private static async Task UpdateData(IPostsFacade postsFacade, IRepositoryManager manager,
+            IEnumerable<StaticPageModel> posts)
         {
             foreach (var post in posts)
             {
                 var newPostId = await postsFacade.CreatePostAsync(
-                    await ConvertToPost(post, manager.UsersRepository, manager.PostTypeRepository),
-                    ConvertToPostSeoSettings(post),
-                    ConvertToPostSetting(post)
-                );
+                    await ConvertToPost(post, manager.UsersRepository, manager.PostTypeRepository));
 
                 if (newPostId == Guid.Empty)
                     throw new ApplicationException("Something went wrong. Check exception above.");
             }
         }
 
-        private static async Task<Post> ConvertToPost(StaticPageModel oldPost, IUsersRepository usersRepository, IPostTypeRepository postTypeRepository)
+        private static async Task<Post> ConvertToPost(StaticPageModel oldPost, IUsersRepository usersRepository,
+            IPostTypeRepository postTypeRepository)
         {
             return new Post
             {
-                AuthorId = (await usersRepository.FirstOrDefaultAsync(user => user.Login == UsersAliases.FirstUser)).Id,
+                AuthorId =
+                    (await usersRepository.FirstOrDefaultAsync(user => user.Login == UsersAliases.Mokeev1995)).Id,
                 Content = oldPost.Content,
                 Excerpt = oldPost.Content.Length > 50 ? $"{oldPost.Content.Substring(0, 47)}..." : oldPost.Content,
                 Title = oldPost.Title,
                 Published = true,
                 PublishDate = new DateTime(2017, 03, 01),
                 CreationDate = new DateTime(2017, 03, 01),
-                PostType = await postTypeRepository.FirstOrDefaultAsync(new SameAliasSpecification<PostType>(PostTypeAliases.StaticPage))
+                PostType = await postTypeRepository.FirstOrDefaultAsync(
+                    new SameAliasSpecification<PostType>(PostTypeAliases.StaticPage)),
+                PostSettings = ConvertToPostSetting(oldPost),
+                PostSeoSetting = ConvertToPostSeoSettings(oldPost)
             };
         }
 

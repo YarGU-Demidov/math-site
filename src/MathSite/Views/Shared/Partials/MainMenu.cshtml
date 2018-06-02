@@ -1,0 +1,16 @@
+﻿@model IEnumerable<IEnumerable<MenuItemViewModel>>
+
+@foreach (var sectionItems in Model)
+{
+    @Html.Partial("Partials/MainMenu/MenuSection", sectionItems)
+}
+
+<div class="nav__section">
+    <div class="nav__item">
+        <a class="nav__link nav__link_heading" href="contacts">Обратная связь</a>
+    </div>
+    <div class="nav__contacts contacts-simplified">
+        <a class="contacts-simplified__heading" href="contacts">Контакты</a><span class="contacts-simplified__colon">:</span>
+        <a class="contacts-simplified__content" href="https://yandex.ru/maps/-/CBqPUHfntA"> <br> Ярославль, ул. Союзная, 144</a>
+    </div>
+</div>

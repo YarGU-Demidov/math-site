@@ -1,0 +1,10 @@
+﻿@model UploadedFilesViewModel
+
+<div class="container">
+    @foreach (var file in Model.Files)
+    {
+        <h2>Файл "<a href="@Url.Action("Download", "File", new {id = file.Id})">@file.Name</a>" успешно загружен.</h2>
+    }
+
+    <a href="@Url.Action("Index", "Files")" class="btn"><< Вернуться в список</a>
+</div>

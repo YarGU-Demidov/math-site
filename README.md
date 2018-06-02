@@ -1,6 +1,7 @@
 ![PG Demidov Yaroslavl State University](https://upload.wikimedia.org/wikipedia/ru/2/28/Logo_demidovskiy_universitet.png)
 # ЯрГУ им. П.Г.Демидова
-[![Build Status](https://travis-ci.org/YarGU-Demidov/math-site.svg?branch=rc-0.0.2)](https://travis-ci.org/YarGU-Demidov/math-site)
+[![Build Status](https://travis-ci.org/YarGU-Demidov/math-site.svg?branch=rc-1.0.0)](https://travis-ci.org/YarGU-Demidov/math-site)
+[![Build status](https://ci.appveyor.com/api/projects/status/6uowqp6ypc6o1of3/branch/rc-1.0.0?svg=true)](https://ci.appveyor.com/project/mokeev1995/math-site/branch/rc-1.0.0)
 ## Сайт математического факультета (обновленный)
 
 ### Info
@@ -12,8 +13,8 @@
 ### Требования к системе
 
 * Наличие git
-* Наличие .Net Core 2.0 или новее
-* Установленный PostgreSQL 9.5 или новее
+* Наличие SDK .Net Core 2.0 или новее
+* Установленный PostgreSQL 10.0 или новее
 * Наличие Yarn Package Manager
 
 ### Информация по установке
@@ -35,20 +36,24 @@
 * Добавить данные в БД
   * Перейти в `powershell`/`cmd`/`terminal` в каталог проекта
   * Перейти в `src/MathSite`
-  * Запустить команду `dotnet run -с Release --launch-profile MathSite.Seed`
-  
+  * Запустить команду `dotnet run seed`
+    * Можно ещё добавить реальных новостей со старой версии сайта запустив команду `dotnet run import-news`
+    * Можно ещё добавить реальных статей со старой версии сайта запустив команду `dotnet run import-pages`
 * Запустить `dotnet run`
 
 #### Вариант 2 (Автоматический, из Visual Studio)
 
 * Создать базу данных для сайта
-  * Открыть проект в `Visual Studio 2017`
+  * Открыть проект в `Visual Studio 2017` (очень желателен последний Update для VS)
   * Поправить `appsettings.{env}.json`, где env - это может быть dev или этого пункта может не быть вовсе, то есть просто `appsettings.json`
   * Открыть окошко `Консоль диспетчера пакетов`
   * Запустить `Update-Database`
 * Добавить данные в БД
   * Выбрать конфигурацию `MathSite.Seed` в списке конфигураций запуска сайта.
-  * Запустить приложение.
+    * Можно ещё добавить реальных новостей со старой версии сайта выбрав `MathSite.ImportNews`
+    * Можно ещё добавить реальных статей со старой версии сайта выбрав `MathSite.ImportStaticPages`
+  * Запустить приложение для каждой выбранной конфигурации.
+* Выбрать `MathSite.Dev` и запустить приложение
 
 #### Готово :)
   

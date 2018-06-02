@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using MathSite.Db;
 using MathSite.Entities;
@@ -9,37 +7,41 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MathSite.Repository
 {
-    public interface IUsersRepository : IRepository<User>
+    public interface IUsersRepository : IMathSiteEfCoreRepository<User>
     {
-        Task<User> FirstOrDefaultWithRightsAsync(Expression<Func<User, bool>> predicate);
-        Task<User> FirstOrDefaultWithRightsAsync(Guid id);
-        Task<IEnumerable<User>> GetAllWithPagingAndPersonAsync(int skip, int count);
+        Task<IEnumerable<User>> GetAllWithPagingAsync(int skip, int count);
+        IUsersRepository WithPerson();
+        IUsersRepository WithRights();
     }
 
-    public class UsersRepository : EfCoreRepositoryBase<User>, IUsersRepository
+    public class UsersRepository : MathSiteEfCoreRepositoryBase<User>, IUsersRepository
     {
+
         public UsersRepository(MathSiteDbContext dbContext) : base(dbContext)
         {
         }
 
-        public async Task<User> FirstOrDefaultWithRightsAsync(Expression<Func<User, bool>> predicate)
-        {
-            return await Table
-                .Include(u => u.UserRights).ThenInclude(ur => ur.Right)
-                .Include(u => u.Group).ThenInclude(g => g.GroupsRights).ThenInclude(gr => gr.Right)
-                .FirstOrDefaultAsync(predicate);
-        }
-
-        public async Task<User> FirstOrDefaultWithRightsAsync(Guid id)
-        {
-            return await FirstOrDefaultWithRightsAsync(user => user.Id == id);
-        }
-
-        public async Task<IEnumerable<User>> GetAllWithPagingAndPersonAsync(int skip, int count)
+        public async Task<IEnumerable<User>> GetAllWithPagingAsync(int skip, int count)
         {
             return await GetAllWithPaging(skip, count)
-                .Include(user => user.Person)
                 .ToArrayAsync();
+        }
+
+        public IUsersRepository WithPerson()
+        {
+            SetCurrentQuery(GetCurrentQuery().Include(user => user.Person));
+            return this;
+        }
+
+        public IUsersRepository WithRights()
+        {
+            var query = GetCurrentQuery()
+                .Include(u => u.UserRights).ThenInclude(ur => ur.Right)
+                .Include(u => u.Group).ThenInclude(g => g.GroupsRights).ThenInclude(gr => gr.Right);
+
+            SetCurrentQuery(query);
+
+            return this;
         }
     }
 }

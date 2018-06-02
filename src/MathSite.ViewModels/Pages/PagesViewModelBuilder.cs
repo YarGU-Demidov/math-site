@@ -5,7 +5,7 @@ using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
 using MathSite.Facades.Posts;
 using MathSite.Facades.SiteSettings;
-using MathSite.ViewModels.SharedModels.PostPreview;
+using MathSite.ViewModels.Home.PostPreview;
 using MathSite.ViewModels.SharedModels.SecondaryPage;
 
 namespace MathSite.ViewModels.Pages
@@ -28,6 +28,7 @@ namespace MathSite.ViewModels.Pages
                 throw new PostNotFoundException(query);
 
             model.PageTitle.Title = post.Title;
+            model.Title = post.Title;
             model.Content = post.Content;
 
             return model;
@@ -35,7 +36,7 @@ namespace MathSite.ViewModels.Pages
 
         private async Task<Post> BuildPostData(Guid currentUserId, string query)
         {
-            return await PostsFacade.GetPostByUrlAndTypeAsync(currentUserId, query, PostTypeAliases.StaticPage, true);
+            return await PostsFacade.GetPostByUrlAndTypeAsync(currentUserId, query, PostTypeAliases.StaticPage);
         }
     }
 }

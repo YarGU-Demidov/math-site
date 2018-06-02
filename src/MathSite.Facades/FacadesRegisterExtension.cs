@@ -1,5 +1,13 @@
-﻿using MathSite.Facades.Persons;
+﻿using MathSite.Facades.Categories;
+using MathSite.Facades.FileSystem;
+using MathSite.Facades.Groups;
+using MathSite.Facades.Persons;
+using MathSite.Facades.PostCategories;
 using MathSite.Facades.Posts;
+using MathSite.Facades.PostSeoSettings;
+using MathSite.Facades.PostSettings;
+using MathSite.Facades.PostTypes;
+using MathSite.Facades.Professors;
 using MathSite.Facades.SiteSettings;
 using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
@@ -26,6 +34,15 @@ namespace MathSite.Facades
                 .AddScoped<ISiteSettingsFacade, SiteSettingsFacade>()
                 .AddScoped<IPostsFacade, PostsFacade>()
                 .AddScoped<IPersonsFacade, PersonsFacade>()
+                .AddScoped<IFileFacade, FileFacade>()
+                .AddScoped<IDirectoryFacade, DirectoryFacade>()
+                .AddScoped<ICategoryFacade, CategoryFacade>()
+                .AddScoped<IPostCategoryFacade, PostCategoryFacade>()
+                .AddScoped<IGroupsFacade, GroupsFacade>()
+                .AddScoped<IPostSettingsFacade, PostSettingsFacade>()
+                .AddScoped<IPostSeoSettingsFacade, PostSeoSettingsFacade>()
+                .AddScoped<IPostTypeFacade, PostTypeFacade>()
+                .AddScoped<IProfessorsFacade, ProfessorsFacade>()
                 .AddScoped<IUsersFacade, UsersFacade>();
         }
     }

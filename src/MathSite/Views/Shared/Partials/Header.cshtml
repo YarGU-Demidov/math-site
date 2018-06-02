@@ -1,15 +1,47 @@
 ﻿@model CommonViewModel
 
-<header class="header">
-    <h1 class="header__logo2">
-        <a class="logo" href="@Url.Action("Index", "Home")">
-            <span style="visibility: hidden;">Математический факультет</span>
-        </a>
-    </h1>
-    <nav class="header__nav">
-        @if (Model.MenuItems != null && Model.MenuItems.Any())
-        {
-            @Html.Partial("Partials/Menu/Menu", Model.MenuItems)
-        }
-    </nav>
-</header>
+<!--[if IE]>
+    <div class="browserupgrade">
+        Вы используете <strong>устаревший</strong> браузер. Для корректной работы этого сайта и большинства других
+        Вам необходимо <a href="http://browsehappy.com/?locale=ru_RU">обновить ваш браузер</a>.
+    </div>
+<![endif]-->
+
+<div class="header">
+    <div class="header__bar">
+        <div class="header__wrap container">
+            <button class="header__burger" type="button">
+                Меню
+            </button>
+            <a class="header__logo" href="@Url.Action("Index", "Home")">
+                Математический факультет
+            </a>
+            <div class="header__actions">
+                <nav class="header__navigation">
+                    @foreach (var topLinkModel in Model.TopMenuLinks)
+                    {
+                        <a class="header__link" href="@topLinkModel.Href" title="@topLinkModel.Title">@topLinkModel.Name</a>
+                    }
+                </nav>
+                <!--<div class="header__search">
+                    <form class="search">
+                        <div class="search__body">
+                            <input class="search__field" type="text" placeholder="Поиск">
+                            <button class="search__submit">Искать</button>
+                        </div>
+                        <button class="search__handler" type="button">
+                            Поиск
+                        </button>
+                    </form>
+                </div>-->
+            </div>
+        </div>
+    </div>
+    <div class="header__dropdown">
+        <nav class="header__menu nav">
+            <div class="nav__wrap container">
+                @Html.Partial("Partials/MainMenu", Model.MainMenuLinks)
+            </div>
+        </nav>
+    </div>
+</div>

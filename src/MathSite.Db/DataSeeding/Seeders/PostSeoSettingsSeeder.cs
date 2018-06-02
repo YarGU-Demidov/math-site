@@ -143,6 +143,11 @@ namespace MathSite.Db.DataSeeding.Seeders
                     "where-to-work",
                     "where-to-work title",
                     "where-to-work description"
+                ),
+                CreatePostSeoSettings(
+                    "open-doors-2017",
+                    "День открытых дверей",
+                    "День открытых дверей в ЯрГУ им. П.Г.Демидова"
                 )
             };
             Context.PostSeoSettings.AddRange(postSeoSettings);

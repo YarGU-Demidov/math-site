@@ -8,8 +8,10 @@ using MathSite.Common.Crypto;
 using MathSite.Db;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
+using MathSite.Facades.Persons;
 using MathSite.Facades.Posts;
 using MathSite.Facades.SiteSettings;
+using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
 using MathSite.Repository;
 using MathSite.Repository.Core;
@@ -24,7 +26,7 @@ namespace NewsImporter
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public async static Task Main(string[] args)
         {
             if (args.Length != 1)
                 throw new ArgumentException("You should pass only 1 argument: connection string!", nameof(args));
@@ -37,7 +39,7 @@ namespace NewsImporter
                 Path.Combine(Environment.CurrentDirectory, "..", "..", "..", "NewsImporter", "news.json")
             }.Where(File.Exists).FirstOrDefault();
 
-            if(string.IsNullOrWhiteSpace(filePath))
+            if (string.IsNullOrWhiteSpace(filePath))
                 throw new FileNotFoundException("Need file with data.");
 
             var posts = JsonConvert.DeserializeObject<ICollection<RainlabBlogPost>>(File.ReadAllText(filePath));
@@ -48,7 +50,7 @@ namespace NewsImporter
 
             using (var context = new MathSiteDbContext(options))
             {
-                Process(context, posts).Wait();
+                await Process(context, posts);
             }
         }
 
@@ -65,63 +67,76 @@ namespace NewsImporter
                 new PostSeoSettingsRepository(context),
                 new PostSettingRepository(context),
                 new PostTypeRepository(context),
-                new GroupTypeRepository(context)
+                new GroupTypeRepository(context),
+                new DirectoriesRepository(context),
+                new CategoryRepository(context),
+                new ProfessorsRepository(context),
+                new PostCategoryRepository(context)
             );
 
             var loggerFactory = new LoggerFactory().AddConsole();
-
-            var memCache = new MemoryCache(new MemoryCacheOptions());
+            
+            var passwordsManager = new DoubleSha512HashPasswordsManager();
 
             var userValidation = new UserValidationFacade(
                 manager,
-                memCache,
-                new DoubleSha512HashPasswordsManager()
+                passwordsManager
+            );
+            
+            var usersFacade = new UsersFacade(
+                manager, 
+                userValidation, 
+                passwordsManager
             );
 
             var settings = new SiteSettingsFacade(
                 manager,
                 userValidation,
-                memCache
+                usersFacade
             );
 
             var postsFacade = new PostsFacade(
                 manager,
-                memCache,
                 settings,
                 loggerFactory.CreateLogger<IPostsFacade>(),
-                userValidation
+                userValidation,
+                usersFacade
             );
 
             await UpdateData(postsFacade, manager, posts);
         }
 
-        private static async Task UpdateData(IPostsFacade postsFacade, IRepositoryManager manager, ICollection<RainlabBlogPost> posts)
+        private static async Task UpdateData(IPostsFacade postsFacade, IRepositoryManager manager,
+            ICollection<RainlabBlogPost> posts)
         {
             foreach (var post in posts)
             {
                 var newPostId = await postsFacade.CreatePostAsync(
-                    await ConvertToPost(post, manager.UsersRepository, manager.PostTypeRepository),
-                    ConvertToPostSeoSettings(post),
-                    ConvertToPostSetting(post)
+                    await ConvertToPost(post, manager.UsersRepository, manager.PostTypeRepository)
                 );
 
-                if(newPostId == Guid.Empty)
+                if (newPostId == Guid.Empty)
                     throw new ApplicationException("Something went wrong. Check exception above.");
             }
         }
 
-        private static async Task<Post> ConvertToPost(RainlabBlogPost oldPost, IUsersRepository usersRepository, IPostTypeRepository postTypeRepository)
+        private static async Task<Post> ConvertToPost(RainlabBlogPost oldPost, IUsersRepository usersRepository,
+            IPostTypeRepository postTypeRepository)
         {
             return new Post
             {
-                AuthorId = (await usersRepository.FirstOrDefaultAsync(user => user.Login == UsersAliases.FirstUser)).Id,
+                AuthorId =
+                    (await usersRepository.FirstOrDefaultAsync(user => user.Login == UsersAliases.Mokeev1995)).Id,
                 Content = oldPost.ContentHtml,
                 Excerpt = oldPost.Excerpt,
                 Title = oldPost.Title,
                 Published = oldPost.Published,
                 PublishDate = oldPost.PublishedAt?.UtcDateTime ?? DateTime.UtcNow,
                 CreationDate = oldPost.CreatedAt?.UtcDateTime ?? DateTime.UtcNow,
-                PostType = await postTypeRepository.FirstOrDefaultAsync(new SameAliasSpecification<PostType>(PostTypeAliases.News))
+                PostType = await postTypeRepository.FirstOrDefaultAsync(
+                    new SameAliasSpecification<PostType>(PostTypeAliases.News)),
+                PostSettings = ConvertToPostSetting(oldPost),
+                PostSeoSetting = ConvertToPostSeoSettings(oldPost)
             };
         }
 

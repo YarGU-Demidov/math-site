@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using MathSite.Common;
 using MathSite.Common.Entities;
 using MathSite.Common.Exceptions;
+using MathSite.Common.Extensions;
 
 namespace MathSite.Repository.Core
 {
@@ -96,6 +96,66 @@ namespace MathSite.Repository.Core
         public virtual Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
         {
             return Task.FromResult(FirstOrDefault(predicate));
+        }
+
+        public virtual TEntity FirstOrDefaultOrderedBy<TKey>(TPrimaryKey id, Expression<Func<TEntity, TKey>> keySelector, bool isAscending)
+        {
+            return GetAll().OrderBy(keySelector, isAscending).FirstOrDefault(CreateEqualityExpressionForId(id));
+        }
+
+        public virtual TEntity FirstOrDefaultOrderedBy<TKey>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TKey>> keySelector, bool isAscending)
+        {
+            return GetAll().OrderBy(keySelector, isAscending).FirstOrDefault(predicate);
+        }
+
+        public virtual Task<TEntity> FirstOrDefaultOrderedByAsync<TKey>(TPrimaryKey id, Expression<Func<TEntity, TKey>> keySelector, bool isAscending)
+        {
+            return Task.FromResult(FirstOrDefaultOrderedBy(id, keySelector, isAscending));
+        }
+
+        public virtual Task<TEntity> FirstOrDefaultOrderedByAsync<TKey>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TKey>> keySelector, bool isAscending)
+        {
+            return Task.FromResult(FirstOrDefaultOrderedBy(predicate, keySelector, isAscending));
+        }
+
+        public virtual TEntity LastOrDefault(TPrimaryKey id)
+        {
+            return GetAll().LastOrDefault(CreateEqualityExpressionForId(id));
+        }
+
+        public virtual Task<TEntity> LastOrDefaultAsync(TPrimaryKey id)
+        {
+            return Task.FromResult(LastOrDefault(id));
+        }
+
+        public virtual TEntity LastOrDefault(Expression<Func<TEntity, bool>> predicate)
+        {
+            return GetAll().LastOrDefault(predicate);
+        }
+
+        public virtual Task<TEntity> LastOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            return Task.FromResult(LastOrDefault(predicate));
+        }
+
+        public virtual TEntity LastOrDefaultOrderedBy<TKey>(TPrimaryKey id, Expression<Func<TEntity, TKey>> keySelector, bool isAscending)
+        {
+            return GetAll().OrderBy(keySelector, isAscending).LastOrDefault(CreateEqualityExpressionForId(id));
+        }
+
+        public virtual TEntity LastOrDefaultOrderedBy<TKey>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TKey>> keySelector, bool isAscending)
+        {
+            return GetAll().OrderBy(keySelector, isAscending).LastOrDefault(predicate);
+        }
+
+        public virtual Task<TEntity> LastOrDefaultOrderedByAsync<TKey>(TPrimaryKey id, Expression<Func<TEntity, TKey>> keySelector, bool isAscending)
+        {
+            return Task.FromResult(LastOrDefaultOrderedBy(id, keySelector, isAscending));
+        }
+
+        public virtual Task<TEntity> LastOrDefaultOrderedByAsync<TKey>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TKey>> keySelector, bool isAscending)
+        {
+            return Task.FromResult(LastOrDefaultOrderedBy(predicate, keySelector, isAscending));
         }
 
         public virtual TEntity Load(TPrimaryKey id)

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MathSite.ViewModels.Account
 {
-    public class LoginFormViewModel
+    public class LoginFormViewModel : CommonViewModel
     {
         [Display(Name = "Логин")]
         [Required(ErrorMessage = "Необходим логин")]

@@ -1,46 +1,89 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-using MathSite.Common;
-using MathSite.Db;
+﻿using MathSite.Db;
 using MathSite.Entities;
 using MathSite.Repository.Core;
 using Microsoft.EntityFrameworkCore;
 
 namespace MathSite.Repository
 {
-    public interface IPostsRepository : IRepository<Post>
+    public interface IPostsRepository : IMathSiteEfCoreRepository<Post>
     {
-        Task<IEnumerable<Post>> GetAllWithAllDataIncludedPagedAsync(Expression<Func<Post, bool>> predicate, int limit, int skip = 0, bool desc = true);
+        IPostsRepository WithAuthor();
+        IPostsRepository WithPostSeoSettings();
+        IPostsRepository WithPostSetttings();
+        IPostsRepository WithPostType();
+        IPostsRepository WithComments();
+        IPostsRepository WithPostRatings();
+        IPostsRepository WithCategories();
     }
 
-    public class PostsRepository : EfCoreRepositoryBase<Post>, IPostsRepository
+    public class PostsRepository : MathSiteEfCoreRepositoryBase<Post>, IPostsRepository
     {
-        public PostsRepository(MathSiteDbContext dbContext) : base(dbContext)
+        public PostsRepository(MathSiteDbContext dbContext) 
+            : base(dbContext)
         {
         }
 
-        public async Task<IEnumerable<Post>> GetAllWithAllDataIncludedPagedAsync(Expression<Func<Post, bool>> predicate, int limit, int skip = 0, bool desc = true)
+        public IPostsRepository WithAuthor()
         {
-            var query = Table.Where(predicate);
+            var query = GetCurrentQuery()
+                .Include(post => post.Author)
+                .ThenInclude(user => user.Person);
 
-            query = desc 
-                ? query.OrderByDescending(post => post.PublishDate) 
-                : query.OrderBy(post => post.PublishDate);
+            SetCurrentQuery(query);
 
-            var queryWithIncludes = query
-                .Include(post => post.Author).ThenInclude(user => user.Person)
-                .Include(post => post.PostSeoSetting).ThenInclude(setting => setting.PostKeywords)
+            return this;
+        }
+
+        public IPostsRepository WithPostSeoSettings()
+        {
+            var query = GetCurrentQuery()
+                .Include(post => post.PostSeoSetting)
+                // с этой припиской +1 запрос идёт (на вычитывание keywords)
+                /*.ThenInclude(setting => setting.PostKeywords)*/;
+
+            SetCurrentQuery(query);
+
+            return this;
+        }
+
+        public IPostsRepository WithPostSetttings()
+        {
+            var query = GetCurrentQuery()
                 .Include(post => post.PostSettings).ThenInclude(setting => setting.PostType)
-                .Include(post => post.PostSettings).ThenInclude(setting => setting.PreviewImage)
-                .Include(post => post.PostType).ThenInclude(type => type.DefaultPostsSettings)
-                .Include(post => post.Comments)
-                .Include(post => post.PostRatings)
-                .PageBy(skip, limit);
+                .Include(post => post.PostSettings).ThenInclude(setting => setting.PreviewImage);
 
-            return await queryWithIncludes.ToArrayAsync();
+            SetCurrentQuery(query);
+
+            return this;
+        }
+
+        public IPostsRepository WithPostType()
+        {
+            SetCurrentQuery(
+                GetCurrentQuery().Include(post => post.PostType).ThenInclude(type => type.DefaultPostsSettings)
+            );
+
+            return this;
+        }
+
+        public IPostsRepository WithComments()
+        {
+            SetCurrentQuery(GetCurrentQuery().Include(post => post.Comments));
+            return this;
+        }
+
+        public IPostsRepository WithPostRatings()
+        {
+            SetCurrentQuery(GetCurrentQuery().Include(post => post.PostRatings));
+            return this;
+        }
+
+        public IPostsRepository WithCategories()
+        {
+            SetCurrentQuery(
+                GetCurrentQuery().Include(post => post.PostCategories).ThenInclude(category => category.Category)
+            );
+            return this;
         }
     }
 }

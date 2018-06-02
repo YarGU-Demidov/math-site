@@ -2,57 +2,42 @@
 using System.Text;
 using System.Threading.Tasks;
 using MathSite.Common.Crypto;
-using MathSite.Db.DataSeeding;
-using MathSite.Db.DataSeeding.Seeders;
+using MathSite.Db;
 using MathSite.Db.DataSeeding.StaticData;
+using MathSite.Db.DbExtensions;
 using MathSite.Entities;
+using MathSite.Facades.Persons;
 using MathSite.Facades.SiteSettings;
+using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
 using MathSite.Repository.Core;
 using MathSite.Specifications.SiteSettings;
 using MathSite.Specifications.Users;
+using Microsoft.EntityFrameworkCore;
 using Xunit;
 
 namespace MathSite.Tests.Facades
 {
-    public class SiteSettingsFacadeTests : FacadesTestsBase
+    public class SiteSettingsFacadeTests : FacadesTestsBase<SiteSettingsFacade>
     {
-        public IUserValidationFacade GetFacade(IRepositoryManager manager)
-        {
-            return new UserValidationFacade(manager, MemoryCache, new DoubleSha512HashPasswordsManager());
-        }
 
         [Fact]
         public async Task GetSettingStringTest()
         {
             await WithRepositoryAsync(async (manager, context, logger) =>
             {
-                SeedData(new ISeeder[]
-                {
-                    new GroupTypeSeeder(logger, context),
-                    new GroupSeeder(logger, context),
-                    new PersonSeeder(logger, context),
-                    new UserSeeder(logger, context, new DoubleSha512HashPasswordsManager()),
-                    new RightSeeder(logger, context),
-                    new GroupRightsSeeder(logger, context),
-                    new UsersToGroupsSeeder(logger, context),
-                    new UserRightsSeeder(logger, context),
-                });
+                
+                var siteSettingsFacade = GetFacade(context, manager);
 
-                var userValidationFacade = GetFacade(manager);
-                var siteSettingsFacade = new SiteSettingsFacade(manager, userValidationFacade, MemoryCache);
+                var user = await GetUserByLogin(manager, UsersAliases.Mokeev1995);
 
-                var user = await GetUserByLogin(manager, UsersAliases.FirstUser);
+                var testTitle = $"testTitle-{Guid.NewGuid()}";
 
-                var testSalt = Guid.NewGuid();
-                var testKey = $"testKey-{testSalt}";
-                var testValue = $"testValue-{testSalt}";
+                await siteSettingsFacade.SetDefaultHomePageTitle(user.Id, testTitle);
 
-                await siteSettingsFacade.SetStringSettingAsync(user.Id, testKey, testValue);
+                var value = await siteSettingsFacade.GetDefaultHomePageTitle();
 
-                var value = await siteSettingsFacade.GetStringSettingAsync(testKey, false);
-
-                Assert.Equal(testValue, value);
+                Assert.Equal(testTitle, value);
             });
         }
 
@@ -61,60 +46,12 @@ namespace MathSite.Tests.Facades
         {
             await WithRepositoryAsync(async (manager, context, logger) =>
             {
-                SeedData(new ISeeder[]
-                {
-                    new GroupTypeSeeder(logger, context),
-                    new GroupSeeder(logger, context),
-                    new PersonSeeder(logger, context),
-                    new UserSeeder(logger, context, new DoubleSha512HashPasswordsManager()),
-                    new RightSeeder(logger, context),
-                    new GroupRightsSeeder(logger, context),
-                    new UsersToGroupsSeeder(logger, context),
-                    new UserRightsSeeder(logger, context),
-                });
-
-                var userValidationFacade = GetFacade(manager);
-                var siteSettingsFacade = new SiteSettingsFacade(manager, userValidationFacade, MemoryCache);
-
-                var testKey = $"testKey-{Guid.NewGuid()}";
-
-                var value = await siteSettingsFacade.GetStringSettingAsync(testKey, false);
+                var siteSettingsFacade = GetFacade(context, manager);
+                await context.Clear<SiteSetting>();
+                
+                var value = await siteSettingsFacade.GetDefaultNewsPageTitle();
 
                 Assert.Null(value);
-            });
-        }
-
-        [Fact]
-        public async Task IndexerTask()
-        {
-            await WithRepositoryAsync(async (manager, context, logger) =>
-            {
-                SeedData(new ISeeder[]
-                {
-                    new GroupTypeSeeder(logger, context),
-                    new GroupSeeder(logger, context),
-                    new PersonSeeder(logger, context),
-                    new UserSeeder(logger, context, new DoubleSha512HashPasswordsManager()),
-                    new RightSeeder(logger, context),
-                    new GroupRightsSeeder(logger, context),
-                    new UsersToGroupsSeeder(logger, context),
-                    new UserRightsSeeder(logger, context),
-                });
-
-                var userValidationFacade = GetFacade(manager);
-                var siteSettingsFacade = new SiteSettingsFacade(manager, userValidationFacade, MemoryCache);
-
-                var user = await GetUserByLogin(manager, UsersAliases.FirstUser);
-
-                var testSalt = Guid.NewGuid();
-                var testKey = $"testKey-{testSalt}";
-                var testValue = $"testValue-{testSalt}";
-
-                await siteSettingsFacade.SetStringSettingAsync(user.Id, testKey, testValue);
-
-                var value = await siteSettingsFacade[testKey];
-
-                Assert.Equal(testValue, value);
             });
         }
 
@@ -123,31 +60,16 @@ namespace MathSite.Tests.Facades
         {
             await WithRepositoryAsync(async (manager, context, logger) =>
             {
-                SeedData(new ISeeder[]
-                {
-                    new GroupTypeSeeder(logger, context),
-                    new GroupSeeder(logger, context),
-                    new PersonSeeder(logger, context),
-                    new UserSeeder(logger, context, new DoubleSha512HashPasswordsManager()),
-                    new RightSeeder(logger, context),
-                    new GroupRightsSeeder(logger, context),
-                    new UsersToGroupsSeeder(logger, context),
-                    new UserRightsSeeder(logger, context),
-                });
+                var siteSettingsFacade = GetFacade(context, manager);
+                var user = await GetUserByLogin(manager, UsersAliases.Mokeev1995);
+                
+                var testValue = $"testValue-{Guid.NewGuid()}";
 
-                var userValidationFacade = GetFacade(manager);
-                var siteSettingsFacade = new SiteSettingsFacade(manager, userValidationFacade, MemoryCache);
-                var user = await GetUserByLogin(manager, UsersAliases.FirstUser);
-
-                var testSalt = Guid.NewGuid();
-                var testKey = $"testKey-{testSalt}";
-                var testValue = $"testValue-{testSalt}";
-
-                var done = await siteSettingsFacade.SetStringSettingAsync(user.Id, testKey, testValue);
+                var done = await siteSettingsFacade.SetSiteName(user.Id, testValue);
 
                 Assert.True(done);
 
-                var requirements = new HasKeySpecification(testKey);
+                var requirements = new HasKeySpecification(SiteSettingsNames.SiteName);
 
                 var setting = await manager.SiteSettingsRepository.FirstOrDefaultAsync(requirements.ToExpression());
 
@@ -161,7 +83,15 @@ namespace MathSite.Tests.Facades
         {
             var requirements = new HasLoginSpecification(login);
 
-            return await manager.UsersRepository.FirstOrDefaultWithRightsAsync(requirements.ToExpression());
+            return await manager.UsersRepository.WithRights().FirstOrDefaultAsync(requirements.ToExpression());
+        }
+
+        protected override SiteSettingsFacade GetFacade(MathSiteDbContext context, IRepositoryManager manager)
+        {
+            var passwordsManager = new DoubleSha512HashPasswordsManager();
+            var userValidationFacade = new UserValidationFacade(manager, passwordsManager);
+            var usersFacade = new UsersFacade(manager, userValidationFacade, passwordsManager);
+            return new SiteSettingsFacade(manager, userValidationFacade, usersFacade);
         }
     }
 }

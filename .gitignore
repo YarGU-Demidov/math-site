@@ -243,6 +243,10 @@ ModelManifest.xml
 
 .DS_STORE
 .idea.Math
-MathSiteSettings.json
 .idea
 .vscode
+yarn.lock
+.yarn-integrity
+appsettings.Development.json
+appsettings.Staging.json
+appsettings.Production.json

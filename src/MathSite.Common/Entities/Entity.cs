@@ -6,8 +6,7 @@ namespace MathSite.Common.Entities
 {
     /// <inheritdoc cref="Entity{TPrimaryKey}" />
     /// <summary>
-    ///     A shortcut of <see cref="T:MathSite.Common.Entities.Entity`1" /> for most used primary key type (
-    ///     <see cref="T:System.Guid" />).
+    ///     A shortcut of <see cref="T:MathSite.Common.Entities.Entity`1" /> for most used primary key type (<see cref="T:System.Guid" />).
     /// </summary>
     [Serializable]
     public abstract class Entity : Entity<Guid>, IEntity
@@ -35,7 +34,7 @@ namespace MathSite.Common.Entities
         /// <returns>True, if this entity is transient</returns>
         public virtual bool IsTransient()
         {
-            if (EqualityComparer<TPrimaryKey>.Default.Equals(Id, default(TPrimaryKey)))
+            if (EqualityComparer<TPrimaryKey>.Default.Equals(Id, default))
                 return true;
 
             //Workaround for EF Core since it sets int/long to min value when attaching to dbcontext
@@ -51,7 +50,7 @@ namespace MathSite.Common.Entities
             return false;
         }
 
-        public DateTime CreationDate { get; set; }
+        public DateTime CreationDate { get; set; } = DateTime.UtcNow;
 
         public bool Equals(Entity<TPrimaryKey> other)
         {
@@ -91,9 +90,7 @@ namespace MathSite.Common.Entities
 
         public static bool operator ==(Entity<TPrimaryKey> left, Entity<TPrimaryKey> right)
         {
-            return Equals(left, null)
-                ? Equals(right, null)
-                : left.Equals(right);
+            return left?.Equals(right) ?? Equals(right, null);
         }
 
         public static bool operator !=(Entity<TPrimaryKey> left, Entity<TPrimaryKey> right)
@@ -104,7 +101,7 @@ namespace MathSite.Common.Entities
         /// <inheritdoc />
         public override string ToString()
         {
-            return $"[{GetType().Name} {Id} {CreationDate}]";
+            return $"[{GetType().Name} {Id} {CreationDate:F}:{CreationDate.Millisecond}]";
         }
     }
 }

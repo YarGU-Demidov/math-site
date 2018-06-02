@@ -1,0 +1,11 @@
+﻿@model EventViewModel
+
+<div class="form-group">
+    @Html.LabelFor(m => m.EventLocation, "Место проведения")
+    @Html.TextBoxFor(m => m.EventLocation, new { @class = "form-control", required = "required" })
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(m => m.EventTime, "Дата и время проведения")
+    <input type="datetime-local" asp-for="EventTime" class="form-control" required="required" />
+</div>

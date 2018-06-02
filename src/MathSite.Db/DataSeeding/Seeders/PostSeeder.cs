@@ -23,12 +23,35 @@ namespace MathSite.Db.DataSeeding.Seeders
             var newsPosts = CreateNewsPosts();
 
             var staticPages = CreateStaticPages();
+            
+            var events = CreateEvents();
 
-            var posts = new List<Post>(newsPosts);
+            var posts = new List<Post>();
 
+            posts.AddRange(newsPosts);
             posts.AddRange(staticPages);
+            posts.AddRange(events);
 
             Context.Posts.AddRange(posts);
+        }
+
+        private IEnumerable<Post> CreateEvents()
+        {
+            return new[]
+            {
+                CreatePost(
+                    title: "День открытых дверей",
+                    excerpt: "День открытых дверей в ЯрГУ им. П.Г.Демидова",
+                    content: "Мы приглашаем всех школьников на День открытых дверей в ЯрГУ. Больше инфы будет тут потом. Может быть.",
+                    publishDate: DateTime.UtcNow,
+                    author: GetUserByLogin(UsersAliases.Mokeev1995),
+                    isPublished: true,
+                    isDeleted: false,
+                    postType: GetPostTypeByAlias(PostTypeAliases.Event),
+                    postSetting: CreateSetting(true, true, true, default, DateTime.UtcNow.AddDays(20), "Ярославль, ул. Советская, д.14, ауд. 201"),
+                    postSeoSetting: GetPostSeoSettingsByUrl("open-doors-2017")
+                )
+            };
         }
 
         private IEnumerable<Post> CreateStaticPages()
@@ -36,16 +59,16 @@ namespace MathSite.Db.DataSeeding.Seeders
             return new[]
             {
                 CreatePost(
-                    "New post",
-                    "New post about university",
-                    "We are studying in the best university",
-                    DateTime.UtcNow,
-                    GetUserByLogin(UsersAliases.FirstUser),
-                    true,
-                    false,
-                    GetPostTypeByAlias(PostTypeAliases.StaticPage),
-                    null,
-                    GetPostSeoSettingsByType("static-page-url")
+                    title: "New post",
+                    excerpt: "New post about university",
+                    content: "We are studying in the best university",
+                    publishDate: DateTime.UtcNow,
+                    author: GetUserByLogin(UsersAliases.Mokeev1995),
+                    isPublished: true,
+                    isDeleted: false,
+                    postType: GetPostTypeByAlias(PostTypeAliases.StaticPage),
+                    postSetting: null,
+                    postSeoSetting: GetPostSeoSettingsByUrl("static-page-url")
                 )
             };
         }
@@ -55,124 +78,124 @@ namespace MathSite.Db.DataSeeding.Seeders
             return new[]
             {
                 CreatePost(
-                    "First post",
-                    "First post about university",
-                    "We are studying at Yaroslavl Demidov State University",
-                    DateTime.UtcNow,
-                    GetUserByLogin(UsersAliases.FirstUser),
-                    true,
-                    false,
-                    GetPostTypeByAlias(PostTypeAliases.News),
-                    CreateSetting(true),
-                    GetPostSeoSettingsByType("first-url")
+                    title: "First post",
+                    excerpt: "First post about university",
+                    content: "We are studying at Yaroslavl Demidov State University",
+                    publishDate: DateTime.UtcNow,
+                    author: GetUserByLogin(UsersAliases.Mokeev1995),
+                    isPublished: true,
+                    isDeleted: false,
+                    postType: GetPostTypeByAlias(PostTypeAliases.News),
+                    postSetting: CreateSetting(true),
+                    postSeoSetting: GetPostSeoSettingsByUrl("first-url")
                 ),
                 CreatePost(
-                    "Second post",
-                    "Second post about university",
-                    "We are studying at Yaroslavl Demidov State University",
-                    DateTime.UtcNow,
-                    GetUserByLogin(UsersAliases.FirstUser),
-                    true,
-                    false,
-                    GetPostTypeByAlias(PostTypeAliases.News),
-                    CreateSetting(true),
-                    GetPostSeoSettingsByType("second-url")
+                    title: "Second post",
+                    excerpt: "Second post about university",
+                    content: "We are studying at Yaroslavl Demidov State University",
+                    publishDate: DateTime.UtcNow,
+                    author: GetUserByLogin(UsersAliases.Mokeev1995),
+                    isPublished: true,
+                    isDeleted: false,
+                    postType: GetPostTypeByAlias(PostTypeAliases.News),
+                    postSetting: CreateSetting(true),
+                    postSeoSetting: GetPostSeoSettingsByUrl("second-url")
                 ),
                 CreatePost(
-                    "Third post",
-                    "Third post about university",
-                    "We are studying at Yaroslavl Demidov State University",
-                    DateTime.UtcNow,
-                    GetUserByLogin(UsersAliases.FirstUser),
-                    true,
-                    false,
-                    GetPostTypeByAlias(PostTypeAliases.News),
-                    CreateSetting(true),
-                    GetPostSeoSettingsByType("third-url")
+                    title: "Third post",
+                    excerpt: "Third post about university",
+                    content: "We are studying at Yaroslavl Demidov State University",
+                    publishDate: DateTime.UtcNow,
+                    author: GetUserByLogin(UsersAliases.Mokeev1995),
+                    isPublished: true,
+                    isDeleted: false,
+                    postType: GetPostTypeByAlias(PostTypeAliases.News),
+                    postSetting: CreateSetting(true),
+                    postSeoSetting: GetPostSeoSettingsByUrl("third-url")
                 ),
                 CreatePost(
-                    "Fourth post",
-                    "Fourth post about university",
-                    "We are studying at Yaroslavl Demidov State University",
-                    DateTime.UtcNow,
-                    GetUserByLogin(UsersAliases.FirstUser),
-                    true,
-                    false,
-                    GetPostTypeByAlias(PostTypeAliases.News),
-                    CreateSetting(true),
-                    GetPostSeoSettingsByType("fourth-url")
+                    title: "Fourth post",
+                    excerpt: "Fourth post about university",
+                    content: "We are studying at Yaroslavl Demidov State University",
+                    publishDate: DateTime.UtcNow,
+                    author: GetUserByLogin(UsersAliases.Mokeev1995),
+                    isPublished: true,
+                    isDeleted: false,
+                    postType: GetPostTypeByAlias(PostTypeAliases.News),
+                    postSetting: CreateSetting(true),
+                    postSeoSetting: GetPostSeoSettingsByUrl("fourth-url")
                 ),
                 CreatePost(
-                    "Fifth post",
-                    "Fifth post about university",
-                    "We are studying at Yaroslavl Demidov State University",
-                    DateTime.UtcNow,
-                    GetUserByLogin(UsersAliases.FirstUser),
-                    true,
-                    false,
-                    GetPostTypeByAlias(PostTypeAliases.News),
-                    CreateSetting(true),
-                    GetPostSeoSettingsByType("fifth-url")
+                    title: "Fifth post",
+                    excerpt: "Fifth post about university",
+                    content: "We are studying at Yaroslavl Demidov State University",
+                    publishDate: DateTime.UtcNow,
+                    author: GetUserByLogin(UsersAliases.Mokeev1995),
+                    isPublished: true,
+                    isDeleted: false,
+                    postType: GetPostTypeByAlias(PostTypeAliases.News),
+                    postSetting: CreateSetting(true),
+                    postSeoSetting: GetPostSeoSettingsByUrl("fifth-url")
                 ),
                 CreatePost(
-                    "Sixth post",
-                    "Sixth post about university",
-                    "We are studying at Yaroslavl Demidov State University",
-                    DateTime.UtcNow,
-                    GetUserByLogin(UsersAliases.FirstUser),
-                    true,
-                    false,
-                    GetPostTypeByAlias(PostTypeAliases.News),
-                    CreateSetting(true),
-                    GetPostSeoSettingsByType("sixth-url")
+                    title: "Sixth post",
+                    excerpt: "Sixth post about university",
+                    content: "We are studying at Yaroslavl Demidov State University",
+                    publishDate: DateTime.UtcNow,
+                    author: GetUserByLogin(UsersAliases.Mokeev1995),
+                    isPublished: true,
+                    isDeleted: false,
+                    postType: GetPostTypeByAlias(PostTypeAliases.News),
+                    postSetting: CreateSetting(true),
+                    postSeoSetting: GetPostSeoSettingsByUrl("sixth-url")
                 ),
                 CreatePost(
-                    "Seventh post",
-                    "Seventh post about university",
-                    "We are studying at Yaroslavl Demidov State University",
-                    DateTime.UtcNow,
-                    GetUserByLogin(UsersAliases.FirstUser),
-                    true,
-                    false,
-                    GetPostTypeByAlias(PostTypeAliases.News),
-                    CreateSetting(true),
-                    GetPostSeoSettingsByType("seventh-url")
+                    title: "Seventh post",
+                    excerpt: "Seventh post about university",
+                    content: "We are studying at Yaroslavl Demidov State University",
+                    publishDate: DateTime.UtcNow,
+                    author: GetUserByLogin(UsersAliases.Mokeev1995),
+                    isPublished: true,
+                    isDeleted: false,
+                    postType: GetPostTypeByAlias(PostTypeAliases.News),
+                    postSetting: CreateSetting(true),
+                    postSeoSetting: GetPostSeoSettingsByUrl("seventh-url")
                 ),
                 CreatePost(
-                    "Eighth post",
-                    "Eighth post about university",
-                    "We are studying at Yaroslavl Demidov State University",
-                    DateTime.UtcNow,
-                    GetUserByLogin(UsersAliases.FirstUser),
-                    true,
-                    false,
-                    GetPostTypeByAlias(PostTypeAliases.News),
-                    CreateSetting(true),
-                    GetPostSeoSettingsByType("eighth-url")
+                    title: "Eighth post",
+                    excerpt: "Eighth post about university",
+                    content: "We are studying at Yaroslavl Demidov State University",
+                    publishDate: DateTime.UtcNow,
+                    author: GetUserByLogin(UsersAliases.Mokeev1995),
+                    isPublished: true,
+                    isDeleted: false,
+                    postType: GetPostTypeByAlias(PostTypeAliases.News),
+                    postSetting: CreateSetting(true),
+                    postSeoSetting: GetPostSeoSettingsByUrl("eighth-url")
                 ),
                 CreatePost(
-                    "Ninth post",
-                    "Ninth post about university",
-                    "We are studying at Yaroslavl Demidov State University",
-                    DateTime.UtcNow,
-                    GetUserByLogin(UsersAliases.FirstUser),
-                    true,
-                    false,
-                    GetPostTypeByAlias(PostTypeAliases.News),
-                    CreateSetting(),
-                    GetPostSeoSettingsByType("ninth-url")
+                    title: "Ninth post",
+                    excerpt: "Ninth post about university",
+                    content: "We are studying at Yaroslavl Demidov State University",
+                    publishDate: DateTime.UtcNow,
+                    author: GetUserByLogin(UsersAliases.Mokeev1995),
+                    isPublished: true,
+                    isDeleted: false,
+                    postType: GetPostTypeByAlias(PostTypeAliases.News),
+                    postSetting: CreateSetting(),
+                    postSeoSetting: GetPostSeoSettingsByUrl("ninth-url")
                 ),
                 CreatePost(
-                    "Tenth post",
-                    "Tenth post about university",
-                    "We are studying at Yaroslavl Demidov State University",
-                    DateTime.UtcNow,
-                    GetUserByLogin(UsersAliases.FirstUser),
-                    true,
-                    false,
-                    GetPostTypeByAlias(PostTypeAliases.News),
-                    CreateSetting(true),
-                    GetPostSeoSettingsByType("tenth-url")
+                    title: "Tenth post",
+                    excerpt: "Tenth post about university",
+                    content: "We are studying at Yaroslavl Demidov State University",
+                    publishDate: DateTime.UtcNow,
+                    author: GetUserByLogin(UsersAliases.Mokeev1995),
+                    isPublished: true,
+                    isDeleted: false,
+                    postType: GetPostTypeByAlias(PostTypeAliases.News),
+                    postSetting: CreateSetting(true),
+                    postSeoSetting: GetPostSeoSettingsByUrl("tenth-url")
                 )
             };
         }
@@ -187,7 +210,7 @@ namespace MathSite.Db.DataSeeding.Seeders
             return Context.Users.First(user => user.Login == login);
         }
 
-        private PostSeoSetting GetPostSeoSettingsByType(string url)
+        private PostSeoSetting GetPostSeoSettingsByUrl(string url)
         {
             return Context.PostSeoSettings.First(postSeoSettings => postSeoSettings.Url == url);
         }
@@ -217,16 +240,23 @@ namespace MathSite.Db.DataSeeding.Seeders
             };
         }
 
-        public static PostSetting CreateSetting(bool onMainPage = false, bool canBeRated = false,
+        public static PostSetting CreateSetting(
+            bool onMainPage = false, 
+            bool canBeRated = false,
             bool commentsAllowed = true,
-            File previewImage = null)
+            File previewImage = null,
+            DateTime? eventTime = null,
+            string eventLocation= null
+        )
         {
             return new PostSetting
             {
                 PostOnStartPage = onMainPage,
                 CanBeRated = canBeRated,
                 IsCommentsAllowed = commentsAllowed,
-                PreviewImage = previewImage
+                PreviewImage = previewImage,
+                EventTime = eventTime,
+                EventLocation = eventLocation
             };
         }
     }

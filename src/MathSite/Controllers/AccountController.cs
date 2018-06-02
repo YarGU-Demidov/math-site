@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using MathSite.Db.DataSeeding.StaticData;
+using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
 using MathSite.ViewModels.Account;
 using Microsoft.AspNetCore.Authentication;
@@ -13,7 +15,8 @@ namespace MathSite.Controllers
 {
     public class AccountController : BaseController
     {
-        public AccountController(IUserValidationFacade userValidationFacade) : base(userValidationFacade)
+        public AccountController(IUserValidationFacade userValidationFacade, IUsersFacade usersFacade)
+            : base(userValidationFacade, usersFacade)
         {
         }
 
@@ -25,7 +28,7 @@ namespace MathSite.Controllers
 
             if (HttpContext.User.Identity.IsAuthenticated)
                 if (!string.IsNullOrWhiteSpace(returnUrl))
-                    return Redirect(returnUrl);
+                    return LocalRedirect(returnUrl);
                 else
                     return RedirectToAction("Index", "Home");
 
@@ -63,14 +66,14 @@ namespace MathSite.Controllers
             var returnUrl = HttpContext.Request.Query["returnUrl"].ToString();
 
             if (!string.IsNullOrWhiteSpace(returnUrl))
-                return Redirect(returnUrl);
+                return LocalRedirect(returnUrl);
 
             return RedirectToAction("Index", "Home");
         }
 
         public async Task<IActionResult> CheckLogin(string login)
         {
-            return await UserValidationFacade.DoesUserExistsAsync(login)
+            return await UsersFacade.DoesUserExistsAsync(login)
                 ? Json(true)
                 : Json("Данного пользователя не существует");
         }
@@ -84,7 +87,7 @@ namespace MathSite.Controllers
                 : Json("Пароль неверен");
         }
 
-        [Authorize("logout")]
+        [Authorize(RightAliases.LogoutAccess)]
         [HttpGet("/logout")]
         public async Task<IActionResult> Logout()
         {

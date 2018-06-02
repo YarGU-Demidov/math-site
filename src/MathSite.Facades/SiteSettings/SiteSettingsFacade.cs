@@ -3,47 +3,90 @@ using System.Text;
 using System.Threading.Tasks;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
+using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
+using MathSite.Repository;
 using MathSite.Repository.Core;
 using MathSite.Specifications.SiteSettings;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace MathSite.Facades.SiteSettings
 {
-    public class SiteSettingsFacade : BaseFacade, ISiteSettingsFacade
+    public class SiteSettingsFacade : BaseMathFacade<ISiteSettingsRepository, SiteSetting>, ISiteSettingsFacade
     {
-        private const string MemoryCachePrefix = "SiteSetting-";
         private readonly IUserValidationFacade _userValidation;
+        private readonly IUsersFacade _usersFacade;
 
-        public SiteSettingsFacade(IRepositoryManager repositoryManager, IUserValidationFacade userValidation,
-            IMemoryCache memoryCache)
-            : base(repositoryManager, memoryCache)
+        public SiteSettingsFacade(
+            IRepositoryManager repositoryManager, 
+            IUserValidationFacade userValidation,
+            IUsersFacade usersFacade
+        )
+            : base(repositoryManager)
         {
             _userValidation = userValidation;
+            _usersFacade = usersFacade;
         }
 
-        public Task<string> this[string name] => GetStringSettingAsync(name, true);
-
-        public async Task<string> GetStringSettingAsync(string name, bool cache)
+        public async Task<int> GetPerPageCountAsync(int defaultCount = 18)
         {
-            var settingValue = cache
-                ? await MemoryCache.GetOrCreateAsync(
-                    GetKey(name),
-                    async entry =>
-                    {
-                        entry.SetSlidingExpiration(GetCacheSpan());
-                        entry.Priority = CacheItemPriority.High;
-                        return await GetValueForKey(name);
-                    }
-                )
-                : await GetValueForKey(name);
+            return int.Parse(await GetStringSettingAsync(SiteSettingsNames.PerPage) ?? defaultCount.ToString());
+        }
+
+        public Task<string> GetTitleDelimiter()
+        {
+            return GetStringSettingAsync(SiteSettingsNames.TitleDelimiter);
+        }
+
+        public Task<string> GetDefaultHomePageTitle()
+        {
+            return GetStringSettingAsync(SiteSettingsNames.DefaultHomePageTitle);
+        }
+
+        public Task<string> GetDefaultNewsPageTitle()
+        {
+            return GetStringSettingAsync(SiteSettingsNames.DefaultNewsPageTitle);
+        }
+
+        public Task<string> GetSiteName()
+        {
+            return GetStringSettingAsync(SiteSettingsNames.SiteName);
+        }
+
+        public Task<bool> SetPerPageCountAsync(Guid userId, string perPageCount)
+        {
+            return SetStringSettingAsync(userId, SiteSettingsNames.PerPage, perPageCount);
+        }
+
+        public Task<bool> SetTitleDelimiter(Guid userId, string titleDelimiter)
+        {
+            return SetStringSettingAsync(userId, SiteSettingsNames.TitleDelimiter, titleDelimiter);
+        }
+
+        public Task<bool> SetDefaultHomePageTitle(Guid userId, string defaultHomePageTitle)
+        {
+            return SetStringSettingAsync(userId, SiteSettingsNames.DefaultHomePageTitle, defaultHomePageTitle);
+        }
+
+        public Task<bool> SetDefaultNewsPageTitle(Guid userId, string defaultNewsPageTitle)
+        {
+            return SetStringSettingAsync(userId, SiteSettingsNames.DefaultNewsPageTitle, defaultNewsPageTitle);
+        }
+
+        public Task<bool> SetSiteName(Guid userId, string siteName)
+        {
+            return SetStringSettingAsync(userId, SiteSettingsNames.SiteName, siteName);
+        }
+
+        private async Task<string> GetStringSettingAsync(string name)
+        {
+            var settingValue = await GetValueForKey(name);
 
             return settingValue;
         }
 
-        public async Task<bool> SetStringSettingAsync(Guid userId, string name, string value)
+        private async Task<bool> SetStringSettingAsync(Guid userId, string name, string value)
         {
-            var userExists = await _userValidation.DoesUserExistsAsync(userId);
+            var userExists = await _usersFacade.DoesUserExistsAsync(userId);
             if (!userExists)
                 return false;
 
@@ -57,9 +100,7 @@ namespace MathSite.Facades.SiteSettings
                 await RepositoryManager.SiteSettingsRepository.FirstOrDefaultAsync(requirements.ToExpression());
 
             var valueBytes = Encoding.UTF8.GetBytes(value);
-
-            MemoryCache.Set(GetKey(name), value, GetCacheSpan());
-
+            
             if (setting == null)
             {
                 await RepositoryManager.SiteSettingsRepository.InsertAsync(new SiteSetting(name, valueBytes));
@@ -77,22 +118,11 @@ namespace MathSite.Facades.SiteSettings
         {
             var requirements = new HasKeySpecification(name);
 
-            var setting =
-                await RepositoryManager.SiteSettingsRepository.FirstOrDefaultAsync(requirements.ToExpression());
+            var setting = await Repository.FirstOrDefaultAsync(requirements.ToExpression());
 
             return setting != null
                 ? Encoding.UTF8.GetString(setting.Value)
                 : null;
-        }
-
-        private string GetKey(string name)
-        {
-            return MemoryCachePrefix + name;
-        }
-
-        private TimeSpan GetCacheSpan()
-        {
-            return TimeSpan.FromMinutes(5);
         }
     }
 }

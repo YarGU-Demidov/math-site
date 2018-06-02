@@ -23,8 +23,7 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
                 .IsRequired(false);
             
             modelBuilder.Property(group => group.IsAdmin)
-                .IsRequired()
-                .HasDefaultValue(false);
+                .IsRequired();
         }
 
         /// <inheritdoc />

@@ -17,15 +17,20 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
             modelBuilder
                 .Property(f => f.Name)
                 .IsRequired();
-            modelBuilder
-                .Property(f => f.DateAdded)
-                .IsRequired();
+            
             modelBuilder
                 .Property(f => f.Path)
                 .IsRequired();
+            
             modelBuilder
                 .Property(f => f.Extension)
                 .IsRequired(false);
+            
+            modelBuilder.Property(f => f.DirectoryId)
+                .IsRequired(false);
+
+            modelBuilder.Property(f => f.Hash)
+                .IsRequired();
         }
 
         /// <inheritdoc />
@@ -51,6 +56,20 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
                 .WithOne(postAttachments => postAttachments.File)
                 .HasForeignKey(postAttachments => postAttachments.FileId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder
+                .HasOne(file => file.Directory)
+                .WithMany(directory => directory.Files)
+                .HasForeignKey(file => file.DirectoryId)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.Cascade);
+        }
+
+        protected override void SetIndexes(EntityTypeBuilder<File> modelBuilder)
+        {
+            base.SetIndexes(modelBuilder);
+
+            modelBuilder.HasIndex(f => f.Hash);
         }
     }
 }

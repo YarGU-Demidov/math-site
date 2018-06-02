@@ -1,15 +1,19 @@
-﻿using MathSite.Core.Responses;
+﻿using System.Threading.Tasks;
+using MathSite.Common.Responses;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MathSite.Core.DataTableApi
 {
-    public interface IDataTableApi<TEntity, TSortData>
+    public interface IDataTableApi<TSortData>
     {
         [HttpPost]
-        GetAllResponse<TEntity> GetAll(int offset = 0, int count = 50,
-            [FromBody] FilterAndSortData<TSortData> filterAndSortData = null);
+        IResponse GetAll(
+            int offset = 0,
+            int count = 50,
+            FilterAndSortData<TSortData> filterAndSortData = null
+        );
 
         [HttpGet]
-        GetCountResponse GetCount();
+        Task<IResponse> GetCount();
     }
 }

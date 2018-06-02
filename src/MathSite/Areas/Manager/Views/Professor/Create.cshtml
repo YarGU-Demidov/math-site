@@ -1,0 +1,26 @@
+﻿@model CreateProfessorViewModel
+@{
+    const string formName = "create-professor";
+}
+
+<script>
+    window['professor-form-name'] = '@formName';
+</script>
+
+@if (Model.AvailablePersons.Any())
+{
+    <form asp-action="Create" method="post" asp-antiforgery="true" id="@formName">
+        @Html.Partial("Shared/ProfessorEditFormContent", Model)
+    </form>
+}
+else
+{
+    <div class="container" style="margin-top: 50px; text-align: center;">
+        <h3>
+            Нет доступных лиц для создания преподавателей.
+        </h3>
+        <p>
+            Сначала необходимо создать лицо человека, затем оформить его как преподавателя.
+        </p>
+    </div>
+}

@@ -15,22 +15,24 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
 
             modelBuilder
                 .Property(postSettings => postSettings.IsCommentsAllowed)
-                .IsRequired()
-                .HasDefaultValue(false);
+                .IsRequired();
 
             modelBuilder.Property(setting => setting.Layout)
-                .IsRequired()
-                .HasDefaultValue("SecondaryLayout");
+                .IsRequired(false);
+
+            modelBuilder.Property(setting => setting.EventTime)
+                .IsRequired(false);
+
+            modelBuilder.Property(setting => setting.EventLocation)
+                .IsRequired(false);
 
             modelBuilder
                 .Property(postSettings => postSettings.CanBeRated)
-                .IsRequired()
-                .HasDefaultValue(false);
+                .IsRequired();
 
             modelBuilder
                 .Property(postSettings => postSettings.PostOnStartPage)
-                .IsRequired()
-                .HasDefaultValue(false);
+                .IsRequired();
         }
 
         /// <inheritdoc />

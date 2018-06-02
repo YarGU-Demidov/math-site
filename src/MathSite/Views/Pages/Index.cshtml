@@ -4,4 +4,31 @@
     Layout = "SecondaryLayout";
 }
 
-@Html.Raw(Model.Content)
+<div class="preview">
+    <div class="preview__background">
+        <div class="preview__inner">
+            <div class="preview__image" src="images/jumbotron.jpg"></div>
+        </div>
+    </div>
+    <div class="preview__content">
+        <div class="preview__wrap container">
+            <div class="preview__title section-head">
+                <h1 class="section-head__title heading heading_inverted heading_preview">
+                    @Model.Title
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page">
+    <div class="page__wrap container">
+        <div class="page__main">
+            <div class="page__body">
+                <div class="wysiwyg">
+                    @Html.Raw(Model.Content)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -20,16 +20,21 @@ namespace MathSite.Facades.Posts
         Invisible
     }
 
-    public interface IPostsFacade
+    public interface IPostsFacade : IFacade
     {
-        Task<int> GetPostPagesCountAsync(string postTypeAlias, RemovedStateRequest state, PublishStateRequest publishState, FrontPageStateRequest frontPageState, bool cache);
-        Task<int> GetPostPagesCountAsync(string postTypeAlias, int perPage, RemovedStateRequest state, PublishStateRequest publishState, FrontPageStateRequest frontPageState, bool cache);
+        Task<int> GetPostPagesCountAsync(string postTypeAlias, int perPage, RemovedStateRequest state, PublishStateRequest publishState, FrontPageStateRequest frontPageState);
+        Task<int> GetPostPagesCountAsync(Guid? categoryId, string postTypeAlias, int perPage, RemovedStateRequest state, PublishStateRequest publishState, FrontPageStateRequest frontPageState);
 
-        Task<Post> GetPostByUrlAndTypeAsync(Guid currentUserId, string url, string postTypeAlias, bool cache);
+        Task<Post> GetPostByUrlAndTypeAsync(Guid currentUserId, string url, string postTypeAlias);
+        Task<Post> GetPostAsync(Guid id);
+        Task<PostType> GetPostTypeAsync(string alias);
 
-        Task<IEnumerable<Post>> GetPostsAsync(string postTypeAlias, int page, bool cache);
-        Task<IEnumerable<Post>> GetPostsAsync(string postTypeAlias, int page, int perPage, RemovedStateRequest state, PublishStateRequest publishState, FrontPageStateRequest frontPageState, bool cache);
+        Task<IEnumerable<Post>> GetPostsAsync(Guid? categoryId, string postTypeAlias, int page, int perPage, RemovedStateRequest state, PublishStateRequest publishState, FrontPageStateRequest frontPageState, bool sortByPublish = true);
+        Task<IEnumerable<Post>> GetPostsAsync(string postTypeAlias, int page, int perPage, RemovedStateRequest state, PublishStateRequest publishState, FrontPageStateRequest frontPageState, IEnumerable<Category> excludedCategories, bool sortByPublish = true);
+        Task<IEnumerable<Post>> GetPostsAsync(string postTypeAlias, int page, int perPage, RemovedStateRequest state, PublishStateRequest publishState, FrontPageStateRequest frontPageState, bool sortByPublish = true);
 
-        Task<Guid> CreatePostAsync(Post post, PostSeoSetting seoSettings, PostSetting settings = null);
+        Task<Guid> CreatePostAsync(Post post);
+        Task<Guid> UpdatePostAsync(Post post);
+        Task DeletePostAsync(Guid id);
     }
 }

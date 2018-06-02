@@ -1,18 +1,257 @@
-﻿@model HomeIndexViewModel
-@{
-    Layout = "MainLayout";
-}
-
-<div class="features">
-    <div class="container">
-        <div class="features__head">
-            <h2 class="features__title">
-                У нас творится история
-            </h2>
-            <div class="features__link">
-                <a class="button button_palette_blue button__news" href="@Url.Action("Index", "News")">НОВОСТИ &nbsp;►</a>
+﻿@using MathSite.Common.Extensions
+@model HomeIndexViewModel
+<div class="jumbotron">
+    <div class="jumbotron__wrap container">
+        <div class="jumbotron__head section-head-main">
+            <div class="section-head__title heading_jumbotron heading-main heading_inverted">
+                Информационные <br> технологии
             </div>
         </div>
-        @Html.Partial("Partials/Featured", Model.Posts)
+        <div class="jumbotron__content">
+            Сферы науки, техники и&nbsp;технологии, охватывающие совокупность проблем,<br> связанных с&nbsp;обеспечением защищенности объектов информатизации в <br> условиях существования угроз в&nbsp;информационной сфере
+        </div>
+        <a class="jumbotron__action button button_big button_inverted button_sparse" href="/computer-security">
+            Узнать, что нужно для поступления
+        </a>
+    </div>
+</div>
+
+<div class="info">
+    <div class="info__wrap container">
+        <div class="info__list">
+            <a class="info__item" href="/how-to-enter">
+                <div class="feature feature_entering">
+                    <div class="feature__heading">Как поступить?</div>
+                    <div class="feature__content">Пошаговое руководство. <br> Полезные советы.</div>
+                </div>
+            </a>
+            <a class="info__item" href="/how-to-learn">
+                <div class="feature feature_study">
+                    <div class="feature__heading">Как учиться?</div>
+                    <div class="feature__content">Олимпиады. <br> Какие классные кафедры. <br> Что если не&nbsp;понятно?</div>
+                </div>
+            </a>
+            <a class="info__item" href="/where-to-work">
+                <div class="feature feature_work">
+                    <div class="feature__heading">Где трудиться?</div>
+                    <div class="feature__content">Что Вас ждет в&nbsp;будущем? <br> Куда пойти работать.<br> Есть&nbsp;ли смысл в&nbsp;этой жизни?</div>
+                </div>
+            </a>
+        </div>
+
+    </div>
+</div>
+
+<div class="feed">
+    <div class="feed__wrap container">
+        <div class="feed__head section-head">
+            <div class="section-head__title section-head__title-small heading heading_medium">
+                У&nbsp;нас творится история
+            </div>
+            <a class="section-head__details button" href="@Url.Action("Index", "News")">
+                Все новости
+            </a>
+        </div>
+        <div class="feed__list feed__list-main">
+            @foreach (var postModel in Model.Posts)
+            {
+                @Html.Partial("Partials/Posts/PostPreview", postModel)
+            }
+        </div>
+    </div>
+</div>
+
+<div class="events">
+    <div class="events__wrap container">
+        <div class="events__head section-head">
+            <div class="section-head__title heading heading_medium">
+                Не&nbsp;пропустите
+            </div>
+            <a class="section-head__details button" href="@Url.Action("Index", "Events")">
+                Все события
+            </a>
+        </div>
+        <div class="events__list">
+            @foreach (var eventModel in Model.Events)
+            {
+                @Html.Partial("Partials/Posts/EventPreview", eventModel)
+            }
+        </div>
+    </div>
+</div>
+
+@Html.Partial("Partials/SuccessStory")
+
+<div class="pros">
+    <div class="pros__wrap container">
+        <div class="pros__list">
+            <div class="pros__item opportunity opportunity_world">
+                <div class="pros__preview">
+                    <div class="opportunity__heading">Работа по&nbsp;всему миру</div>
+                    <div class="opportunity__content">Наши выпускники работают в&nbsp;ведущих мировых IT-компаниях</div>
+                </div>
+            </div>
+            <div class="pros__item opportunity opportunity_universe">
+                <div class="pros__preview">
+                    <div class="opportunity__heading">Вселенная для тебя</div>
+                    <div class="opportunity__content">Понимание законов Вселенной&nbsp;&mdash; это к&nbsp;нам!</div>
+                </div>
+            </div>
+            <div class="pros__item opportunity opportunity_deserving">
+                <div class="pros__preview">
+                    <div class="opportunity__heading">Ты&nbsp;этого достоен</div>
+                    <div class="opportunity__content">Средняя зарплата выпускника 35&nbsp;т.р.&nbsp;в&nbsp;первый год после выпуска</div>
+                </div>
+            </div>
+            <div class="pros__item opportunity opportunity_internship">
+                <div class="pros__preview">
+                    <div class="opportunity__heading">Стажировки</div>
+                    <div class="opportunity__content">Возможность стажировок за&nbsp;границей</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (Model.StudentsActivities.IsNotNull() && Model.StudentsActivities.Any())
+{
+    <div class="life">
+        <div class="life__wrap container">
+            <div class="life__head section-head">
+                <div class="section-head__title heading heading_inverted heading_medium">
+                    Студенческая жизнь
+                </div>
+                <a class="section-head__details button" href="/category/students-activities">
+                    Все сразу
+                </a>
+            </div>
+            <div class="life__list">
+                @foreach (var activity in Model.StudentsActivities)
+                {
+                    @Html.Partial("StudentsActivitiesPreview", activity)
+                }
+            </div>
+        </div>
+    </div>
+}
+
+<div class="leaders">
+    <div class="leaders__wrap container">
+        <div class="leaders__head">
+            <div class="leaders__title section-head">
+                <div class="section-head__title heading heading_medium">
+                    Руководство
+                </div>
+            </div>
+        </div>
+        <div class="leaders__list">
+            <div class="leaders__item person-thumb">
+                <a class="person-thumb__preview" href="/professors/show/c2f76754-f553-4336-b446-df445c0b5da8">
+                    <img class="person-thumb__image" src="content/nesterov.jpg" width="408" height="352" alt="">
+                </a>
+                <div class="person-thumb__heading">
+                    <a class="person-thumb__link" href="/professors/show/c2f76754-f553-4336-b446-df445c0b5da8">Нестеров <br> Павел Николаевич</a>
+                </div>
+                <div class="person-thumb__note">
+                    декан <br> математического факультета
+                </div>
+            </div>
+            <div class="leaders__item person-thumb">
+                <a class="person-thumb__preview" href="/professors/show/fe8a105c-0fc8-4f99-9a8e-2d4da95003c2">
+                    <img class="person-thumb__image" src="content/bykova.jpg" width="408" height="352" alt="">
+                </a>
+                <div class="person-thumb__heading">
+                    <a class="person-thumb__link" href="/professors/show/fe8a105c-0fc8-4f99-9a8e-2d4da95003c2">Быкова <br> Надежда Дмитриевна</a>
+                </div>
+                <div class="person-thumb__note">
+                    заместитель декана по&nbsp;учебной работе
+                </div>
+            </div>
+            <div class="leaders__item person-thumb">
+                <a class="person-thumb__preview" href="/professors/show/4aba30ad-219a-4e33-a2c9-e0c8f354069c">
+                    <img class="person-thumb__image" src="content/surikova.jpg" width="408" height="352" alt="">
+                </a>
+                <div class="person-thumb__heading">
+                    <a class="person-thumb__link" href="/professors/show/4aba30ad-219a-4e33-a2c9-e0c8f354069c">Сурикова<br>Наталья Сергеевна</a>
+                </div>
+                <div class="person-thumb__note">
+                    ведущий документовед деканата
+                </div>
+            </div>
+            <div class="leaders__item person-thumb">
+                <a class="person-thumb__preview" href="/professors/show/2fccc719-f4ea-44f1-9537-2357a1d61d74">
+                    <img class="person-thumb__image" src="content/kachshenko.jpg" width="408" height="352" alt="">
+                </a>
+                <div class="person-thumb__heading">
+                    <a class="person-thumb__link" href="/professors/show/2fccc719-f4ea-44f1-9537-2357a1d61d74">Кащенко <br> Илья Сергеевич</a>
+                </div>
+                <div class="person-thumb__note">
+                    заместитель декана по&nbsp;научной работе
+                </div>
+            </div>
+            <div class="leaders__item person-thumb">
+                <div class="contacts-preview">
+                    <div class="contacts-preview__section">
+                        <div class="contacts-preview__heading">
+                            Деканат:
+                        </div>
+                        <div class="contacts-preview__content">
+                            <div class="contacts-preview__channel">
+                                150008,<br> г. Ярославль, <span class="nobr"> ул. Союзная, 144 </span>
+                            </div>
+                            <div class="contacts-preview__channel">
+                                Телефон деканата: <span class="nobr"> 78-85-91 </span>
+                            </div>
+                            <div class="contacts-preview__channel">
+                                Email: math@uniyar.ac.ru
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contacts-preview__section">
+                        <div class="contacts-preview__heading">
+                            Приемная комиссия:
+                        </div>
+                        <div class="contacts-preview__content">
+                            <div class="contacts-preview__channel">
+                                г. Ярославль, <span class="nobr"> ул. Кирова 8/10 </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="leaders__item person-thumb">
+                <a class="person-thumb__preview" href="/professors/show/6bc40043-9b04-4bb1-a104-c0adeb7e4af3">
+                    <img class="person-thumb__image" src="content/trostin.jpg" width="204" height="176" alt="">
+                </a>
+                <div class="person-thumb__heading">
+                    <a class="person-thumb__link" href="/professors/show/6bc40043-9b04-4bb1-a104-c0adeb7e4af3">Тростин <br> Алексей Сергеевич</a>
+                </div>
+                <div class="person-thumb__note">
+                    секретарь приемной комиссии ЯрГУ
+                </div>
+            </div>
+            <div class="leaders__item person-thumb">
+                <a class="person-thumb__preview" href="/professors/show/b6a7e1df-e55b-4ea7-b608-c9f5a4105465">
+                    <img class="person-thumb__image" src="content/basinova.jpg" width="204" height="176" alt="">
+                </a>
+                <div class="person-thumb__heading">
+                    <a class="person-thumb__link" href="/professors/show/b6a7e1df-e55b-4ea7-b608-c9f5a4105465">Басинова<br>Алена Алексеевна </a>
+                </div>
+                <div class="person-thumb__note">
+                    документовед
+                </div>
+            </div>
+            <div class="leaders__item person-thumb">
+                <a class="person-thumb__preview" href="/professors/show/6319055e-31fc-49a5-8b74-73470ee8388f">
+                    <img class="person-thumb__image" src="content/vlasova.jpg" width="204" height="176" alt="">
+                </a>
+                <div class="person-thumb__heading">
+                    <a class="person-thumb__link" href="/professors/show/6319055e-31fc-49a5-8b74-73470ee8388f">Власова <br> Ольга Владимировна</a>
+                </div>
+                <div class="person-thumb__note">
+                    отв. секретарь технической комиссии математического ф‑та
+                </div>
+            </div>
+        </div>
     </div>
 </div>

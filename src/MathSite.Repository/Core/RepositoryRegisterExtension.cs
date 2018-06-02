@@ -19,16 +19,20 @@ namespace MathSite.Repository.Core
         {
             return services
                 .AddScoped<IRepositoryManager, RepositoryManager>()
+                .AddScoped<ICategoryRepository, CategoryRepository>()
+                .AddScoped<IPostCategoryRepository, PostCategoryRepository>()
                 .AddScoped<IGroupsRepository, GroupsRepository>()
                 .AddScoped<IPersonsRepository, PersonsRepository>()
                 .AddScoped<IUsersRepository, UsersRepository>()
                 .AddScoped<IFilesRepository, FilesRepository>()
+                .AddScoped<IDirectoriesRepository, DirectoriesRepository>()
                 .AddScoped<ISiteSettingsRepository, SiteSettingsRepository>()
                 .AddScoped<IRightsRepository, RightsRepository>()
                 .AddScoped<IPostsRepository, PostsRepository>()
                 .AddScoped<IPostSeoSettingsRepository, PostSeoSettingsRepository>()
                 .AddScoped<IPostSettingRepository, PostSettingRepository>()
                 .AddScoped<IPostTypeRepository, PostTypeRepository>()
+                .AddScoped<IProfessorsRepository, ProfessorsRepository>()
                 .AddScoped<IGroupTypeRepository, GroupTypeRepository>();
         }
     }

@@ -1,35 +1,41 @@
-﻿$(function () {
-    var selectControl = $('.paging').find('select');
+﻿$(($) => {
+    const selectControl = $('.paging').find('select');
 
     selectControl.change(function () {
-        var url = location.origin + location.pathname;
-        var search = location.search.replace('?', '').split('&').map(function (item) {
-            var splited = item.split('=');
-            var obj = {};
+        const url = location.origin + location.pathname;
+        const search = location.search.replace('?', '').split('&').map((item) => {
+            const splited = item.split('=');
+
+            if (!splited[0] || !splited[1])
+                return null;
+
+            const obj = {};
 
             obj[splited[0]] = splited[1];
 
             return obj;
+        }).filter((item) => {
+            return item !== null;
         });
 
-        var found = search.filter(function (item) {
+        const found = search.filter(function (item) {
             return item.hasOwnProperty('perPage');
         });
 
         if (found.length > 0) {
-            found.every(function (item) {
+            found.every((item) => {
                 item['perPage'] = this.value;
-            }.bind(this));
+            });
         } else {
             search.push({ perPage: this.value });
         }
 
 
-        var strSearch = search.map(function (item) {
-            return Object.keys(item).map(function (key) {
+        const strSearch = search.map((item) => {
+            return Object.keys(item).map((key) => {
                 return key + '=' + item[key];
             });
-        }).reduce(function (prev, curr) {
+        }).reduce((prev, curr) => {
             return prev + '&' + curr;
         });
 

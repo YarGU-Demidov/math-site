@@ -7,44 +7,48 @@
 <div class="container-fluid set-max-size posts">
 
     <div class="card news-card">
-        <h4 class="card-header">Новости</h4>
+        <h4 class="card-header">Пользователи</h4>
         <div class="card-body">
             @if (!postsExists)
             {
-                <h5 class="empty-text text-center">Новостей не обнаружено!</h5>
+                <h5 class="empty-text text-center">Пользователей не обнаружено!</h5>
             }
             else
             {
-                <table class="table table-hover table-responsive">
-                    <thead class="thead-default">
-                        <tr>
-                            <th class="text-center">
-                                <em class="fa fa-cog"></em>
-                            </th>
-                            <th>Логин</th>
-                            <th>ФИО</th>
-                            <th>Дата создания</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var post in Model.Users)
-                        {
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="thead-light">
                             <tr>
-                                <td class="text-center">
-                                    <a href="@Url.Action("Edit", "Users", new {id = post.Id})" title="Edit" class="btn btn-outline-success">
-                                        <em class="fa fa-pencil"></em>
-                                    </a>
-                                    <a href="@Url.Action("Delete", "Users", new {id = post.Id})" title="Delete" class="btn btn-outline-danger">
-                                        <em class="fa fa-trash"></em>
-                                    </a>
-                                </td>
-                                <th>@post.Login</th>
-                                <th>@post.Person.Surname @post.Person.Name @post.Person.MiddleName</th>
-                                <th>@post.CreationDate</th>
+                                <th class="text-center">
+                                    <em class="fa fa-cog"></em>
+                                </th>
+                                <th>Логин</th>
+                                <th>ФИО</th>
+                                <th>Дата создания</th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach (var user in Model.Users)
+                            {
+                                <tr>
+                                    <td class="text-center">
+                                        <a href="@Url.Action("Edit", "Users", new {id = user.Id})" title="Edit" class="btn btn-outline-success">
+                                            <em class="fa fa-pencil"></em>
+                                        </a>
+                                        <form class="delete-user-form" asp-action="Delete" asp-route-id="@user.Id" method="post" asp-antiforgery="true">
+                                            <button type="submit" title="Delete" class="btn btn-outline-danger">
+                                                <em class="fa fa-trash"></em>
+                                            </button>
+                                        </form>
+                                    </td>
+                                    <td>@user.Login</td>
+                                    <td>@user.Person.Surname @user.Person.Name @user.Person.MiddleName</td>
+                                    <td>@user.CreationDate</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             }
         </div>
         <div class="card-footer">
@@ -123,4 +127,12 @@
 
 @section ScriptsSection{
     <script src="~/js/pager.js"></script>
+}
+@section StylesSection
+{
+    <style>
+        .delete-user-form {
+            display: inline-block;
+        }
+    </style>
 }

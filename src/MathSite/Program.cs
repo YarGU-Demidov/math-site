@@ -1,22 +1,25 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using MathSite.Common.Extensions;
 using Newtonsoft.Json;
 
 namespace MathSite
 {
     public static class Program
     {
-        public static void Main(string[] args)
-        {
+        public static async Task Main(string[] args)
+        {            
             if (args.Any(s => s == "seed"))
                 RunSeeding();
             else if (args.Any(s => s == "import-news"))
-                RunImportNews();
+                await RunImportNews();
             else if (args.Any(s => s == "import-pages"))
-                RunImportStaticPages();
+                await RunImportStaticPages();
             else
                 BuildWebHost(args).Run();
         }
@@ -24,6 +27,11 @@ namespace MathSite
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
+                .UseKestrel(options =>
+                {
+                    options.Limits.MaxConcurrentConnections = 5000;
+                    options.Limits.MaxConcurrentUpgradedConnections = 5000;
+                })
                 .Build();
 
         public static void RunSeeding()
@@ -33,28 +41,74 @@ namespace MathSite
             Seeder.Program.Main(new[] {connectionString});
         }
 
-        public static void RunImportNews()
+        public static async Task RunImportNews()
         {
             var connectionString = GetCurrentConnectionString();
 
-            NewsImporter.Program.Main(new[] {connectionString});
+            await NewsImporter.Program.Main(new[] {connectionString});
         }
 
-        private static void RunImportStaticPages()
+        private static async Task RunImportStaticPages()
         {
             var connectionString = GetCurrentConnectionString();
 
-            StaticImporter.Program.Main(new[] {connectionString});
+            await StaticImporter.Program.Main(new[] {connectionString});
         }
 
         private static string GetCurrentConnectionString()
         {
-            var appSettingsFile = Path.Combine(Environment.CurrentDirectory, "appsettings.json");
+            var postfixes = GetFilePostfixes();
+            var files = GetFilePaths(postfixes);
+            var connectionStringKeyName = "Math";
+            var connectionString = default(string);
+            
+            files.Select(GetSettingsFromFile)
+                .ToList()
+                .ForEach(settings => 
+                {
+                    if (settings.IsNull())
+                        return;
 
-            var settings = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(appSettingsFile));
-            settings.ConnectionStrings.TryGetValue("Math", out var connectionString);
+                    if (!settings.ConnectionStrings.ContainsKey(connectionStringKeyName))
+                        return;
+                    
+                    connectionString = settings.ConnectionStrings[connectionStringKeyName];
+                });
 
             return connectionString;
+        }
+
+        private static Settings GetSettingsFromFile(string path) 
+        {
+            var emptyJson = "{}";
+            var fileData = File.Exists(path) ? File.ReadAllText(path) : emptyJson;
+            
+            return JsonConvert.DeserializeObject<Settings>(fileData);
+        }
+
+        private static IEnumerable<string> GetFilePostfixes() 
+        {
+            // порядок имеет значение.
+            // чем ближе к началу списка -- тем меньше приоритет у суффикса.
+            return new []
+            {
+                "",
+                "Production",
+                "Staging",
+                "Development"
+            };
+        }
+
+        private static IEnumerable<string> GetFilePaths(IEnumerable<string> filePostfixes)
+        {
+            return filePostfixes.Select(postfix => 
+            {
+                var fileName = postfix.IsNullOrWhiteSpace() 
+                    ? "appsettings.json" 
+                    : $"appsettings.{postfix}.json";
+                
+                return Path.Combine(Environment.CurrentDirectory, fileName);
+            });
         }
     }
 }

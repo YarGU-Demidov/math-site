@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using MathSite.Areas.Api.Heplers.Auth;
 using MathSite.Controllers;
+using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -11,11 +12,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MathSite.Areas.Api.Controllers
 {
-    [Area("Api")]
+    [Area("api")]
     public class AuthController : BaseController
     {
-        public AuthController(IUserValidationFacade userValidationFacade)
-            : base(userValidationFacade)
+        public AuthController(
+            IUserValidationFacade userValidationFacade, 
+            IUsersFacade usersFacade
+        ) : base(userValidationFacade, usersFacade)
         {
         }
 

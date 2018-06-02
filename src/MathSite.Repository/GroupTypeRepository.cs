@@ -4,11 +4,11 @@ using MathSite.Repository.Core;
 
 namespace MathSite.Repository
 {
-    public interface IGroupTypeRepository : IRepository<GroupType>
+    public interface IGroupTypeRepository : IMathSiteEfCoreRepository<GroupType>
     {
     }
 
-    public class GroupTypeRepository : EfCoreRepositoryBase<GroupType>, IGroupTypeRepository
+    public class GroupTypeRepository : MathSiteEfCoreRepositoryBase<GroupType>, IGroupTypeRepository
     {
         public GroupTypeRepository(MathSiteDbContext dbContext) : base(dbContext)
         {

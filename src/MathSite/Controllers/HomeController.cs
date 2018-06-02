@@ -1,16 +1,16 @@
 ﻿using System.Threading.Tasks;
-using MathSite.Facades.UserValidation;
 using MathSite.ViewModels.Home;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MathSite.Controllers
 {
-    public class HomeController : BaseController
+    public class HomeController : Controller
     {
         private readonly IHomeViewModelBuilder _modelBuilder;
 
-        public HomeController(IUserValidationFacade userValidationFacade, IHomeViewModelBuilder modelBuilder)
-            : base(userValidationFacade)
+        public HomeController(
+            IHomeViewModelBuilder modelBuilder
+        )
         {
             _modelBuilder = modelBuilder;
         }
@@ -18,6 +18,13 @@ namespace MathSite.Controllers
         public async Task<IActionResult> Index()
         {
             return View(await _modelBuilder.BuildIndexModel());
+        }
+
+        public IActionResult SiteMap()
+        {
+            // TODO: REWRITE THIS!!!
+            return NotFound();
+            // return Content(_modelBuilder.GenerateSiteMap(), "text/xml", Encoding.UTF8);
         }
     }
 }

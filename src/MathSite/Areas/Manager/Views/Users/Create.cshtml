@@ -1,0 +1,34 @@
+﻿@model CreateUsersViewModel
+
+<form asp-action="Create" method="post" asp-antiforgery="true">
+    <div class="container" style="padding-top: 15px;">
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label for="login">Логин</label>
+                <input required="required" type="text" id="login" asp-for="Login" class="form-control" placeholder="Логин" />
+            </div>
+            <div class="form-group col-md-4">
+                <label for="password">Пароль*</label>
+                <input required="required" id="password" type="password" asp-for="Password" class="form-control" placeholder="Пароль*" />
+            </div>
+            <div class="form-group col-md-4">
+                <label for="passwordConfimation">Подтверждение пароля*</label>
+                <input required="required" type="password" id="passwordConfimation" asp-for="PasswordConfimation" class="form-control" placeholder="Подтверждение пароля*" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="userGroup">Группа пользователя*</label>
+            <select required="required" class="form-control" id="userGroup" asp-for="GroupId" asp-items="@Model.Groups.Select(model => new SelectListItem { Text = model.Name, Value = model.Id })">
+                <option disabled="disabled">Выберите группу</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="person">Персона*</label>
+            <select required="required" class="form-control" id="person" asp-for="PersonId" asp-items="@Model.Persons.Select(model => new SelectListItem { Text = model.Name, Value = model.Id })">
+                <option disabled="disabled">Выберите лицо</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+    </div>
+</form>

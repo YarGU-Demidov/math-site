@@ -1,0 +1,31 @@
+﻿@model IndexSettingsViewModel
+<div class="container" style="padding-top: 15px;">
+    <form method="post" asp-action="Save" asp-antiforgery="true">
+        <div class="form-group">
+            <label for="siteNameField">Имя сайта</label>
+            <input asp-for="SiteName" type="text" class="form-control" id="siteNameField" name="sitename" placeholder="Имя сайта">
+            <small id="siteNameFieldHelp" class="form-text text-muted">Имя сайта отображается в заголовке браузера после имени страницы.</small>
+        </div>
+        <div class="form-group">
+            <label for="defaultHomePageTitle">Заголовок главной страницы</label>
+            <input asp-for="DefaultTitleForHomePage" id="defaultHomePageTitle" type="text" class="form-control" placeholder="Заголовок главной страницы">
+            <small id="defaultHomePageTitleHelp" class="form-text text-muted">Заголовок главной страницы отображается в заголовке браузера в самом начале имени страницы. Если пустой, то отображается только имя сайта.</small>
+        </div>
+        <div class="form-group">
+            <label for="defaultNewsPageTitle">Заголовок страницы новостей</label>
+            <input asp-for="DefaultTitleForNewsPage" id="defaultNewsPageTitle" type="text" class="form-control" placeholder="Заголовок страницы новостей">
+            <small id="defaultNewsPageTitleHelp" class="form-text text-muted">Заголовок страницы новостей отображается в заголовке браузера в самом начале имени страницы. Если пустой, то отображается только имя сайта.</small>
+        </div>
+        <div class="form-group">
+            <label for="perPageCount">Количество постов на страницу</label>
+            <input asp-for="PerPageCount" id="perPageCount" type="number" pattern="[0-9]*" inputmode="numeric" class="form-control" placeholder="Количество постов на страницу">
+            <small id="perPageCountHelp" class="form-text text-muted">Количество постов на страницу. Работает для всех типов постов.</small>
+        </div>
+        <div class="form-group">
+            <label for="titleDelimiter">Разделитель заголовка страницы и имени сайта</label>
+            <input asp-for="TitleDelimiter" id="titleDelimiter" type="text" class="form-control" placeholder="Разделитель заголовка страницы и имени сайта">
+            <small id="titleDelimiterHelp" class="form-text text-muted">Разделитель заголовка страницы и имени сайта. Пустым быть не может.</small>
+        </div>
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+    </form>
+</div>

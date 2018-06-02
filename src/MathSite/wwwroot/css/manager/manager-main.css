@@ -6,40 +6,32 @@
 }
 
 div.sidebar-column {
-    position: fixed;
-    top: 64px;
+    border-right: 1px solid #eee;
     bottom: 0;
     left: 0;
-    z-index: 1000;
     overflow-x: hidden;
     overflow-y: auto;
-    border-right: 1px solid #eee;
+    position: fixed;
+    top: 64px;
+    z-index: 1000;
 }
 
-div.sidebar-column .sidebar .nav-link {
-    border-radius: 0;
-}
+div.sidebar-column .sidebar .nav-link { border-radius: 0; }
 
 .sidebar.nav {
     display: flex;
     flex-wrap: wrap;
-    padding-left: 0;
-    margin-bottom: 0;
     list-style: none;
+    margin-bottom: 0;
+    padding-left: 0;
 }
 
 .sidebar-select,
-.sidebar-select > select {
-    width: 100%;
-}
+.sidebar-select > select { width: 100%; }
 
-main.pages-layout {
-    padding: 0;
-}
+main.pages-layout { padding: 0; }
 
-main * {
-    -webkit-overflow-scrolling: touch;
-}
+main * { -webkit-overflow-scrolling: touch; }
 
 .set-max-size { max-width: 1500px; }
 
@@ -55,7 +47,67 @@ main * {
 .empty-text { padding: 2em; }
 
 .posts .post__max-width {
+    height: 100%;
     max-width: 540px;
     position: relative;
-    height: 100%;
+}
+
+.download-icon .material-icons {
+    font-size: 15px;
+    padding: 0 10px;
+    user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    cursor: pointer;
+}
+
+.download-icon .material-icons:hover {
+    color: #7479ea;
+}
+
+.preivew-icon .material-icons {
+    font-size: 15px;
+    padding: 0 10px;
+    user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    cursor: pointer;
+}
+
+.preivew-icon .material-icons:hover {
+    color: #7479ea;
+}
+
+.folder-line {
+     line-height: 12px;
+}
+
+.folder-line .material-icons {
+    font-size: 12px;
+    line-height: 12px;
+}
+
+.buttons-td {
+    min-width: 110px;
+}
+.buttons-td-three {
+    min-width: 155px;
+}
+
+.manager-tabs {
+
+}
+
+.manager-tabs .nav-tabs .nav-link:focus, .nav-tabs .nav-link:hover {
+    background: #f4f4f4;
+}
+
+.manager-tabs-content {
+    border: 1px solid rgb(222, 226, 230);
+    border-top: none;
+
+    padding: 20px;
+    margin-bottom: 20px;
 }

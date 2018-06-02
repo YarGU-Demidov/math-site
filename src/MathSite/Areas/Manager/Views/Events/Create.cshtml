@@ -1,0 +1,44 @@
+﻿@model EventViewModel
+
+@Html.Partial("Posts/PostEditors")
+
+<script>
+    $(() => {
+        window.currentForm = $('#create-event');
+        const name = 'events';
+        window.postPreviewUrl = `/manager/${name}/preview`;
+        window.postWithAdditionalInfo = true;
+    });
+</script>
+
+<form method="post" asp-action="Create" asp-controller="Events" asp-antiforgery="true" id="create-event">
+    <div class="container" style="padding-top: 15px; padding-bottom: 15px;">
+        <ul class="manager-tabs nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="main-tab" data-toggle="tab" href="#main" role="tab" aria-controls="main" aria-selected="true">Главное</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="seo-tab" data-toggle="tab" href="#seo" role="tab" aria-controls="seo" aria-selected="false">SEO</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="event-tab" data-toggle="tab" href="#event" role="tab" aria-controls="event" aria-selected="false">Событие</a>
+            </li>
+        </ul>
+
+        <div class="manager-tabs-content tab-content">
+            <div class="tab-pane fade show active" id="main" role="tabpanel" aria-labelledby="main-tab">
+                @Html.Partial("Posts/PostCommonTab")
+            </div>
+            <div class="tab-pane fade" id="seo" role="tabpanel" aria-labelledby="seo-tab">
+                @Html.Partial("Posts/Seo")
+            </div>
+            <div class="tab-pane fade" id="event" role="tabpanel" aria-labelledby="event-tab">
+                @Html.Partial("Posts/EventsTab")
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success">Создать</button>
+        <div class="btn btn-info post-preview">Предпросмотр</div>
+    </div>
+</form>
+
+@Html.Partial("Posts/CommonJsForPosts")

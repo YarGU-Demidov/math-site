@@ -1,12 +1,25 @@
 language: csharp
 mono: none
+notifications:
+  email:
+    on_success: never
+    on_failure: never
+before_install:
+ - uname -a
+ - curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+ - sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
+ - sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-trusty-prod trusty main" > /etc/apt/sources.list.d/dotnetdev.list'
+ - sudo apt-get update
+ - sudo apt-get install dotnet-sdk-2.1.4
 dotnet: 2.0.0
 node_js:
   - "8"
 dist: trusty
 script:
+ - dotnet --info
  - dotnet restore
- - cd src && cd MathSite && dotnet build
+ - cd src && cd MathSite
+ - dotnet publish -c Release # -r ubuntu-x64
  - cd ../../tests 
  - cd "MathSite.Tests.Common" && dotnet test && cd ..
  - cd "MathSite.Tests.Facades" && dotnet test && cd ..

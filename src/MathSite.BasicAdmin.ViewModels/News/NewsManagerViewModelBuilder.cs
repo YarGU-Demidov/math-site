@@ -1,72 +1,85 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using MathSite.BasicAdmin.ViewModels.SharedModels.AdminPageWithPaging;
 using MathSite.BasicAdmin.ViewModels.SharedModels.Menu;
-using MathSite.Common;
+using MathSite.BasicAdmin.ViewModels.SharedModels.Posts;
 using MathSite.Db.DataSeeding.StaticData;
+using MathSite.Facades.Categories;
+using MathSite.Facades.PostCategories;
 using MathSite.Facades.Posts;
+using MathSite.Facades.PostSeoSettings;
+using MathSite.Facades.PostSettings;
+using MathSite.Facades.PostTypes;
 using MathSite.Facades.SiteSettings;
+using MathSite.Facades.Users;
 
 namespace MathSite.BasicAdmin.ViewModels.News
 {
-    public interface INewsManagerViewModelBuilder
+    public class NewsManagerViewModelBuilder : PostViewModelBuilderBase, INewsManagerViewModelBuilder
     {
-        Task<IndexNewsViewModel> BuildIndexViewModel(int page, int perPage);
-        Task<IndexNewsViewModel> BuildRemovedViewModel(int page, int perPage);
-    }
-
-    public class NewsManagerViewModelBuilder : AdminPageWithPagingViewModelBuilder, INewsManagerViewModelBuilder
-    {
-        private readonly IPostsFacade _postsFacade;
-
-        public NewsManagerViewModelBuilder(ISiteSettingsFacade siteSettingsFacade, IPostsFacade postsFacade) :
-            base(siteSettingsFacade)
+        public NewsManagerViewModelBuilder(
+            ISiteSettingsFacade siteSettingsFacade,
+            IPostsFacade postsFacade,
+            IUsersFacade usersFacade,
+            ICategoryFacade categoryFacade,
+            IPostCategoryFacade postCategoryFacade,
+            IPostSettingsFacade postSettingsFacade,
+            IPostSeoSettingsFacade postSeoSettingsFacade,
+            IPostTypeFacade postTypeFacade
+        ) : base(
+            siteSettingsFacade, 
+            postsFacade, 
+            usersFacade, 
+            categoryFacade, 
+            postCategoryFacade, 
+            postSettingsFacade, 
+            postSeoSettingsFacade,
+            postTypeFacade
+        )
         {
-            _postsFacade = postsFacade;
         }
 
-        public async Task<IndexNewsViewModel> BuildIndexViewModel(int page, int perPage)
+
+        public async Task<ListNewsViewModel> BuildIndexViewModel(int page, int perPage)
         {
             const string postType = PostTypeAliases.News;
-            const RemovedStateRequest removedState = RemovedStateRequest.Excluded;
-            const PublishStateRequest publishState = PublishStateRequest.AllPublishStates;
-            const FrontPageStateRequest frontPageState = FrontPageStateRequest.AllVisibilityStates;
-            const bool cached = false;
 
-            var model = await BuildAdminPageWithPaging<IndexNewsViewModel>(
-                link => link.Alias == "News",
-                link => link.Alias == "List",
-                page,
-                await _postsFacade.GetPostPagesCountAsync(postType, perPage, removedState, publishState, frontPageState, cached),
-                perPage
-            );
-
-            model.Posts = await _postsFacade.GetPostsAsync(postType, page, perPage, removedState, publishState, frontPageState, cached);
-            model.PageTitle.Title = "Список новостей";
-
-            return model;
+            return await BuildIndexViewModel<ListNewsViewModel>(page, perPage, postType, NewsTopMenuName, "List", typeOfList: "новостей");
         }
 
-        public async Task<IndexNewsViewModel> BuildRemovedViewModel(int page, int perPage)
+        public async Task<ListNewsViewModel> BuildRemovedViewModel(int page, int perPage)
         {
             const string postType = PostTypeAliases.News;
-            const RemovedStateRequest removedState = RemovedStateRequest.OnlyRemoved;
-            const PublishStateRequest publishState = PublishStateRequest.AllPublishStates;
-            const FrontPageStateRequest frontPageState = FrontPageStateRequest.AllVisibilityStates;
-            const bool cached = false;
 
-            var model = await BuildAdminPageWithPaging<IndexNewsViewModel>(
-                link => link.Alias == "News",
-                link => link.Alias == "ListRemoved",
-                page,
-                await _postsFacade.GetPostPagesCountAsync(postType, perPage, removedState, publishState, frontPageState, cached),
-                perPage
-            );
+            return await BuildRemovedViewModel<ListNewsViewModel>(page, perPage, postType, NewsTopMenuName,
+                "ListRemoved", typeOfList: "новостей");
+        }
 
-            model.Posts = await _postsFacade.GetPostsAsync(postType, page, 5, removedState, publishState, frontPageState, cached);
-            model.PageTitle.Title = "Список удаленных новостей";
+        public async Task<NewsViewModel> BuildCreateViewModel()
+        {
+            return await BuildCreateViewModel<NewsViewModel>(NewsTopMenuName, "Create");
+        }
 
-            return model;
+        public async Task<NewsViewModel> BuildCreateViewModel(NewsViewModel news)
+        {
+            const string postType = PostTypeAliases.News;
+
+            return await BuildCreateViewModel(news, postType, NewsTopMenuName, "Create");
+        }
+
+        public async Task<NewsViewModel> BuildEditViewModel(Guid id)
+        {
+            return await BuildEditViewModel<NewsViewModel>(id, NewsTopMenuName, "Edit", "новости");
+        }
+
+        public async Task<NewsViewModel> BuildEditViewModel(NewsViewModel news)
+        {
+            return await BuildEditViewModel(news, NewsTopMenuName, "Edit");
+        }
+
+        public async Task<ListNewsViewModel> BuildDeleteViewModel(Guid id)
+        {
+            return await BuildDeleteViewModel<ListNewsViewModel>(id, NewsTopMenuName, "Delete");
         }
 
         protected override async Task<IEnumerable<MenuLink>> GetLeftMenuLinks()
@@ -74,7 +87,8 @@ namespace MathSite.BasicAdmin.ViewModels.News
             return new List<MenuLink>
             {
                 new MenuLink("Список новостей", "/manager/news/list", false, "Список новостей", "List"),
-                new MenuLink("Список удаленных новостей", "/manager/news/removed", false, "Список удаленных новостей", "ListRemoved"),
+                new MenuLink("Список удаленных новостей", "/manager/news/removed", false, "Список удаленных новостей",
+                    "ListRemoved"),
                 new MenuLink("Создать новость", "/manager/news/create", false, "Создать новость", "Create")
             };
         }

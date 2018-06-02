@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MathSite.BasicAdmin.ViewModels.SharedModels.Menu;
-using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Facades.SiteSettings;
 
 namespace MathSite.BasicAdmin.ViewModels.SharedModels.Common
 {
     public abstract class CommonAdminPageViewModelBuilder
     {
+        protected const string ArticlesTopMenuName = "Articles";
+        protected const string NewsTopMenuName = "News";
+        protected const string EventsTopMenuName = "Events";
+        protected const string ProfessorsTopMenuName = "Professors";
+
         protected CommonAdminPageViewModelBuilder(ISiteSettingsFacade siteSettingsFacade)
         {
             SiteSettingsFacade = siteSettingsFacade;
@@ -33,11 +37,14 @@ namespace MathSite.BasicAdmin.ViewModels.SharedModels.Common
             viewModel.TopMenu = new List<MenuLink>
             {
                 new MenuLink("Dashboard", "/manager/", false),
-                new MenuLink("Статьи", "/manager/pages/", false, "Управление статьями", "Articles"),
-                new MenuLink("Новости", "/manager/news/", false, "Управление новостями", "News"),
+                new MenuLink("Статьи", "/manager/pages/", false, "Управление статьями", ArticlesTopMenuName),
+                new MenuLink("Новости", "/manager/news/", false, "Управление новостями", NewsTopMenuName),
+                new MenuLink("События", "/manager/events/", false, "Управление событиями", EventsTopMenuName),
                 new MenuLink("Файлы", "/manager/files/", false, "Управление файлами", "Files"),
                 new MenuLink("Лица", "/manager/persons/", false, "Управление лицами", "Persons"),
                 new MenuLink("Пользователи", "/manager/users/", false, "Управление пользователями", "Users"),
+                new MenuLink("Категории", "/manager/categories/", false, "Управление категориями", "Categories"),
+                new MenuLink("Преподаватели", "/manager/professor/", false, "Управление преподавателями", ProfessorsTopMenuName),
                 new MenuLink("Настройки", "/manager/settings/", false, "Управление настройками", "Settings")
             };
 
@@ -55,8 +62,8 @@ namespace MathSite.BasicAdmin.ViewModels.SharedModels.Common
         {
             var pageTitle = new PageTitleViewModel(
                 "",
-                await SiteSettingsFacade[SiteSettingsNames.TitleDelimiter],
-                await SiteSettingsFacade[SiteSettingsNames.SiteName]
+                await SiteSettingsFacade.GetTitleDelimiter(),
+                await SiteSettingsFacade.GetSiteName()
             );
 
             viewModel.PageTitle = pageTitle;

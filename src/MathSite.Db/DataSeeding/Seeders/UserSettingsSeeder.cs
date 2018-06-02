@@ -22,15 +22,15 @@ namespace MathSite.Db.DataSeeding.Seeders
             var firstUserSettings = CreateUserSettings(
                 "FirstUserSettings",
                 "FirstUserSettings",
-                "It's settings for FirstUser",
-                GetUserByLogin(UsersAliases.FirstUser)
+                "It's settings for Mokeev1995",
+                GetUserByLogin(UsersAliases.Mokeev1995)
             );
 
             var secondUserSettings = CreateUserSettings(
                 "SecondUserSettings",
                 "SecondUserSettings",
-                "It's settings for SecondUser",
-                GetUserByLogin(UsersAliases.SecondUser)
+                "It's settings for AndreyDevyatkin",
+                GetUserByLogin(UsersAliases.AndreyDevyatkin)
             );
 
             var userSettings = new[]

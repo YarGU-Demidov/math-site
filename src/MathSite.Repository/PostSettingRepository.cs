@@ -4,11 +4,11 @@ using MathSite.Repository.Core;
 
 namespace MathSite.Repository
 {
-    public interface IPostSettingRepository : IRepository<PostSetting>
+    public interface IPostSettingRepository : IMathSiteEfCoreRepository<PostSetting>
     {
     }
 
-    public class PostSettingRepository : EfCoreRepositoryBase<PostSetting>, IPostSettingRepository
+    public class PostSettingRepository : MathSiteEfCoreRepositoryBase<PostSetting>, IPostSettingRepository
     {
         public PostSettingRepository(MathSiteDbContext dbContext) : base(dbContext)
         {

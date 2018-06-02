@@ -1,6 +1,11 @@
 ﻿using System;
+using System.IO;
 using MathSite.BasicAdmin.ViewModels;
+using MathSite.Common;
+using MathSite.Common.ActionResults;
 using MathSite.Common.Crypto;
+using MathSite.Common.FileFormats;
+using MathSite.Common.FileStorage;
 using MathSite.Core.Auth.Handlers;
 using MathSite.Core.Auth.Requirements;
 using MathSite.Db;
@@ -10,11 +15,19 @@ using MathSite.Repository.Core;
 using MathSite.ViewModels;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption;
+using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Internal;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace MathSite
@@ -63,7 +76,6 @@ namespace MathSite
                 .AddJsonOptions(options =>
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
             services.AddRouting(options => { options.LowercaseUrls = true; });
-
             services.AddMemoryCache();
 
             ConfigureEntityFramework(services, isDevelopment);
@@ -76,10 +88,12 @@ namespace MathSite
         {
             services.Configure<RazorViewEngineOptions>(options =>
             {
+                options.AreaViewLocationFormats.Add("/Views/{1}/{0}.cshtml");
+                options.AreaViewLocationFormats.Add("/Areas/{2}/Views/{1}/{0}.cshtml");
+                options.AreaViewLocationFormats.Add("/Areas/{2}/Views/Shared/{0}.cshtml");
+
                 options.AreaViewLocationFormats.Add("/Areas/Manager/Views/{1}/{0}.cshtml");
                 options.AreaViewLocationFormats.Add("/Areas/Manager/Views/Shared/{0}.cshtml");
-                options.AreaViewLocationFormats.Add("/Areas/PersonalPage/Views/{1}/{0}.cshtml");
-                options.AreaViewLocationFormats.Add("/Areas/PersonalPage/Views/Shared/{0}.cshtml");
             });
         }
 
@@ -124,16 +138,61 @@ namespace MathSite
             services.AddLogging();
 
             services.AddOptions();
+
+            services.AddLazyProvider();
+
             services.AddSingleton(Configuration);
             services.AddSingleton<IConfiguration>(Configuration);
             services.Configure<Settings>(Configuration);
 
             services.AddScoped<IPasswordsManager, DoubleSha512HashPasswordsManager>();
+            services.AddSingleton<IActionDescriptorCollectionProvider, ActionDescriptorCollectionProvider>();
 
+            services.AddSingleton<FileFormatBuilder>();
+            
             services.AddRepositories()
                 .AddFacades()
                 .AddViewModelBuilders()
                 .AddBasicAdminViewModelBuilders();
+
+            services.AddStorage<LocalFileSystemStorage>();
+
+            services.AddActionResultExecutors();
+
+            // for uploading really large files.
+            services.Configure<FormOptions>(options =>
+            {
+                options.MultipartBodyLengthLimit = long.MaxValue;
+            });
+
+            ConfigureDataProtection(services);
+        }
+
+        private void ConfigureDataProtection(IServiceCollection services)
+        {
+            var serviceProvider = services.BuildServiceProvider();
+            
+            var environment = serviceProvider.GetRequiredService<IHostingEnvironment>();
+            var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
+            
+            var logger = loggerFactory.CreateLogger("DataProtectionKey");
+
+
+            var path = Path.Combine(new DirectoryInfo($"{environment.ContentRootPath}").Parent?.FullName, "keys");
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+
+            logger.LogInformation($"Using keys from: {path}");
+
+            services.AddDataProtection()
+                .SetApplicationName("MathSite")
+                .SetDefaultKeyLifetime(TimeSpan.FromDays(28))
+                .PersistKeysToFileSystem(new DirectoryInfo(path))
+                .UseCryptographicAlgorithms(new AuthenticatedEncryptorConfiguration
+                {
+                    EncryptionAlgorithm = EncryptionAlgorithm.AES_256_CBC,
+                    ValidationAlgorithm = ValidationAlgorithm.HMACSHA512
+                });
         }
 
         private void ConfigureEntityFramework(IServiceCollection services, bool isDevelopment)

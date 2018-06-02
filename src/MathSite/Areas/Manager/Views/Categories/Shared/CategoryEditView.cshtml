@@ -1,0 +1,21 @@
+﻿@model CategoryViewModel
+@{
+    var aliasPlaceholderText = Model.DisableAliasInput
+        ? Model.Alias
+        : "Alias";
+}
+
+<div class="form-row">
+    <div class="form-group col-md-6">
+        <label for="name">Имя*</label>
+        <input required="required" type="text" id="name" asp-for="Name" class="form-control" placeholder="Имя" />
+    </div>
+    <div class="form-group col-md-6">
+        <label for="alias">Alias*</label>
+        <input required="required" id="alias" disabled=@(Model.DisableAliasInput ? "disabled" : null) type="text" asp-for="Alias" class="form-control" placeholder="@aliasPlaceholderText" />
+    </div>
+</div>
+<div class="form-group">
+    <label for="description">Описание</label>
+    <textarea class="form-control" asp-for="Description" id="description" rows="3" placeholder="Описание"></textarea>
+</div>

@@ -1,0 +1,40 @@
+﻿@model NewsByCategoryViewModel
+@{
+    Layout = "SecondaryLayout";
+}
+
+<div class="feed">
+    <div class="feed__wrap container">
+        <div class="feed__head section-head">
+            <div class="section-head__title section-head__title-small heading heading_small">
+                У&nbsp;нас творится история
+            </div>
+            <nav class="feed__navigation-inverse">
+                <!--<a class="feed__link-item" href="#">Все</a>-->
+                <a class="feed__link-item feed__link-item-current" href="@Url.Action("ByCategory", "News", new {query = Model.CategoryAlias})">@Model.CategoryName</a>
+                <a class="feed__link-item" href="@Url.Action("Index", "News")">Новости</a>
+                <a class="feed__link-item" href="@Url.Action("Index", "Events")">События</a>
+                <!--<a class="feed__link-item" href="#">Мероприятия</a>-->
+            </nav>
+        </div>
+        <div class="feed__list">
+            @if (!Model.Posts.Any())
+            {
+                <h2>Новостей нет.</h2>
+            }
+
+            @foreach (var post in Model.Posts)
+            {
+                @Html.Partial("Partials/Posts/PostPreview", post)
+            }
+        </div>
+        <!--<div class="feed__load-more">
+            <a class="more" href="#">
+                Показать больше новостей
+            </a>
+        </div>-->
+        @Html.Partial("Partials/Paginator", Model.Paginator)
+    </div>
+</div>
+
+@Html.Partial("Partials/SuccessStory")

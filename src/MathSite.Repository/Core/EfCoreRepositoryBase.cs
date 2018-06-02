@@ -6,8 +6,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
-using MathSite.Common;
 using MathSite.Common.Entities;
+using MathSite.Common.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace MathSite.Repository.Core
@@ -61,7 +61,8 @@ namespace MathSite.Repository.Core
         }
 
         public override IQueryable<TEntity> GetAllIncluding(
-            params Expression<Func<TEntity, object>>[] propertySelectors)
+            params Expression<Func<TEntity, object>>[] propertySelectors
+        )
         {
             var query = Table.AsQueryable();
 
@@ -93,6 +94,48 @@ namespace MathSite.Repository.Core
         public override async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
         {
             return await GetAll().FirstOrDefaultAsync(predicate);
+        }
+
+        public override async Task<TEntity> LastOrDefaultAsync(TPrimaryKey id)
+        {
+            return await GetAll().LastOrDefaultAsync(CreateEqualityExpressionForId(id));
+        }
+
+        public override async Task<TEntity> LastOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            return await GetAll().LastOrDefaultAsync(predicate);
+        }
+
+        public override Task<TEntity> FirstOrDefaultOrderedByAsync<TKey>(TPrimaryKey id,
+            Expression<Func<TEntity, TKey>> keySelector, bool isAscending)
+        {
+            return GetAll()
+                .OrderBy(keySelector, isAscending)
+                .FirstOrDefaultAsync(CreateEqualityExpressionForId(id));
+        }
+
+        public override Task<TEntity> FirstOrDefaultOrderedByAsync<TKey>(Expression<Func<TEntity, bool>> predicate,
+            Expression<Func<TEntity, TKey>> keySelector, bool isAscending)
+        {
+            return GetAll()
+                .OrderBy(keySelector, isAscending)
+                .FirstOrDefaultAsync(predicate);
+        }
+
+        public override Task<TEntity> LastOrDefaultOrderedByAsync<TKey>(TPrimaryKey id,
+            Expression<Func<TEntity, TKey>> keySelector, bool isAscending)
+        {
+            return GetAll()
+                .OrderBy(keySelector, isAscending)
+                .LastOrDefaultAsync(CreateEqualityExpressionForId(id));
+        }
+
+        public override Task<TEntity> LastOrDefaultOrderedByAsync<TKey>(Expression<Func<TEntity, bool>> predicate,
+            Expression<Func<TEntity, TKey>> keySelector, bool isAscending)
+        {
+            return GetAll()
+                .OrderBy(keySelector, isAscending)
+                .LastOrDefaultAsync(predicate);
         }
 
         public override TEntity Insert(TEntity entity)
@@ -174,6 +217,7 @@ namespace MathSite.Repository.Core
         {
             AttachIfNot(entity);
             Table.Remove(entity);
+            Context.SaveChanges();
         }
 
         public override void Delete(TPrimaryKey id)
@@ -188,6 +232,8 @@ namespace MathSite.Repository.Core
             entity = FirstOrDefault(id);
             if (entity != null)
                 Delete(entity);
+
+            Context.SaveChanges();
 
             //Could not found the entity, do nothing.
         }
@@ -225,7 +271,7 @@ namespace MathSite.Repository.Core
         {
             return Context;
         }
-        
+
         public Task EnsureCollectionLoadedAsync<TProperty>(
             TEntity entity,
             Expression<Func<TEntity, IEnumerable<TProperty>>> propertyExpression,
