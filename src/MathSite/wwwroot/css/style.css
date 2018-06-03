@@ -215,7 +215,7 @@ template {
 }
 
 h1 {
-    font-size: 2.9em;
+    font-size: 2.7em;
     line-height: 1em;
     margin: .4em 0;
 }
@@ -828,7 +828,7 @@ h4 {
         padding-bottom: 10px;
         padding-left: 25px;
         padding-right: 25px;
-        font-size: 10px;
+        font-size: 11px;
         line-height: 14px;
         border-radius: 41px;
     }
@@ -1765,7 +1765,7 @@ h4 {
 @media (min-width:2560px) {
     .success {
         position: relative;
-        padding-bottom: 130px
+        padding-bottom: 50px;
     }
     .success:before {
         content: "";
@@ -4503,7 +4503,7 @@ h4 {
         margin-top: 11px;
         margin-left: 115px;
         font-size: 16px;
-        line-height: 27px;
+        line-height: 24px;
         color: #fff;
         text-decoration: none;
     }
@@ -5647,9 +5647,9 @@ h4 {
 @media (min-width:1349px) and (max-width:1919px) {
     .nav {
         padding-top: 20px;
-        padding-bottom: 53px;
+        padding-bottom: 52px;
         font-size: 17px;
-        line-height: 33px;
+        line-height: 32px;
         color: #fff;
         font-weight: 500;
     }
@@ -6201,8 +6201,8 @@ h4 {
         /* padding-bottom:30px */
     }
     .success+.pros {
-        margin-top: -100px;
-        padding-top: 0
+        /* margin-top: -121px; */
+        padding-top: 0;
     }
     .pros__list {
         display: -ms-flexbox;
@@ -9404,7 +9404,7 @@ h4 {
 
 @media (min-width:1349px) and (max-width:1919px) {
     .page {
-        min-height: 400px;
+        min-height: 375px;
         padding-bottom: 40px;
     }
     .page__head {
@@ -10642,8 +10642,8 @@ h4 {
 @media (min-width:2560px) {
     .wysiwyg {
         font-size: 18px;
-        line-height: 25px;
-        color: #000
+        line-height: 23px;
+        color: #000;
     }
     .wysiwyg blockquote,
     .wysiwyg figure,
@@ -10671,16 +10671,14 @@ h4 {
         margin-bottom: 0
     }
     .wysiwyg ul {
-        padding-left: 40px;
+        padding-left: 50px;
         list-style: none;
+        list-style-type: disc;
     }
     .wysiwyg ul li {
         position: relative
     }
     .wysiwyg ul li:before {
-        content: "–";
-        position: relative;
-        left: -7px;
     }
     .wysiwyg ol {
         counter-reset: wysiwyg-ordered-list;
@@ -10765,7 +10763,7 @@ h4 {
         margin-bottom: 0
     }
     .wysiwyg a {
-        color: #318ef5;
+        color: #1a5ba5;
         text-decoration: none;
     }
     .wysiwyg a:hover {
@@ -10776,7 +10774,7 @@ h4 {
 @media (min-width:1920px) and (max-width:2559px) {
     .wysiwyg {
         font-size: 17px;
-        line-height: 24px;
+        line-height: 22px;
         color: #000;
         width: auto;
     }
@@ -10806,16 +10804,14 @@ h4 {
         margin-bottom: 0
     }
     .wysiwyg ul {
-        padding-left: 27px;
+        padding-left: 40px;
         list-style: none;
+        list-style-type: disc;
     }
     .wysiwyg ul li {
         position: relative
     }
     .wysiwyg ul li:before {
-        content: "–";
-        position: relative;
-        left: -7px;
     }
     .wysiwyg ol {
         counter-reset: wysiwyg-ordered-list;
@@ -10897,7 +10893,7 @@ h4 {
         margin-bottom: 0
     }
     .wysiwyg a {
-        color: #318ef5;
+        color: #1a5ba5;
         text-decoration: none;
     }
     .wysiwyg a:hover {
@@ -10941,14 +10937,13 @@ h4 {
         padding-left: 40px;
         padding-right: 43px;
         list-style: none;
+        list-style-type: disc;
     }
     .wysiwyg ul li {
         position: relative
     }
     .wysiwyg ul li:before {
-        content: "–";
-        position: relative;
-        left: -7px;
+
     }
     .wysiwyg ol {
         counter-reset: wysiwyg-ordered-list;
@@ -11076,14 +11071,12 @@ h4 {
         padding-left: 40px;
         padding-right: 45px;
         list-style: none;
+        list-style-type: disc;
     }
     .wysiwyg ul li {
         position: relative
     }
     .wysiwyg ul li:before {
-        content: "–";
-        position: relative;
-        left: -7px;
     }
     .wysiwyg ol {
         counter-reset: wysiwyg-ordered-list;
@@ -11204,16 +11197,14 @@ h4 {
         margin-bottom: 0
     }
     .wysiwyg ul {
-        padding-left: 40px;
+        padding-left: 45px;
         list-style: none;
+        list-style-type: disc;
     }
     .wysiwyg ul li {
         position: relative
     }
     .wysiwyg ul li:before {
-        content: "–";
-        position: relative;
-        left: -7px;
     }
     .wysiwyg ol {
         counter-reset: wysiwyg-ordered-list;
@@ -11293,7 +11284,7 @@ h4 {
         margin-bottom: 0
     }
     .wysiwyg a {
-        color: #318ef5;
+        color: #1a5ba5;
         text-decoration: none;
     }
     .wysiwyg a:hover {
@@ -11335,14 +11326,12 @@ h4 {
         width: 280px;
         padding-left: 15px;
         list-style: none;
+        list-style-type: disc;
     }
     .wysiwyg ul li {
         position: relative
     }
     .wysiwyg ul li:before {
-        content: "–";
-        position: relative;
-        left: -7px;
     }
     .wysiwyg ol {
         counter-reset: wysiwyg-ordered-list;
@@ -11417,7 +11406,7 @@ h4 {
         margin-bottom: 0
     }
     .wysiwyg a {
-        color: #318ef5;
+        color: #1a5ba5;
         text-decoration: none;
     }
     .wysiwyg a:hover {
@@ -11459,14 +11448,12 @@ h4 {
         width: 280px;
         padding-left: 15px;
         list-style: none;
+        list-style-type: disc;
     }
     .wysiwyg ul li {
         position: relative
     }
     .wysiwyg ul li:before {
-        content: "–";
-        position: relative;
-        left: -7px;
     }
     .wysiwyg ol {
         counter-reset: wysiwyg-ordered-list;
@@ -11541,7 +11528,7 @@ h4 {
         margin-bottom: 0
     }
     .wysiwyg a {
-        color: #318ef5;
+        color: #1a5ba5;
         text-decoration: none;
     }
     .wysiwyg a:hover {
@@ -13238,7 +13225,7 @@ h4 {
         margin-bottom: 0
     }
     .wysiwyg__video-library a {
-        color: #318ef5;
+        color: #1a5ba5;
         text-decoration: underline
     }
     .wysiwyg__video-library a:hover {
@@ -13362,7 +13349,7 @@ h4 {
         margin-bottom: 0
     }
     .wysiwyg__video-library a {
-        color: #318ef5;
+        color: #1a5ba5;
         text-decoration: underline
     }
     .wysiwyg__video-library a:hover {
@@ -13486,7 +13473,7 @@ h4 {
         margin-bottom: 0
     }
     .wysiwyg__video-library a {
-        color: #318ef5;
+        color: #1a5ba5;
         text-decoration: underline
     }
     .wysiwyg__video-library a:hover {
@@ -13610,7 +13597,7 @@ h4 {
         margin-bottom: 0
     }
     .wysiwyg__video-library a {
-        color: #318ef5;
+        color: #1a5ba5;
         text-decoration: underline
     }
     .wysiwyg__video-library a:hover {
@@ -13733,7 +13720,7 @@ h4 {
         margin-bottom: 0
     }
     .wysiwyg__video-library a {
-        color: #318ef5;
+        color: #1a5ba5;
         text-decoration: underline
     }
     .wysiwyg__video-library a:hover {
@@ -13773,16 +13760,14 @@ h4 {
     }
     .wysiwyg ul {
         width: 280px;
-        padding-left: 15px;
+        padding-left: 40px;
         list-style: none;
+        list-style-type: disc;
     }
     .wysiwyg ul li {
         position: relative
     }
     .wysiwyg ul li:before {
-        content: "–";
-        position: relative;
-        left: -7px;
     }
     .wysiwyg__video-library figure {
         margin-left: 0
@@ -13879,7 +13864,7 @@ h4 {
         margin-bottom: 0
     }
     .wysiwyg a {
-        color: #318ef5;
+        color: #1a5ba5;
         text-decoration: none;
     }
     .wysiwyg a:hover {
@@ -13922,14 +13907,12 @@ h4 {
         width: 280px;
         padding-left: 15px;
         list-style: none;
+        list-style-type: disc;
     }
     .wysiwyg ul li {
         position: relative
     }
     .wysiwyg ul li:before {
-        content: "–";
-        position: relative;
-        left: -7px;
     }
     .wysiwyg ol {
         counter-reset: wysiwyg-ordered-list;
@@ -14018,7 +14001,7 @@ h4 {
         margin-bottom: 0
     }
     .wysiwyg a {
-        color: #318ef5;
+        color: #1a5ba5;
         text-decoration: none;
     }
     .wysiwyg a:hover {
@@ -16941,7 +16924,7 @@ h4 {
     }
     .teacher__head {
         padding-top: 40px;
-        padding-bottom: 40px
+        /* padding-bottom: 40px */
     }
     .teacher__body {
         -ms-flex-negative: 0;
@@ -17179,7 +17162,7 @@ h4 {
         margin-bottom: 0
     }
     .wysiwyg__teacher a {
-        color: #318ef5;
+        color: #1a5ba5;
         text-decoration: none;
     }
     .wysiwyg__teacher a:hover {
@@ -17314,7 +17297,7 @@ h4 {
         margin-bottom: 0
     }
     .wysiwyg__teacher a {
-        color: #318ef5;
+        color: #1a5ba5;
         text-decoration: none;
     }
     .wysiwyg__teacher a:hover {
@@ -17451,7 +17434,7 @@ h4 {
         margin-bottom: 0
     }
     .wysiwyg__teacher a {
-        color: #318ef5;
+        color: #1a5ba5;
         text-decoration: none;
     }
     .wysiwyg__teacher a:hover {
@@ -17586,7 +17569,7 @@ h4 {
         margin-bottom: 0
     }
     .wysiwyg__teacher a {
-        color: #318ef5;
+        color: #1a5ba5;
         text-decoration: none;
     }
     .wysiwyg__teacher a:hover {
@@ -17716,7 +17699,7 @@ h4 {
         margin-bottom: 0
     }
     .wysiwyg__teacher a {
-        color: #318ef5;
+        color: #1a5ba5;
         text-decoration: none;
     }
     .wysiwyg__teacher a:hover {
@@ -17842,7 +17825,7 @@ h4 {
         margin-bottom: 0
     }
     .wysiwyg__teacher a {
-        color: #318ef5;
+        color: #1a5ba5;
         text-decoration: none;
     }
     .wysiwyg__teacher a:hover {
@@ -17968,7 +17951,7 @@ h4 {
         margin-bottom: 0
     }
     .wysiwyg__teacher a {
-        color: #318ef5;
+        color: #1a5ba5;
         text-decoration: underline
     }
     .wysiwyg__teacher a:hover {
