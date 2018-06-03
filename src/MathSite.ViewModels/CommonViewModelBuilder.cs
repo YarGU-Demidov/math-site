@@ -83,7 +83,7 @@ namespace MathSite.ViewModels
                         //new MenuItemViewModel("Прием иностранных граждан", "admission-of-foreign-citizens"),
                         //new MenuItemViewModel("Объявления", "math-faculty-ads"),
                         //new MenuItemViewModel("Задать вопросы", "ask-questions"),
-                        new MenuItemViewModel("Контакты приемной комиссии", "contacts"),
+                        new MenuItemViewModel("Контакты приемной комиссии", "/kontaktyi-priemnoj-komissii"),
                         //new MenuItemViewModel("Контакты деканата", "contacts")
                     },
                     new List<MenuItemViewModel>
