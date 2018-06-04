@@ -2899,7 +2899,7 @@ h4 {
     }
     .feed__navigation-inverse {
         color: #2889F5;
-        padding-top: 18px;
+        padding-top: 24px;
         /* margin-left:-114px; */
         position: absolute;
         right: 0;
@@ -2920,9 +2920,9 @@ h4 {
     .feed__link-item {
         text-transform: uppercase;
         font-weight: 700;
-        padding: 0 4px;
+        padding: 0 12px;
         color: inherit;
-        font-size: 16px
+        font-size: 16px;
     }
     .feed__link-item:last-child {
         padding-right: 0
@@ -5647,9 +5647,9 @@ h4 {
 @media (min-width:1349px) and (max-width:1919px) {
     .nav {
         padding-top: 20px;
-        padding-bottom: 52px;
+        padding-bottom: 57px;
         font-size: 17px;
-        line-height: 32px;
+        line-height: 30px;
         color: #fff;
         font-weight: 500;
     }
