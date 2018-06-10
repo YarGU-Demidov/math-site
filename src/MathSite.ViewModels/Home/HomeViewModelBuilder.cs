@@ -78,11 +78,12 @@ namespace MathSite.ViewModels.Home
             {
                 var postType = post.PostType.Alias;
                 var previewModel = _postPreviewViewModelBuilder.Build(post);
+
                 return new SitemapNode(previewModel.Url)
                 {
                     ChangeFrequency = postType == PostTypeAliases.StaticPage ? ChangeFrequency.Weekly : ChangeFrequency.Always,
                     Images = GetImages(previewModel.PreviewImageId, previewModel.PreviewImageId2X),
-                    LastModificationDate = post.PublishDate,
+                    LastModificationDate = post.PublishDate.ToUniversalTime(),
                     News = GetNews(post),
                     Priority = 0.5M
                 };
@@ -185,7 +186,7 @@ namespace MathSite.ViewModels.Home
 
         private SitemapNews GetNews(Post post)
         {
-            return new SitemapNews(new NewsPublication(post.Title, "ru"), post.PublishDate, post.Title);
+            return new SitemapNews(new NewsPublication(post.Title, "ru"), post.PublishDate.ToUniversalTime(), post.Title);
         }
 
         private async Task FillPageNameAsync(CommonViewModel model)

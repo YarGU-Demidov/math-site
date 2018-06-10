@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
 
