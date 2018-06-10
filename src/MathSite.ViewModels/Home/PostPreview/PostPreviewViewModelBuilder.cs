@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
 
@@ -42,7 +43,7 @@ namespace MathSite.ViewModels.Home.PostPreview
             return new TPreivewViewModel
             {
                 Title = post.Title,
-                Url = $"/{post.PostType?.Alias}/{post.PostSeoSetting.Url}",
+                Url = $"/{post.PostType?.Alias}/{Uri.EscapeDataString(post.PostSeoSetting.Url)}",
                 Content = post.Excerpt,
                 PostTypeName = post.PostType?.Name,
                 PublishedAt = post.PublishDate,
