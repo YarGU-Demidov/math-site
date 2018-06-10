@@ -178,7 +178,8 @@ namespace MathSite.ViewModels.Home
         {
             return images
                 .Where(imgId => imgId.IsNotNullOrWhiteSpace())
-                .Select(imgId => new SitemapImage(imgId))
+                .Distinct()
+                .Select(imgId => new SitemapImage($"/file/get/{imgId}"))
                 .ToList();
         }
 
