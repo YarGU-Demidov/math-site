@@ -8,6 +8,7 @@ using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Entities;
 using MathSite.Facades.Categories;
 using MathSite.Facades.Posts;
+using MathSite.Facades.Professors;
 using MathSite.Facades.SiteSettings;
 using MathSite.ViewModels.Home.EventPreview;
 using MathSite.ViewModels.Home.PostPreview;
@@ -23,6 +24,7 @@ namespace MathSite.ViewModels.Home
         private readonly IEventPreviewViewModelBuilder _eventPreviewViewModelBuilder;
         private readonly IStudentActivityPreviewViewModelBuilder _activityPreviewViewModelBuilder;
         private readonly ICategoryFacade _categoryFacade;
+        private readonly IProfessorsFacade _professorsFacade;
         private readonly IPostPreviewViewModelBuilder _postPreviewViewModelBuilder;
         private readonly IPostsFacade _postsFacade;
 
@@ -32,7 +34,8 @@ namespace MathSite.ViewModels.Home
             IPostPreviewViewModelBuilder postPreviewViewModelBuilder,
             IEventPreviewViewModelBuilder eventPreviewViewModelBuilder,
             IStudentActivityPreviewViewModelBuilder activityPreviewViewModelBuilder,
-            ICategoryFacade categoryFacade
+            ICategoryFacade categoryFacade,
+            IProfessorsFacade professorsFacade
         ) : base(siteSettingsFacade)
         {
             _postsFacade = postsFacade;
@@ -40,6 +43,7 @@ namespace MathSite.ViewModels.Home
             _eventPreviewViewModelBuilder = eventPreviewViewModelBuilder;
             _activityPreviewViewModelBuilder = activityPreviewViewModelBuilder;
             _categoryFacade = categoryFacade;
+            _professorsFacade = professorsFacade;
         }
 
         public async Task<HomeIndexViewModel> BuildIndexModel()
@@ -114,6 +118,15 @@ namespace MathSite.ViewModels.Home
             allNodes.AddRange(GetSitemapNodes(events));
             allNodes.AddRange(GetSitemapNodes(news));
             allNodes.AddRange(GetSitemapNodes(pages));
+
+            var professors = await _professorsFacade.GetProfessorsForPage(1, 50_000);
+
+            allNodes.AddRange(professors.Select(professor => new SitemapNode($"/professors/show/{professor.Id}")
+            {
+                ChangeFrequency = ChangeFrequency.Monthly,
+                Images = GetImages(professor.Person?.PhotoId?.ToString()),
+                Priority = 0.5M
+            }));
 
             return new SitemapModel(allNodes);
         }
