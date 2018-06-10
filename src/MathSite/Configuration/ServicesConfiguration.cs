@@ -29,6 +29,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using SimpleMvcSitemap;
 
 namespace MathSite
 {
@@ -156,6 +157,8 @@ namespace MathSite
                 .AddBasicAdminViewModelBuilders();
 
             services.AddStorage<LocalFileSystemStorage>();
+
+            services.AddSingleton<ISitemapProvider, SitemapProvider>();
 
             services.AddActionResultExecutors();
 

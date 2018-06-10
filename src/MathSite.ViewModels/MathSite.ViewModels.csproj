@@ -21,6 +21,9 @@
       <LangVersion>latest</LangVersion>
     </PropertyGroup>
     <ItemGroup>
+      <PackageReference Include="SimpleMvcSitemap" Version="3.1.0" />
+    </ItemGroup>
+    <ItemGroup>
         <ProjectReference Include="..\MathSite.Db\MathSite.Db.csproj" />
         <ProjectReference Include="..\MathSite.Entities\MathSite.Entities.csproj" />
         <ProjectReference Include="..\MathSite.Facades\MathSite.Facades.csproj" />

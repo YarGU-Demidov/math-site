@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MathSite.Common;
@@ -11,6 +12,9 @@ using MathSite.Facades.SiteSettings;
 using MathSite.ViewModels.Home.EventPreview;
 using MathSite.ViewModels.Home.PostPreview;
 using MathSite.ViewModels.Home.StudentActivityPreview;
+using SimpleMvcSitemap;
+using SimpleMvcSitemap.Images;
+using SimpleMvcSitemap.News;
 
 namespace MathSite.ViewModels.Home
 {
@@ -29,8 +33,7 @@ namespace MathSite.ViewModels.Home
             IEventPreviewViewModelBuilder eventPreviewViewModelBuilder,
             IStudentActivityPreviewViewModelBuilder activityPreviewViewModelBuilder,
             ICategoryFacade categoryFacade
-        )
-            : base(siteSettingsFacade)
+        ) : base(siteSettingsFacade)
         {
             _postsFacade = postsFacade;
             _postPreviewViewModelBuilder = postPreviewViewModelBuilder;
@@ -47,10 +50,71 @@ namespace MathSite.ViewModels.Home
             return model;
         }
 
-        public string GenerateSiteMap()
+        public async Task<SitemapModel> GenerateSiteMap()
         {
-            // TODO: Write sitemap generator
-            throw new System.NotImplementedException();
+            // ну предположим, что постов у нас не больше 50 000 (а больше и нельзя в sitemap).
+
+            const string newsTypeAlias = PostTypeAliases.News;
+            const string pagesTypeAlias = PostTypeAliases.StaticPage;
+            const string eventsTypeAlias = PostTypeAliases.Event;
+
+            Task<IEnumerable<Post>> GetData(string postTypeAlias)
+            {
+                return _postsFacade.GetPostsAsync(
+                    postTypeAlias: postTypeAlias,
+                    page: 1,
+                    perPage: 50_000,
+                    state: RemovedStateRequest.Excluded,
+                    publishState: PublishStateRequest.Published,
+                    frontPageState: FrontPageStateRequest.AllVisibilityStates
+                );
+            }
+
+            var pages = (await GetData(pagesTypeAlias)).ToArray();
+            var news = (await GetData(newsTypeAlias)).ToArray();
+            var events = (await GetData(eventsTypeAlias)).ToArray();
+
+            IEnumerable<SitemapNode> GetSitemapNodes(IEnumerable<Post> posts) => posts.Select(post =>
+            {
+                var postType = post.PostType.Alias;
+                var previewModel = _postPreviewViewModelBuilder.Build(post);
+                return new SitemapNode(previewModel.Url)
+                {
+                    ChangeFrequency = postType == PostTypeAliases.StaticPage ? ChangeFrequency.Weekly : ChangeFrequency.Always,
+                    Images = GetImages(previewModel.PreviewImageId, previewModel.PreviewImageId2X),
+                    LastModificationDate = post.PublishDate,
+                    News = GetNews(post),
+                    Priority = 0.5M
+                };
+            });
+
+            var allNodes = new List<SitemapNode>(pages.Length + news.Length + events.Length + 3)
+            {
+                new SitemapNode("/")
+                {
+                    ChangeFrequency = ChangeFrequency.Always,
+                    LastModificationDate = DateTime.UtcNow,
+                    Priority = 0.7M
+                },
+                new SitemapNode("/news")
+                {
+                    ChangeFrequency = ChangeFrequency.Always,
+                    LastModificationDate = DateTime.UtcNow,
+                    Priority = 0.6M
+                },
+                new SitemapNode("/events")
+                {
+                    ChangeFrequency = ChangeFrequency.Always,
+                    LastModificationDate = DateTime.UtcNow,
+                    Priority = 0.6M
+                }
+            };
+
+            allNodes.AddRange(GetSitemapNodes(events));
+            allNodes.AddRange(GetSitemapNodes(news));
+            allNodes.AddRange(GetSitemapNodes(pages));
+
+            return new SitemapModel(allNodes);
         }
 
         private async Task BuildPostsAsync(HomeIndexViewModel model)
@@ -108,6 +172,19 @@ namespace MathSite.ViewModels.Home
         private IEnumerable<StudentActivityViewModel> GetStudentActivityModels(IEnumerable<Post> posts)
         {
             return posts.Select(_activityPreviewViewModelBuilder.Build);
+        }
+
+        private static List<SitemapImage> GetImages(params string[] images)
+        {
+            return images
+                .Where(imgId => imgId.IsNotNullOrWhiteSpace())
+                .Select(imgId => new SitemapImage(imgId))
+                .ToList();
+        }
+
+        private SitemapNews GetNews(Post post)
+        {
+            return new SitemapNews(new NewsPublication(post.Title, "ru"), post.PublishDate, post.Title);
         }
 
         private async Task FillPageNameAsync(CommonViewModel model)
