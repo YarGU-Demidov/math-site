@@ -13,6 +13,16 @@
 <script src="js/temp.js" asp-append-version="true"></script>
 
 <environment names="Staging,Production">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-80534280-1"></script>
+    <script type="text/javascript">
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-80534280-1');
+    </script>
+
     <!-- Yandex.Metrika counter -->
     <script type="text/javascript">
         (function(d, w, c) {
