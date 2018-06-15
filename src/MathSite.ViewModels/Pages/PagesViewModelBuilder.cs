@@ -30,6 +30,8 @@ namespace MathSite.ViewModels.Pages
             model.PageTitle.Title = post.Title;
             model.Title = post.Title;
             model.Content = post.Content;
+            model.Description = post.PostSeoSetting.Description;
+            model.SeoTitle = post.PostSeoSetting.Title;
 
             return model;
         }

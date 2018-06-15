@@ -74,6 +74,8 @@ namespace MathSite.ViewModels.News
             model.PreviewImageId = post.PostSettings.PreviewImage?.Id.ToString();
             model.PreviewImage2XId = post.PostSettings.PreviewImage?.Id.ToString();
             model.PageTitle.Title = post.Title;
+            model.Description = post.PostSeoSetting.Description;
+            model.SeoTitle = post.PostSeoSetting.Title;
 
             return model;
         }

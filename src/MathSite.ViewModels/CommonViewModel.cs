@@ -8,6 +8,7 @@ namespace MathSite.ViewModels
     public abstract class CommonViewModel
     {
         public PageTitleViewModel PageTitle { get; set; }
+        public string SeoTitle { get; set; }
         public string Description { get; set; }
         public string Keywords { get; set; }
         public IEnumerable<MenuItemViewModel> TopMenuLinks { get; set; } = new List<MenuItemViewModel>();

@@ -1,5 +1,11 @@
 ﻿@model CommonViewModel
 
+@{
+	var seoTitle = Model.SeoTitle.IsNotNullOrWhiteSpace() 
+		? Model.SeoTitle 
+		: Model.PageTitle.ToString();
+}
+
 <meta charset="utf-8">
 
 <meta name="site-version" content="@CommonViewModel.AssemblyVersion" />
@@ -8,7 +14,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <meta name="description" content="@Model.Description">
-<meta name="title" content="@Model.PageTitle">
+<meta name="title" content="@seoTitle">
 <meta name="keywords" content="@Model.Keywords">
 <meta name="author" content="andrey@mokeev1995.ru">
 

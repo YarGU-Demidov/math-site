@@ -88,7 +88,10 @@ namespace MathSite.Facades.Posts
                 requirements = requirements.And(new PostPublishedSpecification())
                     .AndNot(new PostDeletedSpecification());
             
-            return await Repository.WithPostSetttings().FirstOrDefaultAsync(requirements);;
+            return await Repository
+                .WithPostSetttings()
+                .WithPostSeoSettings()
+                .FirstOrDefaultAsync(requirements);
         }
 
         public async Task<Post> GetPostAsync(Guid id)
