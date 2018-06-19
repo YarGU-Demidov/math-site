@@ -2899,7 +2899,7 @@ h4 {
     }
     .feed__navigation-inverse {
         color: #2889F5;
-        padding-top: 24px;
+        padding-top: 18px;
         /* margin-left:-114px; */
         position: absolute;
         right: 0;
@@ -2920,9 +2920,9 @@ h4 {
     .feed__link-item {
         text-transform: uppercase;
         font-weight: 700;
-        padding: 0 12px;
+        padding: 0 4px;
         color: inherit;
-        font-size: 16px;
+        font-size: 16px
     }
     .feed__link-item:last-child {
         padding-right: 0
@@ -5647,9 +5647,9 @@ h4 {
 @media (min-width:1349px) and (max-width:1919px) {
     .nav {
         padding-top: 20px;
-        padding-bottom: 57px;
+        padding-bottom: 52px;
         font-size: 17px;
-        line-height: 30px;
+        line-height: 32px;
         color: #fff;
         font-weight: 500;
     }
@@ -10735,9 +10735,9 @@ h4 {
     .wysiwyg iframe {
         vertical-align: top;
         width: 100%;
-        height: 496px;
+        height: 456px;
         border: none;
-        background-color: #666
+        background-color: white;
     }
     .wysiwyg figure {
         margin-right: 45px;
@@ -10868,9 +10868,9 @@ h4 {
     .wysiwyg iframe {
         vertical-align: top;
         width: 100%;
-        height: 507px;
+        height: 436px;
         border: none;
-        background-color: #666
+        background-color: white;
     }
     .wysiwyg figure {
         margin-right: 45px;
@@ -10998,9 +10998,10 @@ h4 {
     .wysiwyg iframe {
         vertical-align: top;
         border: none;
-        background-color: #666;
+        background-color: white;
         width: 100%;
-        height: 430px;
+        height: 456px;
+        margin: 14px 0;
     }
     .wysiwyg figure {
         margin-right: 45px;
@@ -11132,9 +11133,10 @@ h4 {
     .wysiwyg iframe {
         vertical-align: top;
         width: 100%;
-        height: 354px;
+        height: 353px;
         border: none;
-        background-color: #666;
+        background-color: white;
+        margin: 10px 0;
     }
     .wysiwyg figure {
         margin-right: 45px;
@@ -11259,9 +11261,10 @@ h4 {
     .wysiwyg iframe {
         vertical-align: top;
         width: 100%;
-        height: 380px;
+        height: 298px;
         border: none;
-        background-color: #666
+        background-color: white;
+        margin: 10px 0;
     }
     .wysiwyg figure {
         margin-right: 0;
@@ -13833,9 +13836,9 @@ h4 {
     .wysiwyg iframe {
         vertical-align: top;
         width: 100%;
-        height: 201px;
+        height: 180px;
         border: none;
-        background-color: #666
+        background-color: white;
     }
     .wysiwyg figure {
         margin-left: 0;
