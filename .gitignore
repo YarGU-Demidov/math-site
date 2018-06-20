@@ -250,3 +250,5 @@ yarn.lock
 appsettings.Development.json
 appsettings.Staging.json
 appsettings.Production.json
+src/keys/*.xml
+src/keys
