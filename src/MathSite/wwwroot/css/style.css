@@ -910,8 +910,8 @@ h4 {
         border-radius: 20px;
         font-family: inherit;
         font-weight: 600;
-        font-size: 12px;
-        line-height: 15px;
+        font-size: 11px;
+        line-height: 14px;
         letter-spacing: 1.3px;
         color: #FFF;
         text-align: center;
@@ -941,7 +941,7 @@ h4 {
         padding-bottom: 10px;
         padding-left: 30px;
         padding-right: 30px;
-        font-size: 12px;
+        font-size: 11px;
         line-height: 17px;
         border-radius: 41px;
     }
@@ -3538,7 +3538,8 @@ h4 {
 
 @media (min-width:1349px) and (max-width:1919px) {
     .teaser__preview {
-        display: block
+        display: block;
+        box-shadow: 3px 7px 26px rgba(0, 0, 0, .15);
     }
     .teaser__image {
         vertical-align: top;
@@ -4502,8 +4503,8 @@ h4 {
         width: 920px;
         margin-top: 11px;
         margin-left: 115px;
-        font-size: 16px;
-        line-height: 24px;
+        font-size: 15px;
+        line-height: 22px;
         color: #fff;
         text-decoration: none;
     }
@@ -4968,8 +4969,8 @@ h4 {
         -ms-flex-align: start;
         align-items: flex-start;
         font-weight: 500;
-        font-size: 17px;
-        line-height: 17px;
+        font-size: 16px;
+        line-height: 18px;
         color: #fff;
         letter-spacing: .1px;
     }
@@ -5647,9 +5648,9 @@ h4 {
 @media (min-width:1349px) and (max-width:1919px) {
     .nav {
         padding-top: 20px;
-        padding-bottom: 52px;
+        padding-bottom: 44px;
         font-size: 17px;
-        line-height: 32px;
+        line-height: 31px;
         color: #fff;
         font-weight: 500;
     }
@@ -6245,8 +6246,8 @@ h4 {
 
 @media (min-width:1349px) and (max-width:1919px) {
     .pros {
-        padding-top: 150px;
-        padding-bottom: 10px;
+        /* padding-top: 150px; */
+        /* padding: 50px; */
     }
     .success+.pros {
         /* margin-top: -27px; */
@@ -6255,7 +6256,7 @@ h4 {
     .pros__list {
         display: -ms-flexbox;
         display: flex;
-        margin: -27px
+        margin-bottom: 41px;
     }
     .pros__item {
         width: 25%;
