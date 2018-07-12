@@ -74,7 +74,13 @@ namespace MathSite.Tests.Facades
                 new DirectoriesRepository(context),
                 new CategoryRepository(context),
                 new ProfessorsRepository(context),
-                new PostCategoryRepository(context)
+                new PostCategoryRepository(context),
+
+                new MessagesRepository(context),
+                new ConversationsRepository(context),
+                new UserConversationsRepository(context),
+                new MessageUserConversationsRepository(context)
+
             );
         }
 
