@@ -1,0 +1,141 @@
+﻿@{
+    ViewBag.Title = "Chat";
+    Layout = "ChatLayout";
+}
+
+<div class="current-user border border-secondary rounded" id="" data-login="">
+</div>
+
+<div class="row">
+    <div class="col-sm-3 left-bar">
+        <div class="conversations-header border border-secondary rounded">
+            <h5>Conversations</h5>
+        </div>
+        <div class="conversations border border-secondary rounded">
+        </div>
+        <div class="bar-footer">
+            <div class="btn-group">
+                <button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#create-private-conversation-modal">Create Private</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#create-group-modal">Create Group</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 main">
+        <div class="main-header border border-secondary rounded">
+            <div class="current-conversation" id="" data-creators-id=""></div>
+            <button type="button" class="btn btn-outline-secondary" id="leave-conversation" disabled>Leave</button>
+            <button type="button" class="btn btn-outline-secondary add-member" id="add-member-btn" data-toggle="modal" data-target="#add-member-modal" disabled>+</button>
+        </div>
+        <div class="chat-body border border-secondary rounded">
+        </div>
+        <div class="message-input">
+            <div class="input-group">
+                <input id="message" type="text" class="form-control max-height" placeholder="Message" disabled>
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary max-height" id="send-message" type="button" disabled>Send</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-sm-3 right-bar">
+        <div class="members-header border border-secondary rounded">
+            <h5>Members</h5>
+        </div>
+        <div class="members border border-secondary rounded"></div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="create-group-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Create Group</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <form id="conversation-form">
+                        <label for="group-name" class="col-form-label">Group Name:</label>
+                        <input type="text" class="form-control" name="conversationName" id="group-name">
+                        <label for="possible-member-login" class="col-form-label">Member Login:</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="possibleMemberLogin" id="possible-member-login">
+                            <div class="input-group-append">
+                                <button type="button" class="btn btn-primary" id="add-possible-member">AddMember</button>
+                            </div>
+                        </div>
+                        <label class="col-form-label">Members:</label>
+                    </form>
+                </div>
+                <div class="possible-members border border-secondary rounded">
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" id="create-group">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="add-member-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add New Member</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="form-group">
+                    <form id="new-member-form">
+                        <label for="new-member-login" class="col-form-label">Member Login:</label>
+                        <input type="text" name="login" class="form-control" id="new-member-login">
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="add-new-member">Add Member</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="create-private-conversation-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Create New Private Conversation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="form-group">
+                    <form id="interlocutor-form">
+                        <label for="interlocutor-login" class="col-form-label">Interlocutor Login:</label>
+                        <input type="text" name="login" class="form-control" id="interlocutor-login">
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="create-private">Create</button>
+            </div>
+        </div>
+    </div>
+</div>

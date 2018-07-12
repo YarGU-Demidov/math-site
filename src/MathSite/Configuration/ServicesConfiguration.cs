@@ -82,6 +82,9 @@ namespace MathSite
             ConfigureEntityFramework(services, isDevelopment);
             ConfigureDependencyInjection(services);
             ConfigureAuthPolices(services);
+
+            services.AddSignalR();
+
             ConfigureRazorViews(services);
         }
 

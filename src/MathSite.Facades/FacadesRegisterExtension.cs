@@ -1,6 +1,9 @@
 ﻿using MathSite.Facades.Categories;
+using MathSite.Facades.Conversations;
 using MathSite.Facades.FileSystem;
 using MathSite.Facades.Groups;
+using MathSite.Facades.Messages;
+using MathSite.Facades.MessageUserConversationsFacade;
 using MathSite.Facades.Persons;
 using MathSite.Facades.PostCategories;
 using MathSite.Facades.Posts;
@@ -9,6 +12,7 @@ using MathSite.Facades.PostSettings;
 using MathSite.Facades.PostTypes;
 using MathSite.Facades.Professors;
 using MathSite.Facades.SiteSettings;
+using MathSite.Facades.UserConversations;
 using MathSite.Facades.Users;
 using MathSite.Facades.UserValidation;
 using Microsoft.Extensions.DependencyInjection;
@@ -43,7 +47,12 @@ namespace MathSite.Facades
                 .AddScoped<IPostSeoSettingsFacade, PostSeoSettingsFacade>()
                 .AddScoped<IPostTypeFacade, PostTypeFacade>()
                 .AddScoped<IProfessorsFacade, ProfessorsFacade>()
-                .AddScoped<IUsersFacade, UsersFacade>();
+                .AddScoped<IUsersFacade, UsersFacade>()
+
+                .AddScoped<IMessagesFacade, MessagesFacade>()
+                .AddScoped<IConversationsFacade, ConversationsFacade>()
+                .AddScoped<IUserConversationsFacade, UserConversationsFacade>()
+                .AddScoped<IMessageUserConversationsFacade, MessageUserConversationsFacade.MessageUserConversationsFacade>();
         }
     }
 }

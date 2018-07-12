@@ -32,5 +32,11 @@ namespace MathSite.Facades.Users
         Task UpdateUserAsync(Guid currentUser, Guid id, Guid? personId = null, Guid? groupId = null, string newPassword = null);
         Task RemoveUser(Guid currentUser, Guid id);
         Task<User> GetUserByLoginAsync(string login);
+
+        Task<IEnumerable<User>> GetUsersByConversationIdAsync(Guid conversationId);
+
+        Task<User> GetConversationCreatorAsync(Guid conversationId);
+
+        Task<int> GetConversationsMembersCountAsync(Guid conversationId);
     }
 }

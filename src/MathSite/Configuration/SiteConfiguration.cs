@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using MathSite.Hubs;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
 
@@ -39,6 +40,13 @@ namespace MathSite
             app.UseStatusCodePagesWithReExecute("/error/{0}");
 
             ConfigureAuthentication(app);
+
+            app.UseSignalR(rout =>
+            {
+                rout.MapHub<ChatHub>("/hubs/chat");
+            });
+
+
             ConfigureRoutes(app);
         }
 

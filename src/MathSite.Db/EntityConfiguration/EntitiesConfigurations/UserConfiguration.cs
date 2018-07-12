@@ -84,6 +84,24 @@ namespace MathSite.Db.EntityConfiguration.EntitiesConfigurations
                 .HasForeignKey(post => post.AuthorId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder
+                .HasMany(user => user.UserConversations)
+                .WithOne(userConversation => userConversation.User)
+                .HasForeignKey(userConversation => userConversation.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder
+                .HasMany(user => user.Messages)
+                .WithOne(message => message.Author)
+                .HasForeignKey(message => message.AuthorId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder
+                .HasMany(user => user.ConversationsCreated)
+                .WithOne(conversation => conversation.Creator)
+                .HasForeignKey(conversation => conversation.CreatorId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

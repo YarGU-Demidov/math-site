@@ -61,5 +61,20 @@ namespace MathSite.Common.Extensions
             source.Add(item);
             return true;
         }
+
+        public static IOrderedEnumerable<TSource> OrderBy<TSource, TKey>(
+            this ICollection<TSource> query,
+            Func<TSource, TKey> keySelector,
+            bool isAscending
+        )
+        {
+            if (query == null)
+                throw new ArgumentNullException(nameof(query));
+
+            return isAscending
+                ? query.OrderBy(keySelector)
+                : query.OrderByDescending(keySelector);
+        }
+
     }
 }

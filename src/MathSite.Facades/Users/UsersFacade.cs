@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MathSite.Common.Crypto;
 using MathSite.Common.Extensions;
@@ -137,6 +138,25 @@ namespace MathSite.Facades.Users
         public async Task<User> GetUserByLoginAsync(string login)
         {
             return await Repository.WithPerson().FirstOrDefaultAsync(new HasLoginSpecification(login));
+        }
+
+        public async Task<User> GetConversationCreatorAsync(Guid conversationId)
+        {
+            return await Repository.WithPerson()
+                .FirstOrDefaultAsync(new CreatedConversationIdSpecification(conversationId));
+        }
+
+        public async Task<int> GetConversationsMembersCountAsync(Guid conversationId)
+        {
+            return await Repository.CountAsync(new ConversationIdSpecification(conversationId));
+        }
+
+        public async Task<IEnumerable<User>> GetUsersByConversationIdAsync(Guid conversationId)
+        {
+            return await Repository.WithPerson().GetAllListOrderedByAsync(
+                predicate: new ConversationIdSpecification(conversationId),
+                keySelector: user => user.UserConversations.First(uc => uc.ConversationId == conversationId).CreationDate,
+                isAscending: true);
         }
     }
 }

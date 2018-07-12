@@ -24,7 +24,13 @@ namespace MathSite.Repository.Core
             IDirectoriesRepository directoriesRepository,
             ICategoryRepository categoryRepository,
             IProfessorsRepository professorsRepository,
-            IPostCategoryRepository postCategoryRepository
+            IPostCategoryRepository postCategoryRepository,
+
+        IMessagesRepository messagesRepository,
+            IConversationsRepository conversationsRepository,
+        IUserConversationsRepository userConversationRepository,
+            IMessageUserConversationsRepository messageUserConversationRepository
+
         )
         {
             _repositories.Add(groupsRepository);
@@ -42,6 +48,12 @@ namespace MathSite.Repository.Core
             _repositories.Add(categoryRepository);
             _repositories.Add(postCategoryRepository);
             _repositories.Add(professorsRepository);
+
+            _repositories.Add(messagesRepository);
+            _repositories.Add(conversationsRepository);
+            _repositories.Add(userConversationRepository);
+            _repositories.Add(messageUserConversationRepository);
+
         }
 
         public IGroupsRepository GroupsRepository => TryGetRepository<IGroupsRepository>();
@@ -59,6 +71,13 @@ namespace MathSite.Repository.Core
         public ICategoryRepository CategoryRepository => TryGetRepository<ICategoryRepository>();
         public IPostCategoryRepository PostCategoryRepository => TryGetRepository<IPostCategoryRepository>();
         public IProfessorsRepository ProfessorsRepository => TryGetRepository<IProfessorsRepository>();
+
+        public IMessagesRepository MessagesRepository => TryGetRepository<IMessagesRepository>();
+        public IConversationsRepository ConversationsRepository => TryGetRepository<IConversationsRepository>();
+        public IUserConversationsRepository UserConversationRepository => TryGetRepository<IUserConversationsRepository>();
+        public IMessageUserConversationsRepository MessageUserConversationRepository =>
+            TryGetRepository<IMessageUserConversationsRepository>();
+
 
         public T TryGetRepository<T>() where T : class, IRepository
         {

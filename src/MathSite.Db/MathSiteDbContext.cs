@@ -44,6 +44,12 @@ namespace MathSite.Db
         public DbSet<UsersRight> UsersRights { get; set; }
         public DbSet<Professor> Professors { get; set; }
 
+        public DbSet<Message> Messages { get; set; }
+        public DbSet<Conversation> Conversations { get; set; }
+        public DbSet<UserConversation> UserConversations { get; set; }
+        public DbSet<MessageUserConversation> MessageUsers { get; set; }
+
+
         /// <summary>
         ///     Добавление конфигурации сущностей.
         /// </summary>
@@ -76,6 +82,13 @@ namespace MathSite.Db
             modelBuilder.ApplyConfiguration(new UserRightsConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new UserSettingsConfiguration());
+
+
+            modelBuilder.ApplyConfiguration(new MessageConfiguration());
+            modelBuilder.ApplyConfiguration(new ConversationConfiguration());
+            modelBuilder.ApplyConfiguration(new UserConversationConfiguration());
+            modelBuilder.ApplyConfiguration(new MessageUserConfiguration());
+
 
             modelBuilder.HasPostgresExtension("uuid-ossp");
             base.OnModelCreating(modelBuilder);

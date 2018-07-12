@@ -33,7 +33,13 @@ namespace MathSite.Repository.Core
                 .AddScoped<IPostSettingRepository, PostSettingRepository>()
                 .AddScoped<IPostTypeRepository, PostTypeRepository>()
                 .AddScoped<IProfessorsRepository, ProfessorsRepository>()
-                .AddScoped<IGroupTypeRepository, GroupTypeRepository>();
+                .AddScoped<IGroupTypeRepository, GroupTypeRepository>()
+
+                .AddScoped<IMessagesRepository, MessagesRepository>()
+                .AddScoped<IConversationsRepository, ConversationsRepository>()
+                .AddScoped<IUserConversationsRepository, UserConversationsRepository>()
+                .AddScoped<IMessageUserConversationsRepository, MessageUserConversationsRepository>();
+
         }
     }
 }

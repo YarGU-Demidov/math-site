@@ -1,0 +1,251 @@
+﻿
+<html lang="en">
+<head>
+    <title>Chat</title>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
+
+    <style>
+        .current-user {
+            height: 50px;
+            margin-top: 10px;
+            vertical-align: middle;
+            padding-left: 5px;
+            overflow: hidden;
+        }
+        .current-user h5 {
+            line-height: 45px;
+        }
+        .row {
+            height: calc(100% - 60px);
+        }
+        .container {
+            margin-top: 15px;
+            height: 80%;
+        }
+
+        .left-bar {
+            height: 100%;
+        }
+
+        .right-bar {
+            height: 100%;
+        }
+
+        .main {
+            height: 100%;
+        }
+
+        .conversations {
+            height: calc(100% - 140px);
+            overflow-y: auto;
+            text-align: center;
+        }
+
+        .members {
+            height: calc(100% - 80px);
+            overflow-y: auto;
+        }
+        .members h5 {
+            display: block;
+            text-align: center;
+        }
+
+        .chat-body {
+            height: calc(100% - 140px);
+            width: 100%;
+            overflow-y: auto;
+            padding-left: 5px;
+            padding-bottom: 5px;     
+        }
+
+        .conversations-header {
+            height: 50px;
+            width: 100%;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .main-header {           
+            height: 50px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            width: 100%;
+            padding: 5px;
+
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .current-conversation {
+            float: left;
+
+        }
+        .main-header h5 {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            line-height: 35px;
+        }
+
+        .main-header .btn {
+            float: right;
+        }
+
+        .members-header {
+            height: 50px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .left-bar .bar-footer {
+            margin-top: 10px;
+            height: 50px;
+        }
+        .btn-group {
+            width: 100%;
+        }
+       
+
+       .members-header h5 {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 45px;
+        }
+
+        .conversations-header h5 {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 45px;
+        }
+
+        .message-input {
+            margin-top: 10px;
+            height: 50px;
+        }
+
+        .max-height {
+            height: 100%;
+        }
+
+        .left-bar .btn {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 50%;
+            height: 100%;
+        }
+
+        .conversation {
+            margin: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: center;
+            vertical-align: middle;
+            padding: 5px;
+        }
+
+        .conversation:hover {
+            background-color: rgb(108, 117, 125);
+            color: white;
+        }
+
+        .active {
+            background-color: rgb(108, 117, 125);
+            color: white;
+            outline: none;
+        }
+
+        .member {
+            margin: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            padding: 5px;
+        }
+
+        .remove {
+            float: right;
+            padding: 2px 6px;
+        }
+
+        .remove:hover {
+            background-color: rgb(108, 117, 125);
+            color: white;
+            cursor: pointer;
+        }
+        .status {
+            float: left;
+            clear: left;
+        }
+        .name {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .creator {
+            margin: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            padding: 5px;
+        }
+
+        .possible-member {
+            margin: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: center;
+            vertical-align: middle;
+            padding: 5px;
+        }
+
+        .possible-members {
+            margin-top: 5px;
+            height: 200px;
+            overflow-y: scroll;
+        }
+
+
+        .add-member {
+            float: right;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 5px;
+        }
+
+        .message {
+            margin-top: 5px;
+            padding: 5px;
+            max-width: 80%;
+            clear: both;
+            float: left;
+            word-wrap: break-word;
+        }
+        .badge {
+            margin-left: 5px;
+        }
+        .online {
+            color: limegreen;
+        }
+        .offline {
+            color: silver;
+        }
+    </style>
+
+</head>
+<body>
+<div class="container border border-secondary ">
+    @RenderBody()
+</div>
+<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="~/lib/@Html.Raw("@")aspnet/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/chat.js?newversion"></script>
+</body>
+</html>

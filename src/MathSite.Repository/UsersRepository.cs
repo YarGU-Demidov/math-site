@@ -1,5 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
+using MathSite.Common.Extensions;
 using MathSite.Db;
 using MathSite.Entities;
 using MathSite.Repository.Core;
@@ -12,6 +16,10 @@ namespace MathSite.Repository
         Task<IEnumerable<User>> GetAllWithPagingAsync(int skip, int count);
         IUsersRepository WithPerson();
         IUsersRepository WithRights();
+
+        Task<List<User>> GetAllListOrderedByAsync<TKey>(Expression<Func<User, bool>> predicate,
+            Expression<Func<User, TKey>> keySelector, bool isAscending);
+
     }
 
     public class UsersRepository : MathSiteEfCoreRepositoryBase<User>, IUsersRepository
@@ -43,5 +51,14 @@ namespace MathSite.Repository
 
             return this;
         }
+
+        public async Task<List<User>> GetAllListOrderedByAsync<TKey>(Expression<Func<User, bool>> predicate, Expression<Func<User, TKey>> keySelector, bool isAscending)
+        {
+            return await GetAll()
+                .Where(predicate)
+                .OrderBy(keySelector, isAscending)
+                .ToListAsync();
+        }
+
     }
 }

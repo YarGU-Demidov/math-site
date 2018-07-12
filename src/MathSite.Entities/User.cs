@@ -91,5 +91,10 @@ namespace MathSite.Entities
         ///     Перечень прав пользователя.
         /// </summary>
         public ICollection<UsersRight> UserRights { get; set; } = new List<UsersRight>();
+
+        public ICollection<Message> Messages { get; set; } = new List<Message>();
+        public ICollection<UserConversation> UserConversations { get; set; } = new List<UserConversation>();
+        public ICollection<Conversation> ConversationsCreated { get; set; } = new List<Conversation>();
+
     }
 }

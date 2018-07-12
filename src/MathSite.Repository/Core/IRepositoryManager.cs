@@ -17,6 +17,12 @@
         ICategoryRepository CategoryRepository { get; }
         IPostCategoryRepository PostCategoryRepository { get; }
 
+        IMessagesRepository MessagesRepository { get; }
+        IConversationsRepository ConversationsRepository { get; }
+        IUserConversationsRepository UserConversationRepository { get; }
+        IMessageUserConversationsRepository MessageUserConversationRepository { get; }
+
+
         T TryGetRepository<T>() 
             where T: class, IRepository;
     }
