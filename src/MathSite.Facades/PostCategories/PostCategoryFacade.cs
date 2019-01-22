@@ -6,7 +6,6 @@ using MathSite.Entities;
 using MathSite.Repository;
 using MathSite.Repository.Core;
 using MathSite.Specifications.PostCategories;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace MathSite.Facades.PostCategories
 {

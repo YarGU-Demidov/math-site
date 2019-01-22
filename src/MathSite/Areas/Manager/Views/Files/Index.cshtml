@@ -6,16 +6,29 @@
     var hasOneFolder = Model.Directories.Count() == 1;
     var directory = Model.Directories.FirstOrDefault();
     var folderIsBack = directory.IsNotNull() && directory?.Title == "..";
+
+    var excluded = new List<string>
+    {
+        "..",
+        "\\news",
+        "\\library",
+        "\\static-pages",
+        "\\news\\previews",
+        "\\static-pages\\previews"
+    };
 }    
 <div class="container">
     <div class="row">
-        <form class="form-inline" asp-controller="Files" asp-action="UploadFile" asp-route-path="@Model.CurrentDirectory" asp-area="Manager" method="post" enctype="multipart/form-data" asp-antiforgery="true" style="width: 100%; padding-top: 10px;">
+        <form class="form-inline col" asp-controller="Files" asp-action="UploadFile" asp-route-path="@Model.CurrentDirectory" asp-area="Manager" method="post" enctype="multipart/form-data" asp-antiforgery="true" style="width: 100%; padding-top: 10px;">
             <label for="files">
                 <span style="font-size: 1.2em; padding: 0 15px;">Upload File</span>
             </label>
             <input type="file" id="files" name="files" multiple="multiple" />
-            <button class="btn btn-primary mb-2" type="submit">Upload</button>
+            <button class="btn btn-primary mb-2" type="submit">Загрузить файлы</button>
         </form>
+        <div class="col-sm-auto">
+            <a asp-action="CreateFolder" asp-route-path="@Model.CurrentDirectory" class="create-folder btn btn-primary mb-2">Создать папку</a>
+        </div>
     </div>
 
     <div class="row">
@@ -24,6 +37,16 @@
             {
                 <li title="@dir.FullPath">
                     <a href="@Url.Action("Index", new {path = dir.FullPath})" class="folder-line"><i class="material-icons">folder</i> @dir.Title</a>
+                    @if (!excluded.Contains(dir.FullPath) && dir.Title != "..")
+                    {
+                        <form class="delete-form" asp-action="DeleteFolder" asp-antiforgery="true" asp-route-id="@dir.Id" asp-route-path="@Model.CurrentDirectory" method="post">
+                            <button type="submit" title="Удалить папку">
+                                <i class="material-icons">
+                                    delete_forever
+                                </i>
+                            </button>
+                        </form>
+                    }
                 </li>
             }
         </ul>
@@ -70,6 +93,9 @@
         .delete-form button {
             background: transparent;
             border: none;
+        }
+        .create-folder {
+            margin-top: 10px;
         }
     </style>
 }

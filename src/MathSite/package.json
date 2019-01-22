@@ -2,8 +2,7 @@
     "name": "math-site",
     "version": "1.0.0",
     "description": "YSU Math Site",
-    "scripts": {
-    },
+    "scripts": {},
     "repository": {
         "type": "git",
         "url": "git+ssh://git@github.com/YarGU-Demidov/math-site.git"
@@ -23,7 +22,7 @@
         "font-awesome": "^4.7.0",
         "jquery": "2.2.4",
         "popper.js": "^1.12.6",
-        "cropit":  "^0.5.1",
-        "sweetalert2":  "^7.18.0"
+        "cropit": "^0.5.1",
+        "sweetalert2": "^7.18.0"
     }
 }

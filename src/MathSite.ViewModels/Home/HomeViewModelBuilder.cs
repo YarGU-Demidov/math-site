@@ -56,7 +56,7 @@ namespace MathSite.ViewModels.Home
 
         public async Task<SitemapModel> GenerateSiteMap()
         {
-            // ну предположим, что постов у нас не больше 50 000 (а больше и нельзя в sitemap).
+            // ну предположим, что постов и всего остального у нас не больше 50 000 (а больше и нельзя в одной sitemap).
 
             const string newsTypeAlias = PostTypeAliases.News;
             const string pagesTypeAlias = PostTypeAliases.StaticPage;
@@ -88,7 +88,7 @@ namespace MathSite.ViewModels.Home
                     ChangeFrequency = postType == PostTypeAliases.StaticPage ? ChangeFrequency.Weekly : ChangeFrequency.Always,
                     Images = GetImages(previewModel.PreviewImageId, previewModel.PreviewImageId2X),
                     LastModificationDate = post.PublishDate.ToUniversalTime(),
-                    News = GetNews(post),
+                    //News = GetNews(post), // не используется никем, а гугл ещё и ругается на это дело в консоли своей
                     Priority = 0.5M
                 };
             });

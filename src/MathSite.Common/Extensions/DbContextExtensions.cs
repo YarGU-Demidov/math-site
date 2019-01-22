@@ -61,6 +61,27 @@ namespace MathSite.Common.Extensions
             }
         }
 
+        /// <summary>
+        ///     Allows to execute raw SQL.
+        /// </summary>
+        /// <param name="context">Current context.</param>
+        /// <param name="query">Plain text with RAW sql.</param>
+        /// <returns></returns>
+        public static async Task ExecuteSqlAsync(this DbContext context, string query)
+        {
+            using (var command = context.Database.GetDbConnection().CreateCommand())
+            {
+                command.CommandText = query;
+                command.CommandType = CommandType.Text;
+
+                await context.Database.OpenConnectionAsync();
+
+                await command.ExecuteNonQueryAsync();
+            }
+
+            await context.SaveChangesAsync();
+        }
+
         private static T GetObject<T>(DbDataReader reader)
         {
             var obj = Activator.CreateInstance<T>();

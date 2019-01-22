@@ -43,6 +43,34 @@ namespace MathSite.Areas.Manager.Controllers
             return View(await _filesManagerViewModelBuilder.BuildIndexViewModelAsync(path));
         }
 
+        [Route("create-folder")]
+        [HttpGet]
+        public async Task<IActionResult> CreateFolder(string path = "/")
+        {
+            return View("CreateFolder", await _filesManagerViewModelBuilder.BuildCreateFolderViewModelAsync(path));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("create-folder")]
+        public async Task<IActionResult> CreateFolder(CreateFolderViewModel model)
+        {
+            try
+            {
+                await _filesManagerViewModelBuilder.CreateFolderViewModelAsync(model.Path, model.FolderName);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                ViewData.Add("error", "Такая папка уже существует, придумайте другое имя");
+                var folderName = model.FolderName;
+                model = await _filesManagerViewModelBuilder.BuildCreateFolderViewModelAsync(model.Path);
+                model.FolderName = folderName;
+                return View("CreateFolder", model);
+            }
+
+            return RedirectToAction("Index", new { path = model.Path });
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("upload")]
@@ -56,8 +84,9 @@ namespace MathSite.Areas.Manager.Controllers
             return View("Uploaded", await _filesManagerViewModelBuilder.BuildUploadedViewModelAsync(CurrentUser, filesData, path));
         }
 
-        [HttpPost("delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("delete")]
         public async Task<IActionResult> Delete(Guid id, string path = "/")
         {
             try
@@ -69,6 +98,15 @@ namespace MathSite.Areas.Manager.Controllers
             {
                 return BadRequest("Файл используется, удалить нельзя!");
             }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("delete-folder/{id:guid}")]
+        public async Task<IActionResult> DeleteFolder(Guid id, string currentPath)
+        {
+            await _filesManagerViewModelBuilder.DeleteFolderAsync(id);
+            return RedirectToAction("Index", new {path = currentPath});
         }
 
         [HttpPost("UploadBase64Image")]
