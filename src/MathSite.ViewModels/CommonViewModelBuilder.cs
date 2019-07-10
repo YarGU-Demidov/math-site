@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MathSite.Db.DataSeeding.StaticData;
 using MathSite.Facades.SiteSettings;
@@ -70,13 +71,16 @@ namespace MathSite.ViewModels
         protected virtual async Task BuildMainMenuAsync<T>(T viewModel)
             where T : CommonViewModel
         {
+
+            var now = DateTime.UtcNow;
+            var enteringYear = now.Month > 5 ? now.Year : now.Year - 1;
             var footerMenu =
                 new List<IEnumerable<MenuItemViewModel>>
                 {
                     new List<MenuItemViewModel>
                     {
                         new MenuItemViewModel("Абитуриентам", "/for-entrants", true),
-                        new MenuItemViewModel("Поступление 2018", "/how-to-enter"),
+                        new MenuItemViewModel($"Поступление {enteringYear}", "/how-to-enter"),
                         new MenuItemViewModel("День открытых дверей", "/news/open-doors-day"),
                         new MenuItemViewModel("Олимпиады", "/olimpiada"),
                         new MenuItemViewModel("Школа при факультете", "/for-scholars"),
