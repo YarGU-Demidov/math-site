@@ -15,18 +15,18 @@
         <PackageProjectUrl>https://github.com/YarGU-Demidov/math-site</PackageProjectUrl>
         <RepositoryUrl>https://github.com/YarGU-Demidov/math-site</RepositoryUrl>
         <RepositoryType>Git</RepositoryType>
-        <AssemblyVersion>1.1.0.1</AssemblyVersion>
-        <FileVersion>1.1.0.1</FileVersion>
-        <Version>1.1.0.1</Version>
+        <AssemblyVersion>1.2.0.1</AssemblyVersion>
+        <FileVersion>1.2.0.1</FileVersion>
+        <Version>1.2.0.1</Version>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.1.11" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.1.11">
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.6" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.6">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.1.2" />
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.2.4" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\MathSite.Common\MathSite.Common.csproj" />
