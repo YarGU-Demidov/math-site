@@ -21,7 +21,6 @@ namespace MathSite
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
-                app.UseBrowserLink();
 
                 app.UseCors(builder =>
                 {

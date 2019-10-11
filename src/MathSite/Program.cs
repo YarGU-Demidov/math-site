@@ -21,18 +21,17 @@ namespace MathSite
             else if (args.Any(s => s == "import-pages"))
                 await RunImportStaticPages();
             else
-                BuildWebHost(args).Run();
+                CreateWebHostBuilder(args).Build().Run();
         }
 
-        public static IWebHost BuildWebHost(string[] args) =>
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
                 .UseKestrel(options =>
                 {
                     options.Limits.MaxConcurrentConnections = 5000;
                     options.Limits.MaxConcurrentUpgradedConnections = 5000;
-                })
-                .Build();
+                });
 
         public static void RunSeeding()
         {

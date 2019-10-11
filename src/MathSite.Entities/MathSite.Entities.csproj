@@ -3,7 +3,6 @@
         <TargetFramework>netstandard2.0</TargetFramework>
         <AssemblyName>MathSite.Entities</AssemblyName>
         <PackageId>MathSite.Models</PackageId>
-        <AssetTargetFallback>$(AssetTargetFallback);dnxcore50</AssetTargetFallback>
         <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
         <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
         <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
@@ -16,15 +15,10 @@
         <PackageProjectUrl>https://github.com/YarGU-Demidov/math-site</PackageProjectUrl>
         <RepositoryUrl>https://github.com/YarGU-Demidov/math-site</RepositoryUrl>
         <RepositoryType>Git</RepositoryType>
-        <AssemblyVersion>1.0.0.1</AssemblyVersion>
-        <FileVersion>1.0.0.1</FileVersion>
-        <Version>1.0.0.1</Version>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-      <LangVersion>latest</LangVersion>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-      <LangVersion>latest</LangVersion>
+        <AssemblyVersion>1.1.0.1</AssemblyVersion>
+        <FileVersion>1.1.0.1</FileVersion>
+        <Version>1.1.0.1</Version>
+        <LangVersion>latest</LangVersion>
     </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="..\MathSite.Common\MathSite.Common.csproj" />

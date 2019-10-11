@@ -2,40 +2,33 @@
     <PropertyGroup>
         <Copyright>mokeev1995</Copyright>
         <AssemblyTitle>Math Faculty Site</AssemblyTitle>
-        <TargetFramework>netcoreapp2.0</TargetFramework>
+        <TargetFramework>netcoreapp2.1</TargetFramework>
         <MvcRazorCompileOnPublish>true</MvcRazorCompileOnPublish>
         <PreserveCompilationContext>true</PreserveCompilationContext>
         <AssemblyName>MathSite</AssemblyName>
         <OutputType>Exe</OutputType>
         <PackageId>MathSite</PackageId>
-        <RuntimeFrameworkVersion>2.0.0</RuntimeFrameworkVersion>
-        <AssetTargetFallback>$(AssetTargetFallback);netcoreapp1.1;net451;dotnet5.6;netcoreapp1.1;portable-net45+win8+wp8+wpa81;dnxcore50</AssetTargetFallback>
         <Description></Description>
         <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
         <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
-        <RuntimeIdentifiers>win10-x64;osx.10.12-x64;ubuntu-x64</RuntimeIdentifiers>
+        <RuntimeIdentifiers>win10-x64;ubuntu-x64</RuntimeIdentifiers>
         <Authors>mokeev1995</Authors>
         <Company>Yaroslavl State University</Company>
         <PackageProjectUrl>https://github.com/YarGU-Demidov/math-site</PackageProjectUrl>
         <PackageLicenseUrl>https://github.com/YarGU-Demidov/math-site/blob/master/LICENSE.md</PackageLicenseUrl>
         <RepositoryUrl>https://github.com/YarGU-Demidov/math-site</RepositoryUrl>
         <RepositoryType>Git</RepositoryType>
-        <AssemblyVersion>1.0.0.1</AssemblyVersion>
-        <FileVersion>1.0.0.1</FileVersion>
-        <Version>1.0.0.1</Version>
+        <AssemblyVersion>1.1.0.1</AssemblyVersion>
+        <FileVersion>1.1.0.1</FileVersion>
+        <Version>1.1.0.1</Version>
+        <LangVersion>latest</LangVersion>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.7" />
-        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.3" />
-        <PackageReference Include="ckeditor-full" Version="4.9.2" />
-        <PackageReference Include="NETStandard.Library" Version="2.0.2" />
-        <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.0.2" />
+        <PackageReference Include="Microsoft.AspNetCore.App" />
+        <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.1.2" />
         <PackageReference Include="SimpleMvcSitemap" Version="3.1.0" />
-    </ItemGroup>
-    <ItemGroup>
-        <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
-        <DotNetCliToolReference Include="BundlerMinifier.Core" Version="2.5.357" />
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" PrivateAssets="All" />
     </ItemGroup>
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
         <Exec Command="yarn install --modules-folder ./wwwroot/lib/" />
@@ -76,13 +69,4 @@
         <ProjectReference Include="..\..\tools\NewsImporter\NewsImporter.csproj" />
         <ProjectReference Include="..\..\tools\StaticImporter\StaticImporter.csproj" />
     </ItemGroup>
-    
-    <!-- C# Lang Version -->
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-        <LangVersion>latest</LangVersion>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-        <LangVersion>latest</LangVersion>
-    </PropertyGroup>
-    <!-- END C# Lang Version -->
 </Project>

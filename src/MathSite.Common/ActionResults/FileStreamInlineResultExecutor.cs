@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Internal;
 using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
@@ -17,12 +18,12 @@ namespace MathSite.Common.ActionResults
             ActionContext context,
             FileResult result,
             long? fileLength,
+            bool enableRangeProcessing,
             DateTimeOffset? lastModified = null,
-            EntityTagHeaderValue etag = null,
-            bool enableRangeProcessing = true
+            EntityTagHeaderValue etag = null
         )
         {
-            var data = base.SetHeadersAndLog(context, result, fileLength, lastModified, etag, enableRangeProcessing);
+            var data = base.SetHeadersAndLog(context, result, fileLength, enableRangeProcessing, lastModified, etag);
 
             if (context.HttpContext.Response.Headers.TryGetValue(HeaderNames.ContentDisposition, out var headerValue))
             {
