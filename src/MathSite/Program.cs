@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using MathSite.Common.Extensions;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
 namespace MathSite

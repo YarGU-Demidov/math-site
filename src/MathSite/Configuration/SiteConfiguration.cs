@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.Extensions.Hosting;
 
 // ReSharper disable ArgumentsStyleOther
 // ReSharper disable ArgumentsStyleStringLiteral
@@ -10,7 +11,7 @@ namespace MathSite
     // ReSharper disable once ClassNeverInstantiated.Global
     public partial class Startup
     {
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
@@ -24,7 +25,7 @@ namespace MathSite
 
                 app.UseCors(builder =>
                 {
-                    builder.AllowAnyOrigin();
+                    builder.WithOrigins("http://localhost:5000", "http://localhost:4200", "https://math.uniyar.ac.ru");
                     builder.AllowAnyHeader();
                     builder.AllowAnyMethod();
                     builder.AllowCredentials();
@@ -48,10 +49,12 @@ namespace MathSite
 
         private static void ConfigureRoutes(IApplicationBuilder app)
         {
+            app.UseRouting();
             app.UseStaticFiles();
 
             app.UseMvc(routes =>
             {
+                //routes.;
                 routes.MapRoute(
                     "areaRoute",
                     "{area:exists}/{controller=Home}/{action=Index}"

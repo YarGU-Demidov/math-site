@@ -18,16 +18,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption;
 using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.AspNetCore.Mvc.Internal;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using SimpleMvcSitemap;
@@ -74,9 +72,8 @@ namespace MathSite
         /// <param name="isDevelopment"></param>
         private void ConfigureServices(IServiceCollection services, bool isDevelopment)
         {
-            services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-                .AddJsonOptions(options =>
+            services.AddMvc(options => options.EnableEndpointRouting = false)
+                .AddNewtonsoftJson(options =>
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
             services.AddRouting(options => { options.LowercaseUrls = true; });
             services.AddMemoryCache();
@@ -110,7 +107,6 @@ namespace MathSite
                     options.Cookie.Name = "YSU.Math.Auth";
                     options.Cookie.HttpOnly = true;
                     options.Cookie.Path = "/";
-                    options.Cookie.Expiration = expiration;
                     options.Cookie.SecurePolicy = CookieSecurePolicy.None;
                     options.Cookie.SameSite = SameSiteMode.None;
 
@@ -176,7 +172,7 @@ namespace MathSite
         {
             var serviceProvider = services.BuildServiceProvider();
             
-            var environment = serviceProvider.GetRequiredService<IHostingEnvironment>();
+            var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
             var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
             
             var logger = loggerFactory.CreateLogger("DataProtectionKey");
@@ -210,7 +206,7 @@ namespace MathSite
                     );
 
                     if (isDevelopment)
-                        options.EnableSensitiveDataLogging().ConfigureWarnings(builder => builder.Log());
+                        options.EnableSensitiveDataLogging().ConfigureWarnings(builder => builder.Log((RelationalEventId.CommandExecuting, LogLevel.Debug)));
                 }, 500);
         }
     }
