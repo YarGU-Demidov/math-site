@@ -62,6 +62,7 @@ namespace MathSite.ViewModels
             {
                 new MenuItemViewModel("Абитуриентам", "for-entrants"),
                 new MenuItemViewModel("Студентам", "for-students"),
+                new MenuItemViewModel("Наука", "science"),
                 new MenuItemViewModel("Контакты", "contacts")
             };
 
@@ -118,6 +119,14 @@ namespace MathSite.ViewModels
                         //new MenuItemViewModel("Видеотека", "video-library", true),
                         new MenuItemViewModel("Школа", "/for-scholars", true),
                         new MenuItemViewModel("Контакты", "contacts", true)
+                    },
+                    new List<MenuItemViewModel>
+                    {
+                        new MenuItemViewModel("Конференции", "conferences"),
+                        new MenuItemViewModel("Семинары", "workshops"),
+                        new MenuItemViewModel("Математический центр", "https://cis.uniyar.ac.ru/", newTab: true),
+                        new MenuItemViewModel("Лаборатории", "labs"),
+                        new MenuItemViewModel("Научные проекты", "scientific-projects"),
                     }
                 };
 

@@ -2,8 +2,9 @@
     
 @{
     var additionalClass = Model.IsHeading ? "nav__link_heading" : "";
+    var target = Model.NewTab ? "_blank" : "";
 }    
 
 <div class="nav__item">
-    <a class="nav__link @additionalClass" href="@Model.Href" title="@Model.Title">@Model.Name</a>
+    <a class="nav__link @additionalClass" href="@Model.Href" title="@Model.Title" target="@target">@Model.Name</a>
 </div>
