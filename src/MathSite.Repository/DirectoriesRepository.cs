@@ -1,4 +1,7 @@
-﻿using MathSite.Db;
+﻿using System;
+using System.Threading.Tasks;
+using MathSite.Common.Extensions;
+using MathSite.Db;
 using MathSite.Entities;
 using MathSite.Repository.Core;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +12,8 @@ namespace MathSite.Repository
     {
         IDirectoriesRepository WithFiles();
         IDirectoriesRepository WithDirectories();
+        IDirectoriesRepository WithRoot();
+        Task ChangeRootAsync(Guid? fromId, Guid? toId);
     }
 
     public class DirectoriesRepository : MathSiteEfCoreRepositoryBase<Directory>, IDirectoriesRepository
@@ -28,6 +33,34 @@ namespace MathSite.Repository
         {
             SetCurrentQuery(GetCurrentQuery().Include(directory => directory.Directories));
             return this;
+        }
+
+        public IDirectoriesRepository WithRoot()
+        {
+            SetCurrentQuery(GetCurrentQuery().Include(directory => directory.RootDirectory));
+            return this;
+        }
+
+        public override Task DeleteAsync(Directory entity)
+        {
+            return DeleteAsync(entity.Id);
+        }
+
+        public override async Task DeleteAsync(Guid id)
+        {
+            await GetDbContext().ExecuteSqlAsync($"DELETE FROM public.\"Directory\" WHERE \"Id\" = '{id}'");
+        }
+
+        public async Task ChangeRootAsync(Guid? fromId, Guid? toId)
+        {
+            var to = toId.HasValue ? $"'{toId}'" : "NULL";
+            var from = fromId.HasValue ? $"'{fromId}'" : "NULL";
+
+            var dirSql = $"UPDATE public.\"Directory\" SET \"RootDirectoryId\" = {to} WHERE \"RootDirectoryId\" = {from}";
+            var filesSql = $"UPDATE public.\"File\" SET \"DirectoryId\" = {to} WHERE \"DirectoryId\" = {from}";
+
+            await GetDbContext().ExecuteSqlAsync(dirSql);
+            await GetDbContext().ExecuteSqlAsync(filesSql);
         }
     }
 }

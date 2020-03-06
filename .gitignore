@@ -241,6 +241,15 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 
+#
+# CUSTOM
+#
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# Others
 .DS_STORE
 .idea.Math
 .idea

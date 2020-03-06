@@ -10,24 +10,32 @@ using MathSite.Common.Extensions;
 using MathSite.Entities;
 using MathSite.Facades.FileSystem;
 using MathSite.Facades.SiteSettings;
+using Directory = MathSite.Entities.Directory;
+using File = MathSite.Entities.File;
 
 namespace MathSite.BasicAdmin.ViewModels.Files
 {
     public interface IFilesManagerViewModelBuilder
     {
         Task<IndexFilesViewModel> BuildIndexViewModelAsync(string directory = "/");
-        Task<UploadedFilesViewModel> BuildUploadedViewModelAsync(User currentUser, IEnumerable<(string Name, Stream Stream)> files, string directory = "/");
+
+        Task<UploadedFilesViewModel> BuildUploadedViewModelAsync(User currentUser,
+            IEnumerable<(string Name, Stream Stream)> files, string directory = "/");
+
         Task<Guid> BuildUploadBase64Image(User currentUser, byte[] image, string pageType);
+        Task<CreateFolderViewModel> BuildCreateFolderViewModelAsync(string path);
+        Task CreateFolderViewModelAsync(string path, string name);
+        Task DeleteFolderAsync(Guid id);
     }
 
     public class FilesManagerViewModelBuilder : AdminPageBaseViewModelBuilder, IFilesManagerViewModelBuilder
     {
-        private readonly IFileFacade _fileFacade;
         private readonly IDirectoryFacade _directoryFacade;
+        private readonly IFileFacade _fileFacade;
 
         public FilesManagerViewModelBuilder(
-            ISiteSettingsFacade siteSettingsFacade, 
-            IFileFacade fileFacade, 
+            ISiteSettingsFacade siteSettingsFacade,
+            IFileFacade fileFacade,
             IDirectoryFacade directoryFacade
         ) : base(siteSettingsFacade)
         {
@@ -50,7 +58,8 @@ namespace MathSite.BasicAdmin.ViewModels.Files
             return model;
         }
 
-        public async Task<UploadedFilesViewModel> BuildUploadedViewModelAsync(User currentUser, IEnumerable<(string Name, Stream Stream)> files, string directory = "/")
+        public async Task<UploadedFilesViewModel> BuildUploadedViewModelAsync(User currentUser,
+            IEnumerable<(string Name, Stream Stream)> files, string directory = "/")
         {
             var model = await BuildAdminBaseViewModelAsync<UploadedFilesViewModel>(
                 link => link.Alias == "Files"
@@ -61,7 +70,7 @@ namespace MathSite.BasicAdmin.ViewModels.Files
             foreach (var file in files)
             {
                 var fileId = await _fileFacade.SaveFileAsync(currentUser, file.Name, file.Stream, directory);
-                
+
                 modelFiles.Add(
                     (file.Name, fileId.ToString())
                 );
@@ -91,12 +100,52 @@ namespace MathSite.BasicAdmin.ViewModels.Files
             return await _fileFacade.SaveFileAsync(currentUser, fileName, new MemoryStream(image), path);
         }
 
+        public async Task<CreateFolderViewModel> BuildCreateFolderViewModelAsync(string path)
+        {
+            var model = await BuildAdminBaseViewModelAsync<CreateFolderViewModel>(
+                link => link.Alias == "Files"
+            );
+
+            model.Path = path;
+            model.FolderName = "";
+
+            return model;
+        }
+
+        public async Task CreateFolderViewModelAsync(string path, string name)
+        {
+            var fullNewPath = path == "/" || path == "\\"
+                ? $"{path}{name}"
+                : $"{path}/{name}";
+
+            var pathExists = await _directoryFacade.TryGetDirectoryWithPathAsync(fullNewPath);
+
+            if (pathExists.IsNotNull())
+            {
+                throw new ArgumentOutOfRangeException(
+                    nameof(name),
+                    "Folder with the same name in this directory already exists!"
+                );
+            }
+
+            var parentDirectory = path == "/" || path == "\\"
+                ? null
+                : await _directoryFacade.GetDirectoryWithPathAsync(path);
+
+            await _directoryFacade.CreateDirectoryAsync(name, parentDirectory?.Id);
+        }
+
+        public async Task DeleteFolderAsync(Guid id)
+        {
+            var dir = await _directoryFacade.GetDirectoryByIdAsync(id);
+            await _directoryFacade.MoveAllAsync(dir, dir.RootDirectory);
+            await _directoryFacade.DeleteAsync(id);
+        }
+
         private async Task<(IEnumerable<DirectoryViewModel> Directories, IEnumerable<FileViewModel> Files)> GetAllItemsInDirectoryAsync(string path)
         {
             if (path.IsNotNullOrWhiteSpace() && path[0] != Path.DirectorySeparatorChar)
-            {
                 path = new StringBuilder(path).Replace(path[0], Path.DirectorySeparatorChar, 0, 1).ToString();
-            }
 
             var all = await _directoryFacade.GetDirectoryWithPathAsync(path);
 
@@ -104,7 +153,7 @@ namespace MathSite.BasicAdmin.ViewModels.Files
 
             var dirsWithBackDir = new List<DirectoryViewModel>();
 
-            if(backdir.IsNotNull())
+            if (backdir.IsNotNull())
                 dirsWithBackDir.Add(backdir);
 
             var dirs = all.Directories.Select(directory => new DirectoryViewModel
@@ -128,19 +177,19 @@ namespace MathSite.BasicAdmin.ViewModels.Files
             return (dirsWithBackDir, files);
         }
 
-        private DirectoryViewModel GetBackDirectoryModel(Entities.Directory currenetDirectory, string path)
+        private DirectoryViewModel GetBackDirectoryModel(Directory currenetDirectory, string path)
         {
             var realPath = path.Substring(1);
 
             if (realPath.IsNullOrWhiteSpace())
                 return null;
 
-            var paths = new List<string>{ "" };
+            var paths = new List<string> {""};
 
-            var backdirPathSections = realPath.Split(new []{ '/', '\\' }, StringSplitOptions.RemoveEmptyEntries)
+            var backdirPathSections = realPath.Split(new[] {'/', '\\'}, StringSplitOptions.RemoveEmptyEntries)
                 .Where(s => s != currenetDirectory.Name)
                 .ToArray();
-            
+
             paths.AddRange(backdirPathSections);
 
             var backdirPath = paths
